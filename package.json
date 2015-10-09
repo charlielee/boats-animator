@@ -1,0 +1,13 @@
+{
+	"name": "Boats-Animator",
+	"main": "files/splash.html",
+    "version": "0.3.0",
+    "window": {
+        "toolbar": false,
+        "resizable": true,
+        "position": "center",
+        "width": 800,
+        "height": 445,
+        "icon": "icon400.png"
+    }
+}

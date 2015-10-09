@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <title>Boats Animator 0.3.0</title>
+    <script src="main.js" type="text/javascript"></script>
+    <script src="nw.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <heading>
+        <h1>Boats Animator 0.3.0</h1>
+        <nav style="display:none;">
+            <ul>
+                <li><a href="#">IMPORT</a></li>
+                <li><a id="currentPage" href="#">CAPTURE</a></li>
+                <li><a href="#">EXPORT</a></li>
+            </ul>
+        </nav></heading>
+    <div id="sidebar">
+        <ul>
+            <li>
+                <h2>Onion Skinning
+                    <div id="onionSkinButton" class="sidebarToggle">
+                        <div id="blob-off"></div>
+                        <div id="blobText-off">OFF</div>
+                    </div>
+                </h2>
+                <ul id="onionSkinOptions">
+                    <li>Amount: <span id="onionSkinPercentage">50%</span><input id="onionSkinAmount" class="sidebarOption" oninput="onionSkinAmount()" type="range" name="onionSkinAmount" min="0" max="20" value="10">
+                    </li>
+                    <li><a href="#" onclick="alert('This feature is coming soon!')">Change onion skin frame</a></li>
+                </ul>
+            </li>
+            <li>
+                <h2>Capture</h2>
+                <ul>
+                    <li>Width:  <input id="chooseResolution"  class="sidebarOption" value="640"/></li>
+                    <li>Height:  <input id="chooseResolution"  class="sidebarOption" value="480"/></li>
+                    <li><input id="downloadCheckbox" type="checkbox" name="options" value="Download"> Download individual frames</a></li>
+                    <li><a onclick="openAnimator()">Change camera</a></li>
+                </ul>
+            </li>
+            <li>
+                <h2>Playback</h2>
+                <ul>
+                    <li><a id="changeFrameRate" href="#"> Select frame rate</a></li>
+                    <li><input id="loopCheckbox" type="checkbox" name="options" value="Download"> Loop frames on playback</a></li>
+                    
+                </ul>
+            </li>
+            <li>
+                <h2>Debugging</h2>
+                <ul>
+                    <li><a onclick="dev()">Load developer tools</a></li>
+                    <li id="debug1">DEBUG 1</li>
+                    <li id="debug2">DEBUG 2</li>
+                    <li id="debug3">DEBUG 3</li>
+                    <li id="debug4">DEBUG 4</li>
+                    <li id="debug5">DEBUG 5</li>
+                </ul>                
+            </li>
+        </ul>
+    </div>
+    <div id="column1">    
+        <div id="onionSkinningLayer">
+            <img id="onionSkinningFrame-OFF" alt="Please capture your first frame to use onion skinning"/>
+        </div>
+        <div class="windowTitleContainer">
+            <h2 id="captureTitle">Capture</h2>
+        </div>
+        <video id="preview">Video stream not available.</video> 
+        
+        <!--2ND HIDDEN VIDEO STREAM TO ALLOW FOR VARIED RESOLUTIONS-->
+        <video id="video">Video stream not available.</video>
+        <!--HIDDEN CANVAS FOR CONVERSATION TO PNG-->
+        <canvas id="canvas"></canvas>
+    </div>
+    <div id="column2">
+        <div id="playbackContainer">
+            <img id="playback" src="blanksquare.png"/>
+        </div>
+        <div class="windowTitleContainer">
+            <h2 id="playbackTitle">Playback</h2>
+        </div>
+        
+    </div>
+    <div id="column3">
+        <div id="controls">
+            <button id="captureFrame">Take photo</button>
+            <button id="deleteLastFrame">Undo last frame</button>
+            <button id="stopPlayback" style="float: right;"><img style="height: 100%;" src="icons/stop.png"/></button>
+            <button id="pausePlayback" style="float: right;"><img style="height: 100%;" src="icons/pause.png"/></button>
+            <button id="playbackFrames" style="float: right;"><img style="height: 100%;" src="icons/play.png"/></button>
+            <div id="currentFrame">Playing frame 0</div>
+        </div>
+            <div id="capturedFramesContainer">
+                <img class="capturedFramesNav" src="icons/back1.png"/>
+                <div class="capturedFrame">
+                    <img class="capturedFrameImg" title="Expand image" id="lastCapturedFrame1" src="blanksquare.png"/>
+                    <img class="capturedFrameOptionDelete" title="Delete image" src="icons/delete.png"/>
+                </div>
+                <div class="capturedFrame">
+                    <img class="capturedFrameImg" title="Expand image" id="lastCapturedFrame2" src="blanksquare.png"/>
+                    <img class="capturedFrameOptionDelete" title="Delete image" src="icons/delete.png"/>
+                </div>
+                <div class="capturedFrame">
+                    <img class="capturedFrameImg" title="Expand image" id="lastCapturedFrame3" src="blanksquare.png"/>
+                    <img class="capturedFrameOptionDelete" title="Delete image" src="icons/delete.png"/>
+                </div>
+                <div class="capturedFrame">
+                    <img class="capturedFrameImg" title="Expand image" id="lastCapturedFrame4" src="blanksquare.png"/>
+                    <img class="capturedFrameOptionDelete" title="Delete image" src="icons/delete.png"/>
+                </div>
+                <div class="capturedFrame">
+                    <img class="capturedFrameImg" title="Expand image" id="lastCapturedFrame5" src="blanksquare.png"/>
+                    <img class="capturedFrameOptionDelete" title="Delete image" src="icons/delete.png"/>
+                </div>
+                <img class="capturedFramesNav" src="icons/forward1.png"/>
+        </div>
+        <div id="statusBar">
+            <ul>
+                <li id="noOfFrames"></li>
+                <li id="currentFrameRate"></li>
+                <li style="float: right;"><span style="font-weight: 600;">©</span> Charlie Lee 2015</li>
+            </ul>
+        </div>
+        <div class="output">
+            <img id="photo" alt="The screen capture will appear in this box."> 
+        </div>  
+    </div>
+    
+    
+
+    
+</body>
+</html>

@@ -1,0 +1,469 @@
+body{
+    font-family: Trebuchet MS;
+    background-color: #333333;
+    font-size: 16px;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+    min-width: 800px;
+    max-width: 1800px;
+    color: #000;
+    //test
+    }
+heading{
+    background: #1a3960;
+    width: 100%;
+    display: block;
+    padding: 0;
+    margin: 0;
+    overflow: hidden
+}
+h1{
+    padding: 0.5em 2%;
+    margin: 0;
+    float: right;
+    color: #F3F3F3;
+    font-size: 2em;
+}
+h2{
+    padding: 0;
+    margin: 1em 0;
+    font-size: 20px;
+}
+h3{
+    padding: 0;
+    margin: 0.5em 0;
+    font-size: 15px;
+}
+footer{
+    padding: 2%;
+    background-color: #6FA698;
+    font-size: 0.75em;
+    width: 96%;
+    clear: both;
+}
+footer a, footer a:visited {
+    text-decoration: underline;
+    color: #fff;
+}
+footer a:hover, footer a:active {
+    text-decoration: underline;
+    color: #fff;
+}
+div{
+    margin: 0;
+    padding: 0;
+}
+a, a:visited {
+  text-decoration: underline;
+  color: rgb(199, 100, 118);
+  }
+a:hover {
+    cursor:pointer;
+}
+a:hover, a:active {
+text-decoration: underline;
+color: rgba(199, 100, 118, 0.7);
+}
+/*==================NAVIGATION===========*/
+nav{
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+nav ul {
+    margin: 0;
+    padding: 0;
+}
+nav ul li{
+    display: block;
+    float: left;
+    padding: 0;
+    margin: 0;
+}
+nav ul li a{
+    display: block;
+    padding: 1.5em 2em;
+    margin: 0;
+    color: #000;
+    text-decoration: none;
+}
+nav ul li a:visited{
+    color: #000;
+}
+nav ul li a:hover, nav ul  a:active, #currentPage {
+text-decoration: underline;
+color: #000;
+background: rgb(150, 189, 179);
+}
+
+
+/*======================================================
+=================SPLASH SCREEN========================
+=========================================================*/
+.content50{
+    padding: 0 2% 2% 2%;
+    width: 46%;
+    background: #f3f3f3;
+    float: left;
+}
+/*Pop up windows*/
+#popUp{
+    background: #f3f3f3;
+    padding: 0 5% 1em 5%;
+    float: left;
+    width: 90%;
+}
+.rss-item{
+
+}
+a.rss-item{
+    font-size: 1.3em;
+}
+.rss-date{
+    color: #aca3a3;
+}
+.list{
+    background: #fff;
+    padding: 2%;
+    overflow-y: scroll;
+    max-height: 300px;
+    color: #acacac;
+    text-align: center;
+    margin-top: 20px;
+    font-family: Helmet,Freesans,Helvetica,Arial,sans-serif;
+}
+#news{
+    padding: 0;
+    margin: 0;
+}
+#news ul {
+    margin: 0;
+    padding: 0;
+}
+#news ul li{
+    list-style-type: none;
+    margin: 0;
+    padding: 0.5em 0;
+    text-align: left;
+    border-bottom: solid 1px #f3f3f3;
+    font-size: 0.8em;
+}
+#news ul li:first-of-type{
+    padding: 0 0 0.5em 0;
+}
+/*=============================================================
+=====================MAIN UI ELEMENTS==========================
+===============================================================*/
+#column1, #column2{
+    width: calc(48% - 160px);
+    float: left;
+    margin: 0 2% 0 0;
+    font-size: 0px;
+    background: #000;
+}
+#column3{
+    width: calc(98% - 320px);
+    float: left;
+    margin: 0 2% 0 0;
+    font-size: 0px;
+}
+
+
+#playbackContainer{
+    width: 100%;
+    height: 0;
+    overflow: visible;
+    z-index: 8;
+}
+#playback{
+    width: 100%;
+}
+#preview{
+    width: 100%;
+    z-index: 3;
+    padding: 0;
+    margin: 0;
+    background: #000;
+}
+.windowTitleContainer{
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    z-index: 10;
+    float: left;
+    width: 100%;
+}
+#windowTitle, #playbackTitle, #captureTitle{
+    position: relative;
+    padding: 0.5em 5%;
+    margin: 1em 0 1em 0;
+    border-radius: 5px;
+    display: inline-block;
+    background: #aaa;
+}
+#currentFrame{
+    float: right;
+    font-size: 15px;
+    padding: 10px;
+}
+/*#captureWindow{
+    float: left;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    
+}*/
+#controls{
+    padding: 2%;
+    width: 96%;
+    background: #f3f3f3;
+    float: left;
+}
+
+/*===========STATUS BAR*/
+
+#statusBar{
+    padding: 2% 0;
+    width: 100%;
+    background: #f3f3f3;
+    float: left;
+    font-size: 13px;
+}
+#statusBar ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#statusBar ul li{
+    display: block;
+    float: left;
+    padding: 0 2%;
+}
+/*================CAPTURED FRAMES LIST*/
+
+#capturedFramesContainer{
+    background: #AAAAAA;
+    padding: 2% 2% 4% 2%;
+    width: 96%;
+    float: left;
+}
+.capturedFrame{
+    padding: 0;
+    margin: 0 1% 0 0;
+    width: 16%;
+    float: left;
+    position: relative;
+}
+#lastCapturedFrame5{
+    margin: 0;
+}
+
+.capturedFrameImg{
+    width: 100%;
+}
+.capturedFrameImg:hover{
+    opacity: 0.7;
+}
+
+.capturedFrameOptionDelete{
+    width: 11%;
+    background: rgba(243, 243, 243,0.6);
+    padding: 2%;
+    position: absolute;
+    left: 83%;
+    top: 78%;
+    z-index: 10;
+    float: right;
+}
+.capturedFrameOptionDelete:hover{
+    opacity: 0.6;
+}
+
+.capturedFramesNav{
+    padding: 0;
+    margin: 0;
+    width: 7%;
+    float: left;  
+}
+/*================HIDDEN ELEMENTS=====================*/
+#canvas{
+    display: none;
+}
+#video{
+    display: none;
+}
+/*PREVIEW WINDOW*/
+#output{
+    float: left;
+}
+
+
+/*=====================================================
+======================BUTTONS=========================
+=========================================================*/
+
+
+button, .button, a.button{
+    background: rgb(111, 166, 152);
+    padding: 10px;
+    border: 0;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #000;
+    text-decoration: none;
+    width: initial;
+    text-align: center;
+    margin: 0 1% 0 0;
+    height: 3em;
+}
+button:hover, .button:hover, a.button:hover{
+    background: rgb(150,189,179);
+    cursor:pointer;
+}
+button:active, a.button:active{
+    text-decoration: underline;
+}
+#captureFrame{
+    background: rgb(199, 100, 118);
+}
+#captureFrame:hover{
+    background: rgba(199, 100, 118,0.7);
+}
+#mediacontrols{
+    float: right;
+    height: 0;
+}
+#mediaControls button{
+    float: right;
+}
+
+/*===========================================
+=======================SIDEBAR*/
+
+#sidebar{
+    padding: 0;
+    background: #f3f3f3;
+    float: right;
+    width: 320px;
+}
+#sidebar ul{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+#sidebar ul li h2{
+    padding: 0.5em 5%;
+    margin: 1em 0 1em 0;
+    border-radius: 5px;
+    display: inline-block;
+    width: 90%;
+    position: relative;
+    background: #aaa;
+}
+#sidebar ul li li{
+    padding: 0.5em 5%;
+    margin: 0;
+    list-style-type: none;
+    vertical-align: text-top;
+    border-top: solid 1px #aaa;
+}
+#sidebar ul li li:last-of-type{
+    border-bottom: solid 1px #aaa;
+}
+.sidebarOption{
+    float: right;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 0em;
+}
+.sidebarButton{
+    float: right;
+    position: relative;
+    top: -0.5em;
+}
+
+/*==========SIDE BAR TOGGLES===========*/
+.sidebarToggle{
+    float: right;
+    padding: 0.4em;
+    font-size: 1em;
+    margin: 0.3em 5% 0 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 90px;
+    color: #fff;
+    background: rgb(26,57,96);
+    border: 0;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 16px;
+}
+.sidebarToggle:hover{
+    background: rgba(26,57,96,0.8);
+    cursor: pointer;
+}
+/*OFF*/
+#blob-off{
+    padding: 0.7em;
+    width: 0;
+    height: 0;
+    border-radius: 15px;
+    background: #fff;
+    float: left;
+}
+#blobText-off{
+    padding: 0;
+    height: 0;
+    float: left;
+    margin: 0 0 0 2em;
+}
+/*ON*/
+#blob-on{
+    padding: 0.7em;
+    width: 0;
+    height: 0;
+    border-radius: 15px;
+    background: #fff;
+    float: right;
+}
+#blobText-on{
+    padding: 0;
+    height: 0;
+    float: right;
+    margin: 0 2em 0 0;
+    text-align: right;
+}
+/*==========ONION SKINNING==============*/
+#onionSkinningLayer{
+    width: 100%;
+    height: 0;
+    overflow: visible;
+    //z-index: 4;
+    padding: 0;
+    margin: 0;
+}
+#onionSkinningFrame-ON{
+    width: 100%;
+    min-height: 200px;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    opacity: 0.5;
+}
+#onionSkinningFrame-OFF{
+    display: none;
+}
+#onionSkinOptions{
+    display: none;
+}
+/*===========ON/OFF================*/
+.off{
+    background: rgb(199, 100, 118);
+}
+.off:hover{
