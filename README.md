@@ -4,5 +4,5 @@ A free JavaScript and HTML 5 based stop motion animation program that it current
 More information about the progress of Boats Animator can be found at:
 http://charlielee.uk/category/boats-animator/
 ##Credits
-The media icons featured in Boats Animator were made by Egor Rumyantsev from www.flaticon.com 
+The user interface icons featured in Boats Animator were made by Egor Rumyantsev from www.flaticon.com 
 License: http://creativecommons.org/licenses/by/3.0/
