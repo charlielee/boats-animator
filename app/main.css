@@ -15,12 +15,14 @@ heading{
     display: block;
     padding: 0;
     margin: 0;
-    overflow: hidden
+    overflow: hidden;
+    height: 55px;
+    position: relative;
+    vertical-align: middle;
 }
 h1{
-    padding: 0.5em 2%;
+    padding: 0.2em 2%;
     margin: 0;
-    float: right;
     color: #F3F3F3;
     font-size: 2em;
 }
@@ -156,16 +158,16 @@ a.rss-item{
 ===================MAIN UI ELEMENTS========================
 ===========================================================*/
 #column1, #column2{
-    width: calc(48% - 135px);
+    width: calc(49.5% - 135px);
     float: left;
-    margin: 0 2% 0 0;
+    margin: 0 0.5% 0 0;
     font-size: 0px;
     background: #000;
 }
 #column3{
-    width: calc(98% - 270px);
+    width: calc(99.5% - 270px);
     float: left;
-    margin: 0 2% 0 0;
+    margin: 0 0.5% 0 0;
     font-size: 0px;
 }
 
@@ -243,13 +245,16 @@ a.rss-item{
     float: left;
     padding: 0 2%;
 }
-/*================CAPTURED FRAMES LIST*/
+/*==============================================
+==============CAPTURED FRAMES LIST==============
+===============================================*/
 
 #capturedFramesContainer{
     background: #AAAAAA;
-    padding: 2% 2% 4% 2%;
+    padding: 2%;
     width: 96%;
     float: left;
+    position: relative;
 }
 .capturedFrame{
     padding: 0;
@@ -289,12 +294,19 @@ a.rss-item{
     padding: 0;
     margin: 0;
     width: 7%;
-    float: left;  
+    float: left;
 }
 .capturedFramesNav:hover{
     background: #f3f3f3;
     opacity: 0.7; 
     cursor: pointer;
+}
+#capturedFrameScrollBar{
+    width: 82%;
+    background: #fff;
+    margin: 2% 7% 0 7%;
+    border-radius: 3px;
+    padding: 1%;
 }
 /*================HIDDEN ELEMENTS=====================*/
 #canvas{
@@ -358,7 +370,8 @@ button:active, a.button:active{
     background: #f3f3f3;
     float: right;
     width: 270px;
-    height: calc(100vh - 61px);
+    height: calc(100vh - 55px);
+    overflow-y: auto;
 }
 #sidebar ul{
     padding: 0;
@@ -367,8 +380,8 @@ button:active, a.button:active{
 }
 #sidebar ul li h2{
     font-size: 1.3em;
-    padding: 0.7em 5%;
-    margin: 1em 0 1em 0;
+    padding: 0.8em 5%;
+    margin: 0 0 1em 0;
     
     display: inline-block;
     width: 90%;
@@ -389,11 +402,17 @@ h2 span{
     padding: 0.5em 5%;
     margin: 0;
     list-style-type: none;
-    vertical-align: text-top;
+    position: relative;
     border-top: solid 1px #ccc6c6;
+    display: inline-block;
+    width: 90%;
+}
+#sidebar ul li li span, #sidebar ul li li input{
+    vertical-align: middle;
 }
 #sidebar ul li li:last-of-type{
     border-bottom: solid 1px #aaa;
+    margin-bottom: 1em;
 }
 .sidebarOption{
     float: right;
@@ -407,7 +426,23 @@ h2 span{
     position: relative;
     top: -0.5em;
 }
-
+#sidebar input{
+    width: 46%;
+    display: block;
+    padding: 2%;
+    vertical-align: middle;
+}
+#sidebar input[type="checkbox"]{
+    width: auto;
+    padding: 2%;
+    display: inline;
+}
+#sidebar input[type="number"]{
+    border: 0; 
+}
+#sidebar input:hover{
+    opacity: 0.8;
+}
 /*==========SIDE BAR TOGGLES===========*/
 .sidebarToggle{
     float: right;
