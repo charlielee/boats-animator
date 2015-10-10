@@ -30,27 +30,37 @@ var width = 480,    // We will scale the photo width to this
     stopPlaybackButton = null,
     pausePlaybackButton = null,
     changeFrameRateButton = null,
+    backCapturedFrameButton = null,
+    forwardCapturedFrameButton = null,
+    scrollFrames = null,
     frameRate = 0,
     isPlaying = false,
+    loopCheck = null,
+    //CAPTURED FRAMES TIMELINE
+    
     //ONION SKIN
-    onionSkinToggle = null,
-    loopCheck = null;
+    onionSkinToggle = null;
 
 function startup() {
     preview = document.getElementById('preview');
     video = document.getElementById('video');
     canvas = document.getElementById('canvas');
     photo = document.getElementById('photo');
+    //CAPTURE
     captureFrame = document.getElementById('captureFrame');
+    deleteLastFrame = document.getElementById('deleteLastFrame');
+    noOfFrames = capturedFramesRaw.length;
+    lastFrame = capturedFramesRaw[noOfFrames - 1];
+    //ONION SKIN
     onionSkinToggle = document.getElementById('onionSkinButton');
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
-    deleteLastFrame = document.getElementById('deleteLastFrame');
-    noOfFrames = capturedFramesList.length;
-    lastFrame = capturedFramesRaw[noOfFrames - 1];
+    //PLAYBACK
     playbackButton = document.getElementById("playbackFrames");
     stopPlaybackButton = document.getElementById("stopPlayback");
     pausePlaybackButton = document.getElementById("pausePlayback");
     changeFrameRateButton = document.getElementById("changeFrameRate");
+    backCapturedFrameButton = document.getElementById("backCapturedFrame");
+    forwardCapturedFrameButton = document.getElementById("forwardCapturedFrame");
     frameRate = 15;
     isPlaying = false;
     loopCheck = document.getElementById("loopCheckbox");
@@ -103,6 +113,7 @@ function startup() {
         streaming = true;
       }
     }, false);
+    
 /*==========================================================
 =============== LISTENERS ==================================
 ===============================================================*/
@@ -178,6 +189,20 @@ function startup() {
         stopitwhenlooping();
         ev.preventDefault();
     }, false);
+    
+    //listen if left arrow button is pressed
+    backCapturedFrameButton.addEventListener('click', function(ev){
+        scrollFrames--;
+        updateframeslist();
+        ev.preventDefault();
+    }, false);
+    
+    //listen if right arrow button is pressed
+    forwardCapturedFrameButton.addEventListener('click', function(ev){
+        scrollFrames++;
+        updateframeslist();
+        ev.preventDefault();
+    }, false);
       
     
     
@@ -200,7 +225,7 @@ function startup() {
     //update the various places frames appear when a picture is taken or deleted
     function updateframeslist() {
         //update number of frames taken
-        noOfFrames = capturedFramesList.length;
+        noOfFrames = capturedFramesRaw.length;
         //update name of last frame captured
         lastFrame = capturedFramesRaw[noOfFrames - 1];
         //update onion skin frame
@@ -212,32 +237,32 @@ function startup() {
         
         //update frames preview (Thank you Anon)
         if(capturedFramesRaw.length > 4){
-            document.getElementById("lastCapturedFrame1").setAttribute("src", capturedFramesRaw[noOfFrames - 5]);
+            document.getElementById("lastCapturedFrame1").setAttribute("src", capturedFramesRaw[scrollFrames - 5]);
         }else{
             document.getElementById("lastCapturedFrame1").setAttribute("src", "blanksquare.png");
         }
                 
                 
         if(capturedFramesRaw.length > 3){
-            document.getElementById("lastCapturedFrame2").setAttribute("src", capturedFramesRaw[noOfFrames - 4]);
+            document.getElementById("lastCapturedFrame2").setAttribute("src", capturedFramesRaw[scrollFrames - 4]);
         }else{
             document.getElementById("lastCapturedFrame2").setAttribute("src", "blanksquare.png");
         }
         
         if(capturedFramesRaw.length > 2){
-            document.getElementById("lastCapturedFrame3").setAttribute("src", capturedFramesRaw[noOfFrames - 3]);
+            document.getElementById("lastCapturedFrame3").setAttribute("src", capturedFramesRaw[scrollFrames - 3]);
         }else{
             document.getElementById("lastCapturedFrame3").setAttribute("src", "blanksquare.png");
         }
         
         if(capturedFramesRaw.length > 1){
-            document.getElementById("lastCapturedFrame4").setAttribute("src", capturedFramesRaw[noOfFrames - 2]);
+            document.getElementById("lastCapturedFrame4").setAttribute("src", capturedFramesRaw[scrollFrames - 2]);
         }else{
             document.getElementById("lastCapturedFrame4").setAttribute("src", "blanksquare.png");
         }
         
         if(capturedFramesRaw.length > 0){
-            document.getElementById("lastCapturedFrame5").setAttribute("src", capturedFramesRaw[noOfFrames - 1]);
+            document.getElementById("lastCapturedFrame5").setAttribute("src", capturedFramesRaw[scrollFrames - 1]);
         }else{
             document.getElementById("lastCapturedFrame5").setAttribute("src", "blanksquare.png");
         }
@@ -256,8 +281,11 @@ function startup() {
         }else{
             document.getElementById("noOfFrames").innerHTML = noOfFrames + " frames captured";
         }
-        //display current frame rate (glitchy) in status bar
+        //display current frame rate in status bar
         document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + frameRate + " fps";
+        
+        
+        console.log("Scrollframes: " + scrollFrames);
     }
         
     function updatedeleteicons() {
@@ -273,6 +301,8 @@ function startup() {
             //delete last frame from list of img srcs
             capturedFramesRaw.splice((noOfFrames - 1),1);
             console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
+            //update frame scroller
+            scrollFrames = capturedFramesRaw.length;
         }
         updateframeslist();
     }
@@ -321,6 +351,8 @@ function onionswitch() {
          
             //add frame to list of img srcs
             capturedFramesRaw.push(data);
+            
+            scrollFrames = capturedFramesRaw.length;
           
             console.info('Captured frame: ' + data.slice(100, 120) + ' There are now: ' + (noOfFrames + 1) + ' frames'); 
             updateframeslist();
