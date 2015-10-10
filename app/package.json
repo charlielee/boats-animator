@@ -1,13 +1,61 @@
 {
-	"name": "Boats-Animator",
-	"main": "files/splash.html",
-    "version": "0.3.0",
+    "webexe_settings": {
+        "linux-x32": false, 
+        "export_dir": "output", 
+        "windows-x64": false, 
+        "uncompressed_folder": false, 
+        "download_dir": "C:\\Program Files (x86)\\Web2Exe\\files\\downloads", 
+        "nw_compression_level": 0, 
+        "mac-x32": false, 
+        "windows-x32": true, 
+        "mac-x64": false, 
+        "nw_version": "0.12.3", 
+        "force_download": false, 
+        "linux-x64": false
+    }, 
+    "main": "splash.html", 
+    "name": "boats-animator", 
+    "nodejs": true, 
+    "user-agent": "", 
+    "description": "", 
+    "additional_trust_anchors": [
+        ""
+    ], 
+    "single-instance": true, 
+    "inject-js-end": "", 
+    "webkit": {
+        "page-cache": false, 
+        "java": false, 
+        "plugin": false
+    }, 
     "window": {
-        "toolbar": false,
-        "resizable": true,
-        "position": "center",
-        "width": 800,
-        "height": 445,
-        "icon": "icon400.png"
-    }
+        "fullscreen": false, 
+        "resizable": true, 
+        "show": true, 
+        "always-on-top": false, 
+        "frame": true, 
+        "title": "Boats Animator", 
+        "kiosk": false, 
+        "kiosk_emulation": false, 
+        "exe_icon": "", 
+        "visible": true, 
+        "as_desktop": false, 
+        "toolbar": false, 
+        "mac_icon": "", 
+        "position": "center", 
+        "show_in_taskbar": true, 
+        "height": 445, 
+        "width": 800, 
+        "transparent": false, 
+        "icon": "icons/icon.png"
+    }, 
+    "version": "0.3.0", 
+    "snapshot": "", 
+    "node-main": "", 
+    "keywords": [], 
+    "inject-js-start": "", 
+    "node-remote": "", 
+    "js-flags": "", 
+    "app_name": "Boats Animator", 
+    "chromium-args": ""
 }
