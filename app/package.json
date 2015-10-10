@@ -1,13 +1,14 @@
 {
 	"name": "boats-animator",
 	"main": "splash.html",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "window": {
         "toolbar": false,
         "resizable": true,
+        "frame": false,
         "position": "center",
-        "width": 800,
-        "height": 445,
-        "icon": "icon.png"
+        "width": 500,
+        "height": 220,
+        "icon": "icons/icon.png"
     }
 }
