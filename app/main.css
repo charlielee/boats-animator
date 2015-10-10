@@ -8,7 +8,6 @@ body{
     min-width: 800px;
     max-width: 1800px;
     color: #000;
-    //test
     }
 heading{
     background: #1a3960;
@@ -265,6 +264,7 @@ a.rss-item{
 }
 .capturedFrameImg:hover{
     opacity: 0.7;
+    cursor: pointer;
 }
 
 .capturedFrameOptionDelete{
@@ -279,6 +279,7 @@ a.rss-item{
 }
 .capturedFrameOptionDelete:hover{
     opacity: 0.6;
+    cursor: pointer;
 }
 
 .capturedFramesNav{
@@ -286,6 +287,11 @@ a.rss-item{
     margin: 0;
     width: 7%;
     float: left;  
+}
+.capturedFramesNav:hover{
+    background: #f3f3f3;
+    opacity: 0.7; 
+    cursor: pointer;
 }
 /*================HIDDEN ELEMENTS=====================*/
 #canvas{
