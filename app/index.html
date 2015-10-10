@@ -21,11 +21,8 @@
     <div id="sidebar">
         <ul>
             <li>
-                <h2>Onion Skinning
-                    <div id="onionSkinButton" class="sidebarToggle">
-                        <div id="blob-off"></div>
-                        <div id="blobText-off">OFF</div>
-                    </div>
+                <h2><img src="icons/onionskin.png"/><span>Onion Skinning</span>
+                    <div id="onionSkinButton-OFF" class="sidebarToggle">OFF</div>
                 </h2>
                 <ul id="onionSkinOptions">
                     <li>Amount: <span id="onionSkinPercentage">50%</span><input id="onionSkinAmount" class="sidebarOption" oninput="onionSkinAmount()" type="range" name="onionSkinAmount" min="0" max="20" value="10">
@@ -34,7 +31,7 @@
                 </ul>
             </li>
             <li>
-                <h2>Capture</h2>
+                <h2><img src="icons/capture.png"/><span>Capture</span></h2>
                 <ul>
                     <li>Width:  <input id="chooseResolution"  class="sidebarOption" value="640"/></li>
                     <li>Height:  <input id="chooseResolution"  class="sidebarOption" value="480"/></li>
@@ -43,7 +40,7 @@
                 </ul>
             </li>
             <li>
-                <h2>Playback</h2>
+                <h2><img src="icons/play.png"/><span>Playback</span></h2>
                 <ul>
                     <li><a id="changeFrameRate" href="#"> Select frame rate</a></li>
                     <li><input id="loopCheckbox" type="checkbox" name="options" value="Download"> Loop frames on playback</a></li>
@@ -51,7 +48,7 @@
                 </ul>
             </li>
             <li>
-                <h2>Debugging</h2>
+                <h2><img src="icons/debug.png"/><span>Debugging</span></h2>
                 <ul>
                     <li><a onclick="dev()">Load developer tools</a></li>
                     <li id="debug1">DEBUG 1</li>

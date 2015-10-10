@@ -1,7 +1,7 @@
 body{
-    font-family: Trebuchet MS;
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
     background-color: #333333;
-    font-size: 16px;
+    font-size: 13px;
     padding: 0;
     margin: 0 auto;
     width: 100%;
@@ -152,18 +152,18 @@ a.rss-item{
 #news ul li:first-of-type{
     padding: 0 0 0.5em 0;
 }
-/*=============================================================
-=====================MAIN UI ELEMENTS==========================
-===============================================================*/
+/*=========================================================
+===================MAIN UI ELEMENTS========================
+===========================================================*/
 #column1, #column2{
-    width: calc(48% - 160px);
+    width: calc(48% - 135px);
     float: left;
     margin: 0 2% 0 0;
     font-size: 0px;
     background: #000;
 }
 #column3{
-    width: calc(98% - 320px);
+    width: calc(98% - 270px);
     float: left;
     margin: 0 2% 0 0;
     font-size: 0px;
@@ -202,6 +202,8 @@ a.rss-item{
     border-radius: 5px;
     display: inline-block;
     background: #aaa;
+    font-size: 14px;
+    font-weight: 500;
 }
 #currentFrame{
     float: right;
@@ -348,13 +350,15 @@ button:active, a.button:active{
 }
 
 /*===========================================
-=======================SIDEBAR*/
+=======================SIDEBAR===============
+=============================================*/
 
 #sidebar{
     padding: 0;
     background: #f3f3f3;
     float: right;
-    width: 320px;
+    width: 270px;
+    height: calc(100vh - 61px);
 }
 #sidebar ul{
     padding: 0;
@@ -362,20 +366,31 @@ button:active, a.button:active{
     list-style-type: none;
 }
 #sidebar ul li h2{
-    padding: 0.5em 5%;
+    font-size: 1.3em;
+    padding: 0.7em 5%;
     margin: 1em 0 1em 0;
-    border-radius: 5px;
+    
     display: inline-block;
     width: 90%;
     position: relative;
     background: #aaa;
+    font-weight: 400;
+    vertical-align: middle;
+}
+h2 img{
+    width: 15px;
+    padding: 0 10px 0 0;
+    vertical-align: middle;
+}
+h2 span{
+    vertical-align: middle;
 }
 #sidebar ul li li{
     padding: 0.5em 5%;
     margin: 0;
     list-style-type: none;
     vertical-align: text-top;
-    border-top: solid 1px #aaa;
+    border-top: solid 1px #ccc6c6;
 }
 #sidebar ul li li:last-of-type{
     border-bottom: solid 1px #aaa;
@@ -402,49 +417,27 @@ button:active, a.button:active{
     position: absolute;
     top: 0;
     right: 0;
-    width: 90px;
     color: #fff;
-    background: rgb(26,57,96);
+    background: rgba(67,67,67,0.6);
     border: 0;
     border-radius: 10px;
     font-weight: 600;
     font-size: 16px;
+    vertical-align: middle;
 }
 .sidebarToggle:hover{
-    background: rgba(26,57,96,0.8);
+    background: rgba(67,67,67,0.8);
     cursor: pointer;
 }
 /*OFF*/
-#blob-off{
-    padding: 0.7em;
-    width: 0;
-    height: 0;
-    border-radius: 15px;
-    background: #fff;
-    float: left;
+#onionSkinButton-ON{
+    background: rgba(26,57,96,0.8);
 }
-#blobText-off{
-    padding: 0;
-    height: 0;
-    float: left;
-    margin: 0 0 0 2em;
+#onionSkinButton-ON:hover{
+    background: rgba(26,57,96,1);
+    cursor: pointer;
 }
-/*ON*/
-#blob-on{
-    padding: 0.7em;
-    width: 0;
-    height: 0;
-    border-radius: 15px;
-    background: #fff;
-    float: right;
-}
-#blobText-on{
-    padding: 0;
-    height: 0;
-    float: right;
-    margin: 0 2em 0 0;
-    text-align: right;
-}
+
 /*==========ONION SKINNING==============*/
 #onionSkinningLayer{
     width: 100%;

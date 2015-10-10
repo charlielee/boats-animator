@@ -52,7 +52,7 @@ function startup() {
     noOfFrames = capturedFramesRaw.length;
     lastFrame = capturedFramesRaw[noOfFrames - 1];
     //ONION SKIN
-    onionSkinToggle = document.getElementById('onionSkinButton');
+    onionSkinToggle = document.getElementById('onionSkinButton-OFF');
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
     //PLAYBACK
     playbackButton = document.getElementById("playbackFrames");
@@ -313,9 +313,8 @@ function onionswitch() {
         //Activate onion skin frame in capture window
         document.getElementById("onionSkinningFrame-OFF").setAttribute("id", "onionSkinningFrame-ON");
         //change state of off/on button to on
-        document.getElementById("blob-off").setAttribute("id", "blob-on");
-        document.getElementById("blobText-off").setAttribute("id", "blobText-on");
-        document.getElementById("blobText-on").innerHTML = "ON";
+        document.getElementById("onionSkinButton-OFF").setAttribute("id", "onionSkinButton-ON");
+        document.getElementById("onionSkinButton-ON").innerHTML = "ON";
         //expand onion skin panel
         document.getElementById("onionSkinOptions").style.display = "block";
         //display last captured frame on onion skin layer
@@ -324,9 +323,8 @@ function onionswitch() {
         //Hide onion skin frame in capture window
         document.getElementById("onionSkinningFrame-ON").setAttribute("id", "onionSkinningFrame-OFF");
         //change state of off/on button to off
-        document.getElementById("blob-on").setAttribute("id", "blob-off");
-        document.getElementById("blobText-on").setAttribute("id", "blobText-off");
-        document.getElementById("blobText-off").innerHTML = "OFF";
+        document.getElementById("onionSkinButton-ON").setAttribute("id", "onionSkinButton-OFF");
+        document.getElementById("onionSkinButton-OFF").innerHTML = "OFF";
         //hide onion skin panel
         document.getElementById("onionSkinOptions").style.display = "none";
     }
