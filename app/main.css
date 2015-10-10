@@ -36,10 +36,11 @@ h3{
 }
 footer{
     padding: 2%;
-    background-color: #6FA698;
+    background-color: #1a3960;
     font-size: 0.75em;
     width: 96%;
     clear: both;
+    color: #fff;
 }
 footer a, footer a:visited {
     text-decoration: underline;
