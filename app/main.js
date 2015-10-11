@@ -39,7 +39,11 @@ var width = 480,    // We will scale the photo width to this
     //CAPTURED FRAMES TIMELINE
 
     //ONION SKIN
-    onionSkinToggle = null;
+    isOnionSkinEnabled = false,
+    onionSkinToggle = null,
+    onionSkinPanel = null,
+    onionSkinWindow = null,
+    onionSkinFrame = null;
 
 function startup() {
     preview = document.getElementById('preview');
@@ -52,7 +56,9 @@ function startup() {
     noOfFrames = capturedFramesRaw.length;
     lastFrame = capturedFramesRaw[noOfFrames - 1];
     //ONION SKIN
-    onionSkinToggle = document.getElementById('onionSkinButton-OFF');
+    onionSkinToggle = document.querySelector(document.BoatsAnimator.getVariable("onionSkinToggle"));
+    onionSkinPanel = document.querySelector(document.BoatsAnimator.getVariable("onionSkinOptions"));
+    onionSkinWindow = document.querySelector(document.BoatsAnimator.getVariable("onionSkinFrame"));
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
     //PLAYBACK
     playbackButton = document.getElementById("playbackFrames");
@@ -95,7 +101,7 @@ function startup() {
       }
     );
 
-    video.addEventListener('canplay', function(ev){
+    video.addEventListener('canplay', function(){
       if (!streaming) {
         height = video.videoHeight / (video.videoWidth/width);
 
@@ -132,7 +138,7 @@ function startup() {
 
     //listen if onion skin toggle pressed
     onionSkinToggle.addEventListener('click', function(ev){
-        onionswitch();
+        toggleOnionSkin();
         ev.preventDefault();
     }, false);
 
@@ -228,12 +234,9 @@ function startup() {
         noOfFrames = capturedFramesRaw.length;
         //update name of last frame captured
         lastFrame = capturedFramesRaw[noOfFrames - 1];
-        //update onion skin frame
-       if (document.getElementById("onionSkinningFrame-ON")) {
-            document.getElementById("onionSkinningFrame-ON").setAttribute("src", lastFrame);
-            } else {
-            document.getElementById("onionSkinningFrame-OFF").setAttribute("src", lastFrame);
-            }
+
+        // Update onion skin frame
+        onionSkinWindow.setAttribute("src", lastFrame);
 
         //update frames preview (Thank you Anon)
         if(capturedFramesRaw.length > 4){
@@ -307,26 +310,27 @@ function startup() {
         updateframeslist();
     }
 
-    /*======================TURN ONION SKINNING ON or OFF==================*/
-function onionswitch() {
-    if (document.getElementById("onionSkinningFrame-OFF")) {
-        //Activate onion skin frame in capture window
-        document.getElementById("onionSkinningFrame-OFF").setAttribute("id", "onionSkinningFrame-ON");
-        //change state of off/on button to on
-        document.getElementById("onionSkinButton-OFF").setAttribute("id", "onionSkinButton-ON");
-        document.getElementById("onionSkinButton-ON").innerHTML = "ON";
-        //expand onion skin panel
-        document.getElementById("onionSkinOptions").style.display = "block";
-        //display last captured frame on onion skin layer
-        document.getElementById("onionSkinningFrame-ON").setAttribute("src",lastFrame);
+/**
+ * Toggle onion skin on or off.
+ */
+function toggleOnionSkin() {
+    "use strict";
+    // Onion skin is currently enabled, turn it off
+    if (isOnionSkinEnabled) {
+      isOnionSkinEnabled = false;
+      onionSkinToggle.innerHTML = "Off";
+      onionSkinPanel.classList.remove("visible");
+      onionSkinWindow.classList.remove("visible");
+
+      // Onion skin is currently disabled, turn it on
     } else {
-        //Hide onion skin frame in capture window
-        document.getElementById("onionSkinningFrame-ON").setAttribute("id", "onionSkinningFrame-OFF");
-        //change state of off/on button to off
-        document.getElementById("onionSkinButton-ON").setAttribute("id", "onionSkinButton-OFF");
-        document.getElementById("onionSkinButton-OFF").innerHTML = "OFF";
-        //hide onion skin panel
-        document.getElementById("onionSkinOptions").style.display = "none";
+      isOnionSkinEnabled = true;
+      onionSkinToggle.innerHTML = "On";
+      onionSkinPanel.classList.add("visible");
+
+      // Display last captured frame
+      onionSkinWindow.classList.add("visible");
+      onionSkinWindow.setAttribute("src", lastFrame);
     }
 }
 

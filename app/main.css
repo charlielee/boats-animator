@@ -483,7 +483,8 @@ h2 span{
     padding: 0;
     margin: 0;
 }
-#onionSkinningFrame-ON{
+
+#onion-skinning-frame {
     width: 100%;
     min-height: 200px;
     position: relative;
@@ -491,12 +492,9 @@ h2 span{
     margin: 0;
     border: 0;
     opacity: 0.5;
-}
-#onionSkinningFrame-OFF{
     display: none;
 }
-#onionSkinOptions{
-    display: none;
+#onion-skinning-frame.visible { display: inline; }
 
 #options-onion-skin {
     overflow: hidden;
