@@ -4,6 +4,8 @@ A free JavaScript and HTML 5 based stop motion animation program that it current
 More information about the progress of Boats Animator can be found at:
 
 http://charlielee.uk/category/boats-animator/
+
+Currently I am working on implementing writing and deleting individual frames to the disk.
 ##Demo
 ###Natively
 Boats Animator has been created to work with [NW.js](https://github.com/nwjs/nw.js). The easiest way to run it is to obtain the version of NW.js for your operating system and to run the file titled "app.nw".
