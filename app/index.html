@@ -88,10 +88,9 @@
         <div id="controls">
             <button id="captureFrame">Take photo</button>
             <button id="deleteLastFrame">Undo last frame</button>
-            <button id="stopPlayback" style="float: right;"><img style="height: 100%;" src="icons/stop.png"/></button>
-            <button id="pausePlayback" style="float: right;"><img style="height: 100%;" src="icons/pause.png"/></button>
-            <button id="playbackFrames" style="float: right;"><img style="height: 100%;" src="icons/play.png"/></button>
-            <div id="currentFrame">Playing frame 0</div>
+            <button id="stopPlayback" class="mediaControls"><img style="height: 100%;" src="icons/stop.png"/></button>
+            <button id="pausePlayback" class="mediaControls"><img style="height: 100%;" src="icons/pause.png"/></button>
+            <button id="playbackFrames" class="mediaControls"><img style="height: 100%;" src="icons/play.png"/></button>
         </div>
             <div id="capturedFramesContainer">
                 <img id="backCapturedFrame" class="capturedFramesNav" src="icons/back1.png"/>
@@ -122,6 +121,7 @@
             <ul>
                 <li id="noOfFrames"></li>
                 <li id="currentFrameRate"></li>
+                <li id="currentFrame">Playing frame 0</li>
                 <li style="float: right;"><span style="font-weight: 600;">©</span> Charlie Lee 2015</li>
             </ul>
         </div>
