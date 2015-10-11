@@ -464,13 +464,14 @@ h2 span{
     background: rgba(67,67,67,0.8);
     cursor: pointer;
 }
-/*OFF*/
-#onionSkinButton-ON{
-    background: rgba(26,57,96,0.8);
-}
-#onionSkinButton-ON:hover{
-    background: rgba(26,57,96,1);
+
+/* Onion skin toggle button */
+#btn-onion-skin-toggle {
+    width: 1.7em;
+    background-color: #37506f;
     cursor: pointer;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 /*==========ONION SKINNING==============*/
@@ -478,7 +479,7 @@ h2 span{
     width: 100%;
     height: 0;
     overflow: visible;
-    //z-index: 4;
+    /* z-index: 4; */
     padding: 0;
     margin: 0;
 }
