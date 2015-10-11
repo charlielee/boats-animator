@@ -497,7 +497,14 @@ h2 span{
 }
 #onionSkinOptions{
     display: none;
+
+#options-onion-skin {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
 }
+#options-onion-skin.visible { max-height: 5.9em; }
+
 /*===========ON/OFF================*/
 .off{
     background: rgb(199, 100, 118);
