@@ -9,7 +9,7 @@ body{
     max-width: 1800px;
     color: #000;
     }
-heading{
+header{
     background: #1a3960;
     width: 100%;
     display: block;
@@ -217,7 +217,7 @@ a.rss-item{
     width: 100%;
     padding: 0;
     margin: 0;
-    
+
 }*/
 #controls{
     padding: 2%;
@@ -298,7 +298,7 @@ a.rss-item{
 }
 .capturedFramesNav:hover{
     background: #f3f3f3;
-    opacity: 0.7; 
+    opacity: 0.7;
     cursor: pointer;
 }
 #capturedFrameScrollBar{
@@ -382,7 +382,7 @@ button:active, a.button:active{
     font-size: 1.3em;
     padding: 0.8em 5%;
     margin: 0 0 1em 0;
-    
+
     display: inline-block;
     width: 90%;
     position: relative;
@@ -438,7 +438,7 @@ h2 span{
     display: inline;
 }
 #sidebar input[type="number"]{
-    border: 0; 
+    border: 0;
 }
 #sidebar input:hover{
     opacity: 0.8;
@@ -501,4 +501,4 @@ h2 span{
 .off{
     background: rgb(199, 100, 118);
 }
-.off:hover{
+.off:hover{ }

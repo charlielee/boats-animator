@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="nw.css">
 </head>
 <body>
-    <heading>
+    <header>
         <h1>Boats Animator</h1>
         <nav style="display:none;">
             <ul>
@@ -18,7 +18,7 @@
                 <li><a id="currentPage" href="#">CAPTURE</a></li>
                 <li><a href="#">EXPORT</a></li>
             </ul>
-        </nav></heading>
+        </nav></header>
     <div id="sidebar">
         <ul>
             <li>
@@ -44,7 +44,7 @@
                 <ul>
                     <li><a id="changeFrameRate" href="#"> Select frame rate</a></li>
                     <li><input id="loopCheckbox" type="checkbox" name="options" value="Download"/><span> Loop frames on playback</span></a></li>
-                    
+
                 </ul>
             </li>
             <li>
@@ -57,19 +57,19 @@
                     <li id="debug4">DEBUG 4</li>
                     <li id="debug5">DEBUG 5</li>
                     <li><span>Input example</span><input  type="number" id="chooseResolution"  class="sidebarOption" value="640"/></li>
-                </ul>                
+                </ul>
             </li>
         </ul>
     </div>
-    <div id="column1">    
+    <div id="column1">
         <div id="onionSkinningLayer">
             <img id="onionSkinningFrame-OFF" alt="Please capture your first frame to use onion skinning"/>
         </div>
         <div class="windowTitleContainer">
             <h2 id="captureTitle">Capture</h2>
         </div>
-        <video id="preview">Video stream not available.</video> 
-        
+        <video id="preview">Video stream not available.</video>
+
         <!--2ND HIDDEN VIDEO STREAM TO ALLOW FOR VARIED RESOLUTIONS-->
         <video id="video">Video stream not available.</video>
         <!--HIDDEN CANVAS FOR CONVERSATION TO PNG-->
@@ -82,7 +82,7 @@
         <div class="windowTitleContainer">
             <h2 id="playbackTitle">Playback</h2>
         </div>
-        
+
     </div>
     <div id="column3">
         <div id="controls">
@@ -126,12 +126,12 @@
             </ul>
         </div>
         <div style="display: none;" class="output">
-            <img id="photo" alt="The screen capture will appear in this box."> 
-        </div>  
+            <img id="photo" alt="The screen capture will appear in this box.">
+        </div>
     </div>
-    
-    
 
-    
+
+
+
 </body>
 </html>
