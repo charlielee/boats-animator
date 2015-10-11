@@ -3,12 +3,13 @@
 	"main": "splash.html",
     "version": "0.3.0",
     "window": {
-        "toolbar": false,
+        "toolbar": true,
         "resizable": true,
         "frame": false,
         "position": "center",
         "width": 500,
         "height": 220,
-        "icon": "icons/icon.png"
+        "icon": "icons/icon.png",
+        "nodejs": true
     }
 }
