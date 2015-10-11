@@ -7,7 +7,7 @@ http://charlielee.uk/category/boats-animator/
 ##Demo
 The program's current functionality can be tried out at:
 
-http://charlielee.uk/boatsanimator0-3-0/
+http://boatsarerockable.github.io/animator
 
 ##Credits
 The user interface icons featured in Boats Animator were made by Egor Rumyantsev from www.flaticon.com 
