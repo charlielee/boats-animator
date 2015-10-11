@@ -430,5 +430,5 @@ function pauseit() {
 //SET AMOUNT OF ONION SKIN
 function onionSkinAmount() {
     document.getElementById("onionSkinPercentage").innerHTML = document.getElementById("onionSkinAmount").value * 5 + "%";
-    document.getElementById("onionSkinningFrame-ON").style.opacity = (document.getElementById("onionSkinAmount").value * 5)/100;
+    onionSkinWindow.style.opacity = (document.getElementById("onionSkinAmount").value * 5)/100;
 }
