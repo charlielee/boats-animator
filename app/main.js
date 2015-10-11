@@ -19,8 +19,8 @@ var width = 480,    // We will scale the photo width to this
     photo = null,
     //CAPTURE
     captureFrame = null,
-    capturedFramesList = new Array(),
-    capturedFramesRaw = new Array(),
+    capturedFramesList = [],
+    capturedFramesRaw = [],
     onionSkinFrame = null,
     deleteLastFrame = null,
     noOfFrames = null,
@@ -143,7 +143,7 @@ function startup() {
             if(isPlaying == false){
             playbackframes();
             }else{
-                console.warn("Pressing play did nothing as already playing!")
+                console.warn("Pressing play did nothing as already playing!");
             }
 
         }else{
@@ -366,7 +366,7 @@ function onionswitch() {
         yoplayit;
 
 function playbackframes() {
-        yoplayit = setInterval('playit()', (1000/frameRate));
+        yoplayit = setInterval(playit, (1000/frameRate));
         console.info("Playback started");
 }
 function playit() {
