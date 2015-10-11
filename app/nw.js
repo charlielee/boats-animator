@@ -17,7 +17,7 @@ function openMenu() {
         position: 'center',
         width: 800,
         height: 445,
-        "toolbar": false,
+        "toolbar": true,
         "resizable": true,
         "frame": true,
         "icon": "icons/icon.png"
@@ -28,7 +28,7 @@ function openAnimator() {
         position: 'center',
         width: 400,
         height: 240,
-        "toolbar": false,
+        "toolbar": true,
         "resizable": true,
         "icon": "icons/icon.png",
         "title": "Choose A Camera"

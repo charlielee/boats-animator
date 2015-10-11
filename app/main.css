@@ -8,6 +8,11 @@ body{
     min-width: 800px;
     max-width: 1800px;
     color: #000;
+    user-select: none;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;
+    cursor: default;
     }
 header{
     background: #1a3960;
@@ -25,6 +30,8 @@ h1{
     margin: 0;
     color: #F3F3F3;
     font-size: 2em;
+    display: inline-block;
+    float: left;
 }
 h2{
     padding: 0;
@@ -69,17 +76,17 @@ color: rgba(199, 100, 118, 0.7);
 }
 /*==================NAVIGATION===========*/
 nav{
-    float: left;
     margin: 0;
     padding: 0;
+    display: inline-block;
+    float: left;
 }
 nav ul {
     margin: 0;
     padding: 0;
 }
 nav ul li{
-    display: block;
-    float: left;
+    display: inline-block;
     padding: 0;
     margin: 0;
 }
@@ -207,18 +214,6 @@ a.rss-item{
     font-size: 14px;
     font-weight: 500;
 }
-#currentFrame{
-    float: right;
-    font-size: 15px;
-    padding: 10px;
-}
-/*#captureWindow{
-    float: left;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-
-}*/
 #controls{
     padding: 2%;
     width: 96%;
@@ -327,7 +322,7 @@ a.rss-item{
 
 
 button, .button, a.button{
-    background: rgb(111, 166, 152);
+    background: #aaa;
     padding: 10px;
     border: 0;
     border-radius: 10px;
@@ -341,7 +336,7 @@ button, .button, a.button{
     height: 3em;
 }
 button:hover, .button:hover, a.button:hover{
-    background: rgb(150,189,179);
+    opacity: 0.7;
     cursor:pointer;
 }
 button:active, a.button:active{
@@ -353,12 +348,14 @@ button:active, a.button:active{
 #captureFrame:hover{
     background: rgba(199, 100, 118,0.7);
 }
-#mediacontrols{
+.mediaControls{
     float: right;
-    height: 0;
+    background: rgba(243,243,243, 1);
+    padding: 10px 0;
 }
-#mediaControls button{
-    float: right;
+.mediaControls:hover{
+    background: rgba(170,170,170, 0.5);
+    opacity: 1;
 }
 
 /*===========================================
@@ -432,6 +429,9 @@ h2 span{
     padding: 2%;
     vertical-align: middle;
 }
+#sidebar input:hover{
+    opacity: 0.8;
+}
 #sidebar input[type="checkbox"]{
     width: auto;
     padding: 2%;
@@ -440,8 +440,8 @@ h2 span{
 #sidebar input[type="number"]{
     border: 0;
 }
-#sidebar input:hover{
-    opacity: 0.8;
+input[type="range"]:hover{
+    cursor: pointer;
 }
 /*==========SIDE BAR TOGGLES===========*/
 .sidebarToggle{
@@ -502,9 +502,3 @@ h2 span{
     transition: max-height 0.4s ease;
 }
 #options-onion-skin.visible { max-height: 5.9em; }
-
-/*===========ON/OFF================*/
-.off{
-    background: rgb(199, 100, 118);
-}
-.off:hover{ }
