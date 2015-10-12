@@ -503,5 +503,5 @@ input[type="range"]:hover{
 }
 #options-onion-skin.visible { max-height: 5.9em; }
 
-/* FPS input */
-#input-fps-change { margin-top: 0.3em; }
+/* Frame rate input */
+#input-fr-change { margin-top: 0.3em; }

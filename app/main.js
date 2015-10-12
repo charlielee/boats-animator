@@ -30,7 +30,7 @@ var width = 480,    // We will scale the photo width to this
     playbackButton             = document.getElementById("playbackFrames"),
     stopPlaybackButton         = document.getElementById("stopPlayback"),
     pausePlaybackButton        = document.getElementById("pausePlayback"),
-    inputChangeFPS             = document.querySelector(document.BoatsAnimator.getVariable("inputFPSChange")),
+    inputChangeFR              = document.querySelector(document.BoatsAnimator.getVariable("inputFRChange")),
     backCapturedFrameButton    = document.getElementById("backCapturedFrame"),
     forwardCapturedFrameButton = document.getElementById("forwardCapturedFrame"),
 
@@ -52,6 +52,9 @@ function startup() {
     isPlaying      = false;
 
     updateframeslist();
+
+    // Set default frame rate
+    inputChangeFR.value = frameRate;
 
 
     navigator.getMedia = (navigator.getUserMedia ||
@@ -168,12 +171,12 @@ function startup() {
         ev.preventDefault();
     }, false);
 
-    //listen if change frame rate button is pressed
-    changeFrameRateButton.addEventListener('click', function(ev){
-        frameRate = prompt("Please enter a frame rate", frameRate);
-        document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + frameRate + " fps";
+    // Listen for frame rate changes
+    inputChangeFR.addEventListener('change', function() {
+        "use strict";
+        frameRate = parseInt(this.value, 10);
+        document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + this.value + " fps";
         stopitwhenlooping();
-        ev.preventDefault();
     }, false);
 
     //listen if left arrow button is pressed
@@ -265,7 +268,7 @@ function startup() {
             document.getElementById("noOfFrames").innerHTML = noOfFrames + " frames captured";
         }
         //display current frame rate in status bar
-        document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + frameRate + " fps";
+        document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + frameRate.toString() + " fps";
 
 
         console.log("Scrollframes: " + scrollFrames);
@@ -350,7 +353,7 @@ function toggleOnionSkin() {
         yoplayit;
 
 function playbackframes() {
-        yoplayit = setInterval(playit, (1000/frameRate));
+        yoplayit = setInterval(playit, (1000 / frameRate));
         console.info("Playback started");
 }
 function playit() {
