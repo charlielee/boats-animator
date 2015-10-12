@@ -205,7 +205,7 @@ a.rss-item{
     width: 100%;
 }
 #windowTitle, #playbackTitle, #captureTitle{
-    
+
     position: relative;
     padding: 0.5em 5%;
     margin: 1em 0 1em 0;
@@ -471,14 +471,14 @@ input[type="range"]:hover{
 /* Onion skin toggle button */
 #btn-onion-skin-toggle {
     width: 1.7em;
-    background-color: rgba(26,57,96,0.8);
+    background-color: rgba(67, 67, 67, 0.6);
     cursor: pointer;
     text-transform: uppercase;
     text-align: center;
 }
-#btn-onion-skin-toggle:hover{
-    background: rgba(26,57,96,1);
-}
+#btn-onion-skin-toggle:not(.active):hover { background-color: rgba(67, 67, 67, 0.8); }
+#btn-onion-skin-toggle.active { background-color: rgba(26, 57, 96, 0.8); }
+#btn-onion-skin-toggle.active:hover { background-color: rgba(26, 57, 96, 1); }
 
 /*==========ONION SKINNING==============*/
 #onionSkinningLayer{
@@ -499,7 +499,7 @@ input[type="range"]:hover{
     opacity: 0.5;
     display: none;
 }
-#onion-skinning-frame.visible {display: inline; }
+#onion-skinning-frame.visible { display: inline; }
 
 #options-onion-skin {
     overflow: hidden;
