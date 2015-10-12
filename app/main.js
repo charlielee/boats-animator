@@ -1,75 +1,55 @@
-
-  // The width and height of the captured photo. We will set the
-  // width to the value defined here, but the height will be
-  // calculated based on the aspect ratio of the input stream.
-
+// The width and height of the captured photo. We will set the
+// width to the value defined here, but the height will be
+// calculated based on the aspect ratio of the input stream.
 var width = 480,    // We will scale the photo width to this
     height = 0,     // This will be computed based on the input stream
 
-  // |streaming| indicates whether or not we're currently streaming
-  // video from the camera. Obviously, we start at false.
-
+    // |streaming| indicates whether or not we're currently streaming
+    // video from the camera. Obviously, we start at false.
     streaming = false,
 
-  // The various HTML elements we need to configure or control. These
-  // will be set by the startup() function.
-    preview = null,
-    video = null,
-    canvas = null,
-    photo = null,
-    //CAPTURE
-    captureFrame = null,
-    capturedFramesList = [],
-    capturedFramesRaw = [],
-    onionSkinFrame = null,
-    deleteLastFrame = null,
-    noOfFrames = null,
-    lastFrame = null,
-    //PLAYBACK
-    playbackButton = null,
-    stopPlaybackButton = null,
-    pausePlaybackButton = null,
-    changeFrameRateButton = null,
-    backCapturedFrameButton = null,
-    forwardCapturedFrameButton = null,
-    scrollFrames = null,
-    frameRate = 0,
-    isPlaying = false,
-    loopCheck = null,
-    //CAPTURED FRAMES TIMELINE
+    // The various HTML elements we need to configure or control.
+    preview = document.getElementById('preview'),
+    video   = document.getElementById('video'),
+    canvas  = document.getElementById('canvas'),
+    photo   = document.getElementById('photo'),
 
-    //ONION SKIN
+    // Capture
+    capturedFramesRaw  = [],
+    capturedFramesList = [],
+    captureFrame       = document.getElementById('captureFrame'),
+    deleteLastFrame    = document.getElementById('deleteLastFrame'),
+    noOfFrames         = null,
+    lastFrame          = null,
+
+    // Playback
+    scrollFrames               = null,
+    frameRate                  = 0,
+    isPlaying                  = false,
+    loopCheck                  = document.getElementById("loopCheckbox"),
+    playbackButton             = document.getElementById("playbackFrames"),
+    stopPlaybackButton         = document.getElementById("stopPlayback"),
+    pausePlaybackButton        = document.getElementById("pausePlayback"),
+    inputChangeFPS             = document.querySelector(document.BoatsAnimator.getVariable("inputFPSChange")),
+    backCapturedFrameButton    = document.getElementById("backCapturedFrame"),
+    forwardCapturedFrameButton = document.getElementById("forwardCapturedFrame"),
+
+    // Captured Frames Timeline
+    // TODO
+
+    // Onion skin
+    onionSkinFrame     = null,
     isOnionSkinEnabled = false,
-    onionSkinToggle = null,
-    onionSkinPanel = null,
-    onionSkinWindow = null,
-    onionSkinFrame = null;
+    onionSkinPanel     = document.querySelector(document.BoatsAnimator.getVariable("onionSkinOptions")),
+    onionSkinToggle    = document.querySelector(document.BoatsAnimator.getVariable("onionSkinToggle")),
+    onionSkinWindow    = document.querySelector(document.BoatsAnimator.getVariable("onionSkinFrame"));
 
 function startup() {
-    preview = document.getElementById('preview');
-    video = document.getElementById('video');
-    canvas = document.getElementById('canvas');
-    photo = document.getElementById('photo');
-    //CAPTURE
-    captureFrame = document.getElementById('captureFrame');
-    deleteLastFrame = document.getElementById('deleteLastFrame');
-    noOfFrames = capturedFramesRaw.length;
-    lastFrame = capturedFramesRaw[noOfFrames - 1];
-    //ONION SKIN
-    onionSkinToggle = document.querySelector(document.BoatsAnimator.getVariable("onionSkinToggle"));
-    onionSkinPanel = document.querySelector(document.BoatsAnimator.getVariable("onionSkinOptions"));
-    onionSkinWindow = document.querySelector(document.BoatsAnimator.getVariable("onionSkinFrame"));
+    noOfFrames     = capturedFramesRaw.length;
+    lastFrame      = capturedFramesRaw[noOfFrames - 1];
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
-    //PLAYBACK
-    playbackButton = document.getElementById("playbackFrames");
-    stopPlaybackButton = document.getElementById("stopPlayback");
-    pausePlaybackButton = document.getElementById("pausePlayback");
-    changeFrameRateButton = document.getElementById("changeFrameRate");
-    backCapturedFrameButton = document.getElementById("backCapturedFrame");
-    forwardCapturedFrameButton = document.getElementById("forwardCapturedFrame");
-    frameRate = 15;
-    isPlaying = false;
-    loopCheck = document.getElementById("loopCheckbox");
+    frameRate      = 15;
+    isPlaying      = false;
 
     updateframeslist();
 
