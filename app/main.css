@@ -502,3 +502,6 @@ input[type="range"]:hover{
     transition: max-height 0.4s ease;
 }
 #options-onion-skin.visible { max-height: 5.9em; }
+
+/* Frame rate input */
+#input-fr-change { margin-top: 0.3em; }
