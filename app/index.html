@@ -44,8 +44,14 @@
             <li>
                 <h2><img src="icons/play.png"/><span>Playback</span></h2>
                 <ul>
-                    <li><a id="changeFrameRate" href="#"> Select frame rate</a></li>
-                    <li><input id="loopCheckbox" type="checkbox" name="options" value="Download"/><span> Loop frames on playback</span></li>
+                    <li>
+                      <label id="label-fps-change" for="input-fps-change">Select frame rate</label>
+                      <input id="input-fps-change" type="number" value="15">
+                    </li>
+                    <li>
+                      <input id="loopCheckbox" type="checkbox" name="options" value="Download">
+                      <label for="loopCheckbox"><span>Loop frames on playback</span></label>
+                    </li>
 
                 </ul>
             </li>
