@@ -13,7 +13,8 @@ document.BoatsAnimator = {
     var variables = {
       onionSkinToggle: "#btn-onion-skin-toggle",
       onionSkinOptions: "#options-onion-skin",
-      onionSkinFrame: "#onion-skinning-frame"
+      onionSkinFrame: "#onion-skinning-frame",
+      inputFRChange: "#input-fr-change"
     };
     return variables[elementName];
   }

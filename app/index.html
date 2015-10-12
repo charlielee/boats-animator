@@ -4,9 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <title>Boats Animator</title>
-    <script src="variables.js"></script>
-    <script src="main.js" type="text/javascript"></script>
-    <script src="nw.js" type="text/javascript"></script>
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="nw.css">
 </head>
@@ -44,8 +41,14 @@
             <li>
                 <h2><img src="icons/play.png"/><span>Playback</span></h2>
                 <ul>
-                    <li><a id="changeFrameRate" href="#"> Select frame rate</a></li>
-                    <li><input id="loopCheckbox" type="checkbox" name="options" value="Download"/><span> Loop frames on playback</span></li>
+                    <li>
+                      <label id="label-fr-change" for="input-fr-change">Select frame rate</label>
+                      <input id="input-fr-change" type="number" value="15">
+                    </li>
+                    <li>
+                      <input id="loopCheckbox" type="checkbox" name="options" value="Download">
+                      <label for="loopCheckbox"><span>Loop frames on playback</span></label>
+                    </li>
 
                 </ul>
             </li>
@@ -132,8 +135,8 @@
         </div>
     </div>
 
-
-
-
+    <script src="variables.js"></script>
+    <script src="main.js"></script>
+    <script src="nw.js"></script>
 </body>
 </html>

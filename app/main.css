@@ -503,4 +503,11 @@ input[type="range"]:hover{
     max-height: 0;
     transition: max-height 0.4s ease;
 }
+<<<<<<< HEAD
 #options-onion-skin.visible { max-height: 7em; }
+=======
+#options-onion-skin.visible { max-height: 5.9em; }
+
+/* Frame rate input */
+#input-fr-change { margin-top: 0.3em; }
+>>>>>>> origin/master
