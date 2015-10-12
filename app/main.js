@@ -120,9 +120,8 @@ function startup() {
     }, false);
 
     //listen if onion skin toggle pressed
-    onionSkinToggle.addEventListener('click', function(ev){
+    onionSkinToggle.addEventListener('click', function() {
         toggleOnionSkin();
-        ev.preventDefault();
     }, false);
 
     //listen if playback button is pressed
@@ -294,7 +293,7 @@ function startup() {
     }
 
 /**
- * Toggle onion skin on or off.
+ * Toggle onion skinning on or off.
  */
 function toggleOnionSkin() {
     "use strict";
