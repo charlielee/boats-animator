@@ -471,10 +471,13 @@ input[type="range"]:hover{
 /* Onion skin toggle button */
 #btn-onion-skin-toggle {
     width: 1.7em;
-    background-color: #37506f;
+    background-color: rgba(26,57,96,0.8);
     cursor: pointer;
     text-transform: uppercase;
     text-align: center;
+}
+#btn-onion-skin-toggle:hover{
+    background: rgba(26,57,96,1);
 }
 
 /*==========ONION SKINNING==============*/
