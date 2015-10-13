@@ -1,5 +1,6 @@
 var gui = require('nw.gui'),
-    win = gui.Window.get();
+    win = gui.Window.get(),
+    popUp;
 function internetCheck() {
     if (window.navigator.onLine === false) {
         document.getElementById('news').innerHTML = "This feature requires an internet connection.";
@@ -17,26 +18,30 @@ function openMenu() {
         position: 'center',
         width: 800,
         height: 445,
-        "toolbar": true,
+        "toolbar": false,
         "resizable": true,
         "frame": true,
         "icon": "icons/icon.png"
     });   
 }
 function openAnimator() {
-    var new_win = gui.Window.open('cameraChoose.html', {
+    popUp = gui.Window.open('cameraChoose.html', {
         position: 'center',
         width: 400,
         height: 240,
-        "toolbar": true,
-        "resizable": true,
+        "toolbar": false,
+        "resizable": false,
         "icon": "icons/icon.png",
         "title": "Choose A Camera"
     });
+    popUp.setAlwaysOnTop(true);
     
     win.resizeTo(1050, 700);
     win.setPosition('center');
 }
 function dev() {
-    gui.Window.get().showDevTools();
+    win.showDevTools();
+}
+function reload() {
+    win.reloadDev();
 }

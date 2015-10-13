@@ -5,7 +5,6 @@ body{
     padding: 0;
     margin: 0 auto;
     width: 100%;
-    min-width: 800px;
     max-width: 1800px;
     color: #000;
     user-select: none;
@@ -115,13 +114,6 @@ background: rgb(150, 189, 179);
     width: 46%;
     background: #f3f3f3;
     float: left;
-}
-/*Pop up windows*/
-#popUp{
-    background: #f3f3f3;
-    padding: 0 5% 1em 5%;
-    float: left;
-    width: 90%;
 }
 .rss-item{
 
@@ -242,6 +234,16 @@ a.rss-item{
     display: block;
     float: left;
     padding: 0 2%;
+}
+/*==============================================
+================POP UP WINDOWS=================
+===============================================*/
+#popUp{
+    background: #f3f3f3;
+    padding: 0 5% 1em 5%;
+    height: calc(100vh - 1em);
+    float: left;
+    width: 90%;
 }
 /*==============================================
 ==============CAPTURED FRAMES LIST==============
