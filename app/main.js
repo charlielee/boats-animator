@@ -300,7 +300,7 @@ function toggleOnionSkin() {
     // Onion skin is currently enabled, turn it off
     if (isOnionSkinEnabled) {
       isOnionSkinEnabled = false;
-      onionSkinToggle.innerHTML = "Off";
+      onionSkinToggle.innerHTML = "<span>Off</span>";
       onionSkinToggle.classList.remove("active");
       onionSkinPanel.classList.remove("visible");
       onionSkinWindow.classList.remove("visible");
@@ -308,7 +308,7 @@ function toggleOnionSkin() {
       // Onion skin is currently disabled, turn it on
     } else {
       isOnionSkinEnabled = true;
-      onionSkinToggle.innerHTML = "On";
+      onionSkinToggle.innerHTML = "<span>On</span>";
       onionSkinToggle.classList.add("active");
       onionSkinPanel.classList.add("visible");
 
