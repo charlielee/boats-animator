@@ -49,16 +49,19 @@ var width  = 480,
     exportedFramesList = [],
 
     // Name exported frames
-    thedate = new Date(),
-    dd = thedate.getDate(),
-    framedate = null,
-    mm = thedate.getMonth()+1, //January is 0!
-    framemonth = null,
-    yyyy = thedate.getFullYear(),
-    hr = thedate.getHours(),
-    framehour = null,
-    mins = thedate.getMinutes(),
+    curDate     = new Date(),
+    framedate   = null,
+    framemonth  = null,
+    framehour   = null,
     frameminute = null,
+    now         = {
+      year: curDate.getFullYear(),
+      // Months are 0-index based
+      month: curDate.getMonth() + 1,
+      day: curDate.getDate(),
+      hour: curDate.getHours(),
+      minute: curDate.getMinutes()
+    },
 
     // Onion skin
     onionSkinFrame     = null,
@@ -555,28 +558,28 @@ function decodeBase64Image(dataString) {
 * Exporting captured frame to selected directory
 */
 function addframetodirectory () {
-    if (mm < 10) {
-        framemonth = "0" + mm;
+    if (now.month < 10) {
+        framemonth = "0" + now.month;
     } else {
-        framemonth = mm;
+        framemonth = now.month;
     }
-    if (dd < 10) {
-        framedate = "0" + dd;
+    if (now.day < 10) {
+        framedate = "0" + now.day;
     } else {
-        framedate = dd;
+        framedate = now.day;
     }
-    if (hr < 10) {
-        framehour = "0" + hr;
+    if (now.hour < 10) {
+        framehour = "0" + now.hour;
     } else {
-        framehour = hr;
+        framehour = now.hour;
     }
-    if (mins < 10) {
-        frameminute = "0" + mins;
+    if (now.minute < 10) {
+        frameminute = "0" + now.minute;
     } else {
-        frameminute = mins;
+        frameminute = now.minute;
     }
     //name the frame to be exported
-    capturedFrameLocation = frameExportDirectory + "/" + yyyy + "_" + framemonth + "_" + framedate + "_" + framehour + "-" + frameminute + "_frame_" + noOfFrames + ".png";
+    capturedFrameLocation = frameExportDirectory + "/" + now.year + "_" + framemonth + "_" + framedate + "_" + framehour + "-" + frameminute + "_frame_" + noOfFrames + ".png";
 
     //convert export frame from base64 to png
     var imageBuffer = decodeBase64Image(lastFrame);
