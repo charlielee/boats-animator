@@ -82,7 +82,7 @@ function openMenu() {
     win.frame(true);
 }
 function openAnimator() {
-    var frameExportDirectory = localStorage.getItem('default_directory');
+    var frameExportDirectory = _getDefaultDirectory();
     win.resizeTo(1050, 700);
     win.setPosition('center');
 }
@@ -476,26 +476,41 @@ function onionSkinAmount() {
  * Set directory to export frames to
  */
 function checkdefaultdirectory() {
-    frameExportDirectory = localStorage.getItem('default_directory');
+    frameExportDirectory = _getDefaultDirectory();
     if (frameExportDirectory === null) {
         console.log("no default set");
     } else {
-        document.getElementById("currentDirectoryName").innerHTML = frameExportDirectory;
-        console.log("default directory found: " + frameExportDirectory);
-        document.title = "Boats Animator (" + frameExportDirectory + ")";
+        _displayDirectory(frameExportDirectory);
     }
 }
- function chooseFile(name) {
-    var chooser = document.querySelector(name);
-     chooser.addEventListener("change", function(evt) {
-         console.log("Directory set as " + this.value);
-         frameExportDirectory = this.value;
-         document.getElementById("currentDirectoryName").innerHTML = frameExportDirectory;
-         document.title = "Boats Animator (" + frameExportDirectory + ")";
-    }, false);
 
-    chooser.click();
-  }
+/**
+ * Open the system native choose directory dialog.
+ *
+ * @param {String} The DOM selector to the dialog trigger.
+ */
+function chooseFile(name) {
+    var chooser = document.querySelector(name);
+
+    chooser.addEventListener("change", function() {
+        frameExportDirectory = this.value;
+        _displayDirectory(frameExportDirectory);
+    });
+
+  chooser.click();
+}
+
+/**
+ * Display the frame destination directory in the UI.
+ *
+ * @param {String} dir The directory to display.
+ */
+function _displayDirectory(dir) {
+    console.log(`Current destination directory is ${frameExportDirectory}`);
+    document.getElementById("currentDirectoryName").innerHTML = dir;
+    document.title += ` (${dir})`;
+}
+
 
 /**
  * Change default save directory.
@@ -503,10 +518,23 @@ function checkdefaultdirectory() {
 function changeDirectory() {
     chooseFile('#chooseDirectory');
 };
+
+/**
+ * Set the default save directory.
+ */
+function setDefaultDirectory() {
+    localStorage.setItem("default_directory", frameExportDirectory);
 }
-function setdefaultdirectory() {
-    localStorage.setItem("default_directory",frameExportDirectory);
+
+/**
+ * Get the default save directory.
+ *
+ * @return {!String} The stored directory if available, null otherwise.
+ */
+function _getDefaultDirectory() {
+    return localStorage.getItem("default_directory");
 }
+
 /**
 * COnverting frames to png
 */
