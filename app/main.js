@@ -1,9 +1,11 @@
 /*jslint browser: true, node: true, debug: true*/
+/* global Buffer */
+
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
 // calculated based on the aspect ratio of the input stream.
-var width = 480,    // We will scale the photo width to this
-    height = 0,     // This will be computed based on the input stream
+var width  = 480,
+    height = 0,
 
     // |streaming| indicates whether or not we're currently streaming
     // video from the camera. Obviously, we start at false.
@@ -339,7 +341,7 @@ function startup() {
             //delete last frame from list of img srcs
             capturedFramesRaw.splice((noOfFrames - 1),1);
             //delete last frame from disk
-            deletedirectoryframe(exportedFramesList[(noOfFrames - 1)]);
+            _deleteFrame(exportedFramesList[(noOfFrames - 1)]);
 
             console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
             //update frame scroller
@@ -469,6 +471,7 @@ function onionSkinAmount() {
     document.getElementById("onionSkinPercentage").innerHTML = document.getElementById("onionSkinAmount").value * 5 + "%";
     onionSkinWindow.style.opacity = (document.getElementById("onionSkinAmount").value * 5)/100;
 }
+
 /**
  * Set directory to export frames to
  */
@@ -494,8 +497,12 @@ function checkdefaultdirectory() {
     chooser.click();
   }
 
-function changedirectory() {
+/**
+ * Change default save directory.
+ */
+function changeDirectory() {
     chooseFile('#chooseDirectory');
+};
 }
 function setdefaultdirectory() {
     localStorage.setItem("default_directory",frameExportDirectory);
@@ -558,13 +565,18 @@ function addframetodirectory () {
     //add location of exported frame to list
     exportedFramesList.push(capturedFrameLocation);
 }
-/*
-* Delete frame from directory
-*/
-function deletedirectoryframe (deleteme) {
-    fs.unlink(deleteme, function (err) {
-        if (err) throw err;
-        console.log('successfully deleted ' + deleteme);
+
+/**
+ * Delete a frame from the hard drive.
+ *
+ * @param {String} file Absolute path to the file to be deleted.
+ */
+function _deleteFrame(file) {
+    fs.unlink(file, function (err) {
+        if (err) {
+            throw err;
+        }
+        console.log("Successfully deleted " + file);
     });
 }
 /**
