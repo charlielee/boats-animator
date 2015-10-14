@@ -473,35 +473,33 @@ input[type="range"]:hover{
     cursor: pointer;
 }
 /*==========SIDE BAR TOGGLES===========*/
-.sidebarToggle{
-    float: right;
-    padding: 0.4em;
-    font-size: 1em;
-    margin: 0 5% 0 0;
+.btn-sidebar-toggle {
+    margin: 0.7em 5% 0 0;
     position: absolute;
-    top: 0.5em;
+    top: 0;
     right: 0;
-    color: #fff;
-    background: rgba(67,67,67,0.6);
-    border: 0;
+    width: 2.5em;
+    height: 2.1em;
     border-radius: 10px;
+    background-color: rgba(67, 67, 67, 0.6);
+    font-size: 1rem;
     font-weight: 600;
-    font-size: 16px;
-    vertical-align: middle;
+    color: #fff;
+    text-transform: uppercase;
+    cursor: pointer;
 }
-.sidebarToggle:hover{
-    background: rgba(67,67,67,0.8);
+.btn-sidebar-toggle:hover {
+    background-color: rgba(67, 67, 67, 0.8);
     cursor: pointer;
 }
 
-/* Onion skin toggle button */
-#btn-onion-skin-toggle {
-    width: 1.7em;
-    background-color: rgba(67, 67, 67, 0.6);
-    cursor: pointer;
-    text-transform: uppercase;
-    text-align: center;
+.btn-sidebar-toggle span {
+  position: relative;
+  top: 0.1em;
 }
+
+/* Onion skin toggle button */
+#btn-onion-skin-toggle { text-align: center; }
 #btn-onion-skin-toggle:not(.active):hover { background-color: rgba(67, 67, 67, 0.8); }
 #btn-onion-skin-toggle.active { background-color: rgba(26, 57, 96, 0.8); }
 #btn-onion-skin-toggle.active:hover { background-color: rgba(26, 57, 96, 1); }
