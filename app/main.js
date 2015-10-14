@@ -1,3 +1,4 @@
+/*jslint browser: true, node: true, debug: true*/
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
 // calculated based on the aspect ratio of the input stream.
@@ -13,6 +14,10 @@ var width = 480,    // We will scale the photo width to this
     video   = document.getElementById('video'),
     canvas  = document.getElementById('canvas'),
     photo   = document.getElementById('photo'),
+    
+    //Window
+    gui = require('nw.gui'),
+    win = gui.Window.get(),
 
     // Capture
     capturedFramesRaw  = [],
@@ -33,9 +38,25 @@ var width = 480,    // We will scale the photo width to this
     inputChangeFR              = document.querySelector(document.BoatsAnimator.getVariable("inputFRChange")),
     backCapturedFrameButton    = document.getElementById("backCapturedFrame"),
     forwardCapturedFrameButton = document.getElementById("forwardCapturedFrame"),
-
-    // Captured Frames Timeline
-    // TODO
+    
+    // Export frames
+    fs = require('fs'),
+    frameExportDirectory = null,
+    changeDirectoryButton = document.getElementById("changeDirectoryButton"),
+    capturedFrameLocation = null,
+    exportedFramesList = [],
+    
+    // Name exported frames
+    thedate = new Date(),
+    dd = thedate.getDate(),
+    framedate = null,
+    mm = thedate.getMonth()+1, //January is 0!
+    framemonth = null,
+    yyyy = thedate.getFullYear(),
+    hr = thedate.getHours(),
+    framehour = null,
+    mins = thedate.getMinutes(),
+    frameminute = null,
 
     // Onion skin
     onionSkinFrame     = null,
@@ -43,6 +64,35 @@ var width = 480,    // We will scale the photo width to this
     onionSkinPanel     = document.querySelector(document.BoatsAnimator.getVariable("onionSkinOptions")),
     onionSkinToggle    = document.querySelector(document.BoatsAnimator.getVariable("onionSkinToggle")),
     onionSkinWindow    = document.querySelector(document.BoatsAnimator.getVariable("onionSkinFrame"));
+
+
+/**
+* Splash screen funcitons
+*/
+function splashLoad() {
+var openmenu = setTimeout(openMenu, 1000);
+}
+function openMenu() {
+    console.log("open menu");
+    window.open("menu.html","_self");
+    win.resizeTo(800, 457);
+    win.setPosition('center');
+    win.frame(true);
+}
+function openAnimator() {
+    var frameExportDirectory = localStorage.getItem('default_directory');
+    win.resizeTo(1050, 700);
+    win.setPosition('center');
+}
+function internetCheck() {
+    if (window.navigator.onLine === false) {
+        document.getElementById('news').innerHTML = "This feature requires an internet connection.";
+        document.getElementById('news').style.color = "#aaaaaa";
+    }
+}
+
+
+
 
 function startup() {
     noOfFrames     = capturedFramesRaw.length;
@@ -52,6 +102,8 @@ function startup() {
     isPlaying      = false;
 
     updateframeslist();
+    
+    checkdefaultdirectory();
 
     // Set default frame rate
     inputChangeFR.value = frameRate;
@@ -67,111 +119,113 @@ function startup() {
             video: true,
             audio: false
         },
-      function(stream) {
-        if (navigator.mozGetUserMedia) {
-          preview.mozSrcObject = stream;
-          video.mozSrcObject = stream;
-        } else {
-          var vendorURL = window.URL || window.webkitURL;
-          preview.src = vendorURL.createObjectURL(stream);
-          video.src = vendorURL.createObjectURL(stream);
+        function (stream) {
+            if (navigator.mozGetUserMedia) {
+                preview.mozSrcObject = stream;
+                video.mozSrcObject = stream;
+            } else {
+                var vendorURL = window.URL || window.webkitURL;
+                preview.src = vendorURL.createObjectURL(stream);
+                video.src = vendorURL.createObjectURL(stream);
+            }
+            preview.play();
+            video.play();
+        },
+        function (err) {
+            console.log("An error occured! " + err);
         }
-        preview.play();
-        video.play();
-      },
-      function(err) {
-        console.log("An error occured! " + err);
-      }
     );
 
-    video.addEventListener('canplay', function(){
-      if (!streaming) {
-        height = video.videoHeight / (video.videoWidth/width);
+    video.addEventListener('canplay', function () {
+        if (!streaming) {
+            height = video.videoHeight / (video.videoWidth / width);
 
         // Firefox currently has a bug where the height can't be read from
         // the video, so we will make assumptions if this happens.
 
-        if (isNaN(height)) {
-          height = width / (4/3);
-        }
+            if (isNaN(height)) {
+                height = width / (4 / 3);
+            }
 
-        video.setAttribute('width', width);
-        video.setAttribute('height', height);
-        canvas.setAttribute('width', width);
-        canvas.setAttribute('height', height);
-        streaming = true;
-      }
+            video.setAttribute('width', width);
+            video.setAttribute('height', height);
+            canvas.setAttribute('width', width);
+            canvas.setAttribute('height', height);
+            streaming = true;
+        }
     }, false);
+    
 
 /*==========================================================
 =============== LISTENERS ==================================
 ===============================================================*/
 
+    
     //Listen if capture frame button pressed
-    captureFrame.addEventListener('click', function(ev){
-      takepicture();
-      ev.preventDefault();
+    captureFrame.addEventListener('click', function (ev) {
+        takepicture();
+        ev.preventDefault();
     }, false);
 
     //Listen if undo last frame button pressed
-    deleteLastFrame.addEventListener('click', function(ev){
+    deleteLastFrame.addEventListener('click', function (ev) {
         deleteframe();
         ev.preventDefault();
     }, false);
 
     //listen if onion skin toggle pressed
-    onionSkinToggle.addEventListener('click', function() {
+    onionSkinToggle.addEventListener('click', function () {
         toggleOnionSkin();
     }, false);
 
     //listen if playback button is pressed
-    playbackButton.addEventListener('click', function(ev){
+    playbackButton.addEventListener('click', function (ev) {
         //check pics have been taken
-        if(noOfFrames > 0){
-            if(isPlaying == false){
-            playbackframes();
-            }else{
+        if (noOfFrames > 0) {
+            if (isPlaying === false) {
+                playbackframes();
+            } else {
                 console.warn("Pressing play did nothing as already playing!");
             }
 
-        }else{
+        } else {
             console.warn("Pressing play did nothing as no pictures have been taken!");
         }
         ev.preventDefault();
     }, false);
 
     //listen if stop playback button is pressed
-    stopPlaybackButton.addEventListener('click', function(ev){
+    stopPlaybackButton.addEventListener('click', function (ev) {
         //check pics have been taken
-        if(noOfFrames > 0){
-            if(loopCheck.checked){
+        if (noOfFrames > 0) {
+            if (loopCheck.checked) {
                 stopitwhenlooping();
-            }else{
+            } else {
                 stopit();
             }
-        }else{
+        } else {
             console.warn("Pressing stop did nothing as no pictures have been taken!");
         }
         ev.preventDefault();
     }, false);
 
     //listen if pause playback button is pressed
-    pausePlaybackButton.addEventListener('click', function(ev){
+    pausePlaybackButton.addEventListener('click', function (ev) {
         //check pics have been taken
-        if(noOfFrames > 0){
-           if(isPlaying == true){
+        if (noOfFrames > 0) {
+            if (isPlaying === true) {
                 pauseit();
-            }else{
+            } else {
                 console.warn("Pressing pause did nothing as not playing!");
             }
-        }else{
+        } else {
             console.warn("Pressing pause did nothing as no pictures have been taken!");
         }
         ev.preventDefault();
     }, false);
 
     // Listen for frame rate changes
-    inputChangeFR.addEventListener('change', function() {
+    inputChangeFR.addEventListener('change', function () {
         "use strict";
         frameRate = parseInt(this.value, 10);
         document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + this.value + " fps";
@@ -179,24 +233,23 @@ function startup() {
     }, false);
 
     //listen if left arrow button is pressed
-    backCapturedFrameButton.addEventListener('click', function(ev){
+    backCapturedFrameButton.addEventListener('click', function (ev) {
         scrollFrames--;
         updateframeslist();
         ev.preventDefault();
     }, false);
 
     //listen if right arrow button is pressed
-    forwardCapturedFrameButton.addEventListener('click', function(ev){
+    forwardCapturedFrameButton.addEventListener('click', function (ev) {
         scrollFrames++;
         updateframeslist();
         ev.preventDefault();
     }, false);
 
-
-
     clearphoto();
   }
 
+    
   // Fill the photo with an indication that none has been
   // captured.
 
@@ -221,44 +274,44 @@ function startup() {
         onionSkinWindow.setAttribute("src", lastFrame);
 
         //update frames preview (Thank you Anon)
-        if(capturedFramesRaw.length > 4){
+        if(capturedFramesRaw.length > 4) {
             document.getElementById("lastCapturedFrame1").setAttribute("src", capturedFramesRaw[scrollFrames - 5]);
-        }else{
+        } else {
             document.getElementById("lastCapturedFrame1").setAttribute("src", "blanksquare.png");
         }
 
 
-        if(capturedFramesRaw.length > 3){
+        if(capturedFramesRaw.length > 3) {
             document.getElementById("lastCapturedFrame2").setAttribute("src", capturedFramesRaw[scrollFrames - 4]);
-        }else{
+        } else {
             document.getElementById("lastCapturedFrame2").setAttribute("src", "blanksquare.png");
         }
 
-        if(capturedFramesRaw.length > 2){
+        if(capturedFramesRaw.length > 2) {
             document.getElementById("lastCapturedFrame3").setAttribute("src", capturedFramesRaw[scrollFrames - 3]);
-        }else{
+        } else {
             document.getElementById("lastCapturedFrame3").setAttribute("src", "blanksquare.png");
         }
 
-        if(capturedFramesRaw.length > 1){
+        if(capturedFramesRaw.length > 1) {
             document.getElementById("lastCapturedFrame4").setAttribute("src", capturedFramesRaw[scrollFrames - 2]);
-        }else{
+        } else {
             document.getElementById("lastCapturedFrame4").setAttribute("src", "blanksquare.png");
         }
 
-        if(capturedFramesRaw.length > 0){
+        if(capturedFramesRaw.length > 0) {
             document.getElementById("lastCapturedFrame5").setAttribute("src", capturedFramesRaw[scrollFrames - 1]);
-        }else{
+        } else {
             document.getElementById("lastCapturedFrame5").setAttribute("src", "blanksquare.png");
         }
 
        // console.info('There are now: ' + noOfFrames + ' frames');
 
         //download indivdual frames WIP
-        var check = document.getElementById("downloadCheckbox");
+       /* var check = document.getElementById("downloadCheckbox");
         if(check.checked){
         document.getElementById("debug1").innerHTML = "<a download href='" + lastFrame + "'>Download last frame</a>";
-        }
+        }*/
 
         //display number of frames captured in status bar
         if (noOfFrames==1){
@@ -280,11 +333,14 @@ function startup() {
 
     function deleteframe() {
         var undoCheck = confirm("Are you sure you want to delete the last frame captured?");
-        if (undoCheck == true) {
+        if (undoCheck === true) {
             //delete last frame from list of imgs
             capturedFramesList.splice((noOfFrames - 1),1);
             //delete last frame from list of img srcs
             capturedFramesRaw.splice((noOfFrames - 1),1);
+            //delete last frame from disk
+            deletedirectoryframe(exportedFramesList[(noOfFrames - 1)]);
+            
             console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
             //update frame scroller
             scrollFrames = capturedFramesRaw.length;
@@ -342,6 +398,7 @@ function toggleOnionSkin() {
 
             console.info('Captured frame: ' + data.slice(100, 120) + ' There are now: ' + (noOfFrames + 1) + ' frames');
             updateframeslist();
+            addframetodirectory();
         } else {
             clearphoto();
         }
@@ -371,7 +428,7 @@ function stopit() {
 
     //reset playback to the first frame
     playbackFrameNo = -1;
-    if(loopCheck.checked == true){
+    if(loopCheck.checked === true){
         //if loop check is true playback continues from frame 1
         console.info("Playback looped");
     }else{
@@ -401,18 +458,122 @@ function pauseit() {
     console.info("Playback paused");
 }
 
-
-
-
-  // Set up our event listener to run the startup process
+// Set up our event listener to run the startup process
   // once loading is complete.
-  window.addEventListener('load', startup, false);
+ // window.addEventListener('load', startup, false);
 
-
-
-
-//SET AMOUNT OF ONION SKIN
+/**
+ * Set amount of onion skinning
+ */
 function onionSkinAmount() {
     document.getElementById("onionSkinPercentage").innerHTML = document.getElementById("onionSkinAmount").value * 5 + "%";
     onionSkinWindow.style.opacity = (document.getElementById("onionSkinAmount").value * 5)/100;
+}
+/**
+ * Set directory to export frames to
+ */
+function checkdefaultdirectory() {
+    frameExportDirectory = localStorage.getItem('default_directory');
+    if (frameExportDirectory === null) {
+        console.log("no default set");
+    } else {
+        document.getElementById("currentDirectoryName").innerHTML = frameExportDirectory;
+        console.log("default directory found: " + frameExportDirectory);
+        document.title = "Boats Animator (" + frameExportDirectory + ")";
+    }
+}
+ function chooseFile(name) {
+    var chooser = document.querySelector(name);
+     chooser.addEventListener("change", function(evt) {
+         console.log("Directory set as " + this.value);
+         frameExportDirectory = this.value;
+         document.getElementById("currentDirectoryName").innerHTML = frameExportDirectory;
+         document.title = "Boats Animator (" + frameExportDirectory + ")";
+    }, false);
+
+    chooser.click();  
+  }
+  
+function changedirectory() {
+    chooseFile('#chooseDirectory'); 
+}
+function setdefaultdirectory() {
+    localStorage.setItem("default_directory",frameExportDirectory);
+}
+/**
+* COnverting frames to png
+*/
+function decodeBase64Image(dataString) {
+  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+    response = {};
+
+  if (matches.length !== 3) {
+    return new Error('Invalid input string');
+  }
+
+  response.type = matches[1];
+  response.data = new Buffer(matches[2], 'base64');
+
+  return response;
+}
+/**
+* Exporting captured frame to selected directory
+*/
+function addframetodirectory () {
+    if (mm < 10) {
+        framemonth = "0" + mm;
+    } else {
+        framemonth = mm;
+    }
+    if (dd < 10) {
+        framedate = "0" + dd;
+    } else {
+        framedate = dd;
+    }
+    if (hr < 10) {
+        framehour = "0" + hr;
+    } else {
+        framehour = hr;
+    }
+    if (mins < 10) {
+        frameminute = "0" + mins;
+    } else {
+        frameminute = mins;
+    }
+    //name the frame to be exported
+    capturedFrameLocation = frameExportDirectory + "/" + yyyy + "_" + framemonth + "_" + framedate + "_" + framehour + "-" + frameminute + "_frame_" + noOfFrames + ".png";
+    
+    //convert export frame from base64 to png
+    var imageBuffer = decodeBase64Image(lastFrame);
+    
+    //write export frame to disk
+    fs.writeFile(capturedFrameLocation, imageBuffer.data, function(err) {
+        if(err) {
+            console.log("error " + capturedFrameLocation);
+        } else {
+            console.log("file saved " + capturedFrameLocation);
+        }
+    });
+    
+    //add location of exported frame to list
+    exportedFramesList.push(capturedFrameLocation);
+}
+/*
+* Delete frame from directory
+*/ 
+function deletedirectoryframe (deleteme) {
+    fs.unlink(deleteme, function (err) {
+        if (err) throw err;
+        console.log('successfully deleted ' + deleteme);
+    });
+}    
+/**
+ * Development Functions
+ */
+function dev() {
+    win.showDevTools();
+}
+
+function reload() {
+    win.reloadDev();
 }
