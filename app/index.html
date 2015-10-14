@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <title>Boats Animator</title>
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="nw.css">
 </head>
-<body>
+<body onload="startup()">
     <header>
         <h1>Boats Animator</h1>
         <nav style="display: none;">
@@ -27,29 +26,40 @@
                 <ul id="options-onion-skin">
                     <li><span>Amount: </span><span id="onionSkinPercentage">50%</span><input id="onionSkinAmount" class="sidebarOption" oninput="onionSkinAmount()" type="range" name="onionSkinAmount" min="0" max="20" value="10">
                     </li>
-                    <li><a href="#" onclick="alert('This feature is coming soon!')">Change onion skin frame</a></li>
                 </ul>
             </li>
             <li>
                 <h2><img width="15" height="15" src="icons/capture.png"><span>Capture</span></h2>
                 <ul>
-                    <li><a onclick="setResolution()">Change resolution</a></li>
-                    <li><a onclick="openAnimator()">Change camera</a></li>
-                    <li><input id="downloadCheckbox" type="checkbox" name="options" value="Download"/><span> Download individual frames</span></li>
+                    <li><a onclick="alert('Coming soon!');">Change resolution</a></li>
+                    <li><a onclick="alert('Coming soon!');">Change camera</a></li>
                 </ul>
             </li>
             <li>
                 <h2><img width="15" height="15" src="icons/play.png"><span>Playback</span></h2>
                 <ul>
                     <li>
-                      <label id="label-fr-change" for="input-fr-change">Select frame rate</label>
+                      <label id="label-fr-change" for="input-fr-change">Frame rate</label>
                       <input id="input-fr-change" type="number" value="15">
                     </li>
                     <li>
                       <input id="loopCheckbox" type="checkbox" name="options" value="Download">
-                      <label for="loopCheckbox"><span>Loop frames on playback</span></label>
+                      <label for="loopCheckbox">Loop frames on playback</label>
                     </li>
 
+                </ul>
+            </li>
+            <li>
+                <h2><img width="15" height="15" src="icons/export.png">Export</h2>
+                <ul>
+                    <li>Captured frames will be exported to:
+                        <p id="currentDirectoryName" class="italics">No directory selected</p>
+                    </li>
+                    <li><a href="#" onclick="changedirectory()">Change directory</a></li>
+                    <li>
+                        <a href="#" onclick="setdefaultdirectory()">Set above as default directory</a>
+                        <input id="chooseDirectory" style="display:none;" type="file" nwdirectory  />
+                    </li>
                 </ul>
             </li>
             <li>
@@ -57,12 +67,6 @@
                 <ul>
                     <li><a onclick="dev()">Load developer tools</a></li>
                     <li><a onclick="reload()">Reload main window</a></li>
-                    <li id="debug1">DEBUG 1</li>
-                    <li id="debug2">DEBUG 2</li>
-                    <li id="debug3">DEBUG 3</li>
-                    <li id="debug4">DEBUG 4</li>
-                    <li id="debug5">DEBUG 5</li>
-                    <li><span>Input example</span><input  type="number" id="chooseResolution"  class="sidebarOption" value="640"/></li>
                 </ul>
             </li>
         </ul>
@@ -138,6 +142,5 @@
 
     <script src="variables.js"></script>
     <script src="main.js"></script>
-    <script src="nw.js"></script>
 </body>
 </html>

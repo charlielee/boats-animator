@@ -20,15 +20,14 @@ header{
     padding: 0;
     margin: 0;
     overflow: hidden;
-    height: 55px;
     position: relative;
     vertical-align: middle;
 }
 h1{
-    padding: 0.2em 2%;
+    padding: 10px 2%;
     margin: 0;
     color: #F3F3F3;
-    font-size: 2em;
+    font-size: 30px;
     display: inline-block;
     float: left;
 }
@@ -69,9 +68,12 @@ a, a:visited {
 a:hover {
     cursor:pointer;
 }
-a:hover, a:active {
+a:hover{
 text-decoration: underline;
 color: rgba(199, 100, 118, 0.7);
+}
+a:active{
+    text-decoration: none;
 }
 /*==================NAVIGATION===========*/
 nav{
@@ -124,16 +126,7 @@ a.rss-item{
 .rss-date{
     color: #aca3a3;
 }
-.list{
-    background: #fff;
-    padding: 2%;
-    overflow-y: scroll;
-    max-height: 300px;
-    color: #acacac;
-    text-align: center;
-    margin-top: 20px;
-    font-family: Helmet,Freesans,Helvetica,Arial,sans-serif;
-}
+
 #news{
     padding: 0;
     margin: 0;
@@ -154,7 +147,7 @@ a.rss-item{
     padding: 0 0 0.5em 0;
 }
 /*=========================================================
-===================MAIN UI ELEMENTS========================
+===================MAIN WINDOW ELEMENTS=====================
 ===========================================================*/
 #column1, #column2{
     width: calc(49.5% - 135px);
@@ -215,15 +208,34 @@ a.rss-item{
     background: #f3f3f3;
     float: left;
 }
-
-/*===========STATUS BAR*/
-
+/*=========================================================
+===================GENERAL UI ELEMENTS======================
+===========================================================*/
+.list{
+    background: #fff;
+    padding: 2%;
+    overflow-y: scroll;
+    max-height: 300px;
+    color: #acacac;
+    text-align: center;
+    margin-top: 20px;
+    font-family: Helmet,Freesans,Helvetica,Arial,sans-serif;
+}
+.italics{
+    color: #acacac;
+    font-style: italic;
+}
+/*==============================================
+==================STATUS BAR====================
+===============================================*/
 #statusBar{
-    padding: 2% 0;
+    padding: 10px 0;
     width: 100%;
     background: #f3f3f3;
     float: left;
     font-size: 13px;
+    position: fixed;
+    top: calc(100% - 37px);
 }
 #statusBar ul{
     list-style-type: none;
@@ -240,10 +252,16 @@ a.rss-item{
 ===============================================*/
 #popUp{
     background: #f3f3f3;
-    padding: 0 5% 1em 5%;
-    height: calc(100vh - 1em);
+    padding: 0 0 1em 0;
+    height: calc(100vh - 60px - 1em);
     float: left;
-    width: 90%;
+    width: 100%;
+}
+#popUp p{
+    padding: 0 5%;
+}
+.popUp{
+    padding: 10px 5%;
 }
 /*==============================================
 ==============CAPTURED FRAMES LIST==============
@@ -356,7 +374,7 @@ button:active, a.button:active{
 .mediaControls{
     float: right;
     background: rgba(243,243,243, 1);
-    padding: 10px 0;
+    margin: 0;
 }
 .mediaControls:hover{
     background: rgba(170,170,170, 0.5);
@@ -372,15 +390,15 @@ button:active, a.button:active{
     background: #f3f3f3;
     float: right;
     width: 270px;
-    height: calc(100vh - 55px);
+    height: calc(100vh - 96px);
     overflow-y: auto;
 }
-#sidebar ul{
+#sidebar ul, #popUp ul{
     padding: 0;
     margin: 0;
     list-style-type: none;
 }
-#sidebar ul li h2{
+#sidebar ul li h2, #popUp ul li h2{
     font-size: 1.3em;
     padding: 0.8em 5%;
     margin: 0 0 1em 0;
@@ -399,7 +417,7 @@ h2 img{
 h2 span{
     vertical-align: middle;
 }
-#sidebar ul li li{
+#sidebar ul li li, #popUp ul li li{
     padding: 0.5em 5%;
     margin: 0;
     list-style-type: none;
@@ -408,11 +426,11 @@ h2 span{
     display: inline-block;
     width: 90%;
 }
-#sidebar ul li li span, #sidebar ul li li input{
+#sidebar ul li li span{
     vertical-align: middle;
 }
 #sidebar ul li li:last-of-type{
-    border-bottom: solid 1px #aaa;
+    border-bottom: solid 1px #ccc6c6;
     margin-bottom: 1em;
 }
 .sidebarOption{
@@ -430,19 +448,26 @@ h2 span{
 #sidebar input{
     width: 46%;
     display: block;
+    float: right;
     padding: 2%;
     vertical-align: middle;
 }
 #sidebar input:hover{
     opacity: 0.8;
 }
+#sidebar label{
+    vertical-align: middle;
+    display: block;
+    float: left;
+}
 #sidebar input[type="checkbox"]{
     width: auto;
     padding: 2%;
-    display: inline;
+    float: left;
 }
 #sidebar input[type="number"]{
     border: 0;
+    margin: 0;
 }
 input[type="range"]:hover{
     cursor: pointer;
