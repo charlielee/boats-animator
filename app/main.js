@@ -14,7 +14,7 @@ var width = 480,    // We will scale the photo width to this
     video   = document.getElementById('video'),
     canvas  = document.getElementById('canvas'),
     photo   = document.getElementById('photo'),
-    
+
     //Window
     gui = require('nw.gui'),
     win = gui.Window.get(),
@@ -35,17 +35,17 @@ var width = 480,    // We will scale the photo width to this
     playbackButton             = document.getElementById("playbackFrames"),
     stopPlaybackButton         = document.getElementById("stopPlayback"),
     pausePlaybackButton        = document.getElementById("pausePlayback"),
-    inputChangeFR              = document.querySelector(document.BoatsAnimator.getVariable("inputFRChange")),
+    inputChangeFR              = document.querySelector("#input-fr-change"),
     backCapturedFrameButton    = document.getElementById("backCapturedFrame"),
     forwardCapturedFrameButton = document.getElementById("forwardCapturedFrame"),
-    
+
     // Export frames
     fs = require('fs'),
     frameExportDirectory = null,
     changeDirectoryButton = document.getElementById("changeDirectoryButton"),
     capturedFrameLocation = null,
     exportedFramesList = [],
-    
+
     // Name exported frames
     thedate = new Date(),
     dd = thedate.getDate(),
@@ -61,9 +61,9 @@ var width = 480,    // We will scale the photo width to this
     // Onion skin
     onionSkinFrame     = null,
     isOnionSkinEnabled = false,
-    onionSkinPanel     = document.querySelector(document.BoatsAnimator.getVariable("onionSkinOptions")),
-    onionSkinToggle    = document.querySelector(document.BoatsAnimator.getVariable("onionSkinToggle")),
-    onionSkinWindow    = document.querySelector(document.BoatsAnimator.getVariable("onionSkinFrame"));
+    onionSkinPanel     = document.querySelector("#options-onion-skin"),
+    onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
+    onionSkinWindow    = document.querySelector("#onion-skinning-frame");
 
 
 /**
@@ -102,7 +102,7 @@ function startup() {
     isPlaying      = false;
 
     updateframeslist();
-    
+
     checkdefaultdirectory();
 
     // Set default frame rate
@@ -154,13 +154,13 @@ function startup() {
             streaming = true;
         }
     }, false);
-    
+
 
 /*==========================================================
 =============== LISTENERS ==================================
 ===============================================================*/
 
-    
+
     //Listen if capture frame button pressed
     captureFrame.addEventListener('click', function (ev) {
         takepicture();
@@ -249,7 +249,7 @@ function startup() {
     clearphoto();
   }
 
-    
+
   // Fill the photo with an indication that none has been
   // captured.
 
@@ -340,7 +340,7 @@ function startup() {
             capturedFramesRaw.splice((noOfFrames - 1),1);
             //delete last frame from disk
             deletedirectoryframe(exportedFramesList[(noOfFrames - 1)]);
-            
+
             console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
             //update frame scroller
             scrollFrames = capturedFramesRaw.length;
@@ -356,7 +356,7 @@ function toggleOnionSkin() {
     // Onion skin is currently enabled, turn it off
     if (isOnionSkinEnabled) {
       isOnionSkinEnabled = false;
-      onionSkinToggle.innerHTML = "Off";
+      onionSkinToggle.innerHTML = "<span>Off</span>";
       onionSkinToggle.classList.remove("active");
       onionSkinPanel.classList.remove("visible");
       onionSkinWindow.classList.remove("visible");
@@ -364,7 +364,7 @@ function toggleOnionSkin() {
       // Onion skin is currently disabled, turn it on
     } else {
       isOnionSkinEnabled = true;
-      onionSkinToggle.innerHTML = "On";
+      onionSkinToggle.innerHTML = "<span>On</span>";
       onionSkinToggle.classList.add("active");
       onionSkinPanel.classList.add("visible");
 
@@ -491,11 +491,11 @@ function checkdefaultdirectory() {
          document.title = "Boats Animator (" + frameExportDirectory + ")";
     }, false);
 
-    chooser.click();  
+    chooser.click();
   }
-  
+
 function changedirectory() {
-    chooseFile('#chooseDirectory'); 
+    chooseFile('#chooseDirectory');
 }
 function setdefaultdirectory() {
     localStorage.setItem("default_directory",frameExportDirectory);
@@ -542,10 +542,10 @@ function addframetodirectory () {
     }
     //name the frame to be exported
     capturedFrameLocation = frameExportDirectory + "/" + yyyy + "_" + framemonth + "_" + framedate + "_" + framehour + "-" + frameminute + "_frame_" + noOfFrames + ".png";
-    
+
     //convert export frame from base64 to png
     var imageBuffer = decodeBase64Image(lastFrame);
-    
+
     //write export frame to disk
     fs.writeFile(capturedFrameLocation, imageBuffer.data, function(err) {
         if(err) {
@@ -554,19 +554,19 @@ function addframetodirectory () {
             console.log("file saved " + capturedFrameLocation);
         }
     });
-    
+
     //add location of exported frame to list
     exportedFramesList.push(capturedFrameLocation);
 }
 /*
 * Delete frame from directory
-*/ 
+*/
 function deletedirectoryframe (deleteme) {
     fs.unlink(deleteme, function (err) {
         if (err) throw err;
         console.log('successfully deleted ' + deleteme);
     });
-}    
+}
 /**
  * Development Functions
  */

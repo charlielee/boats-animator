@@ -7,10 +7,10 @@ body{
     width: 100%;
     max-width: 1800px;
     color: #000;
-    user-select: none;
     -webkit-user-select: none;  /* Chrome all / Safari all */
     -moz-user-select: none;     /* Firefox all */
     -ms-user-select: none;
+    user-select: none;
     cursor: default;
     }
 header{
