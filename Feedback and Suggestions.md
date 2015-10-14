@@ -1,17 +1,25 @@
-#Feedback
+# Feedback
 Feedback and suggestions I have recieved for Boats Animator will be saved here
-####Capture button
+
+#### Capture button
+
 * Change to red recording symbol or camera icon?
 * Move to centre?
 * DEFINITELY move away from undo button to prevent annoyance
-####Undo button
+
+#### Undo button
+
 * Change to delete last frame?
 * Change to X symbol?
-####Setting panel
+
+#### Setting panel
+
 * Make collapsible
 * Using "hamburger" or arrow icon
 * Panel is open on launch
-####X-sheet
+
+#### X-sheet
 * Add feature?
-####Header
+
+#### Header
 * Don't show as looks web app rather than native?
