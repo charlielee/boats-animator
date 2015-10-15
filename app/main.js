@@ -1,9 +1,11 @@
 /*jslint browser: true, node: true, debug: true*/
+/* global Buffer */
+
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
 // calculated based on the aspect ratio of the input stream.
-var width = 480,    // We will scale the photo width to this
-    height = 0,     // This will be computed based on the input stream
+var width  = 480,
+    height = 0,
 
     // |streaming| indicates whether or not we're currently streaming
     // video from the camera. Obviously, we start at false.
@@ -14,7 +16,7 @@ var width = 480,    // We will scale the photo width to this
     video   = document.getElementById('video'),
     canvas  = document.getElementById('canvas'),
     photo   = document.getElementById('photo'),
-    
+
     //Window
     gui = require('nw.gui'),
     win = gui.Window.get(),
@@ -35,35 +37,38 @@ var width = 480,    // We will scale the photo width to this
     playbackButton             = document.getElementById("playbackFrames"),
     stopPlaybackButton         = document.getElementById("stopPlayback"),
     pausePlaybackButton        = document.getElementById("pausePlayback"),
-    inputChangeFR              = document.querySelector(document.BoatsAnimator.getVariable("inputFRChange")),
+    inputChangeFR              = document.querySelector("#input-fr-change"),
     backCapturedFrameButton    = document.getElementById("backCapturedFrame"),
     forwardCapturedFrameButton = document.getElementById("forwardCapturedFrame"),
-    
+
     // Export frames
     fs = require('fs'),
     frameExportDirectory = null,
     changeDirectoryButton = document.getElementById("changeDirectoryButton"),
     capturedFrameLocation = null,
     exportedFramesList = [],
-    
+
     // Name exported frames
-    thedate = new Date(),
-    dd = thedate.getDate(),
-    framedate = null,
-    mm = thedate.getMonth()+1, //January is 0!
-    framemonth = null,
-    yyyy = thedate.getFullYear(),
-    hr = thedate.getHours(),
-    framehour = null,
-    mins = thedate.getMinutes(),
+    curDate     = new Date(),
+    framedate   = null,
+    framemonth  = null,
+    framehour   = null,
     frameminute = null,
+    now         = {
+      year: curDate.getFullYear(),
+      // Months are 0-index based
+      month: curDate.getMonth() + 1,
+      day: curDate.getDate(),
+      hour: curDate.getHours(),
+      minute: curDate.getMinutes()
+    },
 
     // Onion skin
     onionSkinFrame     = null,
     isOnionSkinEnabled = false,
-    onionSkinPanel     = document.querySelector(document.BoatsAnimator.getVariable("onionSkinOptions")),
-    onionSkinToggle    = document.querySelector(document.BoatsAnimator.getVariable("onionSkinToggle")),
-    onionSkinWindow    = document.querySelector(document.BoatsAnimator.getVariable("onionSkinFrame"));
+    onionSkinPanel     = document.querySelector("#options-onion-skin"),
+    onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
+    onionSkinWindow    = document.querySelector("#onion-skinning-frame");
 
 
 /**
@@ -80,7 +85,7 @@ function openMenu() {
     win.frame(true);
 }
 function openAnimator() {
-    var frameExportDirectory = localStorage.getItem('default_directory');
+    var frameExportDirectory = _getDefaultDirectory();
     win.resizeTo(1050, 700);
     win.setPosition('center');
 }
@@ -102,7 +107,7 @@ function startup() {
     isPlaying      = false;
 
     updateframeslist();
-    
+
     checkdefaultdirectory();
 
     // Set default frame rate
@@ -154,13 +159,13 @@ function startup() {
             streaming = true;
         }
     }, false);
-    
+
 
 /*==========================================================
 =============== LISTENERS ==================================
 ===============================================================*/
 
-    
+
     //Listen if capture frame button pressed
     captureFrame.addEventListener('click', function (ev) {
         takepicture();
@@ -249,7 +254,7 @@ function startup() {
     clearphoto();
   }
 
-    
+
   // Fill the photo with an indication that none has been
   // captured.
 
@@ -339,8 +344,8 @@ function startup() {
             //delete last frame from list of img srcs
             capturedFramesRaw.splice((noOfFrames - 1),1);
             //delete last frame from disk
-            deletedirectoryframe(exportedFramesList[(noOfFrames - 1)]);
-            
+            _deleteFrame(exportedFramesList[(noOfFrames - 1)]);
+
             console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
             //update frame scroller
             scrollFrames = capturedFramesRaw.length;
@@ -469,37 +474,70 @@ function onionSkinAmount() {
     document.getElementById("onionSkinPercentage").innerHTML = document.getElementById("onionSkinAmount").value * 5 + "%";
     onionSkinWindow.style.opacity = (document.getElementById("onionSkinAmount").value * 5)/100;
 }
+
 /**
  * Set directory to export frames to
  */
 function checkdefaultdirectory() {
-    frameExportDirectory = localStorage.getItem('default_directory');
+    frameExportDirectory = _getDefaultDirectory();
     if (frameExportDirectory === null) {
         console.log("no default set");
     } else {
-        document.getElementById("currentDirectoryName").innerHTML = frameExportDirectory;
-        console.log("default directory found: " + frameExportDirectory);
-        document.title = "Boats Animator (" + frameExportDirectory + ")";
+        _displayDirectory(frameExportDirectory);
     }
 }
- function chooseFile(name) {
-    var chooser = document.querySelector(name);
-     chooser.addEventListener("change", function(evt) {
-         console.log("Directory set as " + this.value);
-         frameExportDirectory = this.value;
-         document.getElementById("currentDirectoryName").innerHTML = frameExportDirectory;
-         document.title = "Boats Animator (" + frameExportDirectory + ")";
-    }, false);
 
-    chooser.click();  
-  }
-  
-function changedirectory() {
-    chooseFile('#chooseDirectory'); 
+/**
+ * Open the system native choose directory dialog.
+ *
+ * @param {String} The DOM selector to the dialog trigger.
+ */
+function chooseFile(name) {
+    var chooser = document.querySelector(name);
+
+    chooser.addEventListener("change", function() {
+        frameExportDirectory = this.value;
+        _displayDirectory(frameExportDirectory);
+    });
+
+  chooser.click();
 }
-function setdefaultdirectory() {
-    localStorage.setItem("default_directory",frameExportDirectory);
+
+/**
+ * Display the frame destination directory in the UI.
+ *
+ * @param {String} dir The directory to display.
+ */
+function _displayDirectory(dir) {
+    console.log(`Current destination directory is ${dir}`);
+    document.getElementById("currentDirectoryName").innerHTML = dir;
+    document.title = `Boats Animator (${dir})`;
 }
+
+
+/**
+ * Change default save directory.
+ */
+function changeDirectory() {
+    chooseFile('#chooseDirectory');
+};
+
+/**
+ * Set the default save directory.
+ */
+function setDefaultDirectory() {
+    localStorage.setItem("default_directory", frameExportDirectory);
+}
+
+/**
+ * Get the default save directory.
+ *
+ * @return {!String} The stored directory if available, null otherwise.
+ */
+function _getDefaultDirectory() {
+    return localStorage.getItem("default_directory");
+}
+
 /**
 * COnverting frames to png
 */
@@ -520,32 +558,32 @@ function decodeBase64Image(dataString) {
 * Exporting captured frame to selected directory
 */
 function addframetodirectory () {
-    if (mm < 10) {
-        framemonth = "0" + mm;
+    if (now.month < 10) {
+        framemonth = "0" + now.month;
     } else {
-        framemonth = mm;
+        framemonth = now.month;
     }
-    if (dd < 10) {
-        framedate = "0" + dd;
+    if (now.day < 10) {
+        framedate = "0" + now.day;
     } else {
-        framedate = dd;
+        framedate = now.day;
     }
-    if (hr < 10) {
-        framehour = "0" + hr;
+    if (now.hour < 10) {
+        framehour = "0" + now.hour;
     } else {
-        framehour = hr;
+        framehour = now.hour;
     }
-    if (mins < 10) {
-        frameminute = "0" + mins;
+    if (now.minute < 10) {
+        frameminute = "0" + now.minute;
     } else {
-        frameminute = mins;
+        frameminute = now.minute;
     }
     //name the frame to be exported
-    capturedFrameLocation = frameExportDirectory + "/" + yyyy + "_" + framemonth + "_" + framedate + "_" + framehour + "-" + frameminute + "_frame_" + noOfFrames + ".png";
-    
+    capturedFrameLocation = frameExportDirectory + "/" + now.year + "_" + framemonth + "_" + framedate + "_" + framehour + "-" + frameminute + "_frame_" + noOfFrames + ".png";
+
     //convert export frame from base64 to png
     var imageBuffer = decodeBase64Image(lastFrame);
-    
+
     //write export frame to disk
     fs.writeFile(capturedFrameLocation, imageBuffer.data, function(err) {
         if(err) {
@@ -554,19 +592,24 @@ function addframetodirectory () {
             console.log("file saved " + capturedFrameLocation);
         }
     });
-    
+
     //add location of exported frame to list
     exportedFramesList.push(capturedFrameLocation);
 }
-/*
-* Delete frame from directory
-*/ 
-function deletedirectoryframe (deleteme) {
-    fs.unlink(deleteme, function (err) {
-        if (err) throw err;
-        console.log('successfully deleted ' + deleteme);
+
+/**
+ * Delete a frame from the hard drive.
+ *
+ * @param {String} file Absolute path to the file to be deleted.
+ */
+function _deleteFrame(file) {
+    fs.unlink(file, function (err) {
+        if (err) {
+            throw err;
+        }
+        console.log("Successfully deleted " + file);
     });
-}    
+}
 /**
  * Development Functions
  */

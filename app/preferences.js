@@ -8,7 +8,7 @@ if(window.location.pathname == '/projectPreferences.html'){
 /**
  * Set directory to export frames to
  */
-function changedirectory() {
+function changeDirectory() {
     console.log(changeDirectoryButton);
     console.log("function changedirectory started");
     frameExportDirectory = document.getElementById("chooseDirectory").value;
