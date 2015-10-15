@@ -105,9 +105,6 @@ function canDisplayNews() {
     }
 }
 
-
-
-
 function startup() {
     noOfFrames     = capturedFramesRaw.length;
     lastFrame      = capturedFramesRaw[noOfFrames - 1];
@@ -171,7 +168,7 @@ function startup() {
     });
 
     // Toggle onion skin
-    onionSkinToggle.addEventListener("click", toggleOnionSkin);
+    onionSkinToggle.addEventListener("click", _toggleOnionSkin);
 
     // Change onion skin opacity
     onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
@@ -348,7 +345,7 @@ function clearPhoto() {
 /**
  * Toggle onion skinning on or off.
  */
-function toggleOnionSkin() {
+function _toggleOnionSkin() {
     "use strict";
     // Onion skin is currently enabled, turn it off
     if (isOnionSkinEnabled) {
