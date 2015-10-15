@@ -509,9 +509,9 @@ function chooseFile(name) {
  * @param {String} dir The directory to display.
  */
 function _displayDirectory(dir) {
-    console.log(`Current destination directory is ${frameExportDirectory}`);
+    console.log(`Current destination directory is ${dir}`);
     document.getElementById("currentDirectoryName").innerHTML = dir;
-    document.title += ` (${dir})`;
+    document.title = `Boats Animator (${dir})`;
 }
 
 
