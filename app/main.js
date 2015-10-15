@@ -247,7 +247,8 @@ function startup() {
         ev.preventDefault();
     }, false);
 
-    document.querySelector("#btn-sidebar-toggle").addEventListener(function() {
+    document.querySelector("#btn-sidebar-toggle").addEventListener("click", function(ev) {
+      ev.preventDefault();
       sidebar.classList.toggle("hidden");
     });
 
