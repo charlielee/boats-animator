@@ -107,9 +107,14 @@ function startup() {
     frameRate      = 15;
     isPlaying      = false;
 
+    //Set up captured frame display
     updateframeslist();
-
+    
+    //Check if a default directory has been set
     checkdefaultdirectory();
+    
+    //Load the top menu
+    loadMenu();
 
     // Set default frame rate
     inputChangeFR.value = frameRate;
@@ -358,6 +363,7 @@ function startup() {
             scrollFrames = capturedFramesRaw.length;
         }
         updateframeslist();
+        win.focus();
     }
 
 /**
@@ -530,7 +536,7 @@ function _displayDirectory(dir) {
 function changeDirectory() {
     "use strict";
     chooseFile('#chooseDirectory');
-};
+}
 
 /**
  * Set the default save directory.
@@ -622,6 +628,88 @@ function _deleteFrame(file) {
         }
         console.log("Successfully deleted " + file);
     });
+}
+
+/**
+ * Display top menu
+ */
+function loadMenu() {
+    // Create menu
+    var menu = new gui.Menu({ type: 'menubar' });
+
+    // Create sub-menus
+    var fileMenuItems = new gui.Menu(),
+        editMenuItems = new gui.Menu(),
+        captureMenuItems = new gui.Menu();
+
+
+    //File menu items
+    fileMenuItems.append(new gui.MenuItem({
+      label: "New project...",
+      click: function() {
+      },
+        key: "n",
+        modifiers: "ctrl",
+    }));
+    fileMenuItems.append(new gui.MenuItem({
+      label: "Open project...",
+      click: function() {
+      },
+        key: "o",
+        modifiers: "ctrl",
+    }));
+
+    //Edit menu items
+    editMenuItems.append(new gui.MenuItem({
+      label: "Delete last frame",
+        icon: "icons/delete.png",
+      click: function() {
+        deleteframe();
+      },
+      key: "z",
+      modifiers: "ctrl",
+    }));
+    editMenuItems.append(new gui.MenuItem({ type: 'separator' }));
+    editMenuItems.append(new gui.MenuItem({
+      label: "Preferences",
+      click: function() {
+      },
+      key: "p",
+      modifiers: "ctrl",
+    }));
+
+    //Capture menu items
+    captureMenuItems.append(new gui.MenuItem({
+      label: "Capture frame",
+        icon: "icons/capture.png",
+      click: function() {
+        takepicture();
+      },
+      modifiers: "enter",
+    }));
+
+    // Append sub-menus to main menu
+    menu.append(
+        new gui.MenuItem({
+            label: 'File',
+            submenu: fileMenuItems // menu elements from menuItems object
+        })
+    );
+    menu.append(
+        new gui.MenuItem({
+            label: 'Edit',
+            submenu: editMenuItems // menu elements from menuItems object
+        })
+    );
+    menu.append(
+        new gui.MenuItem({
+            label: 'Capture',
+            submenu: captureMenuItems // menu elements from menuItems object
+        })
+    );
+
+    // Append Menu to Window
+    gui.Window.get().menu = menu;
 }
 /**
  * Development Functions

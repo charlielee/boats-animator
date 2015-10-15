@@ -223,7 +223,7 @@ a.rss-item{
 ===============================================*/
 #statusBar{
     padding: 10px 0;
-    width: 100%;
+    width: 101%;
     background: #f3f3f3;
     float: left;
     font-size: 13px;
@@ -381,8 +381,8 @@ button:active, a.button:active{
     top: 0;
     right: 0;
     width: 270px;
-    height: 100%;
     background-color: #f3f3f3;
+    height: calc(100vh - 37px);
     overflow-y: auto;
     z-index: 2;
     transition: transform 0.5s ease-out;
