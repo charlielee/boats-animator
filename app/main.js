@@ -31,7 +31,7 @@ var width  = 480,
 
     // Playback
     scrollFrames               = null,
-    frameRate                  = 0,
+    frameRate                  = 15,
     isPlaying                  = false,
     loopCheck                  = document.querySelector("#loopCheckbox"),
     playbackButton             = document.querySelector("#playbackFrames"),
@@ -110,7 +110,6 @@ function startup() {
     noOfFrames     = capturedFramesRaw.length;
     lastFrame      = capturedFramesRaw[noOfFrames - 1];
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
-    frameRate      = 15;
     isPlaying      = false;
 
     updateframeslist();
