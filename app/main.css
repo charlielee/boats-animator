@@ -384,14 +384,12 @@ button:active, a.button:active{
     right: 0;
     width: 270px;
     height: 100%;
-    border-left: 2px solid #333333;
     background-color: #f3f3f3;
     overflow-y: auto;
     z-index: 2;
     transition: transform 0.5s ease-out;
 }
-#sidebar.hidden { transform: translate3d(270px, 0, 0); }
-#sidebar.hidden { transform: translate3d(272px, 0, 0); }
+#sidebar.hidden { transform: translate3d(100%, 0, 0); }
 
 #sidebar ul, #popUp ul{
     padding: 0;
