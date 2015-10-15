@@ -388,7 +388,7 @@ button:active, a.button:active{
     background-color: #f3f3f3;
     overflow-y: auto;
     z-index: 2;
-    transition: transform 0.2s ease-out;
+    transition: transform 0.5s ease-out;
 }
 #sidebar.hidden { transform: translate3d(270px, 0, 0); }
 
@@ -471,6 +471,10 @@ h2 span{
 input[type="range"]:hover{
     cursor: pointer;
 }
+
+/* Save path display */
+#currentDirectoryName { word-break: break-word; }
+
 /*==========SIDE BAR TOGGLES===========*/
 .btn-sidebar-toggle {
     margin: 0.7em 5% 0 0;
