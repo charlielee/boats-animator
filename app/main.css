@@ -385,6 +385,7 @@ button:active, a.button:active{
     height: calc(100vh - 37px);
     overflow-y: auto;
     z-index: 2;
+    box-shadow: 0px 2px 5px 0px #E0E0E0;
     transition: transform 0.5s ease-out;
 }
 #sidebar.hidden { transform: translate3d(100%, 0, 0); }
@@ -398,7 +399,7 @@ button:active, a.button:active{
     font-size: 1.3em;
     padding: 0.8em 5%;
     margin: 0 0 1em 0;
-
+    box-shadow: 0px 2px 5px 0px #E0E0E0;
     display: inline-block;
     width: 100%;
     position: relative;
