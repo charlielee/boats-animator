@@ -33,6 +33,7 @@ var width  = 480,
     scrollFrames               = null,
     frameRate                  = 15,
     isPlaying                  = false,
+    sidebar                    = document.querySelector("#sidebar"),
     loopCheck                  = document.querySelector("#loopCheckbox"),
     playbackButton             = document.querySelector("#playbackFrames"),
     stopPlaybackButton         = document.querySelector("#stopPlayback"),
@@ -111,9 +112,14 @@ function startup() {
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
     isPlaying      = false;
 
+    //Set up captured frame display
     updateframeslist();
 
+    //Check if a default directory has been set
     checkdefaultdirectory();
+
+    //Load the top menu
+    loadMenu();
 
     // Set default frame rate
     inputChangeFR.value = frameRate;
@@ -241,6 +247,12 @@ function startup() {
         updateframeslist();
     });
 
+    // Toggle the sidebar visibility
+    document.querySelector("#btn-sidebar-toggle").addEventListener("click", function(ev) {
+      ev.preventDefault();
+      sidebar.classList.toggle("hidden");
+    });
+
     clearPhoto();
 }
 
@@ -340,6 +352,7 @@ function clearPhoto() {
             scrollFrames = capturedFramesRaw.length;
         }
         updateframeslist();
+        win.focus();
     }
 
 /**
@@ -484,6 +497,7 @@ function checkdefaultdirectory() {
  * @param {String} The DOM selector to the dialog trigger.
  */
 function chooseFile(name) {
+    "use strict";
     var chooser = document.querySelector(name);
 
     chooser.addEventListener("change", function() {
@@ -500,6 +514,7 @@ function chooseFile(name) {
  * @param {String} dir The directory to display.
  */
 function _displayDirectory(dir) {
+    "use strict";
     console.log(`Current destination directory is ${dir}`);
     curDirDisplay.innerHTML = dir;
     document.title = `Boats Animator (${dir})`;
@@ -510,6 +525,7 @@ function _displayDirectory(dir) {
  * Change default save directory.
  */
 function changeDirectory() {
+    "use strict";
     chooseFile('#chooseDirectory');
 }
 
@@ -517,6 +533,7 @@ function changeDirectory() {
  * Set the default save directory.
  */
 function setDefaultDirectory() {
+    "use strict";
     localStorage.setItem("default_directory", frameExportDirectory);
 }
 
@@ -526,6 +543,7 @@ function setDefaultDirectory() {
  * @return {!String} The stored directory if available, null otherwise.
  */
 function _getDefaultDirectory() {
+    "use strict";
     return localStorage.getItem("default_directory");
 }
 
@@ -594,12 +612,95 @@ function addframetodirectory () {
  * @param {String} file Absolute path to the file to be deleted.
  */
 function _deleteFrame(file) {
+    "use strict";
     fs.unlink(file, function (err) {
         if (err) {
             throw err;
         }
         console.log("Successfully deleted " + file);
     });
+}
+
+/**
+ * Display top menu
+ */
+function loadMenu() {
+    // Create menu
+    var menu = new gui.Menu({ type: 'menubar' });
+
+    // Create sub-menus
+    var fileMenuItems = new gui.Menu(),
+        editMenuItems = new gui.Menu(),
+        captureMenuItems = new gui.Menu();
+
+
+    //File menu items
+    fileMenuItems.append(new gui.MenuItem({
+      label: "New project...",
+      click: function() {
+      },
+        key: "n",
+        modifiers: "ctrl",
+    }));
+    fileMenuItems.append(new gui.MenuItem({
+      label: "Open project...",
+      click: function() {
+      },
+        key: "o",
+        modifiers: "ctrl",
+    }));
+
+    //Edit menu items
+    editMenuItems.append(new gui.MenuItem({
+      label: "Delete last frame",
+        icon: "icons/delete.png",
+      click: function() {
+        deleteframe();
+      },
+      key: "z",
+      modifiers: "ctrl",
+    }));
+    editMenuItems.append(new gui.MenuItem({ type: 'separator' }));
+    editMenuItems.append(new gui.MenuItem({
+      label: "Preferences",
+      click: function() {
+      },
+      key: "p",
+      modifiers: "ctrl",
+    }));
+
+    //Capture menu items
+    captureMenuItems.append(new gui.MenuItem({
+      label: "Capture frame",
+        icon: "icons/capture.png",
+      click: function() {
+        takepicture();
+      },
+      modifiers: "enter",
+    }));
+
+    // Append sub-menus to main menu
+    menu.append(
+        new gui.MenuItem({
+            label: 'File',
+            submenu: fileMenuItems // menu elements from menuItems object
+        })
+    );
+    menu.append(
+        new gui.MenuItem({
+            label: 'Edit',
+            submenu: editMenuItems // menu elements from menuItems object
+        })
+    );
+    menu.append(
+        new gui.MenuItem({
+            label: 'Capture',
+            submenu: captureMenuItems // menu elements from menuItems object
+        })
+    );
+
+    // Append Menu to Window
+    gui.Window.get().menu = menu;
 }
 /**
  * Development Functions
