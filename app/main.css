@@ -473,7 +473,7 @@ input[type="range"]:hover{
 #currentDirectoryName { word-break: break-word; }
 
 /*==========SIDE BAR TOGGLES===========*/
-.btn-sidebar-toggle {
+.btn-sidebar {
     margin: 0.7em 5% 0 0;
     position: absolute;
     top: 0;
@@ -488,12 +488,12 @@ input[type="range"]:hover{
     text-transform: uppercase;
     cursor: pointer;
 }
-.btn-sidebar-toggle:hover {
+.btn-sidebar:hover {
     background-color: rgba(67, 67, 67, 0.8);
     cursor: pointer;
 }
 
-.btn-sidebar-toggle span {
+.btn-sidebar span {
   position: relative;
   top: 0.1em;
 }

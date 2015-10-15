@@ -252,6 +252,7 @@ function startup() {
         ev.preventDefault();
     }, false);
 
+    // Toggle the sidebar visibility
     document.querySelector("#btn-sidebar-toggle").addEventListener("click", function(ev) {
       ev.preventDefault();
       sidebar.classList.toggle("hidden");
@@ -499,6 +500,7 @@ function checkdefaultdirectory() {
  * @param {String} The DOM selector to the dialog trigger.
  */
 function chooseFile(name) {
+    "use strict";
     var chooser = document.querySelector(name);
 
     chooser.addEventListener("change", function() {
@@ -515,6 +517,7 @@ function chooseFile(name) {
  * @param {String} dir The directory to display.
  */
 function _displayDirectory(dir) {
+    "use strict";
     console.log(`Current destination directory is ${dir}`);
     document.getElementById("currentDirectoryName").innerHTML = dir;
     document.title = `Boats Animator (${dir})`;
@@ -525,6 +528,7 @@ function _displayDirectory(dir) {
  * Change default save directory.
  */
 function changeDirectory() {
+    "use strict";
     chooseFile('#chooseDirectory');
 };
 
@@ -532,6 +536,7 @@ function changeDirectory() {
  * Set the default save directory.
  */
 function setDefaultDirectory() {
+    "use strict";
     localStorage.setItem("default_directory", frameExportDirectory);
 }
 
@@ -541,6 +546,7 @@ function setDefaultDirectory() {
  * @return {!String} The stored directory if available, null otherwise.
  */
 function _getDefaultDirectory() {
+    "use strict";
     return localStorage.getItem("default_directory");
 }
 
@@ -609,6 +615,7 @@ function addframetodirectory () {
  * @param {String} file Absolute path to the file to be deleted.
  */
 function _deleteFrame(file) {
+    "use strict";
     fs.unlink(file, function (err) {
         if (err) {
             throw err;
