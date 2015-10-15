@@ -191,7 +191,8 @@ function startup() {
     });
 
     //listen if playback button is pressed
-    playbackButton.addEventListener('click', function (ev) {
+    playbackButton.addEventListener("click", function (ev) {
+        ev.preventDefault();
         //check pics have been taken
         if (noOfFrames > 0) {
             if (isPlaying === false) {
