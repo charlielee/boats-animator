@@ -70,7 +70,9 @@ var width  = 480,
     isOnionSkinEnabled = false,
     onionSkinPanel     = document.querySelector("#options-onion-skin"),
     onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
-    onionSkinWindow    = document.querySelector("#onion-skinning-frame");
+    onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
+    onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
+    onionSkinPercent   = document.querySelector("#onion-skin-percentage");
 
 
 /**
@@ -168,10 +170,11 @@ function startup() {
         deleteframe();
     });
 
-    //listen if onion skin toggle pressed
-    onionSkinToggle.addEventListener("click", function () {
-        toggleOnionSkin();
-    });
+    // Toggle onion skin
+    onionSkinToggle.addEventListener("click", toggleOnionSkin);
+
+    // Change onion skin opacity
+    onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
 
     //listen if playback button is pressed
     playbackButton.addEventListener("click", function (ev) {
@@ -453,11 +456,17 @@ function pauseit() {
 }
 
 /**
- * Set amount of onion skinning
+ * Change onion skinning opacity.
+ *
+ * @param {Object} ev Event object from addEventHandler.
  */
-function onionSkinAmount() {
-    document.getElementById("onionSkinPercentage").innerHTML = document.getElementById("onionSkinAmount").value * 5 + "%";
-    onionSkinWindow.style.opacity = (document.getElementById("onionSkinAmount").value * 5)/100;
+function _onionSkinChangeAmount(ev) {
+    "use strict";
+    // Calculate the percentage opacity value
+    var amount = ev.target.value * 5;
+
+    onionSkinPercent.innerHTML = amount + "%";
+    onionSkinWindow.style.opacity = amount / 100;
 }
 
 /**
@@ -505,7 +514,7 @@ function _displayDirectory(dir) {
  */
 function changeDirectory() {
     chooseFile('#chooseDirectory');
-};
+}
 
 /**
  * Set the default save directory.
