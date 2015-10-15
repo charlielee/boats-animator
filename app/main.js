@@ -120,10 +120,7 @@ function startup() {
     inputChangeFR.value = frameRate;
 
 
-    navigator.getMedia = (navigator.getUserMedia ||
-                           navigator.webkitGetUserMedia ||
-                           navigator.mozGetUserMedia ||
-                           navigator.msGetUserMedia);
+    navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 
     navigator.getMedia(
         {
@@ -131,32 +128,19 @@ function startup() {
             audio: false
         },
         function (stream) {
-            if (navigator.mozGetUserMedia) {
-                preview.mozSrcObject = stream;
-                video.mozSrcObject = stream;
-            } else {
-                var vendorURL = window.URL || window.webkitURL;
-                preview.src = vendorURL.createObjectURL(stream);
-                video.src = vendorURL.createObjectURL(stream);
-            }
+            preview.src = window.URL.createObjectURL(stream);
+            video.src = window.URL.createObjectURL(stream);
             preview.play();
             video.play();
         },
         function (err) {
-            console.log("An error occured! " + err);
+            console.log(`An error occured! ${err}`);
         }
     );
 
     video.addEventListener('canplay', function () {
         if (!streaming) {
             height = video.videoHeight / (video.videoWidth / width);
-
-        // Firefox currently has a bug where the height can't be read from
-        // the video, so we will make assumptions if this happens.
-
-            if (isNaN(height)) {
-                height = width / (4 / 3);
-            }
 
             video.setAttribute('width', width);
             video.setAttribute('height', height);
