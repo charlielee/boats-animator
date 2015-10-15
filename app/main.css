@@ -1,3 +1,5 @@
+* { box-sizing: border-box; }
+
 body{
     font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
     background-color: #333333;
@@ -45,7 +47,7 @@ footer{
     padding: 2%;
     background-color: #1a3960;
     font-size: 0.75em;
-    width: 96%;
+    width: 100%;
     clear: both;
     color: #fff;
 }
@@ -113,7 +115,7 @@ background: rgb(150, 189, 179);
 =========================================================*/
 .content50{
     padding: 0 2% 2% 2%;
-    width: 46%;
+    width: 50%;
     background: #f3f3f3;
     float: left;
 }
@@ -149,20 +151,13 @@ a.rss-item{
 /*=========================================================
 ===================MAIN WINDOW ELEMENTS=====================
 ===========================================================*/
-#column1, #column2{
-    width: calc(49.5% - 135px);
+#column1, #column2 {
+    width: 50%;
     float: left;
-    margin: 0 0.5% 0 0;
-    font-size: 0px;
-    background: #000;
+    font-size: 0;
+    text-align: center;
 }
-#column3{
-    width: calc(99.5% - 270px);
-    float: left;
-    margin: 0 0.5% 0 0;
-    font-size: 0px;
-}
-
+#column3 { font-size: 0; }
 
 #playbackContainer{
     width: 100%;
@@ -170,15 +165,12 @@ a.rss-item{
     overflow: visible;
     z-index: 8;
 }
-#playback{
-    width: 100%;
-}
+
 #preview{
     width: 100%;
     z-index: 3;
     padding: 0;
     margin: 0;
-    background: #000;
 }
 .windowTitleContainer{
     height: 0;
@@ -188,6 +180,7 @@ a.rss-item{
     z-index: 10;
     float: left;
     width: 100%;
+    text-align: left;
 }
 #windowTitle, #playbackTitle, #captureTitle{
 
@@ -203,9 +196,9 @@ a.rss-item{
     border-top-left-radius: 0;
 }
 #controls{
-    padding: 2%;
-    width: 96%;
-    background: #f3f3f3;
+    padding: 1.4% 2%;
+    width: 100%;
+    background-color: #f3f3f3;
     float: left;
 }
 /*=========================================================
@@ -268,22 +261,20 @@ a.rss-item{
 ===============================================*/
 
 #capturedFramesContainer{
-    background: #AAAAAA;
-    padding: 2%;
-    width: 96%;
+    background-color: #AAAAAA;
+    padding: 1.4% 2%;
+    width: 100%;
     float: left;
     position: relative;
 }
 .capturedFrame{
     padding: 0;
-    margin: 0 1% 0 0;
-    width: 16%;
+    margin-right: 1.5%;
+    width: 15%;
     float: left;
     position: relative;
 }
-#lastCapturedFrame5{
-    margin: 0;
-}
+.capturedFrame:last-of-type { margin-right: 0; }
 
 .capturedFrameImg{
     width: 100%;
@@ -300,7 +291,6 @@ a.rss-item{
     position: absolute;
     left: 83%;
     top: 78%;
-    z-index: 10;
     float: right;
 }
 .capturedFrameOptionDelete:hover{
@@ -311,7 +301,7 @@ a.rss-item{
 .capturedFramesNav{
     padding: 0;
     margin: 0;
-    width: 7%;
+    width: 6%;
     float: left;
 }
 .capturedFramesNav:hover{
@@ -321,10 +311,10 @@ a.rss-item{
 }
 #capturedFrameScrollBar{
     width: 82%;
-    background: #fff;
-    margin: 2% 7% 0 7%;
-    border-radius: 3px;
-    padding: 1%;
+    background-color: #fff;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 5%;
 }
 /*================HIDDEN ELEMENTS=====================*/
 #canvas{
@@ -387,12 +377,18 @@ button:active, a.button:active{
 
 #sidebar{
     padding: 0;
-    background: #f3f3f3;
-    float: right;
+    position: fixed;
+    top: 0;
+    right: 0;
     width: 270px;
-    height: calc(100vh - 36px);
+    background-color: #f3f3f3;
+    height: calc(100vh - 37px);
     overflow-y: auto;
+    z-index: 2;
+    transition: transform 0.5s ease-out;
 }
+#sidebar.hidden { transform: translate3d(100%, 0, 0); }
+
 #sidebar ul, #popUp ul{
     padding: 0;
     margin: 0;
@@ -404,14 +400,14 @@ button:active, a.button:active{
     margin: 0 0 1em 0;
 
     display: inline-block;
-    width: 90%;
+    width: 100%;
     position: relative;
     background: #aaa;
     font-weight: 400;
     vertical-align: middle;
 }
 h2 img{
-    padding: 0 10px 0 0;
+    margin-right: 10px;
     vertical-align: middle;
 }
 h2 span{
@@ -424,7 +420,7 @@ h2 span{
     position: relative;
     border-top: solid 1px #ccc6c6;
     display: inline-block;
-    width: 90%;
+    width: 100%;
 }
 #sidebar ul li li span{
     vertical-align: middle;
@@ -472,8 +468,12 @@ h2 span{
 input[type="range"]:hover{
     cursor: pointer;
 }
+
+/* Save path display */
+#currentDirectoryName { word-break: break-word; }
+
 /*==========SIDE BAR TOGGLES===========*/
-.btn-sidebar-toggle {
+.btn-sidebar {
     margin: 0.7em 5% 0 0;
     position: absolute;
     top: 0;
@@ -488,12 +488,12 @@ input[type="range"]:hover{
     text-transform: uppercase;
     cursor: pointer;
 }
-.btn-sidebar-toggle:hover {
+.btn-sidebar:hover {
     background-color: rgba(67, 67, 67, 0.8);
     cursor: pointer;
 }
 
-.btn-sidebar-toggle span {
+.btn-sidebar span {
   position: relative;
   top: 0.1em;
 }
@@ -514,8 +514,6 @@ input[type="range"]:hover{
 }
 
 #onion-skinning-frame {
-    width: 100%;
-    min-height: 200px;
     position: relative;
     padding: 0;
     margin: 0;
