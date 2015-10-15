@@ -12,20 +12,20 @@ var width  = 480,
     streaming = false,
 
     // The various HTML elements we need to configure or control.
-    preview = document.getElementById('preview'),
-    video   = document.getElementById('video'),
-    canvas  = document.getElementById('canvas'),
-    photo   = document.getElementById('photo'),
+    preview = document.querySelector("#preview"),
+    video   = document.querySelector("#video"),
+    canvas  = document.querySelector("#canvas"),
+    photo   = document.querySelector("#photo"),
 
-    //Window
+    // GUI window
     gui = require('nw.gui'),
     win = gui.Window.get(),
 
     // Capture
     capturedFramesRaw  = [],
     capturedFramesList = [],
-    captureFrame       = document.getElementById('captureFrame'),
-    deleteLastFrame    = document.getElementById('deleteLastFrame'),
+    captureFrame       = document.querySelector("#captureFrame"),
+    deleteLastFrame    = document.querySelector("#deleteLastFrame"),
     noOfFrames         = null,
     lastFrame          = null,
 
@@ -33,20 +33,22 @@ var width  = 480,
     scrollFrames               = null,
     frameRate                  = 0,
     isPlaying                  = false,
-    loopCheck                  = document.getElementById("loopCheckbox"),
-    playbackButton             = document.getElementById("playbackFrames"),
-    stopPlaybackButton         = document.getElementById("stopPlayback"),
-    pausePlaybackButton        = document.getElementById("pausePlayback"),
+    loopCheck                  = document.querySelector("#loopCheckbox"),
+    playbackButton             = document.querySelector("#playbackFrames"),
+    stopPlaybackButton         = document.querySelector("#stopPlayback"),
+    pausePlaybackButton        = document.querySelector("#pausePlayback"),
     inputChangeFR              = document.querySelector("#input-fr-change"),
-    backCapturedFrameButton    = document.getElementById("backCapturedFrame"),
-    forwardCapturedFrameButton = document.getElementById("forwardCapturedFrame"),
+    backCapturedFrameButton    = document.querySelector("#backCapturedFrame"),
+    forwardCapturedFrameButton = document.querySelector("#forwardCapturedFrame"),
 
     // Export frames
-    fs = require('fs'),
-    frameExportDirectory = null,
-    changeDirectoryButton = document.getElementById("changeDirectoryButton"),
+    fs                    = require('fs'),
+    frameExportDirectory  = null,
     capturedFrameLocation = null,
-    exportedFramesList = [],
+    exportedFramesList    = [],
+    curDirDisplay         = document.querySelector("#currentDirectoryName"),
+    changeDirectoryButton = document.querySelector("#changeDirectoryButton"),
+
 
     // Name exported frames
     curDate     = new Date(),
@@ -172,21 +174,21 @@ function startup() {
 
 
     //Listen if capture frame button pressed
-    captureFrame.addEventListener('click', function (ev) {
-        takepicture();
+    captureFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-    }, false);
+        takepicture();
+    });
 
     //Listen if undo last frame button pressed
-    deleteLastFrame.addEventListener('click', function (ev) {
-        deleteframe();
+    deleteLastFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-    }, false);
+        deleteframe();
+    });
 
     //listen if onion skin toggle pressed
-    onionSkinToggle.addEventListener('click', function () {
+    onionSkinToggle.addEventListener("click", function () {
         toggleOnionSkin();
-    }, false);
+    });
 
     //listen if playback button is pressed
     playbackButton.addEventListener('click', function (ev) {
@@ -201,11 +203,11 @@ function startup() {
         } else {
             console.warn("Pressing play did nothing as no pictures have been taken!");
         }
-        ev.preventDefault();
-    }, false);
+    });
 
     //listen if stop playback button is pressed
-    stopPlaybackButton.addEventListener('click', function (ev) {
+    stopPlaybackButton.addEventListener("click", function (ev) {
+        ev.preventDefault();
         //check pics have been taken
         if (noOfFrames > 0) {
             if (loopCheck.checked) {
@@ -216,11 +218,11 @@ function startup() {
         } else {
             console.warn("Pressing stop did nothing as no pictures have been taken!");
         }
-        ev.preventDefault();
-    }, false);
+    });
 
     //listen if pause playback button is pressed
-    pausePlaybackButton.addEventListener('click', function (ev) {
+    pausePlaybackButton.addEventListener("click", function (ev) {
+        ev.preventDefault();
         //check pics have been taken
         if (noOfFrames > 0) {
             if (isPlaying === true) {
@@ -231,30 +233,29 @@ function startup() {
         } else {
             console.warn("Pressing pause did nothing as no pictures have been taken!");
         }
-        ev.preventDefault();
-    }, false);
+    });
 
     // Listen for frame rate changes
-    inputChangeFR.addEventListener('change', function () {
+    inputChangeFR.addEventListener("change", function () {
         "use strict";
         frameRate = parseInt(this.value, 10);
         document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + this.value + " fps";
         stopitwhenlooping();
-    }, false);
+    });
 
     //listen if left arrow button is pressed
-    backCapturedFrameButton.addEventListener('click', function (ev) {
+    backCapturedFrameButton.addEventListener("click", function (ev) {
+        ev.preventDefault();
         scrollFrames--;
         updateframeslist();
-        ev.preventDefault();
-    }, false);
+    });
 
     //listen if right arrow button is pressed
-    forwardCapturedFrameButton.addEventListener('click', function (ev) {
+    forwardCapturedFrameButton.addEventListener("click", function (ev) {
+        ev.preventDefault();
         scrollFrames++;
         updateframeslist();
-        ev.preventDefault();
-    }, false);
+    });
 
     clearphoto();
   }
@@ -515,7 +516,7 @@ function chooseFile(name) {
  */
 function _displayDirectory(dir) {
     console.log(`Current destination directory is ${dir}`);
-    document.getElementById("currentDirectoryName").innerHTML = dir;
+    curDirDisplay.innerHTML = dir;
     document.title = `Boats Animator (${dir})`;
 }
 
