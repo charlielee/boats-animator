@@ -198,7 +198,7 @@ a.rss-item{
 #controls{
     padding: 2%;
     width: 96%;
-    background: #f3f3f3;
+    background-color: #f3f3f3;
     float: left;
 }
 /*=========================================================
@@ -261,16 +261,16 @@ a.rss-item{
 ===============================================*/
 
 #capturedFramesContainer{
-    background: #AAAAAA;
     padding: 2%;
     width: 96%;
+    background-color: #AAAAAA;
     float: left;
     position: relative;
 }
 .capturedFrame{
     padding: 0;
     margin: 0 1% 0 0;
-    width: 16%;
+    width: 15%;
     float: left;
     position: relative;
 }
@@ -303,7 +303,7 @@ a.rss-item{
 .capturedFramesNav{
     padding: 0;
     margin: 0;
-    width: 7%;
+    width: 6%;
     float: left;
 }
 .capturedFramesNav:hover{
@@ -391,6 +391,7 @@ button:active, a.button:active{
     transition: transform 0.5s ease-out;
 }
 #sidebar.hidden { transform: translate3d(270px, 0, 0); }
+#sidebar.hidden { transform: translate3d(272px, 0, 0); }
 
 #sidebar ul, #popUp ul{
     padding: 0;
