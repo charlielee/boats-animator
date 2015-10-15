@@ -241,22 +241,21 @@ function startup() {
         updateframeslist();
     });
 
-    clearphoto();
-  }
+    clearPhoto();
+}
 
 
-  // Fill the photo with an indication that none has been
-  // captured.
-
-  function clearphoto() {
-    var context = canvas.getContext('2d');
-    context.fillStyle = "#AAA";
+/**
+ * Fill the canvas with an indication that
+ * no frames hace been captured.
+ */
+function clearPhoto() {
+    "use strict";
+    var context = canvas.getContext("2d");
+    context.fillStyle = "#aaa";
     context.fillRect(0, 0, canvas.width, canvas.height);
-      console.log('canvas cleared');
-
-    var data = canvas.toDataURL('image/png');
-    //photo.setAttribute('src', data);
-  }
+    console.log("Canvas cleared");
+}
 
     //update the various places frames appear when a picture is taken or deleted
     function updateframeslist() {
@@ -395,7 +394,7 @@ function toggleOnionSkin() {
             updateframeslist();
             addframetodirectory();
         } else {
-            clearphoto();
+            clearPhoto();
         }
 
     }
@@ -452,10 +451,6 @@ function pauseit() {
     clearInterval(yoplayit);
     console.info("Playback paused");
 }
-
-// Set up our event listener to run the startup process
-  // once loading is complete.
- // window.addEventListener('load', startup, false);
 
 /**
  * Set amount of onion skinning
