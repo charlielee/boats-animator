@@ -89,10 +89,15 @@ function openAnimator() {
     win.resizeTo(1050, 700);
     win.setPosition('center');
 }
-function internetCheck() {
-    if (window.navigator.onLine === false) {
-        document.getElementById('news').innerHTML = "This feature requires an internet connection.";
-        document.getElementById('news').style.color = "#aaaaaa";
+
+/**
+ * Check if we can display the latest news feed
+ * and if we cannot, say so.
+ */
+function canDisplayNews() {
+    "use strict";
+    if (!window.navigator.onLine) {
+        document.querySelector("#news").innerHTML = "This feature requires an internet connection.";
     }
 }
 
