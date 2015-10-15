@@ -14,7 +14,7 @@ var width = 480,    // We will scale the photo width to this
     video   = document.getElementById('video'),
     canvas  = document.getElementById('canvas'),
     photo   = document.getElementById('photo'),
-    
+
     //Window
     gui = require('nw.gui'),
     win = gui.Window.get(),
@@ -31,6 +31,7 @@ var width = 480,    // We will scale the photo width to this
     scrollFrames               = null,
     frameRate                  = 0,
     isPlaying                  = false,
+    sidebar                    = document.querySelector("#sidebar"),
     loopCheck                  = document.getElementById("loopCheckbox"),
     playbackButton             = document.getElementById("playbackFrames"),
     stopPlaybackButton         = document.getElementById("stopPlayback"),
@@ -38,14 +39,14 @@ var width = 480,    // We will scale the photo width to this
     inputChangeFR              = document.querySelector(document.BoatsAnimator.getVariable("inputFRChange")),
     backCapturedFrameButton    = document.getElementById("backCapturedFrame"),
     forwardCapturedFrameButton = document.getElementById("forwardCapturedFrame"),
-    
+
     // Export frames
     fs = require('fs'),
     frameExportDirectory = null,
     changeDirectoryButton = document.getElementById("changeDirectoryButton"),
     capturedFrameLocation = null,
     exportedFramesList = [],
-    
+
     // Name exported frames
     thedate = new Date(),
     dd = thedate.getDate(),
@@ -102,7 +103,7 @@ function startup() {
     isPlaying      = false;
 
     updateframeslist();
-    
+
     checkdefaultdirectory();
 
     // Set default frame rate
@@ -154,13 +155,13 @@ function startup() {
             streaming = true;
         }
     }, false);
-    
+
 
 /*==========================================================
 =============== LISTENERS ==================================
 ===============================================================*/
 
-    
+
     //Listen if capture frame button pressed
     captureFrame.addEventListener('click', function (ev) {
         takepicture();
@@ -246,10 +247,14 @@ function startup() {
         ev.preventDefault();
     }, false);
 
+    document.querySelector("#btn-sidebar-toggle").addEventListener(function() {
+      sidebar.classList.toggle("hidden");
+    });
+
     clearphoto();
   }
 
-    
+
   // Fill the photo with an indication that none has been
   // captured.
 
@@ -340,7 +345,7 @@ function startup() {
             capturedFramesRaw.splice((noOfFrames - 1),1);
             //delete last frame from disk
             deletedirectoryframe(exportedFramesList[(noOfFrames - 1)]);
-            
+
             console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
             //update frame scroller
             scrollFrames = capturedFramesRaw.length;
@@ -491,11 +496,11 @@ function checkdefaultdirectory() {
          document.title = "Boats Animator (" + frameExportDirectory + ")";
     }, false);
 
-    chooser.click();  
+    chooser.click();
   }
-  
+
 function changedirectory() {
-    chooseFile('#chooseDirectory'); 
+    chooseFile('#chooseDirectory');
 }
 function setdefaultdirectory() {
     localStorage.setItem("default_directory",frameExportDirectory);
@@ -542,10 +547,10 @@ function addframetodirectory () {
     }
     //name the frame to be exported
     capturedFrameLocation = frameExportDirectory + "/" + yyyy + "_" + framemonth + "_" + framedate + "_" + framehour + "-" + frameminute + "_frame_" + noOfFrames + ".png";
-    
+
     //convert export frame from base64 to png
     var imageBuffer = decodeBase64Image(lastFrame);
-    
+
     //write export frame to disk
     fs.writeFile(capturedFrameLocation, imageBuffer.data, function(err) {
         if(err) {
@@ -554,19 +559,19 @@ function addframetodirectory () {
             console.log("file saved " + capturedFrameLocation);
         }
     });
-    
+
     //add location of exported frame to list
     exportedFramesList.push(capturedFrameLocation);
 }
 /*
 * Delete frame from directory
-*/ 
+*/
 function deletedirectoryframe (deleteme) {
     fs.unlink(deleteme, function (err) {
         if (err) throw err;
         console.log('successfully deleted ' + deleteme);
     });
-}    
+}
 /**
  * Development Functions
  */

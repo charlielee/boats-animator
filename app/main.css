@@ -150,19 +150,12 @@ a.rss-item{
 ===================MAIN WINDOW ELEMENTS=====================
 ===========================================================*/
 #column1, #column2{
-    width: calc(49.5% - 135px);
+    width: 50%;
     float: left;
-    margin: 0 0.5% 0 0;
-    font-size: 0px;
-    background: #000;
+    font-size: 0;
+    background-color: #000;
 }
-#column3{
-    width: calc(99.5% - 270px);
-    float: left;
-    margin: 0 0.5% 0 0;
-    font-size: 0px;
-}
-
+#column3 { font-size: 0; }
 
 #playbackContainer{
     width: 100%;
@@ -300,7 +293,6 @@ a.rss-item{
     position: absolute;
     left: 83%;
     top: 78%;
-    z-index: 10;
     float: right;
 }
 .capturedFrameOptionDelete:hover{
@@ -387,12 +379,19 @@ button:active, a.button:active{
 
 #sidebar{
     padding: 0;
-    background: #f3f3f3;
-    float: right;
+    position: fixed;
+    top: 0;
+    right: 0;
     width: 270px;
-    height: calc(100vh - 96px);
+    height: 100%;
+    border-left: 2px solid #333333;
+    background-color: #f3f3f3;
     overflow-y: auto;
+    z-index: 2;
+    transition: transform 0.2s ease-out;
 }
+#sidebar.hidden { transform: translate3d(270px, 0, 0); }
+
 #sidebar ul, #popUp ul{
     padding: 0;
     margin: 0;
