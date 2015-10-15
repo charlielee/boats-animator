@@ -12,42 +12,44 @@ var width  = 480,
     streaming = false,
 
     // The various HTML elements we need to configure or control.
-    preview = document.getElementById('preview'),
-    video   = document.getElementById('video'),
-    canvas  = document.getElementById('canvas'),
-    photo   = document.getElementById('photo'),
+    preview = document.querySelector("#preview"),
+    video   = document.querySelector("#video"),
+    canvas  = document.querySelector("#canvas"),
+    photo   = document.querySelector("#photo"),
 
-    //Window
+    // GUI window
     gui = require('nw.gui'),
     win = gui.Window.get(),
 
     // Capture
     capturedFramesRaw  = [],
     capturedFramesList = [],
-    captureFrame       = document.getElementById('captureFrame'),
-    deleteLastFrame    = document.getElementById('deleteLastFrame'),
+    captureFrame       = document.querySelector("#captureFrame"),
+    deleteLastFrame    = document.querySelector("#deleteLastFrame"),
     noOfFrames         = null,
     lastFrame          = null,
 
     // Playback
     scrollFrames               = null,
-    frameRate                  = 0,
+    frameRate                  = 15,
     isPlaying                  = false,
     sidebar                    = document.querySelector("#sidebar"),
-    loopCheck                  = document.getElementById("loopCheckbox"),
-    playbackButton             = document.getElementById("playbackFrames"),
-    stopPlaybackButton         = document.getElementById("stopPlayback"),
-    pausePlaybackButton        = document.getElementById("pausePlayback"),
+    loopCheck                  = document.querySelector("#loopCheckbox"),
+    playbackButton             = document.querySelector("#playbackFrames"),
+    stopPlaybackButton         = document.querySelector("#stopPlayback"),
+    pausePlaybackButton        = document.querySelector("#pausePlayback"),
     inputChangeFR              = document.querySelector("#input-fr-change"),
-    backCapturedFrameButton    = document.getElementById("backCapturedFrame"),
-    forwardCapturedFrameButton = document.getElementById("forwardCapturedFrame"),
+    backCapturedFrameButton    = document.querySelector("#backCapturedFrame"),
+    forwardCapturedFrameButton = document.querySelector("#forwardCapturedFrame"),
 
     // Export frames
-    fs = require('fs'),
-    frameExportDirectory = null,
-    changeDirectoryButton = document.getElementById("changeDirectoryButton"),
+    fs                    = require('fs'),
+    frameExportDirectory  = null,
     capturedFrameLocation = null,
-    exportedFramesList = [],
+    exportedFramesList    = [],
+    curDirDisplay         = document.querySelector("#currentDirectoryName"),
+    changeDirectoryButton = document.querySelector("#changeDirectoryButton"),
+
 
     // Name exported frames
     curDate     = new Date(),
@@ -69,7 +71,9 @@ var width  = 480,
     isOnionSkinEnabled = false,
     onionSkinPanel     = document.querySelector("#options-onion-skin"),
     onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
-    onionSkinWindow    = document.querySelector("#onion-skinning-frame");
+    onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
+    onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
+    onionSkinPercent   = document.querySelector("#onion-skin-percentage");
 
 
 /**
@@ -90,29 +94,30 @@ function openAnimator() {
     win.resizeTo(1050, 700);
     win.setPosition('center');
 }
-function internetCheck() {
-    if (window.navigator.onLine === false) {
-        document.getElementById('news').innerHTML = "This feature requires an internet connection.";
-        document.getElementById('news').style.color = "#aaaaaa";
+
+/**
+ * Check if we can display the latest news feed
+ * and if we cannot, say so.
+ */
+function canDisplayNews() {
+    "use strict";
+    if (!window.navigator.onLine) {
+        document.querySelector("#news").innerHTML = "This feature requires an internet connection.";
     }
 }
-
-
-
 
 function startup() {
     noOfFrames     = capturedFramesRaw.length;
     lastFrame      = capturedFramesRaw[noOfFrames - 1];
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
-    frameRate      = 15;
     isPlaying      = false;
 
     //Set up captured frame display
     updateframeslist();
-    
+
     //Check if a default directory has been set
     checkdefaultdirectory();
-    
+
     //Load the top menu
     loadMenu();
 
@@ -120,10 +125,7 @@ function startup() {
     inputChangeFR.value = frameRate;
 
 
-    navigator.getMedia = (navigator.getUserMedia ||
-                           navigator.webkitGetUserMedia ||
-                           navigator.mozGetUserMedia ||
-                           navigator.msGetUserMedia);
+    navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 
     navigator.getMedia(
         {
@@ -131,32 +133,19 @@ function startup() {
             audio: false
         },
         function (stream) {
-            if (navigator.mozGetUserMedia) {
-                preview.mozSrcObject = stream;
-                video.mozSrcObject = stream;
-            } else {
-                var vendorURL = window.URL || window.webkitURL;
-                preview.src = vendorURL.createObjectURL(stream);
-                video.src = vendorURL.createObjectURL(stream);
-            }
+            preview.src = window.URL.createObjectURL(stream);
+            video.src = window.URL.createObjectURL(stream);
             preview.play();
             video.play();
         },
         function (err) {
-            console.log("An error occured! " + err);
+            console.log(`An error occured! ${err}`);
         }
     );
 
     video.addEventListener('canplay', function () {
         if (!streaming) {
             height = video.videoHeight / (video.videoWidth / width);
-
-        // Firefox currently has a bug where the height can't be read from
-        // the video, so we will make assumptions if this happens.
-
-            if (isNaN(height)) {
-                height = width / (4 / 3);
-            }
 
             video.setAttribute('width', width);
             video.setAttribute('height', height);
@@ -173,24 +162,26 @@ function startup() {
 
 
     //Listen if capture frame button pressed
-    captureFrame.addEventListener('click', function (ev) {
-        takepicture();
+    captureFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-    }, false);
+        takepicture();
+    });
 
     //Listen if undo last frame button pressed
-    deleteLastFrame.addEventListener('click', function (ev) {
-        deleteframe();
+    deleteLastFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-    }, false);
+        deleteframe();
+    });
 
-    //listen if onion skin toggle pressed
-    onionSkinToggle.addEventListener('click', function () {
-        toggleOnionSkin();
-    }, false);
+    // Toggle onion skin
+    onionSkinToggle.addEventListener("click", _toggleOnionSkin);
+
+    // Change onion skin opacity
+    onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
 
     //listen if playback button is pressed
-    playbackButton.addEventListener('click', function (ev) {
+    playbackButton.addEventListener("click", function (ev) {
+        ev.preventDefault();
         //check pics have been taken
         if (noOfFrames > 0) {
             if (isPlaying === false) {
@@ -202,11 +193,11 @@ function startup() {
         } else {
             console.warn("Pressing play did nothing as no pictures have been taken!");
         }
-        ev.preventDefault();
-    }, false);
+    });
 
     //listen if stop playback button is pressed
-    stopPlaybackButton.addEventListener('click', function (ev) {
+    stopPlaybackButton.addEventListener("click", function (ev) {
+        ev.preventDefault();
         //check pics have been taken
         if (noOfFrames > 0) {
             if (loopCheck.checked) {
@@ -217,11 +208,11 @@ function startup() {
         } else {
             console.warn("Pressing stop did nothing as no pictures have been taken!");
         }
-        ev.preventDefault();
-    }, false);
+    });
 
     //listen if pause playback button is pressed
-    pausePlaybackButton.addEventListener('click', function (ev) {
+    pausePlaybackButton.addEventListener("click", function (ev) {
+        ev.preventDefault();
         //check pics have been taken
         if (noOfFrames > 0) {
             if (isPlaying === true) {
@@ -232,30 +223,29 @@ function startup() {
         } else {
             console.warn("Pressing pause did nothing as no pictures have been taken!");
         }
-        ev.preventDefault();
-    }, false);
+    });
 
     // Listen for frame rate changes
-    inputChangeFR.addEventListener('change', function () {
+    inputChangeFR.addEventListener("change", function () {
         "use strict";
         frameRate = parseInt(this.value, 10);
         document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + this.value + " fps";
         stopitwhenlooping();
-    }, false);
+    });
 
     //listen if left arrow button is pressed
-    backCapturedFrameButton.addEventListener('click', function (ev) {
+    backCapturedFrameButton.addEventListener("click", function (ev) {
+        ev.preventDefault();
         scrollFrames--;
         updateframeslist();
-        ev.preventDefault();
-    }, false);
+    });
 
     //listen if right arrow button is pressed
-    forwardCapturedFrameButton.addEventListener('click', function (ev) {
+    forwardCapturedFrameButton.addEventListener("click", function (ev) {
+        ev.preventDefault();
         scrollFrames++;
         updateframeslist();
-        ev.preventDefault();
-    }, false);
+    });
 
     // Toggle the sidebar visibility
     document.querySelector("#btn-sidebar-toggle").addEventListener("click", function(ev) {
@@ -263,22 +253,21 @@ function startup() {
       sidebar.classList.toggle("hidden");
     });
 
-    clearphoto();
-  }
+    clearPhoto();
+}
 
 
-  // Fill the photo with an indication that none has been
-  // captured.
-
-  function clearphoto() {
-    var context = canvas.getContext('2d');
-    context.fillStyle = "#AAA";
+/**
+ * Fill the canvas with an indication that
+ * no frames hace been captured.
+ */
+function clearPhoto() {
+    "use strict";
+    var context = canvas.getContext("2d");
+    context.fillStyle = "#aaa";
     context.fillRect(0, 0, canvas.width, canvas.height);
-      console.log('canvas cleared');
-
-    var data = canvas.toDataURL('image/png');
-    //photo.setAttribute('src', data);
-  }
+    console.log("Canvas cleared");
+}
 
     //update the various places frames appear when a picture is taken or deleted
     function updateframeslist() {
@@ -369,7 +358,7 @@ function startup() {
 /**
  * Toggle onion skinning on or off.
  */
-function toggleOnionSkin() {
+function _toggleOnionSkin() {
     "use strict";
     // Onion skin is currently enabled, turn it off
     if (isOnionSkinEnabled) {
@@ -418,7 +407,7 @@ function toggleOnionSkin() {
             updateframeslist();
             addframetodirectory();
         } else {
-            clearphoto();
+            clearPhoto();
         }
 
     }
@@ -476,16 +465,18 @@ function pauseit() {
     console.info("Playback paused");
 }
 
-// Set up our event listener to run the startup process
-  // once loading is complete.
- // window.addEventListener('load', startup, false);
-
 /**
- * Set amount of onion skinning
+ * Change onion skinning opacity.
+ *
+ * @param {Object} ev Event object from addEventHandler.
  */
-function onionSkinAmount() {
-    document.getElementById("onionSkinPercentage").innerHTML = document.getElementById("onionSkinAmount").value * 5 + "%";
-    onionSkinWindow.style.opacity = (document.getElementById("onionSkinAmount").value * 5)/100;
+function _onionSkinChangeAmount(ev) {
+    "use strict";
+    // Calculate the percentage opacity value
+    var amount = ev.target.value * 5;
+
+    onionSkinPercent.innerHTML = amount + "%";
+    onionSkinWindow.style.opacity = amount / 100;
 }
 
 /**
@@ -525,7 +516,7 @@ function chooseFile(name) {
 function _displayDirectory(dir) {
     "use strict";
     console.log(`Current destination directory is ${dir}`);
-    document.getElementById("currentDirectoryName").innerHTML = dir;
+    curDirDisplay.innerHTML = dir;
     document.title = `Boats Animator (${dir})`;
 }
 
