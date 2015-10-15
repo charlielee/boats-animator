@@ -16,6 +16,8 @@ var width  = 480,
     video   = document.querySelector("#video"),
     canvas  = document.querySelector("#canvas"),
     photo   = document.querySelector("#photo"),
+    ratio = null,
+    aspectRatio = null;
 
     // GUI window
     gui = require('nw.gui'),
@@ -34,6 +36,8 @@ var width  = 480,
     frameRate                  = 15,
     isPlaying                  = false,
     sidebar                    = document.querySelector("#sidebar"),
+    collapsedSidebar           = document.querySelector("#collapsedSidebar"),
+    playback                   = document.querySelector("#playback"),
     loopCheck                  = document.querySelector("#loopCheckbox"),
     playbackButton             = document.querySelector("#playbackFrames"),
     stopPlaybackButton         = document.querySelector("#stopPlayback"),
@@ -133,13 +137,15 @@ function startup() {
             audio: false
         },
         function (stream) {
+            //start streaming add play preview stream
             preview.src = window.URL.createObjectURL(stream);
+            preview.play();            
+            // start steaming and play hidden video of correct resolution     
             video.src = window.URL.createObjectURL(stream);
-            preview.play();
             video.play();
         },
         function (err) {
-            console.log(`An error occured! ${err}`);
+            console.log(`An error occurred! ${err}`);
         }
     );
 
@@ -152,6 +158,11 @@ function startup() {
             canvas.setAttribute('width', width);
             canvas.setAttribute('height', height);
             streaming = true;
+            ratio = width / height;
+            aspectRatio = ratio.toFixed(2); 
+            console.log("height: " + height);
+            console.log("width: " + width);
+            console.log("Aspect ratio: " + aspectRatio);
         }
     }, false);
 
@@ -251,6 +262,7 @@ function startup() {
     document.querySelector("#btn-sidebar-toggle").addEventListener("click", function(ev) {
       ev.preventDefault();
       sidebar.classList.toggle("hidden");
+        collapsedSidebar.classList.toggle("shrink");
     });
 
     clearPhoto();
@@ -663,7 +675,9 @@ function loadMenu() {
     editMenuItems.append(new gui.MenuItem({ type: 'separator' }));
     editMenuItems.append(new gui.MenuItem({
       label: "Preferences",
+        icon: "icons/settings.png",
       click: function() {
+          document.querySelector("#btn-sidebar-toggle").click();
       },
       key: "p",
       modifiers: "ctrl",
