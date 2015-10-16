@@ -636,6 +636,8 @@ function _deleteFile(file) {
 
 function notifySuccess(msg) {
   "use strict";
+  msg = msg || "";
+
   notifyBarMsg.innerHTML = msg;
   notifyBar.classList.add("success");
   notifyBar.classList.remove("hidden");
@@ -645,6 +647,8 @@ function notifySuccess(msg) {
 
 function notifyInfo(msg) {
   "use strict";
+  msg = msg || "";
+
   notifyBarMsg.innerHTML = msg;
   notifyBar.classList.add("info");
   notifyBar.classList.remove("hidden");
@@ -654,6 +658,8 @@ function notifyInfo(msg) {
 
 function notifyError(msg) {
   "use strict";
+  msg = msg || "";
+
   notifyBarMsg.innerHTML = msg;
   notifyBar.classList.add("error");
   notifyBar.classList.remove("hidden");
@@ -661,16 +667,29 @@ function notifyError(msg) {
   _notifyClose("error");
 }
 
+/**
+ * Hide the current notification.
+ *
+ * @param {String} msgType Class name of the message type
+ *                         (e.g., info) displayed.
+ */
 function _notifyClose(msgType) {
   "use strict";
   // Time in seconds before the notification should go away
   var timeout = 2;
 
+  // Hide the notification bar
   window.setTimeout(function() {
-    notifyBar.classList.add("hidden");
-    notifyBar.classList.remove(msgType);
-    notifyBarMsg.innerHTML = "";
+      notifyBar.classList.add("hidden");
   }, 1000 * timeout);
+
+  // Clear the styling a bit later.
+  // Without this, the styling is removed before
+  // the bar is hidden.
+  window.setTimeout(function() {
+      notifyBar.classList.remove(msgType);
+      notifyBarMsg.innerHTML = "";
+  }, 1200 * timeout);
 }
 
 /**
