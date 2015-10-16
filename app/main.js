@@ -412,7 +412,7 @@ function _toggleOnionSkin() {
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
-      onionSkinWindow.setAttribute("src", lastFrame);
+      onionSkinWindow.setAttribute("src", capturedFramesRaw[curFrame - 1]);
     }
 }
 
