@@ -173,7 +173,7 @@ function startup() {
     //Listen if undo last frame button pressed
     deleteLastFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-        deleteFrame2(curFrame);
+        deleteFrame(curFrame);
     });
 
     // Toggle onion skin
@@ -254,7 +254,7 @@ function startup() {
     for (var i = 0; i < btnFrameDelete.length; i++) {
       btnFrameDelete[i].addEventListener("click", function(ev) {
         var frameID = capturedFramesRaw.indexOf(ev.target.previousElementSibling.getAttribute("src"));
-        deleteFrame2(frameID);
+        deleteFrame(frameID);
       });
     }
 
@@ -367,26 +367,12 @@ function updateFrameDisplays() {
 
     }
 
-
-    function deleteframe() {
-        var undoCheck = confirm("Are you sure you want to delete the last frame captured?");
-        if (undoCheck === true) {
-            //delete last frame from list of imgs
-            capturedFramesList.splice((noOfFrames - 1),1);
-            //delete last frame from list of img srcs
-            capturedFramesRaw.splice((noOfFrames - 1),1);
-            //delete last frame from disk
-            _deleteFile(exportedFramesList[(noOfFrames - 1)]);
-
-            console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
-            //update frame scroller
-            scrollFrames = capturedFramesRaw.length;
-        }
-        updateframeslist();
-        win.focus();
-    }
-
-function deleteFrame2(id) {
+/**
+ * Delete an individual frame.
+ *
+ * @param {Number} id The frame ID to delete.
+ */
+function deleteFrame(id) {
     "use strict";
     var confirmDel = confirm("Are you sure you want to delete this frame?");
 
@@ -749,7 +735,7 @@ function loadMenu() {
       label: "Delete last frame",
         icon: "icons/delete.png",
       click: function() {
-        deleteFrame2(curFrame);
+        deleteFrame(curFrame);
       },
       key: "z",
       modifiers: "ctrl",
