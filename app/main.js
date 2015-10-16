@@ -64,19 +64,6 @@ var width  = 480,
     onionSkinPercent   = document.querySelector("#onion-skin-percentage");
 
 
-/**
-* Splash screen funcitons
-*/
-function splashLoad() {
-var openmenu = setTimeout(openMenu, 1000);
-}
-function openMenu() {
-    console.log("open menu");
-    window.open("menu.html","_self");
-    win.resizeTo(800, 457);
-    win.setPosition('center');
-    win.frame(true);
-}
 function openAnimator() {
     var frameExportDirectory = _getDefaultDirectory();
     win.resizeTo(1050, 700);
