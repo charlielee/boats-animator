@@ -30,6 +30,7 @@ var width  = 480,
     deleteLastFrame    = document.querySelector("#deleteLastFrame"),
     noOfFrames         = null,
     lastFrame          = null,
+    curFrame           = 0,
 
     // Playback
     scrollFrames               = null,
@@ -46,6 +47,10 @@ var width  = 480,
     inputChangeFR              = document.querySelector("#input-fr-change"),
     backCapturedFrameButton    = document.querySelector("#backCapturedFrame"),
     forwardCapturedFrameButton = document.querySelector("#forwardCapturedFrame"),
+
+    // Status bar
+     statusBarFrameNum  = document.querySelector("#noOfFrames"),
+     statusBarFrameRate = document.querySelector("#currentFrameRate"),
 
     // Export frames
     fs                    = require('fs'),
@@ -265,6 +270,20 @@ function clearPhoto() {
     console.log("Canvas cleared");
 }
 
+
+function displayNewFrame() {
+    "use strict";
+    // Get a link to the last captured frame
+    var curFrameData = capturedFramesRaw[curFrame - 1];
+
+    // Update onion skinning frame
+    onionSkinWindow.setAttribute("src", curFrameData);
+
+    // Display number of captured frames and current frame rate in status bar
+    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
+    statusBarFrameRate.innerHTML = `Playback is currently at ${frameRate} fps`;
+}
+
     //update the various places frames appear when a picture is taken or deleted
     function updateframeslist() {
         //update number of frames taken
@@ -407,6 +426,32 @@ function _toggleOnionSkin() {
         }
 
     }
+
+
+function takePicture2() {
+    "use strict";
+    // We are not able to take a picture
+    if (!(width && height)) {
+      clearPhoto();
+
+     // We can take a picture
+    } else {
+        // Draw the image
+        var context = canvas.getContext('2d');
+        canvas.width = width;
+        canvas.height = height;
+        context.drawImage(video, 0, 0, width, height);
+
+        // Convert the frame to a PNG
+        var data = canvas.toDataURL('image/png');
+        photo.setAttribute('src', data);
+
+        // Store the image data and update the current frame
+        capturedFramesRaw.push(data);
+        curFrame++;
+        console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${curFrame} frames`);
+    }
+}
 
 
 //PLAYBACK
