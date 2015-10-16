@@ -12,12 +12,12 @@ var width  = 480,
     streaming = false,
 
     // The various HTML elements we need to configure or control.
-    preview = document.querySelector("#preview"),
-    video   = document.querySelector("#video"),
-    canvas  = document.querySelector("#canvas"),
-    photo   = document.querySelector("#photo"),
-    ratio = null,
-    aspectRatio = null;
+    preview     = document.querySelector("#preview"),
+    video       = document.querySelector("#video"),
+    canvas      = document.querySelector("#canvas"),
+    photo       = document.querySelector("#photo"),
+    ratio       = null,
+    aspectRatio = null,
 
     // GUI window
     gui = require('nw.gui'),
@@ -36,6 +36,7 @@ var width  = 480,
     frameRate                  = 15,
     isPlaying                  = false,
     sidebar                    = document.querySelector("#sidebar"),
+    btnSidebarToggle           = document.querySelector("#btn-sidebar-toggle"),
     collapsedSidebar           = document.querySelector("#collapsedSidebar"),
     playback                   = document.querySelector("#playback"),
     loopCheck                  = document.querySelector("#loopCheckbox"),
@@ -139,8 +140,8 @@ function startup() {
         function (stream) {
             //start streaming add play preview stream
             preview.src = window.URL.createObjectURL(stream);
-            preview.play();            
-            // start steaming and play hidden video of correct resolution     
+            preview.play();
+            // start steaming and play hidden video of correct resolution
             video.src = window.URL.createObjectURL(stream);
             video.play();
         },
@@ -159,7 +160,7 @@ function startup() {
             canvas.setAttribute('height', height);
             streaming = true;
             ratio = width / height;
-            aspectRatio = ratio.toFixed(2); 
+            aspectRatio = ratio.toFixed(2);
             console.log("height: " + height);
             console.log("width: " + width);
             console.log("Aspect ratio: " + aspectRatio);
@@ -259,10 +260,10 @@ function startup() {
     });
 
     // Toggle the sidebar visibility
-    document.querySelector("#btn-sidebar-toggle").addEventListener("click", function(ev) {
+    btnSidebarToggle.addEventListener("click", function(ev) {
       ev.preventDefault();
       sidebar.classList.toggle("hidden");
-        collapsedSidebar.classList.toggle("shrink");
+      collapsedSidebar.classList.toggle("shrink");
     });
 
     clearPhoto();
@@ -677,7 +678,7 @@ function loadMenu() {
       label: "Preferences",
         icon: "icons/settings.png",
       click: function() {
-          document.querySelector("#btn-sidebar-toggle").click();
+          btnSidebarToggle.click();
       },
       key: "p",
       modifiers: "ctrl",
