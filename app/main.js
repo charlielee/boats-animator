@@ -281,7 +281,9 @@ function clearPhoto() {
     console.log("Canvas cleared");
 }
 
-
+/**
+ * Update the frame displays and frame stats.
+ */
 function updateFrameDisplays() {
     "use strict";
     // Get a link to the last captured frame
@@ -295,9 +297,13 @@ function updateFrameDisplays() {
     onionSkinWindow.setAttribute("src", curFrameData);
 
     // Display the image preview only if we can
+    // TODO Display more than five
+    // TODO Change to blank image if frame is deleted
     if (curFrame <= 5) {
       document.querySelector(`#lastCapturedFrame${curFrame}`).setAttribute("src", curFrameData);
     }
+
+    // TODO Restore scrolling
 }
 
     //update the various places frames appear when a picture is taken or deleted
