@@ -30,6 +30,7 @@ var width  = 480,
     deleteLastFrame    = document.querySelector("#deleteLastFrame"),
     noOfFrames         = null,
     lastFrame          = null,
+    curFrame           = 0,
 
     // Playback
     scrollFrames               = null,
@@ -46,6 +47,13 @@ var width  = 480,
     inputChangeFR              = document.querySelector("#input-fr-change"),
     backCapturedFrameButton    = document.querySelector("#backCapturedFrame"),
     forwardCapturedFrameButton = document.querySelector("#forwardCapturedFrame"),
+
+    // Individual frames
+    btnFrameDelete = document.querySelectorAll(".btn-frame-delete"),
+
+    // Status bar
+     statusBarFrameNum  = document.querySelector("#noOfFrames"),
+     statusBarFrameRate = document.querySelector("#currentFrameRate"),
 
     // Export frames
     fs                    = require('fs'),
@@ -153,13 +161,13 @@ function startup() {
     //Listen if capture frame button pressed
     captureFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-        takepicture();
+        takePicture2();
     });
 
     //Listen if undo last frame button pressed
     deleteLastFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-        deleteframe();
+        deleteFrame(curFrame);
     });
 
     // Toggle onion skin
@@ -236,6 +244,14 @@ function startup() {
         updateframeslist();
     });
 
+    // Individual frame deletion
+    for (var i = 0; i < btnFrameDelete.length; i++) {
+      btnFrameDelete[i].addEventListener("click", function(ev) {
+        var frameID = capturedFramesRaw.indexOf(ev.target.previousElementSibling.getAttribute("src"));
+        deleteFrame(frameID);
+      });
+    }
+
     // Toggle the sidebar visibility
     btnSidebarToggle.addEventListener("click", function(ev) {
       ev.preventDefault();
@@ -257,6 +273,31 @@ function clearPhoto() {
     context.fillStyle = "#aaa";
     context.fillRect(0, 0, canvas.width, canvas.height);
     console.log("Canvas cleared");
+}
+
+/**
+ * Update the frame displays and frame stats.
+ */
+function updateFrameDisplays() {
+    "use strict";
+    // Get a link to the last captured frame
+    var curFrameData = capturedFramesRaw[curFrame - 1];
+
+    // Display number of captured frames and current frame rate in status bar
+    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
+    statusBarFrameRate.innerHTML = `Playback is currently at ${frameRate} fps`;
+
+    // Update onion skinning frame
+    onionSkinWindow.setAttribute("src", curFrameData);
+
+    // Display the image preview only if we can
+    // TODO Display more than five
+    // TODO Change to blank image if frame is deleted
+    if (curFrame <= 5) {
+      document.querySelector(`#lastCapturedFrame${curFrame}`).setAttribute("src", curFrameData);
+    }
+
+    // TODO Restore scrolling
 }
 
     //update the various places frames appear when a picture is taken or deleted
@@ -326,24 +367,25 @@ function clearPhoto() {
 
     }
 
+/**
+ * Delete an individual frame.
+ *
+ * @param {Number} id The frame ID to delete.
+ */
+function deleteFrame(id) {
+    "use strict";
+    var confirmDel = confirm("Are you sure you want to delete this frame?");
 
-    function deleteframe() {
-        var undoCheck = confirm("Are you sure you want to delete the last frame captured?");
-        if (undoCheck === true) {
-            //delete last frame from list of imgs
-            capturedFramesList.splice((noOfFrames - 1),1);
-            //delete last frame from list of img srcs
-            capturedFramesRaw.splice((noOfFrames - 1),1);
-            //delete last frame from disk
-            _deleteFile(exportedFramesList[(noOfFrames - 1)]);
+    // The user wants to delete the frame
+    if (confirmDel) {
+      curFrame--;
+      capturedFramesRaw.splice(id - 1, 1);
+      _deleteFile(exportedFramesList[curFrame]);
 
-            console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
-            //update frame scroller
-            scrollFrames = capturedFramesRaw.length;
-        }
-        updateframeslist();
-        win.focus();
+      console.info(`Deleted frame: ${capturedFramesRaw[id - 1]}. There are now: ${curFrame} frames`);
+      updateFrameDisplays();
     }
+}
 
 /**
  * Toggle onion skinning on or off.
@@ -367,7 +409,7 @@ function _toggleOnionSkin() {
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
-      onionSkinWindow.setAttribute("src", lastFrame);
+      onionSkinWindow.setAttribute("src", capturedFramesRaw[curFrame - 1]);
     }
 }
 
@@ -401,6 +443,38 @@ function _toggleOnionSkin() {
         }
 
     }
+
+
+function takePicture2() {
+    "use strict";
+    // We are not able to take a picture
+    if (!(width && height)) {
+      clearPhoto();
+
+     // We can take a picture
+    } else {
+        // Draw the image
+        var context = canvas.getContext('2d');
+        canvas.width = width;
+        canvas.height = height;
+        context.drawImage(video, 0, 0, width, height);
+
+        // Convert the frame to a PNG
+        var data = canvas.toDataURL('image/png');
+        photo.setAttribute('src', data);
+
+        // Store the image data and update the current frame
+        capturedFramesRaw.push(data);
+        curFrame++;
+        console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${curFrame} frames`);
+
+        // Update the frame reel
+        updateFrameDisplays();
+
+        // Save the frame to disk
+        saveFrame(curFrame);
+    }
+}
 
 
 //PLAYBACK
@@ -554,42 +628,44 @@ function decodeBase64Image(dataString) {
 }
 
 /**
-* Save the captured frame to the hard drive.
+ * Save the captured frame to the hard drive.
+ *
+ * @param {Number} id The frame ID to save.
 */
-function saveFrame() {
+function saveFrame(id) {
     "use strict";
     var fileName = "";
 
     // 1K+ frames have been captured
-    if (noOfFrames >= 1000) {
-      fileName = noOfFrames.toString();
+    if (id >= 1000) {
+      fileName = id.toString();
     }
 
     // 100 frames have been captured
-    else if (noOfFrames >= 100) {
-      fileName = `0${noOfFrames}`;
+    else if (id >= 100) {
+      fileName = `0${id}`;
     }
 
     // 10 frames have been captured
-    else if (noOfFrames >= 10) {
-      fileName = `00${noOfFrames}`;
+    else if (id >= 10) {
+      fileName = `00${id}`;
 
       // Less then 10 frames have been captured
     } else {
-      fileName = fileName = `000${noOfFrames}`;
+      fileName = fileName = `000${id}`;
     }
 
     // Create an absolute path to the destination location
-    var capturedFrameLocation = `${frameExportDirectory}/${fileName}.png`;
+    var outputPath = `${frameExportDirectory}/${fileName}.png`;
 
     // Convert the frame from base64-encoded date to a PNG
-    var imageBuffer = decodeBase64Image(lastFrame);
+    var imageBuffer = decodeBase64Image(capturedFramesRaw[id - 1]);
 
     // Save the frame to disk
-    _writeFile(capturedFrameLocation, imageBuffer.data);
+    _writeFile(outputPath, imageBuffer.data);
 
     // Store the location of the exported frame
-    exportedFramesList.push(capturedFrameLocation);
+    exportedFramesList.push(outputPath);
 }
 
 /**
@@ -731,7 +807,7 @@ function loadMenu() {
       label: "Delete last frame",
         icon: "icons/delete.png",
       click: function() {
-        deleteframe();
+        deleteFrame(curFrame);
       },
       key: "z",
       modifiers: "ctrl",

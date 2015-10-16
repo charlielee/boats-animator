@@ -288,7 +288,7 @@ a.rss-item{
     cursor: pointer;
 }
 
-.capturedFrameOptionDelete{
+.btn-frame-delete {
     width: 11%;
     background: rgba(243, 243, 243,0.6);
     padding: 2%;
@@ -297,7 +297,7 @@ a.rss-item{
     top: 78%;
     float: right;
 }
-.capturedFrameOptionDelete:hover{
+.btn-frame-delete:hover {
     opacity: 0.6;
     cursor: pointer;
 }
