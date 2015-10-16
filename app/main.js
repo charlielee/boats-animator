@@ -276,12 +276,17 @@ function updateFrameDisplays() {
     // Get a link to the last captured frame
     var curFrameData = capturedFramesRaw[curFrame - 1];
 
-    // Update onion skinning frame
-    onionSkinWindow.setAttribute("src", curFrameData);
-
     // Display number of captured frames and current frame rate in status bar
     statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
     statusBarFrameRate.innerHTML = `Playback is currently at ${frameRate} fps`;
+
+    // Update onion skinning frame
+    onionSkinWindow.setAttribute("src", curFrameData);
+
+    // Display the image preview only if we can
+    if (curFrame <= 5) {
+      document.querySelector(`#lastCapturedFrame${curFrame}`).setAttribute("src", curFrameData);
+    }
 }
 
     //update the various places frames appear when a picture is taken or deleted
@@ -463,6 +468,9 @@ function takePicture2() {
         capturedFramesRaw.push(data);
         curFrame++;
         console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${curFrame} frames`);
+
+        // Update the frame reel
+        updateFrameDisplays();
     }
 }
 
