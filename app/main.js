@@ -61,7 +61,11 @@ var width  = 480,
     onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
     onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
     onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
-    onionSkinPercent   = document.querySelector("#onion-skin-percentage");
+    onionSkinPercent   = document.querySelector("#onion-skin-percentage"),
+
+    // Notification bar
+    notifyBar    = document.querySelector(".notification"),
+    notifyBarMsg = document.querySelector(".notification #msg");
 
 
 /**
@@ -129,7 +133,8 @@ function startup() {
             video.play();
         },
         function (err) {
-            console.log(`An error occurred! ${err}`);
+            console.error("Could not find a camera to use!");
+            notifyError("Could not find a camera to use!");
         }
     );
 
@@ -147,6 +152,8 @@ function startup() {
             console.log("height: " + height);
             console.log("width: " + width);
             console.log("Aspect ratio: " + aspectRatio);
+
+            notifySuccess("Camera successfully connected.");
         }
     }, false);
 
@@ -383,8 +390,8 @@ function _toggleOnionSkin() {
   // drawing that to the screen, we can change its size and/or apply
   // other changes before drawing it.
     function takepicture() {
-        var context = canvas.getContext('2d');
         if (width && height) {
+            var context = canvas.getContext('2d');
             canvas.width = width;
             canvas.height = height;
             context.drawImage(video, 0, 0, width, height);
@@ -516,7 +523,6 @@ function _displayDirectory(dir) {
     document.title = `Boats Animator (${dir})`;
 }
 
-
 /**
  * Change default save directory.
  */
@@ -559,6 +565,7 @@ function decodeBase64Image(dataString) {
 
   return response;
 }
+
 /**
 * Save the captured frame to the hard drive.
 */
@@ -598,7 +605,6 @@ function saveFrame() {
     exportedFramesList.push(capturedFrameLocation);
 }
 
-
 /**
  * Write a file from the hard drive.
  *
@@ -615,7 +621,6 @@ function _writeFile(file, data) {
     });
 }
 
-
 /**
  * Delete a file from the hard drive.
  *
@@ -628,7 +633,81 @@ function _deleteFile(file) {
             throw err;
         }
         console.log(`Successfully deleted " ${file}`);
+        notifySuccess("File successfully deleted.");
     });
+}
+
+/**
+ * Hide the current notification.
+ *
+ * @param {String} msgType Class name of the message type
+ *                         (e.g., info) displayed.
+ */
+function _notifyClose(msgType) {
+  "use strict";
+  // Time in seconds before the notification should go away
+  var timeout = 2.5;
+
+  // Hide the notification bar
+  window.setTimeout(function() {
+      notifyBar.classList.add("hidden");
+  }, 1000 * timeout);
+
+  // Clear the styling a bit later.
+  // Without this, the styling is removed before
+  // the bar is hidden.
+  window.setTimeout(function() {
+      notifyBar.classList.remove(msgType);
+      notifyBarMsg.innerHTML = "";
+  }, 1200 * timeout);
+}
+
+/**
+ * Display a success notification.
+ *
+ * @param {String|Nunber} [msg=""] The message to display.
+ */
+function notifySuccess(msg) {
+  "use strict";
+  msg = msg || "";
+
+  notifyBarMsg.innerHTML = msg;
+  notifyBar.classList.add("success");
+  notifyBar.classList.remove("hidden");
+
+  _notifyClose("success");
+}
+
+/**
+ * Display an information notification.
+ *
+ * @param {String|Nunber} [msg=""] The message to display.
+ */
+function notifyInfo(msg) {
+  "use strict";
+  msg = msg || "";
+
+  notifyBarMsg.innerHTML = msg;
+  notifyBar.classList.add("info");
+  notifyBar.classList.remove("hidden");
+
+  _notifyClose("info");
+}
+
+/**
+ * Display an error notification.
+ *
+ * @param {String|Nunber} [msg=""] The message to display.
+ */
+function notifyError(msg) {
+  "use strict";
+  msg = msg || "";
+
+  notifyBarMsg.innerHTML = msg;
+  notifyBar.classList.add("error");
+  notifyBar.classList.remove("hidden");
+
+  _notifyClose("error");
 }
 
 /**

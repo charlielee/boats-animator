@@ -554,3 +554,29 @@ input[type="range"]:hover{
 
 /* Frame rate input */
 #input-fr-change { margin-top: 0.3em; }
+
+/* ========== NOTIFICATION BAR ============== */
+.notification {
+  width: 60vw;
+  min-height: 3em;
+  position: absolute;
+  left: 18vw;
+  padding-top: 0.2em;
+  padding-bottom: 0.5em;
+  box-shadow: 0 1px 5px 1px rgba(27, 27, 27, 0.4);
+  z-index: 5;
+  color: #fff;
+  transition: transform 0.3s ease;
+}
+
+/* Notification states */
+.notification.hidden { transform: translate3d(0, -110%, 0); }
+.notification.success { background-color: #2d9e2d; }
+.notification.info { background-color: #3a3ae1; }
+.notification.error { background-color: #c90000; }
+
+.notification #msg {
+  margin: 0;
+  font-size: 1.6em;
+  text-align: center;
+}
