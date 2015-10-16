@@ -383,6 +383,8 @@ function deleteFrame2(id) {
     if (confirmDel) {
       curFrame--;
       capturedFramesRaw.splice(id - 1, 1);
+      _deleteFile(exportedFramesList[curFrame]);
+
       console.info(`Deleted frame: ${capturedFramesRaw[id - 1]}. There are now: ${curFrame} frames`);
       updateFrameDisplays();
     }
