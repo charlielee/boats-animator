@@ -688,7 +688,8 @@ function loadMenu() {
       click: function() {
         takepicture();
       },
-      modifiers: "enter",
+      key: "c",
+      modifiers: "ctrl",
     }));
 
     // Append sub-menus to main menu
