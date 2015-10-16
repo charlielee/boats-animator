@@ -471,6 +471,9 @@ function takePicture2() {
 
         // Update the frame reel
         updateFrameDisplays();
+
+        // Save the frame to disk
+        saveFrame(curFrame);
     }
 }
 
@@ -626,42 +629,44 @@ function decodeBase64Image(dataString) {
   return response;
 }
 /**
-* Save the captured frame to the hard drive.
+ * Save the captured frame to the hard drive.
+ *
+ * @param {Number} id The frame ID to save.
 */
-function saveFrame() {
+function saveFrame(id) {
     "use strict";
     var fileName = "";
 
     // 1K+ frames have been captured
-    if (noOfFrames >= 1000) {
-      fileName = noOfFrames.toString();
+    if (id >= 1000) {
+      fileName = id.toString();
     }
 
     // 100 frames have been captured
-    else if (noOfFrames >= 100) {
-      fileName = `0${noOfFrames}`;
+    else if (id >= 100) {
+      fileName = `0${id}`;
     }
 
     // 10 frames have been captured
-    else if (noOfFrames >= 10) {
-      fileName = `00${noOfFrames}`;
+    else if (id >= 10) {
+      fileName = `00${id}`;
 
       // Less then 10 frames have been captured
     } else {
-      fileName = fileName = `000${noOfFrames}`;
+      fileName = fileName = `000${id}`;
     }
 
     // Create an absolute path to the destination location
-    var capturedFrameLocation = `${frameExportDirectory}/${fileName}.png`;
+    var outputPath = `${frameExportDirectory}/${fileName}.png`;
 
     // Convert the frame from base64-encoded date to a PNG
-    var imageBuffer = decodeBase64Image(lastFrame);
+    var imageBuffer = decodeBase64Image(capturedFramesRaw[id - 1]);
 
     // Save the frame to disk
-    _writeFile(capturedFrameLocation, imageBuffer.data);
+    _writeFile(outputPath, imageBuffer.data);
 
     // Store the location of the exported frame
-    exportedFramesList.push(capturedFrameLocation);
+    exportedFramesList.push(outputPath);
 }
 
 
