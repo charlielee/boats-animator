@@ -167,7 +167,7 @@ function startup() {
     //Listen if capture frame button pressed
     captureFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-        takepicture();
+        takePicture2();
     });
 
     //Listen if undo last frame button pressed
