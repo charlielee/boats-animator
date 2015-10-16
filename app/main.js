@@ -48,6 +48,9 @@ var width  = 480,
     backCapturedFrameButton    = document.querySelector("#backCapturedFrame"),
     forwardCapturedFrameButton = document.querySelector("#forwardCapturedFrame"),
 
+    // Individual frames
+    btnFrameDelete = document.querySelectorAll(".btn-frame-delete"),
+
     // Status bar
      statusBarFrameNum  = document.querySelector("#noOfFrames"),
      statusBarFrameRate = document.querySelector("#currentFrameRate"),
@@ -246,6 +249,14 @@ function startup() {
         scrollFrames++;
         updateframeslist();
     });
+
+    // Individual frame deletion
+    for (var i = 0; i < btnFrameDelete.length; i++) {
+      btnFrameDelete[i].addEventListener("click", function(ev) {
+        var frameID = capturedFramesRaw.indexOf(ev.target.previousElementSibling.getAttribute("src"));
+        deleteFrame2(frameID);
+      });
+    }
 
     // Toggle the sidebar visibility
     btnSidebarToggle.addEventListener("click", function(ev) {
