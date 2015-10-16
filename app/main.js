@@ -61,7 +61,11 @@ var width  = 480,
     onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
     onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
     onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
-    onionSkinPercent   = document.querySelector("#onion-skin-percentage");
+    onionSkinPercent   = document.querySelector("#onion-skin-percentage"),
+
+    // Notification bar
+    notifyBar    = document.querySelector(".notification"),
+    notifyBarMsg = document.querySelector(".notification #msg");
 
 
 /**
@@ -383,8 +387,8 @@ function _toggleOnionSkin() {
   // drawing that to the screen, we can change its size and/or apply
   // other changes before drawing it.
     function takepicture() {
-        var context = canvas.getContext('2d');
         if (width && height) {
+            var context = canvas.getContext('2d');
             canvas.width = width;
             canvas.height = height;
             context.drawImage(video, 0, 0, width, height);
@@ -516,7 +520,6 @@ function _displayDirectory(dir) {
     document.title = `Boats Animator (${dir})`;
 }
 
-
 /**
  * Change default save directory.
  */
@@ -559,6 +562,7 @@ function decodeBase64Image(dataString) {
 
   return response;
 }
+
 /**
 * Save the captured frame to the hard drive.
 */
@@ -598,7 +602,6 @@ function saveFrame() {
     exportedFramesList.push(capturedFrameLocation);
 }
 
-
 /**
  * Write a file from the hard drive.
  *
@@ -615,7 +618,6 @@ function _writeFile(file, data) {
     });
 }
 
-
 /**
  * Delete a file from the hard drive.
  *
@@ -629,6 +631,46 @@ function _deleteFile(file) {
         }
         console.log(`Successfully deleted " ${file}`);
     });
+}
+
+
+function notifySuccess(msg) {
+  "use strict";
+  notifyBarMsg.innerHTML = msg;
+  notifyBar.classList.add("success");
+  notifyBar.classList.remove("hidden");
+
+  _notifyClose("success");
+}
+
+function notifyInfo(msg) {
+  "use strict";
+  notifyBarMsg.innerHTML = msg;
+  notifyBar.classList.add("info");
+  notifyBar.classList.remove("hidden");
+
+  _notifyClose("info");
+}
+
+function notifyError(msg) {
+  "use strict";
+  notifyBarMsg.innerHTML = msg;
+  notifyBar.classList.add("error");
+  notifyBar.classList.remove("hidden");
+
+  _notifyClose("error");
+}
+
+function _notifyClose(msgType) {
+  "use strict";
+  // Time in seconds before the notification should go away
+  var timeout = 2;
+
+  window.setTimeout(function() {
+    notifyBar.classList.add("hidden");
+    notifyBar.classList.remove(msgType);
+    notifyBarMsg.innerHTML = "";
+  }, 1000 * timeout);
 }
 
 /**
