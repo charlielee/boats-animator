@@ -133,7 +133,8 @@ function startup() {
             video.play();
         },
         function (err) {
-            console.log(`An error occurred! ${err}`);
+            console.error("Could not find a camera to use!");
+            notifyError("Could not find a camera to use!");
         }
     );
 
@@ -151,6 +152,8 @@ function startup() {
             console.log("height: " + height);
             console.log("width: " + width);
             console.log("Aspect ratio: " + aspectRatio);
+
+            notifySuccess("Camera successfully connected.");
         }
     }, false);
 
@@ -630,6 +633,7 @@ function _deleteFile(file) {
             throw err;
         }
         console.log(`Successfully deleted " ${file}`);
+        notifySuccess("File successfully deleted.");
     });
 }
 
@@ -642,7 +646,7 @@ function _deleteFile(file) {
 function _notifyClose(msgType) {
   "use strict";
   // Time in seconds before the notification should go away
-  var timeout = 2;
+  var timeout = 2.5;
 
   // Hide the notification bar
   window.setTimeout(function() {

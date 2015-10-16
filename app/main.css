@@ -396,7 +396,7 @@ button:active, a.button:active{
     z-index: 2;
 }
 #collapsedSidebar.shrink {
-    width: 50px;
+    width: 50px; 
 }
 
 #sidebar{
