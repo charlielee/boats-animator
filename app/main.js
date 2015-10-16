@@ -170,7 +170,7 @@ function startup() {
     //Listen if undo last frame button pressed
     deleteLastFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-        deleteframe();
+        deleteFrame2(curFrame);
     });
 
     // Toggle onion skin
@@ -271,7 +271,7 @@ function clearPhoto() {
 }
 
 
-function displayNewFrame() {
+function updateFrameDisplays() {
     "use strict";
     // Get a link to the last captured frame
     var curFrameData = capturedFramesRaw[curFrame - 1];
@@ -369,6 +369,19 @@ function displayNewFrame() {
         updateframeslist();
         win.focus();
     }
+
+function deleteFrame2(id) {
+    "use strict";
+    var confirmDel = confirm("Are you sure you want to delete this frame?");
+
+    // The user wants to delete the frame
+    if (confirmDel) {
+      curFrame--;
+      capturedFramesRaw.splice(id - 1, 1);
+      console.info(`Deleted frame: ${capturedFramesRaw[id - 1]}. There are now: ${curFrame} frames`);
+      updateFrameDisplays();
+    }
+}
 
 /**
  * Toggle onion skinning on or off.
@@ -710,7 +723,7 @@ function loadMenu() {
       label: "Delete last frame",
         icon: "icons/delete.png",
       click: function() {
-        deleteframe();
+        deleteFrame2(curFrame);
       },
       key: "z",
       modifiers: "ctrl",
