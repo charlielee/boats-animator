@@ -50,26 +50,9 @@ var width  = 480,
     // Export frames
     fs                    = require('fs'),
     frameExportDirectory  = null,
-    capturedFrameLocation = null,
     exportedFramesList    = [],
     curDirDisplay         = document.querySelector("#currentDirectoryName"),
     changeDirectoryButton = document.querySelector("#changeDirectoryButton"),
-
-
-    // Name exported frames
-    curDate     = new Date(),
-    framedate   = null,
-    framemonth  = null,
-    framehour   = null,
-    frameminute = null,
-    now         = {
-      year: curDate.getFullYear(),
-      // Months are 0-index based
-      month: curDate.getMonth() + 1,
-      day: curDate.getDate(),
-      hour: curDate.getHours(),
-      minute: curDate.getMinutes()
-    },
 
     // Onion skin
     onionSkinFrame     = null,
@@ -358,7 +341,7 @@ function clearPhoto() {
             //delete last frame from list of img srcs
             capturedFramesRaw.splice((noOfFrames - 1),1);
             //delete last frame from disk
-            _deleteFrame(exportedFramesList[(noOfFrames - 1)]);
+            _deleteFile(exportedFramesList[(noOfFrames - 1)]);
 
             console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
             //update frame scroller
@@ -418,7 +401,7 @@ function _toggleOnionSkin() {
 
             console.info('Captured frame: ' + data.slice(100, 120) + ' There are now: ' + (noOfFrames + 1) + ' frames');
             updateframeslist();
-            addframetodirectory();
+            saveFrame();
         } else {
             clearPhoto();
         }
@@ -577,60 +560,74 @@ function decodeBase64Image(dataString) {
   return response;
 }
 /**
-* Exporting captured frame to selected directory
+* Save the captured frame to the hard drive.
 */
-function addframetodirectory () {
-    if (now.month < 10) {
-        framemonth = "0" + now.month;
-    } else {
-        framemonth = now.month;
-    }
-    if (now.day < 10) {
-        framedate = "0" + now.day;
-    } else {
-        framedate = now.day;
-    }
-    if (now.hour < 10) {
-        framehour = "0" + now.hour;
-    } else {
-        framehour = now.hour;
-    }
-    if (now.minute < 10) {
-        frameminute = "0" + now.minute;
-    } else {
-        frameminute = now.minute;
-    }
-    //name the frame to be exported
-    capturedFrameLocation = frameExportDirectory + "/" + now.year + "_" + framemonth + "_" + framedate + "_" + framehour + "-" + frameminute + "_frame_" + noOfFrames + ".png";
+function saveFrame() {
+    "use strict";
+    var fileName = "";
 
-    //convert export frame from base64 to png
+    // 1K+ frames have been captured
+    if (noOfFrames >= 1000) {
+      fileName = noOfFrames.toString();
+    }
+
+    // 100 frames have been captured
+    else if (noOfFrames >= 100) {
+      fileName = `0${noOfFrames}`;
+    }
+
+    // 10 frames have been captured
+    else if (noOfFrames >= 10) {
+      fileName = `00${noOfFrames}`;
+
+      // Less then 10 frames have been captured
+    } else {
+      fileName = fileName = `000${noOfFrames}`;
+    }
+
+    // Create an absolute path to the destination location
+    var capturedFrameLocation = `${frameExportDirectory}/${fileName}.png`;
+
+    // Convert the frame from base64-encoded date to a PNG
     var imageBuffer = decodeBase64Image(lastFrame);
 
-    //write export frame to disk
-    fs.writeFile(capturedFrameLocation, imageBuffer.data, function(err) {
-        if(err) {
-            console.log("error " + capturedFrameLocation);
-        } else {
-            console.log("file saved " + capturedFrameLocation);
-        }
-    });
+    // Save the frame to disk
+    _writeFile(capturedFrameLocation, imageBuffer.data);
 
-    //add location of exported frame to list
+    // Store the location of the exported frame
     exportedFramesList.push(capturedFrameLocation);
 }
 
+
 /**
- * Delete a frame from the hard drive.
+ * Write a file from the hard drive.
+ *
+ * @param {String} file Absolute path to the file to be saved.
+ * @param {Binary} data The image data to write.
+ */
+function _writeFile(file, data) {
+    "use strict";
+     fs.writeFile(file, data, function(err) {
+        if (err) {
+            throw err;
+        }
+        console.log(`Successfully saved " ${file}`);
+    });
+}
+
+
+/**
+ * Delete a file from the hard drive.
  *
  * @param {String} file Absolute path to the file to be deleted.
  */
-function _deleteFrame(file) {
+function _deleteFile(file) {
     "use strict";
     fs.unlink(file, function (err) {
         if (err) {
             throw err;
         }
-        console.log("Successfully deleted " + file);
+        console.log(`Successfully deleted " ${file}`);
     });
 }
 
