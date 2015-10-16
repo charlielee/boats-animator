@@ -633,40 +633,6 @@ function _deleteFile(file) {
     });
 }
 
-
-function notifySuccess(msg) {
-  "use strict";
-  msg = msg || "";
-
-  notifyBarMsg.innerHTML = msg;
-  notifyBar.classList.add("success");
-  notifyBar.classList.remove("hidden");
-
-  _notifyClose("success");
-}
-
-function notifyInfo(msg) {
-  "use strict";
-  msg = msg || "";
-
-  notifyBarMsg.innerHTML = msg;
-  notifyBar.classList.add("info");
-  notifyBar.classList.remove("hidden");
-
-  _notifyClose("info");
-}
-
-function notifyError(msg) {
-  "use strict";
-  msg = msg || "";
-
-  notifyBarMsg.innerHTML = msg;
-  notifyBar.classList.add("error");
-  notifyBar.classList.remove("hidden");
-
-  _notifyClose("error");
-}
-
 /**
  * Hide the current notification.
  *
@@ -690,6 +656,54 @@ function _notifyClose(msgType) {
       notifyBar.classList.remove(msgType);
       notifyBarMsg.innerHTML = "";
   }, 1200 * timeout);
+}
+
+/**
+ * Display a success notification.
+ *
+ * @param {String|Nunber} [msg=""] The message to display.
+ */
+function notifySuccess(msg) {
+  "use strict";
+  msg = msg || "";
+
+  notifyBarMsg.innerHTML = msg;
+  notifyBar.classList.add("success");
+  notifyBar.classList.remove("hidden");
+
+  _notifyClose("success");
+}
+
+/**
+ * Display an information notification.
+ *
+ * @param {String|Nunber} [msg=""] The message to display.
+ */
+function notifyInfo(msg) {
+  "use strict";
+  msg = msg || "";
+
+  notifyBarMsg.innerHTML = msg;
+  notifyBar.classList.add("info");
+  notifyBar.classList.remove("hidden");
+
+  _notifyClose("info");
+}
+
+/**
+ * Display an error notification.
+ *
+ * @param {String|Nunber} [msg=""] The message to display.
+ */
+function notifyError(msg) {
+  "use strict";
+  msg = msg || "";
+
+  notifyBarMsg.innerHTML = msg;
+  notifyBar.classList.add("error");
+  notifyBar.classList.remove("hidden");
+
+  _notifyClose("error");
 }
 
 /**
