@@ -286,9 +286,9 @@ function clearPhoto() {
 /**
  * Update the frame displays and frame stats.
  */
-function updateFrameReel(action) {
+function updateFrameReel(action, id) {
     "use strict";
-    var imagePreview = null;
+    var imagePreview = document.querySelector(`#lastCapturedFrame${id}`);
     // Display number of captured frames in status bar
     statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
 
@@ -299,16 +299,15 @@ function updateFrameReel(action) {
     onionSkinWindow.setAttribute("src", curFrameData);
 
     // Display the image preview only if we can
-    if (curFrame <= 5) {
+    if (id <= 5) {
         // Frame additon
         if (action === "create") {
-            imagePreview = document.querySelector(`#lastCapturedFrame${curFrame}`);
             imagePreview.setAttribute("src", curFrameData);
+        }
 
-            // Frame deletion
-            // TODO Support single frame deletion
-        } else if (action === "delete") {
-            imagePreview = document.querySelector(`#lastCapturedFrame${curFrame + 1}`);
+        // Frame deletion
+        // TODO Support single frame deletion
+        else if (action === "delete") {
             imagePreview.setAttribute("src", "blanksquare.png");
         }
     }
@@ -397,7 +396,7 @@ function deleteFrame(id) {
       capturedFramesRaw.splice(id - 1, 1);
 
       curFrame--;
-      updateFrameReel("delete");
+      updateFrameReel("delete", id);
       console.info(`There are now: ${curFrame} frames`);
     }
 }
@@ -497,7 +496,7 @@ function takePicture2() {
 
         // Save the frame to disk and update the frame reel
         saveFrame(curFrame);
-        updateFrameReel("create");
+        updateFrameReel("create", curFrame);
     }
 }
 
