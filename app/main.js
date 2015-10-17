@@ -242,14 +242,12 @@ function startup() {
     backCapturedFrameButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         scrollFrames--;
-        // updateframeslist();
     });
 
     //listen if right arrow button is pressed
     forwardCapturedFrameButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         scrollFrames++;
-        // updateframeslist();
     });
 
     // Individual frame deletion
