@@ -384,11 +384,12 @@ function deleteFrame(id) {
 
     // The user wants to delete the frame
     if (confirmDel) {
-      curFrame--;
       capturedFramesRaw.splice(id - 1, 1);
-      _deleteFile(exportedFramesList[curFrame]);
+      _deleteFile(exportedFramesList[id - 1]);
 
-      console.info(`Deleted frame: ${capturedFramesRaw[id - 1]}. There are now: ${curFrame} frames`);
+      curFrame--;
+      console.info(`Deleted frame: ${exportedFramesList[id - 1]}.\nThere are now: ${curFrame} frames`);
+
       updateFrameDisplays();
     }
 }
