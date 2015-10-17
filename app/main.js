@@ -70,6 +70,8 @@ var width  = 480,
 
 function openAnimator() {
     var frameExportDirectory = _getDefaultDirectory();
+    win.focus();
+    window.location.href="animator.html";
     win.resizeTo(1050, 700);
     win.setPosition('center');
 }

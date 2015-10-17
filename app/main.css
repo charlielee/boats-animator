@@ -9,10 +9,7 @@ body{
     width: 100%;
     max-width: 1800px;
     color: #000;
-    -webkit-user-select: none;  /* Chrome all / Safari all */
-    -moz-user-select: none;     /* Firefox all */
-    -ms-user-select: none;
-    user-select: none;
+    -webkit-user-select: none;  /* Note vendor specific prefix. Should be updated when "user-select" becomes an actual CSS property*/
     cursor: default;
     }
 header{
@@ -315,11 +312,8 @@ a.rss-item{
 }
 .capturedFramesNav:active{ opacity: 0.5; }
 #capturedFrameScrollBar{
-    width: 82%;
-    background-color: #fff;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    margin-left: 5%;
+    width: 88%;
+    margin: 2% 6%;
 }
 /*================HIDDEN ELEMENTS=====================*/
 #canvas{
@@ -389,7 +383,7 @@ button:active, a.button:active{
     margin: 0;
     height: calc(100vh);
     background-color: #f3f3f3;
-    box-shadow: 0px 2px 5px 0px #E0E0E0;
+    box-shadow: 0 2px 5px 0 #E0E0E0;
     float: right;
     position: fixed;
     right: 0;
