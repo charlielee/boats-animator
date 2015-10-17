@@ -232,7 +232,7 @@ function startup() {
     inputChangeFR.addEventListener("change", function () {
         "use strict";
         frameRate = parseInt(this.value, 10);
-        document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + this.value + " fps";
+        statusBarFrameRate.innerHTML = `Playback is currently at ${frameRate} fps`;
         stopitwhenlooping();
     });
 
@@ -286,12 +286,11 @@ function clearPhoto() {
  */
 function updateFrameDisplays() {
     "use strict";
+    // Display number of captured frames in status bar
+    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
+
     // Get a link to the last captured frame
     var curFrameData = capturedFramesRaw[curFrame - 1];
-
-    // Display number of captured frames and current frame rate in status bar
-    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
-    statusBarFrameRate.innerHTML = `Playback is currently at ${frameRate} fps`;
 
     // Update onion skinning frame
     onionSkinWindow.setAttribute("src", curFrameData);
