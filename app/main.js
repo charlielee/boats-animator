@@ -36,9 +36,6 @@ var width  = 480,
     scrollFrames               = null,
     frameRate                  = 15,
     isPlaying                  = false,
-    sidebar                    = document.querySelector("#sidebar"),
-    btnSidebarToggle           = document.querySelector("#btn-sidebar-toggle"),
-    collapsedSidebar           = document.querySelector("#collapsedSidebar"),
     playback                   = document.querySelector("#playback"),
     loopCheck                  = document.querySelector("#loopCheckbox"),
     playbackButton             = document.querySelector("#playbackFrames"),
@@ -47,6 +44,11 @@ var width  = 480,
     inputChangeFR              = document.querySelector("#input-fr-change"),
     backCapturedFrameButton    = document.querySelector("#backCapturedFrame"),
     forwardCapturedFrameButton = document.querySelector("#forwardCapturedFrame"),
+
+    // Sidebar
+    sidebar          = document.querySelector("#sidebar"),
+    btnSidebarToggle = document.querySelector("#btn-sidebar-toggle"),
+    collapsedSidebar = document.querySelector("#collapsedSidebar"),
 
     // Individual frames
     btnFrameDelete = document.querySelectorAll(".btn-frame-delete"),
@@ -284,8 +286,9 @@ function clearPhoto() {
 /**
  * Update the frame displays and frame stats.
  */
-function updateFrameDisplays() {
+function updateFrameReel(action) {
     "use strict";
+    var imagePreview = null;
     // Display number of captured frames in status bar
     statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
 
@@ -296,11 +299,19 @@ function updateFrameDisplays() {
     onionSkinWindow.setAttribute("src", curFrameData);
 
     // Display the image preview only if we can
-    // TODO Change to blank image if frame is deleted
     if (curFrame <= 5) {
-      document.querySelector(`#lastCapturedFrame${curFrame}`).setAttribute("src", curFrameData);
-    }
+        // Frame additon
+        if (action === "create") {
+            imagePreview = document.querySelector(`#lastCapturedFrame${curFrame}`);
+            imagePreview.setAttribute("src", curFrameData);
 
+            // Frame deletion
+            // TODO Support single frame deletion
+        } else if (action === "delete") {
+            imagePreview = document.querySelector(`#lastCapturedFrame${curFrame + 1}`);
+            imagePreview.setAttribute("src", "blanksquare.png");
+        }
+    }
 }
 
     //update the various places frames appear when a picture is taken or deleted
@@ -386,7 +397,7 @@ function deleteFrame(id) {
       capturedFramesRaw.splice(id - 1, 1);
 
       curFrame--;
-      updateFrameDisplays();
+      updateFrameReel("delete");
       console.info(`There are now: ${curFrame} frames`);
     }
 }
@@ -470,8 +481,8 @@ function takePicture2() {
      // We can take a picture
     } else {
         // Draw the image
-        var context = canvas.getContext('2d');
-        canvas.width = width;
+        var context   = canvas.getContext('2d');
+        canvas.width  = width;
         canvas.height = height;
         context.drawImage(video, 0, 0, width, height);
 
@@ -484,11 +495,9 @@ function takePicture2() {
         curFrame++;
         console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${curFrame} frames`);
 
-        // Update the frame reel
-        updateFrameDisplays();
-
-        // Save the frame to disk
+        // Save the frame to disk and update the frame reel
         saveFrame(curFrame);
+        updateFrameReel("create");
     }
 }
 
