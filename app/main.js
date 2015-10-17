@@ -254,7 +254,7 @@ function startup() {
     for (var i = 0; i < btnFrameDelete.length; i++) {
       btnFrameDelete[i].addEventListener("click", function(ev) {
         var frameID = capturedFramesRaw.indexOf(ev.target.previousElementSibling.getAttribute("src"));
-        deleteFrame(frameID);
+        deleteFrame(frameID + 1);
       });
     }
 
