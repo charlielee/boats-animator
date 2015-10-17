@@ -173,7 +173,7 @@ function startup() {
     //Listen if undo last frame button pressed
     deleteLastFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-        deleteFrame(curFrame);
+        undoFrame();
     });
 
     // Toggle onion skin
@@ -388,6 +388,18 @@ function deleteFrame(id) {
       curFrame--;
       updateFrameDisplays();
       console.info(`There are now: ${curFrame} frames`);
+    }
+}
+
+/**
+ * Delete the previously taken frame.
+ */
+function undoFrame() {
+    "use strict";
+    // Make sure there is a frame to delete
+    // TODO Alert the user if there is not
+    if (curFrame > 0) {
+      deleteFrame(curFrame);
     }
 }
 
@@ -739,7 +751,7 @@ function loadMenu() {
       label: "Delete last frame",
         icon: "icons/delete.png",
       click: function() {
-        deleteFrame(curFrame);
+        undoFrame();
       },
       key: "z",
       modifiers: "ctrl",
