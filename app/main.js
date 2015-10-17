@@ -297,13 +297,11 @@ function updateFrameDisplays() {
     onionSkinWindow.setAttribute("src", curFrameData);
 
     // Display the image preview only if we can
-    // TODO Display more than five
     // TODO Change to blank image if frame is deleted
     if (curFrame <= 5) {
       document.querySelector(`#lastCapturedFrame${curFrame}`).setAttribute("src", curFrameData);
     }
 
-    // TODO Restore scrolling
 }
 
     //update the various places frames appear when a picture is taken or deleted
@@ -384,13 +382,13 @@ function deleteFrame(id) {
 
     // The user wants to delete the frame
     if (confirmDel) {
-      capturedFramesRaw.splice(id - 1, 1);
       _deleteFile(exportedFramesList[id - 1]);
+      exportedFramesList.splice(id - 1, 1);
+      capturedFramesRaw.splice(id - 1, 1);
 
       curFrame--;
-      console.info(`Deleted frame: ${exportedFramesList[id - 1]}.\nThere are now: ${curFrame} frames`);
-
       updateFrameDisplays();
+      console.info(`There are now: ${curFrame} frames`);
     }
 }
 
