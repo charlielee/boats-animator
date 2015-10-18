@@ -153,7 +153,6 @@ a.rss-item{
     float: left;
     font-size: 0;
     text-align: center;
-    height: 350px;
 }
 #column3 {
     width: calc(100% - 50px);
@@ -165,36 +164,36 @@ a.rss-item{
     height: 0;
     overflow: visible;
 }
-
+#playback{
+    width: 100%;
+    max-height: 350px;
+    max-width: 468px;
+}
 #preview{
     width: 100%;
-    z-index: 3;
     padding: 0;
     margin: 0;
     max-height: 350px;
 }
 .windowTitleContainer{
     height: 0;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     overflow: visible;
-    z-index: 10;
-    float: left;
+    z-index: 4;
     width: 100%;
     text-align: left;
+    max-width: 467px;
 }
 #windowTitle, #playbackTitle, #captureTitle{
-
     position: relative;
-    padding: 0.5em 5%;
-    margin: 1em 0 1em 0;
-    border-radius: 5px;
+    padding: 1em 5%;
+    margin: 0;
+    border-radius: 0 0 8px 8px;
     display: inline-block;
-    background: #aaa;
-    font-size: 14px;
-    font-weight: 500;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
+    background: rgba(170,170,170,0.7);
+    font-size: 16px;
+    font-weight: 400;
 }
 #controls{
     padding: 1.4% 2%;
@@ -527,6 +526,7 @@ input[type="range"]:hover{
     overflow: visible;
     padding: 0;
     margin: 0;
+    z-index: 2;
 }
 
 #onion-skinning-frame {
@@ -536,6 +536,8 @@ input[type="range"]:hover{
     border: 0;
     opacity: 0.5;
     display: none;
+    max-height: 350px;
+    max-width: 467px;
 }
 #onion-skinning-frame.visible { display: inline; }
 
