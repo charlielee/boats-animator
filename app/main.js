@@ -533,6 +533,7 @@ function changeDirectory() {
 function setDefaultDirectory() {
     "use strict";
     localStorage.setItem("default_directory", frameExportDirectory);
+    notifySuccess(`Default export directory set as ${frameExportDirectory}.`);
 }
 
 /**
