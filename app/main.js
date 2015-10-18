@@ -105,7 +105,7 @@ function startup() {
     // Set default frame rate
     inputChangeFR.value = frameRate;
 
-
+    // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 
     navigator.getMedia(
@@ -155,6 +155,13 @@ function startup() {
     //Listen if capture frame button pressed
     captureFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
+
+        // Prevent taking frames without a set output path
+        if (!frameExportDirectory) {
+          notifyError("An output destination must be first set!");
+          return;
+        }
+
         takepicture();
     });
 
