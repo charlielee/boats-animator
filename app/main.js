@@ -30,6 +30,7 @@ var width  = 480,
     deleteLastFrame    = document.querySelector("#deleteLastFrame"),
     noOfFrames         = null,
     lastFrame          = null,
+    curFrame           = 0,
 
     // Playback
     scrollFrames               = null,
@@ -46,6 +47,10 @@ var width  = 480,
     inputChangeFR              = document.querySelector("#input-fr-change"),
     backCapturedFrameButton    = document.querySelector("#backCapturedFrame"),
     forwardCapturedFrameButton = document.querySelector("#forwardCapturedFrame"),
+
+    // Status bar
+    statusBarFrameNum  = document.querySelector("#noOfFrames"),
+    statusBarFrameRate = document.querySelector("#currentFrameRate span"),
 
     // Export frames
     fs                    = require('fs'),
@@ -71,7 +76,7 @@ var width  = 480,
 function openAnimator() {
     var frameExportDirectory = _getDefaultDirectory();
     win.focus();
-    window.location.href="animator.html";
+    window.location.href = "animator.html";
     win.resizeTo(1050, 700);
     win.setPosition('center');
 }
@@ -88,6 +93,7 @@ function canDisplayNews() {
 }
 
 function startup() {
+    statusBarFrameRate.innerHTML = frameRate;
     noOfFrames     = capturedFramesRaw.length;
     lastFrame      = capturedFramesRaw[noOfFrames - 1];
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
@@ -181,7 +187,7 @@ function startup() {
     playbackButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         //check pics have been taken
-        if (noOfFrames > 0) {
+        if (curFrame > 0) {
             if (isPlaying === false) {
                 playbackframes();
             } else {
@@ -197,7 +203,7 @@ function startup() {
     stopPlaybackButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         //check pics have been taken
-        if (noOfFrames > 0) {
+        if (curFrame > 0) {
             if (loopCheck.checked) {
                 stopitwhenlooping();
             } else {
@@ -212,7 +218,7 @@ function startup() {
     pausePlaybackButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         //check pics have been taken
-        if (noOfFrames > 0) {
+        if (curFrame > 0) {
             if (isPlaying === true) {
                 pauseit();
             } else {
@@ -227,7 +233,7 @@ function startup() {
     inputChangeFR.addEventListener("change", function () {
         "use strict";
         frameRate = parseInt(this.value, 10);
-        document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + this.value + " fps";
+        statusBarFrameRate.innerHTML = frameRate;
         stopitwhenlooping();
     });
 
@@ -270,6 +276,9 @@ function clearPhoto() {
 
     //update the various places frames appear when a picture is taken or deleted
     function updateframeslist() {
+        // Display number of captured frames in status bar
+        statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
+
         //update number of frames taken
         noOfFrames = capturedFramesRaw.length;
         //update name of last frame captured
@@ -324,9 +333,6 @@ function clearPhoto() {
         }else{
             document.getElementById("noOfFrames").innerHTML = noOfFrames + " frames captured";
         }
-        //display current frame rate in status bar
-        document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + frameRate.toString() + " fps";
-
 
         console.log("Scrollframes: " + scrollFrames);
     }
@@ -349,6 +355,7 @@ function clearPhoto() {
             console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
             //update frame scroller
             scrollFrames = capturedFramesRaw.length;
+            curFrame--;
         }
         updateframeslist();
         win.focus();
@@ -401,6 +408,7 @@ function _toggleOnionSkin() {
             capturedFramesRaw.push(data);
 
             scrollFrames = capturedFramesRaw.length;
+            curFrame++;
 
             console.info('Captured frame: ' + data.slice(100, 120) + ' There are now: ' + (noOfFrames + 1) + ' frames');
             updateframeslist();
@@ -425,7 +433,7 @@ function playit() {
     playbackFrameNo++;
     document.getElementById('playback').setAttribute("src",capturedFramesRaw[playbackFrameNo]);
     document.getElementById('currentFrame').innerHTML = "Playing frame " + (playbackFrameNo + 1);
-    if((noOfFrames - 1) == playbackFrameNo){
+    if((curFrame - 1) == playbackFrameNo){
             stopit();
     }
 }
@@ -442,8 +450,8 @@ function stopit() {
         //stop increasing playback frame number
         clearInterval(yoplayit);
         //display final frame in playback window
-        document.getElementById('playback').setAttribute("src",lastFrame);
-        document.getElementById('currentFrame').innerHTML = "Playing frame " + noOfFrames;
+        document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
+        document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
         console.info("Playback stopped");
     }
 }
@@ -451,8 +459,8 @@ function stopitwhenlooping() {
     isPlaying = false;
     //stop increasing playback frame number
     clearInterval(yoplayit);
-    document.getElementById('playback').setAttribute("src",lastFrame);
-    document.getElementById('currentFrame').innerHTML = "Playing frame " + noOfFrames;
+    document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
+    document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
     //reset playback frame
     playbackFrameNo = -1;
     console.info("Playback stopped with loop on");
