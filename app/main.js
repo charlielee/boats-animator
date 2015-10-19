@@ -36,9 +36,6 @@ var width  = 480,
     scrollFrames               = null,
     frameRate                  = 15,
     isPlaying                  = false,
-    sidebar                    = document.querySelector("#sidebar"),
-    btnSidebarToggle           = document.querySelector("#btn-sidebar-toggle"),
-    collapsedSidebar           = document.querySelector("#collapsedSidebar"),
     playback                   = document.querySelector("#playback"),
     loopCheck                  = document.querySelector("#loopCheckbox"),
     playbackButton             = document.querySelector("#playbackFrames"),
@@ -47,6 +44,11 @@ var width  = 480,
     inputChangeFR              = document.querySelector("#input-fr-change"),
     backCapturedFrameButton    = document.querySelector("#backCapturedFrame"),
     forwardCapturedFrameButton = document.querySelector("#forwardCapturedFrame"),
+
+    // Sidebar
+    sidebar          = document.querySelector("#sidebar"),
+    btnSidebarToggle = document.querySelector("#btn-sidebar-toggle"),
+    collapsedSidebar = document.querySelector("#collapsedSidebar"),
 
     // Status bar
     statusBarFrameNum  = document.querySelector("#noOfFrames"),
@@ -171,10 +173,10 @@ function startup() {
         takepicture();
     });
 
-    //Listen if undo last frame button pressed
+    // Listen if undo last frame button pressed
     deleteLastFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-        deleteframe();
+        undoFrame();
     });
 
     // Toggle onion skin
@@ -341,25 +343,44 @@ function clearPhoto() {
 
     }
 
+/**
+ * Delete an individual frame.
+ *
+ * @param {Number} id The frame ID to delete.
+ */
+function deleteFrame(id) {
+    "use strict";
+    var confirmDel = confirm("Are you sure you want to delete this frame?");
 
-    function deleteframe() {
-        var undoCheck = confirm("Are you sure you want to delete the last frame captured?");
-        if (undoCheck === true) {
-            //delete last frame from list of imgs
-            capturedFramesList.splice((noOfFrames - 1),1);
-            //delete last frame from list of img srcs
-            capturedFramesRaw.splice((noOfFrames - 1),1);
-            //delete last frame from disk
-            _deleteFile(exportedFramesList[(noOfFrames - 1)]);
+    // The user wants to delete the frame
+    if (confirmDel) {
+      _deleteFile(exportedFramesList[id - 1]);
+      exportedFramesList.splice(id - 1, 1);
+      capturedFramesRaw.splice(id - 1, 1);
 
-            console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
-            //update frame scroller
-            scrollFrames = capturedFramesRaw.length;
-            curFrame--;
-        }
-        updateframeslist();
-        win.focus();
+      // Update frame scroller
+      scrollFrames = capturedFramesRaw.length;
+      curFrame--;
+
+      console.info(`There are now: ${curFrame} frames`);
+
+      updateframeslist();
+      win.focus();
     }
+}
+
+/**
+ * Delete the previously taken frame.
+ */
+function undoFrame() {
+    "use strict";
+    // Make sure there is a frame to delete
+    if (curFrame > 0) {
+      deleteFrame(curFrame);
+    } else {
+      notifyError("There is no previous frame to undo!");
+    }
+}
 
 /**
  * Toggle onion skinning on or off.
@@ -749,7 +770,7 @@ function loadMenu() {
       label: "Delete last frame",
         icon: "icons/delete.png",
       click: function() {
-        deleteframe();
+        undoFrame();
       },
       key: "z",
       modifiers: "ctrl",
