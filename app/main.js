@@ -30,14 +30,12 @@ var width  = 480,
     deleteLastFrame    = document.querySelector("#deleteLastFrame"),
     noOfFrames         = null,
     lastFrame          = null,
+    curFrame           = 0,
 
     // Playback
     scrollFrames               = null,
     frameRate                  = 15,
     isPlaying                  = false,
-    sidebar                    = document.querySelector("#sidebar"),
-    btnSidebarToggle           = document.querySelector("#btn-sidebar-toggle"),
-    collapsedSidebar           = document.querySelector("#collapsedSidebar"),
     playback                   = document.querySelector("#playback"),
     loopCheck                  = document.querySelector("#loopCheckbox"),
     playbackButton             = document.querySelector("#playbackFrames"),
@@ -46,6 +44,15 @@ var width  = 480,
     inputChangeFR              = document.querySelector("#input-fr-change"),
     backCapturedFrameButton    = document.querySelector("#backCapturedFrame"),
     forwardCapturedFrameButton = document.querySelector("#forwardCapturedFrame"),
+
+    // Sidebar
+    sidebar          = document.querySelector("#sidebar"),
+    btnSidebarToggle = document.querySelector("#btn-sidebar-toggle"),
+    collapsedSidebar = document.querySelector("#collapsedSidebar"),
+
+    // Status bar
+    statusBarFrameNum  = document.querySelector("#noOfFrames"),
+    statusBarFrameRate = document.querySelector("#currentFrameRate span"),
 
     // Export frames
     fs                    = require('fs'),
@@ -71,7 +78,7 @@ var width  = 480,
 function openAnimator() {
     var frameExportDirectory = _getDefaultDirectory();
     win.focus();
-    window.location.href="animator.html";
+    window.location.href = "animator.html";
     win.resizeTo(1050, 700);
     win.setPosition('center');
 }
@@ -88,6 +95,7 @@ function canDisplayNews() {
 }
 
 function startup() {
+    statusBarFrameRate.innerHTML = frameRate;
     noOfFrames     = capturedFramesRaw.length;
     lastFrame      = capturedFramesRaw[noOfFrames - 1];
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
@@ -165,10 +173,10 @@ function startup() {
         takepicture();
     });
 
-    //Listen if undo last frame button pressed
+    // Listen if undo last frame button pressed
     deleteLastFrame.addEventListener("click", function (ev) {
         ev.preventDefault();
-        deleteframe();
+        undoFrame();
     });
 
     // Toggle onion skin
@@ -181,7 +189,7 @@ function startup() {
     playbackButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         //check pics have been taken
-        if (noOfFrames > 0) {
+        if (curFrame > 0) {
             if (isPlaying === false) {
                 playbackframes();
             } else {
@@ -197,7 +205,7 @@ function startup() {
     stopPlaybackButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         //check pics have been taken
-        if (noOfFrames > 0) {
+        if (curFrame > 0) {
             if (loopCheck.checked) {
                 stopitwhenlooping();
             } else {
@@ -212,7 +220,7 @@ function startup() {
     pausePlaybackButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         //check pics have been taken
-        if (noOfFrames > 0) {
+        if (curFrame > 0) {
             if (isPlaying === true) {
                 pauseit();
             } else {
@@ -227,7 +235,7 @@ function startup() {
     inputChangeFR.addEventListener("change", function () {
         "use strict";
         frameRate = parseInt(this.value, 10);
-        document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + this.value + " fps";
+        statusBarFrameRate.innerHTML = frameRate;
         stopitwhenlooping();
     });
 
@@ -270,6 +278,9 @@ function clearPhoto() {
 
     //update the various places frames appear when a picture is taken or deleted
     function updateframeslist() {
+        // Display number of captured frames in status bar
+        statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
+
         //update number of frames taken
         noOfFrames = capturedFramesRaw.length;
         //update name of last frame captured
@@ -324,9 +335,6 @@ function clearPhoto() {
         }else{
             document.getElementById("noOfFrames").innerHTML = noOfFrames + " frames captured";
         }
-        //display current frame rate in status bar
-        document.getElementById("currentFrameRate").innerHTML = "Playback is currently at " + frameRate.toString() + " fps";
-
 
         console.log("Scrollframes: " + scrollFrames);
     }
@@ -335,24 +343,44 @@ function clearPhoto() {
 
     }
 
+/**
+ * Delete an individual frame.
+ *
+ * @param {Number} id The frame ID to delete.
+ */
+function deleteFrame(id) {
+    "use strict";
+    var confirmDel = confirm("Are you sure you want to delete this frame?");
 
-    function deleteframe() {
-        var undoCheck = confirm("Are you sure you want to delete the last frame captured?");
-        if (undoCheck === true) {
-            //delete last frame from list of imgs
-            capturedFramesList.splice((noOfFrames - 1),1);
-            //delete last frame from list of img srcs
-            capturedFramesRaw.splice((noOfFrames - 1),1);
-            //delete last frame from disk
-            _deleteFile(exportedFramesList[(noOfFrames - 1)]);
+    // The user wants to delete the frame
+    if (confirmDel) {
+      _deleteFile(exportedFramesList[id - 1]);
+      exportedFramesList.splice(id - 1, 1);
+      capturedFramesRaw.splice(id - 1, 1);
 
-            console.info('Deleted frame: ' + lastFrame.slice(100, 120) + ' There are now: ' + (noOfFrames - 1) + ' frames');
-            //update frame scroller
-            scrollFrames = capturedFramesRaw.length;
-        }
-        updateframeslist();
-        win.focus();
+      // Update frame scroller
+      scrollFrames = capturedFramesRaw.length;
+      curFrame--;
+
+      console.info(`There are now: ${curFrame} frames`);
+
+      updateframeslist();
+      win.focus();
     }
+}
+
+/**
+ * Delete the previously taken frame.
+ */
+function undoFrame() {
+    "use strict";
+    // Make sure there is a frame to delete
+    if (curFrame > 0) {
+      deleteFrame(curFrame);
+    } else {
+      notifyError("There is no previous frame to undo!");
+    }
+}
 
 /**
  * Toggle onion skinning on or off.
@@ -401,6 +429,7 @@ function _toggleOnionSkin() {
             capturedFramesRaw.push(data);
 
             scrollFrames = capturedFramesRaw.length;
+            curFrame++;
 
             console.info('Captured frame: ' + data.slice(100, 120) + ' There are now: ' + (noOfFrames + 1) + ' frames');
             updateframeslist();
@@ -425,7 +454,7 @@ function playit() {
     playbackFrameNo++;
     document.getElementById('playback').setAttribute("src",capturedFramesRaw[playbackFrameNo]);
     document.getElementById('currentFrame').innerHTML = "Playing frame " + (playbackFrameNo + 1);
-    if((noOfFrames - 1) == playbackFrameNo){
+    if((curFrame - 1) == playbackFrameNo){
             stopit();
     }
 }
@@ -442,8 +471,8 @@ function stopit() {
         //stop increasing playback frame number
         clearInterval(yoplayit);
         //display final frame in playback window
-        document.getElementById('playback').setAttribute("src",lastFrame);
-        document.getElementById('currentFrame').innerHTML = "Playing frame " + noOfFrames;
+        document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
+        document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
         console.info("Playback stopped");
     }
 }
@@ -451,8 +480,8 @@ function stopitwhenlooping() {
     isPlaying = false;
     //stop increasing playback frame number
     clearInterval(yoplayit);
-    document.getElementById('playback').setAttribute("src",lastFrame);
-    document.getElementById('currentFrame').innerHTML = "Playing frame " + noOfFrames;
+    document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
+    document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
     //reset playback frame
     playbackFrameNo = -1;
     console.info("Playback stopped with loop on");
@@ -741,7 +770,7 @@ function loadMenu() {
       label: "Delete last frame",
         icon: "icons/delete.png",
       click: function() {
-        deleteframe();
+        undoFrame();
       },
       key: "z",
       modifiers: "ctrl",
