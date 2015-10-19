@@ -28,8 +28,6 @@ var width  = 480,
     capturedFramesList = [],
     captureFrame       = document.querySelector("#captureFrame"),
     deleteLastFrame    = document.querySelector("#deleteLastFrame"),
-    noOfFrames         = null,
-    lastFrame          = null,
     curFrame           = 0,
 
     // Playback
@@ -55,7 +53,7 @@ var width  = 480,
 
     // Status bar
      statusBarFrameNum  = document.querySelector("#noOfFrames"),
-     statusBarFrameRate = document.querySelector("#currentFrameRate"),
+     statusBarFrameRate = document.querySelector("#currentFrameRate span"),
 
     // Export frames
     fs                    = require('fs'),
@@ -105,10 +103,9 @@ function canDisplayNews() {
 }
 
 function startup() {
-    noOfFrames     = capturedFramesRaw.length;
-    lastFrame      = capturedFramesRaw[noOfFrames - 1];
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
     isPlaying      = false;
+    statusBarFrameRate.innerHTML = frameRate;
 
     //Set up captured frame display
     // updateframeslist();
@@ -188,7 +185,7 @@ function startup() {
     playbackButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         //check pics have been taken
-        if (noOfFrames > 0) {
+        if (curFrame > 0) {
             if (isPlaying === false) {
                 playbackframes();
             } else {
@@ -204,7 +201,7 @@ function startup() {
     stopPlaybackButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         //check pics have been taken
-        if (noOfFrames > 0) {
+        if (curFrame > 0) {
             if (loopCheck.checked) {
                 stopitwhenlooping();
             } else {
@@ -219,7 +216,7 @@ function startup() {
     pausePlaybackButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         //check pics have been taken
-        if (noOfFrames > 0) {
+        if (curFrame > 0) {
             if (isPlaying === true) {
                 pauseit();
             } else {
@@ -234,7 +231,7 @@ function startup() {
     inputChangeFR.addEventListener("change", function () {
         "use strict";
         frameRate = parseInt(this.value, 10);
-        statusBarFrameRate.innerHTML = `Playback is currently at ${frameRate} fps`;
+        statusBarFrameRate.innerHTML = frameRate;
         stopitwhenlooping();
     });
 
@@ -416,7 +413,7 @@ function playit() {
     playbackFrameNo++;
     document.getElementById('playback').setAttribute("src",capturedFramesRaw[playbackFrameNo]);
     document.getElementById('currentFrame').innerHTML = "Playing frame " + (playbackFrameNo + 1);
-    if((noOfFrames - 1) == playbackFrameNo){
+    if((curFrame - 1) == playbackFrameNo){
             stopit();
     }
 }
@@ -433,8 +430,8 @@ function stopit() {
         //stop increasing playback frame number
         clearInterval(yoplayit);
         //display final frame in playback window
-        document.getElementById('playback').setAttribute("src",lastFrame);
-        document.getElementById('currentFrame').innerHTML = "Playing frame " + noOfFrames;
+        document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
+        document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
         console.info("Playback stopped");
     }
 }
@@ -442,8 +439,8 @@ function stopitwhenlooping() {
     isPlaying = false;
     //stop increasing playback frame number
     clearInterval(yoplayit);
-    document.getElementById('playback').setAttribute("src",lastFrame);
-    document.getElementById('currentFrame').innerHTML = "Playing frame " + noOfFrames;
+    document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
+    document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
     //reset playback frame
     playbackFrameNo = -1;
     console.info("Playback stopped with loop on");
@@ -682,7 +679,7 @@ function loadMenu() {
       label: "Capture frame",
         icon: "icons/capture.png",
       click: function() {
-        takepicture();
+        takePicture();
       },
       key: "c",
       modifiers: "ctrl",
