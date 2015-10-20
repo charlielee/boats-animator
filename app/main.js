@@ -682,22 +682,22 @@ function _deleteFile(file) {
  *                         (e.g., info) displayed.
  */
 function _notifyClose(msgType) {
-  "use strict";
-  // Time in seconds before the notification should go away
-  var timeout = 2.5;
+    "use strict";
+    // Time in seconds before the notification should go away
+    var timeout = 2.5;
 
-  // Hide the notification bar
-  window.setTimeout(function() {
-      notifyBar.classList.add("hidden");
-  }, 1000 * timeout);
+    // Hide the notification bar
+    window.setTimeout(function() {
+        notifyBar.classList.add("hidden");
+    }, 1000 * timeout);
 
-  // Clear the styling a bit later.
-  // Without this, the styling is removed before
-  // the bar is hidden.
-  window.setTimeout(function() {
-      notifyBar.classList.remove(msgType);
-      notifyBarMsg.innerHTML = "";
-  }, 1200 * timeout);
+    // Clear the styling a bit later.
+    // Without this, the styling is removed before
+    // the bar is hidden.
+    window.setTimeout(function() {
+        notifyBar.classList.remove(msgType);
+        notifyBarMsg.innerHTML = "";
+    }, 1200 * timeout);
 }
 
 /**
@@ -706,14 +706,14 @@ function _notifyClose(msgType) {
  * @param {String|Nunber} [msg=""] The message to display.
  */
 function notifySuccess(msg) {
-  "use strict";
-  msg = msg || "";
+    "use strict";
+    msg = msg || "";
 
-  notifyBarMsg.innerHTML = msg;
-  notifyBar.classList.add("success");
-  notifyBar.classList.remove("hidden");
+    notifyBarMsg.innerHTML = msg;
+    notifyBar.classList.add("success");
+    notifyBar.classList.remove("hidden");
 
-  _notifyClose("success");
+    _notifyClose("success");
 }
 
 /**
@@ -722,14 +722,14 @@ function notifySuccess(msg) {
  * @param {String|Nunber} [msg=""] The message to display.
  */
 function notifyInfo(msg) {
-  "use strict";
-  msg = msg || "";
+    "use strict";
+    msg = msg || "";
 
-  notifyBarMsg.innerHTML = msg;
-  notifyBar.classList.add("info");
-  notifyBar.classList.remove("hidden");
+    notifyBarMsg.innerHTML = msg;
+    notifyBar.classList.add("info");
+    notifyBar.classList.remove("hidden");
 
-  _notifyClose("info");
+    _notifyClose("info");
 }
 
 /**
@@ -738,14 +738,14 @@ function notifyInfo(msg) {
  * @param {String|Nunber} [msg=""] The message to display.
  */
 function notifyError(msg) {
-  "use strict";
-  msg = msg || "";
+    "use strict";
+    msg = msg || "";
 
-  notifyBarMsg.innerHTML = msg;
-  notifyBar.classList.add("error");
-  notifyBar.classList.remove("hidden");
+    notifyBarMsg.innerHTML = msg;
+    notifyBar.classList.add("error");
+    notifyBar.classList.remove("hidden");
 
-  _notifyClose("error");
+    _notifyClose("error");
 }
 
 /**
