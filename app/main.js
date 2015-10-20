@@ -253,6 +253,16 @@ function startup() {
         updateframeslist();
     });
 
+    // Individual frame deletion
+    // TODO Restore code when frame reel is fixed
+    // var btnFrameDelete = document.querySelectorAll(".btn-frame-delete");
+    // for (var i = 0; i < btnFrameDelete.length; i++) {
+    //   btnFrameDelete[i].addEventListener("click", function(ev) {
+    //     var frameID = capturedFramesRaw.indexOf(ev.target.previousElementSibling.getAttribute("src"));
+    //     deleteFrame(frameID + 1);
+    //   });
+    // }
+
     // Toggle the sidebar visibility
     btnSidebarToggle.addEventListener("click", function(ev) {
       ev.preventDefault();
@@ -266,7 +276,7 @@ function startup() {
 
 /**
  * Fill the canvas with an indication that
- * no frames hace been captured.
+ * no frames have been captured.
  */
 function clearPhoto() {
     "use strict";
@@ -404,7 +414,7 @@ function _toggleOnionSkin() {
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
-      onionSkinWindow.setAttribute("src", lastFrame);
+      onionSkinWindow.setAttribute("src", capturedFramesRaw[curFrame - 1]);
     }
 }
 
@@ -433,7 +443,7 @@ function _toggleOnionSkin() {
 
             console.info('Captured frame: ' + data.slice(100, 120) + ' There are now: ' + (noOfFrames + 1) + ' frames');
             updateframeslist();
-            saveFrame();
+            saveFrame(curFrame);
         } else {
             clearPhoto();
         }
@@ -593,42 +603,44 @@ function decodeBase64Image(dataString) {
 }
 
 /**
-* Save the captured frame to the hard drive.
+ * Save the captured frame to the hard drive.
+ *
+ * @param {Number} id The frame ID to save.
 */
-function saveFrame() {
+function saveFrame(id) {
     "use strict";
     var fileName = "";
 
     // 1K+ frames have been captured
-    if (noOfFrames >= 1000) {
-      fileName = noOfFrames.toString();
+    if (id >= 1000) {
+      fileName = id.toString();
     }
 
     // 100 frames have been captured
-    else if (noOfFrames >= 100) {
-      fileName = `0${noOfFrames}`;
+    else if (id >= 100) {
+      fileName = `0${id}`;
     }
 
     // 10 frames have been captured
-    else if (noOfFrames >= 10) {
-      fileName = `00${noOfFrames}`;
+    else if (id >= 10) {
+      fileName = `00${id}`;
 
       // Less then 10 frames have been captured
     } else {
-      fileName = fileName = `000${noOfFrames}`;
+      fileName = fileName = `000${id}`;
     }
 
     // Create an absolute path to the destination location
-    var capturedFrameLocation = `${frameExportDirectory}/${fileName}.png`;
+    var outputPath = `${frameExportDirectory}/${fileName}.png`;
 
     // Convert the frame from base64-encoded date to a PNG
-    var imageBuffer = decodeBase64Image(lastFrame);
+    var imageBuffer = decodeBase64Image(capturedFramesRaw[id - 1]);
 
     // Save the frame to disk
-    _writeFile(capturedFrameLocation, imageBuffer.data);
+    _writeFile(outputPath, imageBuffer.data);
 
     // Store the location of the exported frame
-    exportedFramesList.push(capturedFrameLocation);
+    exportedFramesList.push(outputPath);
 }
 
 /**
