@@ -253,6 +253,16 @@ function startup() {
         updateframeslist();
     });
 
+    // Individual frame deletion
+    // TODO Restore code when frame reel is fixed
+    // var btnFrameDelete = document.querySelectorAll(".btn-frame-delete");
+    // for (var i = 0; i < btnFrameDelete.length; i++) {
+    //   btnFrameDelete[i].addEventListener("click", function(ev) {
+    //     var frameID = capturedFramesRaw.indexOf(ev.target.previousElementSibling.getAttribute("src"));
+    //     deleteFrame(frameID + 1);
+    //   });
+    // }
+
     // Toggle the sidebar visibility
     btnSidebarToggle.addEventListener("click", function(ev) {
       ev.preventDefault();
@@ -266,7 +276,7 @@ function startup() {
 
 /**
  * Fill the canvas with an indication that
- * no frames hace been captured.
+ * no frames have been captured.
  */
 function clearPhoto() {
     "use strict";
@@ -404,7 +414,7 @@ function _toggleOnionSkin() {
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
-      onionSkinWindow.setAttribute("src", lastFrame);
+      onionSkinWindow.setAttribute("src", capturedFramesRaw[curFrame - 1]);
     }
 }
 
