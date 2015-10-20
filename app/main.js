@@ -28,8 +28,6 @@ var width  = 480,
     capturedFramesList = [],
     captureFrame       = document.querySelector("#captureFrame"),
     deleteLastFrame    = document.querySelector("#deleteLastFrame"),
-    noOfFrames         = null,
-    lastFrame          = null,
     curFrame           = 0,
 
     // Playback
@@ -96,13 +94,7 @@ function canDisplayNews() {
 
 function startup() {
     statusBarFrameRate.innerHTML = frameRate;
-    noOfFrames     = capturedFramesRaw.length;
-    lastFrame      = capturedFramesRaw[noOfFrames - 1];
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
-    isPlaying      = false;
-
-    //Set up captured frame display
-    updateframeslist();
 
     //Check if a default directory has been set
     checkdefaultdirectory();
@@ -170,7 +162,7 @@ function startup() {
           return;
         }
 
-        takepicture();
+        takePicture();
     });
 
     // Listen if undo last frame button pressed
@@ -243,14 +235,12 @@ function startup() {
     backCapturedFrameButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         scrollFrames--;
-        updateframeslist();
     });
 
     //listen if right arrow button is pressed
     forwardCapturedFrameButton.addEventListener("click", function (ev) {
         ev.preventDefault();
         scrollFrames++;
-        updateframeslist();
     });
 
     // Individual frame deletion
@@ -286,72 +276,36 @@ function clearPhoto() {
     console.log("Canvas cleared");
 }
 
-    //update the various places frames appear when a picture is taken or deleted
-    function updateframeslist() {
-        // Display number of captured frames in status bar
-        statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
+/**
+ * Update the frame displays and frame stats.
+ */
+function updateFrameReel(action, id) {
+    "use strict";
+    var imagePreview = document.querySelector(`#lastCapturedFrame${id}`);
 
-        //update number of frames taken
-        noOfFrames = capturedFramesRaw.length;
-        //update name of last frame captured
-        lastFrame = capturedFramesRaw[noOfFrames - 1];
+    // Display number of captured frames in status bar
+    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
 
-        // Update onion skin frame
-        onionSkinWindow.setAttribute("src", lastFrame);
+    // Get a link to the last captured frame
+    var curFrameData = capturedFramesRaw[curFrame - 1];
 
-        //update frames preview (Thank you Anon)
-        if(capturedFramesRaw.length > 4) {
-            document.getElementById("lastCapturedFrame1").setAttribute("src", capturedFramesRaw[scrollFrames - 5]);
-        } else {
-            document.getElementById("lastCapturedFrame1").setAttribute("src", "blanksquare.png");
+    // Update onion skinning frame
+    onionSkinWindow.setAttribute("src", curFrameData);
+
+    // Display the image preview only if we can
+    // TODO If ID > 5, still display it
+    if (id <= 5) {
+        // Frame additon
+        if (action === "create") {
+            imagePreview.setAttribute("src", curFrameData);
         }
 
-
-        if(capturedFramesRaw.length > 3) {
-            document.getElementById("lastCapturedFrame2").setAttribute("src", capturedFramesRaw[scrollFrames - 4]);
-        } else {
-            document.getElementById("lastCapturedFrame2").setAttribute("src", "blanksquare.png");
+        // Last frame undo
+        else if (action === "delete") {
+            imagePreview.setAttribute("src", "blanksquare.png");
         }
-
-        if(capturedFramesRaw.length > 2) {
-            document.getElementById("lastCapturedFrame3").setAttribute("src", capturedFramesRaw[scrollFrames - 3]);
-        } else {
-            document.getElementById("lastCapturedFrame3").setAttribute("src", "blanksquare.png");
-        }
-
-        if(capturedFramesRaw.length > 1) {
-            document.getElementById("lastCapturedFrame4").setAttribute("src", capturedFramesRaw[scrollFrames - 2]);
-        } else {
-            document.getElementById("lastCapturedFrame4").setAttribute("src", "blanksquare.png");
-        }
-
-        if(capturedFramesRaw.length > 0) {
-            document.getElementById("lastCapturedFrame5").setAttribute("src", capturedFramesRaw[scrollFrames - 1]);
-        } else {
-            document.getElementById("lastCapturedFrame5").setAttribute("src", "blanksquare.png");
-        }
-
-       // console.info('There are now: ' + noOfFrames + ' frames');
-
-        //download indivdual frames WIP
-       /* var check = document.getElementById("downloadCheckbox");
-        if(check.checked){
-        document.getElementById("debug1").innerHTML = "<a download href='" + lastFrame + "'>Download last frame</a>";
-        }*/
-
-        //display number of frames captured in status bar
-        if (noOfFrames==1){
-            document.getElementById("noOfFrames").innerHTML = noOfFrames + " frame captured";
-        }else{
-            document.getElementById("noOfFrames").innerHTML = noOfFrames + " frames captured";
-        }
-
-        console.log("Scrollframes: " + scrollFrames);
     }
-
-    function updatedeleteicons() {
-
-    }
+}
 
 /**
  * Delete an individual frame.
@@ -368,13 +322,9 @@ function deleteFrame(id) {
       exportedFramesList.splice(id - 1, 1);
       capturedFramesRaw.splice(id - 1, 1);
 
-      // Update frame scroller
-      scrollFrames = capturedFramesRaw.length;
       curFrame--;
-
+      updateFrameReel("delete", id);
       console.info(`There are now: ${curFrame} frames`);
-
-      updateframeslist();
       win.focus();
     }
 }
@@ -418,37 +368,34 @@ function _toggleOnionSkin() {
     }
 }
 
-// Capture a photo by fetching the current contents of the video
-  // and drawing it into a canvas, then converting that to a PNG
-  // format data URL. By drawing it on an offscreen canvas and then
-  // drawing that to the screen, we can change its size and/or apply
-  // other changes before drawing it.
-    function takepicture() {
-        if (width && height) {
-            var context = canvas.getContext('2d');
-            canvas.width = width;
-            canvas.height = height;
-            context.drawImage(video, 0, 0, width, height);
+function takePicture() {
+    "use strict";
+    // We are not able to take a picture
+    if (!(width && height)) {
+      clearPhoto();
 
-            var data = canvas.toDataURL('image/png');
-            photo.setAttribute('src', data);
-            //add frame to list of imgs
-            capturedFramesList.push("<img class='capturedFramesItem' id='" + noOfFrames + "' src='" + data + "'>");
+     // We can take a picture
+    } else {
+        // Draw the image
+        var context   = canvas.getContext('2d');
+        canvas.width  = width;
+        canvas.height = height;
+        context.drawImage(video, 0, 0, width, height);
 
-            //add frame to list of img srcs
-            capturedFramesRaw.push(data);
+        // Convert the frame to a PNG
+        var data = canvas.toDataURL('image/png');
+        photo.setAttribute('src', data);
 
-            scrollFrames = capturedFramesRaw.length;
-            curFrame++;
+        // Store the image data and update the current frame
+        capturedFramesRaw.push(data);
+        curFrame++;
+        console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${curFrame} frames`);
 
-            console.info('Captured frame: ' + data.slice(100, 120) + ' There are now: ' + (noOfFrames + 1) + ' frames');
-            updateframeslist();
-            saveFrame(curFrame);
-        } else {
-            clearPhoto();
-        }
-
+        // Save the frame to disk and update the frame reel
+        saveFrame(curFrame);
+        updateFrameReel("create", curFrame);
     }
+}
 
 
 //PLAYBACK
@@ -803,7 +750,7 @@ function loadMenu() {
       label: "Capture frame",
         icon: "icons/capture.png",
       click: function() {
-        takepicture();
+        takePicture();
       },
       key: "c",
       modifiers: "ctrl",
