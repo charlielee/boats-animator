@@ -14,21 +14,21 @@ body{
     }
 header{
     background: #1a3960;
-    width: 100%;
-    display: block;
+    width: 270px;
+    height: 99.5vh;
+    float: left;
     padding: 0;
     margin: 0;
     overflow: hidden;
     position: relative;
-    vertical-align: middle;
 }
 h1{
-    padding: 10px 2%;
+    padding: 10px;
+    width: 250px;
     margin: 0;
     color: #F3F3F3;
-    font-size: 30px;
-    display: inline-block;
-    float: left;
+    font-size: 33px;
+    box-sizing: content-box;
 }
 h2{
     padding: 0;
@@ -41,12 +41,13 @@ h3{
     font-size: 15px;
 }
 footer{
-    padding: 2%;
-    background-color: #1a3960;
+    margin: 0;
+    padding: 10px;
+    width: 250px;
     font-size: 0.75em;
-    width: 100%;
     clear: both;
     color: #fff;
+    box-sizing: content-box;
 }
 footer a, footer a:visited {
     text-decoration: underline;
@@ -107,14 +108,16 @@ background: rgb(150, 189, 179);
 }
 
 
-/*======================================================
-=================SPLASH SCREEN========================
+/*========================================================
+=====================MENU SCREEN==========================
 =========================================================*/
-.content50{
-    padding: 0 2% 2% 2%;
-    width: 50%;
+.indexContent{
+    padding: 0 2%;
+    width: calc(100% - 270px);
+    height: 99.5vh;
     background: #f3f3f3;
-    float: left;
+    display: inline-block;
+    overflow-y: scroll;
 }
 .rss-item{
 

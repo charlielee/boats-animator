@@ -151,6 +151,8 @@ function startup() {
             console.log("Aspect ratio: " + aspectRatio);
 
             notifySuccess("Camera successfully connected.");
+        } else {
+             notifyError("No camera was detected.");
         }
     }, false);
 

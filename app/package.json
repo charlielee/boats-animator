@@ -36,7 +36,7 @@
         "frame": true, 
         "nodejs": true, 
         "kiosk": false, 
-        "height": 406, 
+        "height": 456, 
         "exe_icon": "", 
         "visible": true, 
         "as_desktop": false, 
