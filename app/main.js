@@ -102,7 +102,7 @@ function startup() {
     isPlaying      = false;
 
     //Set up captured frame display
-    updateframeslist();
+    // updateframeslist();
 
     //Check if a default directory has been set
     checkdefaultdirectory();
@@ -242,18 +242,18 @@ function startup() {
     });
 
     //listen if left arrow button is pressed
-    backCapturedFrameButton.addEventListener("click", function (ev) {
-        ev.preventDefault();
-        scrollFrames--;
-        updateframeslist();
-    });
+    // backCapturedFrameButton.addEventListener("click", function (ev) {
+    //     ev.preventDefault();
+    //     scrollFrames--;
+    //     updateframeslist();
+    // });
 
     //listen if right arrow button is pressed
-    forwardCapturedFrameButton.addEventListener("click", function (ev) {
-        ev.preventDefault();
-        scrollFrames++;
-        updateframeslist();
-    });
+    // forwardCapturedFrameButton.addEventListener("click", function (ev) {
+    //     ev.preventDefault();
+    //     scrollFrames++;
+    //     updateframeslist();
+    // });
 
     // Individual frame deletion
     // TODO Restore code when frame reel is fixed
@@ -376,7 +376,7 @@ function deleteFrame(id) {
 
       console.info(`There are now: ${curFrame} frames`);
 
-      updateframeslist();
+      // updateframeslist();
       win.focus();
     }
 }
@@ -444,7 +444,7 @@ function _toggleOnionSkin() {
             curFrame++;
 
             console.info('Captured frame: ' + data.slice(100, 120) + ' There are now: ' + (noOfFrames + 1) + ' frames');
-            updateframeslist();
+            // updateframeslist();
             saveFrame(curFrame);
         } else {
             clearPhoto();

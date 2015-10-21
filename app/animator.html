@@ -103,11 +103,15 @@
             <button id="playbackFrames" class="mediaControls"><img style="height: 100%;" src="icons/play.png"/></button>
         </div>
             <div id="capturedFramesContainer">
-                <img id="backCapturedFrame" class="capturedFramesNav" src="icons/back1.png"/>
-                <div class="capturedFrame">
-                    <img class="capturedFrameImg" title="Expand image" id="lastCapturedFrame1" src="blanksquare.png"/>
-                    <img class="btn-frame-delete" title="Delete image" src="icons/delete.png"/>
-                </div>
+                <img id="backCapturedFrame" class="capturedFramesNav" src="icons/back1.png">
+                <img id="forwardCapturedFrame" class="capturedFramesNav" src="icons/forward1.png">
+                <div id="area-frame-reel">
+                    <p>No captured frames available.</p>
+
+                <!--<div class="capturedFrame">
+                        <img class="capturedFrameImg" title="Expand image" id="lastCapturedFrame1" src="blanksquare.png"/>
+                        <img class="btn-frame-delete" title="Delete image" src="icons/delete.png"/>
+                    </div>
                 <div class="capturedFrame">
                     <img class="capturedFrameImg" title="Expand image" id="lastCapturedFrame2" src="blanksquare.png"/>
                     <img class="btn-frame-delete" title="Delete image" src="icons/delete.png"/>
@@ -123,10 +127,10 @@
                 <div class="capturedFrame">
                     <img class="capturedFrameImg" title="Expand image" id="lastCapturedFrame5" src="blanksquare.png"/>
                     <img class="btn-frame-delete" title="Delete image" src="icons/delete.png"/>
-                </div>
-                <img id="forwardCapturedFrame" class="capturedFramesNav" src="icons/forward1.png"/>
-                <input id="capturedFrameScrollBar" oninput="" type="range" name="scrollFrameAmount" min="1" max="20" value="20">
+                </div>-->
+              </div>
         </div>
+
         <div id="statusBar">
             <ul>
                 <li id="noOfFrames"></li>

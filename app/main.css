@@ -157,10 +157,7 @@ a.rss-item{
     font-size: 0;
     text-align: center;
 }
-#column3 {
-    width: calc(100% - 50px);
-    font-size: 0;
-}
+#column3 { width: calc(100% - 50px); }
 
 #playbackContainer{
     width: 100%;
@@ -263,13 +260,25 @@ a.rss-item{
 ==============CAPTURED FRAMES LIST==============
 ===============================================*/
 
-#capturedFramesContainer{
-    background-color: #AAAAAA;
-    padding: 1.4% 2%;
+#capturedFramesContainer {
+    background-color: #aaa;
+    /*padding: 1.4% 2%;*/
     width: 100%;
     float: left;
     position: relative;
 }
+
+#area-frame-reel {
+    width: inherit;
+    height: inherit;
+}
+
+#area-frame-reel > p {
+  padding: 2.5% 0;
+  font-size: 1.5em;
+  text-align: center;
+}
+
 .capturedFrame{
     padding: 0;
     margin-right: 1.3%;
@@ -299,22 +308,21 @@ a.rss-item{
 }
 .btn-frame-delete:hover { opacity: 0.6; }
 
-.capturedFramesNav{
+.capturedFramesNav {
     padding: 4% 2%;
     margin: 0;
     width: 6%;
     float: left;
 }
-.capturedFramesNav:hover{
-    background: #f3f3f3;
+.capturedFramesNav:hover {
+    background-color: #f3f3f3;
     opacity: 0.7;
     cursor: pointer;
 }
-.capturedFramesNav:active{ opacity: 0.5; }
-#capturedFrameScrollBar{
-    width: 88%;
-    margin: 2% 6%;
-}
+.capturedFramesNav:active { opacity: 0.5; }
+
+#forwardCapturedFrame { float: right; }
+
 /*================HIDDEN ELEMENTS=====================*/
 #canvas{
     display: none;
