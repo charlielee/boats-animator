@@ -15,7 +15,7 @@ body{
 header{
     background: #1a3960;
     width: 270px;
-    height: 99.5vh;
+    height: 100vh;
     float: left;
     padding: 0;
     margin: 0;
@@ -34,6 +34,13 @@ h2{
     padding: 0;
     margin: 1em 0;
     font-size: 20px;
+    display: block;
+}
+header h2{
+    padding: 5px 10px;
+    color: #fff;
+    font-weight: 400;
+    margin: 0.5em 0;
 }
 h3{
     padding: 0;
@@ -113,11 +120,17 @@ background: rgb(150, 189, 179);
 =========================================================*/
 .indexContent{
     padding: 0 2%;
+    margin: 0;
     width: calc(100% - 270px);
-    height: 99.5vh;
+    height: 100vh;
     background: #f3f3f3;
-    display: inline-block;
     overflow-y: scroll;
+    float: left;
+}
+#recentProjectsList{
+    padding: 10px;
+    color: #fff;
+    font-weight: 300;
 }
 .rss-item{
 
@@ -338,7 +351,6 @@ button, .button, a.button{
     padding: 10px;
     border: 0;
     border-radius: 10px;
-    font-weight: 600;
     font-size: 14px;
     color: #000;
     text-decoration: none;
@@ -346,6 +358,7 @@ button, .button, a.button{
     text-align: center;
     margin: 0 1% 0 0;
     height: 3em;
+    outline: none;
 }
 button:hover, .button:hover, a.button:hover{
     opacity: 0.7;
@@ -354,12 +367,10 @@ button:hover, .button:hover, a.button:hover{
 button:active, a.button:active{
     text-decoration: underline;
 }
-#captureFrame{
-    background: rgb(199, 100, 118);
-}
-#captureFrame:hover{
-    background: rgba(199, 100, 118,0.7);
-}
+#captureFrame{ background: rgb(199, 100, 118); }
+
+#captureFrame:hover{ background: rgba(199, 100, 118,0.7); }
+
 .mediaControls{
     float: right;
     background: rgba(243,243,243, 1);
@@ -390,7 +401,7 @@ button:active, a.button:active{
     transition: width 0.4s ease-out;
     z-index: 2;
 }
-#collapsedSidebar.shrink { width: 50px; }
+#collapsedSidebar.shrink{ width: 50px; }
 
 #sidebar{
     padding: 0;
@@ -426,9 +437,7 @@ h2 img{
     margin-right: 10px;
     vertical-align: middle;
 }
-h2 span{
-    vertical-align: middle;
-}
+h2 span{ vertical-align: middle; }
 #sidebar ul li li, #popUp ul li li{
     padding: 0.5em 5%;
     margin: 0;
@@ -438,9 +447,8 @@ h2 span{
     display: inline-block;
     width: 100%;
 }
-#sidebar ul li li span{
-    vertical-align: middle;
-}
+#sidebar ul li li span{ vertical-align: middle; }
+
 #sidebar ul li li:last-of-type{
     border-bottom: solid 1px #ccc6c6;
     margin-bottom: 1em;
@@ -464,9 +472,8 @@ h2 span{
     padding: 2%;
     vertical-align: middle;
 }
-#sidebar input:hover{
-    opacity: 0.8;
-}
+#sidebar input:hover{ opacity: 0.8; }
+
 #sidebar label{
     vertical-align: middle;
     display: block;
@@ -481,9 +488,7 @@ h2 span{
     border: 0;
     margin: 0;
 }
-input[type="range"]:hover{
-    cursor: pointer;
-}
+input[type="range"]:hover{ cursor: pointer; }
 
 /* Save path display */
 #currentDirectoryName { word-break: break-word; }

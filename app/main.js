@@ -82,6 +82,16 @@ function openAnimator() {
     win.resizeTo(1050, 700);
     win.setPosition('center');
 }
+function openIndex() {
+    "use strict";
+    var confirmOpen = confirm("Returning to the menu will cause any unsaved work to be lost!");
+    if (confirmOpen) {
+        win.focus();
+        window.location.href = "index.html";
+        win.resizeTo(1050, 700);
+        win.setPosition('center');
+    }
+}
 
 /**
  * Check if we can display the latest news feed
@@ -265,9 +275,9 @@ function startup() {
 
     // Toggle the sidebar visibility
     btnSidebarToggle.addEventListener("click", function(ev) {
-      ev.preventDefault();
-      sidebar.classList.toggle("hidden");
-      collapsedSidebar.classList.toggle("shrink");
+        ev.preventDefault();
+        sidebar.classList.toggle("hidden");
+        collapsedSidebar.classList.toggle("shrink");
     });
 
     clearPhoto();
@@ -758,12 +768,14 @@ function loadMenu() {
     // Create sub-menus
     var fileMenuItems = new gui.Menu(),
         editMenuItems = new gui.Menu(),
-        captureMenuItems = new gui.Menu();
+        captureMenuItems = new gui.Menu(),
+        helpMenuItems = new gui.Menu();
 
 
     //File menu items
     fileMenuItems.append(new gui.MenuItem({
       label: "New project...",
+        icon: "icons/file.png",
       click: function() {
       },
         key: "n",
@@ -771,9 +783,19 @@ function loadMenu() {
     }));
     fileMenuItems.append(new gui.MenuItem({
       label: "Open project...",
+        icon: "icons/import.png",
       click: function() {
       },
         key: "o",
+        modifiers: "ctrl",
+    }));
+    fileMenuItems.append(new gui.MenuItem({
+      label: "Main Menu",
+        icon: "icons/menu.png",
+      click: function() {
+        openIndex();
+      },
+        key: "m",
         modifiers: "ctrl",
     }));
 
@@ -808,6 +830,17 @@ function loadMenu() {
       key: "c",
       modifiers: "ctrl",
     }));
+    
+    //Help menu items
+    helpMenuItems.append(new gui.MenuItem({
+      label: "Give feedback",
+        icon: "icons/feedback.png",
+      click: function() {
+          console.log("feedback");
+      },
+      key: "/",
+      modifiers: "ctrl",
+    }));
 
     // Append sub-menus to main menu
     menu.append(
@@ -826,6 +859,12 @@ function loadMenu() {
         new gui.MenuItem({
             label: 'Capture',
             submenu: captureMenuItems // menu elements from menuItems object
+        })
+    );
+    menu.append(
+        new gui.MenuItem({
+            label: 'Help',
+            submenu: helpMenuItems // menu elements from menuItems object
         })
     );
 
