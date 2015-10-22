@@ -584,3 +584,11 @@ input[type="range"]:hover{
   font-size: 1.6em;
   text-align: center;
 }
+
+/* Flexbox layout for the animator */
+.animator {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.animator .content-flex { flex: 1; }
