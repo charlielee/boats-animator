@@ -70,6 +70,11 @@ var width  = 480,
     onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
     onionSkinPercent   = document.querySelector("#onion-skin-percentage"),
 
+    // Frame reel
+    frameReelMsg = document.querySelector("#area-frame-reel > p"),
+    frameReelRow = document.querySelector("#area-frame-reel tr"),
+    frameReelTable = document.querySelector("#area-frame-reel table"),
+
     // Notification bar
     notifyBar    = document.querySelector(".notification"),
     notifyBarMsg = document.querySelector(".notification #msg");
@@ -286,6 +291,36 @@ function clearPhoto() {
     context.fillStyle = "#aaa";
     context.fillRect(0, 0, canvas.width, canvas.height);
     console.log("Canvas cleared");
+}
+
+function updateFrameReel(action, id) {
+    "use strict";
+    // Display number of captured frames in status bar
+    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
+
+    // Add the newly captured frame
+    if (action === "capture") {
+        frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
+<img class="capturedFrameImg" title="Expand image" width="160" height="120" src="${capturedFramesRaw[id - 1]}">
+<img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.png">
+</div></td>`);
+
+        // Remove the chosen frame
+    } else if (action === "delete") {
+        frameReelRow.removeChild(frameReelRow.children[id - 1]);
+    }
+
+    // We have frames, display them
+    if (curFrame > 0) {
+        frameReelMsg.classList.add("hidden");
+        frameReelTable.classList.remove("hidden");
+
+        // All the frames were deleted, display "No frames" message
+    } else {
+        frameReelMsg.classList.remove("hidden");
+        frameReelTable.classList.add("hidden");
+        frameReelRow.innerHTML = "";
+    }
 }
 
     //update the various places frames appear when a picture is taken or deleted
