@@ -279,6 +279,9 @@ a.rss-item{
   text-align: center;
 }
 
+#area-frame-reel > p.hidden,
+#area-frame-reel > table.hidden { display: none; }
+
 .frame-reel-preview {
     /*padding: 0;
     margin-right: 1.3%;
