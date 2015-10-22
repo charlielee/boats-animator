@@ -253,16 +253,6 @@ function startup() {
         frameReelArea.scrollLeft += 50;
     });
 
-    // Individual frame deletion
-    // TODO Restore code when frame reel is fixed
-    // var btnFrameDelete = document.querySelectorAll(".btn-frame-delete");
-    // for (var i = 0; i < btnFrameDelete.length; i++) {
-    //   btnFrameDelete[i].addEventListener("click", function(ev) {
-    //     var frameID = capturedFramesRaw.indexOf(ev.target.previousElementSibling.getAttribute("src"));
-    //     deleteFrame(frameID + 1);
-    //   });
-    // }
-
     // Toggle the sidebar visibility
     btnSidebarToggle.addEventListener("click", function(ev) {
       ev.preventDefault();
@@ -294,9 +284,18 @@ function updateFrameReel(action, id) {
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" title="Expand image" width="160" height="120" src="${capturedFramesRaw[id - 1]}">
+<img class="frame-reel-img" id="img-${id}" title="Expand image" width="160" height="120" src="${capturedFramesRaw[id - 1]}">
 <img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.png">
 </div></td>`);
+
+        // Individual frame deletion
+        var insertedImage = document.querySelector(`.frame-reel-img#img-${id}`);
+        insertedImage.nextElementSibling.addEventListener("click", function() {
+            deleteFrame(id);
+        });
+
+        // Deference the selector to reduce memory usage
+        insertedImage = null;
 
         // Remove the chosen frame
     } else if (action === "delete") {
