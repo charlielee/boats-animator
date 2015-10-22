@@ -298,7 +298,7 @@ function updateFrameReel(action, id) {
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="capturedFrameImg" title="Expand image" width="160" height="120" src="${capturedFramesRaw[id - 1]}">
+<img class="frame-reel-img" title="Expand image" width="160" height="120" src="${capturedFramesRaw[id - 1]}">
 <img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.png">
 </div></td>`);
 

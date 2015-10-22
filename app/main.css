@@ -291,9 +291,11 @@ a.rss-item{
 }
 .frame-reel-preview:last-of-type { margin-right: 0; }
 
-.capturedFrameImg { cursor: pointer; }
-.capturedFrameImg:hover { opacity: 0.7; }
+/* Frame preview */
+.frame-reel-img { cursor: pointer; }
+.frame-reel-img:hover { opacity: 0.7; }
 
+/* Frame delete button */
 .btn-frame-delete {
     background-color: rgb(243, 243, 243);
     padding: 2%;
