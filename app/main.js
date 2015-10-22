@@ -33,7 +33,6 @@ var width  = 480,
     curFrame           = 0,
 
     // Playback
-    scrollFrames               = null,
     frameRate                  = 15,
     isPlaying                  = false,
     playback                   = document.querySelector("#playback"),
@@ -71,8 +70,9 @@ var width  = 480,
     onionSkinPercent   = document.querySelector("#onion-skin-percentage"),
 
     // Frame reel
-    frameReelMsg = document.querySelector("#area-frame-reel > p"),
-    frameReelRow = document.querySelector("#area-frame-reel tr"),
+    frameReelArea  = document.querySelector("#area-frame-reel"),
+    frameReelMsg   = document.querySelector("#area-frame-reel > p"),
+    frameReelRow   = document.querySelector("#area-frame-reel tr"),
     frameReelTable = document.querySelector("#area-frame-reel table"),
 
     // Notification bar
@@ -243,19 +243,15 @@ function startup() {
         stopitwhenlooping();
     });
 
-    //listen if left arrow button is pressed
-    // backCapturedFrameButton.addEventListener("click", function (ev) {
-    //     ev.preventDefault();
-    //     scrollFrames--;
-    //     updateframeslist();
-    // });
+    // Scroll frames reel left
+    backCapturedFrameButton.addEventListener("click", function () {
+        frameReelArea.scrollLeft -= 50;
+    });
 
-    //listen if right arrow button is pressed
-    // forwardCapturedFrameButton.addEventListener("click", function (ev) {
-    //     ev.preventDefault();
-    //     scrollFrames++;
-    //     updateframeslist();
-    // });
+    // Scroll frames reel right
+    forwardCapturedFrameButton.addEventListener("click", function () {
+        frameReelArea.scrollLeft += 50;
+    });
 
     // Individual frame deletion
     // TODO Restore code when frame reel is fixed
@@ -334,9 +330,6 @@ function deleteFrame(id) {
       _deleteFile(exportedFramesList[id - 1]);
       exportedFramesList.splice(id - 1, 1);
       capturedFramesRaw.splice(id - 1, 1);
-
-      // Update frame scroller
-      scrollFrames = capturedFramesRaw.length;
       curFrame--;
 
       console.info(`There are now: ${curFrame} frames`);
@@ -403,8 +396,6 @@ function _toggleOnionSkin() {
 
             //add frame to list of img srcs
             capturedFramesRaw.push(data);
-
-            scrollFrames = capturedFramesRaw.length;
             curFrame++;
 
             console.info('Captured frame: ' + data.slice(100, 120) + ' There are now: ' + (noOfFrames + 1) + ' frames');
