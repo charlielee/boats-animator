@@ -124,23 +124,15 @@ background: rgb(150, 189, 179);
     width: calc(100% - 270px);
     height: 100vh;
     background: #f3f3f3;
-    overflow-y: scroll;
     float: left;
 }
-#recentProjectsList{
-    padding: 10px;
-    color: #fff;
-    font-weight: 300;
-}
-.rss-item{
+#recentProjectsList{ height: 250px; }
 
-}
-a.rss-item{
-    font-size: 1.3em;
-}
-.rss-date{
-    color: #aca3a3;
-}
+.rss-item{}
+
+a.rss-item{ font-size: 1.3em; }
+
+.rss-date{ color: #aca3a3; }
 
 #news{
     padding: 0;
@@ -158,9 +150,7 @@ a.rss-item{
     border-bottom: solid 1px #f3f3f3;
     font-size: 0.8em;
 }
-#news ul li:first-of-type{
-    padding: 0 0 0.5em 0;
-}
+#news ul li:first-of-type{ padding: 0 0 0.5em 0; }
 /*=========================================================
 ===================MAIN WINDOW ELEMENTS=====================
 ===========================================================*/

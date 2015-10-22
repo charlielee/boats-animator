@@ -11,9 +11,8 @@
 <body onload="canDisplayNews()">
     <header>
         <h1>Boats Animator</h1>
-        <h2>Recent Projects</h2>
-        <div id="recentProjectsList">This feature is coming soon!</div>
-        <footer>Copyright (C) Charlie Lee 2015 <span style="float: right; text-align: right; padding: 0 4%;"><a href="http://charlielee.uk" target="_blank">charlielee.uk</a></span></footer>
+        <h2>Recent News</h2>
+        <footer>Copyright (C) Charlie Lee 2015 <span style="float: right; text-align: right; padding: 0 4%;"><a href="#" onclick="gui.Shell.openExternal('http://charlielee.uk')">charlielee.uk</a></span></footer>
     </header>
     <div class="indexContent">
         <h2>Project</h2>
@@ -21,12 +20,8 @@
         <button onclick="alert('This feature is coming soon!')">Load Project</button>
         <button onclick="dev()">Dev tools</button>
         <button onclick="reload()">Refresh</button>
-        <h2>News</h2>
-        <div class="list" style="height: 218px;">
-            <div id="news">
-                <script src="http://feed2js.org//feed2js.php?src=http%3A%2F%2Fcharlielee.uk%2Fcategory%2Fboats-animator%2Ffeed%2F&date=y&targ=y&utf=y&html=p"></script>
-            </div>
-        </div>
+        <h2>Recent Projects</h2>
+        <div class="list" id="recentProjectsList">This feature is coming soon!</div>
     </div>
 </body>
 </html>
