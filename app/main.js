@@ -106,9 +106,6 @@ function startup() {
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
     isPlaying      = false;
 
-    //Set up captured frame display
-    // updateframeslist();
-
     //Check if a default directory has been set
     checkdefaultdirectory();
 
@@ -410,8 +407,7 @@ function deleteFrame(id) {
       curFrame--;
 
       console.info(`There are now: ${curFrame} frames`);
-
-      // updateframeslist();
+      updateFrameReel("delete", id);
       win.focus();
     }
 }
@@ -479,8 +475,8 @@ function _toggleOnionSkin() {
             curFrame++;
 
             console.info('Captured frame: ' + data.slice(100, 120) + ' There are now: ' + (noOfFrames + 1) + ' frames');
-            // updateframeslist();
             saveFrame(curFrame);
+            updateFrameReel("capture", curFrame);
         } else {
             clearPhoto();
         }
