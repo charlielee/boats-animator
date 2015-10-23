@@ -99,9 +99,14 @@ function openIndex() {
  */
 function canDisplayNews() {
     "use strict";
-    if (!window.navigator.onLine) {
-        document.querySelector("#news").innerHTML = "This feature requires an internet connection.";
-    }
+    var NewsFeed = require("./js/feed"),
+    feed = new NewsFeed({
+      url: "http://charlielee.uk/category/boats-animator/feed/",
+      selectors: {
+        container: document.querySelector(".container-news")
+      }
+    });
+    feed.get();
 }
 
 function startup() {
@@ -830,7 +835,7 @@ function loadMenu() {
       key: "c",
       modifiers: "ctrl",
     }));
-    
+
     //Help menu items
     helpMenuItems.append(new gui.MenuItem({
       label: "Give feedback",
