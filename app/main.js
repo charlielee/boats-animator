@@ -37,14 +37,13 @@ var width  = 480,
     curFrame           = 0,
 
     // Playback
-    frameRate                  = 15,
-    isPlaying                  = false,
-    playback                   = document.querySelector("#playback"),
-    loopCheck                  = document.querySelector("#loopCheckbox"),
-    playbackButton             = document.querySelector("#playbackFrames"),
-    stopPlaybackButton         = document.querySelector("#stopPlayback"),
-    pausePlaybackButton        = document.querySelector("#pausePlayback"),
-    inputChangeFR              = document.querySelector("#input-fr-change"),
+    frameRate     = 15,
+    isPlaying     = false,
+    btnStop       = document.querySelector("#btn-stop"),
+    playback      = document.querySelector("#playback"),
+    loopCheck     = document.querySelector("#loopCheckbox"),
+    btnPlayPause  = document.querySelector("#btn-play-pause"),
+    inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Sidebar
     sidebar          = document.querySelector("#sidebar"),
@@ -202,24 +201,17 @@ function startup() {
     // Change onion skin opacity
     onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
 
-    //listen if playback button is pressed
-    playbackButton.addEventListener("click", function (ev) {
+    // Play/pause the preview
+    btnPlayPause.addEventListener("click", function (ev) {
         ev.preventDefault();
-        //check pics have been taken
+        // Make sure we have frames to play back
         if (curFrame > 0) {
-            if (isPlaying === false) {
-                playbackframes();
-            } else {
-                console.warn("Pressing play did nothing as already playing!");
-            }
-
-        } else {
-            console.warn("Pressing play did nothing as no pictures have been taken!");
+            (isPlaying) ? pauseit() : playbackframes();
         }
     });
 
     //listen if stop playback button is pressed
-    stopPlaybackButton.addEventListener("click", function (ev) {
+    btnStop.addEventListener("click", function (ev) {
         ev.preventDefault();
         //check pics have been taken
         if (curFrame > 0) {
@@ -230,21 +222,6 @@ function startup() {
             }
         } else {
             console.warn("Pressing stop did nothing as no pictures have been taken!");
-        }
-    });
-
-    //listen if pause playback button is pressed
-    pausePlaybackButton.addEventListener("click", function (ev) {
-        ev.preventDefault();
-        //check pics have been taken
-        if (curFrame > 0) {
-            if (isPlaying === true) {
-                pauseit();
-            } else {
-                console.warn("Pressing pause did nothing as not playing!");
-            }
-        } else {
-            console.warn("Pressing pause did nothing as no pictures have been taken!");
         }
     });
 
@@ -464,6 +441,8 @@ function takePicture() {
 function playbackframes() {
     winMode = "playback";
     switchMode("playback");
+    btnPlayPause.children[0].setAttribute("src", "icons/pause.png");
+
     yoplayit = setInterval(playit, (1000 / frameRate));
     console.info("Playback started");
 }
@@ -491,6 +470,7 @@ function stopit() {
         //display final frame in playback window
         document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
         document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
+        btnPlayPause.children[0].setAttribute("src", "icons/play.png");
         console.info("Playback stopped");
     }
 }
@@ -500,6 +480,7 @@ function stopitwhenlooping() {
     clearInterval(yoplayit);
     document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
     document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
+    btnPlayPause.children[0].setAttribute("src", "icons/play.png");
     //reset playback frame
     playbackFrameNo = -1;
     console.info("Playback stopped with loop on");
@@ -508,6 +489,7 @@ function stopitwhenlooping() {
 function pauseit() {
     isPlaying = false;
     clearInterval(yoplayit);
+    btnPlayPause.children[0].setAttribute("src", "icons/play.png");
     console.info("Playback paused");
 }
 
