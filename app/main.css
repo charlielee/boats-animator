@@ -127,29 +127,32 @@ background: rgb(150, 189, 179);
 }
 #recentProjectsList{ height: 250px; }
 
-.rss-item{}
-
-a.rss-item{ font-size: 1.3em; }
-
-.rss-date{ color: #aca3a3; }
-
-#news{
-    padding: 0;
-    margin: 0;
+.container-news {
+    margin-top: -0.8em;
+    height: 25.8em;
+    overflow-y: scroll;
 }
-#news ul {
-    margin: 0;
-    padding: 0;
+
+.post,
+.container-news h3  {
+    color: #fff;
+    padding-right: 1em;
+    padding-left: 1em;
 }
-#news ul li{
-    list-style-type: none;
-    margin: 0;
-    padding: 0.5em 0;
-    text-align: left;
-    border-bottom: solid 1px #f3f3f3;
-    font-size: 0.8em;
+
+.post-link {
+    color: #fff;
+    text-decoration: none;
 }
-#news ul li:first-of-type{ padding: 0 0 0.5em 0; }
+.post-link:hover { color: #fff; }
+
+.post-title {
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: -0.4em;
+    color: #fff;
+}
+
 /*=========================================================
 ===================MAIN WINDOW ELEMENTS=====================
 ===========================================================*/
