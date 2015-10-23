@@ -1,6 +1,4 @@
-// http://charlielee.uk/category/boats-animator/feed/
-
-const NewsFeed = (function () {
+module.exports = (function () {
     "use strict";
     var self = null;
 
@@ -10,24 +8,35 @@ const NewsFeed = (function () {
         self = this;
     }
 
+     NewsFeed.prototype.erroring = function(err) {
+        self.options.selectors.container.innerHTML = "<h3>News could not be loaded at this time.</h3>";
+        console.error(err);
+    };
+
     NewsFeed.prototype.get = function() {
-        window.fetch(self.options.url).then(function(response) {
-            return response.text();
+        var request = new window.XMLHttpRequest();
+        request.open("GET", self.options.url, true);
+        request.send();
 
-        }).then(function(text) {
-            // First, we extract all the posts
-            var posts = self.getPosts(text);
+        // Success!
+        request.onload = function() {
+            if (request.readyState === 4 && request.status === 200) {
+                // First, we extract all the posts
+                var posts = self.getPosts(request.responseText);
 
-           // Then we convert each one into a object and display it
-            posts.forEach(function(v, i) {
-                self.displayPost(self.createPost(v, i));
-            });
+                // Then we convert each one into a object and display it
+                posts.forEach(function(v, i) {
+                    self.displayPost(self.createPost(v, i));
+                });
 
-            // We could not fetch the feed
-            // TODO Better error display
-        }).catch(function(err) {
-            console.error(err);
-        });
+            // We reached our target destination, but it returned an error
+            } else {
+              self.erroring();
+            }
+        };
+
+        // We could not fetch the feed
+        request.onerror = self.erroring;
     };
 
     /**
@@ -76,14 +85,12 @@ const NewsFeed = (function () {
     NewsFeed.prototype.displayPost = function(post) {
         var layout = `<div class="post" id="post-${post.id}">
     <header>
-        <a href="${post.url}"><h2 class="post-title">${post.title}</h2></a>
+        <a class="post-link" href="${post.url}"><h2 class="post-title">${post.title}</h2></a>
         <p class="post-date">${post.date}</p>
     </header>
-    <div class="post-content">${post.summary}</div>
+    <div class="post-content"><p>${post.summary}</p></div>
 </div>`;
         self.options.selectors.container.insertAdjacentHTML("beforeend", layout);
     };
     return NewsFeed;
 }());
-
-module.exports = NewsFeed;
