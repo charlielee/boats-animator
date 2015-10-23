@@ -412,7 +412,7 @@ function takePicture() {
 
         // Save the frame to disk and update the frame reel
         saveFrame(curFrame);
-        updateFrameReel("create", curFrame);
+        updateFrameReel("capture", curFrame);
     }
 }
 
