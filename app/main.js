@@ -28,12 +28,9 @@ var width  = 480,
     capturedFramesList = [],
     captureFrame       = document.querySelector("#captureFrame"),
     deleteLastFrame    = document.querySelector("#deleteLastFrame"),
-    noOfFrames         = null,
-    lastFrame          = null,
     curFrame           = 0,
 
     // Playback
-    scrollFrames               = null,
     frameRate                  = 15,
     isPlaying                  = false,
     playback                   = document.querySelector("#playback"),
@@ -69,6 +66,12 @@ var width  = 480,
     onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
     onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
     onionSkinPercent   = document.querySelector("#onion-skin-percentage"),
+
+    // Frame reel
+    frameReelArea  = document.querySelector("#area-frame-reel"),
+    frameReelMsg   = document.querySelector("#area-frame-reel > p"),
+    frameReelRow   = document.querySelector("#area-frame-reel tr"),
+    frameReelTable = document.querySelector("#area-frame-reel table"),
 
     // Notification bar
     notifyBar    = document.querySelector(".notification"),
@@ -106,13 +109,7 @@ function canDisplayNews() {
 
 function startup() {
     statusBarFrameRate.innerHTML = frameRate;
-    noOfFrames     = capturedFramesRaw.length;
-    lastFrame      = capturedFramesRaw[noOfFrames - 1];
     onionSkinFrame = capturedFramesList[capturedFramesList.length];
-    isPlaying      = false;
-
-    //Set up captured frame display
-    updateframeslist();
 
     //Check if a default directory has been set
     checkdefaultdirectory();
@@ -180,7 +177,7 @@ function startup() {
           return;
         }
 
-        takepicture();
+        takePicture();
     });
 
     // Listen if undo last frame button pressed
@@ -249,29 +246,15 @@ function startup() {
         stopitwhenlooping();
     });
 
-    //listen if left arrow button is pressed
-    backCapturedFrameButton.addEventListener("click", function (ev) {
-        ev.preventDefault();
-        scrollFrames--;
-        updateframeslist();
+    // Scroll frame reel left
+    backCapturedFrameButton.addEventListener("click", function() {
+        frameReelArea.scrollLeft -= 50;
     });
 
-    //listen if right arrow button is pressed
-    forwardCapturedFrameButton.addEventListener("click", function (ev) {
-        ev.preventDefault();
-        scrollFrames++;
-        updateframeslist();
+    // Scroll frame reel right
+    forwardCapturedFrameButton.addEventListener("click", function() {
+        frameReelArea.scrollLeft += 50;
     });
-
-    // Individual frame deletion
-    // TODO Restore code when frame reel is fixed
-    // var btnFrameDelete = document.querySelectorAll(".btn-frame-delete");
-    // for (var i = 0; i < btnFrameDelete.length; i++) {
-    //   btnFrameDelete[i].addEventListener("click", function(ev) {
-    //     var frameID = capturedFramesRaw.indexOf(ev.target.previousElementSibling.getAttribute("src"));
-    //     deleteFrame(frameID + 1);
-    //   });
-    // }
 
     // Toggle the sidebar visibility
     btnSidebarToggle.addEventListener("click", function(ev) {
@@ -296,72 +279,52 @@ function clearPhoto() {
     console.log("Canvas cleared");
 }
 
-    //update the various places frames appear when a picture is taken or deleted
-    function updateframeslist() {
-        // Display number of captured frames in status bar
-        statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
+/**
+ * Update the frame reel display as needeed.
+ *
+ * @param {String} action Update the frame reel depending on the
+ *                        action performed. Possible values are
+ *                        "capture" and "delete".
+ * @param {Nunber} id The image ID to use in the update.
+ */
+function updateFrameReel(action, id) {
+    "use strict";
+    // Display number of captured frames in status bar
+    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
 
-        //update number of frames taken
-        noOfFrames = capturedFramesRaw.length;
-        //update name of last frame captured
-        lastFrame = capturedFramesRaw[noOfFrames - 1];
+    // Add the newly captured frame
+    if (action === "capture") {
+        frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
+<img class="frame-reel-img" id="img-${id}" title="Expand image" width="160" height="120" src="${capturedFramesRaw[id - 1]}">
+<img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.png">
+</div></td>`);
 
-        // Update onion skin frame
-        onionSkinWindow.setAttribute("src", lastFrame);
+        // Individual frame deletion
+        var insertedImage = document.querySelector(`.frame-reel-img#img-${id}`);
+        insertedImage.nextElementSibling.addEventListener("click", function() {
+            deleteFrame(id);
+        });
 
-        //update frames preview (Thank you Anon)
-        if(capturedFramesRaw.length > 4) {
-            document.getElementById("lastCapturedFrame1").setAttribute("src", capturedFramesRaw[scrollFrames - 5]);
-        } else {
-            document.getElementById("lastCapturedFrame1").setAttribute("src", "blanksquare.png");
-        }
+        // Deference the selector to reduce memory usage
+        insertedImage = null;
 
-
-        if(capturedFramesRaw.length > 3) {
-            document.getElementById("lastCapturedFrame2").setAttribute("src", capturedFramesRaw[scrollFrames - 4]);
-        } else {
-            document.getElementById("lastCapturedFrame2").setAttribute("src", "blanksquare.png");
-        }
-
-        if(capturedFramesRaw.length > 2) {
-            document.getElementById("lastCapturedFrame3").setAttribute("src", capturedFramesRaw[scrollFrames - 3]);
-        } else {
-            document.getElementById("lastCapturedFrame3").setAttribute("src", "blanksquare.png");
-        }
-
-        if(capturedFramesRaw.length > 1) {
-            document.getElementById("lastCapturedFrame4").setAttribute("src", capturedFramesRaw[scrollFrames - 2]);
-        } else {
-            document.getElementById("lastCapturedFrame4").setAttribute("src", "blanksquare.png");
-        }
-
-        if(capturedFramesRaw.length > 0) {
-            document.getElementById("lastCapturedFrame5").setAttribute("src", capturedFramesRaw[scrollFrames - 1]);
-        } else {
-            document.getElementById("lastCapturedFrame5").setAttribute("src", "blanksquare.png");
-        }
-
-       // console.info('There are now: ' + noOfFrames + ' frames');
-
-        //download indivdual frames WIP
-       /* var check = document.getElementById("downloadCheckbox");
-        if(check.checked){
-        document.getElementById("debug1").innerHTML = "<a download href='" + lastFrame + "'>Download last frame</a>";
-        }*/
-
-        //display number of frames captured in status bar
-        if (noOfFrames==1){
-            document.getElementById("noOfFrames").innerHTML = noOfFrames + " frame captured";
-        }else{
-            document.getElementById("noOfFrames").innerHTML = noOfFrames + " frames captured";
-        }
-
-        console.log("Scrollframes: " + scrollFrames);
+        // Remove the chosen frame
+    } else if (action === "delete") {
+        frameReelRow.removeChild(frameReelRow.children[id - 1]);
     }
 
-    function updatedeleteicons() {
+    // We have frames, display them
+    if (curFrame > 0) {
+        frameReelMsg.classList.add("hidden");
+        frameReelTable.classList.remove("hidden");
 
+        // All the frames were deleted, display "No frames" message
+    } else {
+        frameReelMsg.classList.remove("hidden");
+        frameReelTable.classList.add("hidden");
+        frameReelRow.innerHTML = "";
     }
+}
 
 /**
  * Delete an individual frame.
@@ -377,14 +340,10 @@ function deleteFrame(id) {
       _deleteFile(exportedFramesList[id - 1]);
       exportedFramesList.splice(id - 1, 1);
       capturedFramesRaw.splice(id - 1, 1);
-
-      // Update frame scroller
-      scrollFrames = capturedFramesRaw.length;
       curFrame--;
 
+      updateFrameReel("delete", id);
       console.info(`There are now: ${curFrame} frames`);
-
-      updateframeslist();
       win.focus();
     }
 }
@@ -428,37 +387,34 @@ function _toggleOnionSkin() {
     }
 }
 
-// Capture a photo by fetching the current contents of the video
-  // and drawing it into a canvas, then converting that to a PNG
-  // format data URL. By drawing it on an offscreen canvas and then
-  // drawing that to the screen, we can change its size and/or apply
-  // other changes before drawing it.
-    function takepicture() {
-        if (width && height) {
-            var context = canvas.getContext('2d');
-            canvas.width = width;
-            canvas.height = height;
-            context.drawImage(video, 0, 0, width, height);
+function takePicture() {
+    "use strict";
+    // We are not able to take a picture
+    if (!(width && height)) {
+      clearPhoto();
 
-            var data = canvas.toDataURL('image/png');
-            photo.setAttribute('src', data);
-            //add frame to list of imgs
-            capturedFramesList.push("<img class='capturedFramesItem' id='" + noOfFrames + "' src='" + data + "'>");
+     // We can take a picture
+    } else {
+        // Draw the image
+        var context   = canvas.getContext('2d');
+        canvas.width  = width;
+        canvas.height = height;
+        context.drawImage(video, 0, 0, width, height);
 
-            //add frame to list of img srcs
-            capturedFramesRaw.push(data);
+        // Convert the frame to a PNG
+        var data = canvas.toDataURL('image/png');
+        photo.setAttribute('src', data);
 
-            scrollFrames = capturedFramesRaw.length;
-            curFrame++;
+        // Store the image data and update the current frame
+        capturedFramesRaw.push(data);
+        curFrame++;
+        console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${curFrame} frames`);
 
-            console.info('Captured frame: ' + data.slice(100, 120) + ' There are now: ' + (noOfFrames + 1) + ' frames');
-            updateframeslist();
-            saveFrame(curFrame);
-        } else {
-            clearPhoto();
-        }
-
+        // Save the frame to disk and update the frame reel
+        saveFrame(curFrame);
+        updateFrameReel("capture", curFrame);
     }
+}
 
 
 //PLAYBACK
@@ -692,22 +648,22 @@ function _deleteFile(file) {
  *                         (e.g., info) displayed.
  */
 function _notifyClose(msgType) {
-  "use strict";
-  // Time in seconds before the notification should go away
-  var timeout = 2.5;
+    "use strict";
+    // Time in seconds before the notification should go away
+    var timeout = 2.5;
 
-  // Hide the notification bar
-  window.setTimeout(function() {
-      notifyBar.classList.add("hidden");
-  }, 1000 * timeout);
+    // Hide the notification bar
+    window.setTimeout(function() {
+        notifyBar.classList.add("hidden");
+    }, 1000 * timeout);
 
-  // Clear the styling a bit later.
-  // Without this, the styling is removed before
-  // the bar is hidden.
-  window.setTimeout(function() {
-      notifyBar.classList.remove(msgType);
-      notifyBarMsg.innerHTML = "";
-  }, 1200 * timeout);
+    // Clear the styling a bit later.
+    // Without this, the styling is removed before
+    // the bar is hidden.
+    window.setTimeout(function() {
+        notifyBar.classList.remove(msgType);
+        notifyBarMsg.innerHTML = "";
+    }, 1200 * timeout);
 }
 
 /**
@@ -716,14 +672,14 @@ function _notifyClose(msgType) {
  * @param {String|Nunber} [msg=""] The message to display.
  */
 function notifySuccess(msg) {
-  "use strict";
-  msg = msg || "";
+    "use strict";
+    msg = msg || "";
 
-  notifyBarMsg.innerHTML = msg;
-  notifyBar.classList.add("success");
-  notifyBar.classList.remove("hidden");
+    notifyBarMsg.innerHTML = msg;
+    notifyBar.classList.add("success");
+    notifyBar.classList.remove("hidden");
 
-  _notifyClose("success");
+    _notifyClose("success");
 }
 
 /**
@@ -732,14 +688,14 @@ function notifySuccess(msg) {
  * @param {String|Nunber} [msg=""] The message to display.
  */
 function notifyInfo(msg) {
-  "use strict";
-  msg = msg || "";
+    "use strict";
+    msg = msg || "";
 
-  notifyBarMsg.innerHTML = msg;
-  notifyBar.classList.add("info");
-  notifyBar.classList.remove("hidden");
+    notifyBarMsg.innerHTML = msg;
+    notifyBar.classList.add("info");
+    notifyBar.classList.remove("hidden");
 
-  _notifyClose("info");
+    _notifyClose("info");
 }
 
 /**
@@ -748,14 +704,14 @@ function notifyInfo(msg) {
  * @param {String|Nunber} [msg=""] The message to display.
  */
 function notifyError(msg) {
-  "use strict";
-  msg = msg || "";
+    "use strict";
+    msg = msg || "";
 
-  notifyBarMsg.innerHTML = msg;
-  notifyBar.classList.add("error");
-  notifyBar.classList.remove("hidden");
+    notifyBarMsg.innerHTML = msg;
+    notifyBar.classList.add("error");
+    notifyBar.classList.remove("hidden");
 
-  _notifyClose("error");
+    _notifyClose("error");
 }
 
 /**
@@ -825,12 +781,12 @@ function loadMenu() {
       label: "Capture frame",
         icon: "icons/capture.png",
       click: function() {
-        takepicture();
+        takePicture();
       },
       key: "c",
       modifiers: "ctrl",
     }));
-    
+
     //Help menu items
     helpMenuItems.append(new gui.MenuItem({
       label: "Give feedback",
