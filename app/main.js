@@ -22,7 +22,7 @@ var width  = 480,
     // GUI window
     gui = require('nw.gui'),
     win = gui.Window.get(),
-    
+
     // Mode switching
     btnModeToggle  = document.querySelector("#btn-mode-toggle"),
     captureWindow  = document.querySelector("#captureWindow"),
@@ -186,7 +186,7 @@ function startup() {
           notifyError("An output destination must be first set!");
           return;
         }
-        
+
         takePicture();
     });
 
@@ -250,7 +250,6 @@ function startup() {
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("change", function () {
-        "use strict";
         frameRate = parseInt(this.value, 10);
         statusBarFrameRate.innerHTML = frameRate;
         stopitwhenlooping();
@@ -262,7 +261,7 @@ function startup() {
         sidebar.classList.toggle("hidden");
         collapsedSidebar.classList.toggle("shrink");
     });
-    
+
     // Toggle capture and playback windows
     btnModeToggle.addEventListener("click", function(ev) {
         ev.preventDefault();
@@ -278,7 +277,7 @@ function startup() {
 }
 
 /**
- * Changing between playback and capture windows
+ * Toggle between playback and capture windows.
  */
 function switchMode(winMode) {
     if (winMode == "capture") {
@@ -286,7 +285,7 @@ function switchMode(winMode) {
         console.log("switched to capture mode");
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
-        
+
     } else if (winMode == "playback") {
         btnModeToggle.innerHTML = "Switch to capture mode";
         console.log("switched to playback mode");
@@ -320,10 +319,16 @@ function updateFrameReel(action, id) {
     // Display number of captured frames in status bar
     statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
 
+    // Get the last captured frame
+    var curFrameData = capturedFramesRaw[id - 1];
+
+    // Update onion skin frame
+    onionSkinWindow.setAttribute("src", curFrameData);
+
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Expand image" width="160" height="120" src="${capturedFramesRaw[id - 1]}">
+<img class="frame-reel-img" id="img-${id}" title="Expand image" width="160" height="120" src="${curFrameData}">
 <img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.png">
 </div></td>`);
 
@@ -445,7 +450,7 @@ function takePicture() {
         // Save the frame to disk and update the frame reel
         saveFrame(curFrame);
         updateFrameReel("capture", curFrame);
-        
+
         // Scroll the frame reel to the end
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
     }
