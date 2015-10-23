@@ -85,7 +85,7 @@ module.exports = (function () {
     NewsFeed.prototype.displayPost = function(post) {
         var layout = `<div class="post" id="post-${post.id}">
     <header>
-        <a class="post-link" href="${post.url}"><h2 class="post-title">${post.title}</h2></a>
+        <a class="post-link" href="#" onclick="gui.Shell.openExternal('${post.url}')"><h2 class="post-title">${post.title}</h2></a>
         <p class="post-date">${post.date}</p>
     </header>
     <div class="post-content"><p>${post.summary}</p></div>
