@@ -31,7 +31,6 @@ var width  = 480,
     curFrame           = 0,
 
     // Playback
-    scrollFrames               = null,
     frameRate                  = 15,
     isPlaying                  = false,
     playback                   = document.querySelector("#playback"),
@@ -67,6 +66,12 @@ var width  = 480,
     onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
     onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
     onionSkinPercent   = document.querySelector("#onion-skin-percentage"),
+
+    // Frame reel
+    frameReelArea  = document.querySelector("#area-frame-reel"),
+    frameReelMsg   = document.querySelector("#area-frame-reel > p"),
+    frameReelRow   = document.querySelector("#area-frame-reel tr"),
+    frameReelTable = document.querySelector("#area-frame-reel table"),
 
     // Notification bar
     notifyBar    = document.querySelector(".notification"),
@@ -241,27 +246,15 @@ function startup() {
         stopitwhenlooping();
     });
 
-    //listen if left arrow button is pressed
-    backCapturedFrameButton.addEventListener("click", function (ev) {
-        ev.preventDefault();
-        scrollFrames--;
+    // Scroll frame reel left
+    backCapturedFrameButton.addEventListener("click", function() {
+        frameReelArea.scrollLeft -= 50;
     });
 
-    //listen if right arrow button is pressed
-    forwardCapturedFrameButton.addEventListener("click", function (ev) {
-        ev.preventDefault();
-        scrollFrames++;
+    // Scroll frame reel right
+    forwardCapturedFrameButton.addEventListener("click", function() {
+        frameReelArea.scrollLeft += 50;
     });
-
-    // Individual frame deletion
-    // TODO Restore code when frame reel is fixed
-    // var btnFrameDelete = document.querySelectorAll(".btn-frame-delete");
-    // for (var i = 0; i < btnFrameDelete.length; i++) {
-    //   btnFrameDelete[i].addEventListener("click", function(ev) {
-    //     var frameID = capturedFramesRaw.indexOf(ev.target.previousElementSibling.getAttribute("src"));
-    //     deleteFrame(frameID + 1);
-    //   });
-    // }
 
     // Toggle the sidebar visibility
     btnSidebarToggle.addEventListener("click", function(ev) {
@@ -286,34 +279,42 @@ function clearPhoto() {
     console.log("Canvas cleared");
 }
 
-/**
- * Update the frame displays and frame stats.
- */
 function updateFrameReel(action, id) {
     "use strict";
-    var imagePreview = document.querySelector(`#lastCapturedFrame${id}`);
-
     // Display number of captured frames in status bar
     statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
 
-    // Get a link to the last captured frame
-    var curFrameData = capturedFramesRaw[curFrame - 1];
+    // Add the newly captured frame
+    if (action === "capture") {
+        frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
+<img class="frame-reel-img" id="img-${id}" title="Expand image" width="160" height="120" src="${capturedFramesRaw[id - 1]}">
+<img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.png">
+</div></td>`);
 
-    // Update onion skinning frame
-    onionSkinWindow.setAttribute("src", curFrameData);
+        // Individual frame deletion
+        var insertedImage = document.querySelector(`.frame-reel-img#img-${id}`);
+        insertedImage.nextElementSibling.addEventListener("click", function() {
+            deleteFrame(id);
+        });
 
-    // Display the image preview only if we can
-    // TODO If ID > 5, still display it
-    if (id <= 5) {
-        // Frame additon
-        if (action === "create") {
-            imagePreview.setAttribute("src", curFrameData);
-        }
+        // Deference the selector to reduce memory usage
+        insertedImage = null;
 
-        // Last frame undo
-        else if (action === "delete") {
-            imagePreview.setAttribute("src", "blanksquare.png");
-        }
+        // Remove the chosen frame
+    } else if (action === "delete") {
+        frameReelRow.removeChild(frameReelRow.children[id - 1]);
+    }
+
+    // We have frames, display them
+    if (curFrame > 0) {
+        frameReelMsg.classList.add("hidden");
+        frameReelTable.classList.remove("hidden");
+
+        // All the frames were deleted, display "No frames" message
+    } else {
+        frameReelMsg.classList.remove("hidden");
+        frameReelTable.classList.add("hidden");
+        frameReelRow.innerHTML = "";
     }
 }
 
@@ -331,8 +332,8 @@ function deleteFrame(id) {
       _deleteFile(exportedFramesList[id - 1]);
       exportedFramesList.splice(id - 1, 1);
       capturedFramesRaw.splice(id - 1, 1);
-
       curFrame--;
+
       updateFrameReel("delete", id);
       console.info(`There are now: ${curFrame} frames`);
       win.focus();
@@ -777,7 +778,7 @@ function loadMenu() {
       key: "c",
       modifiers: "ctrl",
     }));
-    
+
     //Help menu items
     helpMenuItems.append(new gui.MenuItem({
       label: "Give feedback",
