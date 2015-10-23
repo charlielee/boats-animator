@@ -77,7 +77,9 @@ var width  = 480,
     notifyBar    = document.querySelector(".notification"),
     notifyBarMsg = document.querySelector(".notification #msg");
 
-
+/**
+ * Occurs when "New Project" is pressed
+ */
 function openAnimator() {
     var frameExportDirectory = _getDefaultDirectory();
     win.focus();
@@ -85,6 +87,10 @@ function openAnimator() {
     win.resizeTo(1050, 700);
     win.setPosition('center');
 }
+
+/**
+ * Occurs when "Main Menu" is pressed
+ */
 function openIndex() {
     "use strict";
     var confirmOpen = confirm("Returning to the menu will cause any unsaved work to be lost!");
@@ -176,7 +182,7 @@ function startup() {
           notifyError("An output destination must be first set!");
           return;
         }
-
+        
         takePicture();
     });
 
@@ -244,16 +250,6 @@ function startup() {
         frameRate = parseInt(this.value, 10);
         statusBarFrameRate.innerHTML = frameRate;
         stopitwhenlooping();
-    });
-
-    // Scroll frame reel left
-    backCapturedFrameButton.addEventListener("click", function() {
-        frameReelArea.scrollLeft -= 50;
-    });
-
-    // Scroll frame reel right
-    forwardCapturedFrameButton.addEventListener("click", function() {
-        frameReelArea.scrollLeft += 50;
     });
 
     // Toggle the sidebar visibility
@@ -413,6 +409,9 @@ function takePicture() {
         // Save the frame to disk and update the frame reel
         saveFrame(curFrame);
         updateFrameReel("capture", curFrame);
+        
+        // Scroll the frame reel to the end
+        frameReelArea.scrollLeft = frameReelArea.scrollWidth;
     }
 }
 

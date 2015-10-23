@@ -260,12 +260,12 @@ a.rss-item{ font-size: 1.3em; }
     padding: 10px 5%;
 }
 /*==============================================
-==============CAPTURED FRAMES LIST==============
+==================FRAME REEL====================
 ===============================================*/
 
 #capturedFramesContainer {
     background-color: #aaa;
-    padding: 3em initial;
+    padding: 2em initial;
     width: 100%;
     float: left;
     position: relative;
@@ -311,21 +311,6 @@ a.rss-item{ font-size: 1.3em; }
     cursor: pointer;
 }
 .btn-frame-delete:hover { opacity: 0.8; }
-
-.capturedFramesNav {
-    padding: 4% 2%;
-    margin: 0;
-    width: 6.5%;
-    float: left;
-}
-.capturedFramesNav:hover {
-    background-color: #f3f3f3;
-    opacity: 0.7;
-    cursor: pointer;
-}
-.capturedFramesNav:active { opacity: 0.5; }
-
-#forwardCapturedFrame { float: right; }
 
 /*================HIDDEN ELEMENTS=====================*/
 #canvas{
