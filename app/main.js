@@ -279,6 +279,14 @@ function clearPhoto() {
     console.log("Canvas cleared");
 }
 
+/**
+ * Update the frame reel display as needeed.
+ *
+ * @param {String} action Update the frame reel depending on the
+ *                        action performed. Possible values are
+ *                        "capture" and "delete".
+ * @param {Nunber} id The image ID to use in the update.
+ */
 function updateFrameReel(action, id) {
     "use strict";
     // Display number of captured frames in status bar
