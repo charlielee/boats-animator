@@ -22,6 +22,12 @@ var width  = 480,
     // GUI window
     gui = require('nw.gui'),
     win = gui.Window.get(),
+    
+    // Mode switching
+    btnModeToggle  = document.querySelector("#btn-mode-toggle"),
+    captureWindow  = document.querySelector("#captureWindow"),
+    playbackWindow = document.querySelector("#playbackWindow"),
+    winMode        = "capture",
 
     // Capture
     capturedFramesRaw  = [],
@@ -39,8 +45,6 @@ var width  = 480,
     stopPlaybackButton         = document.querySelector("#stopPlayback"),
     pausePlaybackButton        = document.querySelector("#pausePlayback"),
     inputChangeFR              = document.querySelector("#input-fr-change"),
-    backCapturedFrameButton    = document.querySelector("#backCapturedFrame"),
-    forwardCapturedFrameButton = document.querySelector("#forwardCapturedFrame"),
 
     // Sidebar
     sidebar          = document.querySelector("#sidebar"),
@@ -258,10 +262,38 @@ function startup() {
         sidebar.classList.toggle("hidden");
         collapsedSidebar.classList.toggle("shrink");
     });
+    
+    // Toggle capture and playback windows
+    btnModeToggle.addEventListener("click", function(ev) {
+        ev.preventDefault();
+        if (winMode == "capture") {
+            winMode = "playback";
+        } else if (winMode == "playback") {
+            winMode = "capture";
+        }
+        switchMode(winMode);
+    });
 
     clearPhoto();
 }
 
+/**
+ * Changing between playback and capture windows
+ */
+function switchMode(winMode) {
+    if (winMode == "capture") {
+        btnModeToggle.innerHTML = "Switch to playback mode";
+        console.log("switched to capture mode");
+        playbackWindow.classList.add("hidden");
+        captureWindow.classList.remove("hidden");
+        
+    } else if (winMode == "playback") {
+        btnModeToggle.innerHTML = "Switch to capture mode";
+        console.log("switched to playback mode");
+        captureWindow.classList.add("hidden");
+        playbackWindow.classList.remove("hidden");
+    }
+}
 
 /**
  * Fill the canvas with an indication that
@@ -384,6 +416,10 @@ function _toggleOnionSkin() {
 }
 
 function takePicture() {
+    if (winMode === "playback") {
+        winMode = "capture";
+        switchMode("capture");
+    }
     "use strict";
     // We are not able to take a picture
     if (!(width && height)) {
@@ -421,8 +457,10 @@ function takePicture() {
         yoplayit;
 
 function playbackframes() {
-        yoplayit = setInterval(playit, (1000 / frameRate));
-        console.info("Playback started");
+    winMode = "playback";
+    switchMode("playback");
+    yoplayit = setInterval(playit, (1000 / frameRate));
+    console.info("Playback started");
 }
 function playit() {
     isPlaying = true;
@@ -620,7 +658,7 @@ function _writeFile(file, data) {
         if (err) {
             throw err;
         }
-        console.log(`Successfully saved " ${file}`);
+        console.log(`Successfully saved ${file}`);
     });
 }
 
@@ -635,7 +673,7 @@ function _deleteFile(file) {
         if (err) {
             throw err;
         }
-        console.log(`Successfully deleted " ${file}`);
+        console.log(`Successfully deleted ${file}`);
         notifySuccess("File successfully deleted.");
     });
 }

@@ -73,7 +73,7 @@
             </ul>
         </div>
 
-        <div id="column1">
+        <div id="captureWindow">
             <div id="onionSkinningLayer">
                 <img id="onion-skinning-frame" width="100%" alt="Please capture your first frame to use onion skinning">
             </div>
@@ -88,7 +88,7 @@
             <canvas id="canvas"></canvas>
         </div>
 
-        <div id="column2">
+        <div id="playbackWindow" class="hidden">
             <div id="playbackContainer">
                 <img id="playback" src="blanksquare.png">
             </div>
@@ -101,7 +101,8 @@
     <div id="column3">
         <div id="controls">
             <button id="captureFrame" title="Capture frame">Capture frame</button>
-            <button id="deleteLastFrame" title="Last last frame">Delete last frame</button>
+            <button id="deleteLastFrame" title="Delete last frame">Delete last frame</button>
+            <button id="btn-mode-toggle" title="Playback / Capture Switch">Switch to playback mode</button>
             <button id="stopPlayback" class="mediaControls"><img style="height: 100%;" src="icons/stop.png"/></button>
             <button id="pausePlayback" class="mediaControls"><img style="height: 100%;" src="icons/pause.png"/></button>
             <button id="playbackFrames" class="mediaControls"><img style="height: 100%;" src="icons/play.png"/></button>
