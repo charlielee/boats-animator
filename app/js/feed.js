@@ -71,7 +71,7 @@ module.exports = (function () {
         return {
             id: id + 1,
             url: xmlDoc.getElementsByTagName("link")[0].textContent,
-            date: xmlDoc.getElementsByTagName("pubDate")[0].textContent,
+            date: new Date(xmlDoc.getElementsByTagName("pubDate")[0].textContent).toLocaleDateString(),
             title: xmlDoc.getElementsByTagName("title")[0].textContent,
             summary: xmlDoc.getElementsByTagName("description")[0].textContent
         };
