@@ -14,26 +14,33 @@ body{
     }
 header{
     background: #1a3960;
-    width: 100%;
-    display: block;
+    width: 270px;
+    height: 100vh;
+    float: left;
     padding: 0;
     margin: 0;
     overflow: hidden;
     position: relative;
-    vertical-align: middle;
 }
 h1{
-    padding: 10px 2%;
+    padding: 10px;
+    width: 250px;
     margin: 0;
     color: #F3F3F3;
-    font-size: 30px;
-    display: inline-block;
-    float: left;
+    font-size: 33px;
+    box-sizing: content-box;
 }
 h2{
     padding: 0;
     margin: 1em 0;
     font-size: 20px;
+    display: block;
+}
+header h2{
+    padding: 5px 10px;
+    color: #fff;
+    font-weight: 400;
+    margin: 0.5em 0;
 }
 h3{
     padding: 0;
@@ -41,12 +48,13 @@ h3{
     font-size: 15px;
 }
 footer{
-    padding: 2%;
-    background-color: #1a3960;
+    margin: 0;
+    padding: 10px;
+    width: 250px;
     font-size: 0.75em;
-    width: 100%;
     clear: both;
     color: #fff;
+    box-sizing: content-box;
 }
 footer a, footer a:visited {
     text-decoration: underline;
@@ -107,24 +115,24 @@ background: rgb(150, 189, 179);
 }
 
 
-/*======================================================
-=================SPLASH SCREEN========================
+/*========================================================
+=====================MENU SCREEN==========================
 =========================================================*/
-.content50{
-    padding: 0 2% 2% 2%;
-    width: 50%;
+.indexContent{
+    padding: 0 2%;
+    margin: 0;
+    width: calc(100% - 270px);
+    height: 100vh;
     background: #f3f3f3;
     float: left;
 }
-.rss-item{
+#recentProjectsList{ height: 250px; }
 
-}
-a.rss-item{
-    font-size: 1.3em;
-}
-.rss-date{
-    color: #aca3a3;
-}
+.rss-item{}
+
+a.rss-item{ font-size: 1.3em; }
+
+.rss-date{ color: #aca3a3; }
 
 #news{
     padding: 0;
@@ -142,9 +150,7 @@ a.rss-item{
     border-bottom: solid 1px #f3f3f3;
     font-size: 0.8em;
 }
-#news ul li:first-of-type{
-    padding: 0 0 0.5em 0;
-}
+#news ul li:first-of-type{ padding: 0 0 0.5em 0; }
 /*=========================================================
 ===================MAIN WINDOW ELEMENTS=====================
 ===========================================================*/
@@ -335,7 +341,6 @@ button, .button, a.button{
     padding: 10px;
     border: 0;
     border-radius: 10px;
-    font-weight: 600;
     font-size: 14px;
     color: #000;
     text-decoration: none;
@@ -343,6 +348,7 @@ button, .button, a.button{
     text-align: center;
     margin: 0 1% 0 0;
     height: 3em;
+    outline: none;
 }
 button:hover, .button:hover, a.button:hover{
     opacity: 0.7;
@@ -351,12 +357,10 @@ button:hover, .button:hover, a.button:hover{
 button:active, a.button:active{
     text-decoration: underline;
 }
-#captureFrame{
-    background: rgb(199, 100, 118);
-}
-#captureFrame:hover{
-    background: rgba(199, 100, 118,0.7);
-}
+#captureFrame{ background: rgb(199, 100, 118); }
+
+#captureFrame:hover{ background: rgba(199, 100, 118,0.7); }
+
 .mediaControls{
     float: right;
     background: rgba(243,243,243, 1);
@@ -387,7 +391,7 @@ button:active, a.button:active{
     transition: width 0.4s ease-out;
     z-index: 2;
 }
-#collapsedSidebar.shrink { width: 50px; }
+#collapsedSidebar.shrink{ width: 50px; }
 
 #sidebar{
     padding: 0;
@@ -423,9 +427,7 @@ h2 img{
     margin-right: 10px;
     vertical-align: middle;
 }
-h2 span{
-    vertical-align: middle;
-}
+h2 span{ vertical-align: middle; }
 #sidebar ul li li, #popUp ul li li{
     padding: 0.5em 5%;
     margin: 0;
@@ -435,9 +437,8 @@ h2 span{
     display: inline-block;
     width: 100%;
 }
-#sidebar ul li li span{
-    vertical-align: middle;
-}
+#sidebar ul li li span{ vertical-align: middle; }
+
 #sidebar ul li li:last-of-type{
     border-bottom: solid 1px #ccc6c6;
     margin-bottom: 1em;
@@ -461,9 +462,8 @@ h2 span{
     padding: 2%;
     vertical-align: middle;
 }
-#sidebar input:hover{
-    opacity: 0.8;
-}
+#sidebar input:hover{ opacity: 0.8; }
+
 #sidebar label{
     vertical-align: middle;
     display: block;
@@ -478,9 +478,7 @@ h2 span{
     border: 0;
     margin: 0;
 }
-input[type="range"]:hover{
-    cursor: pointer;
-}
+input[type="range"]:hover{ cursor: pointer; }
 
 /* Save path display */
 #currentDirectoryName { word-break: break-word; }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <title>Boats Animator</title>
     <link rel="stylesheet" href="main.css">
+    <script src="main.js" async></script>
 </head>
 
 <body onload="startup()">
@@ -13,7 +14,7 @@
     </section>
 
     <div id="collapsedSidebar">
-         <button id="btn-sidebar-toggle" class="mediaControls"><img style="height: 100%;" src="icons/menu.png"/></button>
+        <button id="btn-sidebar-toggle" class="mediaControls"><img style="height: 100%;" src="icons/menu.png"/></button>
     </div>
     <div id="sidebar">
         <ul>
@@ -96,8 +97,8 @@
 
     <div id="column3">
         <div id="controls">
-            <button id="captureFrame">Take photo</button>
-            <button id="deleteLastFrame">Delete last frame</button>
+            <button id="captureFrame" title="Capture frame">Capture frame</button>
+            <button id="deleteLastFrame" title="Last last frame">Delete last frame</button>
             <button id="stopPlayback" class="mediaControls"><img style="height: 100%;" src="icons/stop.png"/></button>
             <button id="pausePlayback" class="mediaControls"><img style="height: 100%;" src="icons/pause.png"/></button>
             <button id="playbackFrames" class="mediaControls"><img style="height: 100%;" src="icons/play.png"/></button>
@@ -139,7 +140,5 @@
             <img id="photo" alt="The screen capture will appear in this box.">
         </div>
     </div>
-
-    <script src="main.js"></script>
 </body>
 </html>
