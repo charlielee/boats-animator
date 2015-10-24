@@ -299,8 +299,8 @@ function updateFrameReel(action, id) {
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Expand image" width="160" height="120" src="${curFrameData}">
-<img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.svg">
+<img class="frame-reel-img" id="img-${id}" title="Expand image" width="80" height="60" src="${curFrameData}">
+<i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
 </div></td>`);
 
         // Individual frame deletion
@@ -433,8 +433,8 @@ function takePicture() {
 function playbackframes() {
     winMode = "playback";
     switchMode("playback");
-    btnPlayPause.children[0].setAttribute("src", "icons/pause.svg");
-
+    btnPlayPause.children[0].classList.remove("fa-play");
+    btnPlayPause.children[0].classList.add("fa-pause");
     yoplayit = setInterval(playit, (1000 / frameRate));
     console.info("Playback started");
 }
@@ -462,7 +462,8 @@ function stopit() {
         //display final frame in playback window
         document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
         document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
-        btnPlayPause.children[0].setAttribute("src", "icons/play.svg");
+        btnPlayPause.children[0].classList.remove("fa-pause");
+        btnPlayPause.children[0].classList.add("fa-play");
         console.info("Playback stopped");
     }
 }
@@ -472,7 +473,9 @@ function stopitwhenlooping() {
     clearInterval(yoplayit);
     document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
     document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
-    btnPlayPause.children[0].setAttribute("src", "icons/play.svg");
+    btnPlayPause.children[0].classList.remove("fa-pause");
+    btnPlayPause.children[0].classList.add("fa-play");
+
     //reset playback frame
     playbackFrameNo = -1;
     console.info("Playback stopped with loop on");
@@ -481,7 +484,8 @@ function stopitwhenlooping() {
 function pauseit() {
     isPlaying = false;
     clearInterval(yoplayit);
-    btnPlayPause.children[0].setAttribute("src", "icons/play.svg");
+    btnPlayPause.children[0].classList.remove("fa-pause");
+    btnPlayPause.children[0].classList.add("fa-play");
     console.info("Playback paused");
 }
 
