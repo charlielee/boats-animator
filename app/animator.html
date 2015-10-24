@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/animator.css">
-    <script src="main.js" async></script>
 </head>
 
 <body class="animator" onload="startup()">
@@ -17,7 +16,7 @@
         <p id="msg"></p>
     </section>
 
-  <!--Sidebar content-->
+    <!--Sidebar content-->
     <div id="sidebar">
         <div id="sidebar-content">
 
@@ -139,7 +138,7 @@
                 <div id="btn-stop" class="mediaControls" title="Stop Playback"><i class="fa fa-stop"></i></div>
                 <div id="btn-play-pause" class="mediaControls" title="Playback Frames"><i class="fa fa-play"></i></div>
             </div>
-          <div id="deleteLastFrame"><i class="fa fa-trash"></i> Delete last frame</div>
+            <div id="deleteLastFrame"><i class="fa fa-trash"></i> Delete last frame</div>
         </div>
         <div id="capture-control">
             <div id="captureFrame" class="fa-stack fa-lg" title="Capture Frame">
@@ -148,7 +147,7 @@
             </div>
         </div>
 
-    <!--Frame-reel container-->
+        <!--Frame-reel container-->
         <div id="frame-reel-container">
             <div id="area-frame-reel">
                 <p>No frames captured</p>
@@ -168,8 +167,8 @@
 
     <div id="statusBar">
         <ul>
-            <li id="currentFrame">Current frame: <span>12</span></li>
-            <li id="noOfFrames"><span>155</span> frames captured</li>
+            <li id="currentFrame">Current frame: <span></span></li>
+            <li id="noOfFrames"><span></span> frames captured</li>
             <li class="no-pipe" id="currentFrameRate">Currently playing at <span></span> FPS</li>
             <li class="no-pipe" id="statusBar-credits"><a href="#" onclick="gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator')">&copy; Charlie Lee 2015</a></li>
         </ul>
@@ -178,5 +177,6 @@
     <div style="display: none;" class="output">
         <img id="photo" alt="The screen capture will appear in this box.">
     </div>
+    <script src="js/main.js" async></script>
 </body>
 </html>
