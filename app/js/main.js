@@ -252,13 +252,11 @@ function startup() {
  */
 function switchMode(winMode) {
     if (winMode == "capture") {
-//        btnModeToggle.innerHTML = "Switch to playback mode";
         console.log("switched to capture mode");
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
 
     } else if (winMode == "playback") {
-//        btnModeToggle.innerHTML = "Switch to capture mode";
         console.log("switched to playback mode");
         captureWindow.classList.add("hidden");
         playbackWindow.classList.remove("hidden");

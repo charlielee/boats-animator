@@ -1,6 +1,4 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
   height: 100%;
@@ -20,9 +18,7 @@ body {
   height: 100%;
 }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
 
 /* ========== TEXT STYLING ============== */
 
@@ -32,16 +28,12 @@ a {
   cursor: pointer;
 }
 
-a:hover {
-/*  background-color: rgba(255, 255, 255, 0.5);*/
-}
-
 /* ========== NOTIFICATION BAR ============== */
 
 .notification {
   width: 60%;
   min-height: 3em;
-  position: fixed;
+  position: 
   left: 18vw;
   padding-top: 0.2em;
   padding-bottom: 0.5em;
@@ -75,32 +67,22 @@ a:hover {
   width: 19em;
 }
 
-#sidebar a {
-  color: #d3d3d3;
-}
-
-#sidebar a:hover {
-  border-bottom: 1.5px solid #d3d3d3;
-}
+#sidebar a { color: #d3d3d3; }
+#sidebar a:hover { border-bottom: 1.5px solid #d3d3d3; }
 
 #sidebar-content {
   padding-left: 1em;
   padding-bottom: 1em;
-/*  margin-top: 2.5em;*/
 }
 
-#sidebar-content h2 {
-  font-size: 1.2em;
-}
+#sidebar-content h2 { font-size: 1.2em; }
 
 #sidebar-content ul {
   list-style: none;
   line-height: 1.4;
 }
 
-#sidebar-content li {
-  margin-left: -0.7em;
-}
+#sidebar-content li { margin-left: -0.7em; }
 
 #btn-sidebar-toggle {
   font-size: 1.5em;
@@ -109,13 +91,9 @@ a:hover {
   float: right;
 }
 
-.sidebar-item {
-  border-bottom: 1px solid #ADADAD;
-}
+.sidebar-item { border-bottom: 1px solid #ADADAD; }
 
-.sidebar-link-dot {
-  margin-right: 6px;
-}
+.sidebar-link-dot { margin-right: 6px; }
 
 #btn-onion-skin-toggle {
   margin-left: 2em;
@@ -123,13 +101,9 @@ a:hover {
   cursor: pointer;
 }
 
-#btn-onion-skin-toggle i {
-  font-size: 1.1em;
-}
+#btn-onion-skin-toggle i { font-size: 1.1em; }
 
-#input-onion-skin-opacity {
-  vertical-align: bottom;
-}
+#input-onion-skin-opacity { vertical-align: bottom; }
 
 #input-fr-change {
   width: 3em;
@@ -141,15 +115,11 @@ a:hover {
   font-family: monospace;
 }
 
-#loopCheckbox {
-  cursor: pointer;
-}
+#loopCheckbox { cursor: pointer; }
 
 /* ========== VIDEO PREVIEW ============== */
 
-#video, #canvas {
-  display: none;
-}
+#video, #canvas { display: none; }
 
 #captureWindow, #playbackWindow {
   text-align: center;
@@ -158,19 +128,18 @@ a:hover {
   background-color: black;
 }
 
+/*
 #playbackWindow {
- 
+
 }
 
-#playbackContainer{
-/*
-  max-width: 100%;
-  overflow: visible;
+#playbackContainer {
+
+}
+
+#playback {
+}
 */
-}
-#playback{
-/*  max-width: 100%;*/
-}
 
 #preview {
   max-width: 100%;
@@ -222,9 +191,7 @@ a:hover {
 
 /* ========== CONTROLS ============== */
 
-#main-event {
-  width: calc(100% - 19em);
-}
+#main-event { width: calc(100% - 19em); }
 
 #capture-control {
   text-align: center;
@@ -253,25 +220,22 @@ a:hover {
   margin-top: -2.84em;
   cursor: pointer;
   font-size: 2em;
-  
 }
 
-#captureFrame .fa-camera {
-  color: #ad0000;
-}
+#captureFrame .fa-camera { color: #ad0000; }
 
 #playback-controls div {
   display: inline-block;
   float: right;
 }
 
-#btn-play-pause {
-  padding: 0 0.5em;
-}
+#btn-play-pause { padding: 0 0.5em; }
 
+/*
 #capture-control {
-/*  text-align: center;*/
+
 }
+*/
 
 /* ========== FRAME REEL ============== */
 
@@ -288,7 +252,6 @@ a:hover {
 }
 
 #area-frame-reel > p {
-/*  padding: 1em 0;*/
   font-size: 1.5em;
   text-align: center;
 }
@@ -301,15 +264,11 @@ a:hover {
   margin: 0 -0.1em;
 }
 /* Preview image */
-.frame-reel-img {
-  cursor: pointer;
-}
+.frame-reel-img { cursor: pointer; }
 .frame-reel-img:hover { opacity: 0.8; }
 
 /* Frame delete button */
 .btn-frame-delete {
-/*    background-color: rgb(243, 243, 243);*/
-/*    padding: 2%;*/
   position: absolute;
   left: 84%;
   top: 71%;
@@ -329,12 +288,9 @@ a:hover {
   font-size: 2.5em;
   cursor: pointer;
   float: right;
-/*  margin: 0 -0.1em;*/
 }
 
-#btn-mode-toggle i {
-  padding-top: 0.3em;
-}
+#btn-mode-toggle i { padding-top: 0.3em; }
 
 /* ========== STATUS BAR ============== */
 
@@ -347,9 +303,7 @@ a:hover {
   z-index: 2;
 }
 
-#statusBar a {
-  color: #2B2B2B;
-}
+#statusBar a { color: #2B2B2B; }
 
 #statusBar ul {
   list-style: none;
@@ -369,7 +323,4 @@ a:hover {
   margin-left: 0.8em;
 }
 
-#statusBar-credits {
-  float: right;
-/*  padding-right: 1em;*/
-}
+#statusBar-credits { float: right; }
