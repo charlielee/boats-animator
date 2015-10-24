@@ -126,6 +126,7 @@ a {
   background-color: black;
 }
 
+#captureWindow.hidden,
 #playbackWindow.hidden { display: none; }
 
 #preview {

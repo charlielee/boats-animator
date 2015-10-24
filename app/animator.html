@@ -127,8 +127,6 @@
             <div id="playbackContainer">
                 <!--The actual playback window -->
                 <img id="playback">
-                <p class="hidden">Playback not avalable!</p>
-                <!-- TODO NEEDS TO BE A NOTIFICATION INSTEAD!-->
             </div>
         </div>
 
@@ -167,9 +165,9 @@
 
     <div id="statusBar">
         <ul>
-            <li id="currentFrame">Current frame: <span></span></li>
-            <li id="noOfFrames"><span></span> frames captured</li>
-            <li class="no-pipe" id="currentFrameRate">Currently playing at <span></span> FPS</li>
+            <li id="currentFrame">Current frame: <span>0</span></li>
+            <li id="noOfFrames">0 frames captured</li>
+            <li class="no-pipe" id="currentFrameRate"><span></span> FPS</li>
             <li class="no-pipe" id="statusBar-credits"><a href="#" onclick="gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator')">&copy; Charlie Lee 2015</a></li>
         </ul>
     </div>

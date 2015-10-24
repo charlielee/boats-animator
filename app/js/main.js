@@ -324,7 +324,6 @@ function updateFrameReel(action, id) {
     } else {
         frameReelMsg.classList.remove("hidden");
         frameReelTable.classList.add("hidden");
-        frameReelRow.innerHTML = "";
     }
 }
 
@@ -378,7 +377,7 @@ function _toggleOnionSkin() {
       // Onion skin is currently disabled, turn it on
     } else {
       isOnionSkinEnabled = true;
-      onionSkinToggle.innerHTML = "<i class='fa fa-toggle-on' title='Toggle off''></i> On";
+      onionSkinToggle.innerHTML = "<i class='fa fa-toggle-on' title='Toggle off'></i> On";
       onionSkinToggle.classList.add("active");
 
       // Display last captured frame
@@ -440,7 +439,7 @@ function playit() {
     isPlaying = true;
     playbackFrameNo++;
     document.getElementById('playback').setAttribute("src",capturedFramesRaw[playbackFrameNo]);
-    document.getElementById('currentFrame').innerHTML = "Playing frame " + (playbackFrameNo + 1);
+    document.querySelector('#currentFrame span').innerHTML = curFrame;
     if((curFrame - 1) == playbackFrameNo){
             stopit();
     }
@@ -458,8 +457,8 @@ function stopit() {
         //stop increasing playback frame number
         clearInterval(yoplayit);
         //display final frame in playback window
-        document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
-        document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
+        document.getElementById('playback').setAttribute("", capturedFramesRaw[curFrame - 1]);
+        document.querySelector('#currentFrame span').innerHTML = curFrame;
         btnPlayPause.children[0].classList.remove("fa-pause");
         btnPlayPause.children[0].classList.add("fa-play");
         console.info("Playback stopped");
@@ -470,7 +469,7 @@ function stopitwhenlooping() {
     //stop increasing playback frame number
     clearInterval(yoplayit);
     document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
-    document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
+    document.querySelector('#currentFrame span').innerHTML = curFrame;
     btnPlayPause.children[0].classList.remove("fa-pause");
     btnPlayPause.children[0].classList.add("fa-play");
 
