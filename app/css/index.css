@@ -12,8 +12,8 @@ body{
     -webkit-user-select: none;  /* Note vendor specific prefix. Should be updated when "user-select" becomes an actual CSS property*/
     cursor: default;
     }
-header{
-    background: #1a3960;
+.app-info {
+    background-color: #1a3960;
     width: 270px;
     height: 100vh;
     float: left;
@@ -30,7 +30,7 @@ h1{
     font-size: 33px;
     box-sizing: content-box;
 }
-h2{
+.app-info > h2 {
     padding: 0;
     margin: 1em 0;
     font-size: 20px;
@@ -49,7 +49,7 @@ h3{
 }
 footer{
     margin: 0;
-    padding: 10px;
+    padding: 0 10px;
     width: 250px;
     font-size: 0.75em;
     clear: both;
@@ -96,29 +96,31 @@ a:active{
 }
 #recentProjectsList{ height: 250px; }
 
-.rss-item{}
-
-a.rss-item{ font-size: 1.3em; }
-
-.rss-date{ color: #aca3a3; }
-
-#news{
-    padding: 0;
-    margin: 0;
+.container-news {
+    margin-top: -0.8em;
+    height: 25.8em;
+    overflow-y: scroll;
 }
-#news ul {
-    margin: 0;
-    padding: 0;
+
+.post,
+.container-news h3  {
+    color: #fff;
+    padding-right: 1em;
+    padding-left: 1em;
 }
-#news ul li{
-    list-style-type: none;
-    margin: 0;
-    padding: 0.5em 0;
-    text-align: left;
-    border-bottom: solid 1px #f3f3f3;
-    font-size: 0.8em;
+
+.post-link {
+    color: #fff;
+    text-decoration: none;
 }
-#news ul li:first-of-type{ padding: 0 0 0.5em 0; }
+.post-link:hover { color: #fff; }
+
+.post-title {
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: -0.4em;
+    color: #fff;
+}
 
 /*========================================================
 =====================GENERAL UI ELEMENTS==================

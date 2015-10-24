@@ -23,7 +23,7 @@ var width  = 640,
     // GUI window
     gui = require('nw.gui'),
     win = gui.Window.get(),
-    
+
     // Mode switching
     btnModeToggle  = document.querySelector("#btn-mode-toggle"),
     captureWindow  = document.querySelector("#captureWindow"),
@@ -38,13 +38,13 @@ var width  = 640,
     curFrame           = 0,
 
     // Playback
-    frameRate                  = 15,
-    isPlaying                  = false,
-    playback                   = document.querySelector("#playback"),
-    loopCheck                  = document.querySelector("#loopCheckbox"),
-    playbackButton             = document.querySelector("#playbackFrames"),
-    stopPlaybackButton         = document.querySelector("#stopPlayback"),
-    inputChangeFR              = document.querySelector("#input-fr-change"),
+    frameRate     = 15,
+    isPlaying     = false,
+    btnStop       = document.querySelector("#btn-stop"),
+    playback      = document.querySelector("#playback"),
+    loopCheck     = document.querySelector("#loopCheckbox"),
+    btnPlayPause  = document.querySelector("#btn-play-pause"),
+    inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Sidebar
     sidebar          = document.querySelector("#sidebar"),
@@ -110,9 +110,14 @@ function openIndex() {
  */
 function canDisplayNews() {
     "use strict";
-    if (!window.navigator.onLine) {
-        document.querySelector("#news").innerHTML = "This feature requires an internet connection.";
-    }
+    var NewsFeed = require("./js/feed"),
+    feed = new NewsFeed({
+      url: "http://charlielee.uk/category/boats-animator/feed/",
+      selectors: {
+        container: document.querySelector(".container-news")
+      }
+    });
+    feed.get();
 }
 
 function startup() {
@@ -184,7 +189,7 @@ function startup() {
           notifyError("An output destination must be first set!");
           return;
         }
-        
+
         takePicture();
     });
 
@@ -200,24 +205,17 @@ function startup() {
     // Change onion skin opacity
     onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
 
-    //listen if playback button is pressed
-    playbackButton.addEventListener("click", function (ev) {
+    // Play/pause the preview
+    btnPlayPause.addEventListener("click", function (ev) {
         ev.preventDefault();
-        //check pics have been taken
+        // Make sure we have frames to play back
         if (curFrame > 0) {
-            if (isPlaying === false) {
-                playbackframes();
-            } else {
-                console.warn("Pressing play did nothing as already playing!");
-            }
-
-        } else {
-            console.warn("Pressing play did nothing as no pictures have been taken!");
+            (isPlaying) ? pauseit() : playbackframes();
         }
     });
 
     //listen if stop playback button is pressed
-    stopPlaybackButton.addEventListener("click", function (ev) {
+    btnStop.addEventListener("click", function (ev) {
         ev.preventDefault();
         //check pics have been taken
         if (curFrame > 0) {
@@ -233,19 +231,11 @@ function startup() {
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("change", function () {
-        "use strict";
         frameRate = parseInt(this.value, 10);
         statusBarFrameRate.innerHTML = frameRate;
         stopitwhenlooping();
     });
 
-    // Toggle the sidebar visibility
-    //btnSidebarToggle.addEventListener("click", function(ev) {
-        //ev.preventDefault();
-       // sidebar.classList.toggle("hidden");
-//this-was-already-commented-out        collapsedSidebar.classList.toggle("shrink");
-    //});
-    
     // Toggle capture and playback windows
     btnModeToggle.addEventListener("click", function(ev) {
         ev.preventDefault();
@@ -261,7 +251,7 @@ function startup() {
 }
 
 /**
- * Changing between playback and capture windows
+ * Toggle between playback and capture windows.
  */
 function switchMode(winMode) {
     if (winMode == "capture") {
@@ -269,7 +259,7 @@ function switchMode(winMode) {
         console.log("switched to capture mode");
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
-        
+
     } else if (winMode == "playback") {
 //        btnModeToggle.innerHTML = "Switch to capture mode";
         console.log("switched to playback mode");
@@ -302,14 +292,18 @@ function updateFrameReel(action, id) {
     "use strict";
     // Display number of captured frames in status bar
     statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
-    onionSkinWindow.setAttribute("src", capturedFramesRaw[id - 1]);
 
+    // Get the last captured frame
+    var curFrameData = capturedFramesRaw[id - 1];
+
+    // Update onion skin frame
+    onionSkinWindow.setAttribute("src", curFrameData);
 
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Expand image" width="80" height="60" src="${capturedFramesRaw[id - 1]}">
-<i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
+<img class="frame-reel-img" id="img-${id}" title="Expand image" width="160" height="120" src="${curFrameData}">
+<img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.png">
 </div></td>`);
 
         // Individual frame deletion
@@ -428,7 +422,7 @@ function takePicture() {
         // Save the frame to disk and update the frame reel
         saveFrame(curFrame);
         updateFrameReel("capture", curFrame);
-        
+
         // Scroll the frame reel to the end
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
     }
@@ -442,6 +436,8 @@ function takePicture() {
 function playbackframes() {
     winMode = "playback";
     switchMode("playback");
+    btnPlayPause.children[0].setAttribute("src", "icons/pause.png");
+
     yoplayit = setInterval(playit, (1000 / frameRate));
     console.info("Playback started");
 }
@@ -469,6 +465,7 @@ function stopit() {
         //display final frame in playback window
         document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
         document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
+        btnPlayPause.children[0].setAttribute("src", "icons/play.png");
         console.info("Playback stopped");
     }
 }
@@ -478,6 +475,7 @@ function stopitwhenlooping() {
     clearInterval(yoplayit);
     document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
     document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
+    btnPlayPause.children[0].setAttribute("src", "icons/play.png");
     //reset playback frame
     playbackFrameNo = -1;
     console.info("Playback stopped with loop on");
@@ -486,6 +484,7 @@ function stopitwhenlooping() {
 function pauseit() {
     isPlaying = false;
     clearInterval(yoplayit);
+    btnPlayPause.children[0].setAttribute("src", "icons/play.png");
     console.info("Playback paused");
 }
 

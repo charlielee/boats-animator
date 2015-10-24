@@ -8,12 +8,15 @@
     <script src="main.js" async></script>
 </head>
 
-<body onload="canDisplayNews()">
-    <header>
+<body class="index" onload="canDisplayNews()">
+    <header class="app-info">
         <h1>Boats Animator</h1>
-        <h2>Recent News</h2>
         <footer>Copyright (C) Charlie Lee 2015 <span style="float: right; text-align: right; padding: 0 4%;"><a href="#" onclick="gui.Shell.openExternal('http://charlielee.uk')">charlielee.uk</a></span></footer>
+
+        <h2>Recent News</h2>
+        <div class="container-news"></div>
     </header>
+
     <div class="indexContent">
         <h2>Project</h2>
         <button onclick="openAnimator()">New Project</button>
