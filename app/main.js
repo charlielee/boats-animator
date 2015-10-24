@@ -128,9 +128,6 @@ function startup() {
     //Check if a default directory has been set
     checkdefaultdirectory();
 
-    //Load the top menu
-    loadMenu();
-
     // Set default frame rate
     inputChangeFR.value = frameRate;
 
@@ -746,116 +743,117 @@ function notifyError(msg) {
 /**
  * Display top menu
  */
-function loadMenu() {
-    // Create menu
-    var menu = new gui.Menu({ type: 'menubar' });
+// Create menu
+var menuBar = new gui.Menu({ type: 'menubar' });
 
-    // Create sub-menus
-    var fileMenuItems = new gui.Menu(),
-        editMenuItems = new gui.Menu(),
-        captureMenuItems = new gui.Menu(),
-        helpMenuItems = new gui.Menu();
+// Create sub-menus
+var fileMenuItems = new gui.Menu(),
+    editMenuItems = new gui.Menu(),
+    captureMenuItems = new gui.Menu(),
+    helpMenuItems = new gui.Menu();
 
+//File menu items
+fileMenuItems.append(new gui.MenuItem({
+  label: "New project...",
+    icon: "icons/file.png",
+  click: function() {
+  },
+    key: "n",
+    modifiers: "ctrl",
+}));
+fileMenuItems.append(new gui.MenuItem({
+  label: "Open project...",
+    icon: "icons/import.png",
+  click: function() {
+  },
+    key: "o",
+    modifiers: "ctrl",
+}));
+fileMenuItems.append(new gui.MenuItem({
+  label: "Main Menu",
+    icon: "icons/menu.png",
+  click: function() {
+    openIndex();
+  },
+    key: "m",
+    modifiers: "ctrl",
+}));
 
-    //File menu items
-    fileMenuItems.append(new gui.MenuItem({
-      label: "New project...",
-        icon: "icons/file.png",
-      click: function() {
-      },
-        key: "n",
-        modifiers: "ctrl",
-    }));
-    fileMenuItems.append(new gui.MenuItem({
-      label: "Open project...",
-        icon: "icons/import.png",
-      click: function() {
-      },
-        key: "o",
-        modifiers: "ctrl",
-    }));
-    fileMenuItems.append(new gui.MenuItem({
-      label: "Main Menu",
-        icon: "icons/menu.png",
-      click: function() {
-        openIndex();
-      },
-        key: "m",
-        modifiers: "ctrl",
-    }));
+//Edit menu items
+editMenuItems.append(new gui.MenuItem({
+  label: "Delete last frame",
+    icon: "icons/delete.png",
+  click: function() {
+    undoFrame();
+  },
+  key: "z",
+  modifiers: "ctrl",
+}));
+editMenuItems.append(new gui.MenuItem({ type: 'separator' }));
+editMenuItems.append(new gui.MenuItem({
+  label: "Preferences",
+    icon: "icons/settings.png",
+  click: function() {
+      btnSidebarToggle.click();
+  },
+  key: "p",
+  modifiers: "ctrl",
+}));
 
-    //Edit menu items
-    editMenuItems.append(new gui.MenuItem({
-      label: "Delete last frame",
-        icon: "icons/delete.png",
-      click: function() {
-        undoFrame();
-      },
-      key: "z",
-      modifiers: "ctrl",
-    }));
-    editMenuItems.append(new gui.MenuItem({ type: 'separator' }));
-    editMenuItems.append(new gui.MenuItem({
-      label: "Preferences",
-        icon: "icons/settings.png",
-      click: function() {
-          btnSidebarToggle.click();
-      },
-      key: "p",
-      modifiers: "ctrl",
-    }));
+//Capture menu items
+captureMenuItems.append(new gui.MenuItem({
+  label: "Capture frame",
+    icon: "icons/capture.png",
+  click: function() {
+    takePicture();
+  },
+  key: "c",
+  modifiers: "ctrl",
+}));
 
-    //Capture menu items
-    captureMenuItems.append(new gui.MenuItem({
-      label: "Capture frame",
-        icon: "icons/capture.png",
-      click: function() {
-        takePicture();
-      },
-      key: "c",
-      modifiers: "ctrl",
-    }));
+//Help menu items
+helpMenuItems.append(new gui.MenuItem({
+  label: "Give feedback",
+    icon: "icons/feedback.png",
+  click: function() {
+      gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator/issues')
+  },
+  key: "/",
+  modifiers: "ctrl",
+}));
 
-    //Help menu items
-    helpMenuItems.append(new gui.MenuItem({
-      label: "Give feedback",
-        icon: "icons/feedback.png",
-      click: function() {
-          console.log("feedback");
-      },
-      key: "/",
-      modifiers: "ctrl",
-    }));
+// Append sub-menus to main menu
+menuBar.append(
+    new gui.MenuItem({
+        label: 'File',
+        submenu: fileMenuItems
+    })
+);
+menuBar.append(
+    new gui.MenuItem({
+        label: 'Edit',
+        submenu: editMenuItems
+    })
+);
+menuBar.append(
+    new gui.MenuItem({
+        label: 'Capture',
+        submenu: captureMenuItems
+    })
+);
+menuBar.append(
+    new gui.MenuItem({
+        label: 'Help',
+        submenu: helpMenuItems
+    })
+);
 
-    // Append sub-menus to main menu
-    menu.append(
-        new gui.MenuItem({
-            label: 'File',
-            submenu: fileMenuItems // menu elements from menuItems object
-        })
-    );
-    menu.append(
-        new gui.MenuItem({
-            label: 'Edit',
-            submenu: editMenuItems // menu elements from menuItems object
-        })
-    );
-    menu.append(
-        new gui.MenuItem({
-            label: 'Capture',
-            submenu: captureMenuItems // menu elements from menuItems object
-        })
-    );
-    menu.append(
-        new gui.MenuItem({
-            label: 'Help',
-            submenu: helpMenuItems // menu elements from menuItems object
-        })
-    );
+// Append main menu to Window
+gui.Window.get().menu = menuBar;
 
-    // Append Menu to Window
-    gui.Window.get().menu = menu;
-}
+ // Create Mac menu
+menuBar.createMacBuiltin('Boats Animator');
+
 /**
  * Development Functions
  */
