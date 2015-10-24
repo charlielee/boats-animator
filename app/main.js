@@ -43,13 +43,11 @@ var width  = 480,
     loopCheck                  = document.querySelector("#loopCheckbox"),
     playbackButton             = document.querySelector("#playbackFrames"),
     stopPlaybackButton         = document.querySelector("#stopPlayback"),
-    pausePlaybackButton        = document.querySelector("#pausePlayback"),
     inputChangeFR              = document.querySelector("#input-fr-change"),
 
     // Sidebar
     sidebar          = document.querySelector("#sidebar"),
     btnSidebarToggle = document.querySelector("#btn-sidebar-toggle"),
-    collapsedSidebar = document.querySelector("#collapsedSidebar"),
 
     // Status bar
     statusBarFrameNum  = document.querySelector("#noOfFrames"),
@@ -233,21 +231,6 @@ function startup() {
         }
     });
 
-    //listen if pause playback button is pressed
-    pausePlaybackButton.addEventListener("click", function (ev) {
-        ev.preventDefault();
-        //check pics have been taken
-        if (curFrame > 0) {
-            if (isPlaying === true) {
-                pauseit();
-            } else {
-                console.warn("Pressing pause did nothing as not playing!");
-            }
-        } else {
-            console.warn("Pressing pause did nothing as no pictures have been taken!");
-        }
-    });
-
     // Listen for frame rate changes
     inputChangeFR.addEventListener("change", function () {
         "use strict";
@@ -260,7 +243,7 @@ function startup() {
     btnSidebarToggle.addEventListener("click", function(ev) {
         ev.preventDefault();
         sidebar.classList.toggle("hidden");
-        collapsedSidebar.classList.toggle("shrink");
+//        collapsedSidebar.classList.toggle("shrink");
     });
     
     // Toggle capture and playback windows
@@ -323,8 +306,8 @@ function updateFrameReel(action, id) {
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Expand image" width="160" height="120" src="${capturedFramesRaw[id - 1]}">
-<img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.png">
+<img class="frame-reel-img" id="img-${id}" title="Expand image" width="80" height="60" src="${capturedFramesRaw[id - 1]}">
+<i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
 </div></td>`);
 
         // Individual frame deletion
@@ -397,7 +380,7 @@ function _toggleOnionSkin() {
     // Onion skin is currently enabled, turn it off
     if (isOnionSkinEnabled) {
       isOnionSkinEnabled = false;
-      onionSkinToggle.innerHTML = "<span>Off</span>";
+      onionSkinToggle.innerHTML = "<i class='fa fa-toggle-off' title='Toggle on'></i> Off";
       onionSkinToggle.classList.remove("active");
       onionSkinPanel.classList.remove("visible");
       onionSkinWindow.classList.remove("visible");
@@ -405,7 +388,7 @@ function _toggleOnionSkin() {
       // Onion skin is currently disabled, turn it on
     } else {
       isOnionSkinEnabled = true;
-      onionSkinToggle.innerHTML = "<span>On</span>";
+      onionSkinToggle.innerHTML = "<i class='fa fa-toggle-on' title='Toggle off''></i> On";
       onionSkinToggle.classList.add("active");
       onionSkinPanel.classList.add("visible");
 

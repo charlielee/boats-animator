@@ -4,132 +4,167 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <title>Boats Animator</title>
-    <link rel="stylesheet" href="main.css">
+    <!--NEEDS DOWNLOADED VERSIONS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/animator.css">
     <script src="main.js" async></script>
 </head>
 
 <body class="animator" onload="startup()">
-    <div class="content-flex">
-        <section class="notification hidden">
-            <p id="msg"></p>
-        </section>
+    <!--Notification Bar-->
+    <section class="notification hidden">
+        <p id="msg"></p>
+    </section>
 
-        <div id="collapsedSidebar">
-            <button id="btn-sidebar-toggle" class="mediaControls"><img style="height: 100%;" src="icons/menu.png"/></button>
-        </div>
+  <!--Sidebar content-->
+    <div id="sidebar">
+<!--        <div id="btn-sidebar-toggle" class="mediaControls"><i class="fa fa-bars fa-fw"></i></div>-->
+        <div id="sidebar-content">
 
-        <div id="sidebar">
-            <ul>
-                <li>
-                    <h2><img width="15" height="15" src="icons/onionskin.png"><span>Onion Skinning</span>
-                        <div id="btn-onion-skin-toggle" class="btn-sidebar"><span>Off</span></div>
-                    </h2>
-                    <ul id="options-onion-skin">
-                        <li><span>Amount: </span><span id="onion-skin-percentage">50%</span><input id="input-onion-skin-opacity" class="sidebarOption" type="range" name="onionSkinAmount" min="0" max="20" value="10">
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <h2><img width="15" height="15" src="icons/capture.png"><span>Capture</span></h2>
-                    <ul>
-                        <li><a onclick="alert('Coming soon!');">Change resolution</a></li>
-                        <li><a onclick="alert('Coming soon!');">Change camera</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <h2><img width="15" height="15" src="icons/play.png"><span>Playback</span></h2>
-                    <ul>
-                        <li>
+                <!--Onion Skinning Options-->
+            <div class="sidebar-item" id="onion-skin-header">
+                <div class="sidebar-header">
+                    <h2><i class="fa fa-adjust fa-fw"></i> Onion Skinning</h2>
+                </div>
+                    <div id="btn-onion-skin-toggle" class="btn-sidebar"><i class="fa fa-toggle-off" title="Toggle on"></i> Off</div>
+                <ul id="onion-skin-options">
+                    <li><span id="onion-skin-percentage">50%</span>
+                        <input id="input-onion-skin-opacity" class="sidebarOption" type="range" name="onionSkinAmount" min="0" max="20" value="10">
+                    </li>
+                </ul>
+            </div>
+
+            <!--Capture Options-->
+            <div class="sidebar-item" id="capture-header">
+                <div class="sidebar-header">
+                    <h2><i class="fa fa-camera fa-fw"></i> Capture</h2>
+                </div>
+                <ul id="capture-options">
+                  <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change resolution</a></li>
+                  <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
+                </ul>
+            </div>
+
+            <!--Playback Options-->
+            <div class="sidebar-item" id="playback-header">
+                <div class="sidebar-header">
+                    <h2><i class="fa fa-play fa-fw"></i> Playback</h2>
+                </div>
+                <ul id="playback-options">
+                    <li>
                         <label id="label-fr-change" for="input-fr-change">Frame rate</label>
                         <input id="input-fr-change" type="number" value="15">
-                        </li>
-                        <li>
+                    </li>
+                    <li>
                         <input id="loopCheckbox" type="checkbox" name="options" value="Download">
                         <label for="loopCheckbox">Loop frames on playback</label>
-                        </li>
-
-                    </ul>
-                </li>
-                <li>
-                    <h2><img width="15" height="15" src="icons/export.png">Export</h2>
-                    <ul>
-                        <li>Captured frames will be exported to:
-                            <p id="currentDirectoryName" class="italics">No directory selected</p>
-                        </li>
-                        <li><a href="#" onclick="changeDirectory()">Change directory</a></li>
-                        <li>
-                            <a href="#" onclick="setDefaultDirectory()">Set as default directory</a>
-                            <input id="chooseDirectory" style="display:none;" type="file" nwdirectory  />
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <h2><img width="15" height="15" src="icons/debug.png"><span>Debugging</span></h2>
-                    <ul>
-                        <li><a onclick="dev()">Load developer tools</a></li>
-                        <li><a onclick="reload()">Reload main window</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
-        <div id="captureWindow">
-            <div id="onionSkinningLayer">
-                <img id="onion-skinning-frame" width="100%" alt="Please capture your first frame to use onion skinning">
+                    </li>
+                </ul>
             </div>
-            <div class="windowTitleContainer">
-                <h2 id="captureTitle">Capture</h2>
-            </div>
-            <video id="preview" src="blanksquare.png">Video stream not available.</video>
 
-            <!--2ND HIDDEN VIDEO STREAM TO ALLOW FOR VARIED RESOLUTIONS-->
-            <video id="video">Video stream not available.</video>
-            <!--HIDDEN CANVAS FOR CONVERSATION TO PNG-->
-            <canvas id="canvas"></canvas>
-        </div>
-
-        <div id="playbackWindow" class="hidden">
-            <div id="playbackContainer">
-                <img id="playback" src="blanksquare.png">
+            <!--Export Options-->
+            <div class="sidebar-item" id="export-header">
+                <div class="sidebar-header">
+                    <h2><i class="fa fa-download fa-fw"></i> Export</h2>
+                </div>
+                <ul>
+                    <li>Captured frames will be exported to:
+                        <p id="currentDirectoryName" class="italics">No directory selected</p>
+                    </li>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="changeDirectory()">Change directory</a></li>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
+                        <a href="#" onclick="setDefaultDirectory()">Set as default directory</a>
+                        <input id="chooseDirectory" style="display:none;" type="file" nwdirectory  />
+                    </li>
+                </ul>
             </div>
-            <div class="windowTitleContainer">
-                <h2 id="playbackTitle">Playback</h2>
+
+            <!--Debugging Options-->
+            <div class="sidebar-item" id="debugging-header">
+                <div class="sidebar-header">
+                    <h2><i class="fa fa-heartbeat fa-fw"></i> Debugging</h2>
+                </div>
+                <ul>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="dev()">Load developer tools</a></li>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="reload()">Reload main window</a></li>
+                </ul>
             </div>
         </div>
     </div>
 
-    <div id="column3">
-        <div id="controls">
-            <button id="captureFrame" title="Capture frame">Capture frame</button>
-            <button id="deleteLastFrame" title="Delete last frame">Delete last frame</button>
-            <button id="btn-mode-toggle" title="Playback / Capture Switch">Switch to playback mode</button>
-            <button id="stopPlayback" class="mediaControls"><img style="height: 100%;" src="icons/stop.png"/></button>
-            <button id="pausePlayback" class="mediaControls"><img style="height: 100%;" src="icons/pause.png"/></button>
-            <button id="playbackFrames" class="mediaControls"><img style="height: 100%;" src="icons/play.png"/></button>
-        </div>
-            <div id="capturedFramesContainer">
-                <div id="area-frame-reel">
-                    <p>No captured frames available.</p>
-                    <table class="hidden">
-                        <tr></tr>
-                    </table>
-              </div>
+    <div id="main-event">
+    <!--Capture Window-->
+    <div id="captureWindow">
+        <div id="onionSkinningLayer">
+            <!--The actual onion skinning frame, injected through JS-->
+            <img id="onion-skinning-frame" width="100%">
         </div>
 
-        <div class="content-flex">
-            <div id="statusBar">
-                <ul>
-                    <li id="noOfFrames"></li>
-                    <li id="currentFrameRate">Currently playing at <span></span> FPS</li>
-                    <li id="currentFrame">Playing frame 0</li>
-                    <li style="float: right;"><span style="font-weight: 600;">©</span> Charlie Lee 2015</li>
-                </ul>
-            </div>
+        <!--The actual video stream -->
+        <video id="preview">Video stream not available.</video>
 
-            <div style="display: none;" class="output">
-                <img id="photo" alt="The screen capture will appear in this box.">
-            </div>
+        <!--2ND HIDDEN VIDEO STREAM TO ALLOW FOR VARIED RESOLUTIONS-->
+        <video id="video">Video stream not available.</video>
+        <!--HIDDEN CANVAS FOR CONVERSION TO PNG-->
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <!--Playback Window-->
+    <div id="playbackWindow" class="hidden">
+        <div id="playbackContainer">
+            <!--The actual playback window -->
+            <img id="playback">
+            <p>Playback not avalable!</p>
+<!--          NEEDS TO BE A NOTIFICATION INSTEAD!-->
         </div>
+    </div>
+
+    <!--Playback controls-->
+
+    <div id="control-buttons">
+        <div id="playback-controls">
+            <div id="stopPlayback" class="mediaControls" title="Stop Playback"><i class="fa fa-stop"></i></div>
+            <div id="playbackFrames" class="mediaControls" title="Playback Frames"><i class="fa fa-play"></i></div>
+        </div>
+      <div id="deleteLastFrame"><i class="fa fa-trash"></i> Delete last frame</div>
+    </div>
+    <div id="capture-control">
+        <div id="captureFrame" class="fa-stack fa-lg" title="Capture Frame">
+            <i class="fa fa-square fa-stack-2x"></i>
+            <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
+        </div>
+    </div>
+
+    <!--Frame-reel container-->
+    <div id="frame-reel-container">
+        <div id="area-frame-reel">
+            <p>No frames captured</p>
+            <table class="hidden">
+                <tr>
+                    <td>
+                       <div id="frame-reel-live">
+                          <i class="fa fa-video-camera" "btn-mode-toggle" title="Live Preview" width="80" height="60" src="#"></i>
+                        </div>
+                    </td>
+                  <!--This is where the frame is added through JS -->
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+    
+    <div id="statusBar">
+        <ul>
+            <li id="currentFrame">Current frame: <span>12</span></li>
+            <li id="noOfFrames"><span>155</span> frames captured</li>
+            <li class="no-pipe" id="currentFrameRate">Currently playing at <span></span> FPS</li>
+            <li class="no-pipe" id="statusBar-credits"><a href="#" onclick="gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator')">&copy; Charlie Lee 2015</a></li>
+        </ul>
+    </div>
+
+    <div style="display: none;" class="output">
+        <img id="photo" alt="The screen capture will appear in this box.">
     </div>
 </body>
 </html>

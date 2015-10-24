@@ -36,6 +36,7 @@
         "frame": true, 
         "nodejs": true, 
         "kiosk": false, 
+        "width": 800, 
         "height": 456, 
         "exe_icon": "", 
         "visible": true, 
@@ -47,7 +48,6 @@
         "show_in_taskbar": true, 
         "kiosk_emulation": false, 
         "transparent": false, 
-        "width": 800, 
         "icon": "icons\\icon.png"
     }, 
     "version": "0.4.1", 
