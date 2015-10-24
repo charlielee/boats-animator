@@ -18,8 +18,6 @@ body {
   height: 100%;
 }
 
-.hidden { display: none; }
-
 /* ========== TEXT STYLING ============== */
 
 a {
@@ -33,7 +31,7 @@ a {
 .notification {
   width: 60%;
   min-height: 3em;
-  position: 
+  position: fixed;
   left: 18vw;
   padding-top: 0.2em;
   padding-bottom: 0.5em;
@@ -127,6 +125,8 @@ a {
   padding-bottom: 0.3em;
   background-color: black;
 }
+
+#playbackWindow.hidden { display: none; }
 
 /*
 #playbackWindow {
