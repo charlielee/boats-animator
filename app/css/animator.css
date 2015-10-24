@@ -68,7 +68,6 @@ a:hover {
 #sidebar {
   position: relative;
   float: right;
-  background-color: #2B2B2B;
   color: #d3d3d3;
   z-index: 2;
   padding-right: 1em;
@@ -354,7 +353,7 @@ a:hover {
   background-color: #D9D9D9;
   color: #2B2B2B;
   bottom: 0;
-  width: calc(100% - 19em);
+  width: 100%;
 }
 
 #statusBar a {
