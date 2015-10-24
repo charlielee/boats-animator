@@ -63,7 +63,6 @@ var width  = 480,
     // Onion skin
     onionSkinFrame     = null,
     isOnionSkinEnabled = false,
-    onionSkinPanel     = document.querySelector("#options-onion-skin"),
     onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
     onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
     onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
@@ -240,11 +239,11 @@ function startup() {
     });
 
     // Toggle the sidebar visibility
-    btnSidebarToggle.addEventListener("click", function(ev) {
-        ev.preventDefault();
-        sidebar.classList.toggle("hidden");
-//        collapsedSidebar.classList.toggle("shrink");
-    });
+    //btnSidebarToggle.addEventListener("click", function(ev) {
+        //ev.preventDefault();
+       // sidebar.classList.toggle("hidden");
+//this-was-already-commented-out        collapsedSidebar.classList.toggle("shrink");
+    //});
     
     // Toggle capture and playback windows
     btnModeToggle.addEventListener("click", function(ev) {
@@ -265,13 +264,13 @@ function startup() {
  */
 function switchMode(winMode) {
     if (winMode == "capture") {
-        btnModeToggle.innerHTML = "Switch to playback mode";
+//        btnModeToggle.innerHTML = "Switch to playback mode";
         console.log("switched to capture mode");
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
         
     } else if (winMode == "playback") {
-        btnModeToggle.innerHTML = "Switch to capture mode";
+//        btnModeToggle.innerHTML = "Switch to capture mode";
         console.log("switched to playback mode");
         captureWindow.classList.add("hidden");
         playbackWindow.classList.remove("hidden");
@@ -302,6 +301,8 @@ function updateFrameReel(action, id) {
     "use strict";
     // Display number of captured frames in status bar
     statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
+    onionSkinWindow.setAttribute("src", capturedFramesRaw[id - 1]);
+
 
     // Add the newly captured frame
     if (action === "capture") {
@@ -382,7 +383,6 @@ function _toggleOnionSkin() {
       isOnionSkinEnabled = false;
       onionSkinToggle.innerHTML = "<i class='fa fa-toggle-off' title='Toggle on'></i> Off";
       onionSkinToggle.classList.remove("active");
-      onionSkinPanel.classList.remove("visible");
       onionSkinWindow.classList.remove("visible");
 
       // Onion skin is currently disabled, turn it on
@@ -390,7 +390,6 @@ function _toggleOnionSkin() {
       isOnionSkinEnabled = true;
       onionSkinToggle.innerHTML = "<i class='fa fa-toggle-on' title='Toggle off''></i> On";
       onionSkinToggle.classList.add("active");
-      onionSkinPanel.classList.add("visible");
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");

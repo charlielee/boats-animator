@@ -98,7 +98,7 @@
     <div id="captureWindow">
         <div id="onionSkinningLayer">
             <!--The actual onion skinning frame, injected through JS-->
-            <img id="onion-skinning-frame" width="100%">
+            <img id="onion-skinning-frame">
         </div>
 
         <!--The actual video stream -->
@@ -115,7 +115,7 @@
         <div id="playbackContainer">
             <!--The actual playback window -->
             <img id="playback">
-            <p>Playback not avalable!</p>
+            <p class="hidden">Playback not avalable!</p>
 <!--          NEEDS TO BE A NOTIFICATION INSTEAD!-->
         </div>
     </div>
@@ -143,8 +143,8 @@
             <table class="hidden">
                 <tr>
                     <td>
-                       <div id="frame-reel-live">
-                          <i class="fa fa-video-camera" "btn-mode-toggle" title="Live Preview" width="80" height="60" src="#"></i>
+                       <div id="btn-mode-toggle">
+                          <i class="fa fa-video-camera" title="Live Preview" width="80" height="60" src="#"></i>
                         </div>
                     </td>
                   <!--This is where the frame is added through JS -->
