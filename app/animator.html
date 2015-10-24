@@ -21,16 +21,15 @@
     <div id="sidebar">
         <div id="sidebar-content">
 
-            <!--Onion Skinning Options-->
-            <div class="sidebar-item" id="onion-skin-header">
+            <!--Project Options-->
+            <div class="sidebar-item" id="debugging-header">
                 <div class="sidebar-header">
-                    <h2><i class="fa fa-adjust fa-fw"></i> Onion Skinning</h2>
+                    <h2><i class="fa fa-file-text fa-fw"></i> Project</h2>
                 </div>
-                    <div id="btn-onion-skin-toggle" class="btn-sidebar"><i class="fa fa-toggle-off" title="Toggle on"></i> Off</div>
-                <ul id="onion-skin-options">
-                    <li><span id="onion-skin-percentage">50%</span>
-                        <input id="input-onion-skin-opacity" class="sidebarOption" type="range" name="onionSkinAmount" min="0" max="20" value="10">
-                    </li>
+                <ul>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">New Project</a></li>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Open Project</a></li>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Project Options</a></li>
                 </ul>
             </div>
 
@@ -42,6 +41,19 @@
                 <ul id="capture-options">
                   <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change resolution</a></li>
                   <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
+                </ul>
+            </div>
+            
+            <!--Onion Skinning Options-->
+            <div class="sidebar-item" id="onion-skin-header">
+                <div class="sidebar-header">
+                    <h2><i class="fa fa-adjust fa-fw"></i> Onion Skinning</h2>
+                </div>
+                    <div id="btn-onion-skin-toggle" class="btn-sidebar"><i class="fa fa-toggle-off" title="Toggle on"></i> Off</div>
+                <ul id="onion-skin-options">
+                    <li><span id="onion-skin-percentage">50%</span>
+                        <input id="input-onion-skin-opacity" class="sidebarOption" type="range" name="onionSkinAmount" min="0" max="20" value="10">
+                    </li>
                 </ul>
             </div>
 
