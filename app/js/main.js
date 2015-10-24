@@ -48,7 +48,6 @@ var width  = 640,
 
     // Sidebar
     sidebar          = document.querySelector("#sidebar"),
-    btnSidebarToggle = document.querySelector("#btn-sidebar-toggle"),
 
     // Status bar
     statusBarFrameNum  = document.querySelector("#noOfFrames"),
@@ -62,7 +61,6 @@ var width  = 640,
     changeDirectoryButton = document.querySelector("#changeDirectoryButton"),
 
     // Onion skin
-    onionSkinFrame     = null,
     isOnionSkinEnabled = false,
     onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
     onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
@@ -121,13 +119,11 @@ function canDisplayNews() {
 }
 
 function startup() {
-    statusBarFrameRate.innerHTML = frameRate;
-    onionSkinFrame = capturedFramesList[capturedFramesList.length];
-
-    //Check if a default directory has been set
+    // Check if a default directory has been set
     checkdefaultdirectory();
 
     // Set default frame rate
+    statusBarFrameRate.innerHTML = frameRate;
     inputChangeFR.value = frameRate;
 
     // Get the appropriate WebRTC implementation
@@ -778,16 +774,6 @@ editMenuItems.append(new gui.MenuItem({
     undoFrame();
   },
   key: "z",
-  modifiers: "ctrl",
-}));
-editMenuItems.append(new gui.MenuItem({ type: 'separator' }));
-editMenuItems.append(new gui.MenuItem({
-  label: "Preferences",
-    icon: "pngicons/settings.png",
-  click: function() {
-      btnSidebarToggle.click();
-  },
-  key: "p",
   modifiers: "ctrl",
 }));
 
