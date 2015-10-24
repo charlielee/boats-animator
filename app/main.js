@@ -5,6 +5,7 @@
 // width to the value defined here, but the height will be
 // calculated based on the aspect ratio of the input stream.
 var width  = 640,
+    //This is upscaling from 480 so onion-skinning will fit the preview window
     height = 0,
 
     // |streaming| indicates whether or not we're currently streaming
