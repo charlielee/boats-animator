@@ -308,7 +308,7 @@ function updateFrameReel(action, id) {
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
 <img class="frame-reel-img" id="img-${id}" title="Expand image" width="160" height="120" src="${curFrameData}">
-<img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.png">
+<img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.svg">
 </div></td>`);
 
         // Individual frame deletion
@@ -443,7 +443,7 @@ function takePicture() {
 function playbackframes() {
     winMode = "playback";
     switchMode("playback");
-    btnPlayPause.children[0].setAttribute("src", "icons/pause.png");
+    btnPlayPause.children[0].setAttribute("src", "icons/pause.svg");
 
     yoplayit = setInterval(playit, (1000 / frameRate));
     console.info("Playback started");
@@ -472,7 +472,7 @@ function stopit() {
         //display final frame in playback window
         document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
         document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
-        btnPlayPause.children[0].setAttribute("src", "icons/play.png");
+        btnPlayPause.children[0].setAttribute("src", "icons/play.svg");
         console.info("Playback stopped");
     }
 }
@@ -482,7 +482,7 @@ function stopitwhenlooping() {
     clearInterval(yoplayit);
     document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
     document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
-    btnPlayPause.children[0].setAttribute("src", "icons/play.png");
+    btnPlayPause.children[0].setAttribute("src", "icons/play.svg");
     //reset playback frame
     playbackFrameNo = -1;
     console.info("Playback stopped with loop on");
@@ -491,7 +491,7 @@ function stopitwhenlooping() {
 function pauseit() {
     isPlaying = false;
     clearInterval(yoplayit);
-    btnPlayPause.children[0].setAttribute("src", "icons/play.png");
+    btnPlayPause.children[0].setAttribute("src", "icons/play.svg");
     console.info("Playback paused");
 }
 
@@ -755,7 +755,7 @@ var fileMenuItems = new gui.Menu(),
 //File menu items
 fileMenuItems.append(new gui.MenuItem({
   label: "New project...",
-    icon: "icons/file.png",
+    icon: "pngicons/file.png",
   click: function() {
   },
     key: "n",
@@ -763,7 +763,7 @@ fileMenuItems.append(new gui.MenuItem({
 }));
 fileMenuItems.append(new gui.MenuItem({
   label: "Open project...",
-    icon: "icons/import.png",
+    icon: "pngicons/import.png",
   click: function() {
   },
     key: "o",
@@ -771,7 +771,7 @@ fileMenuItems.append(new gui.MenuItem({
 }));
 fileMenuItems.append(new gui.MenuItem({
   label: "Main Menu",
-    icon: "icons/menu.png",
+    icon: "pngicons/menu.png",
   click: function() {
     openIndex();
   },
@@ -782,7 +782,7 @@ fileMenuItems.append(new gui.MenuItem({
 //Edit menu items
 editMenuItems.append(new gui.MenuItem({
   label: "Delete last frame",
-    icon: "icons/delete.png",
+    icon: "pngicons/delete.png",
   click: function() {
     undoFrame();
   },
@@ -792,7 +792,7 @@ editMenuItems.append(new gui.MenuItem({
 editMenuItems.append(new gui.MenuItem({ type: 'separator' }));
 editMenuItems.append(new gui.MenuItem({
   label: "Preferences",
-    icon: "icons/settings.png",
+    icon: "pngicons/settings.png",
   click: function() {
       btnSidebarToggle.click();
   },
@@ -803,7 +803,7 @@ editMenuItems.append(new gui.MenuItem({
 //Capture menu items
 captureMenuItems.append(new gui.MenuItem({
   label: "Capture frame",
-    icon: "icons/capture.png",
+    icon: "pngicons/capture.png",
   click: function() {
     takePicture();
   },
@@ -814,7 +814,7 @@ captureMenuItems.append(new gui.MenuItem({
 //Help menu items
 helpMenuItems.append(new gui.MenuItem({
   label: "Give feedback",
-    icon: "icons/feedback.png",
+    icon: "pngicons/feedback.png",
   click: function() {
       gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator/issues')
   },

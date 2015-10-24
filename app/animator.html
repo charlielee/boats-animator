@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <title>Boats Animator</title>
     <link rel="stylesheet" href="main.css">
-    <script src="main.js" async></script>
 </head>
 
 <body class="animator" onload="startup()">
@@ -15,13 +14,13 @@
         </section>
 
         <div id="collapsedSidebar">
-            <button id="btn-sidebar-toggle" class="mediaControls"><img style="height: 100%;" src="icons/menu.png"/></button>
+            <button id="btn-sidebar-toggle" class="mediaControls"><img style="height: 100%;" src="icons/menu.svg"/></button>
         </div>
 
         <div id="sidebar">
             <ul>
                 <li>
-                    <h2><img width="15" height="15" src="icons/onionskin.png"><span>Onion Skinning</span>
+                    <h2><img width="15" height="15" src="icons/onionskin.svg"><span>Onion Skinning</span>
                         <div id="btn-onion-skin-toggle" class="btn-sidebar"><span>Off</span></div>
                     </h2>
                     <ul id="options-onion-skin">
@@ -30,14 +29,14 @@
                     </ul>
                 </li>
                 <li>
-                    <h2><img width="15" height="15" src="icons/capture.png"><span>Capture</span></h2>
+                    <h2><img width="15" height="15" src="icons/capture.svg"><span>Capture</span></h2>
                     <ul>
                         <li><a onclick="alert('Coming soon!');">Change resolution</a></li>
                         <li><a onclick="alert('Coming soon!');">Change camera</a></li>
                     </ul>
                 </li>
                 <li>
-                    <h2><img width="15" height="15" src="icons/play.png"><span>Playback</span></h2>
+                    <h2><img width="15" height="15" src="icons/play.svg"><span>Playback</span></h2>
                     <ul>
                         <li>
                         <label id="label-fr-change" for="input-fr-change">Frame rate</label>
@@ -51,7 +50,7 @@
                     </ul>
                 </li>
                 <li>
-                    <h2><img width="15" height="15" src="icons/export.png">Export</h2>
+                    <h2><img width="15" height="15" src="icons/export.svg">Export</h2>
                     <ul>
                         <li>Captured frames will be exported to:
                             <p id="currentDirectoryName" class="italics">No directory selected</p>
@@ -64,7 +63,7 @@
                     </ul>
                 </li>
                 <li>
-                    <h2><img width="15" height="15" src="icons/debug.png"><span>Debugging</span></h2>
+                    <h2><img width="15" height="15" src="icons/debug.svg"><span>Debugging</span></h2>
                     <ul>
                         <li><a onclick="dev()">Load developer tools</a></li>
                         <li><a onclick="reload()">Reload main window</a></li>
@@ -103,8 +102,8 @@
             <button id="captureFrame" title="Capture frame">Capture frame</button>
             <button id="deleteLastFrame" title="Delete last frame">Delete last frame</button>
             <button id="btn-mode-toggle" title="Playback / Capture Switch">Switch to playback mode</button>
-            <button id="btn-stop" class="mediaControls"><img width="22" height="22" src="icons/stop.png"/></button>
-            <button id="btn-play-pause" class="mediaControls"><img width="22" height="22" src="icons/play.png"></button>
+            <button id="btn-stop" class="mediaControls"><img width="22" height="22" src="icons/stop.svg"/></button>
+            <button id="btn-play-pause" class="mediaControls"><img width="22" height="22" src="icons/play.svg"></button>
         </div>
             <div id="capturedFramesContainer">
                 <div id="area-frame-reel">
@@ -130,5 +129,6 @@
             </div>
         </div>
     </div>
+    <script src="js/main.js" async></script>
 </body>
 </html>
