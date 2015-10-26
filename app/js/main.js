@@ -4,7 +4,8 @@
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
 // calculated based on the aspect ratio of the input stream.
-var width  = 480,
+var width  = 640,
+    //This is upscaling from 480 so onion-skinning will fit the preview window
     height = 0,
 
     // |streaming| indicates whether or not we're currently streaming
@@ -47,8 +48,6 @@ var width  = 480,
 
     // Sidebar
     sidebar          = document.querySelector("#sidebar"),
-    btnSidebarToggle = document.querySelector("#btn-sidebar-toggle"),
-    collapsedSidebar = document.querySelector("#collapsedSidebar"),
 
     // Status bar
     statusBarFrameNum  = document.querySelector("#noOfFrames"),
@@ -62,9 +61,7 @@ var width  = 480,
     changeDirectoryButton = document.querySelector("#changeDirectoryButton"),
 
     // Onion skin
-    onionSkinFrame     = null,
     isOnionSkinEnabled = false,
-    onionSkinPanel     = document.querySelector("#options-onion-skin"),
     onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
     onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
     onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
@@ -122,13 +119,11 @@ function canDisplayNews() {
 }
 
 function startup() {
-    statusBarFrameRate.innerHTML = frameRate;
-    onionSkinFrame = capturedFramesList[capturedFramesList.length];
-
-    //Check if a default directory has been set
+    // Check if a default directory has been set
     checkdefaultdirectory();
 
     // Set default frame rate
+    statusBarFrameRate.innerHTML = frameRate;
     inputChangeFR.value = frameRate;
 
     // Get the appropriate WebRTC implementation
@@ -234,13 +229,6 @@ function startup() {
         stopitwhenlooping();
     });
 
-    // Toggle the sidebar visibility
-    btnSidebarToggle.addEventListener("click", function(ev) {
-        ev.preventDefault();
-        sidebar.classList.toggle("hidden");
-        collapsedSidebar.classList.toggle("shrink");
-    });
-
     // Toggle capture and playback windows
     btnModeToggle.addEventListener("click", function(ev) {
         ev.preventDefault();
@@ -260,13 +248,11 @@ function startup() {
  */
 function switchMode(winMode) {
     if (winMode == "capture") {
-        btnModeToggle.innerHTML = "Switch to playback mode";
         console.log("switched to capture mode");
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
 
     } else if (winMode == "playback") {
-        btnModeToggle.innerHTML = "Switch to capture mode";
         console.log("switched to playback mode");
         captureWindow.classList.add("hidden");
         playbackWindow.classList.remove("hidden");
@@ -307,8 +293,8 @@ function updateFrameReel(action, id) {
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Expand image" width="160" height="120" src="${curFrameData}">
-<img class="btn-frame-delete" title="Delete image" width="20" height="20" src="icons/delete.svg">
+<img class="frame-reel-img" id="img-${id}" title="Expand image" width="80" height="60" src="${curFrameData}">
+<i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
 </div></td>`);
 
         // Individual frame deletion
@@ -334,7 +320,6 @@ function updateFrameReel(action, id) {
     } else {
         frameReelMsg.classList.remove("hidden");
         frameReelTable.classList.add("hidden");
-        frameReelRow.innerHTML = "";
     }
 }
 
@@ -381,17 +366,15 @@ function _toggleOnionSkin() {
     // Onion skin is currently enabled, turn it off
     if (isOnionSkinEnabled) {
       isOnionSkinEnabled = false;
-      onionSkinToggle.innerHTML = "<span>Off</span>";
+      onionSkinToggle.innerHTML = "<i class='fa fa-toggle-off' title='Toggle on'></i> Off";
       onionSkinToggle.classList.remove("active");
-      onionSkinPanel.classList.remove("visible");
       onionSkinWindow.classList.remove("visible");
 
       // Onion skin is currently disabled, turn it on
     } else {
       isOnionSkinEnabled = true;
-      onionSkinToggle.innerHTML = "<span>On</span>";
+      onionSkinToggle.innerHTML = "<i class='fa fa-toggle-on' title='Toggle off'></i> On";
       onionSkinToggle.classList.add("active");
-      onionSkinPanel.classList.add("visible");
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
@@ -443,8 +426,8 @@ function takePicture() {
 function playbackframes() {
     winMode = "playback";
     switchMode("playback");
-    btnPlayPause.children[0].setAttribute("src", "icons/pause.svg");
-
+    btnPlayPause.children[0].classList.remove("fa-play");
+    btnPlayPause.children[0].classList.add("fa-pause");
     yoplayit = setInterval(playit, (1000 / frameRate));
     console.info("Playback started");
 }
@@ -452,7 +435,7 @@ function playit() {
     isPlaying = true;
     playbackFrameNo++;
     document.getElementById('playback').setAttribute("src",capturedFramesRaw[playbackFrameNo]);
-    document.getElementById('currentFrame').innerHTML = "Playing frame " + (playbackFrameNo + 1);
+    document.querySelector('#currentFrame span').innerHTML = curFrame;
     if((curFrame - 1) == playbackFrameNo){
             stopit();
     }
@@ -470,9 +453,10 @@ function stopit() {
         //stop increasing playback frame number
         clearInterval(yoplayit);
         //display final frame in playback window
-        document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
-        document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
-        btnPlayPause.children[0].setAttribute("src", "icons/play.svg");
+        document.getElementById('playback').setAttribute("", capturedFramesRaw[curFrame - 1]);
+        document.querySelector('#currentFrame span').innerHTML = curFrame;
+        btnPlayPause.children[0].classList.remove("fa-pause");
+        btnPlayPause.children[0].classList.add("fa-play");
         console.info("Playback stopped");
     }
 }
@@ -481,8 +465,10 @@ function stopitwhenlooping() {
     //stop increasing playback frame number
     clearInterval(yoplayit);
     document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
-    document.getElementById('currentFrame').innerHTML = "Playing frame " + curFrame;
-    btnPlayPause.children[0].setAttribute("src", "icons/play.svg");
+    document.querySelector('#currentFrame span').innerHTML = curFrame;
+    btnPlayPause.children[0].classList.remove("fa-pause");
+    btnPlayPause.children[0].classList.add("fa-play");
+
     //reset playback frame
     playbackFrameNo = -1;
     console.info("Playback stopped with loop on");
@@ -491,7 +477,8 @@ function stopitwhenlooping() {
 function pauseit() {
     isPlaying = false;
     clearInterval(yoplayit);
-    btnPlayPause.children[0].setAttribute("src", "icons/play.svg");
+    btnPlayPause.children[0].classList.remove("fa-pause");
+    btnPlayPause.children[0].classList.add("fa-play");
     console.info("Playback paused");
 }
 
@@ -787,16 +774,6 @@ editMenuItems.append(new gui.MenuItem({
     undoFrame();
   },
   key: "z",
-  modifiers: "ctrl",
-}));
-editMenuItems.append(new gui.MenuItem({ type: 'separator' }));
-editMenuItems.append(new gui.MenuItem({
-  label: "Preferences",
-    icon: "pngicons/settings.png",
-  click: function() {
-      btnSidebarToggle.click();
-  },
-  key: "p",
   modifiers: "ctrl",
 }));
 

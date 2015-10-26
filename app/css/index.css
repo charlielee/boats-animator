@@ -1,0 +1,142 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+body{
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    background-color: #333333;
+    font-size: 13px;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1800px;
+    color: #000;
+    -webkit-user-select: none;  /* Note vendor specific prefix. Should be updated when "user-select" becomes an actual CSS property*/
+    cursor: default;
+    }
+.app-info {
+    background-color: #1a3960;
+    width: 270px;
+    height: 100vh;
+    float: left;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+}
+h1{
+    padding: 10px;
+    width: 250px;
+    margin: 0;
+    color: #F3F3F3;
+    font-size: 33px;
+    box-sizing: content-box;
+}
+.app-info > h2 {
+    padding: 0;
+    margin: 1em 0;
+    font-size: 20px;
+    display: block;
+}
+header h2{
+    padding: 5px 10px;
+    color: #fff;
+    font-weight: 400;
+    margin: 0.5em 0;
+}
+h3{
+    padding: 0;
+    margin: 0.5em 0;
+    font-size: 15px;
+}
+footer{
+    margin: 0;
+    padding: 0 10px;
+    width: 250px;
+    font-size: 0.75em;
+    clear: both;
+    color: #fff;
+    box-sizing: content-box;
+}
+footer a, footer a:visited {
+    text-decoration: underline;
+    color: #fff;
+}
+footer a:hover, footer a:active {
+    text-decoration: underline;
+    color: #fff;
+}
+div{
+    margin: 0;
+    padding: 0;
+}
+a, a:visited {
+  text-decoration: underline;
+  color: rgb(199, 100, 118);
+  }
+a:hover {
+    cursor:pointer;
+}
+a:hover{
+text-decoration: underline;
+color: rgba(199, 100, 118, 0.7);
+}
+a:active{
+    text-decoration: none;
+}
+
+/*========================================================
+=====================MENU SCREEN==========================
+=========================================================*/
+.indexContent{
+    padding: 0 2%;
+    margin: 0;
+    width: calc(100% - 270px);
+    height: 100vh;
+    background: #f3f3f3;
+    float: left;
+}
+#recentProjectsList{ height: 250px; }
+
+.container-news {
+    margin-top: -0.8em;
+    height: 25.8em;
+    overflow-y: scroll;
+}
+
+.post,
+.container-news h3  {
+    color: #fff;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+.post-link {
+    color: #fff;
+    text-decoration: none;
+}
+.post-link:hover { color: #fff; }
+
+.post-title {
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: -0.4em;
+    color: #fff;
+}
+
+/*========================================================
+=====================GENERAL UI ELEMENTS==================
+=========================================================*/
+
+.list{
+    background: #fff;
+    padding: 2%;
+    overflow-y: scroll;
+    max-height: 300px;
+    color: #acacac;
+    text-align: center;
+    margin-top: 20px;
+    font-family: Helmet,Freesans,Helvetica,Arial,sans-serif;
+}
+.italics{
+    color: #acacac;
+    font-style: italic;
+}
