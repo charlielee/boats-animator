@@ -111,6 +111,7 @@ a {
 #currentDirectoryName {
   margin: 0.2em 0 1em 0;
   font-family: monospace;
+  word-break: break-word;
 }
 
 #loopCheckbox { cursor: pointer; }
