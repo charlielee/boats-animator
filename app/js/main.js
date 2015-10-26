@@ -129,18 +129,14 @@ function startup() {
     // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 
-    navigator.getMedia(
-        {
-            video: true,
-            audio: false
-        },
+    navigator.getMedia({ video: true },
         function (stream) {
-            //start streaming add play preview stream
-            preview.src = window.URL.createObjectURL(stream);
-            preview.play();
-            // start steaming and play hidden video of correct resolution
-            video.src = window.URL.createObjectURL(stream);
-            video.play();
+            var videoBlob = window.URL.createObjectURL(stream);
+            // Play preview video
+            preview.src = videoBlob;
+
+            //  Play hidden video of correct resolution
+            video.src = videoBlob;
         },
         function (err) {
             console.error("Could not find a camera to use!");
