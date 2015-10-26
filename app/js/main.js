@@ -379,11 +379,12 @@ function _toggleOnionSkin() {
 }
 
 function takePicture() {
+    "use strict";
     if (winMode === "playback") {
         winMode = "capture";
         switchMode("capture");
     }
-    "use strict";
+
     // We are not able to take a picture
     if (!(width && height)) {
       clearPhoto();
