@@ -32,7 +32,6 @@ var width  = 640,
 
     // Capture
     capturedFramesRaw  = [],
-    capturedFramesList = [],
     captureFrame       = document.querySelector("#captureFrame"),
     deleteLastFrame    = document.querySelector("#deleteLastFrame"),
     curFrame           = 0,
@@ -52,6 +51,8 @@ var width  = 640,
     // Status bar
     statusBarFrameNum  = document.querySelector("#noOfFrames"),
     statusBarFrameRate = document.querySelector("#currentFrameRate span"),
+    statusBarCurMode   = document.querySelector("#currentMode span"),
+    statusBarCurFrame  = document.querySelector("#currentFrame span"),
 
     // Export frames
     fs                    = require('fs'),
@@ -125,6 +126,9 @@ function startup() {
     // Set default frame rate
     statusBarFrameRate.innerHTML = frameRate;
     inputChangeFR.value = frameRate;
+    
+    //Set default view
+    switchMode("capture");
 
     // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
@@ -246,17 +250,18 @@ function startup() {
 /**
  * Toggle between playback and capture windows.
  */
-function switchMode(winMode) {
+function switchMode(newMode) {
+    winMode = newMode;
     if (winMode == "capture") {
-        console.log("switched to capture mode");
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
 
     } else if (winMode == "playback") {
-        console.log("switched to playback mode");
         captureWindow.classList.add("hidden");
         playbackWindow.classList.remove("hidden");
     }
+    console.log("Switched to: " + winMode);
+    statusBarCurMode.innerHTML = winMode.charAt(0).toUpperCase() + winMode.slice(1);
 }
 
 /**
@@ -384,7 +389,6 @@ function _toggleOnionSkin() {
 
 function takePicture() {
     if (winMode === "playback") {
-        winMode = "capture";
         switchMode("capture");
     }
     "use strict";
@@ -424,18 +428,24 @@ function takePicture() {
         yoplayit;
 
 function playbackframes() {
-    winMode = "playback";
+    //display playback window
     switchMode("playback");
+    
+    //switch play to pause button
     btnPlayPause.children[0].classList.remove("fa-play");
     btnPlayPause.children[0].classList.add("fa-pause");
+    
+    //begin  incrementing frames in the playback window
     yoplayit = setInterval(playit, (1000 / frameRate));
+    
     console.info("Playback started");
 }
+
 function playit() {
     isPlaying = true;
     playbackFrameNo++;
-    document.getElementById('playback').setAttribute("src",capturedFramesRaw[playbackFrameNo]);
-    document.querySelector('#currentFrame span').innerHTML = curFrame;
+    playback.setAttribute("src",capturedFramesRaw[playbackFrameNo]);
+    statusBarCurFrame.innerHTML = (playbackFrameNo + 1);
     if((curFrame - 1) == playbackFrameNo){
             stopit();
     }
@@ -453,10 +463,15 @@ function stopit() {
         //stop increasing playback frame number
         clearInterval(yoplayit);
         //display final frame in playback window
-        document.getElementById('playback').setAttribute("", capturedFramesRaw[curFrame - 1]);
-        document.querySelector('#currentFrame span').innerHTML = curFrame;
+        playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+        
+        //change frame number in status bar
+        statusBarCurFrame.innerHTML = curFrame;
+        
+        //change pause to play button
         btnPlayPause.children[0].classList.remove("fa-pause");
         btnPlayPause.children[0].classList.add("fa-play");
+        
         console.info("Playback stopped");
     }
 }
