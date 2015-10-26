@@ -254,7 +254,7 @@ a {
 }
 .btn-frame-delete:hover { opacity: 0.8; }
 
-#btn-mode-toggle {
+#btn-live-view {
   margin-top: -0.15em;
   width: 5rem;
   height: 3.75rem;
@@ -265,7 +265,7 @@ a {
   float: right;
 }
 
-#btn-mode-toggle i { padding-top: 0.3em; }
+#btn-live-view i { padding-top: 0.3em; }
 
 /* ========== STATUS BAR ============== */
 

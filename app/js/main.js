@@ -25,7 +25,7 @@ var width  = 640,
     win = gui.Window.get(),
 
     // Mode switching
-    btnModeToggle  = document.querySelector("#btn-mode-toggle"),
+    btnLiveView  = document.querySelector("#btn-live-viewe"),
     captureWindow  = document.querySelector("#captureWindow"),
     playbackWindow = document.querySelector("#playbackWindow"),
     winMode        = "capture",
@@ -230,7 +230,7 @@ function startup() {
     });
 
     // Toggle capture and playback windows
-    btnModeToggle.addEventListener("click", function(ev) {
+    btnLiveView.addEventListener("click", function(ev) {
         ev.preventDefault();
         if (winMode == "capture") {
             winMode = "playback";
