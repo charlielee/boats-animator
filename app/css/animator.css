@@ -255,9 +255,9 @@ a {
 .btn-frame-delete:hover { opacity: 0.8; }
 
 #btn-mode-toggle {
-  position: relative;
-  width: 80px;
-  height: 60px;
+  margin-top: -0.15em;
+  width: 5rem;
+  height: 3.75rem;
   background-color: #171717;
   text-align: center;
   font-size: 2.5em;
