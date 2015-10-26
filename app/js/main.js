@@ -1,5 +1,5 @@
 /*jslint browser: true, node: true, debug: true*/
-/* global Buffer */
+/* global Buffer, process */
 
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
@@ -25,7 +25,7 @@ var width  = 640,
     win = gui.Window.get(),
 
     // Mode switching
-    btnModeToggle  = document.querySelector("#btn-mode-toggle"),
+    btnLiveView  = document.querySelector("#btn-live-view"),
     captureWindow  = document.querySelector("#captureWindow"),
     playbackWindow = document.querySelector("#playbackWindow"),
     winMode        = "capture",
@@ -71,7 +71,7 @@ var width  = 640,
     // Frame reel
     frameReelArea  = document.querySelector("#area-frame-reel"),
     frameReelMsg   = document.querySelector("#area-frame-reel > p"),
-    frameReelRow   = document.querySelector("#area-frame-reel tr"),
+    frameReelRow   = document.querySelector("#area-frame-reel #reel-captured-imgs"),
     frameReelTable = document.querySelector("#area-frame-reel table"),
 
     // Notification bar
@@ -133,18 +133,14 @@ function startup() {
     // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 
-    navigator.getMedia(
-        {
-            video: true,
-            audio: false
-        },
+    navigator.getMedia({ video: true },
         function (stream) {
-            //start streaming add play preview stream
-            preview.src = window.URL.createObjectURL(stream);
-            preview.play();
-            // start steaming and play hidden video of correct resolution
-            video.src = window.URL.createObjectURL(stream);
-            video.play();
+            var videoBlob = window.URL.createObjectURL(stream);
+            // Play preview video
+            preview.src = videoBlob;
+
+            //  Play hidden video of correct resolution
+            video.src = videoBlob;
         },
         function (err) {
             console.error("Could not find a camera to use!");
@@ -234,7 +230,7 @@ function startup() {
     });
 
     // Toggle capture and playback windows
-    btnModeToggle.addEventListener("click", function(ev) {
+    btnLiveView.addEventListener("click", function(ev) {
         ev.preventDefault();
         if (winMode == "capture") {
             winMode = "playback";
@@ -282,23 +278,18 @@ function clearPhoto() {
  * @param {String} action Update the frame reel depending on the
  *                        action performed. Possible values are
  *                        "capture" and "delete".
- * @param {Nunber} id The image ID to use in the update.
+ * @param {Number} id The image ID to use in the update.
  */
 function updateFrameReel(action, id) {
     "use strict";
+    var onionSkinFrame = id - 1;
     // Display number of captured frames in status bar
     statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
-
-    // Get the last captured frame
-    var curFrameData = capturedFramesRaw[id - 1];
-
-    // Update onion skin frame
-    onionSkinWindow.setAttribute("src", curFrameData);
 
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Expand image" width="80" height="60" src="${curFrameData}">
+<img class="frame-reel-img" id="img-${id}" title="Expand image" width="80" height="60" src="${capturedFramesRaw[id - 1]}">
 <i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
 </div></td>`);
 
@@ -313,6 +304,9 @@ function updateFrameReel(action, id) {
 
         // Remove the chosen frame
     } else if (action === "delete") {
+        if (id !== curFrame) {
+            onionSkinFrame = id - 2;
+        }
         frameReelRow.removeChild(frameReelRow.children[id - 1]);
     }
 
@@ -320,6 +314,9 @@ function updateFrameReel(action, id) {
     if (curFrame > 0) {
         frameReelMsg.classList.add("hidden");
         frameReelTable.classList.remove("hidden");
+
+        // Update onion skin frame
+        onionSkinWindow.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
 
         // All the frames were deleted, display "No frames" message
     } else {
@@ -339,14 +336,14 @@ function deleteFrame(id) {
 
     // The user wants to delete the frame
     if (confirmDel) {
-      _deleteFile(exportedFramesList[id - 1]);
-      exportedFramesList.splice(id - 1, 1);
-      capturedFramesRaw.splice(id - 1, 1);
-      curFrame--;
+        _deleteFile(exportedFramesList[id - 1]);
+        exportedFramesList.splice(id - 1, 1);
+        capturedFramesRaw.splice(id - 1, 1);
+        curFrame--;
 
-      updateFrameReel("delete", id);
-      console.info(`There are now: ${curFrame} frames`);
-      win.focus();
+        updateFrameReel("delete", id);
+        console.info(`There are now ${curFrame} captured frames`);
+        win.focus();
     }
 }
 
@@ -383,15 +380,18 @@ function _toggleOnionSkin() {
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
-      onionSkinWindow.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+      if (curFrame > 0) {
+          onionSkinWindow.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+      }
     }
 }
 
 function takePicture() {
+    "use strict";
     if (winMode === "playback") {
         switchMode("capture");
     }
-    "use strict";
+
     // We are not able to take a picture
     if (!(width && height)) {
       clearPhoto();
@@ -808,7 +808,7 @@ helpMenuItems.append(new gui.MenuItem({
   label: "Give feedback",
     icon: "pngicons/feedback.png",
   click: function() {
-      gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator/issues')
+      gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator/issues');
   },
   key: "/",
   modifiers: "ctrl",
@@ -843,8 +843,10 @@ menuBar.append(
 // Append main menu to Window
 gui.Window.get().menu = menuBar;
 
- // Create Mac menu
-menuBar.createMacBuiltin('Boats Animator');
+// Create Mac menu
+if (process.platform === "darwin") {
+    menuBar.createMacBuiltin('Boats Animator');
+}
 
 /**
  * Development Functions

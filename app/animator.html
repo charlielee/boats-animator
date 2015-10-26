@@ -44,7 +44,7 @@
                   <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
                 </ul>
             </div>
-            
+
             <!--Onion Skinning Options-->
             <div class="sidebar-item" id="onion-skin-header">
                 <div class="sidebar-header">
@@ -114,10 +114,10 @@
             </div>
 
             <!--The actual video stream -->
-            <video id="preview">Video stream not available.</video>
+            <video id="preview" autoplay>Video stream not available.</video>
 
             <!--2ND HIDDEN VIDEO STREAM TO ALLOW FOR VARIED RESOLUTIONS-->
-            <video id="video">Video stream not available.</video>
+            <video id="video" autoplay>Video stream not available.</video>
             <!--HIDDEN CANVAS FOR CONVERSION TO PNG-->
             <canvas id="canvas"></canvas>
         </div>
@@ -150,13 +150,15 @@
             <div id="area-frame-reel">
                 <p>No frames captured</p>
                 <table class="hidden">
+                    <tr id="reel-captured-imgs">
+                      <!--This is where the frame is added through JS -->
+                    </tr>
                     <tr>
                         <td>
-                           <div id="btn-mode-toggle">
-                              <i class="fa fa-video-camera" title="Live Preview" width="80" height="60" src="#"></i>
+                           <div id="btn-live-view" title="Live Preview">
+                              <i class="fa fa-video-camera"></i>
                             </div>
                         </td>
-                      <!--This is where the frame is added through JS -->
                     </tr>
                 </table>
             </div>

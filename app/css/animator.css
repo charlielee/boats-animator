@@ -111,6 +111,7 @@ a {
 #currentDirectoryName {
   margin: 0.2em 0 1em 0;
   font-family: monospace;
+  word-break: break-word;
 }
 
 #loopCheckbox { cursor: pointer; }
@@ -223,6 +224,8 @@ a {
   overflow-x: auto;
 }
 
+#area-frame-reel tr { display: inline-block; }
+
 #area-frame-reel > p {
   font-size: 1.5em;
   text-align: center;
@@ -251,10 +254,10 @@ a {
 }
 .btn-frame-delete:hover { opacity: 0.8; }
 
-#btn-mode-toggle {
-  position: relative;
-  width: 80px;
-  height: 60px;
+#btn-live-view {
+  margin-top: -0.15em;
+  width: 5rem;
+  height: 3.75rem;
   background-color: #171717;
   text-align: center;
   font-size: 2.5em;
@@ -262,7 +265,7 @@ a {
   float: right;
 }
 
-#btn-mode-toggle i { padding-top: 0.3em; }
+#btn-live-view i { padding-top: 0.3em; }
 
 /* ========== STATUS BAR ============== */
 
