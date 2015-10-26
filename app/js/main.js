@@ -25,7 +25,7 @@ var width  = 640,
     win = gui.Window.get(),
 
     // Mode switching
-    btnLiveView  = document.querySelector("#btn-live-viewe"),
+    btnLiveView  = document.querySelector("#btn-live-view"),
     captureWindow  = document.querySelector("#captureWindow"),
     playbackWindow = document.querySelector("#playbackWindow"),
     winMode        = "capture",
