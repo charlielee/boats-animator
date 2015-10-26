@@ -190,7 +190,7 @@ a {
   font-size: 1.25em;
 }
 
-#deleteLastFrame {
+#btn-delete-last-frame {
   display: inline-block;
   float: left;
 }

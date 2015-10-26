@@ -32,9 +32,9 @@ var width  = 640,
 
     // Capture
     capturedFramesRaw  = [],
-    captureFrame       = document.querySelector("#captureFrame"),
-    deleteLastFrame    = document.querySelector("#deleteLastFrame"),
     curFrame           = 0,
+    captureFrame       = document.querySelector("#captureFrame"),
+    btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
     // Playback
     frameRate     = 15,
@@ -44,9 +44,6 @@ var width  = 640,
     loopCheck     = document.querySelector("#loopCheckbox"),
     btnPlayPause  = document.querySelector("#btn-play-pause"),
     inputChangeFR = document.querySelector("#input-fr-change"),
-
-    // Sidebar
-    sidebar          = document.querySelector("#sidebar"),
 
     // Status bar
     statusBarFrameNum  = document.querySelector("#noOfFrames"),
@@ -126,7 +123,7 @@ function startup() {
     // Set default frame rate
     statusBarFrameRate.innerHTML = frameRate;
     inputChangeFR.value = frameRate;
-    
+
     //Set default view
     switchMode("capture");
 
@@ -174,9 +171,7 @@ function startup() {
 
 
     //Listen if capture frame button pressed
-    captureFrame.addEventListener("click", function (ev) {
-        ev.preventDefault();
-
+    captureFrame.addEventListener("click", function () {
         // Prevent taking frames without a set output path
         if (!frameExportDirectory) {
           notifyError("An output destination must be first set!");
@@ -187,10 +182,7 @@ function startup() {
     });
 
     // Listen if undo last frame button pressed
-    deleteLastFrame.addEventListener("click", function (ev) {
-        ev.preventDefault();
-        undoFrame();
-    });
+    btnDeleteLastFrame.addEventListener("click", undoFrame);
 
     // Toggle onion skin
     onionSkinToggle.addEventListener("click", _toggleOnionSkin);
@@ -199,26 +191,18 @@ function startup() {
     onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
 
     // Play/pause the preview
-    btnPlayPause.addEventListener("click", function (ev) {
-        ev.preventDefault();
+    btnPlayPause.addEventListener("click", function () {
         // Make sure we have frames to play back
         if (curFrame > 0) {
-            (isPlaying) ? pauseit() : playbackframes();
+            (isPlaying ? pauseit : playbackframes)();
         }
     });
 
-    //listen if stop playback button is pressed
-    btnStop.addEventListener("click", function (ev) {
-        ev.preventDefault();
+    // Stop the preview
+    btnStop.addEventListener("click", function () {
         //check pics have been taken
         if (curFrame > 0) {
-            if (loopCheck.checked) {
-                stopitwhenlooping();
-            } else {
-                stopit();
-            }
-        } else {
-            console.warn("Pressing stop did nothing as no pictures have been taken!");
+            (loopCheck.checked ? stopitwhenlooping : stopit)();
         }
     });
 
@@ -230,11 +214,10 @@ function startup() {
     });
 
     // Toggle capture and playback windows
-    btnLiveView.addEventListener("click", function(ev) {
-        ev.preventDefault();
-        if (winMode == "capture") {
+    btnLiveView.addEventListener("click", function() {
+        if (winMode === "capture") {
             winMode = "playback";
-        } else if (winMode == "playback") {
+        } else if (winMode === "playback") {
             winMode = "capture";
         }
         switchMode(winMode);
@@ -248,15 +231,15 @@ function startup() {
  */
 function switchMode(newMode) {
     winMode = newMode;
-    if (winMode == "capture") {
+    if (winMode === "capture") {
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
 
-    } else if (winMode == "playback") {
+    } else if (winMode === "playback") {
         captureWindow.classList.add("hidden");
         playbackWindow.classList.remove("hidden");
     }
-    console.log("Switched to: " + winMode);
+    console.log(`Switched to: ${winMode}`);
     statusBarCurMode.innerHTML = winMode.charAt(0).toUpperCase() + winMode.slice(1);
 }
 
@@ -430,14 +413,14 @@ function takePicture() {
 function playbackframes() {
     //display playback window
     switchMode("playback");
-    
+
     //switch play to pause button
     btnPlayPause.children[0].classList.remove("fa-play");
     btnPlayPause.children[0].classList.add("fa-pause");
-    
+
     //begin  incrementing frames in the playback window
     yoplayit = setInterval(playit, (1000 / frameRate));
-    
+
     console.info("Playback started");
 }
 
@@ -464,14 +447,14 @@ function stopit() {
         clearInterval(yoplayit);
         //display final frame in playback window
         playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
-        
+
         //change frame number in status bar
         statusBarCurFrame.innerHTML = curFrame;
-        
+
         //change pause to play button
         btnPlayPause.children[0].classList.remove("fa-pause");
         btnPlayPause.children[0].classList.add("fa-play");
-        
+
         console.info("Playback stopped");
     }
 }
