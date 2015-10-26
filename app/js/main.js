@@ -39,9 +39,11 @@ var width  = 640,
     // Playback
     frameRate     = 15,
     isPlaying     = false,
+    curPlayFrame  = 0,
+    playBackLoop  = null,
     btnStop       = document.querySelector("#btn-stop"),
     playback      = document.querySelector("#playback"),
-    loopCheck     = document.querySelector("#loopCheckbox"),
+    checkPlayLoop = document.querySelector("#loopCheckbox"),
     btnPlayPause  = document.querySelector("#btn-play-pause"),
     inputChangeFR = document.querySelector("#input-fr-change"),
 
@@ -191,23 +193,22 @@ function startup() {
     onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
 
     // Play/pause the preview
-    btnPlayPause.addEventListener("click", function () {
+    btnPlayPause.addEventListener("click", function() {
         // Make sure we have frames to play back
         if (curFrame > 0) {
-            (isPlaying ? pauseit : playbackframes)();
+            (isPlaying ? pauseit : previewCapturedFrames)();
         }
     });
 
     // Stop the preview
-    btnStop.addEventListener("click", function () {
-        //check pics have been taken
+    btnStop.addEventListener("click", function() {
         if (curFrame > 0) {
             (loopCheck.checked ? stopitwhenlooping : stopit)();
         }
     });
 
     // Listen for frame rate changes
-    inputChangeFR.addEventListener("change", function () {
+    inputChangeFR.addEventListener("change", function() {
         frameRate = parseInt(this.value, 10);
         statusBarFrameRate.innerHTML = frameRate;
         stopitwhenlooping();
@@ -406,45 +407,35 @@ function takePicture() {
 }
 
 
-//PLAYBACK
-    var playbackFrameNo = -1,
-        yoplayit;
-
-function playbackframes() {
-    //display playback window
+/**
+ * Preview the captured frames.
+ */
+function previewCapturedFrames() {
+    "use strict";
+    // Display playback window
     switchMode("playback");
 
-    //switch play to pause button
+    // Update the play/pause button
     btnPlayPause.children[0].classList.remove("fa-play");
     btnPlayPause.children[0].classList.add("fa-pause");
 
-    //begin  incrementing frames in the playback window
-    yoplayit = setInterval(playit, (1000 / frameRate));
-
+    // Begin playing the frames
+    playBackLoop = setInterval(_videoPlay, (1000 / frameRate));
     console.info("Playback started");
 }
 
-function playit() {
-    isPlaying = true;
-    playbackFrameNo++;
-    playback.setAttribute("src",capturedFramesRaw[playbackFrameNo]);
-    statusBarCurFrame.innerHTML = (playbackFrameNo + 1);
-    if((curFrame - 1) == playbackFrameNo){
-            stopit();
-    }
-}
 function stopit() {
     var loopCheck = document.getElementById("loopCheckbox");
 
     //reset playback to the first frame
-    playbackFrameNo = -1;
+    curPlayFrame = 0;
     if(loopCheck.checked === true){
         //if loop check is true playback continues from frame 1
         console.info("Playback looped");
     }else{
         isPlaying = false;
         //stop increasing playback frame number
-        clearInterval(yoplayit);
+        clearInterval(playBackLoop);
         //display final frame in playback window
         playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
 
@@ -461,20 +452,20 @@ function stopit() {
 function stopitwhenlooping() {
     isPlaying = false;
     //stop increasing playback frame number
-    clearInterval(yoplayit);
+    clearInterval(playBackLoop);
     document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
     document.querySelector('#currentFrame span').innerHTML = curFrame;
     btnPlayPause.children[0].classList.remove("fa-pause");
     btnPlayPause.children[0].classList.add("fa-play");
 
     //reset playback frame
-    playbackFrameNo = -1;
+    curPlayFrame = -1;
     console.info("Playback stopped with loop on");
 }
 
 function pauseit() {
     isPlaying = false;
-    clearInterval(yoplayit);
+    clearInterval(playBackLoop);
     btnPlayPause.children[0].classList.remove("fa-pause");
     btnPlayPause.children[0].classList.add("fa-play");
     console.info("Playback paused");
@@ -483,7 +474,7 @@ function pauseit() {
 /**
  * Change onion skinning opacity.
  *
- * @param {Object} ev Event object from addEventHandler.
+ * @param {Object} ev Event object from addEventListener.
  */
 function _onionSkinChangeAmount(ev) {
     "use strict";
