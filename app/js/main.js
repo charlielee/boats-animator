@@ -277,18 +277,13 @@ function clearPhoto() {
  * @param {String} action Update the frame reel depending on the
  *                        action performed. Possible values are
  *                        "capture" and "delete".
- * @param {Nunber} id The image ID to use in the update.
+ * @param {Number} id The image ID to use in the update.
  */
 function updateFrameReel(action, id) {
     "use strict";
+    var onionSkinFrame = id - 1;
     // Display number of captured frames in status bar
     statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
-
-    // Get the last captured frame
-    var curFrameData = capturedFramesRaw[id - 1];
-
-    // Update onion skin frame
-    onionSkinWindow.setAttribute("src", curFrameData);
 
     // Add the newly captured frame
     if (action === "capture") {
@@ -316,6 +311,9 @@ function updateFrameReel(action, id) {
         frameReelMsg.classList.add("hidden");
         frameReelTable.classList.remove("hidden");
 
+        // Update onion skin frame
+        onionSkinWindow.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
+
         // All the frames were deleted, display "No frames" message
     } else {
         frameReelMsg.classList.remove("hidden");
@@ -334,14 +332,14 @@ function deleteFrame(id) {
 
     // The user wants to delete the frame
     if (confirmDel) {
-      _deleteFile(exportedFramesList[id - 1]);
-      exportedFramesList.splice(id - 1, 1);
-      capturedFramesRaw.splice(id - 1, 1);
-      curFrame--;
+        _deleteFile(exportedFramesList[id - 1]);
+        exportedFramesList.splice(id - 1, 1);
+        capturedFramesRaw.splice(id - 1, 1);
+        curFrame--;
 
-      updateFrameReel("delete", id);
-      console.info(`There are now: ${curFrame} frames`);
-      win.focus();
+        updateFrameReel("delete", id);
+        console.info(`There are now ${curFrame} captured frames`);
+        win.focus();
     }
 }
 
