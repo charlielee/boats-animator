@@ -299,6 +299,9 @@ function updateFrameReel(action, id) {
 
         // Remove the chosen frame
     } else if (action === "delete") {
+        if (id !== curFrame) {
+            onionSkinFrame = id - 2;
+        }
         frameReelRow.removeChild(frameReelRow.children[id - 1]);
     }
 
