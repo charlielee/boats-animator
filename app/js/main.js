@@ -1,5 +1,5 @@
 /*jslint browser: true, node: true, debug: true*/
-/* global Buffer */
+/* global Buffer, process */
 
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
@@ -793,7 +793,7 @@ helpMenuItems.append(new gui.MenuItem({
   label: "Give feedback",
     icon: "pngicons/feedback.png",
   click: function() {
-      gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator/issues')
+      gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator/issues');
   },
   key: "/",
   modifiers: "ctrl",
@@ -828,8 +828,10 @@ menuBar.append(
 // Append main menu to Window
 gui.Window.get().menu = menuBar;
 
- // Create Mac menu
-menuBar.createMacBuiltin('Boats Animator');
+// Create Mac menu
+if (process.platform === "darwin") {
+    menuBar.createMacBuiltin('Boats Animator');
+}
 
 /**
  * Development Functions
