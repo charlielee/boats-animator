@@ -293,7 +293,7 @@ function updateFrameReel(action, id) {
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Expand image" width="80" height="60" src="${curFrameData}">
+<img class="frame-reel-img" id="img-${id}" title="Expand image" width="80" height="60" src="${capturedFramesRaw[id - 1]}">
 <i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
 </div></td>`);
 
@@ -378,7 +378,9 @@ function _toggleOnionSkin() {
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
-      onionSkinWindow.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+      if (curFrame > 0) {
+          onionSkinWindow.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+      }
     }
 }
 
