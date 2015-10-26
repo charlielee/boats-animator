@@ -70,7 +70,7 @@ var width  = 640,
     // Frame reel
     frameReelArea  = document.querySelector("#area-frame-reel"),
     frameReelMsg   = document.querySelector("#area-frame-reel > p"),
-    frameReelRow   = document.querySelector("#area-frame-reel tr"),
+    frameReelRow   = document.querySelector("#area-frame-reel #reel-captured-imgs"),
     frameReelTable = document.querySelector("#area-frame-reel table"),
 
     // Notification bar
