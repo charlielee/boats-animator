@@ -3,6 +3,8 @@ A free JavaScript and HTML5 based stop motion animation program for Windows, Mac
 ##Updates
 More information about the progress of Boats Animator can be found at: http://charlielee.uk/category/boats-animator/
 
+An incomplete list of planned features can be found at: https://docs.google.com/spreadsheets/d/1_3Ku9bAIWgeZ_Ddc5hghslm8VTZf0mxwGsEqefcuQP8/edit#gid=0
+
 Boats Animator also has a forum thread on BricksInMotion.com, a LEGO stop motion animation community website: http://www.bricksinmotion.com/forums/topic/21891/
 ![Screenshot of Boats Animator v0.4.1](http://i.imgur.com/MsHvp6M.png)
 ##Try it out!
