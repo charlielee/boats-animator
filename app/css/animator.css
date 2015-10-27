@@ -210,7 +210,11 @@ a {
   float: right;
 }
 
-#btn-play-pause { padding: 0 0.5em; }
+#btn-play-pause, #btn-stop, #btn-loop { padding: 0 0.25em; }
+
+#btn-loop i.active {
+    color: #c90000;
+}
 
 /* ========== FRAME REEL ============== */
 

@@ -38,11 +38,12 @@ var width  = 640,
     // Playback
     frameRate     = 15,
     isPlaying     = false,
+    isLooping     = false,
     curPlayFrame  = 0,
     playBackLoop  = null,
     btnStop       = document.querySelector("#btn-stop"),
+    btnLoop       = document.querySelector("#btn-loop"),
     playback      = document.querySelector("#playback"),
-    checkPlayLoop = document.querySelector("#loopCheckbox"),
     btnPlayPause  = document.querySelector("#btn-play-pause"),
     inputChangeFR = document.querySelector("#input-fr-change"),
 
@@ -192,6 +193,9 @@ function startup() {
 
     // Toggle onion skin
     onionSkinToggle.addEventListener("click", _toggleOnionSkin);
+
+    // Toggle preview looping
+    btnLoop.addEventListener("click", _toggleVideoLoop);
 
     // Change onion skin opacity
     onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
@@ -410,6 +414,23 @@ function takePicture() {
 }
 
 /**
+ * Toggle captured frames preview looping.
+ */
+function _toggleVideoLoop() {
+    "use strict";
+    // Disable looping
+    if (isLooping) {
+        isLooping = false;
+        btnLoop.children[0].classList.remove("active");
+
+        // Enable looping
+    } else {
+        isLooping = true;
+        btnLoop.children[0].classList.add("active");
+    }
+}
+
+/**
  * Pause captured frames preview video.
  */
 function videoPause() {
@@ -454,7 +475,7 @@ function _videoPlay() {
     // There are no more frames to preview
     if (curPlayFrame === curFrame){
          // We are not looping, stop the playback
-        if (!checkPlayLoop.checked) {
+        if (!isLooping) {
             videoStop();
         }
 
