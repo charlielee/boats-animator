@@ -86,6 +86,7 @@ function openAnimator() {
     window.location.href = "animator.html";
     win.resizeTo(1050, 715);
     win.setPosition('center');
+    win.maximize()
 }
 
 /**
