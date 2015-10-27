@@ -16,7 +16,6 @@ var width  = 640,
     preview     = document.querySelector("#preview"),
     video       = document.querySelector("#video"),
     canvas      = document.querySelector("#canvas"),
-    photo       = document.querySelector("#photo"),
     ratio       = null,
     aspectRatio = null,
 
@@ -86,6 +85,7 @@ function openAnimator() {
     window.location.href = "animator.html";
     win.resizeTo(1050, 715);
     win.setPosition('center');
+    win.maximize();
 }
 
 /**
@@ -161,6 +161,10 @@ function startup() {
             console.log("height: " + height);
             console.log("width: " + width);
             console.log("Aspect ratio: " + aspectRatio);
+
+            if (aspectRatio === 1.33) {
+                captureWindow.classList.add("4by3");
+            }
 
             notifySuccess("Camera successfully connected.");
         }
@@ -273,7 +277,7 @@ function updateFrameReel(action, id) {
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Expand image" width="80" height="60" src="${capturedFramesRaw[id - 1]}">
+<img class="frame-reel-img" id="img-${id}" title="Expand image" width="100" height="75" src="${capturedFramesRaw[id - 1]}">
 <i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
 </div></td>`);
 
@@ -390,7 +394,6 @@ function takePicture() {
 
         // Convert the frame to a PNG
         var data = canvas.toDataURL('image/png');
-        photo.setAttribute('src', data);
 
         // Store the image data and update the current frame
         capturedFramesRaw.push(data);

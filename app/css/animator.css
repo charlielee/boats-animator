@@ -121,9 +121,8 @@ a {
 #video, #canvas { display: none; }
 
 #captureWindow, #playbackWindow {
+  height: calc(100vh - 56px - 132px - 37px);
   text-align: center;
-  padding-top: 0.5em;
-  padding-bottom: 0.3em;
   background-color: black;
 }
 
@@ -134,8 +133,7 @@ a {
   max-width: 100%;
   padding: 0;
   margin: 0;
-  min-height: 20em;
-  max-height: 30em;
+  height: 100%;
 }
 
 .windowTitleContainer {
@@ -143,11 +141,16 @@ a {
   display: inline-block;
 }
 
+#playback {
+    height: calc((100vh - 56px - 132px - 37px));
+    width: calc(((100vh - 56px - 132px - 37px) / 3) * 4);
+}   
+
 /*========== ONION SKINNING ==============*/
 
 #onionSkinningLayer{
-  width: 100%;
   height: 0;
+  width: 100%;
   overflow: visible;
   padding: 0;
   margin: 0;
@@ -161,9 +164,8 @@ a {
   border: 0;
   opacity: 0.5;
   display: none;
-  max-height: 30em;
-  min-height: 20em;
-  max-width: 100%;
+  width: calc(((100vh - 56px - 132px - 37px) / 3) * 4);
+  height: calc(100vh - 56px - 132px - 37px);
 }
 #onion-skinning-frame.visible { display: inline; }
 
@@ -255,14 +257,13 @@ a {
 .btn-frame-delete:hover { opacity: 0.8; }
 
 #btn-live-view {
-  margin-top: -0.15em;
+  
   width: 5rem;
-  height: 3.75rem;
+  height: calc(75px + 0em);
   background-color: #171717;
   text-align: center;
   font-size: 2.5em;
   cursor: pointer;
-  float: right;
 }
 
 #btn-live-view i { padding-top: 0.3em; }

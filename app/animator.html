@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <title>Boats Animator</title>
-    <!--NEEDS DOWNLOADED VERSION-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/animator.css">
 </head>
@@ -66,7 +65,7 @@
                 <ul id="playback-options">
                     <li>
                         <label id="label-fr-change" for="input-fr-change">Frame rate</label>
-                        <input id="input-fr-change" type="number" value="15">
+                        <input id="input-fr-change" type="number" value="15" min="1">
                     </li>
                     <li>
                         <input id="loopCheckbox" type="checkbox" name="options" value="Download">
@@ -136,7 +135,7 @@
                 <div id="btn-stop" class="mediaControls" title="Stop Playback"><i class="fa fa-stop"></i></div>
                 <div id="btn-play-pause" class="mediaControls" title="Playback Frames"><i class="fa fa-play"></i></div>
             </div>
-            <div id="btn-delete-last-frame"><i class="fa fa-trash"></i> Delete last frame</div>
+            <div id="btn-delete-last-frame" title="Delete last frame captured"><i class="fa fa-trash"></i> Delete last frame</div>
         </div>
         <div id="capture-control">
             <div id="btn-capture-frame" class="fa-stack fa-lg" title="Capture Frame">
@@ -175,9 +174,6 @@
         </ul>
     </div>
 
-    <div style="display: none;" class="output">
-        <img id="photo" alt="The screen capture will appear in this box.">
-    </div>
     <script src="js/main.js" async></script>
 </body>
 </html>
