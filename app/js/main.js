@@ -16,7 +16,6 @@ var width  = 640,
     preview     = document.querySelector("#preview"),
     video       = document.querySelector("#video"),
     canvas      = document.querySelector("#canvas"),
-    photo       = document.querySelector("#photo"),
     ratio       = null,
     aspectRatio = null,
 
@@ -410,7 +409,6 @@ function takePicture() {
 
         // Convert the frame to a PNG
         var data = canvas.toDataURL('image/png');
-        photo.setAttribute('src', data);
 
         // Store the image data and update the current frame
         capturedFramesRaw.push(data);
