@@ -33,7 +33,7 @@ var width  = 640,
     // Capture
     capturedFramesRaw  = [],
     curFrame           = 0,
-    captureFrame       = document.querySelector("#captureFrame"),
+    btnCaptureFrame    = document.querySelector("#captureFrame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
     // Playback
@@ -172,8 +172,8 @@ function startup() {
 ===============================================================*/
 
 
-    //Listen if capture frame button pressed
-    captureFrame.addEventListener("click", function () {
+    // Capture a frame
+    btnCaptureFrame.addEventListener("click", function() {
         // Prevent taking frames without a set output path
         if (!frameExportDirectory) {
           notifyError("An output destination must be first set!");
@@ -208,10 +208,10 @@ function startup() {
     });
 
     // Listen for frame rate changes
-    inputChangeFR.addEventListener("change", function() {
+    inputChangeFR.addEventListener("input", function() {
         frameRate = parseInt(this.value, 10);
         statusBarFrameRate.innerHTML = frameRate;
-        // stopitwhenlooping();
+        videoStop();
     });
 
     // Toggle capture and playback windows
@@ -406,7 +406,6 @@ function takePicture() {
     }
 }
 
-
 /**
  * Preview the captured frames.
  */
@@ -468,13 +467,16 @@ function stopitwhenlooping() {
  */
 function videoPause() {
     "use strict";
-    isPlaying = false;
-    clearInterval(playBackLoop);
+    // Only pause if needed
+    if (isPlaying) {
+        isPlaying = false;
+        clearInterval(playBackLoop);
 
-    // Change the play/pause button
-    btnPlayPause.children[0].classList.remove("fa-pause");
-    btnPlayPause.children[0].classList.add("fa-play");
-    console.info("Playback paused");
+        // Change the play/pause button
+        btnPlayPause.children[0].classList.remove("fa-pause");
+        btnPlayPause.children[0].classList.add("fa-play");
+        console.info("Playback paused");
+    }
 }
 
 /**
@@ -486,6 +488,9 @@ function videoStop() {
     videoPause();
     curPlayFrame = 0;
     playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+
+    // Display newest frame number in status bar
+    statusBarCurFrame.innerHTML = curFrame;
     console.info("Playback stopped");
 }
 
@@ -501,9 +506,16 @@ function _videoPlay() {
     statusBarCurFrame.innerHTML = (curPlayFrame + 1);
     curPlayFrame++;
 
-    // We are not looping and there are no more frames to preview
-    if (!checkPlayLoop.checked && curPlayFrame === curFrame){
-        videoStop();
+    // There are no more frames to preview
+    if (curPlayFrame === curFrame){
+         // We are not looping, stop the playback
+        if (!checkPlayLoop.checked) {
+            videoStop();
+        }
+
+        // Loop the playback
+        curPlayFrame = 0;
+        console.info("Playback looped");
     }
 }
 
