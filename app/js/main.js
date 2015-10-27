@@ -33,7 +33,7 @@ var width  = 640,
     // Capture
     capturedFramesRaw  = [],
     curFrame           = 0,
-    btnCaptureFrame    = document.querySelector("#captureFrame"),
+    btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
     // Playback
@@ -421,45 +421,6 @@ function previewCapturedFrames() {
     // Begin playing the frames
     playBackLoop = setInterval(_videoPlay, (1000 / frameRate));
     console.info("Playback started");
-}
-
-function stopit() {
-    var loopCheck = document.getElementById("loopCheckbox");
-
-    //reset playback to the first frame
-    curPlayFrame = 0;
-    if(loopCheck.checked === true){
-        //if loop check is true playback continues from frame 1
-        console.info("Playback looped");
-    }else{
-        isPlaying = false;
-        //stop increasing playback frame number
-        clearInterval(playBackLoop);
-        //display final frame in playback window
-        playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
-
-        //change frame number in status bar
-        statusBarCurFrame.innerHTML = curFrame;
-
-        //change pause to play button
-        btnPlayPause.children[0].classList.remove("fa-pause");
-        btnPlayPause.children[0].classList.add("fa-play");
-
-        console.info("Playback stopped");
-    }
-}
-function stopitwhenlooping() {
-    isPlaying = false;
-    //stop increasing playback frame number
-    clearInterval(playBackLoop);
-    document.getElementById('playback').setAttribute("src", capturedFramesRaw[curFrame - 1]);
-    document.querySelector('#currentFrame span').innerHTML = curFrame;
-    btnPlayPause.children[0].classList.remove("fa-pause");
-    btnPlayPause.children[0].classList.add("fa-play");
-
-    //reset playback frame
-    curPlayFrame = -1;
-    console.info("Playback stopped with loop on");
 }
 
 /**
