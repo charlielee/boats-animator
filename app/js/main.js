@@ -86,7 +86,7 @@ function openAnimator() {
     window.location.href = "animator.html";
     win.resizeTo(1050, 715);
     win.setPosition('center');
-    win.maximize()
+    win.maximize();
 }
 
 /**
@@ -126,7 +126,7 @@ function startup() {
     // Set default frame rate
     statusBarFrameRate.innerHTML = frameRate;
     inputChangeFR.value = frameRate;
-    
+
     //Set default view
     switchMode("capture");
 
@@ -162,9 +162,9 @@ function startup() {
             console.log("height: " + height);
             console.log("width: " + width);
             console.log("Aspect ratio: " + aspectRatio);
-            
+
             if (aspectRatio === 1.33) {
-                captureWindow.classList.add("4by3");            
+                captureWindow.classList.add("4by3");
             }
 
             notifySuccess("Camera successfully connected.");
@@ -433,14 +433,14 @@ function takePicture() {
 function playbackframes() {
     //display playback window
     switchMode("playback");
-    
+
     //switch play to pause button
     btnPlayPause.children[0].classList.remove("fa-play");
     btnPlayPause.children[0].classList.add("fa-pause");
-    
+
     //begin  incrementing frames in the playback window
     yoplayit = setInterval(playit, (1000 / frameRate));
-    
+
     console.info("Playback started");
 }
 
@@ -467,14 +467,14 @@ function stopit() {
         clearInterval(yoplayit);
         //display final frame in playback window
         playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
-        
+
         //change frame number in status bar
         statusBarCurFrame.innerHTML = curFrame;
-        
+
         //change pause to play button
         btnPlayPause.children[0].classList.remove("fa-pause");
         btnPlayPause.children[0].classList.add("fa-play");
-        
+
         console.info("Playback stopped");
     }
 }
