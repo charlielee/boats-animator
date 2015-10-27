@@ -48,10 +48,10 @@ var width  = 640,
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Status bar
-    statusBarFrameNum  = document.querySelector("#noOfFrames"),
-    statusBarFrameRate = document.querySelector("#currentFrameRate span"),
     statusBarCurMode   = document.querySelector("#currentMode span"),
     statusBarCurFrame  = document.querySelector("#currentFrame span"),
+    statusBarFrameNum  = document.querySelector("#noOfFrames"),
+    statusBarFrameRate = document.querySelector("#currentFrameRate span"),
 
     // Export frames
     fs                    = require('fs'),
@@ -98,7 +98,7 @@ function openIndex() {
         win.focus();
         window.location.href = "index.html";
         win.resizeTo(1050, 700);
-        win.setPosition('center');
+        win.setPosition("center");
     }
 }
 
@@ -183,7 +183,7 @@ function startup() {
         takePicture();
     });
 
-    // Listen if undo last frame button pressed
+    // Undo last captured frame
     btnDeleteLastFrame.addEventListener("click", undoFrame);
 
     // Toggle onion skin
@@ -407,23 +407,6 @@ function takePicture() {
 }
 
 /**
- * Preview the captured frames.
- */
-function previewCapturedFrames() {
-    "use strict";
-    // Display playback window
-    switchMode("playback");
-
-    // Update the play/pause button
-    btnPlayPause.children[0].classList.remove("fa-play");
-    btnPlayPause.children[0].classList.add("fa-pause");
-
-    // Begin playing the frames
-    playBackLoop = setInterval(_videoPlay, (1000 / frameRate));
-    console.info("Playback started");
-}
-
-/**
  * Pause captured frames preview video.
  */
 function videoPause() {
@@ -460,11 +443,9 @@ function videoStop() {
  */
 function _videoPlay() {
     "use strict";
-    isPlaying = true;
-
     // Display each frame
     playback.setAttribute("src", capturedFramesRaw[curPlayFrame]);
-    statusBarCurFrame.innerHTML = (curPlayFrame + 1);
+    statusBarCurFrame.innerHTML = curPlayFrame + 1;
     curPlayFrame++;
 
     // There are no more frames to preview
@@ -478,6 +459,24 @@ function _videoPlay() {
         curPlayFrame = 0;
         console.info("Playback looped");
     }
+}
+
+/**
+ * Preview the captured frames.
+ */
+function previewCapturedFrames() {
+    "use strict";
+    // Display playback window
+    switchMode("playback");
+
+    // Update the play/pause button
+    btnPlayPause.children[0].classList.remove("fa-play");
+    btnPlayPause.children[0].classList.add("fa-pause");
+
+    // Begin playing the frames
+    isPlaying = true;
+    playBackLoop = setInterval(_videoPlay, (1000 / frameRate));
+    console.info("Playback started");
 }
 
 /**
