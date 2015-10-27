@@ -193,8 +193,13 @@ a {
 }
 
 #btn-delete-last-frame {
+  padding: 0 0.25em;
   display: inline-block;
   float: left;
+}
+
+#btn-delete-last-frame i {
+  font-size: 1.25em;
 }
 
 #btn-capture-frame {
