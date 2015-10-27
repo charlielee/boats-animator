@@ -196,14 +196,14 @@ function startup() {
     btnPlayPause.addEventListener("click", function() {
         // Make sure we have frames to play back
         if (curFrame > 0) {
-            (isPlaying ? pauseit : previewCapturedFrames)();
+            (isPlaying ? videoPause : previewCapturedFrames)();
         }
     });
 
     // Stop the preview
     btnStop.addEventListener("click", function() {
         if (curFrame > 0) {
-            (loopCheck.checked ? stopitwhenlooping : stopit)();
+            videoStop();
         }
     });
 
@@ -211,7 +211,7 @@ function startup() {
     inputChangeFR.addEventListener("change", function() {
         frameRate = parseInt(this.value, 10);
         statusBarFrameRate.innerHTML = frameRate;
-        stopitwhenlooping();
+        // stopitwhenlooping();
     });
 
     // Toggle capture and playback windows
@@ -463,12 +463,48 @@ function stopitwhenlooping() {
     console.info("Playback stopped with loop on");
 }
 
-function pauseit() {
+/**
+ * Pause captured frames preview video.
+ */
+function videoPause() {
+    "use strict";
     isPlaying = false;
     clearInterval(playBackLoop);
+
+    // Change the play/pause button
     btnPlayPause.children[0].classList.remove("fa-pause");
     btnPlayPause.children[0].classList.add("fa-play");
     console.info("Playback paused");
+}
+
+/**
+ * Fully stop captured frames preview video.
+ */
+function videoStop() {
+    "use strict";
+    // Reset the player
+    videoPause();
+    curPlayFrame = 0;
+    playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+    console.info("Playback stopped");
+}
+
+/**
+ * Play captured frames preview video.
+ */
+function _videoPlay() {
+    "use strict";
+    isPlaying = true;
+
+    // Display each frame
+    playback.setAttribute("src", capturedFramesRaw[curPlayFrame]);
+    statusBarCurFrame.innerHTML = (curPlayFrame + 1);
+    curPlayFrame++;
+
+    // We are not looping and there are no more frames to preview
+    if (!checkPlayLoop.checked && curPlayFrame === curFrame){
+        videoStop();
+    }
 }
 
 /**
