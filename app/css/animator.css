@@ -143,7 +143,7 @@ a {
 
 #playback {
     height: calc((100vh - 56px - 132px - 37px));
-    width: calc((100vh - 56px - 132px - 37px) / 4));
+    width: calc(((100vh - 56px - 132px - 37px) / 3) * 4);
 }   
 
 /*========== ONION SKINNING ==============*/
@@ -164,8 +164,8 @@ a {
   border: 0;
   opacity: 0.5;
   display: none;
-  width: calc((100vh - 56px - 132px - 37px) / 4));
-  height: calc((100vh - 56px - 132px - 37px));
+  width: calc(((100vh - 56px - 132px - 37px) / 3) * 4);
+  height: calc(100vh - 56px - 132px - 37px);
 }
 #onion-skinning-frame.visible { display: inline; }
 
