@@ -192,18 +192,18 @@ a {
   font-size: 1.25em;
 }
 
-#deleteLastFrame {
+#btn-delete-last-frame {
   display: inline-block;
   float: left;
 }
 
-#captureFrame {
+#btn-capture-frame {
   margin-top: -2.84em;
   cursor: pointer;
   font-size: 2em;
 }
 
-#captureFrame .fa-camera { color: #ad0000; }
+#btn-capture-frame .fa-camera { color: #ad0000; }
 
 #playback-controls div {
   display: inline-block;
