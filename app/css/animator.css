@@ -93,11 +93,6 @@ a {
 
 .sidebar-link-dot { margin-right: 6px; }
 
-#input-fr-change {
-  width: 3em;
-  margin-top: 0.3em;
-}
-
 #currentDirectoryName {
   margin: 0.2em 0 1em 0;
   font-family: monospace;
@@ -215,29 +210,47 @@ a {
 /* ========== OTHER OPTIONS ============== */
 
 #other-options-container {
-  padding: 1em;
-  text-align: center;
+/*  padding: 1em 5em;*/
+  padding: 1em calc(100vw - 69em);
 }
 
 #onion-skin-control {
-    display: inline-block;
+  display: inline-block;
+  float: left;
 }
 
 #btn-onion-skin-toggle {
   position: relative;
-  right: 10em;
-  padding: 0 6.25em;
+/*  margin-left: 20em;*/
+  float: left;
+  display: inline-block;
   cursor: pointer;
-  
+  padding-left: 1em;
 }
 
 #btn-onion-skin-toggle i {
-    font-size: 1.7em;
+  font-size: 1.7em;
+}
+
+#framerate-container {
+  position: relative;
+  top: 0.1em;
+  display: inline-block;
+  float: right;
+  padding-right: 1em;
+}
+
+#input-fr-change {
+  width: 3em;
+  border: 1px solid #171717;
+  background-color: #d9d9d9;
+  color: #171717;
+  padding: 3px;
 }
 
 #onion-opacity-slider-container {
     text-align: center;
-    margin-top: -1.75em;
+    margin-top: -4em;
 }
 
 #slider-background-middle {
@@ -245,7 +258,6 @@ a {
   height: 1.9em;
   width: 0.09em;
   background-color: white;
-  border-radius: 50%;
   margin-left: auto;
   margin-right: auto;
   margin-top: -1.24em;
@@ -255,7 +267,9 @@ a {
 #input-onion-skin-opacity {
   -webkit-appearance: none;
   width: 15em;
+  margin-top: 4em;
 }
+
 
 #input-onion-skin-opacity:focus {
   outline: none;
