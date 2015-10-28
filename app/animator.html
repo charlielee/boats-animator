@@ -44,19 +44,6 @@
                 </ul>
             </div>
 
-            <!--Onion Skinning Options-->
-            <div class="sidebar-item" id="onion-skin-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-adjust fa-fw"></i> Onion Skinning</h2>
-                </div>
-                    <div id="btn-onion-skin-toggle" class="btn-sidebar"><i class="fa fa-toggle-off" title="Toggle on"></i> Off</div>
-                <ul id="onion-skin-options">
-                    <li><span id="onion-skin-percentage">50%</span>
-                        <input id="input-onion-skin-opacity" class="sidebarOption" type="range" name="onionSkinAmount" min="0" max="20" value="10">
-                    </li>
-                </ul>
-            </div>
-
             <!--Playback Options-->
             <div class="sidebar-item" id="playback-header">
                 <div class="sidebar-header">
@@ -160,6 +147,14 @@
                         </td>
                     </tr>
                 </table>
+            </div>
+        </div>
+        <div id="other-options-container">
+            <div id="onion-skin-control">
+                <div id="btn-onion-skin-toggle"><i class="fa fa-adjust fa-fw fa-flip-horizontal" title="Enable Onion Skin"></i></div>
+            </div>
+            <div id="onion-opacity-slider-container">
+                <input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="0" max="20" value="10" title="50%"><div id=slider-background-middle></div>
             </div>
         </div>
     </div>
