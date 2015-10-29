@@ -38,11 +38,12 @@ var width  = 640,
     // Playback
     frameRate     = 15,
     isPlaying     = false,
+    isLooping     = false,
     curPlayFrame  = 0,
     playBackLoop  = null,
     btnStop       = document.querySelector("#btn-stop"),
+    btnLoop       = document.querySelector("#btn-loop"),
     playback      = document.querySelector("#playback"),
-    checkPlayLoop = document.querySelector("#loopCheckbox"),
     btnPlayPause  = document.querySelector("#btn-play-pause"),
     inputChangeFR = document.querySelector("#input-fr-change"),
 
@@ -64,7 +65,6 @@ var width  = 640,
     onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
     onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
     onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
-    onionSkinPercent   = document.querySelector("#onion-skin-percentage"),
 
     // Frame reel
     frameReelArea  = document.querySelector("#area-frame-reel"),
@@ -193,6 +193,9 @@ function startup() {
     // Toggle onion skin
     onionSkinToggle.addEventListener("click", _toggleOnionSkin);
 
+    // Toggle preview looping
+    btnLoop.addEventListener("click", _toggleVideoLoop);
+
     // Change onion skin opacity
     onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
 
@@ -277,7 +280,7 @@ function updateFrameReel(action, id) {
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Expand image" width="100" height="75" src="${capturedFramesRaw[id - 1]}">
+<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="100" height="75" src="${capturedFramesRaw[id - 1]}">
 <i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
 </div></td>`);
 
@@ -351,20 +354,20 @@ function undoFrame() {
 /**
  * Toggle onion skinning on or off.
  */
-function _toggleOnionSkin() {
+function _toggleOnionSkin(ev) {
     "use strict";
     // Onion skin is currently enabled, turn it off
     if (isOnionSkinEnabled) {
       isOnionSkinEnabled = false;
-      onionSkinToggle.innerHTML = "<i class='fa fa-toggle-off' title='Toggle on'></i> Off";
-      onionSkinToggle.classList.remove("active");
+      ev.target.setAttribute("title", `Enable Onion Skin`);
+      onionSkinToggle.children[0].classList.remove("active")
       onionSkinWindow.classList.remove("visible");
 
       // Onion skin is currently disabled, turn it on
     } else {
       isOnionSkinEnabled = true;
-      onionSkinToggle.innerHTML = "<i class='fa fa-toggle-on' title='Toggle off'></i> On";
-      onionSkinToggle.classList.add("active");
+        ev.target.setAttribute("title", `Disable Onion Skin`);
+      onionSkinToggle.children[0].classList.add("active")
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
@@ -406,6 +409,23 @@ function takePicture() {
 
         // Scroll the frame reel to the end
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
+    }
+}
+
+/**
+ * Toggle captured frames preview looping.
+ */
+function _toggleVideoLoop() {
+    "use strict";
+    // Disable looping
+    if (isLooping) {
+        isLooping = false;
+        btnLoop.children[0].classList.remove("active");
+
+        // Enable looping
+    } else {
+        isLooping = true;
+        btnLoop.children[0].classList.add("active");
     }
 }
 
@@ -454,7 +474,7 @@ function _videoPlay() {
     // There are no more frames to preview
     if (curPlayFrame === curFrame){
          // We are not looping, stop the playback
-        if (!checkPlayLoop.checked) {
+        if (!isLooping) {
             videoStop();
         }
 
@@ -492,7 +512,7 @@ function _onionSkinChangeAmount(ev) {
     // Calculate the percentage opacity value
     var amount = ev.target.value * 5;
 
-    onionSkinPercent.innerHTML = amount + "%";
+    ev.target.setAttribute("title", `${amount}%`);
     onionSkinWindow.style.opacity = amount / 100;
 }
 

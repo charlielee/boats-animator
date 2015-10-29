@@ -44,36 +44,6 @@
                 </ul>
             </div>
 
-            <!--Onion Skinning Options-->
-            <div class="sidebar-item" id="onion-skin-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-adjust fa-fw"></i> Onion Skinning</h2>
-                </div>
-                    <div id="btn-onion-skin-toggle" class="btn-sidebar"><i class="fa fa-toggle-off" title="Toggle on"></i> Off</div>
-                <ul id="onion-skin-options">
-                    <li><span id="onion-skin-percentage">50%</span>
-                        <input id="input-onion-skin-opacity" class="sidebarOption" type="range" name="onionSkinAmount" min="0" max="20" value="10">
-                    </li>
-                </ul>
-            </div>
-
-            <!--Playback Options-->
-            <div class="sidebar-item" id="playback-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-play fa-fw"></i> Playback</h2>
-                </div>
-                <ul id="playback-options">
-                    <li>
-                        <label id="label-fr-change" for="input-fr-change">Frame rate</label>
-                        <input id="input-fr-change" type="number" value="15" min="1">
-                    </li>
-                    <li>
-                        <input id="loopCheckbox" type="checkbox" name="options" value="Download">
-                        <label for="loopCheckbox">Loop frames on playback</label>
-                    </li>
-                </ul>
-            </div>
-
             <!--Export Options-->
             <div class="sidebar-item" id="export-header">
                 <div class="sidebar-header">
@@ -132,10 +102,11 @@
         <!--Playback controls-->
         <div id="control-buttons">
             <div id="playback-controls">
+                <div id="btn-loop" class="mediaControls" title="Loop Playback"><i class="fa fa-refresh"></i></div>
                 <div id="btn-stop" class="mediaControls" title="Stop Playback"><i class="fa fa-stop"></i></div>
                 <div id="btn-play-pause" class="mediaControls" title="Playback Frames"><i class="fa fa-play"></i></div>
             </div>
-            <div id="btn-delete-last-frame" title="Delete last frame captured"><i class="fa fa-trash"></i> Delete last frame</div>
+            <div id="btn-delete-last-frame" title="Undo last frame"><i class="fa fa-undo"></i></div>
         </div>
         <div id="capture-control">
             <div id="btn-capture-frame" class="fa-stack fa-lg" title="Capture Frame">
@@ -162,6 +133,14 @@
                 </table>
             </div>
         </div>
+      
+        <div id="other-options-container">
+                <div id="btn-onion-skin-toggle"><i class="fa fa-adjust fa-fw fa-flip-horizontal" title="Enable Onion Skin"></i></div>
+                <div id="framerate-container"><input id="input-fr-change" type="number" value="15" min="1 title="Framerate></div>
+        </div>
+        <div id="onion-opacity-slider-container">
+                  <input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="0" max="20" value="10" title="50%"><div id=slider-background-middle></div>
+              </div>
     </div>
 
     <div id="statusBar">
