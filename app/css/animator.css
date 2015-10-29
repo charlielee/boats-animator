@@ -233,23 +233,22 @@ a {
 
 #framerate-container {
   position: relative;
-  top: 0.1em;
   display: inline-block;
   float: right;
   padding-right: 1em;
 }
 
 #input-fr-change {
-  width: 3em;
+  width: 4em;
   border: 1px solid #171717;
   background-color: #d9d9d9;
   color: #171717;
-  padding: 3px;
+  padding: 5px;
 }
 
 #onion-opacity-slider-container {
     text-align: center;
-    margin-top: -4em;
+    margin-top: -4.6em;
 }
 
 #slider-background-middle {
@@ -302,7 +301,7 @@ a {
 #area-frame-reel {
   position: relative;
   top: -3px;
-  overflow-x: auto;
+  overflow-x: scroll;
   background-color: #171717;
 }
 
@@ -392,3 +391,31 @@ a {
 }
 
 #statusBar-credits { float: right; }
+
+/* ========== SCROLL BARS ============== */
+
+::-webkit-scrollbar              {
+    background-color: #171717;
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-button       { }
+
+::-webkit-scrollbar-track        { background-color: #000; }
+
+::-webkit-scrollbar-track-piece  { background-color: #171717; }
+
+::-webkit-scrollbar-thumb        {
+    background-color: #d8d8d8;
+    border-radius: 10px;
+    border: solid 1px #FFF;
+}
+
+::-webkit-scrollbar-thumb:hover { background-color: #e8e8e8; }
+
+::-webkit-scrollbar-thumb:active { background-color: #fff; }
+
+::-webkit-scrollbar-corner       { background-color: #000; }
+
+::-webkit-resizer                { }
