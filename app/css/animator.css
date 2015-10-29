@@ -358,6 +358,7 @@ a {
   margin-top: -0.2em;
   margin-bottom: -0.15em;
 }
+#btn-live-view.selected { color: #ad0000; }
 
 #btn-live-view i { padding-top: 0.5em; }
 

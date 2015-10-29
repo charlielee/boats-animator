@@ -242,10 +242,12 @@ function switchMode(newMode) {
     if (winMode === "capture") {
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
+        btnLiveView.classList.add("selected");
 
     } else if (winMode === "playback") {
         captureWindow.classList.add("hidden");
         playbackWindow.classList.remove("hidden");
+        btnLiveView.classList.remove("selected");
     }
     console.log(`Switched to: ${winMode}`);
     statusBarCurMode.innerHTML = winMode.charAt(0).toUpperCase() + winMode.slice(1);
