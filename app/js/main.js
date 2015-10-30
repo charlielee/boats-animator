@@ -143,6 +143,9 @@ function startup() {
     
     //Load top menu
     loadMenu();
+    
+    //Maximise window
+    win.maximize();
 
     // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
