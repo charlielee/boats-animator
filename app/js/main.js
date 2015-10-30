@@ -14,7 +14,7 @@ var width  = 640,
 
     // The various HTML elements we need to configure or control.
     preview     = document.querySelector("#preview"),
-    video       = document.querySelector("#video"),
+    video       = document.createElement("video"),
     canvas      = document.querySelector("#canvas"),
     ratio       = null,
     aspectRatio = null,
@@ -24,7 +24,7 @@ var width  = 640,
     win = gui.Window.get(),
 
     // Mode switching
-    btnLiveView  = document.querySelector("#btn-live-view"),
+    btnLiveView    = document.querySelector("#btn-live-view"),
     captureWindow  = document.querySelector("#captureWindow"),
     playbackWindow = document.querySelector("#playbackWindow"),
     winMode        = "capture",
@@ -84,7 +84,7 @@ function openAnimator() {
     win.focus();
     window.location.href = "animator.html";
     win.resizeTo(1050, 715);
-    win.setPosition('center');
+    win.setPosition("center");
     win.maximize();
 }
 
@@ -140,6 +140,7 @@ function startup() {
 
             //  Play hidden video of correct resolution
             video.src = videoBlob;
+            video.play();
         },
         function (err) {
             console.error("Could not find a camera to use!");
@@ -147,14 +148,12 @@ function startup() {
         }
     );
 
-    video.addEventListener('canplay', function () {
+    video.addEventListener("canplay", function() {
         if (!streaming) {
             height = video.videoHeight / (video.videoWidth / width);
 
-            video.setAttribute('width', width);
-            video.setAttribute('height', height);
-            canvas.setAttribute('width', width);
-            canvas.setAttribute('height', height);
+            canvas.setAttribute("width", video.videoWidth.toString());
+            canvas.setAttribute("height", video.videoHeight.toString());
             streaming = true;
             ratio = width / height;
             aspectRatio = ratio.toFixed(2);
