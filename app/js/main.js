@@ -360,15 +360,15 @@ function _toggleOnionSkin(ev) {
     // Onion skin is currently enabled, turn it off
     if (isOnionSkinEnabled) {
       isOnionSkinEnabled = false;
-      ev.target.setAttribute("title", `Enable Onion Skin`);
-      onionSkinToggle.children[0].classList.remove("active")
+      ev.target.setAttribute("title", "Enable Onion Skin");
+      onionSkinToggle.children[0].classList.remove("active");
       onionSkinWindow.classList.remove("visible");
 
       // Onion skin is currently disabled, turn it on
     } else {
       isOnionSkinEnabled = true;
-        ev.target.setAttribute("title", `Disable Onion Skin`);
-      onionSkinToggle.children[0].classList.add("active")
+      ev.target.setAttribute("title", "Disable Onion Skin");
+      onionSkinToggle.children[0].classList.add("active");
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
