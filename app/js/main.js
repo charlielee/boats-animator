@@ -14,8 +14,8 @@ var width  = 640,
 
     // The various HTML elements we need to configure or control.
     preview     = document.querySelector("#preview"),
-    video       = document.querySelector("#video"),
-    canvas      = document.querySelector("#canvas"),
+    video       = document.createElement("video"),
+    canvas      = document.createElement("canvas"),
     ratio       = null,
     aspectRatio = null,
 
@@ -24,7 +24,7 @@ var width  = 640,
     win = gui.Window.get(),
 
     // Mode switching
-    btnLiveView  = document.querySelector("#btn-live-view"),
+    btnLiveView    = document.querySelector("#btn-live-view"),
     captureWindow  = document.querySelector("#captureWindow"),
     playbackWindow = document.querySelector("#playbackWindow"),
     winMode        = "capture",
@@ -87,6 +87,7 @@ var width  = 640,
  * Occurs when "New Project" is pressed
  */
 function openAnimator() {
+<<<<<<< HEAD
     var frameExportDirectory = _getDefaultDirectory(),
         animator_win = gui.Window.open ("animator.html", {
             position: "center",
@@ -97,6 +98,14 @@ function openAnimator() {
             icon: "icons/icon.png",
         });
     win.close();
+=======
+    var frameExportDirectory = _getDefaultDirectory();
+    win.focus();
+    window.location.href = "animator.html";
+    win.resizeTo(1050, 715);
+    win.setPosition("center");
+    win.maximize();
+>>>>>>> refs/remotes/origin/master
 }
 
 /**
@@ -142,7 +151,7 @@ function startup() {
     statusBarFrameRate.innerHTML = frameRate;
     inputChangeFR.value = frameRate;
 
-    //Set default view
+    // Set default view
     switchMode("capture");
     
     //Load top menu
@@ -152,28 +161,27 @@ function startup() {
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 
     navigator.getMedia({ video: true },
-        function (stream) {
+        function(stream) {
             var videoBlob = window.URL.createObjectURL(stream);
             // Play preview video
             preview.src = videoBlob;
 
             //  Play hidden video of correct resolution
             video.src = videoBlob;
+            video.play();
         },
-        function (err) {
+        function(err) {
             console.error("Could not find a camera to use!");
             notifyError("Could not find a camera to use!");
         }
     );
 
-    video.addEventListener('canplay', function () {
+    video.addEventListener("canplay", function() {
         if (!streaming) {
             height = video.videoHeight / (video.videoWidth / width);
 
-            video.setAttribute('width', width);
-            video.setAttribute('height', height);
-            canvas.setAttribute('width', width);
-            canvas.setAttribute('height', height);
+            canvas.setAttribute("width", video.videoWidth.toString());
+            canvas.setAttribute("height", video.videoHeight.toString());
             streaming = true;
             ratio = width / height;
             aspectRatio = ratio.toFixed(2);
@@ -187,7 +195,7 @@ function startup() {
 
             notifySuccess("Camera successfully connected.");
         }
-    }, false);
+    });
 
 
 /*==========================================================
@@ -390,15 +398,15 @@ function _toggleOnionSkin(ev) {
     // Onion skin is currently enabled, turn it off
     if (isOnionSkinEnabled) {
       isOnionSkinEnabled = false;
-      ev.target.setAttribute("title", `Enable Onion Skin`);
-      onionSkinToggle.children[0].classList.remove("active")
+      ev.target.setAttribute("title", "Enable Onion Skin");
+      onionSkinToggle.children[0].classList.remove("active");
       onionSkinWindow.classList.remove("visible");
 
       // Onion skin is currently disabled, turn it on
     } else {
       isOnionSkinEnabled = true;
-        ev.target.setAttribute("title", `Disable Onion Skin`);
-      onionSkinToggle.children[0].classList.add("active")
+      ev.target.setAttribute("title", "Disable Onion Skin");
+      onionSkinToggle.children[0].classList.add("active");
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
