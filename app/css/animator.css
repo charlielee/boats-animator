@@ -350,14 +350,21 @@ a {
 #btn-live-view {
   width: 100px;
   height: 75px;
-  background-color: #171717;
+  background-color: #d3d3d3;
+  color: #171717;
   text-align: center;
   font-size: 2.5em;
   cursor: pointer;
   margin-left: -0.15em;
-  margin-top: -0.2em;
+  margin-top: -0.24em;
   margin-bottom: -0.15em;
 }
+
+#btn-live-view:hover {
+  color: #ad0000;
+  opacity: 1;
+}
+
 #btn-live-view.selected { color: #ad0000; }
 
 #btn-live-view i { padding-top: 0.5em; }
