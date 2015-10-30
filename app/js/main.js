@@ -80,12 +80,16 @@ var width  = 640,
  * Occurs when "New Project" is pressed
  */
 function openAnimator() {
-    var frameExportDirectory = _getDefaultDirectory();
-    win.focus();
-    window.location.href = "animator.html";
-    win.resizeTo(1050, 715);
-    win.setPosition('center');
-    win.maximize();
+    var frameExportDirectory = _getDefaultDirectory(),
+        animator_win = gui.Window.open ("animator.html", {
+            position: "center",
+            width: 1050,
+            height: 715,
+            toolbar: false,
+            focus: true,
+            icon: "icons/icon.png",
+        });
+    win.close();
 }
 
 /**
@@ -95,10 +99,15 @@ function openIndex() {
     "use strict";
     var confirmOpen = confirm("Returning to the menu will cause any unsaved work to be lost!");
     if (confirmOpen) {
-        win.focus();
-        window.location.href = "index.html";
-        win.resizeTo(1050, 700);
-        win.setPosition("center");
+        win.close();
+        var animator_win = gui.Window.open ("index.html", {
+            position: "center",
+            width: 800,
+            height: 456,
+            toolbar: false,
+            focus: true,
+            icon: "icons/icon.png"
+        });
     }
 }
 
@@ -128,6 +137,9 @@ function startup() {
 
     //Set default view
     switchMode("capture");
+    
+    //Load top menu
+    loadMenu();
 
     // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
@@ -752,109 +764,110 @@ function notifyError(msg) {
 /**
  * Display top menu
  */
-// Create menu
-var menuBar = new gui.Menu({ type: 'menubar' });
+function loadMenu() {
+    // Create menu
+    var menuBar = new gui.Menu({ type: 'menubar' });
 
-// Create sub-menus
-var fileMenuItems = new gui.Menu(),
-    editMenuItems = new gui.Menu(),
-    captureMenuItems = new gui.Menu(),
-    helpMenuItems = new gui.Menu();
+    // Create sub-menus
+    var fileMenuItems = new gui.Menu(),
+        editMenuItems = new gui.Menu(),
+        captureMenuItems = new gui.Menu(),
+        helpMenuItems = new gui.Menu();
 
-//File menu items
-fileMenuItems.append(new gui.MenuItem({
-  label: "New project...",
-    icon: "pngicons/file.png",
-  click: function() {
-  },
-    key: "n",
-    modifiers: "ctrl",
-}));
-fileMenuItems.append(new gui.MenuItem({
-  label: "Open project...",
-    icon: "pngicons/import.png",
-  click: function() {
-  },
-    key: "o",
-    modifiers: "ctrl",
-}));
-fileMenuItems.append(new gui.MenuItem({
-  label: "Main Menu",
-    icon: "pngicons/menu.png",
-  click: function() {
-    openIndex();
-  },
-    key: "m",
-    modifiers: "ctrl",
-}));
+    //File menu items
+    fileMenuItems.append(new gui.MenuItem({
+      label: "New project...",
+        icon: "pngicons/file.png",
+      click: function() {
+      },
+        key: "n",
+        modifiers: "ctrl",
+    }));
+    fileMenuItems.append(new gui.MenuItem({
+      label: "Open project...",
+        icon: "pngicons/import.png",
+      click: function() {
+      },
+        key: "o",
+        modifiers: "ctrl",
+    }));
+    fileMenuItems.append(new gui.MenuItem({
+      label: "Main Menu",
+        icon: "pngicons/menu.png",
+      click: function() {
+        openIndex();
+      },
+        key: "m",
+        modifiers: "ctrl",
+    }));
 
-//Edit menu items
-editMenuItems.append(new gui.MenuItem({
-  label: "Delete last frame",
-    icon: "pngicons/delete.png",
-  click: function() {
-    undoFrame();
-  },
-  key: "z",
-  modifiers: "ctrl",
-}));
+    //Edit menu items
+    editMenuItems.append(new gui.MenuItem({
+      label: "Delete last frame",
+        icon: "pngicons/delete.png",
+      click: function() {
+        undoFrame();
+      },
+      key: "z",
+      modifiers: "ctrl",
+    }));
 
-//Capture menu items
-captureMenuItems.append(new gui.MenuItem({
-  label: "Capture frame",
-    icon: "pngicons/capture.png",
-  click: function() {
-    takePicture();
-  },
-  key: "c",
-  modifiers: "ctrl",
-}));
+    //Capture menu items
+    captureMenuItems.append(new gui.MenuItem({
+      label: "Capture frame",
+        icon: "pngicons/capture.png",
+      click: function() {
+        takePicture();
+      },
+      key: "c",
+      modifiers: "ctrl",
+    }));
 
-//Help menu items
-helpMenuItems.append(new gui.MenuItem({
-  label: "Give feedback",
-    icon: "pngicons/feedback.png",
-  click: function() {
-      gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator/issues');
-  },
-  key: "/",
-  modifiers: "ctrl",
-}));
+    //Help menu items
+    helpMenuItems.append(new gui.MenuItem({
+      label: "Give feedback",
+        icon: "pngicons/feedback.png",
+      click: function() {
+          gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator/issues');
+      },
+      key: "/",
+      modifiers: "ctrl",
+    }));
 
-// Append sub-menus to main menu
-menuBar.append(
-    new gui.MenuItem({
-        label: 'File',
-        submenu: fileMenuItems
-    })
-);
-menuBar.append(
-    new gui.MenuItem({
-        label: 'Edit',
-        submenu: editMenuItems
-    })
-);
-menuBar.append(
-    new gui.MenuItem({
-        label: 'Capture',
-        submenu: captureMenuItems
-    })
-);
-menuBar.append(
-    new gui.MenuItem({
-        label: 'Help',
-        submenu: helpMenuItems
-    })
-);
+    // Append sub-menus to main menu
+    menuBar.append(
+        new gui.MenuItem({
+            label: 'File',
+            submenu: fileMenuItems
+        })
+    );
+    menuBar.append(
+        new gui.MenuItem({
+            label: 'Edit',
+            submenu: editMenuItems
+        })
+    );
+    menuBar.append(
+        new gui.MenuItem({
+            label: 'Capture',
+            submenu: captureMenuItems
+        })
+    );
+    menuBar.append(
+        new gui.MenuItem({
+            label: 'Help',
+            submenu: helpMenuItems
+        })
+    );
 
-// Append main menu to Window
-gui.Window.get().menu = menuBar;
+    // Append main menu to Window
+    gui.Window.get().menu = menuBar;
 
-// Create Mac menu
-if (process.platform === "darwin") {
-    menuBar.createMacBuiltin('Boats Animator');
+    // Create Mac menu
+    if (process.platform === "darwin") {
+        menuBar.createMacBuiltin('Boats Animator');
+    }
 }
-
 /**
  * Development Functions
  */
