@@ -15,7 +15,7 @@ var width  = 640,
     // The various HTML elements we need to configure or control.
     preview     = document.querySelector("#preview"),
     video       = document.createElement("video"),
-    canvas      = document.querySelector("#canvas"),
+    canvas      = document.createElement("canvas"),
     ratio       = null,
     aspectRatio = null,
 
@@ -126,14 +126,14 @@ function startup() {
     statusBarFrameRate.innerHTML = frameRate;
     inputChangeFR.value = frameRate;
 
-    //Set default view
+    // Set default view
     switchMode("capture");
 
     // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 
     navigator.getMedia({ video: true },
-        function (stream) {
+        function(stream) {
             var videoBlob = window.URL.createObjectURL(stream);
             // Play preview video
             preview.src = videoBlob;
@@ -142,7 +142,7 @@ function startup() {
             video.src = videoBlob;
             video.play();
         },
-        function (err) {
+        function(err) {
             console.error("Could not find a camera to use!");
             notifyError("Could not find a camera to use!");
         }
@@ -167,7 +167,7 @@ function startup() {
 
             notifySuccess("Camera successfully connected.");
         }
-    }, false);
+    });
 
 
 /*==========================================================
