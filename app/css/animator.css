@@ -82,12 +82,9 @@ a {
 
 #sidebar-content li { margin-left: -0.7em; }
 
-#btn-sidebar-toggle {
-  font-size: 1.5em;
-  padding: 0.3em;
-  cursor: pointer;
-  float: right;
-}
+#custom-res { display: none; }
+
+#custom-res.visible { display: inline-block; }
 
 .sidebar-item { border-bottom: 1px solid #ADADAD; }
 

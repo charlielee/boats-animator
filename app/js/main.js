@@ -18,6 +18,10 @@ var width  = 640,
     canvas      = document.querySelector("#canvas"),
     ratio       = null,
     aspectRatio = null,
+    
+    // Resolution
+    selectRes = document.querySelector("#select-res"),
+    customRes = document.querySelector("#custom-res"),
 
     // GUI window
     gui = require('nw.gui'),
@@ -219,6 +223,26 @@ function startup() {
         frameRate = parseInt(this.value, 10);
         statusBarFrameRate.innerHTML = frameRate;
         videoStop();
+    });
+    
+    // Listen for resolution changes
+    selectRes.addEventListener("change", function() {
+        if (selectRes.value === "custom") {
+            customRes.classList.add("visible");
+            
+        } else {
+            customRes.classList.remove("visible");
+            height = selectRes.value;
+            width = height * ( 4 / 3);
+            notifyInfo(`Resolution changed to  ${width} x ${height}`);
+        }
+    });
+    
+    // Listen for custom resolution changes
+    customRes.addEventListener("change", function() {
+        height = customRes.value;
+        width = height * ( 4 / 3);
+        notifyInfo(`Resolution changed to  ${width} x ${height}`);
     });
 
     // Toggle capture and playback windows

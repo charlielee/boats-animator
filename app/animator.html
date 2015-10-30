@@ -39,7 +39,25 @@
                     <h2><i class="fa fa-camera fa-fw"></i> Capture</h2>
                 </div>
                 <ul id="capture-options">
-                  <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change resolution</a></li>
+                    <li>
+                      <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>Resolution
+                      <select id="select-res">
+                        <option value="360">360p</option>
+                        <option value="480" selected>480p</option>
+                        <option value="720">720p</option>
+                        <option value="1080">1080p</option>
+                        <option value="custom">Custom</option>
+                      </select>
+                        <input id="custom-res" placeholder="Custom frame height" type="number" min="1">
+                    </li>
+                    <li>
+                      <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>Change Aspect Ratio
+                      <select id="select-res" style="display: none;">
+                        <option value="1.33">4:3</option>
+                        <option value="1.78">16:9</option>
+                        <option value="custom">Custom</option>
+                      </select>
+                  </li>
                   <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
                 </ul>
             </div>
