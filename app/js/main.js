@@ -79,7 +79,6 @@ var width  = 640,
     // Confirm messages
     confirmContainer = document.querySelector("#confirm-container"),
     confirmText      = document.querySelector("#confirm-text"),
-    confirmChoice    = null,
     confirmOK        = document.querySelector("#OK"),
     confirmCancel    = document.querySelector("#cancel");
 
@@ -104,8 +103,6 @@ function openAnimator() {
  */
 function openIndex() {
     "use strict";
-    var confirmOpen = confirm("Returning to the menu will cause any unsaved work to be lost!");
-    if (confirmOpen) {
         win.close();
         var animator_win = gui.Window.open ("index.html", {
             position: "center",
@@ -115,7 +112,6 @@ function openIndex() {
             focus: true,
             icon: "icons/icon.png"
         });
-    }
 }
 
 /**
@@ -248,16 +244,6 @@ function startup() {
         }
         switchMode(winMode);
     });
-    
-    // Listen if OK pressed in confirm message
-    confirmOK.addEventListener("click", function() {
-        confirmChoice = true;
-    });
-    
-    // Listen if cancel pressed in confirm message
-    confirmCancel.addEventListener("click", function() {
-        confirmChoice = false;
-    });
 
     clearPhoto();
 }
@@ -317,7 +303,7 @@ function updateFrameReel(action, id) {
         // Individual frame deletion
         var insertedImage = document.querySelector(`.frame-reel-img#img-${id}`);
         insertedImage.nextElementSibling.addEventListener("click", function() {
-            deleteFrame(id);
+            confirmSet("deleteFrame", id, `Are you sure you want to delete frame ${id}?`);
         });
 
         // Deference the selector to reduce memory usage
@@ -353,10 +339,8 @@ function updateFrameReel(action, id) {
  */
 function deleteFrame(id) {
     "use strict";
-    var confirmDel = confirmDialogue("Are you sure you want to delete this frame?");
-
+    
     // The user wants to delete the frame
-    if (confirmDel) {
         _deleteFile(exportedFramesList[id - 1]);
         exportedFramesList.splice(id - 1, 1);
         capturedFramesRaw.splice(id - 1, 1);
@@ -364,10 +348,7 @@ function deleteFrame(id) {
 
         updateFrameReel("delete", id);
         console.info(`There are now ${curFrame} captured frames`);
-        win.focus();
-    }
 }
-
 /**
  * Delete the previously taken frame.
  */
@@ -375,7 +356,7 @@ function undoFrame() {
     "use strict";
     // Make sure there is a frame to delete
     if (curFrame > 0) {
-      deleteFrame(curFrame);
+      confirmSet("deleteFrame", curFrame, "Are you sure you want to delete the last frame captured?");
     } else {
       notifyError("There is no previous frame to undo!");
     }
@@ -782,12 +763,22 @@ function notifyError(msg) {
  *
  * @param {String|Nunber} [msg=""] The confirm message to display.
  */
-function confirmDialogue(text) {
+function confirmSet(action, args, msg) {
     "use strict";
-    confirmText.innerHTML = text;
+    confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
-}
+        
+    // Listen if "OK" is pressed
+    confirmOK.addEventListener("click", function() {
+        window[action](args);
+        confirmContainer.classList.add("hidden");
+    });
     
+     // Listen if "Cancel" is pressed
+    confirmCancel.addEventListener("click", function() {
+        confirmContainer.classList.add("hidden");
+    });
+}
 
 /**
  * Display top menu
@@ -824,7 +815,7 @@ function loadMenu() {
       label: "Main Menu",
         icon: "pngicons/menu.png",
       click: function() {
-        openIndex();
+        confirmSet("openIndex","","Returning to the menu will cause any unsaved work to be lost!");
       },
         key: "m",
         modifiers: "ctrl",
