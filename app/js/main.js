@@ -87,7 +87,6 @@ var width  = 640,
  * Occurs when "New Project" is pressed
  */
 function openAnimator() {
-<<<<<<< HEAD
     var frameExportDirectory = _getDefaultDirectory(),
         animator_win = gui.Window.open ("animator.html", {
             position: "center",
@@ -98,14 +97,6 @@ function openAnimator() {
             icon: "icons/icon.png",
         });
     win.close();
-=======
-    var frameExportDirectory = _getDefaultDirectory();
-    win.focus();
-    window.location.href = "animator.html";
-    win.resizeTo(1050, 715);
-    win.setPosition("center");
-    win.maximize();
->>>>>>> refs/remotes/origin/master
 }
 
 /**
