@@ -74,7 +74,14 @@ var width  = 640,
 
     // Notification bar
     notifyBar    = document.querySelector(".notification"),
-    notifyBarMsg = document.querySelector(".notification #msg");
+    notifyBarMsg = document.querySelector(".notification #msg"),
+    
+    // Confirm messages
+    confirmContainer = document.querySelector("#confirm-container"),
+    confirmText      = document.querySelector("#confirm-text"),
+    confirmChoice    = null,
+    confirmOK        = document.querySelector("#OK"),
+    confirmCancel    = document.querySelector("#cancel");
 
 /**
  * Occurs when "New Project" is pressed
@@ -242,6 +249,16 @@ function startup() {
         }
         switchMode(winMode);
     });
+    
+    // Listen if OK pressed in confirm message
+    confirmOK.addEventListener("click", function() {
+        confirmChoice = true;
+    });
+    
+    // Listen if cancel pressed in confirm message
+    confirmCancel.addEventListener("click", function() {
+        confirmChoice = false;
+    });
 
     clearPhoto();
 }
@@ -337,7 +354,7 @@ function updateFrameReel(action, id) {
  */
 function deleteFrame(id) {
     "use strict";
-    var confirmDel = confirm("Are you sure you want to delete this frame?");
+    var confirmDel = confirmDialogue("Are you sure you want to delete this frame?");
 
     // The user wants to delete the frame
     if (confirmDel) {
@@ -762,6 +779,18 @@ function notifyError(msg) {
 }
 
 /**
+ * Display a custom confirm message
+ *
+ * @param {String|Nunber} [msg=""] The confirm message to display.
+ */
+function confirmDialogue(text) {
+    "use strict";
+    confirmText.innerHTML = text;
+    confirmContainer.classList.remove("hidden");
+}
+    
+
+/**
  * Display top menu
  */
 function loadMenu() {
@@ -772,7 +801,8 @@ function loadMenu() {
     var fileMenuItems = new gui.Menu(),
         editMenuItems = new gui.Menu(),
         captureMenuItems = new gui.Menu(),
-        helpMenuItems = new gui.Menu();
+        helpMenuItems = new gui.Menu(),
+        debugMenuItems = new gui.Menu();
 
     //File menu items
     fileMenuItems.append(new gui.MenuItem({
@@ -833,6 +863,17 @@ function loadMenu() {
       key: "/",
       modifiers: "ctrl",
     }));
+    
+    //Debug menu items
+    debugMenuItems.append(new gui.MenuItem({
+      label: "Load developer tools",
+        icon: "pngicons/debug.png",
+      click: function() {
+          dev();
+      },
+      key: "d",
+      modifiers: "ctrl",
+    }));
 
     // Append sub-menus to main menu
     menuBar.append(
@@ -841,22 +882,32 @@ function loadMenu() {
             submenu: fileMenuItems
         })
     );
+    
     menuBar.append(
         new gui.MenuItem({
             label: 'Edit',
             submenu: editMenuItems
         })
     );
+    
     menuBar.append(
         new gui.MenuItem({
             label: 'Capture',
             submenu: captureMenuItems
         })
     );
+    
     menuBar.append(
         new gui.MenuItem({
             label: 'Help',
             submenu: helpMenuItems
+        })
+    );
+    
+    menuBar.append(
+        new gui.MenuItem({
+            label: 'Debug',
+            submenu: debugMenuItems
         })
     );
 
