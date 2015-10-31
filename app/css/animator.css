@@ -196,6 +196,8 @@ a {
 
 #btn-capture-frame .fa-camera { color: #ad0000; }
 
+#btn-capture-frame .fa-camera:hover { color: #c70000; }
+
 #playback-controls div {
   display: inline-block;
   float: right;
@@ -206,90 +208,6 @@ a {
 #btn-loop i.active, #btn-onion-skin-toggle i.active {
     color: #c90000;
 }
-
-/* ========== OTHER OPTIONS ============== */
-
-#other-options-container {
-  padding: 1em 0;
-}
-
-#onion-skin-control {
-  display: inline-block;
-  float: left;
-}
-
-#btn-onion-skin-toggle {
-  position: relative;
-  top: 0.5em;
-  margin-top: 3em;
-  display: inline-block;
-  cursor: pointer;
-  padding-left: 1em;
-}
-
-#btn-onion-skin-toggle i {
-  font-size: 1.7em;
-}
-
-#framerate-container {
-  position: relative;
-  display: inline-block;
-  float: right;
-  padding-right: 1em;
-}
-
-#input-fr-change {
-  width: 4em;
-  border: 1px solid #171717;
-  background-color: #d9d9d9;
-  color: #171717;
-  padding: 5px;
-}
-
-#onion-opacity-slider-container {
-    text-align: center;
-    margin-top: -4.6em;
-}
-
-#slider-background-middle {
-  position: relative;
-  left: 1.65em;
-  height: 1.9em;
-  width: 0.09em;
-  background-color: white;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: -1.24em;
-  z-index: -1;
-}
-
-#input-onion-skin-opacity {
-  -webkit-appearance: none;
-  width: 15em;
-}
-
-
-#input-onion-skin-opacity:focus {
-  outline: none;
-}
-
-#input-onion-skin-opacity::-webkit-slider-runnable-track {
-  height: 2px;
-  cursor: pointer;
-  background: #D9D9D9;
-}
-#input-onion-skin-opacity::-webkit-slider-thumb {
-  height: 1.7em;
-  width: 1.7em;
-  border-radius: 50%;
-  background: #ad0000;
-  -webkit-appearance: none;
-  margin-top: -9.5px;
-}
-#input-onion-skin-opacity:focus::-webkit-slider-runnable-track {
-  background: #D9D9D9;
-}
-
 
 /* ========== FRAME REEL ============== */
 
@@ -350,7 +268,7 @@ a {
 #btn-live-view {
   width: 100px;
   height: 75px;
-  background-color: #d3d3d3;
+  background-color: #171717;
   color: #171717;
   text-align: center;
   font-size: 2.5em;
@@ -368,6 +286,119 @@ a {
 #btn-live-view.selected { color: #ad0000; }
 
 #btn-live-view i { padding-top: 0.5em; }
+
+
+/* ========== CONTROL PANEL ============== */
+
+#control-panel-table {
+    white-space: nowrap;
+/*    border: 2px solid red;*/
+    width: 100%;
+}
+
+#control-panel-table td {
+/*    border: 1px solid white;*/
+}
+
+#other-options-container {
+  padding: 1em 0;
+}
+
+#onion-skin-control {
+  display: inline-block;
+  float: left;
+}
+
+#onion-toggle-td, #framerate-container-td {
+  width: 35%;
+}
+
+#btn-onion-skin-toggle {
+  position: relative;
+/*
+  top: 0.5em;
+  margin-top: 3em;
+*/
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 1em;
+/*  float: right;*/
+}
+
+#btn-onion-skin-toggle i, #btn-grid-toggle i {
+  font-size: 1.7em;
+}
+
+#btn-grid-toggle {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 1em;
+/*  float: right;*/
+}
+
+#framerate-container {
+  position: relative;
+  display: inline-block;
+  float: right;
+  padding-right: 1em;
+}
+
+#input-fr-change {
+  width: 4em;
+  border: 1px solid #171717;
+  background-color: #d9d9d9;
+  color: #171717;
+  padding: 5px;
+}
+
+#onion-opacity-td {
+  text-align: center;
+}
+
+#onion-opacity-slider-container {
+    text-align: center;
+    margin-top: -4.6em;
+}
+
+#slider-background-middle {
+  position: relative;
+/*  left: 1.65em;*/
+  height: 1.9em;
+  width: 0.09em;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -1.24em;
+  z-index: -1;
+}
+
+#input-onion-skin-opacity {
+  -webkit-appearance: none;
+  max-width: 15em;
+}
+
+
+#input-onion-skin-opacity:focus {
+  outline: none;
+}
+
+#input-onion-skin-opacity::-webkit-slider-runnable-track {
+  height: 2px;
+  cursor: pointer;
+  background: #D9D9D9;
+}
+#input-onion-skin-opacity::-webkit-slider-thumb {
+  height: 1.7em;
+  width: 1.7em;
+  border-radius: 50%;
+  background: #ad0000;
+  -webkit-appearance: none;
+  margin-top: -9.5px;
+}
+#input-onion-skin-opacity:focus::-webkit-slider-runnable-track {
+  background: #D9D9D9;
+}
 
 /* ========== STATUS BAR ============== */
 
