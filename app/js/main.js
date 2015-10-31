@@ -764,18 +764,22 @@ function notifyError(msg) {
 /**
  * Display a custom confirm message
  *
- * @param {String|Number} action The function to run on "OK" being pressed.
+ * @param {String|Number} func The function to run on "OK" being pressed.
  * @param {String|Number} args Arguments of function to run.
  * @param {String|Number} msg Message to display in confirm dialogue.
  */
-function confirmSet(action, args, msg) {
+function confirmSet(func, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
         
     // Listen if "OK" is pressed
     confirmOK.addEventListener("click", function() {
-        window[action](args);
+        if (args === undefined) {
+            func();
+        } else {
+            func(args);
+        }
         confirmContainer.classList.add("hidden");
     });
     
