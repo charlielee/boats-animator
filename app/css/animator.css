@@ -76,7 +76,7 @@ a {
     border: solid 1px #D9D9D9;
 }
 
-#confirm-title { color: #D9D9D9; }
+#confirm-title { color: rgb(224, 224, 100); }
 
 #confirm-text { text-align: left; }
 
@@ -88,6 +88,7 @@ a {
     width: 6em;
 }
 
+/*Confirm buttons are typically the other way round in Win32*/
 .platform-win #confirm button { float: right; }
 
 /* ========== SIDEBAR ============== */
