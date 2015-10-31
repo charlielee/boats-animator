@@ -103,8 +103,6 @@ a {
 
 /* ========== VIDEO PREVIEW ============== */
 
-#video, #canvas { display: none; }
-
 #captureWindow, #playbackWindow {
   height: calc(100vh - 200px);
 /*  height: 30em;*/

@@ -82,13 +82,8 @@
                 <img id="onion-skinning-frame">
             </div>
 
-            <!--The actual video stream -->
+            <!-- Video preview stream -->
             <video id="preview" autoplay>Video stream not available.</video>
-
-            <!--2ND HIDDEN VIDEO STREAM TO ALLOW FOR VARIED RESOLUTIONS-->
-            <video id="video" autoplay>Video stream not available.</video>
-            <!--HIDDEN CANVAS FOR CONVERSION TO PNG-->
-            <canvas id="canvas"></canvas>
         </div>
 
         <!--Playback Window-->
@@ -143,7 +138,7 @@
                 </table>
             </div>
         </div>
-      
+
         <table id="control-panel-table">
             <tr>
                 <td id="onion-toggle-td">
@@ -156,16 +151,6 @@
                 <td id="framerate-container-td"><div id="framerate-container"><input id="input-fr-change" type="number" value="15" min="1" title="Framerate"><label for="input-fr-change"> FPS</label></div></td>
             </tr>
         </table>
-      
-<!--
-        <div id="other-options-container">
-                <div id="framerate-container"><input id="input-fr-change" type="number" value="15" min="1" title="Framerate"><label for="input-fr-change"> FPS</label></div>
-        </div>
-        <div id="onion-opacity-slider-container">
-                <div id="btn-onion-skin-toggle"><i class="fa fa-adjust fa-fw fa-flip-horizontal" title="Enable Onion Skin"></i></div>
-                <input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="0" max="20" value="10" title="50%"><div id=slider-background-middle></div>
-              </div>
--->
     </div>
 
     <div id="statusBar">
