@@ -716,7 +716,7 @@ function _notifyClose(msgType) {
 /**
  * Display a success notification.
  *
- * @param {String|Nunber} [msg=""] The message to display.
+ * @param {String|Number} [msg=""] The message to display.
  */
 function notifySuccess(msg) {
     "use strict";
@@ -732,7 +732,7 @@ function notifySuccess(msg) {
 /**
  * Display an information notification.
  *
- * @param {String|Nunber} [msg=""] The message to display.
+ * @param {String|Number} [msg=""] The message to display.
  */
 function notifyInfo(msg) {
     "use strict";
@@ -748,7 +748,7 @@ function notifyInfo(msg) {
 /**
  * Display an error notification.
  *
- * @param {String|Nunber} [msg=""] The message to display.
+ * @param {String|Number} [msg=""] The message to display.
  */
 function notifyError(msg) {
     "use strict";
@@ -764,7 +764,9 @@ function notifyError(msg) {
 /**
  * Display a custom confirm message
  *
- * @param {String|Nunber} [msg=""] The confirm message to display.
+ * @param {String|Number} action The function to run on "OK" being pressed.
+ * @param {String|Number} args Arguments of function to run.
+ * @param {String|Number} msg Message to display in confirm dialogue.
  */
 function confirmSet(action, args, msg) {
     "use strict";
