@@ -100,20 +100,30 @@
         </div>
 
         <!--Playback controls-->
-        <div id="control-buttons">
-            <div id="playback-controls">
-                <div id="btn-loop" class="mediaControls" title="Loop Playback"><i class="fa fa-refresh"></i></div>
-                <div id="btn-stop" class="mediaControls" title="Stop Playback"><i class="fa fa-stop"></i></div>
-                <div id="btn-play-pause" class="mediaControls" title="Playback Frames"><i class="fa fa-play"></i></div>
-            </div>
-            <div id="btn-delete-last-frame" title="Undo last frame"><i class="fa fa-undo"></i></div>
-        </div>
-        <div id="capture-control">
-            <div id="btn-capture-frame" class="fa-stack fa-lg" title="Capture Frame">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
-            </div>
-        </div>
+            <table id="framemod-table">
+                <tr>
+                    <td id="left-controls">
+                        <div id="btn-delete-last-frame" title="Undo last frame"><i class="fa fa-undo"></i></div>
+                        <div id="btn-delete-frame" title="Delete selected frame"><i class="fa fa-trash"></i></div>
+                    </td>
+                    <td id="capture-control">
+                <!--
+                            <div id="btn-capture-frame" class="fa-stack fa-lg" title="Capture Frame">
+                                <i class="fa fa-square fa-stack-2x"></i>
+                                <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
+                            </div>
+                -->
+                          <div id="btn-capture-frame" title="Capture Frame">
+                                <i class="fa fa-camera"></i>
+                            </div>
+                    </td>
+                    <td id="playback-controls">
+                            <div id="btn-loop" class="mediaControls" title="Loop Playback"><i class="fa fa-refresh"></i></div>
+                            <div id="btn-stop" class="mediaControls" title="Stop Playback"><i class="fa fa-stop"></i></div>
+                            <div id="btn-play-pause" class="mediaControls" title="Playback Frames"><i class="fa fa-play"></i></div>
+                    </td>
+                </tr>
+            </table>
 
         <!--Frame-reel container-->
         <div id="frame-reel-container">
@@ -137,12 +147,12 @@
         <table id="control-panel-table">
             <tr>
                 <td id="onion-toggle-td">
-                    <div id="btn-grid-toggle"><a href="#" onclick="alert('Coming soon!');"><i class="fa fa-th" title="Grid Overlay"></a></i></div>
+                    <div id="btn-grid-toggle"><a href="#" onclick="alert('Coming soon!');"><i class="fa fa-th" title="Grid Overlay"></i></a></div>
                     <div id="btn-onion-skin-toggle"><i class="fa fa-adjust fa-flip-horizontal" title="Enable Onion Skin"></i></div>
                 </td>
 
                 <td id="onion-opacity-td"><input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="0" max="20" value="10" title="50%"><div id="slider-background-middle"></div>
-              </div></td>
+                </td>
                 <td id="framerate-container-td"><div id="framerate-container"><input id="input-fr-change" type="number" value="15" min="1" title="Framerate"><label for="input-fr-change"> FPS</label></div></td>
             </tr>
         </table>
