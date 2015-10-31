@@ -76,19 +76,19 @@ a {
     border: solid 1px #D9D9D9;
 }
 
-#confirm-title {
-    color: #D9D9D9;
-}
+#confirm-title { color: #D9D9D9; }
 
-#confirm-text {
-    text-align: left;
-}
+#confirm-text { text-align: left; }
+
+#confirm-button-container{ float: right;}
 
 #confirm button {
-    float: right;
+    float: left;
     margin-left: 1em;
     width: 6em;
 }
+
+.platform-win #confirm button { float: right; }
 
 /* ========== SIDEBAR ============== */
 

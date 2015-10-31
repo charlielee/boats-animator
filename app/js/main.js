@@ -146,6 +146,11 @@ function startup() {
     
     //Maximise window
     win.maximize();
+    
+    //Windows specific code
+    if (process.platform === "win32") {
+    document.querySelector("body").classList.add("platform-win");
+}
 
     // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
