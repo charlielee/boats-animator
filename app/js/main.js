@@ -306,7 +306,7 @@ function updateFrameReel(action, id) {
         // Individual frame deletion
         var insertedImage = document.querySelector(`.frame-reel-img#img-${id}`);
         insertedImage.nextElementSibling.addEventListener("click", function() {
-            confirmSet("deleteFrame", id, `Are you sure you want to delete frame ${id}?`);
+            confirmSet(deleteFrame, id, `Are you sure you want to delete frame ${id}?`);
         });
 
         // Deference the selector to reduce memory usage
@@ -359,7 +359,7 @@ function undoFrame() {
     "use strict";
     // Make sure there is a frame to delete
     if (curFrame > 0) {
-      confirmSet("deleteFrame", curFrame, "Are you sure you want to delete the last frame captured?");
+      confirmSet(deleteFrame, curFrame, "Are you sure you want to delete the last frame captured?");
     } else {
       notifyError("There is no previous frame to undo!");
     }
@@ -824,7 +824,7 @@ function loadMenu() {
       label: "Main Menu",
         icon: "pngicons/menu.png",
       click: function() {
-        confirmSet("openIndex","","Returning to the menu will cause any unsaved work to be lost!");
+        confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
       },
         key: "m",
         modifiers: "ctrl",
