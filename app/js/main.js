@@ -659,21 +659,21 @@ function saveFrame(id) {
 
     // 1K+ frames have been captured
     if (id >= 1000) {
-      fileName = id.toString();
+      fileName = 'frame_${id}';
     }
 
     // 100 frames have been captured
     else if (id >= 100) {
-      fileName = `0${id}`;
+      fileName = `frame_0${id}`;
     }
 
     // 10 frames have been captured
     else if (id >= 10) {
-      fileName = `00${id}`;
+      fileName = `frame_00${id}`;
 
       // Less then 10 frames have been captured
     } else {
-      fileName = fileName = `000${id}`;
+      fileName = fileName = `frame_000${id}`;
     }
 
     // Create an absolute path to the destination location
