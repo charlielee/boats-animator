@@ -215,9 +215,20 @@ function startup() {
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("input", function() {
-        frameRate = parseInt(this.value, 10);
+        if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
+            frameRate = parseInt(this.value, 10);
+        } else {
+            frameRate = 15;
+        }
         statusBarFrameRate.innerHTML = frameRate;
         videoStop();
+    });
+    
+    // Listen for leaving frame rate input with an invalid value
+    inputChangeFR.addEventListener("blur", function() {
+        if(inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN) {
+            inputChangeFR.value = 15;
+        }
     });
 
     // Toggle capture and playback windows
