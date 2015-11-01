@@ -51,8 +51,9 @@
                     <h2><i class="fa fa-camera fa-fw"></i> Capture</h2>
                 </div>
                 <ul id="capture-options">
-                  <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change resolution</a></li>
-                  <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change resolution</a></li>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
+                    <li><input id="audio-toggle" type="checkbox" checked><label for="audio-toggle">Play audio</label></li>
                 </ul>
             </div>
 
@@ -66,8 +67,7 @@
                         <p id="currentDirectoryName" class="italics">No directory selected</p>
                     </li>
                     <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="changeDirectory()">Change directory</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
-                        <a href="#" onclick="setDefaultDirectory()">Set as default directory</a>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="setDefaultDirectory()">Set as default directory</a>
                         <input id="chooseDirectory" style="display:none;" type="file" nwdirectory  />
                     </li>
                 </ul>
@@ -107,20 +107,30 @@
         </div>
 
         <!--Playback controls-->
-        <div id="control-buttons">
-            <div id="playback-controls">
-                <div id="btn-loop" class="mediaControls" title="Loop Playback"><i class="fa fa-refresh"></i></div>
-                <div id="btn-stop" class="mediaControls" title="Stop Playback"><i class="fa fa-stop"></i></div>
-                <div id="btn-play-pause" class="mediaControls" title="Playback Frames"><i class="fa fa-play"></i></div>
-            </div>
-            <div id="btn-delete-last-frame" title="Undo last frame"><i class="fa fa-undo"></i></div>
-        </div>
-        <div id="capture-control">
-            <div id="btn-capture-frame" class="fa-stack fa-lg" title="Capture Frame">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
-            </div>
-        </div>
+            <table id="framemod-table">
+                <tr>
+                    <td id="left-controls">
+                        <div id="btn-delete-last-frame" title="Undo last frame"><i class="fa fa-undo"></i></div>
+                        <div id="btn-delete-frame" title="Delete selected frame"><i class="fa fa-trash"></i></div>
+                    </td>
+                    <td id="capture-control">
+                <!--
+                            <div id="btn-capture-frame" class="fa-stack fa-lg" title="Capture Frame">
+                                <i class="fa fa-square fa-stack-2x"></i>
+                                <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
+                            </div>
+                -->
+                          <div id="btn-capture-frame" title="Capture Frame">
+                                <i class="fa fa-camera"></i>
+                            </div>
+                    </td>
+                    <td id="playback-controls">
+                            <div id="btn-loop" class="mediaControls" title="Loop Playback"><i class="fa fa-refresh"></i></div>
+                            <div id="btn-stop" class="mediaControls" title="Stop Playback"><i class="fa fa-stop"></i></div>
+                            <div id="btn-play-pause" class="mediaControls" title="Playback Frames"><i class="fa fa-play"></i></div>
+                    </td>
+                </tr>
+            </table>
 
         <!--Frame-reel container-->
         <div id="frame-reel-container">
@@ -141,13 +151,18 @@
             </div>
         </div>
 
-        <div id="other-options-container">
-                <div id="framerate-container"><input id="input-fr-change" type="number" value="15" min="1" title="Framerate"><label for="input-fr-change"> FPS</label></div>
-        </div>
-        <div id="onion-opacity-slider-container">
-                <div id="btn-onion-skin-toggle"><i class="fa fa-adjust fa-fw fa-flip-horizontal" title="Enable Onion Skin"></i></div>
-                <input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="0" max="20" value="10" title="50%"><div id=slider-background-middle></div>
-              </div>
+        <table id="control-panel-table">
+            <tr>
+                <td id="onion-toggle-td">
+                    <div id="btn-grid-toggle"><a href="#" onclick="alert('Coming soon!');"><i class="fa fa-th" title="Grid Overlay"></i></a></div>
+                    <div id="btn-onion-skin-toggle"><i class="fa fa-adjust fa-flip-horizontal" title="Enable Onion Skin"></i></div>
+                </td>
+
+                <td id="onion-opacity-td"><input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="0" max="20" value="10" title="50%"><div id="slider-background-middle"></div>
+                </td>
+                <td id="framerate-container-td"><div id="framerate-container"><input id="input-fr-change" type="number" value="15" min="1" max="60" title="Framerate"><label for="input-fr-change"> FPS</label></div></td>
+            </tr>
+        </table>
     </div>
 
     <div id="statusBar">

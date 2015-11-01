@@ -34,6 +34,7 @@ var width  = 640,
     curFrame           = 0,
     btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
+    captureAudio       = new Audio("audio/camera.wav");
 
     // Playback
     frameRate     = 15,
@@ -46,6 +47,9 @@ var width  = 640,
     playback      = document.querySelector("#playback"),
     btnPlayPause  = document.querySelector("#btn-play-pause"),
     inputChangeFR = document.querySelector("#input-fr-change"),
+        
+    // Audio
+    audioToggle = document.querySelector("#audio-toggle"),
 
     // Status bar
     statusBarCurMode   = document.querySelector("#currentMode span"),
@@ -238,9 +242,21 @@ function startup() {
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("input", function() {
-        frameRate = parseInt(this.value, 10);
+        if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
+            frameRate = parseInt(this.value, 10);
+        } else {
+            frameRate = 15;
+        }
         statusBarFrameRate.innerHTML = frameRate;
         videoStop();
+    });
+    
+    // Listen for leaving frame rate input
+    inputChangeFR.addEventListener("blur", function() {
+        inputChangeFR.value = frameRate;
+        if(inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
+            inputChangeFR.value = 15;
+        }
     });
 
     // Toggle capture and playback windows
@@ -304,7 +320,7 @@ function updateFrameReel(action, id) {
     // Add the newly captured frame
     if (action === "capture") {
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="100" height="75" src="${capturedFramesRaw[id - 1]}">
+<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFramesRaw[id - 1]}">
 <i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
 </div></td>`);
 
@@ -394,6 +410,17 @@ function _toggleOnionSkin(ev) {
     }
 }
 
+/**
+ * Play audio if checkbox checked
+ * @param {String} name Name of variable with audio file.
+ */
+function audio(name) {
+    "use strict";
+    if (audioToggle.checked) {
+        name.play();
+    }
+}
+
 function takePicture() {
     "use strict";
     if (winMode === "playback") {
@@ -426,6 +453,9 @@ function takePicture() {
 
         // Scroll the frame reel to the end
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
+        
+        // Play a camera sound
+        audio(captureAudio);
     }
 }
 

@@ -1,7 +1,7 @@
 {
     "webexe_settings": {
         "linux-x32": true, 
-        "export_dir": "C:\\Users\\Charlie\\Documents\\Development\\Boats Animator Releases", 
+        "export_dir": "C:\\Users\\Charlie\\Documents\\Development\\Boats Animator\\RELEASES", 
         "windows-x64": true, 
         "uncompressed_folder": false, 
         "download_dir": "C:\\Program Files (x86)\\Web2Exe\\files\\downloads", 
@@ -13,50 +13,50 @@
         "force_download": false, 
         "linux-x64": true
     }, 
-    "single-instance": true, 
+    "main": "index.html", 
     "description": "", 
+    "name": "boats-animator", 
     "nodejs": true, 
-    "chromium-args": "", 
+    "user-agent": "", 
     "additional_trust_anchors": [
         ""
     ], 
-    "js-flags": "", 
-    "user-agent": "", 
+    "single-instance": true, 
     "inject-js-end": "", 
-    "keywords": [], 
+    "webkit": {
+        "page-cache": false, 
+        "java": false, 
+        "plugin": false
+    }, 
     "window": {
+        "toolbar": false, 
         "fullscreen": false, 
-        "kiosk_emulation": false, 
         "resizable": true, 
         "nodejs": true, 
         "always-on-top": false, 
         "frame": true, 
         "title": "Boats Animator", 
         "kiosk": false, 
-        "height": 456, 
-        "exe_icon": "", 
+        "kiosk_emulation": false, 
+        "exe_icon": "icons\\icon.png", 
         "width": 800, 
         "as_desktop": false, 
         "visible": true, 
         "show": true, 
         "position": "center", 
         "show_in_taskbar": true, 
-        "mac_icon": "", 
+        "height": 456, 
+        "mac_icon": "icons\\icon.png", 
         "transparent": false, 
-        "toolbar": false, 
         "icon": "icons\\icon.png"
     }, 
-    "version": "0.6.0", 
+    "version": "0.6.1", 
     "snapshot": "", 
     "node-main": "", 
-    "webkit": {
-        "page-cache": false, 
-        "java": false, 
-        "plugin": false
-    }, 
+    "keywords": [], 
     "inject-js-start": "", 
     "node-remote": "", 
-    "main": "index.html", 
-    "app_name": "Boats Animator 0.6.0", 
-    "name": "boats-animator"
+    "js-flags": "", 
+    "app_name": "Boats Animator 0.6.1", 
+    "chromium-args": ""
 }
