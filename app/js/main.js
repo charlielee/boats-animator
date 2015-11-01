@@ -79,8 +79,8 @@ var width  = 640,
     // Confirm messages
     confirmContainer = document.querySelector("#confirm-container"),
     confirmText      = document.querySelector("#confirm-text"),
-    confirmOK        = document.querySelector("#OK"),
-    confirmCancel    = document.querySelector("#cancel");
+    confirmOK        = document.querySelector("#btn-OK"),
+    confirmCancel    = document.querySelector("#btn-cancel");
 
 /**
  * Occurs when "New Project" is pressed
