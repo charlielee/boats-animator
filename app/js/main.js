@@ -20,7 +20,7 @@ var width  = 640,
     aspectRatio = null,
 
     // GUI window
-    gui = require('nw.gui'),
+    gui = require("nw.gui"),
     win = gui.Window.get(),
 
     // Mode switching
@@ -54,7 +54,7 @@ var width  = 640,
     statusBarFrameRate = document.querySelector("#currentFrameRate span"),
 
     // Export frames
-    fs                    = require('fs'),
+    fs                    = require("fs"),
     frameExportDirectory  = null,
     exportedFramesList    = [],
     curDirDisplay         = document.querySelector("#currentDirectoryName"),
@@ -407,13 +407,13 @@ function takePicture() {
      // We can take a picture
     } else {
         // Draw the image
-        var context   = canvas.getContext('2d');
+        var context   = canvas.getContext("2d");
         canvas.width  = width;
         canvas.height = height;
         context.drawImage(video, 0, 0, width, height);
 
         // Convert the frame to a PNG
-        var data = canvas.toDataURL('image/png');
+        var data = canvas.toDataURL("image/png");
 
         // Store the image data and update the current frame
         capturedFramesRaw.push(data);
@@ -579,7 +579,7 @@ function _displayDirectory(dir) {
  */
 function changeDirectory() {
     "use strict";
-    chooseFile('#chooseDirectory');
+    chooseFile("#chooseDirectory");
 }
 
 /**
@@ -609,11 +609,11 @@ function decodeBase64Image(dataString) {
     response = {};
 
   if (matches.length !== 3) {
-    return new Error('Invalid input string');
+    return new Error("Invalid input string");
   }
 
   response.type = matches[1];
-  response.data = new Buffer(matches[2], 'base64');
+  response.data = new Buffer(matches[2], "base64");
 
   return response;
 }
@@ -798,7 +798,7 @@ function confirmSet(func, args, msg) {
 function loadMenu() {
     "use strict";
     // Create menu
-    var menuBar = new gui.Menu({ type: 'menubar' });
+    var menuBar = new gui.Menu({ type: "menubar" });
 
     // Create sub-menus
     var fileMenuItems = new gui.Menu(),
@@ -861,7 +861,7 @@ function loadMenu() {
       label: "Give feedback",
         icon: "pngicons/feedback.png",
       click: function() {
-          gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator/issues');
+          gui.Shell.openExternal("https://github.com/BoatsAreRockable/animator/issues");
       },
       key: "/",
       modifiers: "ctrl",
@@ -881,35 +881,35 @@ function loadMenu() {
     // Append sub-menus to main menu
     menuBar.append(
         new gui.MenuItem({
-            label: 'File',
+            label: "File",
             submenu: fileMenuItems
         })
     );
     
     menuBar.append(
         new gui.MenuItem({
-            label: 'Edit',
+            label: "Edit",
             submenu: editMenuItems
         })
     );
     
     menuBar.append(
         new gui.MenuItem({
-            label: 'Capture',
+            label: "Capture",
             submenu: captureMenuItems
         })
     );
     
     menuBar.append(
         new gui.MenuItem({
-            label: 'Help',
+            label: "Help",
             submenu: helpMenuItems
         })
     );
     
     menuBar.append(
         new gui.MenuItem({
-            label: 'Debug',
+            label: "Debug",
             submenu: debugMenuItems
         })
     );
@@ -919,7 +919,7 @@ function loadMenu() {
 
     // Create Mac menu
     if (process.platform === "darwin") {
-        menuBar.createMacBuiltin('Boats Animator');
+        menuBar.createMacBuiltin("Boats Animator");
     }
 }
 /**
