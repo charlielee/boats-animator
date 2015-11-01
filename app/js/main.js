@@ -224,9 +224,10 @@ function startup() {
         videoStop();
     });
     
-    // Listen for leaving frame rate input with an invalid value
+    // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
-        if(inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN) {
+        inputChangeFR.value = frameRate;
+        if(inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
             inputChangeFR.value = 15;
         }
     });
