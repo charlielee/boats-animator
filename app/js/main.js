@@ -387,6 +387,7 @@ function _toggleOnionSkin(ev) {
  * @param {String} name Name of variable with audio file.
  */
 function audio(name) {
+    "use strict";
     if (audioToggle.checked) {
         name.play();
     }
