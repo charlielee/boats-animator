@@ -77,10 +77,10 @@ var width  = 640,
     notifyBarMsg = document.querySelector(".notification #msg"),
     
     // Confirm messages
-    confirmContainer = document.querySelector("#confirm-container"),
-    confirmText      = document.querySelector("#confirm-text"),
-    confirmOK        = document.querySelector("#btn-OK"),
-    confirmCancel    = document.querySelector("#btn-cancel");
+    confirmContainer    = document.querySelector("#confirm-container"),
+    confirmText         = document.querySelector("#confirm-text"),
+    btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
+    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel");
 
 /**
  * Occurs when "New Project" is pressed
@@ -141,15 +141,15 @@ function startup() {
     // Set default view
     switchMode("capture");
     
-    //Load top menu
+    // Load top menu
     loadMenu();
-    
+
     //Maximise window
     win.maximize();
-    
-    //Windows specific code
+
+    // Windows specific code
     if (process.platform === "win32") {
-    document.querySelector("body").classList.add("platform-win");
+        document.querySelector("body").classList.add("platform-win");
 }
 
     // Get the appropriate WebRTC implementation
@@ -161,7 +161,7 @@ function startup() {
             // Play preview video
             preview.src = videoBlob;
 
-            //  Play hidden video of correct resolution
+            // Play hidden video of correct resolution
             video.src = videoBlob;
             video.play();
         },
@@ -347,16 +347,14 @@ function updateFrameReel(action, id) {
  */
 function deleteFrame(id) {
     "use strict";
-    
-    // The user wants to delete the frame
-        _deleteFile(exportedFramesList[id - 1]);
-        exportedFramesList.splice(id - 1, 1);
-        capturedFramesRaw.splice(id - 1, 1);
-        curFrame--;
-
-        updateFrameReel("delete", id);
-        console.info(`There are now ${curFrame} captured frames`);
+    _deleteFile(exportedFramesList[id - 1]);
+    exportedFramesList.splice(id - 1, 1);
+    capturedFramesRaw.splice(id - 1, 1);
+    curFrame--;
+    updateFrameReel("delete", id);
+    console.info(`There are now ${curFrame} captured frames`);
 }
+
 /**
  * Delete the previously taken frame.
  */
@@ -779,7 +777,7 @@ function confirmSet(func, args, msg) {
     confirmContainer.classList.remove("hidden");
         
     // Listen if "OK" is pressed
-    confirmOK.addEventListener("click", function() {
+    btnConfirmOK.addEventListener("click", function() {
         if (args === undefined) {
             func();
         } else {
@@ -789,7 +787,7 @@ function confirmSet(func, args, msg) {
     });
     
      // Listen if "Cancel" is pressed
-    confirmCancel.addEventListener("click", function() {
+    btnConfirmCancel.addEventListener("click", function() {
         confirmContainer.classList.add("hidden");
     });
 }
@@ -798,6 +796,7 @@ function confirmSet(func, args, msg) {
  * Display top menu
  */
 function loadMenu() {
+    "use strict";
     // Create menu
     var menuBar = new gui.Menu({ type: 'menubar' });
 

@@ -73,7 +73,7 @@ a {
     width: 20em;
     background-color: #000;
     padding: 0 1em 1em 1em;
-    border: solid 1px #D9D9D9;
+    border: 1px solid #D9D9D9;
 }
 
 #confirm-title {
@@ -83,7 +83,7 @@ a {
 
 #confirm-text { text-align: left; }
 
-#confirm-button-container { float: right;}
+#confirm-button-container { float: right; }
 
 #confirm button {
     float: left;
@@ -449,7 +449,7 @@ a {
 ::-webkit-scrollbar-thumb        {
     background-color: #d8d8d8;
     border-radius: 10px;
-    border: solid 1px #FFF;
+    border: 1px solid #FFF;
 }
 
 ::-webkit-scrollbar-thumb:hover { background-color: #e8e8e8; }
