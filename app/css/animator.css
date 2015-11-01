@@ -91,6 +91,10 @@ a {
     width: 6em;
 }
 
+#confirm button:hover { opacity: 0.9; }
+
+#confirm button:active { opacity: 0.7; }
+
 /*Confirm buttons are typically the other way round in Win32*/
 .platform-win #confirm button { float: right; }
 
