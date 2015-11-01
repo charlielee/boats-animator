@@ -34,6 +34,7 @@ var width  = 640,
     curFrame           = 0,
     btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
+    captureAudio       = new Audio("audio/camera.wav");
 
     // Playback
     frameRate     = 15,
@@ -46,6 +47,9 @@ var width  = 640,
     playback      = document.querySelector("#playback"),
     btnPlayPause  = document.querySelector("#btn-play-pause"),
     inputChangeFR = document.querySelector("#input-fr-change"),
+        
+    // Audio
+    audioToggle = document.querySelector("#audio-toggle"),
 
     // Status bar
     statusBarCurMode   = document.querySelector("#currentMode span"),
@@ -390,6 +394,17 @@ function _toggleOnionSkin(ev) {
     }
 }
 
+/**
+ * Play audio if checkbox checked
+ * @param {String} name Name of variable with audio file.
+ */
+function audio(name) {
+    "use strict";
+    if (audioToggle.checked) {
+        name.play();
+    }
+}
+
 function takePicture() {
     "use strict";
     if (winMode === "playback") {
@@ -422,6 +437,9 @@ function takePicture() {
 
         // Scroll the frame reel to the end
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
+        
+        // Play a camera sound
+        audio(captureAudio);
     }
 }
 

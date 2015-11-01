@@ -39,8 +39,9 @@
                     <h2><i class="fa fa-camera fa-fw"></i> Capture</h2>
                 </div>
                 <ul id="capture-options">
-                  <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change resolution</a></li>
-                  <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change resolution</a></li>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
+                    <li><input id="audio-toggle" type="checkbox" checked><label for="audio-toggle">Play audio</label></li>
                 </ul>
             </div>
 
@@ -54,8 +55,7 @@
                         <p id="currentDirectoryName" class="italics">No directory selected</p>
                     </li>
                     <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="changeDirectory()">Change directory</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
-                        <a href="#" onclick="setDefaultDirectory()">Set as default directory</a>
+                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="setDefaultDirectory()">Set as default directory</a>
                         <input id="chooseDirectory" style="display:none;" type="file" nwdirectory  />
                     </li>
                 </ul>
