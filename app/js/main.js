@@ -801,14 +801,14 @@ function loadMenu() {
     var menuBar = new gui.Menu({ type: "menubar" });
 
     // Create sub-menus
-    var fileMenuItems = new gui.Menu(),
-        editMenuItems = new gui.Menu(),
-        captureMenuItems = new gui.Menu(),
-        helpMenuItems = new gui.Menu(),
-        debugMenuItems = new gui.Menu();
+    var fileMenu = new gui.Menu(),
+        editMenu = new gui.Menu(),
+        captureMenu = new gui.Menu(),
+        helpMenu = new gui.Menu(),
+        debugMenu = new gui.Menu();
 
     //File menu items
-    fileMenuItems.append(new gui.MenuItem({
+    fileMenu.append(new gui.MenuItem({
       label: "New project...",
         icon: "pngicons/file.png",
       click: function() {
@@ -816,7 +816,7 @@ function loadMenu() {
         key: "n",
         modifiers: "ctrl",
     }));
-    fileMenuItems.append(new gui.MenuItem({
+    fileMenu.append(new gui.MenuItem({
       label: "Open project...",
         icon: "pngicons/import.png",
       click: function() {
@@ -824,7 +824,7 @@ function loadMenu() {
         key: "o",
         modifiers: "ctrl",
     }));
-    fileMenuItems.append(new gui.MenuItem({
+    fileMenu.append(new gui.MenuItem({
       label: "Main Menu",
         icon: "pngicons/menu.png",
       click: function() {
@@ -835,7 +835,7 @@ function loadMenu() {
     }));
 
     //Edit menu items
-    editMenuItems.append(new gui.MenuItem({
+    editMenu.append(new gui.MenuItem({
       label: "Delete last frame",
         icon: "pngicons/delete.png",
       click: function() {
@@ -846,7 +846,7 @@ function loadMenu() {
     }));
 
     //Capture menu items
-    captureMenuItems.append(new gui.MenuItem({
+    captureMenu.append(new gui.MenuItem({
       label: "Capture frame",
         icon: "pngicons/capture.png",
       click: function() {
@@ -857,7 +857,7 @@ function loadMenu() {
     }));
 
     //Help menu items
-    helpMenuItems.append(new gui.MenuItem({
+    helpMenu.append(new gui.MenuItem({
       label: "Give feedback",
         icon: "pngicons/feedback.png",
       click: function() {
@@ -868,7 +868,7 @@ function loadMenu() {
     }));
     
     //Debug menu items
-    debugMenuItems.append(new gui.MenuItem({
+    debugMenu.append(new gui.MenuItem({
       label: "Load developer tools",
         icon: "pngicons/debug.png",
       click: function() {
@@ -882,35 +882,35 @@ function loadMenu() {
     menuBar.append(
         new gui.MenuItem({
             label: "File",
-            submenu: fileMenuItems
+            submenu: fileMenu
         })
     );
     
     menuBar.append(
         new gui.MenuItem({
             label: "Edit",
-            submenu: editMenuItems
+            submenu: editMenu
         })
     );
     
     menuBar.append(
         new gui.MenuItem({
             label: "Capture",
-            submenu: captureMenuItems
+            submenu: captureMenu
         })
     );
     
     menuBar.append(
         new gui.MenuItem({
             label: "Help",
-            submenu: helpMenuItems
+            submenu: helpMenu
         })
     );
     
     menuBar.append(
         new gui.MenuItem({
             label: "Debug",
-            submenu: debugMenuItems
+            submenu: debugMenu
         })
     );
 
