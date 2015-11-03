@@ -53,6 +53,51 @@ a {
   text-align: center;
 }
 
+/* ========== CONFIRM BOXES ========== */
+
+#confirm-container {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(23, 23, 23, 0.5);
+    z-index: 4;
+    text-align: center;
+}
+
+#confirm-container.hidden { display: none; }
+
+#confirm {
+    position: relative;
+    top: calc(50vh - 10em);
+    display: inline-block;
+    width: 20em;
+    background-color: #000;
+    padding: 0 1em 1em 1em;
+    border: 1px solid #D9D9D9;
+}
+
+#confirm-title {
+    font-size: 1.2em;
+    color: rgb(224, 224, 100);
+}
+
+#confirm-text { text-align: left; }
+
+#confirm-button-container { float: right; }
+
+#confirm button {
+    float: left;
+    margin-left: 1em;
+    width: 6em;
+}
+
+#confirm button:hover { opacity: 0.9; }
+
+#confirm button:active { opacity: 0.7; }
+
+/*Confirm buttons are typically the other way round in Win32*/
+.platform-win #confirm button { float: right; }
+
 /* ========== SIDEBAR ============== */
 
 #sidebar {
@@ -389,18 +434,18 @@ a {
 #input-onion-skin-opacity::-webkit-slider-runnable-track {
   height: 2px;
   cursor: pointer;
-  background: #D9D9D9;
+  background-color: #D9D9D9;
 }
 #input-onion-skin-opacity::-webkit-slider-thumb {
   height: 1.7em;
   width: 1.7em;
   border-radius: 50%;
-  background: #ad0000;
+  background-color: #ad0000;
   -webkit-appearance: none;
   margin-top: -9.5px;
 }
 #input-onion-skin-opacity:focus::-webkit-slider-runnable-track {
-  background: #D9D9D9;
+  background-color: #D9D9D9;
 }
 
 /* ========== STATUS BAR ============== */
@@ -451,7 +496,7 @@ a {
 ::-webkit-scrollbar-thumb        {
     background-color: #d8d8d8;
     border-radius: 10px;
-    border: solid 1px #FFF;
+    border: 1px solid #FFF;
 }
 
 ::-webkit-scrollbar-thumb:hover { background-color: #e8e8e8; }

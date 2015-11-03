@@ -20,7 +20,7 @@ var width  = 640,
     aspectRatio = null,
 
     // GUI window
-    gui = require('nw.gui'),
+    gui = require("nw.gui"),
     win = gui.Window.get(),
 
     // Mode switching
@@ -58,7 +58,7 @@ var width  = 640,
     statusBarFrameRate = document.querySelector("#currentFrameRate span"),
 
     // Export frames
-    fs                    = require('fs'),
+    fs                    = require("fs"),
     frameExportDirectory  = null,
     exportedFramesList    = [],
     curDirDisplay         = document.querySelector("#currentDirectoryName"),
@@ -78,18 +78,28 @@ var width  = 640,
 
     // Notification bar
     notifyBar    = document.querySelector(".notification"),
-    notifyBarMsg = document.querySelector(".notification #msg");
+    notifyBarMsg = document.querySelector(".notification #msg"),
+    
+    // Confirm messages
+    confirmContainer    = document.querySelector("#confirm-container"),
+    confirmText         = document.querySelector("#confirm-text"),
+    btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
+    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel");
 
 /**
  * Occurs when "New Project" is pressed
  */
 function openAnimator() {
-    var frameExportDirectory = _getDefaultDirectory();
-    win.focus();
-    window.location.href = "animator.html";
-    win.resizeTo(1050, 715);
-    win.setPosition("center");
-    win.maximize();
+    var frameExportDirectory = _getDefaultDirectory(),
+        animator_win = gui.Window.open ("animator.html", {
+            position: "center",
+            width: 1050,
+            height: 715,
+            toolbar: false,
+            focus: true,
+            icon: "icons/icon.png",
+        });
+    win.close();
 }
 
 /**
@@ -97,13 +107,15 @@ function openAnimator() {
  */
 function openIndex() {
     "use strict";
-    var confirmOpen = confirm("Returning to the menu will cause any unsaved work to be lost!");
-    if (confirmOpen) {
-        win.focus();
-        window.location.href = "index.html";
-        win.resizeTo(1050, 700);
-        win.setPosition("center");
-    }
+        win.close();
+        var animator_win = gui.Window.open ("index.html", {
+            position: "center",
+            width: 800,
+            height: 456,
+            toolbar: false,
+            focus: true,
+            icon: "icons/icon.png"
+        });
 }
 
 /**
@@ -132,6 +144,17 @@ function startup() {
 
     // Set default view
     switchMode("capture");
+    
+    // Load top menu
+    loadMenu();
+
+    //Maximise window
+    win.maximize();
+
+    // Windows specific code
+    if (process.platform === "win32") {
+        document.querySelector("body").classList.add("platform-win");
+}
 
     // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
@@ -142,7 +165,7 @@ function startup() {
             // Play preview video
             preview.src = videoBlob;
 
-            //  Play hidden video of correct resolution
+            // Play hidden video of correct resolution
             video.src = videoBlob;
             video.play();
         },
@@ -304,7 +327,7 @@ function updateFrameReel(action, id) {
         // Individual frame deletion
         var insertedImage = document.querySelector(`.frame-reel-img#img-${id}`);
         insertedImage.nextElementSibling.addEventListener("click", function() {
-            deleteFrame(id);
+            confirmSet(deleteFrame, id, `Are you sure you want to delete frame ${id}?`);
         });
 
         // Deference the selector to reduce memory usage
@@ -340,19 +363,12 @@ function updateFrameReel(action, id) {
  */
 function deleteFrame(id) {
     "use strict";
-    var confirmDel = confirm("Are you sure you want to delete this frame?");
-
-    // The user wants to delete the frame
-    if (confirmDel) {
-        _deleteFile(exportedFramesList[id - 1]);
-        exportedFramesList.splice(id - 1, 1);
-        capturedFramesRaw.splice(id - 1, 1);
-        curFrame--;
-
-        updateFrameReel("delete", id);
-        console.info(`There are now ${curFrame} captured frames`);
-        win.focus();
-    }
+    _deleteFile(exportedFramesList[id - 1]);
+    exportedFramesList.splice(id - 1, 1);
+    capturedFramesRaw.splice(id - 1, 1);
+    curFrame--;
+    updateFrameReel("delete", id);
+    console.info(`There are now ${curFrame} captured frames`);
 }
 
 /**
@@ -362,7 +378,7 @@ function undoFrame() {
     "use strict";
     // Make sure there is a frame to delete
     if (curFrame > 0) {
-      deleteFrame(curFrame);
+      confirmSet(deleteFrame, curFrame, "Are you sure you want to delete the last frame captured?");
     } else {
       notifyError("There is no previous frame to undo!");
     }
@@ -418,13 +434,13 @@ function takePicture() {
      // We can take a picture
     } else {
         // Draw the image
-        var context   = canvas.getContext('2d');
+        var context   = canvas.getContext("2d");
         canvas.width  = width;
         canvas.height = height;
         context.drawImage(video, 0, 0, width, height);
 
         // Convert the frame to a PNG
-        var data = canvas.toDataURL('image/png');
+        var data = canvas.toDataURL("image/png");
 
         // Store the image data and update the current frame
         capturedFramesRaw.push(data);
@@ -593,7 +609,7 @@ function _displayDirectory(dir) {
  */
 function changeDirectory() {
     "use strict";
-    chooseFile('#chooseDirectory');
+    chooseFile("#chooseDirectory");
 }
 
 /**
@@ -623,11 +639,11 @@ function decodeBase64Image(dataString) {
     response = {};
 
   if (matches.length !== 3) {
-    return new Error('Invalid input string');
+    return new Error("Invalid input string");
   }
 
   response.type = matches[1];
-  response.data = new Buffer(matches[2], 'base64');
+  response.data = new Buffer(matches[2], "base64");
 
   return response;
 }
@@ -733,7 +749,7 @@ function _notifyClose(msgType) {
 /**
  * Display a success notification.
  *
- * @param {String|Nunber} [msg=""] The message to display.
+ * @param {String|Number} [msg=""] The message to display.
  */
 function notifySuccess(msg) {
     "use strict";
@@ -749,7 +765,7 @@ function notifySuccess(msg) {
 /**
  * Display an information notification.
  *
- * @param {String|Nunber} [msg=""] The message to display.
+ * @param {String|Number} [msg=""] The message to display.
  */
 function notifyInfo(msg) {
     "use strict";
@@ -765,7 +781,7 @@ function notifyInfo(msg) {
 /**
  * Display an error notification.
  *
- * @param {String|Nunber} [msg=""] The message to display.
+ * @param {String|Number} [msg=""] The message to display.
  */
 function notifyError(msg) {
     "use strict";
@@ -779,111 +795,163 @@ function notifyError(msg) {
 }
 
 /**
- * Display top menu
+ * Display a custom confirm message
+ *
+ * @param {String|Number} func The function to run on "OK" being pressed.
+ * @param {String|Number} args Arguments of function to run.
+ * @param {String|Number} msg Message to display in confirm dialogue.
  */
-// Create menu
-var menuBar = new gui.Menu({ type: 'menubar' });
-
-// Create sub-menus
-var fileMenuItems = new gui.Menu(),
-    editMenuItems = new gui.Menu(),
-    captureMenuItems = new gui.Menu(),
-    helpMenuItems = new gui.Menu();
-
-//File menu items
-fileMenuItems.append(new gui.MenuItem({
-  label: "New project...",
-    icon: "pngicons/file.png",
-  click: function() {
-  },
-    key: "n",
-    modifiers: "ctrl",
-}));
-fileMenuItems.append(new gui.MenuItem({
-  label: "Open project...",
-    icon: "pngicons/import.png",
-  click: function() {
-  },
-    key: "o",
-    modifiers: "ctrl",
-}));
-fileMenuItems.append(new gui.MenuItem({
-  label: "Main Menu",
-    icon: "pngicons/menu.png",
-  click: function() {
-    openIndex();
-  },
-    key: "m",
-    modifiers: "ctrl",
-}));
-
-//Edit menu items
-editMenuItems.append(new gui.MenuItem({
-  label: "Delete last frame",
-    icon: "pngicons/delete.png",
-  click: function() {
-    undoFrame();
-  },
-  key: "z",
-  modifiers: "ctrl",
-}));
-
-//Capture menu items
-captureMenuItems.append(new gui.MenuItem({
-  label: "Capture frame",
-    icon: "pngicons/capture.png",
-  click: function() {
-    takePicture();
-  },
-  key: "c",
-  modifiers: "ctrl",
-}));
-
-//Help menu items
-helpMenuItems.append(new gui.MenuItem({
-  label: "Give feedback",
-    icon: "pngicons/feedback.png",
-  click: function() {
-      gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator/issues');
-  },
-  key: "/",
-  modifiers: "ctrl",
-}));
-
-// Append sub-menus to main menu
-menuBar.append(
-    new gui.MenuItem({
-        label: 'File',
-        submenu: fileMenuItems
-    })
-);
-menuBar.append(
-    new gui.MenuItem({
-        label: 'Edit',
-        submenu: editMenuItems
-    })
-);
-menuBar.append(
-    new gui.MenuItem({
-        label: 'Capture',
-        submenu: captureMenuItems
-    })
-);
-menuBar.append(
-    new gui.MenuItem({
-        label: 'Help',
-        submenu: helpMenuItems
-    })
-);
-
-// Append main menu to Window
-gui.Window.get().menu = menuBar;
-
-// Create Mac menu
-if (process.platform === "darwin") {
-    menuBar.createMacBuiltin('Boats Animator');
+function confirmSet(func, args, msg) {
+    "use strict";
+    confirmText.innerHTML = msg;
+    confirmContainer.classList.remove("hidden");
+        
+    // Listen if "OK" is pressed
+    btnConfirmOK.addEventListener("click", function() {
+        if (args === undefined) {
+            func();
+        } else {
+            func(args);
+        }
+        confirmContainer.classList.add("hidden");
+    });
+    
+     // Listen if "Cancel" is pressed
+    btnConfirmCancel.addEventListener("click", function() {
+        confirmContainer.classList.add("hidden");
+    });
 }
 
+/**
+ * Display top menu
+ */
+function loadMenu() {
+    "use strict";
+    // Create menu
+    var menuBar = new gui.Menu({ type: "menubar" });
+
+    // Create sub-menus
+    var fileMenu = new gui.Menu(),
+        editMenu = new gui.Menu(),
+        captureMenu = new gui.Menu(),
+        helpMenu = new gui.Menu(),
+        debugMenu = new gui.Menu();
+
+    //File menu items
+    fileMenu.append(new gui.MenuItem({
+      label: "New project...",
+        icon: "pngicons/file.png",
+      click: function() {
+      },
+        key: "n",
+        modifiers: "ctrl",
+    }));
+    fileMenu.append(new gui.MenuItem({
+      label: "Open project...",
+        icon: "pngicons/import.png",
+      click: function() {
+      },
+        key: "o",
+        modifiers: "ctrl",
+    }));
+    fileMenu.append(new gui.MenuItem({
+      label: "Main Menu",
+        icon: "pngicons/menu.png",
+      click: function() {
+        confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
+      },
+        key: "m",
+        modifiers: "ctrl",
+    }));
+
+    //Edit menu items
+    editMenu.append(new gui.MenuItem({
+      label: "Delete last frame",
+        icon: "pngicons/delete.png",
+      click: function() {
+        undoFrame();
+      },
+      key: "z",
+      modifiers: "ctrl",
+    }));
+
+    //Capture menu items
+    captureMenu.append(new gui.MenuItem({
+      label: "Capture frame",
+        icon: "pngicons/capture.png",
+      click: function() {
+        takePicture();
+      },
+      key: "c",
+      modifiers: "ctrl",
+    }));
+
+    //Help menu items
+    helpMenu.append(new gui.MenuItem({
+      label: "Give feedback",
+        icon: "pngicons/feedback.png",
+      click: function() {
+          gui.Shell.openExternal("https://github.com/BoatsAreRockable/animator/issues");
+      },
+      key: "/",
+      modifiers: "ctrl",
+    }));
+    
+    //Debug menu items
+    debugMenu.append(new gui.MenuItem({
+      label: "Load developer tools",
+        icon: "pngicons/debug.png",
+      click: function() {
+          dev();
+      },
+      key: "d",
+      modifiers: "ctrl",
+    }));
+
+    // Append sub-menus to main menu
+    menuBar.append(
+        new gui.MenuItem({
+            label: "File",
+            submenu: fileMenu
+        })
+    );
+    
+    menuBar.append(
+        new gui.MenuItem({
+            label: "Edit",
+            submenu: editMenu
+        })
+    );
+    
+    menuBar.append(
+        new gui.MenuItem({
+            label: "Capture",
+            submenu: captureMenu
+        })
+    );
+    
+    menuBar.append(
+        new gui.MenuItem({
+            label: "Help",
+            submenu: helpMenu
+        })
+    );
+    
+    menuBar.append(
+        new gui.MenuItem({
+            label: "Debug",
+            submenu: debugMenu
+        })
+    );
+
+    // Append main menu to Window
+    gui.Window.get().menu = menuBar;
+
+    // Create Mac menu
+    if (process.platform === "darwin") {
+        menuBar.createMacBuiltin("Boats Animator");
+    }
+}
 /**
  * Development Functions
  */
