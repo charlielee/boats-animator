@@ -7,7 +7,7 @@ An incomplete list of planned features can be found at: https://docs.google.com/
 
 Boats Animator also has a forum thread on BricksInMotion.com, a LEGO stop motion animation community website: http://www.bricksinmotion.com/forums/topic/21891/
 
-![Screenshot of Boats Animator v0.6.0](http://i.imgur.com/99Ooe6y.png)
+![Screenshot of Boats Animator v0.6.1](http://i.imgur.com/tRdy3WW.png)
 ##Try it out!
 ###Run from source code
 Boats Animator has been created using web technologies, however it has been designed to work as a native application using [NW.js](https://github.com/nwjs/nw.js). Information on how to run Boats Animator straight from its source code can be found on the [NW.js wiki](https://github.com/nwjs/nw.js/wiki/How-to-run-apps).
