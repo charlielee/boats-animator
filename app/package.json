@@ -57,6 +57,6 @@
     "inject-js-start": "", 
     "node-remote": "", 
     "js-flags": "", 
-    "app_name": "Boats Animator 0.6.1", 
+    "app_name": "Boats Animator", 
     "chromium-args": ""
 }
