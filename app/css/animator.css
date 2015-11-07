@@ -95,8 +95,11 @@ a {
 
 #confirm button:active { opacity: 0.7; }
 
-/*Confirm buttons are typically the other way round in Win32*/
+/* Confirm buttons are typically the other way round in Win32 */
 .platform-win #confirm button { float: right; }
+
+/* Win32 buttons have a blue focus outline */
+.platform-win #confirm button:focus { outline: 1px solid rgb(0, 120, 215); }
 
 /* ========== SIDEBAR ============== */
 

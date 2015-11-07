@@ -805,6 +805,7 @@ function confirmSet(func, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
+    btnConfirmOK.focus();
         
     // Listen if "OK" is pressed
     btnConfirmOK.addEventListener("click", function() {
