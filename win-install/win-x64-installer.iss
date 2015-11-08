@@ -5,7 +5,7 @@
 #define MyAppVersion "0.6.1"
 #define MyAppPublisher "Charlie Lee"
 #define MyAppURL "http://github.com/boatsarerockable/animator"
-#define MyAppExeName "Boats Animator 0.6.1.exe"
+#define MyAppExeName "Boats Animator.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -21,8 +21,8 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 LicenseFile=userdocs:GitHub\animator\win-install\LICENSE.rtf
-OutputDir=C:\Users\Charlie\Documents\Development\Boats Animator\RELEASES\Windows Installers
-OutputBaseFilename=boats-animator-v0.6.1-windows-x64-setup
+OutputDir=userdocs:Development\Boats Animator\RELEASES\Windows Installers
+OutputBaseFilename=boats-animator-v{#MyAppVersion}-windows-x64-setup
 Compression=lzma
 SolidCompression=yes
 WizardImageFile=userdocs:GitHub\animator\win-install\setupbanner.bmp
@@ -40,8 +40,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\Charlie\Documents\Development\Boats Animator\RELEASES\Boats Animator 0.6.1\boats-animator-v0.6.1-windows-x64\Boats Animator 0.6.1.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Charlie\Documents\Development\Boats Animator\RELEASES\Boats Animator 0.6.1\boats-animator-v0.6.1-windows-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "userdocs:Development\Boats Animator\RELEASES\Boats Animator {#MyAppVersion}\boats-animator-v{#MyAppVersion}-windows-x64\Boats Animator.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "userdocs:Development\Boats Animator\RELEASES\Boats Animator {#MyAppVersion}\boats-animator-v{#MyAppVersion}-windows-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
