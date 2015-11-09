@@ -26,6 +26,8 @@ UninstallDisplayName={#MyAppName} {#MyAppVersion}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 DisableWelcomePage=yes
 DisableProgramGroupPage=auto
+ArchitecturesAllowed=x86 x64
+ArchitecturesInstallIn64BitMode=x64
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -34,8 +36,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "userdocs:Development\Boats Animator\RELEASES\Boats Animator {#MyAppVersion}\boats-animator-v{#MyAppVersion}-windows-x32\Boats Animator.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "userdocs:Development\Boats Animator\RELEASES\Boats Animator {#MyAppVersion}\boats-animator-v{#MyAppVersion}-windows-x32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\{#MyAppName} {#MyAppVersion}\boats-animator-v{#MyAppVersion}-windows-x32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin32
+Source: "..\bin\{#MyAppName} {#MyAppVersion}\boats-animator-v{#MyAppVersion}-windows-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin64
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -45,3 +47,9 @@ Name: "{group}\{cm:UninstallProgram, {#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+
+[Code]                                                                                            
+function IsWin32: Boolean;
+begin
+ Result := not IsWin64;
+end;
