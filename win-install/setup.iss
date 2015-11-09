@@ -14,13 +14,13 @@ AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
-LicenseFile=userdocs:GitHub\animator\win-install\LICENSE.rtf
+LicenseFile=LICENSE.rtf
 OutputDir=..\bin\{#MyAppName} {#MyAppVersion}
 OutputBaseFilename=Boats-Animator-{#MyAppVersion}-setup
 Compression=lzma2/ultra
 SolidCompression=yes
-WizardImageFile=userdocs:GitHub\animator\win-install\setupbanner.bmp
-WizardSmallImageFile=userdocs:GitHub\animator\win-install\setuplogosmall.bmp
+WizardImageFile=setupbanner.bmp
+WizardSmallImageFile=setuplogosmall.bmp
 Uninstallable=yes
 UninstallDisplayName={#MyAppName} {#MyAppVersion}
 UninstallDisplayIcon={app}\{#MyAppExeName}
@@ -38,7 +38,6 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "..\bin\{#MyAppName} {#MyAppVersion}\boats-animator-v{#MyAppVersion}-windows-x32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin32
 Source: "..\bin\{#MyAppName} {#MyAppVersion}\boats-animator-v{#MyAppVersion}-windows-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin64
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
