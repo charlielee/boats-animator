@@ -1,7 +1,7 @@
 {
     "webexe_settings": {
         "linux-x32": true, 
-        "export_dir": "C:\\Users\\Charlie\\Documents\\Development\\Boats Animator\\RELEASES", 
+        "export_dir": "C:\\Users\\Charlie\\Documents\\Development\\Boats Animator\\bin", 
         "windows-x64": true, 
         "uncompressed_folder": false, 
         "download_dir": "C:\\Program Files (x86)\\Web2Exe\\files\\downloads", 
