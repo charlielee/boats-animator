@@ -16,16 +16,20 @@ AppPublisherURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 LicenseFile=LICENSE.rtf
 OutputDir=..\bin\{#MyAppName} {#MyAppVersion}
-OutputBaseFilename=Boats-Animator-{#MyAppVersion}-setup
+OutputBaseFilename=Boats-Animator-{#MyAppVersion}-Setup
 Compression=lzma2/ultra
 SolidCompression=yes
+LZMAUseSeparateProcess=yes
+; SetupIconFile=icon.ico
 WizardImageFile=setupbanner.bmp
 WizardSmallImageFile=setuplogosmall.bmp
 Uninstallable=yes
-UninstallDisplayName={#MyAppName} {#MyAppVersion}
+UninstallDisplayName={#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 DisableWelcomePage=yes
 DisableProgramGroupPage=auto
+DefaultGroupName={#MyAppName}
+AllowNoIcons=yes
 ArchitecturesAllowed=x86 x64
 ArchitecturesInstallIn64BitMode=x64
 
@@ -36,8 +40,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\bin\{#MyAppName} {#MyAppVersion}\boats-animator-v{#MyAppVersion}-windows-x32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin32
-Source: "..\bin\{#MyAppName} {#MyAppVersion}\boats-animator-v{#MyAppVersion}-windows-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin64
+Source: "..\bin\{#MyAppName}\windows-x32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin32
+Source: "..\bin\{#MyAppName}\windows-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin64
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
