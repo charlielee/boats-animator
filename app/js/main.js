@@ -34,7 +34,7 @@ var width  = 640,
     curFrame           = 0,
     btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
-    captureAudio       = new Audio("audio/camera.wav");
+    captureAudio       = new Audio("audio/camera.wav"),
 
     // Playback
     frameRate     = 15,
