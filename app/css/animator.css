@@ -3,7 +3,7 @@
 html {
   height: 100%;
   min-width: 590px;
-  min-height: 590px;
+  min-height: 500px;
 }
 
 body {
@@ -101,13 +101,13 @@ a {
 /* ========== SIDEBAR ============== */
 
 #sidebar {
-  position: relative;
-  float: right;
-  color: #d3d3d3;
-  z-index: 2;
-  padding-right: 1em;
-  height: 100%;
-  width: 19em;
+    position: relative;
+    float: right;
+    color: #d3d3d3;
+    z-index: 2;
+    padding-right: 1em;
+    height: 100%;
+    width: 19em;
 }
 
 #sidebar a { color: #d3d3d3; }
@@ -482,16 +482,17 @@ a {
 /* ========== SCROLL BARS ============== */
 
 ::-webkit-scrollbar              {
-    background-color: #171717;
+    background-color: rgba(9, 9, 9, 0.1);
     width: 12px;
     height: 12px;
+    
 }
 
 ::-webkit-scrollbar-button       { }
 
-::-webkit-scrollbar-track        { background-color: #000; }
+::-webkit-scrollbar-track        { background-color: transparent; }
 
-::-webkit-scrollbar-track-piece  { background-color: #171717; }
+::-webkit-scrollbar-track-piece  { background-color: transparent; }
 
 ::-webkit-scrollbar-thumb        {
     background-color: #d8d8d8;
@@ -506,3 +507,99 @@ a {
 ::-webkit-scrollbar-corner       { background-color: #000; }
 
 ::-webkit-resizer                { }
+
+/* ======== Preference Windows ======== */
+
+.content{
+    padding: 0 2%;
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #171717;
+}
+
+.content h1 {
+    margin: 0;
+    padding: 0.83em 0;
+}
+
+.content h2 {
+    font-size: 1.2em;
+    margin: 0;
+    padding: 0.83em 0;
+}
+
+/* ========== Projects Area ============= */
+#projects-container {
+    margin: 0;
+    padding: 0;
+}
+
+#projects-container li {
+    margin: 0 1em 1em 0;
+    padding: 0;
+    list-style-type: none;
+    float: left;
+    width: 200px;
+    height: 130px;
+    position: relative;
+}
+
+#projects-container img {
+    width: 200px;
+    height: 130px;
+}
+
+#projects-container h3 {
+    position: absolute;
+    display: block;
+    margin: 0;
+    width: 100%;
+    padding: 0.5em;
+    background-color: rgba(9, 9, 9, 0.4);
+}
+
+#projects-container p {
+    position: absolute;
+    bottom: -10%;
+    width: 100%;
+    padding: 0 0.5em;
+    background-color: rgba(9, 9, 9, 0.2);
+}
+
+#projects-container p span:last-child {
+    float: right;
+}
+
+#new-project {
+    width: 200px;
+    height: 130px;
+}
+
+/* ========== Recent News ============ */
+
+.container-news {
+    margin-top: -0.8em;
+    height: 25.8em;
+    overflow-y: scroll;
+}
+
+.post,
+.container-news h3  {
+    color: #fff;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+.post-link {
+    color: #fff;
+    text-decoration: none;
+}
+.post-link:hover { color: #fff; }
+
+.post-title {
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: -0.4em;
+    color: #fff;
+}

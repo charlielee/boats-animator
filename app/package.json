@@ -45,7 +45,7 @@
         "show": true, 
         "position": "center", 
         "show_in_taskbar": true, 
-        "height": 456, 
+        "height": 500, 
         "mac_icon": "icons\\icon.png", 
         "transparent": false, 
         "icon": "icons\\icon.png"
