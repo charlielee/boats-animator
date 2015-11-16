@@ -840,7 +840,6 @@ function loadMenu() {
     //File menu items
     fileMenu.append(new gui.MenuItem({
       label: "New project...",
-        icon: "pngicons/file.png",
       click: function() {
       },
         key: "n",
@@ -848,7 +847,6 @@ function loadMenu() {
     }));
     fileMenu.append(new gui.MenuItem({
       label: "Open project...",
-        icon: "pngicons/import.png",
       click: function() {
       },
         key: "o",
@@ -856,7 +854,6 @@ function loadMenu() {
     }));
     fileMenu.append(new gui.MenuItem({
       label: "Main Menu",
-        icon: "pngicons/menu.png",
       click: function() {
         confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
       },
@@ -867,7 +864,6 @@ function loadMenu() {
     //Edit menu items
     editMenu.append(new gui.MenuItem({
       label: "Delete last frame",
-        icon: "pngicons/delete.png",
       click: function() {
         undoFrame();
       },
@@ -878,7 +874,6 @@ function loadMenu() {
     //Capture menu items
     captureMenu.append(new gui.MenuItem({
       label: "Capture frame",
-        icon: "pngicons/capture.png",
       click: function() {
         takePicture();
       },
@@ -889,7 +884,6 @@ function loadMenu() {
     //Help menu items
     helpMenu.append(new gui.MenuItem({
       label: "Give feedback",
-        icon: "pngicons/feedback.png",
       click: function() {
           gui.Shell.openExternal("https://github.com/BoatsAreRockable/animator/issues");
       },
@@ -900,7 +894,6 @@ function loadMenu() {
     //Debug menu items
     debugMenu.append(new gui.MenuItem({
       label: "Load developer tools",
-        icon: "pngicons/debug.png",
       click: function() {
           dev();
       },
