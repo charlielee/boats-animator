@@ -45,7 +45,7 @@ a {
 .notification.hidden { transform: translate3d(0, -110%, 0); }
 .notification.success { background-color: #2d9e2d; }
 .notification.info { background-color: #3a3ae1; }
-.notification.error { background-color: #c90000; }
+.notification.error { background-color: #ad0000; }
 
 .notification #msg {
   margin: 0;
@@ -158,6 +158,8 @@ a {
 #captureWindow.hidden,
 #playbackWindow.hidden { display: none; }
 
+#captureWindow.active { border: 2px solid #ad0000; }
+
 #preview {
   max-width: 100%;
   padding: 0;
@@ -254,7 +256,7 @@ a {
 }
 
 #btn-loop i.active, #btn-onion-skin-toggle i.active {
-  color: #c90000;
+  color: #ad0000;
 }
 
 /* ========== FRAME REEL ============== */

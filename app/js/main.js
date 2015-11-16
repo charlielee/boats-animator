@@ -280,11 +280,13 @@ function switchMode(newMode) {
     if (winMode === "capture") {
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
+        captureWindow.classList.add("active");
         btnLiveView.classList.add("selected");
 
     } else if (winMode === "playback") {
-        captureWindow.classList.add("hidden");
         playbackWindow.classList.remove("hidden");
+        captureWindow.classList.add("hidden");
+        captureWindow.classList.remove("active");
         btnLiveView.classList.remove("selected");
     }
     console.log(`Switched to: ${winMode}`);
