@@ -95,6 +95,8 @@ function openAnimator() {
             position: "center",
             width: 1050,
             height: 715,
+            min_width: 590,
+            min_height: 500,
             toolbar: false,
             focus: true,
             icon: "icons/icon.png",
@@ -110,8 +112,10 @@ function openIndex() {
         win.close();
         var animator_win = gui.Window.open ("index.html", {
             position: "center",
-            width: 800,
-            height: 456,
+            width: 770,
+            height: 450,
+            min_width: 770,
+            min_height: 450,
             toolbar: false,
             focus: true,
             icon: "icons/icon.png"

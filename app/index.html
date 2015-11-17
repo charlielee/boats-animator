@@ -21,8 +21,6 @@
                 </div>
                 <ul>
                     <li><div class="container-news"></div></li>
-                    <li><button onclick="dev()">Dev tools</button>
-            <button onclick="reload()">Refresh</button></li>
                 </ul>
             </div>
         </div>
@@ -63,7 +61,13 @@
     
     <div id="statusBar">
         <ul>
-            <li class="no-pipe">            <button onclick="alert('This feature is coming soon!')">Open other...</button></li>
+            <li>
+                <button onclick="alert('This feature is coming soon!')">Open other...</button>
+            </li>
+            <li>
+                <button onclick="dev()">Dev tools</button>
+                <button onclick="reload()">Refresh</button>
+            </li>
             <li class="no-pipe" id="statusBar-credits"><a href="#" onclick="gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator')">&copy; Charlie Lee 2015</a></li>
         </ul>
     </div>

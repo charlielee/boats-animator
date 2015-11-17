@@ -2,8 +2,6 @@
 
 html {
   height: 100%;
-  min-width: 590px;
-  min-height: 500px;
 }
 
 body {
@@ -511,11 +509,12 @@ a {
 /* ======== Preference Windows ======== */
 
 .content{
-    padding: 0 2%;
+    padding: 0 0 0 2%;
     margin: 0;
     width: 100%;
     height: 100vh;
     background-color: #171717;
+    overflow-y: scroll;
 }
 
 .content h1 {
@@ -530,6 +529,7 @@ a {
 }
 
 /* ========== Projects Area ============= */
+
 #projects-container {
     margin: 0;
     padding: 0;
@@ -537,17 +537,22 @@ a {
 
 #projects-container li {
     margin: 0 1em 1em 0;
+    width: calc(50% - 1em);
     padding: 0;
     list-style-type: none;
     float: left;
-    width: 200px;
-    height: 130px;
+    height: 140px;
     position: relative;
 }
 
+#new-project {
+    width: 100%;
+    height: 140px;
+}
+
 #projects-container img {
-    width: 200px;
-    height: 130px;
+    width: 100%;
+    height: 140px;
 }
 
 #projects-container h3 {
@@ -569,11 +574,6 @@ a {
 
 #projects-container p span:last-child {
     float: right;
-}
-
-#new-project {
-    width: 200px;
-    height: 130px;
 }
 
 /* ========== Recent News ============ */
