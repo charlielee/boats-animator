@@ -509,7 +509,7 @@ a {
 /* ======== Preference Windows ======== */
 
 .content{
-    padding: 0 0 0 2%;
+    padding: 0 2%;
     margin: 0;
     width: 100%;
     height: 100vh;
@@ -536,44 +536,23 @@ a {
 }
 
 #projects-container li {
-    margin: 0 1em 1em 0;
-    width: calc(50% - 1em);
-    padding: 0;
+    margin: 0;
+    width: 100%;
+    padding: 1em 0;
     list-style-type: none;
-    float: left;
-    height: 140px;
+    border-bottom: 1px solid #ADADAD;
     position: relative;
 }
 
+#projects-container li:first-of-type {
+    padding: 0 0 1em 0;
+}
+
+#projects-container a { color: #d3d3d3; }
+#projects-container a:hover { border-bottom: 1.5px solid #d3d3d3; }
+
 #new-project {
     width: 100%;
-    height: 140px;
-}
-
-#projects-container img {
-    width: 100%;
-    height: 140px;
-}
-
-#projects-container h3 {
-    position: absolute;
-    display: block;
-    margin: 0;
-    width: 100%;
-    padding: 0.5em;
-    background-color: rgba(9, 9, 9, 0.4);
-}
-
-#projects-container p {
-    position: absolute;
-    bottom: -10%;
-    width: 100%;
-    padding: 0 0.5em;
-    background-color: rgba(9, 9, 9, 0.2);
-}
-
-#projects-container p span:last-child {
-    float: right;
 }
 
 /* ========== Recent News ============ */
@@ -588,7 +567,6 @@ a {
 .container-news h3  {
     color: #fff;
     padding-right: 1em;
-    padding-left: 1em;
 }
 
 .post-link {
