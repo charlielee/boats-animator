@@ -17,7 +17,7 @@
             <!--Capture Options-->
             <div class="sidebar-item">
                 <div class="sidebar-header">
-                    <h2><i class="fa fa-newspaper-o fa-fw"></i> Recent News</h2>
+                    <h2><i class="fa fa-newspaper-o"></i> Recent News</h2>
                 </div>
                 <ul>
                     <li><div class="container-news"></div></li>
@@ -29,20 +29,18 @@
         <div class="content">
             <h2>Projects</h2>
             <ul id="projects-container">
-                <li><button id="new-project" onclick="openAnimator()">New Project</button></li>
-                <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Recent Project 1</a></li>
-                <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Recent Project 2</a></li>
-                <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Recent Project 3</a></li>
+                <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 1</a></li>
+                <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 2</a></li>
+                <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 3</a></li>
             </ul>
-
+            <button id="new-project" onclick="openAnimator()"><i class="fa fa-file-o"></i><span>New Project</span></button>
+            <button id="load-project" onclick="alert('This feature is coming soon!')"><i class="fa fa-folder-o"></i><span>Load Project</span></button>
         </div>
     </div>
     
     <div id="statusBar">
         <ul>
-            <li>
-                <button onclick="alert('This feature is coming soon!')">Open other...</button>
-            </li>
+            <li>Version 0.6.2</li>
             <li>
                 <button onclick="dev()">Dev tools</button>
                 <button onclick="reload()">Refresh</button>
