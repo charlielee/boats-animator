@@ -544,7 +544,7 @@ a {
 }
 
 #projects-container li:first-of-type { padding-top: 0; }
-#projects-container li:last-of-type { margin-bottom: 2em; }
+#projects-container li:last-of-type { margin-bottom: 1em; }
 
 #projects-container a { color: #d3d3d3; }
 #projects-container a:hover { border-bottom: 1.5px solid #d3d3d3; }
