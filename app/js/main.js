@@ -84,7 +84,10 @@ var width  = 640,
     confirmContainer    = document.querySelector("#confirm-container"),
     confirmText         = document.querySelector("#confirm-text"),
     btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
-    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel");
+    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
+
+    // Launcher window
+    launcherVersion     = document.querySelector("#version");
 
 /**
  * Occurs when "New Project" is pressed
@@ -967,5 +970,5 @@ function reload() {
 fs.readFile("package.json", "utf8", function (err, data) {
     if (err) throw err;
     datajsoned = JSON.parse(data);
-    document.querySelector("#version").innerHTML = datajsoned.version;
+    launcherVersion.innerHTML = datajsoned.version;
 });
