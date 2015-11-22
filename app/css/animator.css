@@ -452,7 +452,7 @@ a {
 
 #statusBar {
   position: fixed;
-  background-color: Menu;
+  background-color: Window;
   color: #2B2B2B;
   bottom: 0;
   width: 100%;
