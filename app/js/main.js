@@ -949,6 +949,7 @@ function loadMenu() {
         menuBar.createMacBuiltin("Boats Animator");
     }
 }
+
 /**
  * Development Functions
  */
@@ -959,3 +960,12 @@ function dev() {
 function reload() {
     win.reloadDev();
 }
+
+/**
+ * Get version number from package.json
+ */
+fs.readFile('package.json', 'utf8', function (err, data) {
+    if (err) throw err;
+    datajsoned = JSON.parse(data);
+    document.querySelector("#version").innerHTML = datajsoned.version;
+});
