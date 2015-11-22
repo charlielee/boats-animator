@@ -663,7 +663,7 @@ function saveFrame(id) {
 
     // 1K+ frames have been captured
     if (id >= 1000) {
-      fileName = 'frame_${id}';
+      fileName = `frame_${id}`;
     }
 
     // 100 frames have been captured
@@ -964,7 +964,7 @@ function reload() {
 /**
  * Get version number from package.json
  */
-fs.readFile('package.json', 'utf8', function (err, data) {
+fs.readFile("package.json", "utf8", function (err, data) {
     if (err) throw err;
     datajsoned = JSON.parse(data);
     document.querySelector("#version").innerHTML = datajsoned.version;
