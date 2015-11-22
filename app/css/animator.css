@@ -425,9 +425,7 @@ a {
 }
 
 
-#input-onion-skin-opacity:focus {
-  outline: none;
-}
+#input-onion-skin-opacity:focus { outline: none; }
 
 #input-onion-skin-opacity::-webkit-slider-runnable-track {
   height: 2px;
@@ -442,9 +440,7 @@ a {
   -webkit-appearance: none;
   margin-top: -9.5px;
 }
-#input-onion-skin-opacity:focus::-webkit-slider-runnable-track {
-  background-color: #D9D9D9;
-}
+#input-onion-skin-opacity:focus::-webkit-slider-runnable-track { background-color: #D9D9D9; }
 
 /* ========== STATUS BAR ============== */
 
@@ -483,7 +479,6 @@ a {
     background-color: rgba(9, 9, 9, 0.1);
     width: 12px;
     height: 12px;
-    
 }
 
 ::-webkit-scrollbar-button       { }
@@ -554,9 +549,7 @@ a {
     float: left;
 }
 
-.content button:last-of-type {
-    float: right;
-}
+.content button:last-of-type { float: right; }
 
 .content button i {
     font-size: 400%;
