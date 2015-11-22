@@ -112,9 +112,9 @@ function openIndex() {
         win.close();
         var animator_win = gui.Window.open ("index.html", {
             position: "center",
-            width: 770,
+            width: 730,
             height: 450,
-            min_width: 770,
+            min_width: 730,
             min_height: 450,
             toolbar: false,
             focus: true,
