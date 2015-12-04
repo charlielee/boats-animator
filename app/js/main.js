@@ -148,7 +148,7 @@ function startup() {
     // Load top menu
     loadMenu();
 
-    //Maximise window
+    // Maximise window
     win.maximize();
 
     // Windows specific code
@@ -207,7 +207,7 @@ function startup() {
         // Prevent taking frames without a set output path
         if (!frameExportDirectory) {
           notifyError("An output destination must be first set!");
-          return;
+          return false;
         }
 
         takePicture();
@@ -261,12 +261,31 @@ function startup() {
 
     // Toggle capture and playback windows
     btnLiveView.addEventListener("click", function() {
-        if (winMode === "capture") {
-            winMode = "playback";
-        } else if (winMode === "playback") {
-            winMode = "capture";
+        // Switch from frame preview back to live view
+        if (document.querySelector(".frame-reel-preview.selected")) {
+            document.querySelector(".frame-reel-preview.selected").classList.remove("selected");
+            switchMode("capture");
         }
-        switchMode(winMode);
+    });
+
+    // Preview a captured frame
+    document.querySelector("#reel-captured-imgs").addEventListener("click", function(e) {
+        if (e.target.className === "frame-reel-img") {
+            // Remove previous selection
+            if (document.querySelector(".frame-reel-preview.selected")) {
+                document.querySelector(".frame-reel-preview.selected").classList.remove("selected");
+            }
+
+            // Highlight the clicked image
+            e.target.parentElement.classList.add("selected");
+            switchMode("playback");
+
+            // Display the image and update all the necessary values
+            var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
+            playback.setAttribute("src", capturedFramesRaw[imageID - 1]);
+            curPlayFrame = imageID;
+            statusBarCurFrame.innerHTML = imageID;
+        }
     });
 
     clearPhoto();
@@ -278,6 +297,7 @@ function startup() {
 function switchMode(newMode) {
     winMode = newMode;
     if (winMode === "capture") {
+        statusBarCurFrame.innerHTML = curFrame;
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
         captureWindow.classList.add("active");
