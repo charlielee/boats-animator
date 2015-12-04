@@ -197,11 +197,7 @@ function startup() {
     });
 
 
-/*==========================================================
-=============== LISTENERS ==================================
-===============================================================*/
-
-
+    /* ======= Listeners ======= */
     // Capture a frame
     btnCaptureFrame.addEventListener("click", function() {
         // Prevent taking frames without a set output path
@@ -264,6 +260,7 @@ function startup() {
         // Switch from frame preview back to live view
         if (document.querySelector(".frame-reel-preview.selected")) {
             document.querySelector(".frame-reel-preview.selected").classList.remove("selected");
+            videoStop();
             switchMode("capture");
         }
     });
@@ -283,7 +280,7 @@ function startup() {
             // Display the image and update all the necessary values
             var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
             playback.setAttribute("src", capturedFramesRaw[imageID - 1]);
-            curPlayFrame = imageID;
+            curPlayFrame = imageID - 1;
             statusBarCurFrame.innerHTML = imageID;
         }
     });
@@ -496,6 +493,8 @@ function _toggleVideoLoop() {
         isLooping = true;
         btnLoop.children[0].classList.add("active");
     }
+
+    console.info(`Loop playback: ${isLooping}`);
 }
 
 /**
@@ -541,15 +540,16 @@ function _videoPlay() {
     curPlayFrame++;
 
     // There are no more frames to preview
-    if (curPlayFrame === curFrame){
+    if (curPlayFrame >= curFrame) {
          // We are not looping, stop the playback
         if (!isLooping) {
             videoStop();
+        } else {
+        console.info("Playback looped");
         }
 
-        // Loop the playback
+        // Reset playback
         curPlayFrame = 0;
-        console.info("Playback looped");
     }
 }
 
