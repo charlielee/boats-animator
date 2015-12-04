@@ -54,7 +54,7 @@ var width  = 640,
     // Status bar
     statusBarCurMode   = document.querySelector("#currentMode span"),
     statusBarCurFrame  = document.querySelector("#currentFrame span"),
-    statusBarFrameNum  = document.querySelector("#noOfFrames"),
+    statusBarFrameNum  = document.querySelector("#num-of-frames span"),
     statusBarFrameRate = document.querySelector("#currentFrameRate span"),
 
     // Export frames
@@ -254,7 +254,7 @@ function startup() {
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
         inputChangeFR.value = frameRate;
-        if(inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
+        if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
             inputChangeFR.value = 15;
         }
     });
@@ -317,7 +317,7 @@ function updateFrameReel(action, id) {
     "use strict";
     var onionSkinFrame = id - 1;
     // Display number of captured frames in status bar
-    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
+    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"}`;
 
     // Add the newly captured frame
     if (action === "capture") {
