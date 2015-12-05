@@ -261,8 +261,9 @@ function startup() {
         if (document.querySelector(".frame-reel-preview.selected")) {
             document.querySelector(".frame-reel-preview.selected").classList.remove("selected");
             videoStop();
-            switchMode("capture");
         }
+
+        switchMode("capture");
     });
 
     // Preview a captured frame
@@ -275,7 +276,9 @@ function startup() {
 
             // Highlight the clicked image
             e.target.parentElement.classList.add("selected");
-            switchMode("playback");
+            if (winMode !== "playback") {
+                switchMode("playback");
+            }
 
             // Display the image and update all the necessary values
             var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
@@ -545,7 +548,7 @@ function _videoPlay() {
         if (!isLooping) {
             videoStop();
         } else {
-        console.info("Playback looped");
+            console.info("Playback looped");
         }
 
         // Reset playback
