@@ -84,7 +84,10 @@ var width  = 640,
     confirmContainer    = document.querySelector("#confirm-container"),
     confirmText         = document.querySelector("#confirm-text"),
     btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
-    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel");
+    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
+
+    // Launcher window
+    launcherVersion     = document.querySelector("#app-version");
 
 /**
  * Occurs when "New Project" is pressed
@@ -95,6 +98,8 @@ function openAnimator() {
             position: "center",
             width: 1050,
             height: 715,
+            min_width: 590,
+            min_height: 500,
             toolbar: false,
             focus: true,
             icon: "icons/icon.png",
@@ -110,8 +115,10 @@ function openIndex() {
         win.close();
         var animator_win = gui.Window.open ("index.html", {
             position: "center",
-            width: 800,
-            height: 456,
+            width: 730,
+            height: 450,
+            min_width: 730,
+            min_height: 450,
             toolbar: false,
             focus: true,
             icon: "icons/icon.png"
@@ -661,7 +668,7 @@ function saveFrame(id) {
 
     // 1K+ frames have been captured
     if (id >= 1000) {
-      fileName = 'frame_${id}';
+      fileName = `frame_${id}`;
     }
 
     // 100 frames have been captured
@@ -947,6 +954,7 @@ function loadMenu() {
         menuBar.createMacBuiltin("Boats Animator");
     }
 }
+
 /**
  * Development Functions
  */
@@ -957,3 +965,12 @@ function dev() {
 function reload() {
     win.reloadDev();
 }
+
+/**
+ * Get version number from package.json
+ */
+fs.readFile("package.json", "utf8", function (err, data) {
+    if (err) throw err;
+    datajsoned = JSON.parse(data);
+    launcherVersion.innerHTML = datajsoned.version;
+});
