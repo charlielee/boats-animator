@@ -1,5 +1,25 @@
 *, *::before, *::after { box-sizing: border-box; }
 
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #2B2B2B;
+  color: #D9D9D9;
+  font-family: "Roboto", sans-serif;
+  -webkit-user-select: none;
+  cursor: default;
+  font-size: 0.9em;
+  height: 100%;
+}
+
+/* ========== TEXT STYLING ============== */
+
+a {
+  color: #D9D9D9;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 /* ========== SIDEBAR ============== */
 
 #sidebar {
@@ -40,7 +60,10 @@
 
 .sidebar-link-dot { margin-right: 6px; }
 
-/* ======== Preference Windows ======== */
+/* ======== Main Area ======== */
+
+#main-event { width: calc(100% - 19em); }
+
 .content {
     padding: 0 0 0 2%;
     margin: 0;
@@ -126,6 +149,38 @@
     margin-bottom: -0.4em;
     color: #fff;
 }
+
+/* ========== STATUS BAR ============== */
+
+#statusBar {
+  position: fixed;
+  background-color: #D9D9D9;
+  color: #2B2B2B;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+#statusBar a { color: #2B2B2B; }
+
+#statusBar ul {
+  list-style: none;
+  padding: 0 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#statusBar li { display: inline-block; }
+
+#statusBar li:not(.no-pipe)::after {
+  content: "|";
+  color: #b5b5b5;
+  margin-right: 0.5em;
+  margin-left: 0.8em;
+}
+
+#statusBar-credits { float: right; }
+
 
 /* ========== SCROLL BARS ============== */
 
