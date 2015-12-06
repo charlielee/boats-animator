@@ -87,7 +87,7 @@ var width  = 640,
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
     // Launcher window
-    launcherVersion     = document.querySelector("#version");
+    launcherVersion     = document.querySelector("#app-version");
 
 /**
  * Occurs when "New Project" is pressed
