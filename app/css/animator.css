@@ -99,13 +99,13 @@ a {
 /* ========== SIDEBAR ============== */
 
 #sidebar {
-    position: relative;
-    float: right;
-    color: #d3d3d3;
-    z-index: 2;
-    padding-right: 1em;
-    height: 100%;
-    width: 19em;
+  position: relative;
+  float: right;
+  color: #d3d3d3;
+  z-index: 2;
+  padding-right: 1em;
+  height: 100%;
+  width: 19em;
 }
 
 #sidebar a { color: #d3d3d3; }
@@ -500,90 +500,3 @@ a {
 ::-webkit-scrollbar-corner       { background-color: #000; }
 
 ::-webkit-resizer                { }
-
-/* ======== Preference Windows ======== */
-.content {
-    padding: 0 0 0 2%;
-    margin: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: #171717;
-    overflow-y: scroll;
-}
-
-.content h1 {
-    margin: 0;
-    padding: 0.83em 0;
-}
-
-.content h2 {
-    font-size: 1.2em;
-    margin: 0;
-    padding: 0.83em 0;
-}
-
-/* ========== Projects Area ============= */
-
-#projects-container {
-    margin: 0;
-    padding: 0;
-}
-
-#projects-container li {
-    margin: 0;
-    width: 100%;
-    padding: 1em 0;
-    list-style-type: none;
-    border-bottom: 1px solid #ADADAD;
-    position: relative;
-}
-
-#projects-container li:first-of-type { padding-top: 0; }
-#projects-container li:last-of-type { margin-bottom: 1em; }
-
-#projects-container a { color: #d3d3d3; }
-#projects-container a:hover { border-bottom: 1.5px solid #d3d3d3; }
-
-.content button {
-    width: calc(50% - 0.5em);
-    float: left;
-}
-
-.content button:last-of-type { float: right; }
-
-.content button i {
-    font-size: 400%;
-    float: left;
-}
-
-.content button span {
-    display: block;
-    transform: translateY(100%);
-}
-
-/* ========== Recent News ============ */
-
-.container-news {
-    margin-top: -0.8em;
-    height: 25.8em;
-    overflow-y: scroll;
-}
-
-.post,
-.container-news h3  {
-    color: #fff;
-    padding-right: 1em;
-}
-
-.post-link {
-    color: #fff;
-    text-decoration: none;
-}
-.post-link:hover { color: #fff; }
-
-.post-title {
-    font-weight: 400;
-    margin: 0;
-    margin-bottom: -0.4em;
-    color: #fff;
-}
