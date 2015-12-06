@@ -18,7 +18,7 @@ Boats Animator is pre-release software and currently lacks a number of key featu
 ##Credits
 * The contributors to this project may be found [here](https://github.com/BoatsAreRockable/animator/graphs/contributors)
 * Boats Animator uses the following open source components:
-   * User interface icons by Egor Rumyantsev from www.flaticon.com License: http://creativecommons.org/licenses/by/3.0/
+   * [Font Awesome](http://fontawesome.io/)
    * [NW.js](https://github.com/nwjs/nw.js)
 
 ##Issues
