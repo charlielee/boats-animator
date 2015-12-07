@@ -258,8 +258,9 @@ function startup() {
     // Toggle capture and playback windows
     btnLiveView.addEventListener("click", function() {
         // Switch from frame preview back to live view
-        if (document.querySelector(".frame-reel-preview.selected")) {
-            document.querySelector(".frame-reel-preview.selected").classList.remove("selected");
+        var selectedFrame = document.querySelector(".frame-reel-preview.selected");
+        if (selectedFrame) {
+            selectedFrame.classList.remove("selected");
             videoStop();
         }
 
@@ -267,11 +268,12 @@ function startup() {
     });
 
     // Preview a captured frame
-    document.querySelector("#reel-captured-imgs").addEventListener("click", function(e) {
+    frameReelRow.addEventListener("click", function(e) {
         if (e.target.className === "frame-reel-img") {
+            var selectedFrame = document.querySelector(".frame-reel-preview.selected");
             // Remove previous selection
-            if (document.querySelector(".frame-reel-preview.selected")) {
-                document.querySelector(".frame-reel-preview.selected").classList.remove("selected");
+            if (selectedFrame) {
+                selectedFrame.classList.remove("selected");
             }
 
             // Highlight the clicked image
