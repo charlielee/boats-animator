@@ -90,15 +90,16 @@ var width  = 640,
  * Occurs when "New Project" is pressed
  */
 function openAnimator() {
-    var frameExportDirectory = _getDefaultDirectory(),
-        animator_win = gui.Window.open ("animator.html", {
-            position: "center",
-            width: 1050,
-            height: 715,
-            toolbar: false,
-            focus: true,
-            icon: "icons/icon.png",
-        });
+    "use strict";
+    var frameExportDirectory = _getDefaultDirectory();
+    gui.Window.open ("animator.html", {
+        position: "center",
+        width: 1050,
+        height: 715,
+        toolbar: false,
+        focus: true,
+        icon: "icons/icon.png",
+    });
     win.close();
 }
 
@@ -107,15 +108,15 @@ function openAnimator() {
  */
 function openIndex() {
     "use strict";
-        win.close();
-        var animator_win = gui.Window.open ("index.html", {
-            position: "center",
-            width: 800,
-            height: 456,
-            toolbar: false,
-            focus: true,
-            icon: "icons/icon.png"
-        });
+    win.close();
+    gui.Window.open ("index.html", {
+        position: "center",
+        width: 800,
+        height: 456,
+        toolbar: false,
+        focus: true,
+        icon: "icons/icon.png"
+    });
 }
 
 /**
