@@ -282,8 +282,6 @@ function startup() {
             statusBarCurFrame.innerHTML = imageID;
         }
     });
-
-    clearPhoto();
 }
 
 /**
@@ -306,18 +304,6 @@ function switchMode(newMode) {
     }
     console.log(`Switched to: ${winMode}`);
     statusBarCurMode.innerHTML = winMode.charAt(0).toUpperCase() + winMode.slice(1);
-}
-
-/**
- * Fill the canvas with an indication that
- * no frames have been captured.
- */
-function clearPhoto() {
-    "use strict";
-    var context = canvas.getContext("2d");
-    context.fillStyle = "#aaa";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    console.log("Canvas cleared");
 }
 
 /**
@@ -463,13 +449,9 @@ function takePicture() {
         switchMode("capture");
     }
 
-    // We are not able to take a picture
-    if (!(width && height)) {
-      clearPhoto();
-
-     // We can take a picture
-    } else {
-        // Draw the image
+    // Take a picture
+    if (width && height) {
+        // Draw the image on the canvas
         var context   = canvas.getContext("2d");
         canvas.width  = width;
         canvas.height = height;
