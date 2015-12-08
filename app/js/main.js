@@ -259,9 +259,7 @@ function startup() {
     // Toggle capture and playback windows
     btnLiveView.addEventListener("click", function() {
         // Switch from frame preview back to live view
-        var selectedFrame = document.querySelector(".frame-reel-preview.selected");
-        if (selectedFrame) {
-            selectedFrame.classList.remove("selected");
+        if (removeFrameReelSelection()) {
             videoStop();
         }
 
@@ -271,11 +269,8 @@ function startup() {
     // Preview a captured frame
     frameReelRow.addEventListener("click", function(e) {
         if (e.target.className === "frame-reel-img") {
-            var selectedFrame = document.querySelector(".frame-reel-preview.selected");
             // Remove previous selection
-            if (selectedFrame) {
-                selectedFrame.classList.remove("selected");
-            }
+            removeFrameReelSelection();
 
             // Highlight the clicked image
             e.target.parentElement.classList.add("selected");
@@ -329,6 +324,21 @@ function clearPhoto() {
 }
 
 /**
+ * Remove selected frame highlight from the timeline.
+ *
+ * @return {Boolean} True if there was a highlight to remove, false otherwise.
+ */
+function removeFrameReelSelection() {
+    "use strict";
+    var selectedFrame = document.querySelector(".frame-reel-preview.selected");
+    if (selectedFrame) {
+        selectedFrame.classList.remove("selected");
+        return true;
+    }
+    return false;
+}
+
+/**
  * Update the frame reel display as needeed.
  *
  * @param {String} action Update the frame reel depending on the
@@ -344,6 +354,10 @@ function updateFrameReel(action, id) {
 
     // Add the newly captured frame
     if (action === "capture") {
+        // Remove any frame selection
+        removeFrameReelSelection();
+
+        // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
 <img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFramesRaw[id - 1]}">
 <i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
