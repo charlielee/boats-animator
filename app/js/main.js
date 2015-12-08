@@ -256,13 +256,10 @@ function startup() {
         }
     });
 
-    // Toggle capture and playback windows
+    // Switch from frame preview back to live view
     btnLiveView.addEventListener("click", function() {
-        // Switch from frame preview back to live view
-        if (removeFrameReelSelection()) {
-            videoStop();
-        }
-
+        videoStop();
+        removeFrameReelSelection();
         switchMode("capture");
     });
 
@@ -561,6 +558,7 @@ function videoStop() {
 function _videoPlay() {
     "use strict";
     // Display each frame
+    removeFrameReelSelection();
     playback.setAttribute("src", capturedFramesRaw[curPlayFrame]);
     statusBarCurFrame.innerHTML = curPlayFrame + 1;
     curPlayFrame++;
