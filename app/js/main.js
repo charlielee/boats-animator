@@ -47,14 +47,14 @@ var width  = 640,
     playback      = document.querySelector("#playback"),
     btnPlayPause  = document.querySelector("#btn-play-pause"),
     inputChangeFR = document.querySelector("#input-fr-change"),
-        
+
     // Audio
     audioToggle = document.querySelector("#audio-toggle"),
 
     // Status bar
     statusBarCurMode   = document.querySelector("#currentMode span"),
     statusBarCurFrame  = document.querySelector("#currentFrame span"),
-    statusBarFrameNum  = document.querySelector("#noOfFrames"),
+    statusBarFrameNum  = document.querySelector("#num-of-frames span"),
     statusBarFrameRate = document.querySelector("#currentFrameRate span"),
 
     // Export frames
@@ -79,7 +79,7 @@ var width  = 640,
     // Notification bar
     notifyBar    = document.querySelector(".notification"),
     notifyBarMsg = document.querySelector(".notification #msg"),
-    
+
     // Confirm messages
     confirmContainer    = document.querySelector("#confirm-container"),
     confirmText         = document.querySelector("#confirm-text"),
@@ -87,23 +87,23 @@ var width  = 640,
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
     // Launcher window
-    launcherVersion     = document.querySelector("#app-version");
+    launcherVersion = document.querySelector("#app-version");
 
 /**
  * Occurs when "New Project" is pressed
  */
 function openAnimator() {
-    var frameExportDirectory = _getDefaultDirectory(),
-        animator_win = gui.Window.open ("animator.html", {
-            position: "center",
-            width: 1050,
-            height: 715,
-            min_width: 590,
-            min_height: 500,
-            toolbar: false,
-            focus: true,
-            icon: "icons/icon.png",
-        });
+    "use strict";
+    gui.Window.open ("animator.html", {
+        position: "center",
+        width: 1050,
+        height: 715,
+        min_width: 590,
+        min_height: 500,
+        toolbar: false,
+        focus: true,
+        icon: "icons/icon.png",
+    });
     win.close();
 }
 
@@ -112,17 +112,17 @@ function openAnimator() {
  */
 function openIndex() {
     "use strict";
-        win.close();
-        var animator_win = gui.Window.open ("index.html", {
-            position: "center",
-            width: 730,
-            height: 450,
-            min_width: 730,
-            min_height: 450,
-            toolbar: false,
-            focus: true,
-            icon: "icons/icon.png"
-        });
+    win.close();
+    gui.Window.open ("index.html", {
+        position: "center",
+        width: 730,
+        height: 450,
+        min_width: 730,
+        min_height: 450,
+        toolbar: false,
+        focus: true,
+        icon: "icons/icon.png"
+    });
 }
 
 /**
@@ -142,6 +142,7 @@ function canDisplayNews() {
 }
 
 function startup() {
+    "use strict";
     // Check if a default directory has been set
     checkdefaultdirectory();
 
@@ -151,11 +152,11 @@ function startup() {
 
     // Set default view
     switchMode("capture");
-    
+
     // Load top menu
     loadMenu();
 
-    //Maximise window
+    // Maximise window
     win.maximize();
 
     // Windows specific code
@@ -204,17 +205,13 @@ function startup() {
     });
 
 
-/*==========================================================
-=============== LISTENERS ==================================
-===============================================================*/
-
-
+    /* ======= Listeners ======= */
     // Capture a frame
     btnCaptureFrame.addEventListener("click", function() {
         // Prevent taking frames without a set output path
         if (!frameExportDirectory) {
           notifyError("An output destination must be first set!");
-          return;
+          return false;
         }
 
         takePicture();
@@ -243,6 +240,7 @@ function startup() {
     // Stop the preview
     btnStop.addEventListener("click", function() {
         if (curFrame > 0) {
+            removeFrameReelSelection();
             videoStop();
         }
     });
@@ -257,34 +255,51 @@ function startup() {
         statusBarFrameRate.innerHTML = frameRate;
         videoStop();
     });
-    
+
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
         inputChangeFR.value = frameRate;
-        if(inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
+        if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
             inputChangeFR.value = 15;
         }
     });
 
-    // Toggle capture and playback windows
+    // Switch from frame preview back to live view
     btnLiveView.addEventListener("click", function() {
-        if (winMode === "capture") {
-            winMode = "playback";
-        } else if (winMode === "playback") {
-            winMode = "capture";
-        }
-        switchMode(winMode);
+        videoStop();
+        removeFrameReelSelection();
+        switchMode("capture");
     });
 
-    clearPhoto();
+    // Preview a captured frame
+    frameReelRow.addEventListener("click", function(e) {
+        if (e.target.className === "frame-reel-img") {
+            // Remove previous selection
+            removeFrameReelSelection();
+
+            // Highlight the clicked image
+            e.target.classList.add("selected");
+            if (winMode !== "playback") {
+                switchMode("playback");
+            }
+
+            // Display the image and update all the necessary values
+            var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
+            playback.setAttribute("src", capturedFramesRaw[imageID - 1]);
+            curPlayFrame = imageID - 1;
+            statusBarCurFrame.innerHTML = imageID;
+        }
+    });
 }
 
 /**
  * Toggle between playback and capture windows.
  */
 function switchMode(newMode) {
+    "use strict";
     winMode = newMode;
     if (winMode === "capture") {
+        statusBarCurFrame.innerHTML = curFrame;
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
         captureWindow.classList.add("active");
@@ -301,15 +316,18 @@ function switchMode(newMode) {
 }
 
 /**
- * Fill the canvas with an indication that
- * no frames have been captured.
+ * Remove selected frame highlight from the timeline.
+ *
+ * @return {Boolean} True if there was a highlight to remove, false otherwise.
  */
-function clearPhoto() {
+function removeFrameReelSelection() {
     "use strict";
-    var context = canvas.getContext("2d");
-    context.fillStyle = "#aaa";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    console.log("Canvas cleared");
+    var selectedFrame = document.querySelector(".frame-reel-img.selected");
+    if (selectedFrame) {
+        selectedFrame.classList.remove("selected");
+        return true;
+    }
+    return false;
 }
 
 /**
@@ -324,10 +342,14 @@ function updateFrameReel(action, id) {
     "use strict";
     var onionSkinFrame = id - 1;
     // Display number of captured frames in status bar
-    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"} captured`;
+    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"}`;
 
     // Add the newly captured frame
     if (action === "capture") {
+        // Remove any frame selection
+        removeFrameReelSelection();
+
+        // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
 <img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFramesRaw[id - 1]}">
 <i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
@@ -436,13 +458,9 @@ function takePicture() {
         switchMode("capture");
     }
 
-    // We are not able to take a picture
-    if (!(width && height)) {
-      clearPhoto();
-
-     // We can take a picture
-    } else {
-        // Draw the image
+    // Take a picture
+    if (width && height) {
+        // Draw the image on the canvas
         var context   = canvas.getContext("2d");
         canvas.width  = width;
         canvas.height = height;
@@ -462,7 +480,7 @@ function takePicture() {
 
         // Scroll the frame reel to the end
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
-        
+
         // Play a camera sound
         audio(captureAudio);
     }
@@ -483,6 +501,8 @@ function _toggleVideoLoop() {
         isLooping = true;
         btnLoop.children[0].classList.add("active");
     }
+
+    console.info(`Loop playback: ${isLooping}`);
 }
 
 /**
@@ -523,20 +543,22 @@ function videoStop() {
 function _videoPlay() {
     "use strict";
     // Display each frame
+    removeFrameReelSelection();
     playback.setAttribute("src", capturedFramesRaw[curPlayFrame]);
     statusBarCurFrame.innerHTML = curPlayFrame + 1;
     curPlayFrame++;
 
     // There are no more frames to preview
-    if (curPlayFrame === curFrame){
+    if (curPlayFrame >= curFrame) {
          // We are not looping, stop the playback
         if (!isLooping) {
             videoStop();
+        } else {
+            console.info("Playback looped");
         }
 
-        // Loop the playback
+        // Reset playback
         curPlayFrame = 0;
-        console.info("Playback looped");
     }
 }
 
@@ -576,6 +598,7 @@ function _onionSkinChangeAmount(ev) {
  * Set directory to export frames to
  */
 function checkdefaultdirectory() {
+    "use strict";
     frameExportDirectory = _getDefaultDirectory();
     if (frameExportDirectory === null) {
         console.log("no default set");
@@ -814,7 +837,7 @@ function confirmSet(func, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
-        
+
     // Listen if "OK" is pressed
     btnConfirmOK.addEventListener("click", function() {
         if (args === undefined) {
@@ -824,7 +847,7 @@ function confirmSet(func, args, msg) {
         }
         confirmContainer.classList.add("hidden");
     });
-    
+
      // Listen if "Cancel" is pressed
     btnConfirmCancel.addEventListener("click", function() {
         confirmContainer.classList.add("hidden");
@@ -899,7 +922,7 @@ function loadMenu() {
       key: "/",
       modifiers: "ctrl",
     }));
-    
+
     //Debug menu items
     debugMenu.append(new gui.MenuItem({
       label: "Load developer tools",
@@ -917,28 +940,28 @@ function loadMenu() {
             submenu: fileMenu
         })
     );
-    
+
     menuBar.append(
         new gui.MenuItem({
             label: "Edit",
             submenu: editMenu
         })
     );
-    
+
     menuBar.append(
         new gui.MenuItem({
             label: "Capture",
             submenu: captureMenu
         })
     );
-    
+
     menuBar.append(
         new gui.MenuItem({
             label: "Help",
             submenu: helpMenu
         })
     );
-    
+
     menuBar.append(
         new gui.MenuItem({
             label: "Debug",
@@ -959,10 +982,12 @@ function loadMenu() {
  * Development Functions
  */
 function dev() {
+    "use strict";
     win.showDevTools();
 }
 
 function reload() {
+    "use strict";
     win.reloadDev();
 }
 
@@ -970,7 +995,8 @@ function reload() {
  * Get version number from package.json
  */
 fs.readFile("package.json", "utf8", function (err, data) {
+    "use strict";
     if (err) throw err;
-    datajsoned = JSON.parse(data);
+    var datajsoned = JSON.parse(data);
     launcherVersion.innerHTML = datajsoned.version;
 });
