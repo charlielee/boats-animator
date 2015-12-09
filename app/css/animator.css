@@ -289,11 +289,11 @@ a {
 
 /* Image container */
 .frame-reel-preview { position: relative; }
-.frame-reel-preview.selected { outline: 1px solid #d9d9d9; }
 
 /* Preview image */
 .frame-reel-img { cursor: pointer; }
-.frame-reel-img:hover, #btn-live-view:hover { opacity: 0.8; }
+.frame-reel-img:hover { opacity: 0.8; }
+.frame-reel-img.selected { outline: 1px solid #d9d9d9; }
 
 /* Frame delete button */
 .btn-frame-delete {
@@ -320,11 +320,7 @@ a {
   margin-bottom: -1em;
 }
 
-#btn-live-view:hover {
-  color: #ad0000;
-  opacity: 1;
-}
-
+#btn-live-view:hover,
 #btn-live-view.selected { color: #ad0000; }
 
 #btn-live-view i { padding-top: 0.2em; }

@@ -277,7 +277,7 @@ function startup() {
             removeFrameReelSelection();
 
             // Highlight the clicked image
-            e.target.parentElement.classList.add("selected");
+            e.target.classList.add("selected");
             if (winMode !== "playback") {
                 switchMode("playback");
             }
@@ -321,7 +321,7 @@ function switchMode(newMode) {
  */
 function removeFrameReelSelection() {
     "use strict";
-    var selectedFrame = document.querySelector(".frame-reel-preview.selected");
+    var selectedFrame = document.querySelector(".frame-reel-img.selected");
     if (selectedFrame) {
         selectedFrame.classList.remove("selected");
         return true;
