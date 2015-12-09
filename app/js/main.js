@@ -827,11 +827,11 @@ function notifyError(msg) {
 }
 
 /**
- * Display a custom confirm message
+ * Confirm the action to be performed.
  *
- * @param {String|Number} func The function to run on "OK" being pressed.
- * @param {String|Number} args Arguments of function to run.
- * @param {String|Number} msg Message to display in confirm dialogue.
+ * @param {Function} func The function to run on "OK" being pressed.
+ * @param {*} args Arguments of function to run.
+ * @param {String} msg Message to display in confirm dialogue.
  */
 function confirmSet(func, args, msg) {
     "use strict";
@@ -863,13 +863,13 @@ function loadMenu() {
     var menuBar = new gui.Menu({ type: "menubar" });
 
     // Create sub-menus
-    var fileMenu = new gui.Menu(),
-        editMenu = new gui.Menu(),
+    var fileMenu    = new gui.Menu(),
+        editMenu    = new gui.Menu(),
         captureMenu = new gui.Menu(),
-        helpMenu = new gui.Menu(),
-        debugMenu = new gui.Menu();
+        helpMenu    = new gui.Menu(),
+        debugMenu   = new gui.Menu();
 
-    //File menu items
+    // File menu items
     fileMenu.append(new gui.MenuItem({
       label: "New project...",
       click: function() {
@@ -893,7 +893,7 @@ function loadMenu() {
         modifiers: "ctrl",
     }));
 
-    //Edit menu items
+    // Edit menu items
     editMenu.append(new gui.MenuItem({
       label: "Delete last frame",
       click: function() {
@@ -903,7 +903,7 @@ function loadMenu() {
       modifiers: "ctrl",
     }));
 
-    //Capture menu items
+    // Capture menu items
     captureMenu.append(new gui.MenuItem({
       label: "Capture frame",
       click: function() {
@@ -913,7 +913,7 @@ function loadMenu() {
       modifiers: "ctrl",
     }));
 
-    //Help menu items
+    // Help menu items
     helpMenu.append(new gui.MenuItem({
       label: "Give feedback",
       click: function() {
@@ -923,7 +923,7 @@ function loadMenu() {
       modifiers: "ctrl",
     }));
 
-    //Debug menu items
+    // Debug menu items
     debugMenu.append(new gui.MenuItem({
       label: "Load developer tools",
       click: function() {
