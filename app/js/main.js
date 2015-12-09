@@ -47,7 +47,7 @@ var width  = 640,
     playback      = document.querySelector("#playback"),
     btnPlayPause  = document.querySelector("#btn-play-pause"),
     inputChangeFR = document.querySelector("#input-fr-change"),
-        
+
     // Audio
     audioToggle = document.querySelector("#audio-toggle"),
 
@@ -79,12 +79,15 @@ var width  = 640,
     // Notification bar
     notifyBar    = document.querySelector(".notification"),
     notifyBarMsg = document.querySelector(".notification #msg"),
-    
+
     // Confirm messages
     confirmContainer    = document.querySelector("#confirm-container"),
     confirmText         = document.querySelector("#confirm-text"),
     btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
-    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel");
+    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
+
+    // Launcher window
+    launcherVersion     = document.querySelector("#app-version");
 
 /**
  * Occurs when "New Project" is pressed
@@ -96,6 +99,8 @@ function openAnimator() {
         position: "center",
         width: 1050,
         height: 715,
+        min_width: 590,
+        min_height: 500,
         toolbar: false,
         focus: true,
         icon: "icons/icon.png",
@@ -111,8 +116,10 @@ function openIndex() {
     win.close();
     gui.Window.open ("index.html", {
         position: "center",
-        width: 800,
-        height: 456,
+        width: 730,
+        height: 450,
+        min_width: 730,
+        min_height: 450,
         toolbar: false,
         focus: true,
         icon: "icons/icon.png"
@@ -145,7 +152,7 @@ function startup() {
 
     // Set default view
     switchMode("capture");
-    
+
     // Load top menu
     loadMenu();
 
@@ -247,7 +254,7 @@ function startup() {
         statusBarFrameRate.innerHTML = frameRate;
         videoStop();
     });
-    
+
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
         inputChangeFR.value = frameRate;
@@ -471,7 +478,7 @@ function takePicture() {
 
         // Scroll the frame reel to the end
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
-        
+
         // Play a camera sound
         audio(captureAudio);
     }
@@ -681,7 +688,7 @@ function saveFrame(id) {
 
     // 1K+ frames have been captured
     if (id >= 1000) {
-      fileName = 'frame_${id}';
+      fileName = `frame_${id}`;
     }
 
     // 100 frames have been captured
@@ -827,7 +834,7 @@ function confirmSet(func, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
-        
+
     // Listen if "OK" is pressed
     btnConfirmOK.addEventListener("click", function() {
         if (args === undefined) {
@@ -837,7 +844,7 @@ function confirmSet(func, args, msg) {
         }
         confirmContainer.classList.add("hidden");
     });
-    
+
      // Listen if "Cancel" is pressed
     btnConfirmCancel.addEventListener("click", function() {
         confirmContainer.classList.add("hidden");
@@ -912,7 +919,7 @@ function loadMenu() {
       key: "/",
       modifiers: "ctrl",
     }));
-    
+
     //Debug menu items
     debugMenu.append(new gui.MenuItem({
       label: "Load developer tools",
@@ -930,28 +937,28 @@ function loadMenu() {
             submenu: fileMenu
         })
     );
-    
+
     menuBar.append(
         new gui.MenuItem({
             label: "Edit",
             submenu: editMenu
         })
     );
-    
+
     menuBar.append(
         new gui.MenuItem({
             label: "Capture",
             submenu: captureMenu
         })
     );
-    
+
     menuBar.append(
         new gui.MenuItem({
             label: "Help",
             submenu: helpMenu
         })
     );
-    
+
     menuBar.append(
         new gui.MenuItem({
             label: "Debug",
@@ -967,6 +974,7 @@ function loadMenu() {
         menuBar.createMacBuiltin("Boats Animator");
     }
 }
+
 /**
  * Development Functions
  */
@@ -977,3 +985,12 @@ function dev() {
 function reload() {
     win.reloadDev();
 }
+
+/**
+ * Get version number from package.json
+ */
+fs.readFile("package.json", "utf8", function (err, data) {
+    if (err) throw err;
+    datajsoned = JSON.parse(data);
+    launcherVersion.innerHTML = datajsoned.version;
+});

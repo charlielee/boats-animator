@@ -4,26 +4,50 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <title>Boats Animator</title>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
 
-<body class="index" onload="canDisplayNews()">
-    <header class="app-info">
-        <h1>Boats Animator</h1>
-        <footer>Copyright (C) Charlie Lee 2015 <span style="float: right; text-align: right; padding: 0 4%;"><a href="#" onclick="gui.Shell.openExternal('http://charlielee.uk')">charlielee.uk</a></span></footer>
+<body onload="canDisplayNews()">
+    <!--Sidebar content-->
+    <div id="sidebar">
+        <div id="sidebar-content">
 
-        <h2>Recent News</h2>
-        <div class="container-news"></div>
-    </header>
-
-    <div class="indexContent">
-        <h2>Project</h2>
-        <button onclick="openAnimator()">New Project</button>
-        <button onclick="alert('This feature is coming soon!')">Load Project</button>
-        <button onclick="dev()">Dev tools</button>
-        <button onclick="reload()">Refresh</button>
-        <h2>Recent Projects</h2>
-        <div class="list" id="recentProjectsList">This feature is coming soon!</div>
+            <!--Capture Options-->
+            <div class="sidebar-item">
+                <div class="sidebar-header">
+                    <h2><i class="fa fa-newspaper-o"></i> Recent News</h2>
+                </div>
+                <ul>
+                    <li><div class="container-news"></div></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="main-event">
+        <div class="content">
+            <h2>Projects</h2>
+            <!--Recent projects example, disabled as will be dynamically injected.
+            <ul id="projects-container">
+                <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 1</a></li>
+                <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 2</a></li>
+                <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 3</a></li>
+            </ul>-->
+            <button id="new-project" onclick="openAnimator()"><i class="fa fa-file-o"></i><span>New Project</span></button>
+            <button id="load-project" onclick="alert('This feature is coming soon!')"><i class="fa fa-folder-o"></i><span>Load Project</span></button>
+        </div>
+    </div>
+    
+    <div id="statusBar">
+        <ul>
+            <li>Version <span id="app-version"></span></li>
+            <li>
+                <button onclick="dev()">Dev tools</button>
+                <button onclick="reload()">Refresh</button>
+            </li>
+            <li class="no-pipe" id="statusBar-credits"><a href="#" onclick="gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator')">&copy; Charlie Lee 2015</a></li>
+        </ul>
     </div>
 
     <script src="js/main.js" async></script>
