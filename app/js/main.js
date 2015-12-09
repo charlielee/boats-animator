@@ -33,6 +33,7 @@ var width  = 640,
     capturedFramesRaw  = [],
     curFrame           = 0,
     // curSelectedFrame   = null,
+    btnGridToggle      = document.querySelector("#btn-grid-toggle"),
     btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
@@ -263,6 +264,11 @@ function startup() {
         if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
             inputChangeFR.value = 15;
         }
+    });
+
+    // Grid overlay toggle
+    btnGridToggle.addEventListener("click", function() {
+        notifyInfo("That feature is not yet implemented.");
     });
 
     // Switch from frame preview back to live view
