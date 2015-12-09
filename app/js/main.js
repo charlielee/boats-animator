@@ -498,8 +498,6 @@ function _toggleVideoLoop() {
 
 /**
  * Pause captured frames preview video.
- *
- * @return {Boolean} True if playback was paused, false otherwise.
  */
 function videoPause() {
     "use strict";
@@ -512,9 +510,7 @@ function videoPause() {
         btnPlayPause.children[0].classList.remove("fa-pause");
         btnPlayPause.children[0].classList.add("fa-play");
         console.info("Playback paused");
-        return true;
     }
-    return false;
 }
 
 /**
@@ -523,15 +519,13 @@ function videoPause() {
 function videoStop() {
     "use strict";
     // Reset the player
-    if (videoPause()) {
-        curPlayFrame = 0;
-        playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
-        // document.querySelector(`.frame-reel-img#img-${curFrame}`).parentElement.classList.add("selected");
+    videoPause();
+    curPlayFrame = 0;
+    playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
 
-        // Display newest frame number in status bar
-        statusBarCurFrame.innerHTML = curFrame;
-        console.info("Playback stopped");
-    }
+    // Display newest frame number in status bar
+    statusBarCurFrame.innerHTML = curFrame;
+    console.info("Playback stopped");
 }
 
 /**
