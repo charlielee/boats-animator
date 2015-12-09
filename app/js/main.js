@@ -351,6 +351,7 @@ function updateFrameReel(action, id) {
     "use strict";
     var onionSkinFrame = id - 1;
     // Display number of captured frames in status bar
+    statusBarCurFrame.innerHTML = curFrame;
     statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"}`;
 
     // Add the newly captured frame
@@ -388,11 +389,13 @@ function updateFrameReel(action, id) {
 
         // Update onion skin frame
         onionSkinWindow.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
+        playback.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
 
         // All the frames were deleted, display "No frames" message
     } else {
         frameReelMsg.classList.remove("hidden");
         frameReelTable.classList.add("hidden");
+        switchMode("capture");
     }
 }
 
