@@ -32,9 +32,9 @@ var width  = 640,
     // Capture
     capturedFramesRaw  = [],
     curFrame           = 0,
+    // curSelectedFrame   = null,
     btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
-    captureAudio       = new Audio("audio/camera.wav"),
 
     // Playback
     frameRate     = 15,
@@ -49,7 +49,8 @@ var width  = 640,
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Audio
-    audioToggle = document.querySelector("#audio-toggle"),
+    captureAudio = new Audio("audio/camera.wav"),
+    audioToggle  = document.querySelector("#audio-toggle"),
 
     // Status bar
     statusBarCurMode   = document.querySelector("#currentMode span"),
@@ -94,7 +95,7 @@ var width  = 640,
  */
 function openAnimator() {
     "use strict";
-    gui.Window.open ("animator.html", {
+    gui.Window.open("animator.html", {
         position: "center",
         width: 1050,
         height: 715,
@@ -113,7 +114,7 @@ function openAnimator() {
 function openIndex() {
     "use strict";
     win.close();
-    gui.Window.open ("index.html", {
+    gui.Window.open("index.html", {
         position: "center",
         width: 730,
         height: 450,
@@ -287,6 +288,7 @@ function startup() {
             var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
             playback.setAttribute("src", capturedFramesRaw[imageID - 1]);
             curPlayFrame = imageID - 1;
+            // curSelectedFrame = imageID;
             statusBarCurFrame.innerHTML = imageID;
         }
     });
@@ -325,6 +327,7 @@ function removeFrameReelSelection() {
     var selectedFrame = document.querySelector(".frame-reel-img.selected");
     if (selectedFrame) {
         selectedFrame.classList.remove("selected");
+        // curSelectedFrame = null;
         return true;
     }
     return false;
