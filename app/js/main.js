@@ -838,29 +838,29 @@ function notifyError(msg) {
 /**
  * Confirm the action to be performed.
  *
- * @param {Function} func The function to run on "OK" being pressed.
+ * @param {Function} callback The function to run on "OK" being pressed.
  * @param {*} args Arguments of function to run.
  * @param {String} msg Message to display in confirm dialogue.
  */
-function confirmSet(func, args, msg) {
+function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
 
-    // Listen if "OK" is pressed
-    btnConfirmOK.addEventListener("click", function() {
-        if (args === undefined) {
-            func();
-        } else {
-            func(args);
-        }
+    function _ok() {
         confirmContainer.classList.add("hidden");
-    });
+        callback(args);
+        btnConfirmOK.removeEventListener("click", _ok);
+    }
 
-     // Listen if "Cancel" is pressed
-    btnConfirmCancel.addEventListener("click", function() {
+    function _cancel() {
         confirmContainer.classList.add("hidden");
-    });
+        btnConfirmCancel.removeEventListener("click", _cancel);
+    }
+
+    // Respond to button clicks
+    btnConfirmOK.addEventListener("click", _ok);
+    btnConfirmCancel.addEventListener("click", _cancel);
 }
 
 /**
