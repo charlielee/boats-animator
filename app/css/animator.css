@@ -309,19 +309,22 @@ a {
 
 #btn-live-view {
   width: 67px;
-  height: 50px;
+  height: 48px;
   background-color: #171717;
   color: #D9D9D9;
   text-align: center;
   font-size: 2.5em;
   cursor: pointer;
   margin-left: -0.15em;
-  margin-top: -0.75em;
+  margin-top: -0.73em;
   margin-bottom: -1em;
 }
+#btn-live-view:hover { color: #ad0000; }
 
-#btn-live-view:hover,
-#btn-live-view.selected { color: #ad0000; }
+#btn-live-view.selected {
+  color: #ad0000;
+  outline: 1px solid #d9d9d9;
+}
 
 #btn-live-view i { padding-top: 0.2em; }
 

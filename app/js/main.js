@@ -240,6 +240,7 @@ function startup() {
     // Stop the preview
     btnStop.addEventListener("click", function() {
         if (curFrame > 0) {
+            removeFrameReelSelection();
             videoStop();
         }
     });
