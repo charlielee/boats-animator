@@ -442,7 +442,7 @@ a {
 
 #statusBar {
   position: fixed;
-  background-color: Window;
+  background-color: #d9d9d9;
   color: #2B2B2B;
   bottom: 0;
   width: 100%;

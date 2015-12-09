@@ -87,14 +87,13 @@ var width  = 640,
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
     // Launcher window
-    launcherVersion     = document.querySelector("#app-version");
+    launcherVersion = document.querySelector("#app-version");
 
 /**
  * Occurs when "New Project" is pressed
  */
 function openAnimator() {
     "use strict";
-    var frameExportDirectory = _getDefaultDirectory();
     gui.Window.open ("animator.html", {
         position: "center",
         width: 1050,
@@ -143,6 +142,7 @@ function canDisplayNews() {
 }
 
 function startup() {
+    "use strict";
     // Check if a default directory has been set
     checkdefaultdirectory();
 
@@ -295,6 +295,7 @@ function startup() {
  * Toggle between playback and capture windows.
  */
 function switchMode(newMode) {
+    "use strict";
     winMode = newMode;
     if (winMode === "capture") {
         statusBarCurFrame.innerHTML = curFrame;
@@ -596,6 +597,7 @@ function _onionSkinChangeAmount(ev) {
  * Set directory to export frames to
  */
 function checkdefaultdirectory() {
+    "use strict";
     frameExportDirectory = _getDefaultDirectory();
     if (frameExportDirectory === null) {
         console.log("no default set");
@@ -979,10 +981,12 @@ function loadMenu() {
  * Development Functions
  */
 function dev() {
+    "use strict";
     win.showDevTools();
 }
 
 function reload() {
+    "use strict";
     win.reloadDev();
 }
 
@@ -990,7 +994,8 @@ function reload() {
  * Get version number from package.json
  */
 fs.readFile("package.json", "utf8", function (err, data) {
+    "use strict";
     if (err) throw err;
-    datajsoned = JSON.parse(data);
+    var datajsoned = JSON.parse(data);
     launcherVersion.innerHTML = datajsoned.version;
 });
