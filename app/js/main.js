@@ -32,9 +32,10 @@ var width  = 640,
     // Capture
     capturedFramesRaw  = [],
     curFrame           = 0,
+    curSelectedFrame   = null,
+    btnGridToggle      = document.querySelector("#btn-grid-toggle"),
     btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
-    captureAudio       = new Audio("audio/camera.wav"),
 
     // Playback
     frameRate     = 15,
@@ -49,7 +50,8 @@ var width  = 640,
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Audio
-    audioToggle = document.querySelector("#audio-toggle"),
+    captureAudio = new Audio("audio/camera.wav"),
+    audioToggle  = document.querySelector("#audio-toggle"),
 
     // Status bar
     statusBarCurMode   = document.querySelector("#currentMode span"),
@@ -94,7 +96,7 @@ var width  = 640,
  */
 function openAnimator() {
     "use strict";
-    gui.Window.open ("animator.html", {
+    gui.Window.open("animator.html", {
         position: "center",
         width: 1050,
         height: 715,
@@ -113,7 +115,7 @@ function openAnimator() {
 function openIndex() {
     "use strict";
     win.close();
-    gui.Window.open ("index.html", {
+    gui.Window.open("index.html", {
         position: "center",
         width: 730,
         height: 450,
@@ -264,6 +266,11 @@ function startup() {
         }
     });
 
+    // Grid overlay toggle
+    btnGridToggle.addEventListener("click", function() {
+        notifyInfo("That feature is not yet implemented.");
+    });
+
     // Switch from frame preview back to live view
     btnLiveView.addEventListener("click", function() {
         videoStop();
@@ -287,6 +294,7 @@ function startup() {
             var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
             playback.setAttribute("src", capturedFramesRaw[imageID - 1]);
             curPlayFrame = imageID - 1;
+            curSelectedFrame = imageID;
             statusBarCurFrame.innerHTML = imageID;
         }
     });
@@ -325,6 +333,7 @@ function removeFrameReelSelection() {
     var selectedFrame = document.querySelector(".frame-reel-img.selected");
     if (selectedFrame) {
         selectedFrame.classList.remove("selected");
+        curSelectedFrame = null;
         return true;
     }
     return false;
@@ -342,6 +351,7 @@ function updateFrameReel(action, id) {
     "use strict";
     var onionSkinFrame = id - 1;
     // Display number of captured frames in status bar
+    statusBarCurFrame.innerHTML = curFrame;
     statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"}`;
 
     // Add the newly captured frame
@@ -379,11 +389,19 @@ function updateFrameReel(action, id) {
 
         // Update onion skin frame
         onionSkinWindow.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
+        playback.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
+
+        // Update frame preview selection
+        if (curSelectedFrame) {
+            removeFrameReelSelection();
+            document.querySelector(`.frame-reel-img#img-${id - 1}`).classList.add("selected");
+        }
 
         // All the frames were deleted, display "No frames" message
     } else {
         frameReelMsg.classList.remove("hidden");
         frameReelTable.classList.add("hidden");
+        switchMode("capture");
     }
 }
 
@@ -827,31 +845,31 @@ function notifyError(msg) {
 }
 
 /**
- * Display a custom confirm message
+ * Confirm the action to be performed.
  *
- * @param {String|Number} func The function to run on "OK" being pressed.
- * @param {String|Number} args Arguments of function to run.
- * @param {String|Number} msg Message to display in confirm dialogue.
+ * @param {Function} callback The function to run on "OK" being pressed.
+ * @param {*} args Arguments of function to run.
+ * @param {String} msg Message to display in confirm dialogue.
  */
-function confirmSet(func, args, msg) {
+function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
 
-    // Listen if "OK" is pressed
-    btnConfirmOK.addEventListener("click", function() {
-        if (args === undefined) {
-            func();
-        } else {
-            func(args);
-        }
+    function _ok() {
         confirmContainer.classList.add("hidden");
-    });
+        callback(args);
+        btnConfirmOK.removeEventListener("click", _ok);
+    }
 
-     // Listen if "Cancel" is pressed
-    btnConfirmCancel.addEventListener("click", function() {
+    function _cancel() {
         confirmContainer.classList.add("hidden");
-    });
+        btnConfirmCancel.removeEventListener("click", _cancel);
+    }
+
+    // Respond to button clicks
+    btnConfirmOK.addEventListener("click", _ok);
+    btnConfirmCancel.addEventListener("click", _cancel);
 }
 
 /**
@@ -863,13 +881,13 @@ function loadMenu() {
     var menuBar = new gui.Menu({ type: "menubar" });
 
     // Create sub-menus
-    var fileMenu = new gui.Menu(),
-        editMenu = new gui.Menu(),
+    var fileMenu    = new gui.Menu(),
+        editMenu    = new gui.Menu(),
         captureMenu = new gui.Menu(),
-        helpMenu = new gui.Menu(),
-        debugMenu = new gui.Menu();
+        helpMenu    = new gui.Menu(),
+        debugMenu   = new gui.Menu();
 
-    //File menu items
+    // File menu items
     fileMenu.append(new gui.MenuItem({
       label: "New project...",
       click: function() {
@@ -893,7 +911,7 @@ function loadMenu() {
         modifiers: "ctrl",
     }));
 
-    //Edit menu items
+    // Edit menu items
     editMenu.append(new gui.MenuItem({
       label: "Delete last frame",
       click: function() {
@@ -903,7 +921,7 @@ function loadMenu() {
       modifiers: "ctrl",
     }));
 
-    //Capture menu items
+    // Capture menu items
     captureMenu.append(new gui.MenuItem({
       label: "Capture frame",
       click: function() {
@@ -913,7 +931,7 @@ function loadMenu() {
       modifiers: "ctrl",
     }));
 
-    //Help menu items
+    // Help menu items
     helpMenu.append(new gui.MenuItem({
       label: "Give feedback",
       click: function() {
@@ -923,7 +941,7 @@ function loadMenu() {
       modifiers: "ctrl",
     }));
 
-    //Debug menu items
+    // Debug menu items
     debugMenu.append(new gui.MenuItem({
       label: "Load developer tools",
       click: function() {
