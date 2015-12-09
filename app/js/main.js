@@ -32,7 +32,7 @@ var width  = 640,
     // Capture
     capturedFramesRaw  = [],
     curFrame           = 0,
-    // curSelectedFrame   = null,
+    curSelectedFrame   = null,
     btnGridToggle      = document.querySelector("#btn-grid-toggle"),
     btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
@@ -294,7 +294,7 @@ function startup() {
             var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
             playback.setAttribute("src", capturedFramesRaw[imageID - 1]);
             curPlayFrame = imageID - 1;
-            // curSelectedFrame = imageID;
+            curSelectedFrame = imageID;
             statusBarCurFrame.innerHTML = imageID;
         }
     });
@@ -333,7 +333,7 @@ function removeFrameReelSelection() {
     var selectedFrame = document.querySelector(".frame-reel-img.selected");
     if (selectedFrame) {
         selectedFrame.classList.remove("selected");
-        // curSelectedFrame = null;
+        curSelectedFrame = null;
         return true;
     }
     return false;
@@ -390,6 +390,12 @@ function updateFrameReel(action, id) {
         // Update onion skin frame
         onionSkinWindow.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
         playback.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
+
+        // Update frame preview selection
+        if (curSelectedFrame) {
+            removeFrameReelSelection();
+            document.querySelector(`.frame-reel-img#img-${id - 1}`).classList.add("selected");
+        }
 
         // All the frames were deleted, display "No frames" message
     } else {
