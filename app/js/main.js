@@ -215,7 +215,7 @@ function startup() {
           notifyError("An output destination must be first set!");
           return false;
         }
-        takePicture();
+        checkDirectoryExists(takePicture);
     });
 
     // Undo last captured frame
@@ -683,7 +683,7 @@ function _getDefaultDirectory() {
 /**
  * Check the save directory still exists and recreate it if deleted.
  */
-function _checkDirectoryExists() {
+function checkDirectoryExists(callback) {
     "use strict";
     // Does save directory exist?
     fs.stat(frameExportDirectory, function (err, stats) {
@@ -695,15 +695,13 @@ function _checkDirectoryExists() {
             fs.mkdir(frameExportDirectory, function (err) {
                 if (err) throw err;
                 notifyInfo(`Created directory at ${frameExportDirectory}`);
+                callback();
             });
+        } else {
+            callback();
         }
     });
 }
-
-   /* fs.mkdir(frameExportDirectory, function (err) {
-        if (err) {
-        console.log('failed to create directory', err);
-    } else {*/
 
 /**
 * Converting frames to png
