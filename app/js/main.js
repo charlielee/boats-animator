@@ -683,6 +683,7 @@ function _getDefaultDirectory() {
 
 /**
  * Check the save directory still exists and recreate it if deleted.
+ * @param {Function} callback The function to run if the frame export location exists.
  */
 function checkDirectoryExists(callback) {
     "use strict";
@@ -695,8 +696,10 @@ function checkDirectoryExists(callback) {
             //make directory
             fs.mkdir(frameExportDirectory, function (err) {
                 if (err) {
+                    console.error(`Failed to create directory at ${frameExportDirectory}`);
                     notifyError(`${frameExportDirectory} does not exist. Failed to create a directory at this location.`);
                 } else {
+                    console.log(`Successfully created directory at ${frameExportDirectory}`);
                     notifyInfo(`Created directory at ${frameExportDirectory}`);
                     callback();
                 }
