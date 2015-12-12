@@ -66,8 +66,13 @@
                     <li>Captured frames will be exported to:
                         <p id="currentDirectoryName" class="italics">No directory selected</p>
                     </li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="changeDirectory()">Change directory</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="setDefaultDirectory()">Set as default directory</a>
+                    <li>
+                        <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
+                        <span class="sidebar-opt" id="btn-dir-change">Change directory</span>
+                    </li>
+                    <li>
+                        <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
+                        <span class="sidebar-opt" id="btn-dir-default">Set as default directory</span>
                         <input id="chooseDirectory" style="display:none;" type="file" nwdirectory  />
                     </li>
                 </ul>

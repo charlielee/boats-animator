@@ -108,8 +108,13 @@ a {
   width: 19em;
 }
 
-#sidebar a { color: #d3d3d3; }
-#sidebar a:hover { border-bottom: 1.5px solid #d3d3d3; }
+#sidebar a,
+#sidebar .sidebar-opt {
+  color: #d3d3d3;
+  cursor: pointer;
+}
+#sidebar a:hover,
+#sidebar .sidebar-opt:hover { border-bottom: 1.5px solid #d3d3d3; }
 
 #sidebar-content {
   padding-left: 1em;

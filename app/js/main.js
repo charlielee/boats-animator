@@ -89,7 +89,11 @@ var width  = 640,
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
     // Launcher window
-    launcherVersion = document.querySelector("#app-version");
+    launcherVersion = document.querySelector("#app-version"),
+
+    // Sidebar
+    btnDirectoryChange  = document.querySelector("#sidebar #btn-dir-change"),
+    btnDirectoryDefault = document.querySelector("#sidebar #btn-dir-default");
 
 /**
  * Occurs when "New Project" is pressed
@@ -230,6 +234,12 @@ function startup() {
 
     // Change onion skin opacity
     onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
+
+    // Change the default save directory
+    btnDirectoryChange.addEventListener("click", changeDirectory);
+
+    // Store the save directory
+    btnDirectoryDefault.addEventListener("click", setDefaultDirectory);
 
     // Play/pause the preview
     btnPlayPause.addEventListener("click", function() {
@@ -667,8 +677,10 @@ function changeDirectory() {
  */
 function setDefaultDirectory() {
     "use strict";
-    localStorage.setItem("default_directory", frameExportDirectory);
-    notifySuccess(`Default export directory set as ${frameExportDirectory}.`);
+    confirmSet(function() {
+        localStorage.setItem("default_directory", frameExportDirectory);
+        notifySuccess(`Default export directory set as ${frameExportDirectory}`);
+    }, undefined, "Are you sure to want to change the default save path?");
 }
 
 /**
