@@ -693,9 +693,13 @@ function checkDirectoryExists(callback) {
             
             //make directory
             fs.mkdir(frameExportDirectory, function (err) {
-                if (err) throw err;
-                notifyInfo(`Created directory at ${frameExportDirectory}`);
-                callback();
+                if (err) {
+                    notifyError(`${frameExportDirectory} does not exist.
+Failed to create a directory at this location.`);
+                } else {
+                    notifyInfo(`Created directory at ${frameExportDirectory}`);
+                    callback();
+                }
             });
         } else {
             callback();
