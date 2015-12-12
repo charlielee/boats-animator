@@ -24,31 +24,50 @@ a {
   cursor: pointer;
 }
 
-/* ========== NOTIFICATION BAR ============== */
+/* ========== Notification bar ============== */
 
-.notification {
-  width: 60%;
-  min-height: 3em;
+#notification-container {
+  width: 100vw;
   position: fixed;
-  left: 18vw;
-  padding-top: 0.2em;
-  padding-bottom: 0.5em;
+  left: 20vw;
+}
+
+/* Individual notification */
+.notification {
+  width: 50%;
+  padding-top: 0.5em;
+  padding-bottom: 0.6em;
+  background-color: #2b2b2b;
   box-shadow: 0 1px 5px 1px rgba(27, 27, 27, 0.4);
   z-index: 5;
   color: #fff;
   transition: transform 0.3s ease;
 }
 
+/* Notification type label */
+.notify-type {
+  margin-top: 0.2em;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+  padding: 0.1em 0.5em;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0.9em;
+}
+
 /* Notification states */
 .notification.hidden { transform: translate3d(0, -110%, 0); }
-.notification.success { background-color: #2d9e2d; }
-.notification.info { background-color: #3a3ae1; }
-.notification.error { background-color: #ad0000; }
+.notification.success .notify-type { background-color: #2d9e2d; }
+.notification.info .notify-type { background-color: #3a3ae1; }
+.notification.error .notify-type { background-color: #ad0000; }
 
-.notification #msg {
+/* Notification message */
+.notification .msg {
   margin: 0;
-  font-size: 1.6em;
+  font-size: 1.2em;
   text-align: center;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* ========== CONFIRM BOXES ========== */

@@ -78,9 +78,10 @@ var width  = 640,
     frameReelRow   = document.querySelector("#area-frame-reel #reel-captured-imgs"),
     frameReelTable = document.querySelector("#area-frame-reel table"),
 
-    // Notification bar
-    notifyBar    = document.querySelector(".notification"),
-    notifyBarMsg = document.querySelector(".notification #msg"),
+    // Notifications
+    notifyBar     = document.querySelector(".notification"),
+    notifyBarMsg  = document.querySelector(".notification .msg"),
+    notifyBarType = document.querySelector(".notification .notify-type"),
 
     // Confirm messages
     confirmContainer    = document.querySelector("#confirm-container"),
@@ -793,6 +794,7 @@ function _notifyClose(msgType) {
     window.setTimeout(function() {
         notifyBar.classList.remove(msgType);
         notifyBarMsg.innerHTML = "";
+        notifyBarType.innerHTML = "";
     }, 1200 * timeout);
 }
 
@@ -805,6 +807,7 @@ function notifySuccess(msg) {
     "use strict";
     msg = msg || "";
 
+    notifyBarType.innerHTML = "Success";
     notifyBarMsg.innerHTML = msg;
     notifyBar.classList.add("success");
     notifyBar.classList.remove("hidden");
@@ -821,6 +824,7 @@ function notifyInfo(msg) {
     "use strict";
     msg = msg || "";
 
+    notifyBarType.innerHTML = "Info";
     notifyBarMsg.innerHTML = msg;
     notifyBar.classList.add("info");
     notifyBar.classList.remove("hidden");
@@ -837,6 +841,7 @@ function notifyError(msg) {
     "use strict";
     msg = msg || "";
 
+    notifyBarType.innerHTML = "Error";
     notifyBarMsg.innerHTML = msg;
     notifyBar.classList.add("error");
     notifyBar.classList.remove("hidden");
