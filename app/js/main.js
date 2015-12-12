@@ -215,6 +215,7 @@ function startup() {
           notifyError("An output destination must be first set!");
           return false;
         }
+
         checkDirectoryExists(takePicture);
     });
 
@@ -694,8 +695,7 @@ function checkDirectoryExists(callback) {
             //make directory
             fs.mkdir(frameExportDirectory, function (err) {
                 if (err) {
-                    notifyError(`${frameExportDirectory} does not exist.
-Failed to create a directory at this location.`);
+                    notifyError(`${frameExportDirectory} does not exist. Failed to create a directory at this location.`);
                 } else {
                     notifyInfo(`Created directory at ${frameExportDirectory}`);
                     callback();
