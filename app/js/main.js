@@ -693,6 +693,7 @@ function _checkDirectoryExists() {
             
             //make directory
             fs.mkdir(frameExportDirectory, function (err) {
+                if (err) throw err;
                 notifyInfo(`Created directory at ${frameExportDirectory}`);
             });
         }
