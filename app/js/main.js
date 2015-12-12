@@ -147,6 +147,9 @@ function startup() {
     "use strict";
     // Check if a default directory has been set
     checkdefaultdirectory();
+    
+    // Check if default directory exists
+    //checkDirectoryExists();
 
     // Set default frame rate
     statusBarFrameRate.innerHTML = frameRate;
@@ -687,13 +690,13 @@ function _getDefaultDirectory() {
  */
 function checkDirectoryExists(callback) {
     "use strict";
-    // Does save directory exist?
+    // Check if save directory exists.
     fs.stat(frameExportDirectory, function (err, stats) {
         if (err) {
-            // Tell console doesn't exist
+            // Tell the console that the directory doesn't exist.
             console.log(`${frameExportDirectory} does not exist`);
             
-            //make directory
+            // Attempt to recreate the missing directory.
             fs.mkdir(frameExportDirectory, function (err) {
                 if (err) {
                     console.error(`Failed to create directory at ${frameExportDirectory}`);
@@ -701,10 +704,13 @@ function checkDirectoryExists(callback) {
                 } else {
                     console.log(`Successfully created directory at ${frameExportDirectory}`);
                     notifyInfo(`Created directory at ${frameExportDirectory}`);
+                    
+                    // The location now exists, so the function is run.
                     callback();
                 }
             });
         } else {
+            // Save directory already exists so function is run.
             callback();
         }
     });
