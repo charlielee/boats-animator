@@ -78,9 +78,10 @@ var width  = 640,
     frameReelRow   = document.querySelector("#area-frame-reel #reel-captured-imgs"),
     frameReelTable = document.querySelector("#area-frame-reel table"),
 
-    // Notification bar
-    notifyBar    = document.querySelector(".notification"),
-    notifyBarMsg = document.querySelector(".notification #msg"),
+    // Notifications
+    notifyBar     = document.querySelector(".notification"),
+    notifyBarMsg  = document.querySelector(".notification .msg"),
+    notifyBarType = document.querySelector(".notification .notify-type"),
 
     // Confirm messages
     confirmContainer    = document.querySelector("#confirm-container"),
@@ -88,26 +89,12 @@ var width  = 640,
     btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
-    // Launcher window
-    launcherVersion = document.querySelector("#app-version");
+    // Node modules
+    mkdirp = require("mkdirp"),
 
-/**
- * Occurs when "New Project" is pressed
- */
-function openAnimator() {
-    "use strict";
-    gui.Window.open("animator.html", {
-        position: "center",
-        width: 1050,
-        height: 715,
-        min_width: 590,
-        min_height: 500,
-        toolbar: false,
-        focus: true,
-        icon: "icons/icon.png",
-    });
-    win.close();
-}
+    // Sidebar
+    btnDirectoryChange  = document.querySelector("#sidebar #btn-dir-change"),
+    btnDirectoryDefault = document.querySelector("#sidebar #btn-dir-default");
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -128,25 +115,23 @@ function openIndex() {
 }
 
 /**
- * Check if we can display the latest news feed
- * and if we cannot, say so.
+ * Confirm prompt when animator is closed.
  */
-function canDisplayNews() {
-    "use strict";
-    var NewsFeed = require("./js/feed"),
-    feed = new NewsFeed({
-      url: "http://charlielee.uk/category/boats-animator/feed/",
-      selectors: {
-        container: document.querySelector(".container-news")
-      }
-    });
-    feed.get();
+win.on("close", function() {
+    confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+});
+
+function closeAnimator() {
+    win.close(true);
 }
 
 function startup() {
     "use strict";
     // Check if a default directory has been set
     checkdefaultdirectory();
+    
+    // Check if default directory exists
+    createSaveDirectory();
 
     // Set default frame rate
     statusBarFrameRate.innerHTML = frameRate;
@@ -230,6 +215,12 @@ function startup() {
 
     // Change onion skin opacity
     onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
+
+    // Change the default save directory
+    btnDirectoryChange.addEventListener("click", changeDirectory);
+
+    // Store the save directory
+    btnDirectoryDefault.addEventListener("click", setDefaultDirectory);
 
     // Play/pause the preview
     btnPlayPause.addEventListener("click", function() {
@@ -667,8 +658,10 @@ function changeDirectory() {
  */
 function setDefaultDirectory() {
     "use strict";
-    localStorage.setItem("default_directory", frameExportDirectory);
-    notifySuccess(`Default export directory set as ${frameExportDirectory}.`);
+    confirmSet(function() {
+        localStorage.setItem("default_directory", frameExportDirectory);
+        notifySuccess(`Default export directory set as ${frameExportDirectory}`);
+    }, undefined, "Are you sure to want to change the default save path?");
 }
 
 /**
@@ -682,7 +675,23 @@ function _getDefaultDirectory() {
 }
 
 /**
-* COnverting frames to png
+ * Create the default save directory if needed
+ */
+function createSaveDirectory() {
+    "use strict";
+    mkdirp(frameExportDirectory, function (err) {
+        if (err) {
+            console.error(`Failed to create directory at ${frameExportDirectory}`);
+            notifyError(`${frameExportDirectory} does not exist. Failed to create a directory at this location.`);
+        } else {
+            console.log(`Successfully created directory at ${frameExportDirectory}`);
+            notifyInfo(`Created directory at ${frameExportDirectory}`);
+        }
+    });
+}
+
+/**
+* Converting frames to png
 */
 function decodeBase64Image(dataString) {
   var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
@@ -749,9 +758,11 @@ function _writeFile(file, data) {
     "use strict";
      fs.writeFile(file, data, function(err) {
         if (err) {
-            throw err;
+            console.error(`Failed to save ${file} to disk`);
+            createSaveDirectory();
+        } else {
+            console.log(`Successfully saved ${file} to disk`);
         }
-        console.log(`Successfully saved ${file}`);
     });
 }
 
@@ -793,6 +804,7 @@ function _notifyClose(msgType) {
     window.setTimeout(function() {
         notifyBar.classList.remove(msgType);
         notifyBarMsg.innerHTML = "";
+        notifyBarType.innerHTML = "";
     }, 1200 * timeout);
 }
 
@@ -805,6 +817,7 @@ function notifySuccess(msg) {
     "use strict";
     msg = msg || "";
 
+    notifyBarType.innerHTML = "Success";
     notifyBarMsg.innerHTML = msg;
     notifyBar.classList.add("success");
     notifyBar.classList.remove("hidden");
@@ -821,6 +834,7 @@ function notifyInfo(msg) {
     "use strict";
     msg = msg || "";
 
+    notifyBarType.innerHTML = "Info";
     notifyBarMsg.innerHTML = msg;
     notifyBar.classList.add("info");
     notifyBar.classList.remove("hidden");
@@ -837,6 +851,7 @@ function notifyError(msg) {
     "use strict";
     msg = msg || "";
 
+    notifyBarType.innerHTML = "Error";
     notifyBarMsg.innerHTML = msg;
     notifyBar.classList.add("error");
     notifyBar.classList.remove("hidden");
@@ -1008,13 +1023,3 @@ function reload() {
     "use strict";
     win.reloadDev();
 }
-
-/**
- * Get version number from package.json
- */
-fs.readFile("package.json", "utf8", function (err, data) {
-    "use strict";
-    if (err) throw err;
-    var datajsoned = JSON.parse(data);
-    launcherVersion.innerHTML = datajsoned.version;
-});
