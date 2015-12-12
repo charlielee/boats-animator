@@ -215,7 +215,6 @@ function startup() {
           notifyError("An output destination must be first set!");
           return false;
         }
-
         takePicture();
     });
 
@@ -682,7 +681,31 @@ function _getDefaultDirectory() {
 }
 
 /**
-* COnverting frames to png
+ * Check the save directory still exists and recreate it if deleted.
+ */
+function _checkDirectoryExists() {
+    "use strict";
+    // Does save directory exist?
+    fs.stat(frameExportDirectory, function (err, stats) {
+        if (err) {
+            // Tell console doesn't exist
+            console.log(`${frameExportDirectory} does not exist`);
+            
+            //make directory
+            fs.mkdir(frameExportDirectory, function (err) {
+                notifyInfo(`Created directory at ${frameExportDirectory}`);
+            });
+        }
+    });
+}
+
+   /* fs.mkdir(frameExportDirectory, function (err) {
+        if (err) {
+        console.log('failed to create directory', err);
+    } else {*/
+
+/**
+* Converting frames to png
 */
 function decodeBase64Image(dataString) {
   var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
