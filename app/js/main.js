@@ -88,6 +88,9 @@ var width  = 640,
     btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
+    // Node modules
+    mkdirp = require('mkdirp'),
+
     // Launcher window
     launcherVersion = document.querySelector("#app-version");
 
