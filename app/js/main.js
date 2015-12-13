@@ -149,7 +149,7 @@ function startup() {
     checkdefaultdirectory();
     
     // Check if default directory exists
-    //checkDirectoryExists();
+    checkDirectoryExists();
 
     // Set default frame rate
     statusBarFrameRate.innerHTML = frameRate;
@@ -219,7 +219,7 @@ function startup() {
           return false;
         }
 
-        checkDirectoryExists(takePicture);
+        takePicture();
     });
 
     // Undo last captured frame
@@ -688,7 +688,7 @@ function _getDefaultDirectory() {
  * Check the save directory still exists and recreate it if deleted.
  * @param {Function} callback The function to run if the frame export location exists.
  */
-function checkDirectoryExists(callback) {
+function checkDirectoryExists() {
     "use strict";
     // Check if save directory exists.
     fs.stat(frameExportDirectory, function (err, stats) {
@@ -704,14 +704,8 @@ function checkDirectoryExists(callback) {
                 } else {
                     console.log(`Successfully created directory at ${frameExportDirectory}`);
                     notifyInfo(`Created directory at ${frameExportDirectory}`);
-                    
-                    // The location now exists, so the function is run.
-                    callback();
                 }
             });
-        } else {
-            // Save directory already exists so function is run.
-            callback();
         }
     });
 }
