@@ -786,9 +786,11 @@ function _writeFile(file, data) {
     "use strict";
      fs.writeFile(file, data, function(err) {
         if (err) {
-            throw err;
+            console.error(`Failed to save ${file} to disk`);
+            checkDirectoryExists();
+        } else {
+            console.log(`Successfully saved ${file} to disk`);
         }
-        console.log(`Successfully saved ${file}`);
     });
 }
 
