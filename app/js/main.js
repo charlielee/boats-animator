@@ -131,6 +131,18 @@ function openIndex() {
 }
 
 /**
+ * Confirm prompt when animator is closed.
+ */
+win.on("close", function() {
+    win.requestAttention(true);
+    confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+});
+
+function closeAnimator() {
+    win.close(true);
+}
+
+/**
  * Check if we can display the latest news feed
  * and if we cannot, say so.
  */
