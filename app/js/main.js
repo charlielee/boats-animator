@@ -138,7 +138,6 @@ function openIndex() {
  * Confirm prompt when animator is closed.
  */
 win.on("close", function() {
-    win.requestAttention(true);
     confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
 });
 
@@ -697,7 +696,6 @@ function _getDefaultDirectory() {
 
 /**
  * Check the save directory still exists and recreate it if deleted.
- * @param {Function} callback The function to run if the frame export location exists.
  */
 function checkDirectoryExists() {
     "use strict";
@@ -706,7 +704,6 @@ function checkDirectoryExists() {
         if (err) {
             // Tell the console that the directory doesn't exist.
             console.log(`${frameExportDirectory} does not exist`);
-            
             // Attempt to recreate the missing directory.
             mkdirp(frameExportDirectory, function (err) {
                 if (err) {
