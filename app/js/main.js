@@ -92,26 +92,6 @@ var width  = 640,
     // Node modules
     mkdirp = require('mkdirp'),
 
-    // Launcher window
-    launcherVersion = document.querySelector("#app-version");
-
-/**
- * Occurs when "New Project" is pressed
- */
-function openAnimator() {
-    "use strict";
-    gui.Window.open("animator.html", {
-        position: "center",
-        width: 1050,
-        height: 715,
-        min_width: 590,
-        min_height: 500,
-        toolbar: false,
-        focus: true,
-        icon: "icons/icon.png",
-    });
-    win.close();
-}
     // Sidebar
     btnDirectoryChange  = document.querySelector("#sidebar #btn-dir-change"),
     btnDirectoryDefault = document.querySelector("#sidebar #btn-dir-default");
