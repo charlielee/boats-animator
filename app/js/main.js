@@ -89,7 +89,6 @@ var width  = 640,
     btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
-<<<<<<< HEAD
     // Node modules
     mkdirp = require('mkdirp'),
 
@@ -113,11 +112,9 @@ function openAnimator() {
     });
     win.close();
 }
-=======
     // Sidebar
     btnDirectoryChange  = document.querySelector("#sidebar #btn-dir-change"),
     btnDirectoryDefault = document.querySelector("#sidebar #btn-dir-default");
->>>>>>> refs/remotes/origin/master
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -137,7 +134,6 @@ function openIndex() {
     });
 }
 
-<<<<<<< HEAD
 /**
  * Confirm prompt when animator is closed.
  */
@@ -150,24 +146,6 @@ function closeAnimator() {
     win.close(true);
 }
 
-/**
- * Check if we can display the latest news feed
- * and if we cannot, say so.
- */
-function canDisplayNews() {
-    "use strict";
-    var NewsFeed = require("./js/feed"),
-    feed = new NewsFeed({
-      url: "http://charlielee.uk/category/boats-animator/feed/",
-      selectors: {
-        container: document.querySelector(".container-news")
-      }
-    });
-    feed.get();
-}
-
-=======
->>>>>>> refs/remotes/origin/master
 function startup() {
     "use strict";
     // Check if a default directory has been set
