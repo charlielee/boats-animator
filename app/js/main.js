@@ -700,7 +700,7 @@ function checkDirectoryExists() {
             console.log(`${frameExportDirectory} does not exist`);
             
             // Attempt to recreate the missing directory.
-            fs.mkdir(frameExportDirectory, function (err) {
+            mkdirp(frameExportDirectory, function (err) {
                 if (err) {
                     console.error(`Failed to create directory at ${frameExportDirectory}`);
                     notifyError(`${frameExportDirectory} does not exist. Failed to create a directory at this location.`);
