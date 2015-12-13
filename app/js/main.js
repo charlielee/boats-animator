@@ -78,9 +78,10 @@ var width  = 640,
     frameReelRow   = document.querySelector("#area-frame-reel #reel-captured-imgs"),
     frameReelTable = document.querySelector("#area-frame-reel table"),
 
-    // Notification bar
-    notifyBar    = document.querySelector(".notification"),
-    notifyBarMsg = document.querySelector(".notification #msg"),
+    // Notifications
+    notifyBar     = document.querySelector(".notification"),
+    notifyBarMsg  = document.querySelector(".notification .msg"),
+    notifyBarType = document.querySelector(".notification .notify-type"),
 
     // Confirm messages
     confirmContainer    = document.querySelector("#confirm-container"),
@@ -88,6 +89,7 @@ var width  = 640,
     btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
+<<<<<<< HEAD
     // Node modules
     mkdirp = require('mkdirp'),
 
@@ -111,6 +113,11 @@ function openAnimator() {
     });
     win.close();
 }
+=======
+    // Sidebar
+    btnDirectoryChange  = document.querySelector("#sidebar #btn-dir-change"),
+    btnDirectoryDefault = document.querySelector("#sidebar #btn-dir-default");
+>>>>>>> refs/remotes/origin/master
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -130,6 +137,7 @@ function openIndex() {
     });
 }
 
+<<<<<<< HEAD
 /**
  * Confirm prompt when animator is closed.
  */
@@ -158,6 +166,8 @@ function canDisplayNews() {
     feed.get();
 }
 
+=======
+>>>>>>> refs/remotes/origin/master
 function startup() {
     "use strict";
     // Check if a default directory has been set
@@ -248,6 +258,12 @@ function startup() {
 
     // Change onion skin opacity
     onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
+
+    // Change the default save directory
+    btnDirectoryChange.addEventListener("click", changeDirectory);
+
+    // Store the save directory
+    btnDirectoryDefault.addEventListener("click", setDefaultDirectory);
 
     // Play/pause the preview
     btnPlayPause.addEventListener("click", function() {
@@ -685,8 +701,10 @@ function changeDirectory() {
  */
 function setDefaultDirectory() {
     "use strict";
-    localStorage.setItem("default_directory", frameExportDirectory);
-    notifySuccess(`Default export directory set as ${frameExportDirectory}.`);
+    confirmSet(function() {
+        localStorage.setItem("default_directory", frameExportDirectory);
+        notifySuccess(`Default export directory set as ${frameExportDirectory}`);
+    }, undefined, "Are you sure to want to change the default save path?");
 }
 
 /**
@@ -837,6 +855,7 @@ function _notifyClose(msgType) {
     window.setTimeout(function() {
         notifyBar.classList.remove(msgType);
         notifyBarMsg.innerHTML = "";
+        notifyBarType.innerHTML = "";
     }, 1200 * timeout);
 }
 
@@ -849,6 +868,7 @@ function notifySuccess(msg) {
     "use strict";
     msg = msg || "";
 
+    notifyBarType.innerHTML = "Success";
     notifyBarMsg.innerHTML = msg;
     notifyBar.classList.add("success");
     notifyBar.classList.remove("hidden");
@@ -865,6 +885,7 @@ function notifyInfo(msg) {
     "use strict";
     msg = msg || "";
 
+    notifyBarType.innerHTML = "Info";
     notifyBarMsg.innerHTML = msg;
     notifyBar.classList.add("info");
     notifyBar.classList.remove("hidden");
@@ -881,6 +902,7 @@ function notifyError(msg) {
     "use strict";
     msg = msg || "";
 
+    notifyBarType.innerHTML = "Error";
     notifyBarMsg.innerHTML = msg;
     notifyBar.classList.add("error");
     notifyBar.classList.remove("hidden");
@@ -1052,13 +1074,3 @@ function reload() {
     "use strict";
     win.reloadDev();
 }
-
-/**
- * Get version number from package.json
- */
-fs.readFile("package.json", "utf8", function (err, data) {
-    "use strict";
-    if (err) throw err;
-    var datajsoned = JSON.parse(data);
-    launcherVersion.innerHTML = datajsoned.version;
-});
