@@ -90,7 +90,7 @@ var width  = 640,
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
-    mkdirp = require('mkdirp'),
+    mkdirp = require("mkdirp"),
 
     // Sidebar
     btnDirectoryChange  = document.querySelector("#sidebar #btn-dir-change"),
