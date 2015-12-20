@@ -180,7 +180,8 @@ a {
 #captureWindow.hidden,
 #playbackWindow.hidden { display: none; }
 
-#captureWindow.active { border: 2px solid #ad0000; }
+#captureWindow { border: 2px solid transparent; }
+#captureWindow.active { border-color: #ad0000; }
 
 #preview {
   max-width: 100%;
