@@ -675,11 +675,10 @@ function _getDefaultDirectory() {
 }
 
 /**
- * Check the save directory still exists and recreate it if deleted.
+ * Create the default save directory if needed
  */
 function checkDirectoryExists() {
     "use strict";
-    // Attempt to recreate the missing directory.
     mkdirp(frameExportDirectory, function (err) {
         if (err) {
             console.error(`Failed to create directory at ${frameExportDirectory}`);
