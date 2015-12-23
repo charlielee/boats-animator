@@ -679,21 +679,14 @@ function _getDefaultDirectory() {
  */
 function checkDirectoryExists() {
     "use strict";
-    // Check if save directory exists.
-    fs.stat(frameExportDirectory, function (err, stats) {
+    // Attempt to recreate the missing directory.
+    mkdirp(frameExportDirectory, function (err) {
         if (err) {
-            // Tell the console that the directory doesn't exist.
-            console.log(`${frameExportDirectory} does not exist`);
-            // Attempt to recreate the missing directory.
-            mkdirp(frameExportDirectory, function (err) {
-                if (err) {
-                    console.error(`Failed to create directory at ${frameExportDirectory}`);
-                    notifyError(`${frameExportDirectory} does not exist. Failed to create a directory at this location.`);
-                } else {
-                    console.log(`Successfully created directory at ${frameExportDirectory}`);
-                    notifyInfo(`Created directory at ${frameExportDirectory}`);
-                }
-            });
+            console.error(`Failed to create directory at ${frameExportDirectory}`);
+            notifyError(`${frameExportDirectory} does not exist. Failed to create a directory at this location.`);
+        } else {
+            console.log(`Successfully created directory at ${frameExportDirectory}`);
+            notifyInfo(`Created directory at ${frameExportDirectory}`);
         }
     });
 }
