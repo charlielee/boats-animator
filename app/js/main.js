@@ -131,7 +131,7 @@ function startup() {
     checkdefaultdirectory();
     
     // Check if default directory exists
-    checkDirectoryExists();
+    createSaveDirectory();
 
     // Set default frame rate
     statusBarFrameRate.innerHTML = frameRate;
@@ -677,7 +677,7 @@ function _getDefaultDirectory() {
 /**
  * Create the default save directory if needed
  */
-function checkDirectoryExists() {
+function createSaveDirectory() {
     "use strict";
     mkdirp(frameExportDirectory, function (err) {
         if (err) {
@@ -759,7 +759,7 @@ function _writeFile(file, data) {
      fs.writeFile(file, data, function(err) {
         if (err) {
             console.error(`Failed to save ${file} to disk`);
-            checkDirectoryExists();
+            createSaveDirectory();
         } else {
             console.log(`Successfully saved ${file} to disk`);
         }
