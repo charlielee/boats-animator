@@ -675,12 +675,13 @@ function _getDefaultDirectory() {
 }
 
 /**
- * Create the default save directory if needed
+ * Create the default save directory if needed.
  */
 function createSaveDirectory() {
     "use strict";
     mkdirp(frameExportDirectory, function (err) {
         if (err) {
+            console.error(err);
             console.error(`Failed to create directory at ${frameExportDirectory}`);
             notifyError(`${frameExportDirectory} does not exist. Failed to create a directory at this location.`);
         } else {
@@ -758,7 +759,7 @@ function _writeFile(file, data) {
     "use strict";
      fs.writeFile(file, data, function(err) {
         if (err) {
-            console.error(`Failed to save ${file} to disk`);
+            console.error(err);
             createSaveDirectory();
         } else {
             console.log(`Successfully saved ${file} to disk`);
