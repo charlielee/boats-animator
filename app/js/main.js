@@ -89,6 +89,9 @@ var width  = 640,
     btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
+    // Node modules
+    mkdirp = require("mkdirp"),
+
     // Sidebar
     btnDirectoryChange  = document.querySelector("#sidebar #btn-dir-change"),
     btnDirectoryDefault = document.querySelector("#sidebar #btn-dir-default");
@@ -111,10 +114,24 @@ function openIndex() {
     });
 }
 
+/**
+ * Confirm prompt when animator is closed.
+ */
+win.on("close", function() {
+    confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+});
+
+function closeAnimator() {
+    win.close(true);
+}
+
 function startup() {
     "use strict";
     // Check if a default directory has been set
     checkdefaultdirectory();
+    
+    // Check if default directory exists
+    createSaveDirectory();
 
     // Set default frame rate
     statusBarFrameRate.innerHTML = frameRate;
@@ -658,7 +675,24 @@ function _getDefaultDirectory() {
 }
 
 /**
-* COnverting frames to png
+ * Create the default save directory if needed.
+ */
+function createSaveDirectory() {
+    "use strict";
+    mkdirp(frameExportDirectory, function (err) {
+        if (err) {
+            console.error(err);
+            console.error(`Failed to create directory at ${frameExportDirectory}`);
+            notifyError(`${frameExportDirectory} does not exist. Failed to create a directory at this location.`);
+        } else {
+            console.log(`Successfully created directory at ${frameExportDirectory}`);
+            notifyInfo(`Created directory at ${frameExportDirectory}`);
+        }
+    });
+}
+
+/**
+* Converting frames to png
 */
 function decodeBase64Image(dataString) {
   var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
@@ -725,9 +759,11 @@ function _writeFile(file, data) {
     "use strict";
      fs.writeFile(file, data, function(err) {
         if (err) {
-            throw err;
+            console.error(err);
+            createSaveDirectory();
+        } else {
+            console.log(`Successfully saved ${file} to disk`);
         }
-        console.log(`Successfully saved ${file}`);
     });
 }
 

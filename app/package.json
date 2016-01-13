@@ -60,5 +60,9 @@
     "node-remote": "", 
     "js-flags": "", 
     "app_name": "Boats Animator", 
-    "chromium-args": ""
+    "chromium-args": "",
+    "chromium-args": "",
+    "dependencies": {
+        "mkdirp": "^0.5.1"
+    }
 }
