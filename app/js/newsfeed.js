@@ -13,7 +13,7 @@
      */
     function cacheNews(posts) {
         // Store the news in localStorage in case we cannot fetch it anew
-        window.localStorage.setItem("ba-news", posts);
+        window.localStorage.setItem("ba-news", JSON.stringify(posts));
 
         // Because setItem() does not have a return value upon successful
         // storage, this kludge (IMO) does that for us.
@@ -33,7 +33,7 @@
      */
     function getNewsCache() {
         var cached = window.localStorage.getItem("ba-news");
-        return cached ? cached : [];
+        return cached ? JSON.parse(cached) : [];
     }
 
     /**
@@ -75,15 +75,14 @@
 
         // Get the post up to the limit of posts we want to display
         for (var i = 0; i < numOfPosts; i++) {
-            var curPost    = data.posts[i],
-                postObject = {
-                    id: curPost.id,
-                    url: curPost.url,
-                    date: new Date(curPost.date).toLocaleDateString(),
-                    title: curPost.title_plain,
-                    excerpt: curPost.excerpt
-            };
-            posts.push(compilePostHTML(postObject));
+            var curPost = data.posts[i];
+            posts.push({
+                id: curPost.id,
+                url: curPost.url,
+                date: new Date(curPost.date).toLocaleDateString(),
+                title: curPost.title_plain,
+                excerpt: curPost.excerpt
+            });
         }
 
         // Cache the news
@@ -107,10 +106,10 @@
      * @returns {Boolean} Always returns true.
      */
     function displayNews(posts) {
-      posts.forEach(function(post) {
-        newsContainer.insertAdjacentHTML("beforeend", post);
-      });
-      return true;
+        posts.forEach(function(post) {
+            newsContainer.insertAdjacentHTML("beforeend", compilePostHTML(post));
+        });
+        return true;
     }
 
     /**
@@ -119,8 +118,8 @@
      * @param {String} url The URL to the JSON news feed.
      */
     function load(url) {
-        // Work around an issue where NW.js says XMLHttpRequest
-        // suddenly does not exist.
+        // NW.js has a bug that suddenly reports XMLHttpRequest
+        // is no longer a function.
         // https://github.com/BoatsAreRockable/animator/issues/87
         if (!window.XMLHttpRequest) {
             return displayNews(getNewsCache());
