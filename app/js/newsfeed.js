@@ -7,28 +7,28 @@
     /**
      * Cache the latest news.
      *
-     * @param {Array} posts An array containing the compiled news,
-     *                ready for immediate displaying.
-     * @returns {Boolean} Always returns true.
+     * @param {Array} posts An array containing raw new objects.
+     * @returns {Boolean} True if new was cached, false otherwise.
      */
     function cacheNews(posts) {
         // Store the news in localStorage in case we cannot fetch it anew
         window.localStorage.setItem("ba-news", JSON.stringify(posts));
 
         // Because setItem() does not have a return value upon successful
-        // storage, this kludge (IMO) does that for us.
-        console.info(window.localStorage.getItem("ba-news") ?
-                      "Latest news sucessfully cached." :
-                      "Latest news was not cached."
-                    );
-        return true;
+        // storage, this kludge does that for us.
+        if (window.localStorage.getItem("ba-news")) {
+            console.info("Latest news sucessfully cached.");
+            return true;
+        } else {
+            console.info("Latest news sucessfully cached.");
+            return false;
+        }
     }
 
     /**
      * Retrieve the cached news.
      *
-     * @returns {Array} An array containing the compiled news,
-     *                  ready for immediate displaying.
+     * @returns {Array} An array containing raw news objects.
      *                  If not available, an empty array.
      */
     function getNewsCache() {
@@ -66,7 +66,7 @@
      * Compile the latest news.
      *
      * @param {JSON} data The raw JSON response data.
-     * @returns {Array} The latest news, ready to be displayed.
+     * @returns {Array} The latest news, in the form of news objects.
      */
     function getPosts(data) {
         var posts      = [],
