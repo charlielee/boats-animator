@@ -118,13 +118,6 @@
      * @param {String} url The URL to the JSON news feed.
      */
     function load(url) {
-        // NW.js has a bug that suddenly reports XMLHttpRequest
-        // is no longer a function.
-        // https://github.com/BoatsAreRockable/animator/issues/87
-        if (!window.XMLHttpRequest) {
-            return displayNews(getNewsCache());
-        }
-
         // We can fetch the news from the site
         var request = new window.XMLHttpRequest();
         request.open("GET", url, true);
