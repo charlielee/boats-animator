@@ -61,6 +61,7 @@ var width  = 640,
 
     // Export frames
     frameExportDirectory  = null,
+    frameExportDirectory  = _getSaveDirectory(),
     exportedFramesList    = [],
     curDirDisplay         = document.querySelector("#currentDirectoryName"),
     changeDirectoryButton = document.querySelector("#changeDirectoryButton"),
@@ -90,11 +91,10 @@ var width  = 640,
 
     // Node modules
     file   = require("./js/file"),
-    mkdirp = require("mkdirp"),
+    mkdirp = require("./lib/mkdirp"),
 
     // Sidebar
-    btnDirectoryChange  = document.querySelector("#sidebar #btn-dir-change"),
-    btnDirectoryDefault = document.querySelector("#sidebar #btn-dir-default");
+    btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -127,11 +127,13 @@ function closeAnimator() {
 
 function startup() {
     "use strict";
-    // Check if a default directory has been set
-    checkdefaultdirectory();
-    
-    // Check if default directory exists
-    createSaveDirectory();
+    // Check if a save directory has been set
+    _checkSaveDirectory();
+
+    // If the save directory is not set, prompt to set it
+    if (!frameExportDirectory) {
+        _changeSaveDirectory();
+    }
 
     // Set default frame rate
     statusBarFrameRate.innerHTML = frameRate;
@@ -197,7 +199,7 @@ function startup() {
     btnCaptureFrame.addEventListener("click", function() {
         // Prevent taking frames without a set output path
         if (!frameExportDirectory) {
-          notifyError("An output destination must be first set!");
+          notifyError("A save directory must be first set!");
           return false;
         }
 
@@ -217,10 +219,7 @@ function startup() {
     onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
 
     // Change the default save directory
-    btnDirectoryChange.addEventListener("click", changeDirectory);
-
-    // Store the save directory
-    btnDirectoryDefault.addEventListener("click", setDefaultDirectory);
+    btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
 
     // Play/pause the preview
     btnPlayPause.addEventListener("click", function() {
@@ -611,28 +610,30 @@ function _onionSkinChangeAmount(ev) {
 /**
  * Set directory to export frames to
  */
-function checkdefaultdirectory() {
+function _checkSaveDirectory() {
     "use strict";
-    frameExportDirectory = _getDefaultDirectory();
     if (frameExportDirectory === null) {
-        console.log("no default set");
+        console.log("No save directory has been set!");
     } else {
         _displayDirectory(frameExportDirectory);
     }
 }
 
 /**
- * Open the system native choose directory dialog.
- *
- * @param {String} The DOM selector to the dialog trigger.
+ * Change the default save directory by opening
+ * the system's native directory selection dialog.
  */
-function chooseFile(name) {
+function _changeSaveDirectory() {
     "use strict";
-    var chooser = document.querySelector(name);
+    var chooser = document.querySelector("#chooseDirectory");
 
     chooser.addEventListener("change", function() {
-        frameExportDirectory = this.value;
-        _displayDirectory(frameExportDirectory);
+        if (this.value) {
+            frameExportDirectory = this.value;
+            _displayDirectory(frameExportDirectory);
+            _setSaveDirectory(this.value);
+            _createSaveDirectory();
+        }
     });
 
   chooser.click();
@@ -651,22 +652,11 @@ function _displayDirectory(dir) {
 }
 
 /**
- * Change default save directory.
- */
-function changeDirectory() {
-    "use strict";
-    chooseFile("#chooseDirectory");
-}
-
-/**
  * Set the default save directory.
  */
-function setDefaultDirectory() {
+function _setSaveDirectory(savePath) {
     "use strict";
-    confirmSet(function() {
-        localStorage.setItem("default_directory", frameExportDirectory);
-        notifySuccess(`Default export directory set as ${frameExportDirectory}`);
-    }, undefined, "Are you sure to want to change the default save path?");
+    localStorage.setItem("default_directory", savePath);
 }
 
 /**
@@ -674,7 +664,7 @@ function setDefaultDirectory() {
  *
  * @return {!String} The stored directory if available, null otherwise.
  */
-function _getDefaultDirectory() {
+function _getSaveDirectory() {
     "use strict";
     return localStorage.getItem("default_directory");
 }
@@ -682,16 +672,17 @@ function _getDefaultDirectory() {
 /**
  * Create the default save directory if needed.
  */
-function createSaveDirectory() {
+function _createSaveDirectory() {
     "use strict";
-    mkdirp(frameExportDirectory, function (err) {
+    var savePath = _getSaveDirectory();
+    mkdirp(savePath, function(err) {
         if (err) {
             console.error(err);
-            console.error(`Failed to create directory at ${frameExportDirectory}`);
-            notifyError(`${frameExportDirectory} does not exist. Failed to create a directory at this location.`);
+            console.error(`Failed to create save directory at ${savePath}`);
+            notifyError(`Failed to create save directory at ${savePath}`);
         } else {
-            console.log(`Successfully created directory at ${frameExportDirectory}`);
-            notifyInfo(`Created directory at ${frameExportDirectory}`);
+            console.log(`Successfully created directory at ${savePath}`);
+            notifyInfo(`Successfully created save directory at ${savePath}`);
         }
     });
 }
@@ -748,7 +739,7 @@ function saveFrame(id) {
     var imageBuffer = decodeBase64Image(capturedFramesRaw[id - 1]);
 
     // Save the frame to disk
-    file.write(outputPath, imageBuffer.data, {error: createSaveDirectory});
+    file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
 
     // Store the location of the exported frame
     exportedFramesList.push(outputPath);

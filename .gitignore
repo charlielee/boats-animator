@@ -22,6 +22,7 @@ $RECYCLE.BIN/
 
 Testing/
 bin/
-app/node_modules/
+lib/
+node_modules/
 jsconfig.json
 *.~is

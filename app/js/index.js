@@ -3,13 +3,14 @@
 
 // Launcher window
 var launcherVersion = document.querySelector("#app-version"),
-    
+
     // GUI window
     gui  = require("nw.gui"),
     win  = gui.Window.get(),
 
     // Node modules
-    file = require("./js/file");
+    file     = require("./js/file"),
+    newsFeed = require("./js/newsfeed");
 
 /**
  * Occurs when "New Project" is pressed
@@ -35,14 +36,7 @@ function openAnimator() {
  */
 function canDisplayNews() {
     "use strict";
-    var NewsFeed = require("./js/feed"),
-    feed = new NewsFeed({
-      url: "http://charlielee.uk/category/boats-animator/feed/",
-      selectors: {
-        container: document.querySelector(".container-news")
-      }
-    });
-    feed.get();
+    newsFeed.load("http://charlielee.uk/api/core/get_category_posts/?id=12");
 }
 
 /**
