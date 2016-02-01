@@ -47,6 +47,30 @@ module.exports = {};
     }
 
     /**
+     * Read a file from the hard drive.
+     *
+     * @param {String} file - Absolute path to the file to be read.
+     * @param {Object} callback - The callback object.
+     * @param {Function} callback.success - The success callback,
+     *                                      which will recieve the
+     *                                      file contents.
+     * @param {Function} callback.error - The error callback.
+     */
+    function readFile(file, callback) {
+        callback = update(callback);
+
+        fs.readFile(file, "utf8", function(err, data) {
+            if (err) {
+                throw err;
+                callback.error();
+            } else {
+                console.log(`Successfully read ${file}`);
+                callback.success(data);
+            }
+        });
+    }
+
+    /**
      * Write a file to the hard drive.
      *
      * @param {String} file - Absolute path to the file to be saved.
@@ -63,13 +87,14 @@ module.exports = {};
                 throw err;
                 callback.error();
             } else {
-                console.log(`Successfully saved ${file}`);
+                console.log(`Successfully written ${file}`);
                 callback.success();
             }
         });
     }
 
     // Public exports
-    module.exports.delete = deleteFile;
+    module.exports.read   = readFile;
     module.exports.write  = writeFile;
+    module.exports.delete = deleteFile;
 }());
