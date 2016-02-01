@@ -37,7 +37,7 @@ module.exports = {};
 
         fs.unlink(file, function(err) {
             if (err) {
-                throw err;
+                console.error(err);
                 callback.error();
             } else {
                 console.log(`Successfully deleted ${file}`);
@@ -61,7 +61,7 @@ module.exports = {};
 
         fs.readFile(file, "utf8", function(err, data) {
             if (err) {
-                throw err;
+                console.error(err);
                 callback.error();
             } else {
                 console.log(`Successfully read ${file}`);
@@ -84,7 +84,7 @@ module.exports = {};
 
         fs.writeFile(file, data, function(err) {
             if (err) {
-                throw err;
+                console.error(err);
                 callback.error();
             } else {
                 console.log(`Successfully written ${file}`);
