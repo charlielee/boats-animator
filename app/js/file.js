@@ -12,7 +12,7 @@ module.exports = {};
      * @returns {Object} The revised callback object.
      */
     function update(callback) {
-        function noop() { }
+        function noop() {}
 
         if (!callback.success) {
             callback.success = noop;
