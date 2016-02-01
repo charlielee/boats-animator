@@ -37,7 +37,7 @@ module.exports = {};
 
         fs.unlink(file, function(err) {
             if (err) {
-                if (err) throw err;
+                throw err;
                 callback.error();
             } else {
                 console.log(`Successfully deleted ${file}`);
@@ -60,7 +60,7 @@ module.exports = {};
 
         fs.writeFile(file, data, function(err) {
             if (err) {
-                if (err) throw err;
+                throw err;
                 callback.error();
             } else {
                 console.log(`Successfully saved ${file}`);
