@@ -20,7 +20,7 @@ OutputBaseFilename=Boats-Animator-{#MyAppVersion}-Setup
 Compression=lzma2/ultra
 SolidCompression=yes
 LZMAUseSeparateProcess=yes
-; SetupIconFile=icon.ico
+SetupIconFile=icon.ico
 WizardImageFile=setupbanner.bmp
 WizardSmallImageFile=setuplogosmall.bmp
 Uninstallable=yes
@@ -29,18 +29,18 @@ UninstallDisplayIcon={app}\{#MyAppExeName}
 DisableWelcomePage=yes
 DisableProgramGroupPage=yes
 AllowNoIcons=yes
-ArchitecturesAllowed=x86 x64
-ArchitecturesInstallIn64BitMode=x64
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
+
+[Messages]
+BeveledLabel={#MyAppName} {#MyAppVersion}
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\bin\{#MyAppName}\windows-x32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin32
-Source: "..\bin\{#MyAppName}\windows-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: IsWin64
+Source: "..\bin\{#MyAppName}\windows-x32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -48,9 +48,3 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
-
-[Code]                                                                                            
-function IsWin32: Boolean;
-begin
- Result := not IsWin64;
-end;
