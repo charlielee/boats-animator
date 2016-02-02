@@ -5,11 +5,12 @@
 var launcherVersion = document.querySelector("#app-version"),
 
     // GUI window
-    gui = require("nw.gui"),
-    win = gui.Window.get(),
+    gui  = require("nw.gui"),
+    win  = gui.Window.get(),
 
-    // Node.js APIs
-    fs = require("fs");
+    // Node modules
+    file     = require("./js/file"),
+    newsFeed = require("./js/newsfeed");
 
 /**
  * Occurs when "New Project" is pressed
@@ -35,8 +36,7 @@ function openAnimator() {
  */
 function canDisplayNews() {
     "use strict";
-    var NewsFeed = require("./js/newsfeed");
-    NewsFeed.load("http://charlielee.uk/api/core/get_category_posts/?id=12");
+    newsFeed.load("http://charlielee.uk/api/core/get_category_posts/?id=12");
 }
 
 /**
@@ -52,12 +52,10 @@ function reload() {
     win.reloadDev();
 }
 
-/**
- * Get version number from package.json
- */
-fs.readFile("package.json", "utf8", function (err, data) {
-    "use strict";
-    if (err) throw err;
-    var datajsoned = JSON.parse(data);
-    launcherVersion.innerHTML = datajsoned.version;
+// Get the version number from package.json
+file.read("package.json", {
+    success: function(data) {
+        data = JSON.parse(data);
+        launcherVersion.innerHTML = data.version;
+    }
 });

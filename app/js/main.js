@@ -60,7 +60,7 @@ var width  = 640,
     statusBarFrameRate = document.querySelector("#currentFrameRate span"),
 
     // Export frames
-    fs                    = require("fs"),
+    frameExportDirectory  = null,
     frameExportDirectory  = _getSaveDirectory(),
     exportedFramesList    = [],
     curDirDisplay         = document.querySelector("#currentDirectoryName"),
@@ -90,6 +90,7 @@ var width  = 640,
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
+    file   = require("./js/file"),
     mkdirp = require("./lib/mkdirp"),
 
     // Sidebar
@@ -401,7 +402,12 @@ function updateFrameReel(action, id) {
  */
 function deleteFrame(id) {
     "use strict";
-    _deleteFile(exportedFramesList[id - 1]);
+    file.delete(exportedFramesList[id - 1], {
+        success: function() {
+            notifySuccess("File successfully deleted.");
+        }
+    });
+
     exportedFramesList.splice(id - 1, 1);
     capturedFramesRaw.splice(id - 1, 1);
     curFrame--;
@@ -733,44 +739,10 @@ function saveFrame(id) {
     var imageBuffer = decodeBase64Image(capturedFramesRaw[id - 1]);
 
     // Save the frame to disk
-    _writeFile(outputPath, imageBuffer.data);
+    file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
 
     // Store the location of the exported frame
     exportedFramesList.push(outputPath);
-}
-
-/**
- * Write a file from the hard drive.
- *
- * @param {String} file Absolute path to the file to be saved.
- * @param {Binary} data The image data to write.
- */
-function _writeFile(file, data) {
-    "use strict";
-     fs.writeFile(file, data, function(err) {
-        if (err) {
-            console.error(err);
-            _createSaveDirectory();
-        } else {
-            console.log(`Successfully saved ${file} to disk`);
-        }
-    });
-}
-
-/**
- * Delete a file from the hard drive.
- *
- * @param {String} file Absolute path to the file to be deleted.
- */
-function _deleteFile(file) {
-    "use strict";
-    fs.unlink(file, function (err) {
-        if (err) {
-            throw err;
-        }
-        console.log(`Successfully deleted ${file}`);
-        notifySuccess("File successfully deleted.");
-    });
 }
 
 /**
