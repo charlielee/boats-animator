@@ -101,7 +101,6 @@ var width  = 640,
  */
 function openIndex() {
     "use strict";
-    win.close();
     gui.Window.open("index.html", {
         position: "center",
         width: 730,
@@ -112,6 +111,7 @@ function openIndex() {
         focus: true,
         icon: "icons/icon.png"
     });
+    win.close(true);
 }
 
 /**
