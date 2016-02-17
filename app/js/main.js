@@ -232,7 +232,7 @@ function startup() {
     // Stop the preview
     btnStop.addEventListener("click", function() {
         if (curFrame > 0) {
-            removeFrameReelSelection();
+            _removeFrameReelSelection();
             videoStop();
         }
     });
@@ -264,7 +264,7 @@ function startup() {
     // Switch from frame preview back to live view
     btnLiveView.addEventListener("click", function() {
         videoStop();
-        removeFrameReelSelection();
+        _removeFrameReelSelection();
         switchMode("capture");
     });
 
@@ -272,7 +272,7 @@ function startup() {
     frameReelRow.addEventListener("click", function(e) {
         if (e.target.className === "frame-reel-img") {
             // Remove previous selection
-            removeFrameReelSelection();
+            _removeFrameReelSelection();
 
             // Highlight the clicked image
             e.target.classList.add("selected");
@@ -318,7 +318,7 @@ function switchMode(newMode) {
  *
  * @return {Boolean} True if there was a highlight to remove, false otherwise.
  */
-function removeFrameReelSelection() {
+function _removeFrameReelSelection() {
     "use strict";
     var selectedFrame = document.querySelector(".frame-reel-img.selected");
     if (selectedFrame) {
@@ -327,6 +327,15 @@ function removeFrameReelSelection() {
         return true;
     }
     return false;
+}
+
+/**
+ * Add selected frame highlight to frame.
+ * @param {Number} id The image ID to highlight.
+ */
+function _addFrameReelSelection(id) {
+    "use strict";
+    document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
 }
 
 /**
@@ -347,7 +356,7 @@ function updateFrameReel(action, id) {
     // Add the newly captured frame
     if (action === "capture") {
         // Remove any frame selection
-        removeFrameReelSelection();
+        _removeFrameReelSelection();
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
@@ -383,7 +392,7 @@ function updateFrameReel(action, id) {
 
         // Update frame preview selection
         if (curSelectedFrame) {
-            removeFrameReelSelection();
+            _removeFrameReelSelection();
             document.querySelector(`.frame-reel-img#img-${id - 1}`).classList.add("selected");
         }
 
@@ -556,9 +565,16 @@ function videoStop() {
 function _videoPlay() {
     "use strict";
     // Display each frame
-    removeFrameReelSelection();
+    _removeFrameReelSelection();
     playback.setAttribute("src", capturedFramesRaw[curPlayFrame]);
     statusBarCurFrame.innerHTML = curPlayFrame + 1;
+
+    // Display selection outline as each frame is played
+    _addFrameReelSelection(curPlayFrame + 1);
+
+    // Scroll the framereel with playback
+    _frameReelScroll();
+
     curPlayFrame++;
 
     // There are no more frames to preview
@@ -591,6 +607,23 @@ function previewCapturedFrames() {
     isPlaying = true;
     playBackLoop = setInterval(_videoPlay, (1000 / frameRate));
     console.info("Playback started");
+}
+
+/**
+ * Scroll the framereel during playback
+ */
+function _frameReelScroll() {
+    "use strict";
+    if (curPlayFrame === 0) {
+        // Scroll to start when playback begins
+        frameReelArea.scrollLeft = 0;
+    } else if (curPlayFrame + 1 !== curFrame) {
+        // Scroll so currently played frame is in view
+        document.querySelector(`.frame-reel-img#img-${curPlayFrame + 2}`).scrollIntoView();
+    } else {
+        // Scroll to end when playback has stopped
+        frameReelArea.scrollLeft = frameReelArea.scrollWidth;
+    }
 }
 
 /**
