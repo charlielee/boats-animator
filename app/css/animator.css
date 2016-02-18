@@ -172,57 +172,54 @@ a {
 
 #captureWindow, #playbackWindow {
   height: calc(100vh - 200px);
-/*  height: 30em;*/
+  width: 100%;
   text-align: center;
   background-color: black;
+  position: relative;
+  border: 2px solid transparent;
 }
 
 #captureWindow.hidden,
 #playbackWindow.hidden { display: none; }
 
-#captureWindow { border: 2px solid transparent; }
 #captureWindow.active { border-color: #ad0000; }
 
 #preview {
-  max-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   padding: 0;
   margin: 0;
+  width: 100%;
   height: 100%;
-}
-
-.windowTitleContainer {
-  text-align: center;
-  display: inline-block;
+  object-fit: contain;
 }
 
 #playback {
-    height: calc((100vh - 200px));
-    width: calc(((100vh - 200px) / 3) * 4);
+  height: 100%;
+  width: 100%;
+  max-height: calc(100vh - 200px);
+  object-fit: contain;
 }
 
 /*========== ONION SKINNING ==============*/
 
-#onionSkinningLayer{
-  height: 0;
-  width: 100%;
-  overflow: visible;
-  padding: 0;
-  margin: 0;
-  z-index: 2;
-}
-
 #onion-skinning-frame {
-  position: relative;
+  height: 100%;
+  width: 100%;
   padding: 0;
   margin: 0;
   border: 0;
   opacity: 0.5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: contain;
+  z-index: 2;
   display: none;
-  width: calc(((100vh - 200px) / 3) * 4);
-  height: calc(100vh - 200px);
 }
-#onion-skinning-frame.visible { display: inline; }
 
+#onion-skinning-frame.visible { display: inline; }
 
 /* ========== CONTROLS ============== */
 
