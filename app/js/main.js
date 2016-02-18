@@ -25,8 +25,8 @@ var width  = 640,
 
     // Mode switching
     btnLiveView    = document.querySelector("#btn-live-view"),
-    captureWindow  = document.querySelector("#captureWindow"),
-    playbackWindow = document.querySelector("#playbackWindow"),
+    captureWindow  = document.querySelector("#capture-window"),
+    playbackWindow = document.querySelector("#playback-window"),
     winMode        = "capture",
 
     // Capture

@@ -170,7 +170,7 @@ a {
 
 /* ========== VIDEO PREVIEW ============== */
 
-#captureWindow, #playbackWindow {
+#capture-window, #playback-window {
   height: calc(100vh - 200px);
   width: 100%;
   text-align: center;
@@ -179,10 +179,10 @@ a {
   border: 2px solid transparent;
 }
 
-#captureWindow.hidden,
-#playbackWindow.hidden { display: none; }
+#capture-window.hidden,
+#playback-window.hidden { display: none; }
 
-#captureWindow.active { border-color: #ad0000; }
+#capture-window.active { border-color: #ad0000; }
 
 #preview {
   position: absolute;
