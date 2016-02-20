@@ -5,8 +5,8 @@
 var launcherVersion = document.querySelector("#app-version"),
 
     // GUI window
-    gui  = require("nw.gui"),
-    win  = gui.Window.get(),
+    gui = require("nw.gui"),
+    win = gui.Window.get(),
 
     // Node modules
     file     = require("./js/file"),
@@ -52,10 +52,5 @@ function reload() {
     win.reloadDev();
 }
 
-// Get the version number from package.json
-file.read("package.json", {
-    success: function(data) {
-        data = JSON.parse(data);
-        launcherVersion.innerHTML = data.version;
-    }
-});
+// Get the version number from the manifest file
+launcherVersion.innerHTML = gui.App.manifest.version;
