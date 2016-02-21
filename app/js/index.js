@@ -1,4 +1,5 @@
 /*jslint browser: true, node: true, debug: true*/
+/* global nw */
 
 (function() {
     "use strict";
@@ -10,7 +11,7 @@
     qAppVersion.innerHTML = nw.App.manifest.version;
 
     // Display the latest news
-    // newsFeed.load("http://charlielee.uk/api/core/get_category_posts/?id=12");
+    newsFeed.load("http://charlielee.uk/api/core/get_category_posts/?id=12");
 
     /**
      * Occurs when "New Project" is pressed

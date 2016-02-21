@@ -47,6 +47,7 @@
     },
     "version": "0.6.3",
     "app_name": "Boats Animator",
+    "chromium-args": "--mixed-context",
     "dependencies": {
         "mkdirp": "^0.5.1"
     },
