@@ -1,25 +1,23 @@
 # Boats Animator
-A free JavaScript and HTML5 based stop motion animation program for Windows, Mac and Linux that is currently in development.
-##Updates
-More information about the progress of Boats Animator can be found at: http://charlielee.uk/category/boats-animator/
+A free JavaScript, WebRTC and HTML5 based stop motion animation program for Windows, Mac and Linux. For more information visit: http://charlielee.uk/animator
 
-An incomplete list of planned features can be found at: https://docs.google.com/spreadsheets/d/1_3Ku9bAIWgeZ_Ddc5hghslm8VTZf0mxwGsEqefcuQP8/edit#gid=0
+![Screenshot of Boats Animator v0.6.1](https://cloud.githubusercontent.com/assets/3674297/10865688/78153514-7fea-11e5-8e34-0e600ada42eb.png)
 
-Boats Animator also has a forum thread on BricksInMotion.com, a LEGO stop motion animation community website: http://www.bricksinmotion.com/forums/topic/21891/
+## Releases
+Releases of Boats Animator are avaliable for download on the [Releases](https://github.com/BoatsAreRockable/animator/releases) page.
 
-![Screenshot of Boats Animator v0.6.1](http://i.imgur.com/tRdy3WW.png)
-##Try it out!
-###Run from source code
-Boats Animator has been created using web technologies, however it has been designed to work as a native application using [NW.js](https://github.com/nwjs/nw.js). Information on how to run Boats Animator straight from its source code can be found on the [NW.js wiki](https://github.com/nwjs/nw.js/wiki/How-to-run-apps).
+## Contributing
+More information about contributing to Boats Animator is avaliable [here](https://github.com/BoatsAreRockable/animator/blob/master/CONTRIBUTING.md).
 
-###Downloadable executable
-Boats Animator is pre-release software and currently lacks a number of key features needed to make stop motion animations, however you can check out what has been implemented so far in the [releases section](https://github.com/BoatsAreRockable/animator/releases). This will be periodically updated with alpha and beta builds of Boats Animator as we work towards its first full release.
+The current [feature roadmap](https://docs.google.com/document/d/1UgcyhNkvyirI4gy9uSVv-lD5q6sHe_FEAM-AFTBkyCs) may also be of interest.
 
-##Credits
+## Credits
+* Boats Animator is licensed under [GPL v3](http://www.gnu.org/licenses/gpl.html) or later.
 * The contributors to this project may be found [here](https://github.com/BoatsAreRockable/animator/graphs/contributors)
 * Boats Animator uses the following open source components:
    * [Font Awesome](http://fontawesome.io/)
    * [NW.js](https://github.com/nwjs/nw.js)
+   * [mkdirp](https://github.com/substack/node-mkdirp)
 
-##Issues
+## Issues
 Any problems or suggestions with Boats Animator should be added to the [issues tab](https://github.com/BoatsAreRockable/animator/issues).
