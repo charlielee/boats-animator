@@ -76,17 +76,6 @@
                     </li>
                 </ul>
             </div>
-
-            <!--Debugging Options-->
-            <div class="sidebar-item" id="debugging-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-heartbeat fa-fw"></i> Debugging</h2>
-                </div>
-                <ul>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="dev()">Load developer tools</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="reload()">Reload main window</a></li>
-                </ul>
-            </div>
         </div>
     </div>
 
@@ -170,7 +159,11 @@
             <li id="num-of-frames"><span>0 frames</span> captured</li>
             <li id="currentFrameRate"><span></span> FPS</li>
             <li class="no-pipe" id="currentMode"><span></span> mode</li>
-            <li class="no-pipe" id="statusBar-credits"><a href="#" onclick="gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator')">&copy; Charlie Lee 2016</a></li>
+            <li id="statusBar-dev" class="no-pipe">
+                <!--Debugging Options-->
+                <button onclick="dev()">Dev tools</button>
+                <button onclick="reload()">Refresh</button>
+            </li>
         </ul>
     </div>
 
