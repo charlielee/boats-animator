@@ -435,7 +435,7 @@ function updateFrameReel(action, id) {
         // Update frame preview selection
         if (curSelectedFrame) {
             _removeFrameReelSelection();
-            document.querySelector(`.frame-reel-img#img-${id - 1}`).classList.add("selected");
+            _addFrameReelSelection(id -1);
         }
 
         // All the frames were deleted, display "No frames" message
