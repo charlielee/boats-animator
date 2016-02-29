@@ -377,6 +377,7 @@ function _removeFrameReelSelection() {
 function _addFrameReelSelection(id) {
     "use strict";
     document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
+    curSelectedFrame = id;
 }
 
 /**
@@ -627,6 +628,10 @@ function videoPause() {
         btnPlayPause.children[0].classList.remove("fa-pause");
         btnPlayPause.children[0].classList.add("fa-play");
         console.info("Playback paused");
+
+        // Enable keyframe options
+        btnStartKeyframe.removeAttribute("disabled");
+        btnClearKeyframe.removeAttribute("disabled");
     }
 }
 
@@ -637,7 +642,12 @@ function videoStop() {
     "use strict";
     // Reset the player
     videoPause();
-    curPlayFrame = 0;
+    if (curStartKeyframe) {
+        // Reset playback
+        curPlayFrame = curStartKeyframe - 1;
+    } else {
+        curPlayFrame = 0;
+    }
     playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
 
     // Display newest frame number in status bar
@@ -670,10 +680,13 @@ function _videoPlay() {
             videoStop();
         } else {
             console.info("Playback looped");
+            if (curStartKeyframe) {
+                // Reset playback
+                curPlayFrame = curStartKeyframe - 1;
+            } else {
+                curPlayFrame = 0;
+            }
         }
-
-        // Reset playback
-        curPlayFrame = 0;
     }
 }
 
@@ -688,6 +701,10 @@ function previewCapturedFrames() {
     // Update the play/pause button
     btnPlayPause.children[0].classList.remove("fa-play");
     btnPlayPause.children[0].classList.add("fa-pause");
+
+    // Disable keyframe options
+    btnStartKeyframe.setAttribute("disabled", "");
+    btnClearKeyframe.setAttribute("disabled", "");
 
     // Begin playing the frames
     isPlaying = true;
