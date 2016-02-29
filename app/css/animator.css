@@ -270,13 +270,25 @@ a {
   color: #f3f76e;
 }
 
-#btn-play-pause, #btn-stop, #btn-loop {
+#playback-controls div {
   padding: 0 0.25em;
   float: right;
+  opacity: 1;
+  transition: opacity 0.2s linear;
+}
+
+#playback-controls div[disabled] {
+  cursor: default;
+  opacity: 0.45;
 }
 
 #btn-loop i.active, #btn-onion-skin-toggle i.active {
   color: #ad0000;
+}
+
+#btn-clear-keyframe { margin-right: 2em; }
+#btn-start-keyframe.active i, #btn-clear-keyframe.active i {
+  color: #0040FF;
 }
 
 /* ========== FRAME REEL ============== */
@@ -316,6 +328,9 @@ a {
 .frame-reel-img { cursor: pointer; }
 .frame-reel-img:hover { opacity: 0.8; }
 .frame-reel-img.selected { outline: 1px solid #d9d9d9; }
+
+/* Keyframes */
+.frame-reel-img.keyframe { border: 2px solid #0040FF; }
 
 /* Frame delete button */
 .btn-frame-delete {
