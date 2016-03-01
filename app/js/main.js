@@ -55,8 +55,8 @@ var width  = 640,
 
     // Status bar
     statusBarCurMode   = document.querySelector("#currentMode span"),
-    statusBarCurFrame  = document.querySelector("#currentFrame span"),
-    statusBarFrameNum  = document.querySelector("#num-of-frames span"),
+    statusBarCurFrame  = document.querySelector("#currentFrame"),
+    statusBarFrameNum  = document.querySelector("#num-of-frames"),
     statusBarFrameRate = document.querySelector("#currentFrameRate span"),
 
     // Export frames
@@ -297,7 +297,7 @@ function switchMode(newMode) {
     "use strict";
     winMode = newMode;
     if (winMode === "capture") {
-        statusBarCurFrame.innerHTML = totalFrames;
+        statusBarCurFrame.innerHTML = 0;
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
         captureWindow.classList.add("active");
@@ -336,6 +336,8 @@ function _removeFrameReelSelection() {
 function _addFrameReelSelection(id) {
     "use strict";
     document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
+    curSelectedFrame = id;
+    statusBarCurFrame.innerHTML = id;
 }
 
 /**
@@ -350,13 +352,13 @@ function updateFrameReel(action, id) {
     "use strict";
     var onionSkinFrame = id - 1;
     // Display number of captured frames in status bar
-    statusBarCurFrame.innerHTML = totalFrames;
-    statusBarFrameNum.innerHTML = `${totalFrames} ${totalFrames === 1 ? "frame" : "frames"}`;
+    statusBarFrameNum.innerHTML = totalFrames;
 
     // Add the newly captured frame
     if (action === "capture") {
         // Remove any frame selection
         _removeFrameReelSelection();
+        statusBarCurFrame.innerHTML = 0;
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
@@ -383,7 +385,7 @@ function updateFrameReel(action, id) {
         // Update frame preview selection
         if (curSelectedFrame) {
             _removeFrameReelSelection();
-            document.querySelector(`.frame-reel-img#img-${id - 1}`).classList.add("selected");
+            _addFrameReelSelection(id - 1);
         }
 
         // All the frames were deleted, display "No frames" message
