@@ -361,17 +361,7 @@ function updateFrameReel(action, id) {
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
 <img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFramesRaw[id - 1]}">
-<i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
 </div></td>`);
-
-        // Individual frame deletion
-        var insertedImage = document.querySelector(`.frame-reel-img#img-${id}`);
-        insertedImage.nextElementSibling.addEventListener("click", function() {
-            confirmSet(deleteFrame, id, `Are you sure you want to delete frame ${id}?`);
-        });
-
-        // Deference the selector to reduce memory usage
-        insertedImage = null;
 
         // Remove the chosen frame
     } else if (action === "delete") {

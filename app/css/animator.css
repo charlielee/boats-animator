@@ -317,18 +317,6 @@ a {
 .frame-reel-img:hover { opacity: 0.8; }
 .frame-reel-img.selected { outline: 1px solid #d9d9d9; }
 
-/* Frame delete button */
-.btn-frame-delete {
-  position: absolute;
-  left: 84%;
-  top: 71%;
-  float: right;
-  cursor: pointer;
-  color: white;
-  text-shadow: 0 0 2px black;
-}
-.btn-frame-delete:hover { opacity: 0.8; }
-
 #btn-live-view {
   width: 67px;
   height: 48px;
