@@ -727,6 +727,11 @@ function _frameReelScroll() {
         // Scroll to end when playback has stopped
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
     }
+
+    // Make sure keyframe is visible at the start of playback
+    if (curStartKeyframe && curPlayFrame === curStartKeyframe - 1) {
+        document.querySelector(`.frame-reel-img#img-${curStartKeyframe}`).scrollIntoView();
+    }
 }
 
 /**
