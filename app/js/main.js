@@ -30,7 +30,7 @@ var width  = 640,
     winMode        = "capture",
 
     // Capture
-    capturedFramesRaw  = [],
+    capturedFrames  = [],
     curFrame           = 0,
     curSelectedFrame   = null,
     btnGridToggle      = document.querySelector("#btn-grid-toggle"),
@@ -299,7 +299,7 @@ function startup() {
 
             // Display the image and update all the necessary values
             var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
-            playback.setAttribute("src", capturedFramesRaw[imageID - 1]);
+            playback.setAttribute("src", capturedFrames[imageID - 1]);
             curPlayFrame = imageID - 1;
             curSelectedFrame = imageID;
             statusBarCurFrame.innerHTML = imageID;
@@ -381,7 +381,7 @@ function updateFrameReel(action, id) {
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFramesRaw[id - 1]}">
+<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1]}">
 </div></td>`);
 
         // Remove the chosen frame
@@ -398,8 +398,8 @@ function updateFrameReel(action, id) {
         frameReelTable.classList.remove("hidden");
 
         // Update onion skin frame
-        onionSkinWindow.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
-        playback.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
+        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame]);
+        playback.setAttribute("src", capturedFrames[onionSkinFrame]);
 
         // Update frame preview selection
         if (curSelectedFrame) {
@@ -429,7 +429,7 @@ function deleteFrame(id) {
     });
 
     exportedFramesList.splice(id - 1, 1);
-    capturedFramesRaw.splice(id - 1, 1);
+    capturedFrames.splice(id - 1, 1);
     curFrame--;
     updateFrameReel("delete", id);
     console.info(`There are now ${curFrame} captured frames`);
@@ -469,7 +469,7 @@ function _toggleOnionSkin(ev) {
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
       if (curFrame > 0) {
-          onionSkinWindow.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+          onionSkinWindow.setAttribute("src", capturedFrames[curFrame - 1]);
       }
     }
 }
@@ -503,7 +503,7 @@ function takePicture() {
         var data = canvas.toDataURL("image/png");
 
         // Store the image data and update the current frame
-        capturedFramesRaw.push(data);
+        capturedFrames.push(data);
         curFrame++;
         console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${curFrame} frames`);
 
@@ -563,7 +563,7 @@ function videoStop() {
     // Reset the player
     videoPause();
     curPlayFrame = 0;
-    playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+    playback.setAttribute("src", capturedFrames[curFrame - 1]);
 
     // Display newest frame number in status bar
     statusBarCurFrame.innerHTML = curFrame;
@@ -577,7 +577,7 @@ function _videoPlay() {
     "use strict";
     // Display each frame
     _removeFrameReelSelection();
-    playback.setAttribute("src", capturedFramesRaw[curPlayFrame]);
+    playback.setAttribute("src", capturedFrames[curPlayFrame]);
     statusBarCurFrame.innerHTML = curPlayFrame + 1;
 
     // Display selection outline as each frame is played
@@ -780,7 +780,7 @@ function saveFrame(id) {
     var outputPath = `${frameExportDirectory}/${fileName}.png`;
 
     // Convert the frame from base64-encoded date to a PNG
-    var imageBuffer = decodeBase64Image(capturedFramesRaw[id - 1]);
+    var imageBuffer = decodeBase64Image(capturedFrames[id - 1]);
 
     // Save the frame to disk
     file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
