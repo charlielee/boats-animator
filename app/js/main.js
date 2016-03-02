@@ -30,7 +30,7 @@ var width  = 640,
     winMode        = "capture",
 
     // Capture
-    capturedFrames  = [],
+    capturedFrames     = [],
     curFrame           = 0,
     curSelectedFrame   = null,
     btnGridToggle      = document.querySelector("#btn-grid-toggle"),
