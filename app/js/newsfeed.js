@@ -46,7 +46,7 @@
      */
     function _getNewsCache() {
         console.info("Fetching cached news");
-        var cached = localStorage.getItem("ba-news");
+        let cached = localStorage.getItem("ba-news");
         return cached ? JSON.parse(cached) : [];
     }
 
@@ -83,7 +83,7 @@
      * @returns {Array} The latest news, in the form of news objects.
      */
     function getPosts(data) {
-        var posts      = [],
+        let posts      = [],
             numOfPosts = 3;
 
         // Get the post up to the limit of posts we want to display
