@@ -857,15 +857,28 @@ function confirmSet(callback, args, msg) {
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
 
+    Mousetrap.bind("enter", _ok);
+    Mousetrap.bind("esc", _cancel);
+    btnConfirmOK.focus();
+
     function _ok() {
         confirmContainer.classList.add("hidden");
         callback(args);
         btnConfirmOK.removeEventListener("click", _ok);
+        btnConfirmOK.blur();
+        Mousetrap.bind("enter", function() {
+            btnCaptureFrame.click();
+        });
+        Mousetrap.unbind("esc");
     }
 
     function _cancel() {
         confirmContainer.classList.add("hidden");
         btnConfirmCancel.removeEventListener("click", _cancel);
+        Mousetrap.bind("enter", function() {
+            btnCaptureFrame.click();
+        });
+        Mousetrap.unbind("esc");
     }
 
     // Respond to button clicks
@@ -890,66 +903,60 @@ function loadMenu() {
 
     // File menu items
     fileMenu.append(new gui.MenuItem({
-      label: "New project...",
+      label: "New Project...",
       click: function() {
-      },
-        key: "n",
-        modifiers: "ctrl",
+      }
     }));
     fileMenu.append(new gui.MenuItem({
-      label: "Open project...",
+      label: "Open Project...",
       click: function() {
-      },
-        key: "o",
-        modifiers: "ctrl",
+      }
     }));
+    fileMenu.append(new gui.MenuItem({ type: "separator" }));
     fileMenu.append(new gui.MenuItem({
       label: "Main Menu",
       click: function() {
         confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
-      },
-        key: "m",
-        modifiers: "ctrl",
+      }
+    }));
+    fileMenu.append(new gui.MenuItem({ type: "separator" }));
+    fileMenu.append(new gui.MenuItem({
+      label: "Exit",
+      click: function() {
+          win.close();
+      }
     }));
 
     // Edit menu items
     editMenu.append(new gui.MenuItem({
-      label: "Delete last frame",
+      label: "Delete Last Frame",
       click: function() {
         undoFrame();
-      },
-      key: "z",
-      modifiers: "ctrl",
+      }
     }));
 
     // Capture menu items
     captureMenu.append(new gui.MenuItem({
-      label: "Capture frame",
+      label: "Capture Frame",
       click: function() {
         takePicture();
-      },
-      key: "c",
-      modifiers: "ctrl",
+      }
     }));
 
     // Help menu items
     helpMenu.append(new gui.MenuItem({
-      label: "Give feedback",
+      label: "Give Feedback",
       click: function() {
           gui.Shell.openExternal("https://github.com/BoatsAreRockable/animator/issues");
-      },
-      key: "/",
-      modifiers: "ctrl",
+      }
     }));
 
     // Debug menu items
     debugMenu.append(new gui.MenuItem({
-      label: "Load developer tools",
+      label: "Load Developer Tools...",
       click: function() {
           dev();
-      },
-      key: "d",
-      modifiers: "ctrl",
+      }
     }));
 
     // Append sub-menus to main menu
@@ -996,6 +1003,59 @@ function loadMenu() {
         menuBar.createMacBuiltin("Boats Animator");
     }
 }
+
+/**
+ * Keyboard Shortcuts
+ */
+
+// Projects
+Mousetrap.bind("mod+w", function() {
+    confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
+});
+
+// Capture
+Mousetrap.bind("enter", function() {
+    btnCaptureFrame.click();
+});
+Mousetrap.bind(["mod+z", "backspace", "del", "*"], function() {
+    btnDeleteLastFrame.click();
+});
+Mousetrap.bind("m", function() {
+    audioToggle.checked = !audioToggle.checked;
+});
+
+// Playback
+Mousetrap.bind(["space", "0"], function() {
+    btnPlayPause.click();
+});
+Mousetrap.bind(["p", "."], function() {
+    // Play from start
+    curPlayFrame = 0;
+    if (isPlaying) {
+        videoPause();
+    }
+    btnPlayPause.click();
+});
+Mousetrap.bind("8", function() {
+    btnLoop.click();
+});
+
+// Framereel
+Mousetrap.bind(["l", "3"], function() {
+    btnLiveView.click();
+});
+
+// General
+Mousetrap.bind("/", function () {
+    Mousetrap.trigger('esc');
+});
+Mousetrap.bind("f12", dev);
+
+// Bonus
+Mousetrap.bind(["b o a t s"], function() {
+    console.info("Someone entered the secret shortcut...")
+    gui.Shell.openExternal("http://charlielee.uk/animator");
+});
 
 /**
  * Development Functions
