@@ -1,5 +1,4 @@
 /*jslint browser: true, node: true, debug: true*/
-/* global Buffer, process */
 
 (function() {
     "use strict";
