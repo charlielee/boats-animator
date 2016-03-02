@@ -31,26 +31,16 @@ function openAnimator() {
 }
 
 /**
- * Check if we can display the latest news feed
- * and if we cannot, say so.
+ * Load the news feed.
  */
-function canDisplayNews() {
+function loadNews() {
     "use strict";
     newsFeed.load("http://charlielee.uk/api/core/get_category_posts/?id=12");
 }
 
-/**
- * Development Functions
- */
-function dev() {
-    "use strict";
-    win.showDevTools();
-}
-
-function reload() {
-    "use strict";
-    win.reloadDev();
-}
-
 // Get the version number from the manifest file
 launcherVersion.innerHTML = gui.App.manifest.version;
+
+// Developer buttons
+document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
+document.querySelector("#btn-reload-page").addEventListener("click", utils.reloadPage);

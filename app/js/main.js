@@ -92,6 +92,7 @@ var width  = 640,
     // Node modules
     file   = require("./js/file"),
     mkdirp = require("./lib/mkdirp"),
+    utils  = require("./js/utils"), 
 
     // Sidebar
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
@@ -304,6 +305,10 @@ function startup() {
             statusBarCurFrame.innerHTML = imageID;
         }
     });
+  
+  // Developer buttons
+  document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
+  document.querySelector("#btn-reload-page").addEventListener("click", utils.reloadPage);
 }
 
 /**
@@ -934,9 +939,7 @@ function loadMenu() {
     // Edit menu items
     editMenu.append(new gui.MenuItem({
       label: "Delete last frame",
-      click: function() {
-        undoFrame();
-      },
+      click: undoFrame,
       key: "z",
       modifiers: "ctrl",
     }));
@@ -944,9 +947,7 @@ function loadMenu() {
     // Capture menu items
     captureMenu.append(new gui.MenuItem({
       label: "Capture frame",
-      click: function() {
-        takePicture();
-      },
+      click: takePicture,
       key: "c",
       modifiers: "ctrl",
     }));
@@ -955,7 +956,7 @@ function loadMenu() {
     helpMenu.append(new gui.MenuItem({
       label: "Give feedback",
       click: function() {
-          gui.Shell.openExternal("https://github.com/BoatsAreRockable/animator/issues");
+          utils.openURL("https://github.com/BoatsAreRockable/animator/issues");
       },
       key: "/",
       modifiers: "ctrl",
@@ -971,9 +972,7 @@ function loadMenu() {
     // Debug menu items
     debugMenu.append(new gui.MenuItem({
       label: "Load developer tools",
-      click: function() {
-          dev();
-      },
+      click: utils.showDev,
       key: "d",
       modifiers: "ctrl",
     }));
@@ -1021,17 +1020,4 @@ function loadMenu() {
     if (process.platform === "darwin") {
         menuBar.createMacBuiltin("Boats Animator");
     }
-}
-
-/**
- * Development Functions
- */
-function dev() {
-    "use strict";
-    win.showDevTools();
-}
-
-function reload() {
-    "use strict";
-    win.reloadDev();
 }

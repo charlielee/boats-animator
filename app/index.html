@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 
-<body onload="canDisplayNews()">
+<body onload="loadNews()">
     <!--Sidebar content-->
     <div id="sidebar">
         <div id="sidebar-content">
@@ -43,8 +43,8 @@
         <ul>
             <li>Version <span id="app-version"></span></li>
             <li>
-                <button onclick="dev()">Dev tools</button>
-                <button onclick="reload()">Refresh</button>
+                <button id="btn-open-dev-tools">Dev tools</button>
+                <button id="btn-reload-page">Refresh</button>
             </li>
         </ul>
     </div>
