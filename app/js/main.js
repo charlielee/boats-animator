@@ -975,9 +975,7 @@ function loadMenu() {
 
     helpMenu.append(new gui.MenuItem({
       label: "About Boats Animator",
-      click: function() {
-          openAbout();
-      },
+      click: openAbout
     }));
 
     // Debug menu items

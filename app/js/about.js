@@ -23,18 +23,5 @@ win.on("minimize", function() {
     win.close();
 });
 
-/**
- * Development Functions
- */
-function dev() {
-    "use strict";
-    win.showDevTools();
-}
-
-function reload() {
-    "use strict";
-    win.reloadDev();
-}
-
 // Get the version number from the manifest file
 launcherVersion.innerHTML = gui.App.manifest.version;
