@@ -6,11 +6,7 @@ var launcherVersion = document.querySelector("#app-version"),
 
     // GUI window
     gui = require("nw.gui"),
-    win = gui.Window.get(),
-
-    // Node modules
-    file     = require("./js/file"),
-    newsFeed = require("./js/newsfeed");
+    win = gui.Window.get();
 
 win.title = "About Boats Animator";
 win.setShowInTaskbar(false);
