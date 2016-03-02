@@ -115,6 +115,22 @@ function openIndex() {
 }
 
 /**
+ * Occurs when "Main Menu" is pressed
+ */
+function openAbout() {
+    "use strict";
+    gui.Window.open("about.html", {
+        position: "center",
+        width: 650,
+        height: 300,
+        toolbar: false,
+        focus: true,
+        icon: "icons/icon.png",
+        resizable: false,
+    });
+}
+
+/**
  * Confirm prompt when animator is closed.
  */
 win.on("close", function() {
@@ -856,16 +872,19 @@ function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
+    win.requestAttention(true);
 
     function _ok() {
         confirmContainer.classList.add("hidden");
         callback(args);
         btnConfirmOK.removeEventListener("click", _ok);
+        win.requestAttention(false);
     }
 
     function _cancel() {
         confirmContainer.classList.add("hidden");
         btnConfirmCancel.removeEventListener("click", _cancel);
+        win.requestAttention(false);
     }
 
     // Respond to button clicks
@@ -940,6 +959,13 @@ function loadMenu() {
       },
       key: "/",
       modifiers: "ctrl",
+    }));
+
+    helpMenu.append(new gui.MenuItem({ type: "separator" }));
+
+    helpMenu.append(new gui.MenuItem({
+      label: "About Boats Animator",
+      click: openAbout
     }));
 
     // Debug menu items
