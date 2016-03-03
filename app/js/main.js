@@ -54,10 +54,10 @@ var width  = 640,
     audioToggle  = document.querySelector("#audio-toggle"),
 
     // Status bar
-    statusBarCurMode   = document.querySelector("#currentMode span"),
-    statusBarCurFrame  = document.querySelector("#currentFrame"),
+    statusBarCurMode   = document.querySelector("#current-mode span"),
+    statusBarCurFrame  = document.querySelector("#current-frame"),
     statusBarFrameNum  = document.querySelector("#num-of-frames"),
-    statusBarFrameRate = document.querySelector("#currentFrameRate span"),
+    statusBarFrameRate = document.querySelector("#current-frame-rate span"),
 
     // Export frames
     frameExportDirectory  = null,
