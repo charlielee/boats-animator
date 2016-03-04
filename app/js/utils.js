@@ -1,6 +1,4 @@
-module.exports = {};
-
-(function() {
+const utils = (function() {
     "use strict";
   
     const gui = require("nw.gui"),
@@ -32,7 +30,9 @@ module.exports = {};
       win.reloadDev();
     }
 
-    module.exports.openURL    = openURL;
-    module.exports.reloadPage = reloadPage;
-    module.exports.showDev    = showDev;
+    return {
+        openURL   : openURL,
+        showDev   : showDev,
+        reloadPage: reloadPage    
+    };
 }());
