@@ -1,5 +1,5 @@
 /*jslint browser: true, node: true, debug: true*/
-/* global Buffer, process */
+/* global Buffer, process, utils */
 
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
@@ -91,8 +91,7 @@ var width  = 640,
 
     // Node modules
     file   = require("./js/file"),
-    mkdirp = require("./lib/mkdirp"),
-    utils  = require("./js/utils"), 
+    mkdirp = require("./lib/mkdirp"), 
 
     // Sidebar
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
