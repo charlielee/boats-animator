@@ -91,7 +91,7 @@ var width  = 640,
 
     // Node modules
     file   = require("./js/file"),
-    mkdirp = require("./lib/mkdirp"), 
+    mkdirp = require("./lib/mkdirp"),
 
     // Sidebar
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
