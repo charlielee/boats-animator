@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 
-<body onload="canDisplayNews()">
+<body>
     <!--Sidebar content-->
     <div id="sidebar">
         <div id="sidebar-content">
@@ -34,7 +34,7 @@
                 <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 2</a></li>
                 <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 3</a></li>
             </ul>-->
-            <button id="new-project" onclick="openAnimator()"><i class="fa fa-file-o"></i><span>New Project</span></button>
+            <button id="new-project"><i class="fa fa-file-o"></i><span>New Project</span></button>
             <button id="load-project" onclick="alert('This feature is coming soon!')"><i class="fa fa-folder-o"></i><span>Load Project</span></button>
         </div>
     </div>
@@ -43,12 +43,13 @@
         <ul>
             <li>Version <span id="app-version"></span></li>
             <li>
-                <button onclick="dev()">Dev tools</button>
-                <button onclick="reload()">Refresh</button>
+                <button id="btn-open-dev-tools">Dev tools</button>
+                <button id="btn-reload-page">Refresh</button>
             </li>
         </ul>
     </div>
 
-    <script src="js/index.js" async></script>
+    <script src="js/utils.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>
