@@ -285,7 +285,7 @@ function startup() {
             playback.setAttribute("src", capturedFramesRaw[imageID - 1]);
             curPlayFrame = imageID - 1;
             curSelectedFrame = imageID;
-            statusBarCurFrame.innerHTML = imageID;
+            _updateStatusBarCurFrame(imageID);
         }
     });
 }
@@ -297,7 +297,7 @@ function switchMode(newMode) {
     "use strict";
     winMode = newMode;
     if (winMode === "capture") {
-        statusBarCurFrame.innerHTML = 0;
+        _updateStatusBarCurFrame(totalFrames + 1);
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
         captureWindow.classList.add("active");
@@ -337,6 +337,14 @@ function _addFrameReelSelection(id) {
     "use strict";
     document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
     curSelectedFrame = id;
+}
+
+/**
+ * Change the current frame number on the status bar.
+ * @param {Integer} id The value to change the frame number to.
+ */
+function _updateStatusBarCurFrame(id) {
+    "use strict";
     statusBarCurFrame.innerHTML = id;
 }
 
@@ -358,7 +366,7 @@ function updateFrameReel(action, id) {
     if (action === "capture") {
         // Remove any frame selection
         _removeFrameReelSelection();
-        statusBarCurFrame.innerHTML = 0;
+        _updateStatusBarCurFrame(totalFrames + 1);
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
@@ -386,6 +394,7 @@ function updateFrameReel(action, id) {
         if (curSelectedFrame) {
             _removeFrameReelSelection();
             _addFrameReelSelection(id - 1);
+            _updateStatusBarCurFrame(id - 1);
         }
 
         // All the frames were deleted, display "No frames" message
@@ -547,7 +556,7 @@ function videoStop() {
     playback.setAttribute("src", capturedFramesRaw[totalFrames - 1]);
 
     // Display newest frame number in status bar
-    statusBarCurFrame.innerHTML = totalFrames;
+    _updateStatusBarCurFrame(totalFrames);
     console.info("Playback stopped");
 }
 
@@ -559,7 +568,7 @@ function _videoPlay() {
     // Display each frame
     _removeFrameReelSelection();
     playback.setAttribute("src", capturedFramesRaw[curPlayFrame]);
-    statusBarCurFrame.innerHTML = curPlayFrame + 1;
+    _updateStatusBarCurFrame(curPlayFrame + 1);
 
     // Display selection outline as each frame is played
     _addFrameReelSelection(curPlayFrame + 1);
