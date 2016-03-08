@@ -887,32 +887,31 @@ function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
-    win.requestAttention(true);
 
     Mousetrap.bind("enter", _ok);
     Mousetrap.bind("esc", _cancel);
     btnConfirmOK.focus();
 
     function _ok() {
-        confirmContainer.classList.add("hidden");
         callback(args);
-        btnConfirmOK.removeEventListener("click", _ok);
-        btnConfirmOK.blur();
-        Mousetrap.bind("enter", function() {
-            btnCaptureFrame.click();
-        });
-        Mousetrap.unbind("esc");
-        win.requestAttention(false);
+        _confirmSelect();
     }
 
     function _cancel() {
+        _confirmSelect();
+    }
+    
+    function _confirmSelect() {
         confirmContainer.classList.add("hidden");
+        
+        btnConfirmOK.removeEventListener("click", _ok);
         btnConfirmCancel.removeEventListener("click", _cancel);
+        btnConfirmOK.blur();
+        
         Mousetrap.bind("enter", function() {
             btnCaptureFrame.click();
         });
         Mousetrap.unbind("esc");
-        win.requestAttention(false);
     }
 
     // Respond to button clicks
