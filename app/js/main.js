@@ -1,5 +1,5 @@
 /*jslint browser: true, node: true, debug: true*/
-/* global Buffer, process */
+/* global Buffer, process, utils */
 
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
@@ -30,7 +30,7 @@ var width  = 640,
     winMode        = "capture",
 
     // Capture
-    capturedFramesRaw  = [],
+    capturedFrames     = [],
     totalFrames        = 0,
     curSelectedFrame   = null,
     btnGridToggle      = document.querySelector("#btn-grid-toggle"),
@@ -112,6 +112,22 @@ function openIndex() {
         icon: "icons/icon.png"
     });
     win.close(true);
+}
+
+/**
+ * Occurs when "Main Menu" is pressed
+ */
+function openAbout() {
+    "use strict";
+    gui.Window.open("about.html", {
+        position: "center",
+        width: 650,
+        height: 300,
+        toolbar: false,
+        focus: true,
+        icon: "icons/icon.png",
+        resizable: false,
+    });
 }
 
 /**
@@ -282,12 +298,16 @@ function startup() {
 
             // Display the image and update all the necessary values
             var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
-            playback.setAttribute("src", capturedFramesRaw[imageID - 1]);
+            playback.setAttribute("src", capturedFrames[imageID - 1]);
             curPlayFrame = imageID - 1;
             curSelectedFrame = imageID;
             _updateStatusBarCurFrame(imageID);
         }
     });
+  
+  // Developer buttons
+  document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
+  document.querySelector("#btn-reload-page").addEventListener("click", utils.reloadPage);
 }
 
 /**
@@ -370,7 +390,7 @@ function updateFrameReel(action, id) {
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFramesRaw[id - 1]}">
+<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1]}">
 </div></td>`);
 
         // Remove the chosen frame
@@ -387,8 +407,8 @@ function updateFrameReel(action, id) {
         frameReelTable.classList.remove("hidden");
 
         // Update onion skin frame
-        onionSkinWindow.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
-        playback.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
+        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame]);
+        playback.setAttribute("src", capturedFrames[onionSkinFrame]);
 
         // Update frame preview selection
         if (curSelectedFrame) {
@@ -419,7 +439,7 @@ function deleteFrame(id) {
     });
 
     exportedFramesList.splice(id - 1, 1);
-    capturedFramesRaw.splice(id - 1, 1);
+    capturedFrames.splice(id - 1, 1);
     totalFrames--;
     updateFrameReel("delete", id);
     console.info(`There are now ${totalFrames} captured frames`);
@@ -459,7 +479,7 @@ function _toggleOnionSkin(ev) {
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
       if (totalFrames > 0) {
-          onionSkinWindow.setAttribute("src", capturedFramesRaw[totalFrames - 1]);
+          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1]);
       }
     }
 }
@@ -493,7 +513,7 @@ function takePicture() {
         var data = canvas.toDataURL("image/png");
 
         // Store the image data and update the current frame
-        capturedFramesRaw.push(data);
+        capturedFrames.push(data);
         totalFrames++;
         console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${totalFrames} frames`);
 
@@ -553,7 +573,7 @@ function videoStop() {
     // Reset the player
     videoPause();
     curPlayFrame = 0;
-    playback.setAttribute("src", capturedFramesRaw[totalFrames - 1]);
+    playback.setAttribute("src", capturedFrames[totalFrames - 1]);
 
     // Display newest frame number in status bar
     _updateStatusBarCurFrame(totalFrames);
@@ -567,7 +587,7 @@ function _videoPlay() {
     "use strict";
     // Display each frame
     _removeFrameReelSelection();
-    playback.setAttribute("src", capturedFramesRaw[curPlayFrame]);
+    playback.setAttribute("src", capturedFrames[curPlayFrame]);
     _updateStatusBarCurFrame(curPlayFrame + 1);
 
     // Display selection outline as each frame is played
@@ -770,7 +790,7 @@ function saveFrame(id) {
     var outputPath = `${frameExportDirectory}/${fileName}.png`;
 
     // Convert the frame from base64-encoded date to a PNG
-    var imageBuffer = decodeBase64Image(capturedFramesRaw[id - 1]);
+    var imageBuffer = decodeBase64Image(capturedFrames[id - 1]);
 
     // Save the frame to disk
     file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
@@ -867,16 +887,19 @@ function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
+    win.requestAttention(true);
 
     function _ok() {
         confirmContainer.classList.add("hidden");
         callback(args);
         btnConfirmOK.removeEventListener("click", _ok);
+        win.requestAttention(false);
     }
 
     function _cancel() {
         confirmContainer.classList.add("hidden");
         btnConfirmCancel.removeEventListener("click", _cancel);
+        win.requestAttention(false);
     }
 
     // Respond to button clicks
@@ -926,9 +949,7 @@ function loadMenu() {
     // Edit menu items
     editMenu.append(new gui.MenuItem({
       label: "Delete last frame",
-      click: function() {
-        undoFrame();
-      },
+      click: undoFrame,
       key: "z",
       modifiers: "ctrl",
     }));
@@ -936,9 +957,7 @@ function loadMenu() {
     // Capture menu items
     captureMenu.append(new gui.MenuItem({
       label: "Capture frame",
-      click: function() {
-        takePicture();
-      },
+      click: takePicture,
       key: "c",
       modifiers: "ctrl",
     }));
@@ -947,18 +966,23 @@ function loadMenu() {
     helpMenu.append(new gui.MenuItem({
       label: "Give feedback",
       click: function() {
-          gui.Shell.openExternal("https://github.com/BoatsAreRockable/animator/issues");
+          utils.openURL("https://github.com/BoatsAreRockable/animator/issues");
       },
       key: "/",
       modifiers: "ctrl",
     }));
 
+    helpMenu.append(new gui.MenuItem({ type: "separator" }));
+
+    helpMenu.append(new gui.MenuItem({
+      label: "About Boats Animator",
+      click: openAbout
+    }));
+
     // Debug menu items
     debugMenu.append(new gui.MenuItem({
       label: "Load developer tools",
-      click: function() {
-          dev();
-      },
+      click: utils.showDev,
       key: "d",
       modifiers: "ctrl",
     }));
@@ -1006,17 +1030,4 @@ function loadMenu() {
     if (process.platform === "darwin") {
         menuBar.createMacBuiltin("Boats Animator");
     }
-}
-
-/**
- * Development Functions
- */
-function dev() {
-    "use strict";
-    win.showDevTools();
-}
-
-function reload() {
-    "use strict";
-    win.reloadDev();
 }
