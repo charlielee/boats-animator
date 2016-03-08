@@ -1,5 +1,5 @@
 /*jslint browser: true, node: true, debug: true*/
-/* global Buffer, process */
+/* global Buffer, process, utils */
 
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
@@ -30,8 +30,8 @@ var width  = 640,
     winMode        = "capture",
 
     // Capture
-    capturedFramesRaw  = [],
-    curFrame           = 0,
+    capturedFrames     = [],
+    totalFrames        = 0,
     curSelectedFrame   = null,
     btnGridToggle      = document.querySelector("#btn-grid-toggle"),
     btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
@@ -54,10 +54,10 @@ var width  = 640,
     audioToggle  = document.querySelector("#audio-toggle"),
 
     // Status bar
-    statusBarCurMode   = document.querySelector("#currentMode span"),
-    statusBarCurFrame  = document.querySelector("#currentFrame span"),
-    statusBarFrameNum  = document.querySelector("#num-of-frames span"),
-    statusBarFrameRate = document.querySelector("#currentFrameRate span"),
+    statusBarCurMode   = document.querySelector("#current-mode span"),
+    statusBarCurFrame  = document.querySelector("#current-frame"),
+    statusBarFrameNum  = document.querySelector("#num-of-frames"),
+    statusBarFrameRate = document.querySelector("#current-frame-rate span"),
 
     // Export frames
     frameExportDirectory  = null,
@@ -112,6 +112,22 @@ function openIndex() {
         icon: "icons/icon.png"
     });
     win.close(true);
+}
+
+/**
+ * Occurs when "Main Menu" is pressed
+ */
+function openAbout() {
+    "use strict";
+    gui.Window.open("about.html", {
+        position: "center",
+        width: 650,
+        height: 300,
+        toolbar: false,
+        focus: true,
+        icon: "icons/icon.png",
+        resizable: false,
+    });
 }
 
 /**
@@ -224,14 +240,14 @@ function startup() {
     // Play/pause the preview
     btnPlayPause.addEventListener("click", function() {
         // Make sure we have frames to play back
-        if (curFrame > 0) {
+        if (totalFrames > 0) {
             (isPlaying ? videoPause : previewCapturedFrames)();
         }
     });
 
     // Stop the preview
     btnStop.addEventListener("click", function() {
-        if (curFrame > 0) {
+        if (totalFrames > 0) {
             _removeFrameReelSelection();
             videoStop();
         }
@@ -282,12 +298,16 @@ function startup() {
 
             // Display the image and update all the necessary values
             var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
-            playback.setAttribute("src", capturedFramesRaw[imageID - 1]);
+            playback.setAttribute("src", capturedFrames[imageID - 1]);
             curPlayFrame = imageID - 1;
             curSelectedFrame = imageID;
-            statusBarCurFrame.innerHTML = imageID;
+            _updateStatusBarCurFrame(imageID);
         }
     });
+  
+  // Developer buttons
+  document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
+  document.querySelector("#btn-reload-page").addEventListener("click", utils.reloadPage);
 }
 
 /**
@@ -297,7 +317,7 @@ function switchMode(newMode) {
     "use strict";
     winMode = newMode;
     if (winMode === "capture") {
-        statusBarCurFrame.innerHTML = curFrame;
+        _updateStatusBarCurFrame(totalFrames + 1);
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
         captureWindow.classList.add("active");
@@ -336,6 +356,16 @@ function _removeFrameReelSelection() {
 function _addFrameReelSelection(id) {
     "use strict";
     document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
+    curSelectedFrame = id;
+}
+
+/**
+ * Change the current frame number on the status bar.
+ * @param {Integer} id The value to change the frame number to.
+ */
+function _updateStatusBarCurFrame(id) {
+    "use strict";
+    statusBarCurFrame.innerHTML = id;
 }
 
 /**
@@ -350,40 +380,41 @@ function updateFrameReel(action, id) {
     "use strict";
     var onionSkinFrame = id - 1;
     // Display number of captured frames in status bar
-    statusBarCurFrame.innerHTML = curFrame;
-    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"}`;
+    statusBarFrameNum.innerHTML = totalFrames;
 
     // Add the newly captured frame
     if (action === "capture") {
         // Remove any frame selection
         _removeFrameReelSelection();
+        _updateStatusBarCurFrame(totalFrames + 1);
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFramesRaw[id - 1]}">
+<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1]}">
 </div></td>`);
 
         // Remove the chosen frame
     } else if (action === "delete") {
-        if (id !== curFrame) {
+        if (id !== totalFrames) {
             onionSkinFrame = id - 2;
         }
         frameReelRow.removeChild(frameReelRow.children[id - 1]);
     }
 
     // We have frames, display them
-    if (curFrame > 0) {
+    if (totalFrames > 0) {
         frameReelMsg.classList.add("hidden");
         frameReelTable.classList.remove("hidden");
 
         // Update onion skin frame
-        onionSkinWindow.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
-        playback.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
+        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame]);
+        playback.setAttribute("src", capturedFrames[onionSkinFrame]);
 
         // Update frame preview selection
         if (curSelectedFrame) {
             _removeFrameReelSelection();
-            document.querySelector(`.frame-reel-img#img-${id - 1}`).classList.add("selected");
+            _addFrameReelSelection(id - 1);
+            _updateStatusBarCurFrame(id - 1);
         }
 
         // All the frames were deleted, display "No frames" message
@@ -408,10 +439,10 @@ function deleteFrame(id) {
     });
 
     exportedFramesList.splice(id - 1, 1);
-    capturedFramesRaw.splice(id - 1, 1);
-    curFrame--;
+    capturedFrames.splice(id - 1, 1);
+    totalFrames--;
     updateFrameReel("delete", id);
-    console.info(`There are now ${curFrame} captured frames`);
+    console.info(`There are now ${totalFrames} captured frames`);
 }
 
 /**
@@ -420,8 +451,8 @@ function deleteFrame(id) {
 function undoFrame() {
     "use strict";
     // Make sure there is a frame to delete
-    if (curFrame > 0) {
-      confirmSet(deleteFrame, curFrame, "Are you sure you want to delete the last frame captured?");
+    if (totalFrames > 0) {
+      confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
     } else {
       notifyError("There is no previous frame to undo!");
     }
@@ -447,8 +478,8 @@ function _toggleOnionSkin(ev) {
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
-      if (curFrame > 0) {
-          onionSkinWindow.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+      if (totalFrames > 0) {
+          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1]);
       }
     }
 }
@@ -482,13 +513,13 @@ function takePicture() {
         var data = canvas.toDataURL("image/png");
 
         // Store the image data and update the current frame
-        capturedFramesRaw.push(data);
-        curFrame++;
-        console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${curFrame} frames`);
+        capturedFrames.push(data);
+        totalFrames++;
+        console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${totalFrames} frames`);
 
         // Save the frame to disk and update the frame reel
-        saveFrame(curFrame);
-        updateFrameReel("capture", curFrame);
+        saveFrame(totalFrames);
+        updateFrameReel("capture", totalFrames);
 
         // Scroll the frame reel to the end
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
@@ -542,10 +573,10 @@ function videoStop() {
     // Reset the player
     videoPause();
     curPlayFrame = 0;
-    playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+    playback.setAttribute("src", capturedFrames[totalFrames - 1]);
 
     // Display newest frame number in status bar
-    statusBarCurFrame.innerHTML = curFrame;
+    _updateStatusBarCurFrame(totalFrames);
     console.info("Playback stopped");
 }
 
@@ -556,8 +587,8 @@ function _videoPlay() {
     "use strict";
     // Display each frame
     _removeFrameReelSelection();
-    playback.setAttribute("src", capturedFramesRaw[curPlayFrame]);
-    statusBarCurFrame.innerHTML = curPlayFrame + 1;
+    playback.setAttribute("src", capturedFrames[curPlayFrame]);
+    _updateStatusBarCurFrame(curPlayFrame + 1);
 
     // Display selection outline as each frame is played
     _addFrameReelSelection(curPlayFrame + 1);
@@ -568,7 +599,7 @@ function _videoPlay() {
     curPlayFrame++;
 
     // There are no more frames to preview
-    if (curPlayFrame >= curFrame) {
+    if (curPlayFrame >= totalFrames) {
          // We are not looping, stop the playback
         if (!isLooping) {
             videoStop();
@@ -607,7 +638,7 @@ function _frameReelScroll() {
     if (curPlayFrame === 0) {
         // Scroll to start when playback begins
         frameReelArea.scrollLeft = 0;
-    } else if (curPlayFrame + 1 !== curFrame) {
+    } else if (curPlayFrame + 1 !== totalFrames) {
         // Scroll so currently played frame is in view
         document.querySelector(`.frame-reel-img#img-${curPlayFrame + 2}`).scrollIntoView();
     } else {
@@ -759,7 +790,7 @@ function saveFrame(id) {
     var outputPath = `${frameExportDirectory}/${fileName}.png`;
 
     // Convert the frame from base64-encoded date to a PNG
-    var imageBuffer = decodeBase64Image(capturedFramesRaw[id - 1]);
+    var imageBuffer = decodeBase64Image(capturedFrames[id - 1]);
 
     // Save the frame to disk
     file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
@@ -856,6 +887,7 @@ function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
+    win.requestAttention(true);
 
     Mousetrap.bind("enter", _ok);
     Mousetrap.bind("esc", _cancel);
@@ -870,6 +902,7 @@ function confirmSet(callback, args, msg) {
             btnCaptureFrame.click();
         });
         Mousetrap.unbind("esc");
+        win.requestAttention(false);
     }
 
     function _cancel() {
@@ -879,6 +912,7 @@ function confirmSet(callback, args, msg) {
             btnCaptureFrame.click();
         });
         Mousetrap.unbind("esc");
+        win.requestAttention(false);
     }
 
     // Respond to button clicks
@@ -930,33 +964,34 @@ function loadMenu() {
     // Edit menu items
     editMenu.append(new gui.MenuItem({
       label: "Delete Last Frame",
-      click: function() {
-        undoFrame();
-      }
+      click: undoFrame
     }));
 
     // Capture menu items
     captureMenu.append(new gui.MenuItem({
       label: "Capture Frame",
-      click: function() {
-        takePicture();
-      }
+      click: takePicture
     }));
 
     // Help menu items
     helpMenu.append(new gui.MenuItem({
       label: "Give Feedback",
       click: function() {
-          gui.Shell.openExternal("https://github.com/BoatsAreRockable/animator/issues");
+          utils.openURL("https://github.com/BoatsAreRockable/animator/issues");
       }
+    }));
+
+    helpMenu.append(new gui.MenuItem({ type: "separator" }));
+
+    helpMenu.append(new gui.MenuItem({
+      label: "About Boats Animator",
+      click: openAbout
     }));
 
     // Debug menu items
     debugMenu.append(new gui.MenuItem({
       label: "Load Developer Tools...",
-      click: function() {
-          dev();
-      }
+      click: utils.showDev
     }));
 
     // Append sub-menus to main menu
@@ -1049,23 +1084,10 @@ Mousetrap.bind(["l", "3"], function() {
 Mousetrap.bind("/", function () {
     Mousetrap.trigger('esc');
 });
-Mousetrap.bind("f12", dev);
+Mousetrap.bind("f12", utils.showDev);
 
 // Bonus
 Mousetrap.bind(["b o a t s"], function() {
     console.info("Someone entered the secret shortcut...")
-    gui.Shell.openExternal("http://charlielee.uk/animator");
+    openAbout();
 });
-
-/**
- * Development Functions
- */
-function dev() {
-    "use strict";
-    win.showDevTools();
-}
-
-function reload() {
-    "use strict";
-    win.reloadDev();
-}

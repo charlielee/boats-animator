@@ -30,6 +30,7 @@ a {
   width: 100vw;
   position: fixed;
   left: 20vw;
+  z-index: 5;
 }
 
 /* Individual notification */
@@ -39,7 +40,6 @@ a {
   padding-bottom: 0.6em;
   background-color: #2b2b2b;
   box-shadow: 0 1px 5px 1px rgba(27, 27, 27, 0.4);
-  z-index: 5;
   color: #fff;
   transition: transform 0.3s ease;
 }
@@ -476,7 +476,7 @@ a {
   margin-left: 0.8em;
 }
 
-#statusBar-credits { float: right; }
+#statusBar-dev { float: right; }
 
 /* ========== SCROLL BARS ============== */
 
