@@ -934,11 +934,13 @@ function loadMenu() {
     fileMenu.append(new gui.MenuItem({
       label: "New Project...",
       click: function() {
+          notifyInfo("That feature is not yet implemented.");
       }
     }));
     fileMenu.append(new gui.MenuItem({
       label: "Open Project...",
       click: function() {
+          notifyInfo("That feature is not yet implemented.");
       }
     }));
     fileMenu.append(new gui.MenuItem({ type: "separator" }));
@@ -979,7 +981,7 @@ function loadMenu() {
     helpMenu.append(new gui.MenuItem({ type: "separator" }));
 
     helpMenu.append(new gui.MenuItem({
-      label: "About Boats Animator",
+      label: "About Boats Animator...",
       click: openAbout
     }));
 
