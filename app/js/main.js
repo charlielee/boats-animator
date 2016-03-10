@@ -304,10 +304,6 @@ function startup() {
             _updateStatusBarCurFrame(imageID);
         }
     });
-  
-  // Developer buttons
-  document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
-  document.querySelector("#btn-reload-page").addEventListener("click", utils.reloadPage);
 }
 
 /**

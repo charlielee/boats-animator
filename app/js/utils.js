@@ -1,9 +1,9 @@
 const utils = (function() {
     "use strict";
-  
+
     const gui = require("nw.gui"),
           win = gui.Window.get();
-  
+
     /**
      * Open a URL in the user's browser.
      *
@@ -12,7 +12,7 @@ const utils = (function() {
     function openURL(url) {
        gui.Shell.openExternal(url);
     }
-  
+
     /**
      * Open the browser developer tools.
      */
@@ -33,6 +33,6 @@ const utils = (function() {
     return {
         openURL   : openURL,
         showDev   : showDev,
-        reloadPage: reloadPage    
+        reloadPage: reloadPage
     };
 }());
