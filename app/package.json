@@ -61,6 +61,9 @@
     "js-flags": "",
     "app_name": "Boats Animator",
     "chromium-args": "",
+    "engines": {
+        "npm": "^3.7.3"
+    },
     "dependencies": {
         "mkdirp": "^0.5.1"
     },
