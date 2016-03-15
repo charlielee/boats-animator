@@ -31,7 +31,7 @@
         "title": "Boats Animator",
         "kiosk": false,
         "kiosk_emulation": false,
-        "exe_icon": "icons\\icon.png",
+        "exe_icon": "icons/icon.png",
         "width": 730,
         "min_width": 730,
         "min_height": 450,
@@ -41,9 +41,9 @@
         "position": "center",
         "show_in_taskbar": true,
         "height": 450,
-        "mac_icon": "icons\\icon.png",
+        "mac_icon": "icons/icon.png",
         "transparent": false,
-        "icon": "icons\\icon.png"
+        "icon": "icons/icon.png"
     },
     "version": "0.6.3",
     "app_name": "Boats Animator",
