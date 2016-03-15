@@ -19,9 +19,8 @@ var width  = 640,
     ratio       = null,
     aspectRatio = null,
 
-    // GUI window
-    gui = require("nw.gui"),
-    win = gui.Window.get(),
+    // NW.js
+    win = nw.Window.get(),
 
     // Mode switching
     btnLiveView    = document.querySelector("#btn-live-view"),
@@ -101,13 +100,12 @@ var width  = 640,
  */
 function openIndex() {
     "use strict";
-    gui.Window.open("index.html", {
+    nw.Window.open("index.html", {
         position: "center",
         width: 730,
         height: 450,
         min_width: 730,
         min_height: 450,
-        toolbar: false,
         focus: true,
         icon: "icons/icon.png"
     });
@@ -889,31 +887,31 @@ function confirmSet(callback, args, msg) {
 function loadMenu() {
     "use strict";
     // Create menu
-    var menuBar = new gui.Menu({ type: "menubar" });
+    var menuBar = new nw.Menu({ type: "menubar" });
 
     // Create sub-menus
-    var fileMenu    = new gui.Menu(),
-        editMenu    = new gui.Menu(),
-        captureMenu = new gui.Menu(),
-        helpMenu    = new gui.Menu(),
-        debugMenu   = new gui.Menu();
+    var fileMenu    = new nw.Menu(),
+        editMenu    = new nw.Menu(),
+        captureMenu = new nw.Menu(),
+        helpMenu    = new nw.Menu(),
+        debugMenu   = new nw.Menu();
 
     // File menu items
-    fileMenu.append(new gui.MenuItem({
+    fileMenu.append(new nw.MenuItem({
       label: "New project...",
       click: function() {
       },
         key: "n",
         modifiers: "ctrl",
     }));
-    fileMenu.append(new gui.MenuItem({
+    fileMenu.append(new nw.MenuItem({
       label: "Open project...",
       click: function() {
       },
         key: "o",
         modifiers: "ctrl",
     }));
-    fileMenu.append(new gui.MenuItem({
+    fileMenu.append(new nw.MenuItem({
       label: "Main Menu",
       click: function() {
         confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
@@ -923,7 +921,7 @@ function loadMenu() {
     }));
 
     // Edit menu items
-    editMenu.append(new gui.MenuItem({
+    editMenu.append(new nw.MenuItem({
       label: "Delete last frame",
       click: function() {
         undoFrame();
@@ -933,7 +931,7 @@ function loadMenu() {
     }));
 
     // Capture menu items
-    captureMenu.append(new gui.MenuItem({
+    captureMenu.append(new nw.MenuItem({
       label: "Capture frame",
       click: function() {
         takePicture();
@@ -943,17 +941,17 @@ function loadMenu() {
     }));
 
     // Help menu items
-    helpMenu.append(new gui.MenuItem({
+    helpMenu.append(new nw.MenuItem({
       label: "Give feedback",
       click: function() {
-          gui.Shell.openExternal("https://github.com/BoatsAreRockable/animator/issues");
+          nw.Shell.openExternal("https://github.com/BoatsAreRockable/animator/issues");
       },
       key: "/",
       modifiers: "ctrl",
     }));
 
     // Debug menu items
-    debugMenu.append(new gui.MenuItem({
+    debugMenu.append(new nw.MenuItem({
       label: "Load developer tools",
       click: function() {
           dev();
@@ -964,42 +962,42 @@ function loadMenu() {
 
     // Append sub-menus to main menu
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "File",
             submenu: fileMenu
         })
     );
 
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "Edit",
             submenu: editMenu
         })
     );
 
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "Capture",
             submenu: captureMenu
         })
     );
 
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "Help",
             submenu: helpMenu
         })
     );
 
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "Debug",
             submenu: debugMenu
         })
     );
 
     // Append main menu to Window
-    gui.Window.get().menu = menuBar;
+    nw.Window.get().menu = menuBar;
 
     // Create Mac menu
     if (process.platform === "darwin") {
