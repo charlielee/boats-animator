@@ -887,19 +887,16 @@ function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
-    win.requestAttention(true);
 
     function _ok() {
         confirmContainer.classList.add("hidden");
         callback(args);
         btnConfirmOK.removeEventListener("click", _ok);
-        win.requestAttention(false);
     }
 
     function _cancel() {
         confirmContainer.classList.add("hidden");
         btnConfirmCancel.removeEventListener("click", _cancel);
-        win.requestAttention(false);
     }
 
     // Respond to button clicks
