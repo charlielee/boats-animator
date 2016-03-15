@@ -304,10 +304,6 @@ function startup() {
             _updateStatusBarCurFrame(imageID);
         }
     });
-  
-  // Developer buttons
-  document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
-  document.querySelector("#btn-reload-page").addEventListener("click", utils.reloadPage);
 }
 
 /**
@@ -887,19 +883,31 @@ function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
-    win.requestAttention(true);
+
+    Mousetrap.bind("enter", _ok);
+    Mousetrap.bind("esc", _cancel);
+    btnConfirmOK.focus();
 
     function _ok() {
-        confirmContainer.classList.add("hidden");
         callback(args);
-        btnConfirmOK.removeEventListener("click", _ok);
-        win.requestAttention(false);
+        _confirmSelect();
     }
 
     function _cancel() {
+        _confirmSelect();
+    }
+    
+    function _confirmSelect() {
         confirmContainer.classList.add("hidden");
+        
+        btnConfirmOK.removeEventListener("click", _ok);
         btnConfirmCancel.removeEventListener("click", _cancel);
-        win.requestAttention(false);
+        btnConfirmOK.blur();
+        
+        Mousetrap.bind("enter", function() {
+            btnCaptureFrame.click();
+        });
+        Mousetrap.unbind("esc");
     }
 
     // Respond to button clicks
@@ -924,67 +932,63 @@ function loadMenu() {
 
     // File menu items
     fileMenu.append(new gui.MenuItem({
-      label: "New project...",
+      label: "New Project...",
       click: function() {
-      },
-        key: "n",
-        modifiers: "ctrl",
+          notifyInfo("That feature is not yet implemented.");
+      }
     }));
     fileMenu.append(new gui.MenuItem({
-      label: "Open project...",
+      label: "Open Project...",
       click: function() {
-      },
-        key: "o",
-        modifiers: "ctrl",
+          notifyInfo("That feature is not yet implemented.");
+      }
     }));
+    fileMenu.append(new gui.MenuItem({ type: "separator" }));
     fileMenu.append(new gui.MenuItem({
       label: "Main Menu",
       click: function() {
         confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
-      },
-        key: "m",
-        modifiers: "ctrl",
+      }
+    }));
+    fileMenu.append(new gui.MenuItem({ type: "separator" }));
+    fileMenu.append(new gui.MenuItem({
+      label: "Exit",
+      click: function() {
+          win.close();
+      }
     }));
 
     // Edit menu items
     editMenu.append(new gui.MenuItem({
-      label: "Delete last frame",
-      click: undoFrame,
-      key: "z",
-      modifiers: "ctrl",
+      label: "Delete Last Frame",
+      click: undoFrame
     }));
 
     // Capture menu items
     captureMenu.append(new gui.MenuItem({
-      label: "Capture frame",
-      click: takePicture,
-      key: "c",
-      modifiers: "ctrl",
+      label: "Capture Frame",
+      click: takePicture
     }));
 
     // Help menu items
     helpMenu.append(new gui.MenuItem({
-      label: "Give feedback",
+      label: "Give Feedback",
       click: function() {
           utils.openURL("https://github.com/BoatsAreRockable/animator/issues");
-      },
-      key: "/",
-      modifiers: "ctrl",
+      }
     }));
 
     helpMenu.append(new gui.MenuItem({ type: "separator" }));
 
     helpMenu.append(new gui.MenuItem({
-      label: "About Boats Animator",
+      label: "About Boats Animator...",
       click: openAbout
     }));
 
     // Debug menu items
     debugMenu.append(new gui.MenuItem({
-      label: "Load developer tools",
-      click: utils.showDev,
-      key: "d",
-      modifiers: "ctrl",
+      label: "Load Developer Tools...",
+      click: utils.showDev
     }));
 
     // Append sub-menus to main menu
@@ -1031,3 +1035,56 @@ function loadMenu() {
         menuBar.createMacBuiltin("Boats Animator");
     }
 }
+
+/**
+ * Keyboard Shortcuts
+ */
+
+// Projects
+Mousetrap.bind("mod+w", function() {
+    confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
+});
+
+// Capture
+Mousetrap.bind("enter", function() {
+    btnCaptureFrame.click();
+});
+Mousetrap.bind(["mod+z", "backspace", "del", "*"], function() {
+    btnDeleteLastFrame.click();
+});
+Mousetrap.bind("m", function() {
+    audioToggle.checked = !audioToggle.checked;
+});
+
+// Playback
+Mousetrap.bind(["space", "0"], function() {
+    btnPlayPause.click();
+});
+Mousetrap.bind(["p", "."], function() {
+    // Play from start
+    curPlayFrame = 0;
+    if (isPlaying) {
+        videoPause();
+    }
+    btnPlayPause.click();
+});
+Mousetrap.bind("8", function() {
+    btnLoop.click();
+});
+
+// Framereel
+Mousetrap.bind(["l", "3"], function() {
+    btnLiveView.click();
+});
+
+// General
+Mousetrap.bind("/", function () {
+    Mousetrap.trigger('esc');
+});
+Mousetrap.bind("f12", utils.showDev);
+
+// Bonus
+Mousetrap.bind(["b o a t s"], function() {
+    console.info("Someone entered the secret shortcut...")
+    openAbout();
+});

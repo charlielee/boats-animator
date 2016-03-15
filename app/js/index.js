@@ -39,7 +39,6 @@
     // Start a new project
     document.querySelector("#new-project").addEventListener("click", openAnimator);
 
-    // Developer buttons
-    document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
-    document.querySelector("#btn-reload-page").addEventListener("click", utils.reloadPage);
+    // Keyboard shortcuts
+    Mousetrap.bind("f12", utils.showDev);
 }());

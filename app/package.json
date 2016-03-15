@@ -65,7 +65,8 @@
         "npm": "^3.7.3"
     },
     "dependencies": {
-        "mkdirp": "^0.5.1"
+        "mkdirp": "^0.5.1",
+        "mousetrap": "^1.5.3"
     },
     "scripts": {
         "postinstall": "cp node_modules/mkdirp/index.js lib/mkdirp.js"
