@@ -927,28 +927,33 @@ function loadMenu() {
     var fileMenu    = new gui.Menu(),
         editMenu    = new gui.Menu(),
         captureMenu = new gui.Menu(),
-        helpMenu    = new gui.Menu(),
-        debugMenu   = new gui.Menu();
+        helpMenu    = new gui.Menu();
 
     // File menu items
     fileMenu.append(new gui.MenuItem({
       label: "New Project...",
       click: function() {
           notifyInfo("That feature is not yet implemented.");
-      }
+      },
+      modifiers: "ctrl",
+      key: "n"
     }));
     fileMenu.append(new gui.MenuItem({
       label: "Open Project...",
       click: function() {
           notifyInfo("That feature is not yet implemented.");
-      }
+      },
+      modifiers: "ctrl",
+      key: "o"
     }));
     fileMenu.append(new gui.MenuItem({ type: "separator" }));
     fileMenu.append(new gui.MenuItem({
       label: "Main Menu",
       click: function() {
         confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
-      }
+      },
+      modifiers: "ctrl",
+      key: "w"
     }));
     fileMenu.append(new gui.MenuItem({ type: "separator" }));
     fileMenu.append(new gui.MenuItem({
@@ -961,13 +966,17 @@ function loadMenu() {
     // Edit menu items
     editMenu.append(new gui.MenuItem({
       label: "Delete Last Frame",
-      click: undoFrame
+      click: undoFrame,
+      modifiers: "ctrl",
+      key: "z"
     }));
 
     // Capture menu items
     captureMenu.append(new gui.MenuItem({
       label: "Capture Frame",
-      click: takePicture
+      click: takePicture,
+      modifiers: "ctrl",
+      key: "1"
     }));
 
     // Help menu items
@@ -981,14 +990,8 @@ function loadMenu() {
     helpMenu.append(new gui.MenuItem({ type: "separator" }));
 
     helpMenu.append(new gui.MenuItem({
-      label: "About Boats Animator...",
+      label: "About Boats Animator",
       click: openAbout
-    }));
-
-    // Debug menu items
-    debugMenu.append(new gui.MenuItem({
-      label: "Load Developer Tools...",
-      click: utils.showDev
     }));
 
     // Append sub-menus to main menu
@@ -1017,13 +1020,6 @@ function loadMenu() {
         new gui.MenuItem({
             label: "Help",
             submenu: helpMenu
-        })
-    );
-
-    menuBar.append(
-        new gui.MenuItem({
-            label: "Debug",
-            submenu: debugMenu
         })
     );
 
