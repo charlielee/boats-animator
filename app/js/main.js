@@ -627,6 +627,18 @@ function previewCapturedFrames() {
 }
 
 /**
+ * Begin playback from the first frame captured.
+ */
+function playFromStart() {
+    // Play from start
+    curPlayFrame = 0;
+    if (isPlaying) {
+        videoPause();
+    }
+    btnPlayPause.click();
+}
+
+/**
  * Scroll the framereel during playback
  */
 function _frameReelScroll() {
@@ -1057,12 +1069,7 @@ Mousetrap.bind(["space", "0"], function() {
     btnPlayPause.click();
 });
 Mousetrap.bind(["p", "."], function() {
-    // Play from start
-    curPlayFrame = 0;
-    if (isPlaying) {
-        videoPause();
-    }
-    btnPlayPause.click();
+    playFromStart();
 });
 Mousetrap.bind("8", function() {
     btnLoop.click();
