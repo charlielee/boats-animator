@@ -35,12 +35,7 @@
     /**
      * Development Functions
      */
-    document.querySelector("#btn-dev-tools").addEventListener("click", function() {
-        win.showDevTools();
-    });
+    document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
 
-    document.querySelector("#btn-dev-reload").addEventListener("click", function() {
-        // nw-TODO reloadDev() is not yet supported
-        win.reload();
-    });
+    document.querySelector("#btn-dev-reload").addEventListener("click", utils.reloadPage);
 }());
