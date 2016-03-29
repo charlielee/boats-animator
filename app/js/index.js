@@ -3,8 +3,6 @@
 
 (function() {
     "use strict";
-    // nw-TODO: win.reload() causes this method to throw
-    // Uncaught TypeError: nw.Window.get is not a function
     let win      = nw.Window.get(),
         newsFeed = require("./js/newsfeed"),
         qAppVersion = document.querySelector("#app-version");
@@ -28,9 +26,7 @@
             focus: true,
             icon: "icons/icon.png",
         });
-
-        // nw-TODO This ends up closing both windows
-        // win.close();
+        win.close();
     }
 
     // Open the animator
