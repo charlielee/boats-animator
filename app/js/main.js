@@ -93,7 +93,10 @@ var width  = 640,
     mkdirp = require("./lib/mkdirp"),
 
     // Sidebar
-    btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
+    btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change"),
+
+    // Shortcuts
+    enableShortcuts = false;
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -206,6 +209,8 @@ function startup() {
         }
     });
 
+    addShortcuts(mainKeys);
+
 
     /* ======= Listeners ======= */
     // Capture a frame
@@ -251,6 +256,9 @@ function startup() {
     });
 
     // Listen for frame rate changes
+    inputChangeFR.addEventListener("focus", function() {
+        removeShortcuts(mainKeys);
+    });
     inputChangeFR.addEventListener("input", function() {
         if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
             frameRate = parseInt(this.value, 10);
@@ -263,6 +271,7 @@ function startup() {
 
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
+        addShortcuts(mainKeys)
         inputChangeFR.value = frameRate;
         if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
             inputChangeFR.value = 15;
@@ -904,8 +913,6 @@ function confirmSet(callback, args, msg) {
 /**
  * Display top menu
  */
-function loadMenu() {
-    "use strict";
     // Create menu
     var menuBar = new nw.Menu({ type: "menubar" });
 
@@ -915,6 +922,9 @@ function loadMenu() {
         captureMenu = new nw.Menu(),
         helpMenu    = new nw.Menu(),
         debugMenu   = new nw.Menu();
+
+function loadMenu() {
+    "use strict";
 
     // File menu items
     fileMenu.append(new nw.MenuItem({
@@ -1020,4 +1030,102 @@ function loadMenu() {
     if (process.platform === "darwin") {
         menuBar.createMacBuiltin("Boats Animator");
     }
+
 }
+
+/**
+ * Lists all of the features that can be set as keyboard shortcuts.
+ */
+var shortcuts = {
+    takePicture: takePicture,
+    undoFrame: undoFrame,
+    audioToggle: function() {
+        audioToggle.checked = !audioToggle.checked;
+    },
+    playPause: function() {
+        btnPlayPause.click();
+    },
+    loopPlayback: function() {
+        btnLoop.click();
+    },
+    liveView: function() {
+        if (totalFrames > 0) {
+            btnLiveView.click();
+        }
+    }
+};
+
+/**
+ * Keyboard shortcuts.
+ */
+
+// Shortcuts used in the main window
+var mainKeys = [
+    // Capture
+    {key: "enter", active: shortcuts.takePicture},
+    {key: "delete", active: shortcuts.undoFrame},
+    {key: "backspace", active: shortcuts.undoFrame},
+    {key: "NumpadMultiply", active: shortcuts.undoFrame},
+    {key: "m", active: shortcuts.audioToggle},
+
+    // Playback
+    {key: "space", active: shortcuts.playPause},
+    {key: "0", active: shortcuts.playPause},
+    {key: "Numpad0", active: shortcuts.playPause},
+    {key: "8", active: shortcuts.loopPlayback},
+    {key: "Numpad8", active: shortcuts.loopPlayback},
+
+    // Framereel
+    {"key": "l", "active": shortcuts.liveView},
+    {"key": "3", "active": shortcuts.liveView},
+    {"key": "Numpad3", "active": shortcuts.liveView},
+];
+
+/**
+ * Choose an array of shortcuts to activate
+ * @param {variable} array Which array of shortcuts should be enabled.
+ *                               eg mainKeys or confirmKeys.
+ */
+function addShortcuts(shortcutArray) {
+    if (!enableShortcuts) {
+        for (i = 0; i < Object.keys(shortcutArray).length; i++) {
+            // Options to apply to nw.Shortcut
+            var option = {
+                key : shortcutArray[i].key,
+                active : shortcutArray[i].active,
+                failed : function(err) {
+                    console.error(err);
+                }
+            };
+            window[shortcutArray[i].key + "Shortcut"] = new nw.Shortcut(option);
+            nw.App.registerGlobalHotKey(window[shortcutArray[i].key + "Shortcut"]);
+        }
+
+        //captureMenu.items[0].enabled = true;
+        enableShortcuts = true;
+        console.log("added shortcuts");
+    }
+}
+
+function removeShortcuts(shortcutArray) {
+    if (enableShortcuts) {
+        for (i = 0; i < Object.keys(shortcutArray).length; i++) {
+            nw.App.unregisterGlobalHotKey(window[shortcutArray[i].key + "Shortcut"]);
+        }
+
+        //captureMenu.items[0].enabled = false;
+        enableShortcuts = false;
+        console.log("removed shortcuts");
+    }
+}
+
+// Stops shortcuts operating in other applications
+win.on("focus", function() {
+    addShortcuts(mainKeys)
+});
+win.on("restore", function() {
+    addShortcuts(mainKeys)
+});
+win.on("blur", function() {
+    removeShortcuts(mainKeys)
+});
