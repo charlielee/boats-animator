@@ -139,6 +139,7 @@ win.on("close", function() {
 
 function closeAnimator() {
     win.close(true);
+    nw.App.closeAllWindows();
 }
 
 function startup() {
@@ -893,21 +894,51 @@ function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
+    btnConfirmOK.focus();
+
+    removeShortcuts(mainKeys);
+    addShortcuts(confirmKeys);
+    editMenu.items[0].enabled = false;
+    captureMenu.items[0].enabled = false;
 
     function _ok() {
-        confirmContainer.classList.add("hidden");
         callback(args);
-        btnConfirmOK.removeEventListener("click", _ok);
+        _confirmSelect();
     }
 
     function _cancel() {
+        _confirmSelect();
+    }
+
+    function _confirmSelect() {
         confirmContainer.classList.add("hidden");
+
+        btnConfirmOK.removeEventListener("click", _ok);
         btnConfirmCancel.removeEventListener("click", _cancel);
+        
+        btnConfirmOK.removeEventListener("blur", _focusCancel);
+        btnConfirmCancel.removeEventListener("blur", _focusOK);
+
+        removeShortcuts(confirmKeys);
+        addShortcuts(mainKeys);
+        editMenu.items[0].enabled = true;
+        captureMenu.items[0].enabled = true;
     }
 
     // Respond to button clicks
     btnConfirmOK.addEventListener("click", _ok);
     btnConfirmCancel.addEventListener("click", _cancel);
+    
+    function _focusOK() {
+        btnConfirmOK.focus();
+    }
+
+    function _focusCancel() {
+        btnConfirmCancel.focus();
+    }
+
+    btnConfirmOK.addEventListener("blur", _focusCancel);
+    btnConfirmCancel.addEventListener("blur", _focusOK);
 }
 
 /**
@@ -1052,6 +1083,12 @@ var shortcuts = {
         if (totalFrames > 0) {
             btnLiveView.click();
         }
+    },
+    confirmOK: function() {
+        btnConfirmOK.click();
+    },
+    confirmCancel: function() {
+        btnConfirmCancel.click();
     }
 };
 
@@ -1059,32 +1096,41 @@ var shortcuts = {
  * Keyboard shortcuts.
  */
 
-// Shortcuts used in the main window
+// Shortcuts used in the main window.
 var mainKeys = [
     // Capture
-    {key: "enter", active: shortcuts.takePicture},
-    {key: "delete", active: shortcuts.undoFrame},
-    {key: "backspace", active: shortcuts.undoFrame},
+    {key: "Enter", active: shortcuts.takePicture},
+    {key: "Delete", active: shortcuts.undoFrame},
+    {key: "Backspace", active: shortcuts.undoFrame},
     {key: "NumpadMultiply", active: shortcuts.undoFrame},
-    {key: "m", active: shortcuts.audioToggle},
+    {key: "M", active: shortcuts.audioToggle},
 
     // Playback
-    {key: "space", active: shortcuts.playPause},
+    {key: "Space", active: shortcuts.playPause},
     {key: "0", active: shortcuts.playPause},
     {key: "Numpad0", active: shortcuts.playPause},
+    {key: "MediaPlayPause", active: shortcuts.playPause},
     {key: "8", active: shortcuts.loopPlayback},
     {key: "Numpad8", active: shortcuts.loopPlayback},
 
     // Framereel
-    {"key": "l", "active": shortcuts.liveView},
-    {"key": "3", "active": shortcuts.liveView},
-    {"key": "Numpad3", "active": shortcuts.liveView},
+    {key: "L", active: shortcuts.liveView},
+    {key: "3", active: shortcuts.liveView},
+    {key: "Numpad3", active: shortcuts.liveView}
+];
+
+// Shortcuts used in confirm prompts.
+var confirmKeys = [
+    {key: "Enter", active: shortcuts.confirmOK},
+    {key: "Escape", active: shortcuts.confirmCancel},
+    {key: "NumpadDivide", active: shortcuts.confirmCancel}
 ];
 
 /**
- * Choose an array of shortcuts to activate
- * @param {variable} array Which array of shortcuts should be enabled.
- *                               eg mainKeys or confirmKeys.
+ * Choose an array of shortcuts to activate.
+ *
+ * @param {variable} shortcutArray Which array of shortcuts should be enabled.
+ *                                 eg mainKeys or confirmKeys.
  */
 function addShortcuts(shortcutArray) {
     if (!enableShortcuts) {
@@ -1101,7 +1147,6 @@ function addShortcuts(shortcutArray) {
             nw.App.registerGlobalHotKey(window[shortcutArray[i].key + "Shortcut"]);
         }
 
-        //captureMenu.items[0].enabled = true;
         enableShortcuts = true;
         console.log("added shortcuts");
     }
@@ -1113,7 +1158,6 @@ function removeShortcuts(shortcutArray) {
             nw.App.unregisterGlobalHotKey(window[shortcutArray[i].key + "Shortcut"]);
         }
 
-        //captureMenu.items[0].enabled = false;
         enableShortcuts = false;
         console.log("removed shortcuts");
     }
