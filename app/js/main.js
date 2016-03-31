@@ -96,6 +96,7 @@ var width  = 640,
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change"),
 
     // Shortcuts
+    controlKey = null;
     enableShortcuts = false;
 
 /**
@@ -956,6 +957,11 @@ function confirmSet(callback, args, msg) {
 
 function loadMenu() {
     "use strict";
+    if (process.platform === "darwin") {
+        controlKey = "command";
+    } else {
+        controlKey = "ctrl";
+    }
 
     // File menu items
     fileMenu.append(new nw.MenuItem({
@@ -963,14 +969,14 @@ function loadMenu() {
       click: function() {
       },
         key: "n",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
     fileMenu.append(new nw.MenuItem({
       label: "Open project...",
       click: function() {
       },
         key: "o",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
     fileMenu.append(new nw.MenuItem({
       label: "Main Menu",
@@ -978,7 +984,7 @@ function loadMenu() {
         confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
       },
         key: "w",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
 
     // Edit menu items
@@ -986,7 +992,7 @@ function loadMenu() {
       label: "Delete last frame",
       click: undoFrame,
       key: "z",
-      modifiers: "ctrl",
+      modifiers: controlKey,
     }));
 
     // Capture menu items
@@ -994,7 +1000,7 @@ function loadMenu() {
       label: "Capture frame",
       click: takePicture,
       key: "1",
-      modifiers: "ctrl",
+      modifiers: controlKey,
     }));
 
     // Help menu items
