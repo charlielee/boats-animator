@@ -302,10 +302,6 @@ function startup() {
             _updateStatusBarCurFrame(imageID);
         }
     });
-  
-  // Developer buttons
-  document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
-  document.querySelector("#btn-dev-reload").addEventListener("click", utils.reloadPage);
 }
 
 /**
@@ -914,8 +910,7 @@ function loadMenu() {
     var fileMenu    = new nw.Menu(),
         editMenu    = new nw.Menu(),
         captureMenu = new nw.Menu(),
-        helpMenu    = new nw.Menu(),
-        debugMenu   = new nw.Menu();
+        helpMenu    = new nw.Menu();
 
     // File menu items
     fileMenu.append(new nw.MenuItem({
@@ -972,12 +967,6 @@ function loadMenu() {
       click: openAbout
     }));
 
-    // Debug menu items
-    debugMenu.append(new nw.MenuItem({
-      label: "Load developer tools",
-      click: utils.showDev,
-    }));
-
     // Append sub-menus to main menu
     menuBar.append(
         new nw.MenuItem({
@@ -1004,13 +993,6 @@ function loadMenu() {
         new nw.MenuItem({
             label: "Help",
             submenu: helpMenu
-        })
-    );
-
-    menuBar.append(
-        new nw.MenuItem({
-            label: "Debug",
-            submenu: debugMenu
         })
     );
 
