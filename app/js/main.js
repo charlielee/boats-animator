@@ -246,6 +246,7 @@ function startup() {
     btnStop.addEventListener("click", function() {
         if (totalFrames > 0) {
             _removeFrameReelSelection();
+            _addFrameReelSelection(totalFrames);
             videoStop();
         }
     });
