@@ -128,12 +128,19 @@ a {
 }
 
 #sidebar a,
+#sidebar label,
 #sidebar .sidebar-opt {
   color: #d3d3d3;
   cursor: pointer;
 }
 #sidebar a:hover,
+#sidebar label:hover,
 #sidebar .sidebar-opt:hover { border-bottom: 1.5px solid #d3d3d3; }
+
+#sidebar input,
+#sidebar label {
+  vertical-align: middle;
+}
 
 #sidebar-content {
   padding-left: 1em;
@@ -165,8 +172,6 @@ a {
   font-family: monospace;
   word-break: break-word;
 }
-
-#loopCheckbox { cursor: pointer; }
 
 /* ========== VIDEO PREVIEW ============== */
 
@@ -385,7 +390,6 @@ a {
   display: inline-block;
   cursor: pointer;
   padding: 0 1em;
-/*  float: right;*/
 }
 
 #framerate-container {
