@@ -13,6 +13,6 @@ const utils = (function() {
     }
 
     return {
-        openURL   : openURL
+        openURL: openURL
     };
 }());
