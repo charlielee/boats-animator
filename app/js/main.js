@@ -314,7 +314,6 @@ function switchMode(newMode) {
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
         captureWindow.classList.add("active");
-        captureWindow.classList.add("active");
         btnLiveView.classList.add("selected");
 
     } else if (winMode === "playback") {
