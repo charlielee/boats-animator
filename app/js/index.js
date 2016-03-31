@@ -32,10 +32,4 @@
     // Open the animator
     document.querySelector("#new-project").addEventListener("click", openAnimator);
 
-    /**
-     * Development Functions
-     */
-    document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
-
-    document.querySelector("#btn-dev-reload").addEventListener("click", utils.reloadPage);
 }());
