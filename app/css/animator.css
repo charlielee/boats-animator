@@ -16,12 +16,15 @@ body {
   height: 100%;
 }
 
+img { -webkit-user-drag: none; }
+
 /* ========== TEXT STYLING ============== */
 
 a {
   color: #D9D9D9;
   text-decoration: none;
   cursor: pointer;
+  -webkit-user-drag: none;
 }
 
 /* ========== Notification bar ============== */
