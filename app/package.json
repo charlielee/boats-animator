@@ -45,9 +45,12 @@
         "transparent": false,
         "icon": "icons/icon.png"
     },
-    "version": "0.6.3",
+    "version": "0.6.4",
     "app_name": "Boats Animator",
     "chromium-args": "--mixed-context",
+    "engines": {
+        "npm": "^3.7.3"
+    },
     "dependencies": {
         "mkdirp": "^0.5.1"
     },

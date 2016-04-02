@@ -76,17 +76,6 @@
                     </li>
                 </ul>
             </div>
-
-            <!--Debugging Options-->
-            <div class="sidebar-item" id="debugging-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-heartbeat fa-fw"></i> Debugging</h2>
-                </div>
-                <ul>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="dev()">Load developer tools</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="reload()">Reload main window</a></li>
-                </ul>
-            </div>
         </div>
     </div>
 
@@ -110,7 +99,6 @@
                 <tr>
                     <td id="left-controls">
                         <div id="btn-delete-last-frame" title="Undo last frame"><i class="fa fa-undo"></i></div>
-                        <div id="btn-delete-frame" title="Delete selected frame"><i class="fa fa-trash"></i></div>
                     </td>
                     <td id="capture-control">
                 <!--
@@ -166,14 +154,13 @@
 
     <div id="statusBar">
         <ul>
-            <li id="currentFrame">Current frame: <span>0</span></li>
-            <li id="num-of-frames"><span>0 frames</span> captured</li>
-            <li id="currentFrameRate"><span></span> FPS</li>
-            <li class="no-pipe" id="currentMode"><span></span> mode</li>
-            <li class="no-pipe" id="statusBar-credits">&copy; Charlie Lee 2016</li>
+            <li>Frame <span id="current-frame">0</span> of <span id="num-of-frames">0</span></li>
+            <li id="current-frame-rate"><span></span> FPS</li>
+            <li class="no-pipe" id="current-mode"><span></span> mode</li>
         </ul>
     </div>
 
-    <script async src="js/main.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

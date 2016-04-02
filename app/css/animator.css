@@ -16,12 +16,15 @@ body {
   height: 100%;
 }
 
+img { -webkit-user-drag: none; }
+
 /* ========== TEXT STYLING ============== */
 
 a {
   color: #D9D9D9;
   text-decoration: none;
   cursor: pointer;
+  -webkit-user-drag: none;
 }
 
 /* ========== Notification bar ============== */
@@ -30,6 +33,7 @@ a {
   width: 100vw;
   position: fixed;
   left: 20vw;
+  z-index: 5;
 }
 
 /* Individual notification */
@@ -39,7 +43,6 @@ a {
   padding-bottom: 0.6em;
   background-color: #2b2b2b;
   box-shadow: 0 1px 5px 1px rgba(27, 27, 27, 0.4);
-  z-index: 5;
   color: #fff;
   transition: transform 0.3s ease;
 }
@@ -128,12 +131,19 @@ a {
 }
 
 #sidebar a,
+#sidebar label,
 #sidebar .sidebar-opt {
   color: #d3d3d3;
   cursor: pointer;
 }
 #sidebar a:hover,
+#sidebar label:hover,
 #sidebar .sidebar-opt:hover { border-bottom: 1.5px solid #d3d3d3; }
+
+#sidebar input,
+#sidebar label {
+  vertical-align: middle;
+}
 
 #sidebar-content {
   padding-left: 1em;
@@ -165,8 +175,6 @@ a {
   font-family: monospace;
   word-break: break-word;
 }
-
-#loopCheckbox { cursor: pointer; }
 
 /* ========== VIDEO PREVIEW ============== */
 
@@ -317,18 +325,6 @@ a {
 .frame-reel-img:hover { opacity: 0.8; }
 .frame-reel-img.selected { outline: 1px solid #d9d9d9; }
 
-/* Frame delete button */
-.btn-frame-delete {
-  position: absolute;
-  left: 84%;
-  top: 71%;
-  float: right;
-  cursor: pointer;
-  color: white;
-  text-shadow: 0 0 2px black;
-}
-.btn-frame-delete:hover { opacity: 0.8; }
-
 #btn-live-view {
   width: 67px;
   height: 48px;
@@ -397,7 +393,6 @@ a {
   display: inline-block;
   cursor: pointer;
   padding: 0 1em;
-/*  float: right;*/
 }
 
 #framerate-container {
@@ -487,8 +482,6 @@ a {
   margin-right: 0.5em;
   margin-left: 0.8em;
 }
-
-#statusBar-credits { float: right; }
 
 /* ========== SCROLL BARS ============== */
 

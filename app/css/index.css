@@ -45,6 +45,7 @@ a {
 #sidebar-content ul {
   list-style: none;
   line-height: 1.4;
+  padding-left: 35px;
 }
 
 #sidebar-content li { margin-left: -0.7em; }
@@ -136,6 +137,7 @@ a {
     color: #fff;
     padding-right: 1em;
 }
+.post { margin-bottom: 1.5em; }
 
 .post-link {
     color: #fff;
@@ -144,11 +146,17 @@ a {
 .post-link:hover { color: #fff; }
 
 .post-title {
-    font-weight: 400;
+    font-weight: 500;
     margin: 0;
     margin-bottom: -0.4em;
     color: #fff;
 }
+.post-date {
+  color: #d3d3d3;
+  margin: 0.75em 0 0.25em 0;
+}
+.post-content p:first-of-type { margin: 0; }
+.post-content p { margin-top: 0; }
 
 /* ========== STATUS BAR ============== */
 

@@ -32,15 +32,4 @@
     // Open the animator
     document.querySelector("#new-project").addEventListener("click", openAnimator);
 
-    /**
-     * Development Functions
-     */
-    document.querySelector("#btn-dev-tools").addEventListener("click", function() {
-        win.showDevTools();
-    });
-
-    document.querySelector("#btn-dev-reload").addEventListener("click", function() {
-        // nw-TODO reloadDev() is not yet supported
-        win.reload();
-    });
 }());
