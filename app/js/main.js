@@ -91,12 +91,12 @@ var width  = 640,
     // Node modules
     file   = require("./js/file"),
     mkdirp = require("./lib/mkdirp"),
+    shortcuts = require("./js/shortcuts"),
 
     // Sidebar
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change"),
 
     // Shortcuts
-    controlKey = null;
     enableShortcuts = false;
 
 /**
@@ -211,7 +211,7 @@ function startup() {
         }
     });
 
-    addShortcuts(mainKeys);
+    shortcuts.add(mainKeys);
 
 
     /* ======= Listeners ======= */
@@ -259,7 +259,7 @@ function startup() {
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("focus", function() {
-        removeShortcuts(mainKeys);
+        shortcuts.remove(mainKeys);
     });
     inputChangeFR.addEventListener("input", function() {
         if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
@@ -273,7 +273,7 @@ function startup() {
 
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
-        addShortcuts(mainKeys)
+        shortcuts.add(mainKeys)
         inputChangeFR.value = frameRate;
         if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
             inputChangeFR.value = 15;
@@ -897,8 +897,8 @@ function confirmSet(callback, args, msg) {
     confirmContainer.classList.remove("hidden");
     btnConfirmOK.focus();
 
-    removeShortcuts(mainKeys);
-    addShortcuts(confirmKeys);
+    shortcuts.remove(mainKeys);
+    shortcuts.add(confirmKeys);
     editMenu.items[0].enabled = false;
     captureMenu.items[0].enabled = false;
 
@@ -920,8 +920,8 @@ function confirmSet(callback, args, msg) {
         btnConfirmOK.removeEventListener("blur", _focusCancel);
         btnConfirmCancel.removeEventListener("blur", _focusOK);
 
-        removeShortcuts(confirmKeys);
-        addShortcuts(mainKeys);
+        shortcuts.remove(confirmKeys);
+        shortcuts.add(mainKeys);
         editMenu.items[0].enabled = true;
         captureMenu.items[0].enabled = true;
     }
@@ -957,11 +957,7 @@ function confirmSet(callback, args, msg) {
 
 function loadMenu() {
     "use strict";
-    if (process.platform === "darwin") {
-        controlKey = "command";
-    } else {
-        controlKey = "ctrl";
-    }
+    var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
 
     // File menu items
     fileMenu.append(new nw.MenuItem({
@@ -1071,111 +1067,74 @@ function loadMenu() {
 }
 
 /**
- * Lists all of the features that can be set as keyboard shortcuts.
- */
-var shortcuts = {
-    takePicture: takePicture,
-    undoFrame: undoFrame,
-    audioToggle: function() {
-        audioToggle.checked = !audioToggle.checked;
-    },
-    playPause: function() {
-        btnPlayPause.click();
-    },
-    loopPlayback: function() {
-        btnLoop.click();
-    },
-    liveView: function() {
-        if (totalFrames > 0) {
-            btnLiveView.click();
-        }
-    },
-    confirmOK: function() {
-        btnConfirmOK.click();
-    },
-    confirmCancel: function() {
-        btnConfirmCancel.click();
-    }
-};
-
-/**
  * Keyboard shortcuts.
  */
 
+// All of the features that can be set as keyboard shortcuts.
+var features = {
+  takePicture: function() {
+    btnCaptureFrame.click();
+  },
+  undoFrame: undoFrame,
+  audioToggle: function() {
+    audioToggle.checked = !audioToggle.checked;
+  },
+  playPause: function() {
+    btnPlayPause.click();
+  },
+  loopPlayback: function() {
+    btnLoop.click();
+  },
+  liveView: function() {
+    if (totalFrames > 0) {
+      btnLiveView.click();
+    }
+  },
+  confirmOK: function() {
+    btnConfirmOK.click();
+  },
+  confirmCancel: function() {
+    btnConfirmCancel.click();
+  }
+};
+
 // Shortcuts used in the main window.
 var mainKeys = [
-    // Capture
-    {key: "Enter", active: shortcuts.takePicture},
-    {key: "Delete", active: shortcuts.undoFrame},
-    {key: "Backspace", active: shortcuts.undoFrame},
-    {key: "NumpadMultiply", active: shortcuts.undoFrame},
-    {key: "M", active: shortcuts.audioToggle},
+  // Capture
+  {key: "Enter", active: features.takePicture},
+  {key: "Delete", active: features.undoFrame},
+  {key: "Backspace", active: features.undoFrame},
+  {key: "NumpadMultiply", active: features.undoFrame},
+  {key: "M", active: features.audioToggle},
 
-    // Playback
-    {key: "Space", active: shortcuts.playPause},
-    {key: "0", active: shortcuts.playPause},
-    {key: "Numpad0", active: shortcuts.playPause},
-    {key: "MediaPlayPause", active: shortcuts.playPause},
-    {key: "8", active: shortcuts.loopPlayback},
-    {key: "Numpad8", active: shortcuts.loopPlayback},
+  // Playback
+  {key: "Space", active: features.playPause},
+  {key: "0", active: features.playPause},
+  {key: "Numpad0", active: features.playPause},
+  {key: "MediaPlayPause", active: features.playPause},
+  {key: "8", active: features.loopPlayback},
+  {key: "Numpad8", active: features.loopPlayback},
 
-    // Framereel
-    {key: "L", active: shortcuts.liveView},
-    {key: "3", active: shortcuts.liveView},
-    {key: "Numpad3", active: shortcuts.liveView}
+  // Framereel
+  {key: "L", active: features.liveView},
+  {key: "3", active: features.liveView},
+  {key: "Numpad3", active: features.liveView}
 ];
 
 // Shortcuts used in confirm prompts.
 var confirmKeys = [
-    {key: "Enter", active: shortcuts.confirmOK},
-    {key: "Escape", active: shortcuts.confirmCancel},
-    {key: "NumpadDivide", active: shortcuts.confirmCancel}
+  {key: "Enter", active: features.confirmOK},
+  {key: "Escape", active: features.confirmCancel},
+  {key: "NumpadDivide", active: features.confirmCancel}
 ];
-
-/**
- * Choose an array of shortcuts to activate.
- *
- * @param {variable} shortcutArray Which array of shortcuts should be enabled.
- *                                 eg mainKeys or confirmKeys.
- */
-function addShortcuts(shortcutArray) {
-    if (!enableShortcuts) {
-        for (i = 0; i < Object.keys(shortcutArray).length; i++) {
-            // Options to apply to nw.Shortcut
-            var option = {
-                key : shortcutArray[i].key,
-                active : shortcutArray[i].active,
-                failed : function(err) {
-                    console.error(err);
-                }
-            };
-            window[shortcutArray[i].key + "Shortcut"] = new nw.Shortcut(option);
-            nw.App.registerGlobalHotKey(window[shortcutArray[i].key + "Shortcut"]);
-        }
-
-        enableShortcuts = true;
-        console.log("added shortcuts");
-    }
-}
-
-function removeShortcuts(shortcutArray) {
-    if (enableShortcuts) {
-        for (i = 0; i < Object.keys(shortcutArray).length; i++) {
-            nw.App.unregisterGlobalHotKey(window[shortcutArray[i].key + "Shortcut"]);
-        }
-
-        enableShortcuts = false;
-        console.log("removed shortcuts");
-    }
-}
 
 // Stops shortcuts operating in other applications
 win.on("focus", function() {
-    addShortcuts(mainKeys)
+  shortcuts.add(mainKeys)
 });
 win.on("restore", function() {
-    addShortcuts(mainKeys)
+  shortcuts.add(mainKeys)
 });
 win.on("blur", function() {
-    removeShortcuts(mainKeys)
+  shortcuts.remove(mainKeys)
 });
