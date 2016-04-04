@@ -26,3 +26,4 @@ app/lib/
 node_modules/
 jsconfig.json
 *.~is
+docs/build/
