@@ -21,6 +21,9 @@ The menu bar contains an assortment of options both to do with the current proje
 * **Give feedback:** select this to load the [issues page](https://github.com/BoatsAreRockable/animator/issues) of Boats Animator's GitHub repository.
 * **About Boats Animator:** select this to load the [about window](about-window).
 
+### Debug menu
+* **Load developer tools:** this opens the devtools to inspect the window. This feature is intended for usage by developers of Boats Animator.
+
 ## Preview area
 ![Preview area](../img/preview-area.png)
 
@@ -118,7 +121,7 @@ This is used to set the number of frames per second to be displayed during playb
 ## Debugging tools
 ![Debugging tools](../img/debugging-tools.png)
 
-These features are intended for usage by the developers of Boats Animator. They will be hidden in future versions.
+These features are intended for usage by developers of Boats Animator. They will be hidden in future versions.
 
 ### Dev tools
 This opens the devtools to inspect the window.

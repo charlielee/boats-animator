@@ -1,15 +1,17 @@
 site_name: Boats Animator
+site_dir: bin/mkdocs
+repo_url: https://github.com/BoatsAreRockable/animator
 pages:
 - Home: index.md
 - Introduction:
-    - 'About Boats Animator': introduction/about.md
-    - 'System requirements': introduction/system-requirements.md
-- 'Getting started':
-    - License: getting-started/license.md
-    - Setup: getting-started/setup.md
-- 'Features':
-    - 'Launcher window': features/launcher-window.md
-    - 'Main window': features/main-window.md
+  - "About Boats Animator": introduction/about.md
+  - "System requirements": introduction/system-requirements.md
+  - License: introduction/license.md
+- "Getting started":
+  - Setup: getting-started/setup.md
+- "Features":
+  - "Main window": features/main-window.md
+  - "Launcher window": features/launcher-window.md
+  - "About window": features/about-window.md
 theme: readthedocs
 extra_css: [css/custom.css]
-site_dir: bin/site
