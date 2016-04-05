@@ -5,7 +5,7 @@
     * **Other downloads:** extract the compressed ZIP folder.
 
 ## Opening
-* **Windows setup:** launch Boats Animator from the start menu or the desktop if you chose to create a desktop icon.
+* **Windows setup:** launch Boats Animator from the start menu or the desktop if you chose to create a desktop shortcut.
 * **Other downloads:** open the "Boats Animator" executable file from the extracted folder.
 
 ### Note
