@@ -16,7 +16,7 @@
    id="svg3347"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="mainwindow.svg">
+   sodipodi:docname="main-window.svg">
   <defs
      id="defs3349">
     <marker
@@ -218,11 +218,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="363.13539"
-     inkscape:cy="155.69206"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="950.40629"
+     inkscape:cy="519.02778"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="a6228-1"
      showgrid="false"
      inkscape:window-width="1440"
      inkscape:window-height="897"
@@ -244,7 +244,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -472,13 +472,13 @@
                style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:31.25px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#404040;fill-opacity:1;stroke:#404040;stroke-opacity:0"
                id="tspan6210-8">4.</tspan><tspan
                style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:31.25px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#2980b9;fill-opacity:1;stroke:#ffffff"
-               id="tspan6226-3"> Framereel</tspan></tspan></text>
+               id="tspan6226-3"> Frame reel</tspan></tspan></text>
       </a>
       <path
          sodipodi:nodetypes="cc"
          inkscape:connector-curvature="0"
          id="path3372-1"
-         d="M 358.80696,747.78077 243.40298,772.20285"
+         d="M 358.80696,747.78077 249.11727,770.77428"
          style="fill:#2980b9;fill-opacity:1;fill-rule:evenodd;stroke:#2980b9;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:3, 3;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker6739-4)" />
       <g
          transform="translate(48.571426,110.00003)"

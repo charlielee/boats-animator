@@ -36,15 +36,15 @@ The preview area shows a live feed of the selected camera in [capture mode](#cap
 
 ![Undo last frame](../img/undo-last-frame.png)
 
-Select this to remove the last frame in the frame-reel and delete it permanently from the hard-drive. After selecting this a confirm dialogue with "Are you sure you want to delete the last frame captured?" is displayed.
+Select this to remove the last frame in the frame reel and delete it permanently from the hard-drive. After selecting this a confirm dialogue with "Are you sure you want to delete the last frame captured?" is displayed.
 
-## Frame-reel
+## Frame reel
 ![Frame reel](../img/frame-reel.png)
 
-The frame-reel area displays thumbnails of all of the frames that have been captured. To preview a particular frame in the preview area simply select it from the frame-reel. The current frame being previewed will have a white outline around it in the frame-reel and playback will begin from this frame.
+The frame reel area displays thumbnails of all of the frames that have been captured. To preview a particular frame in the preview area simply select it from the frame reel. The current frame being previewed will have a white outline around it in the frame reel and playback will begin from this frame.
 
 ### Live-view button
-On the far right of the frame-reel is the live-view button. After previewing captured frames, select this to return to [capture mode](#capture-mode). In capture mode this button has a white outline around it.
+On the far right of the frame reel is the live-view button. After previewing captured frames, select this to return to [capture mode](#capture-mode). In capture mode this button has a white outline around it.
 
 ## Preview options
 ![Preview options](../img/preview-options.png)
@@ -81,7 +81,7 @@ This is the current mode Boats Animator is in.
 This is when a live-feed of the selected camera is displayed in the preview area. Capture mode is accessed by selecting the [live-view button](#live-view-button).
 
 #### Playback mode
-This is when a captured frame is displayed in the preview area. Preview mode can be accessed either by selecting a captured frame from the [frame-reel](#frame-reel) or by selecting the play button.
+This is when a captured frame is displayed in the preview area. Preview mode can be accessed either by selecting a captured frame from the [frame reel](#frame-reel) or by selecting the play button.
 
 ## Capture button
 
@@ -134,7 +134,7 @@ This opens the devtools to inspect the window.
 ### Refresh
 This reloads the window.
 
-!!! warning "Note"
+!!! warning "Warning"
     A known issue is that this causes the NW.js APIs to stop working when used multiple times. **Using this feature is not recommended.** Completely restarting Boats Animator is a better solution to use.
 
 ## Sidebar
