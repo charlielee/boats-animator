@@ -6,7 +6,7 @@
         "uncompressed_folder": false,
         "download_dir": "C:\\Program Files (x86)\\Web2Exe\\files\\downloads",
         "nw_compression_level": 0,
-        "mac-x32": true,
+        "mac-x32": false,
         "windows-x32": true,
         "mac-x64": true,
         "nw_version": "0.13.2",
