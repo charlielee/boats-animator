@@ -30,12 +30,13 @@ The menu bar contains an assortment of options both to do with the current proje
 The preview area shows a live feed of the selected camera in [capture mode](#capture-mode) and is where frames are played back in [playback mode](#playback-mode). In capture mode a red border is displayed around the preview area.
 
 ## Undo last frame
+
+!!! note "Keyboard shortcut"
+    `ctrl z`
+
 ![Undo last frame](../img/undo-last-frame.png)
 
 Select this to remove the last frame in the frame-reel and delete it permanently from the hard-drive. After selecting this a confirm dialogue with "Are you sure you want to delete the last frame captured?" is displayed.
-
-### Shortcut
-* `ctrl z`
 
 ## Frame-reel
 ![Frame reel](../img/frame-reel.png)
@@ -83,17 +84,21 @@ This is when a live-feed of the selected camera is displayed in the preview area
 This is when a captured frame is displayed in the preview area. Preview mode can be accessed either by selecting a captured frame from the [frame-reel](#frame-reel) or by selecting the play button.
 
 ## Capture button
+
+!!! note "Keyboard shortcut"
+    `ctrl c`
+
 ![Capture button](../img/capture-button.png)
 
 Select this button to capture a new frame from the live-feed that is visible in [capture mode](#capture-mode).
 
-### Shortcut
-* `ctrl c`
-
 ## Onion skinning slider
 ![Onion skinning slider](../img/onion-skinning-slider.png)
 
-This is used to set the amount of [onion skinning](https://en.wikipedia.org/wiki/Onion_skinning) to be displayed in the preview area in [capture mode](#capture-mode). Move the slider to the left to make the live-feed more visible and to the right to make the last frame captured more visible. **Remember that this slider only has an effect when the [onion skinning toggle](#onion-skinning-toggle)  is enabled.**
+This is used to set the amount of [onion skinning](https://en.wikipedia.org/wiki/Onion_skinning) to be displayed in the preview area in [capture mode](#capture-mode). Move the slider to the left to make the live-feed more visible and to the right to make the last frame captured more visible.
+
+!!! note "Note"
+    Remember that this slider only has an effect when the [onion skinning toggle](#onion-skinning-toggle)  is enabled.
 
 ## Playback controls
 ![Playback controls](../img/playback-controls.png)
@@ -127,7 +132,10 @@ These features are intended for usage by developers of Boats Animator. They will
 This opens the devtools to inspect the window.
 
 ### Refresh
-This reloads the window. A known issue is that this causes the NW.js APIs to stop working when used multiple times. **Using this feature is not recommended.** Completely restarting Boats Animator is a better solution to use.
+This reloads the window.
+
+!!! warning "Note"
+    A known issue is that this causes the NW.js APIs to stop working when used multiple times. **Using this feature is not recommended.** Completely restarting Boats Animator is a better solution to use.
 
 ## Sidebar
 ![Sidebar](../img/sidebar.png)
@@ -141,4 +149,7 @@ These features have not been implemented yet, although we are working on doing s
 This toggles whether the program should play sounds. The only sound currently used in Boats Animator is a shutter "clicking" sound when the [capture button](#capture-button) is pressed.
 
 ### Change directory
-Select this to change the folder Boats Animator exports captured frames to. **Please be aware that Boats Animator will overwrite the existing frames in this directory if it has been used for a project before.** This behaviour will be changed in a future version.
+Select this to change the folder Boats Animator exports captured frames to.
+
+!!! warning "Warning"
+    Please be aware that Boats Animator will overwrite the existing frames in this directory if it has been used for a project before. This behaviour will be changed in a future version.

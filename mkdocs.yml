@@ -15,3 +15,7 @@ pages:
   - "About window": features/about-window.md
 theme: readthedocs
 extra_css: [css/custom.css]
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.tables
+  - markdown.extensions.toc
