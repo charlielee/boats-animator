@@ -65,7 +65,7 @@ The status bar contains useful information about the current project.
 ### Current frame
 `Frame x of y`
 
-This is an indicator of what is currently previewed in the preview area. When in capture mode `x` is equal to one more than the number of frames currently captured. The logic here is: "once this picture is taken it will become the `x`th frame captured."
+This is an indicator of what is currently being displayed in the preview area. When in capture mode `x` is equal to one more than the number of frames currently captured. The logic here is: "once this picture is taken it will become the `x`th frame captured."
 
 ### Current FPS
 `xx FPS`
