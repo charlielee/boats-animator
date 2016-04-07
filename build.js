@@ -1,7 +1,7 @@
 var userDir = process.env.USERPROFILE,
     NwBuilder = require(userDir + "\\AppData\\Roaming\\npm\\node_modules\\nw-builder"),
     nw = new NwBuilder({
-      files: "app\\**\\**", // use the glob format
+      files: ["package.json", "app\\**\\**"], // use the glob format
       platforms: ["linux64", "linux32", "osx64", "win32", "win64"],
       version: "0.13.3",
       appName: "Boats Animator",

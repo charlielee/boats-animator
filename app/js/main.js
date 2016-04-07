@@ -100,7 +100,7 @@ var width  = 640,
  */
 function openIndex() {
     "use strict";
-    nw.Window.open("index.html", {
+    nw.Window.open("app/index.html", {
         position: "center",
         width: 730,
         height: 450,
@@ -117,7 +117,7 @@ function openIndex() {
  */
 function openAbout() {
     "use strict";
-    nw.Window.open("about.html", {
+    nw.Window.open("app/about.html", {
         position: "center",
         width: 650,
         height: 300,
