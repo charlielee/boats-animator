@@ -17,28 +17,21 @@
     "description": "",
     "name": "boats-animator",
     "nodejs": true,
-    "user-agent": "",
-    "additional_trust_anchors": [
-        ""
-    ],
-    "single-instance": true,
-    "inject-js-end": "",
     "webkit": {
         "page-cache": false,
         "java": false,
         "plugin": false
     },
     "window": {
-        "toolbar": false,
         "fullscreen": false,
         "resizable": true,
+        "always_on_top": false,
         "nodejs": true,
-        "always-on-top": false,
         "frame": true,
         "title": "Boats Animator",
         "kiosk": false,
         "kiosk_emulation": false,
-        "exe_icon": "icons\\icon.png",
+        "exe_icon": "icons/icon.png",
         "width": 730,
         "min_width": 730,
         "min_height": 450,
@@ -48,19 +41,13 @@
         "position": "center",
         "show_in_taskbar": true,
         "height": 450,
-        "mac_icon": "icons\\icon.png",
+        "mac_icon": "icons/icon.png",
         "transparent": false,
-        "icon": "icons\\icon.png"
+        "icon": "icons/icon.png"
     },
     "version": "0.6.4",
-    "snapshot": "",
-    "node-main": "",
-    "keywords": [],
-    "inject-js-start": "",
-    "node-remote": "",
-    "js-flags": "",
     "app_name": "Boats Animator",
-    "chromium-args": "",
+    "chromium-args": "--mixed-context",
     "engines": {
         "npm": "^3.7.3"
     },
