@@ -1,4 +1,4 @@
-﻿#define MyAppName "Boats Animator"
+#define MyAppName "Boats Animator"
 #define MyAppVersion "0.6.4"
 #define MyAppPublisher "Charlie Lee"
 #define MyAppURL "https://github.com/BoatsAreRockable/animator"
@@ -16,7 +16,7 @@ AppPublisherURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 LicenseFile=LICENSE.rtf
 OutputDir=..\bin\{#MyAppName} {#MyAppVersion}
-OutputBaseFilename=Boats-Animator-{#MyAppVersion}-Setup
+OutputBaseFilename=boats-animator-{#MyAppVersion}-win32-setup
 Compression=lzma2/ultra
 SolidCompression=yes
 LZMAUseSeparateProcess=yes
@@ -40,7 +40,7 @@ BeveledLabel={#MyAppName} {#MyAppVersion}
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\bin\{#MyAppName}\windows-x32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\{#MyAppName}\win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
