@@ -19,9 +19,8 @@ var width  = 640,
     ratio       = null,
     aspectRatio = null,
 
-    // GUI window
-    gui = require("nw.gui"),
-    win = gui.Window.get(),
+    // NW.js
+    win = nw.Window.get(),
 
     // Mode switching
     btnLiveView    = document.querySelector("#btn-live-view"),
@@ -101,13 +100,12 @@ var width  = 640,
  */
 function openIndex() {
     "use strict";
-    gui.Window.open("index.html", {
+    nw.Window.open("app/index.html", {
         position: "center",
         width: 730,
         height: 450,
         min_width: 730,
         min_height: 450,
-        toolbar: false,
         focus: true,
         icon: "icons/icon.png"
     });
@@ -119,11 +117,10 @@ function openIndex() {
  */
 function openAbout() {
     "use strict";
-    gui.Window.open("about.html", {
+    nw.Window.open("app/about.html", {
         position: "center",
         width: 650,
         height: 300,
-        toolbar: false,
         focus: true,
         icon: "icons/icon.png",
         resizable: false,
@@ -249,6 +246,7 @@ function startup() {
     btnStop.addEventListener("click", function() {
         if (totalFrames > 0) {
             _removeFrameReelSelection();
+            _addFrameReelSelection(totalFrames);
             videoStop();
         }
     });
@@ -304,10 +302,6 @@ function startup() {
             _updateStatusBarCurFrame(imageID);
         }
     });
-  
-  // Developer buttons
-  document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
-  document.querySelector("#btn-reload-page").addEventListener("click", utils.reloadPage);
 }
 
 /**
@@ -910,41 +904,40 @@ function confirmSet(callback, args, msg) {
 function loadMenu() {
     "use strict";
     // Create menu
-    var menuBar = new gui.Menu({ type: "menubar" });
+    var menuBar = new nw.Menu({ type: "menubar" });
 
     // Create sub-menus
-    var fileMenu    = new gui.Menu(),
-        editMenu    = new gui.Menu(),
-        captureMenu = new gui.Menu(),
-        helpMenu    = new gui.Menu(),
-        debugMenu   = new gui.Menu();
+    var fileMenu    = new nw.Menu(),
+        editMenu    = new nw.Menu(),
+        captureMenu = new nw.Menu(),
+        helpMenu    = new nw.Menu();
 
     // File menu items
-    fileMenu.append(new gui.MenuItem({
+    fileMenu.append(new nw.MenuItem({
       label: "New project...",
       click: function() {
       },
         key: "n",
         modifiers: "ctrl",
     }));
-    fileMenu.append(new gui.MenuItem({
+    fileMenu.append(new nw.MenuItem({
       label: "Open project...",
       click: function() {
       },
         key: "o",
         modifiers: "ctrl",
     }));
-    fileMenu.append(new gui.MenuItem({
+    fileMenu.append(new nw.MenuItem({
       label: "Main Menu",
       click: function() {
         confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
       },
-        key: "m",
+        key: "w",
         modifiers: "ctrl",
     }));
 
     // Edit menu items
-    editMenu.append(new gui.MenuItem({
+    editMenu.append(new nw.MenuItem({
       label: "Delete last frame",
       click: undoFrame,
       key: "z",
@@ -952,76 +945,59 @@ function loadMenu() {
     }));
 
     // Capture menu items
-    captureMenu.append(new gui.MenuItem({
+    captureMenu.append(new nw.MenuItem({
       label: "Capture frame",
       click: takePicture,
-      key: "c",
+      key: "1",
       modifiers: "ctrl",
     }));
 
     // Help menu items
-    helpMenu.append(new gui.MenuItem({
+    helpMenu.append(new nw.MenuItem({
       label: "Give feedback",
       click: function() {
           utils.openURL("https://github.com/BoatsAreRockable/animator/issues");
       },
-      key: "/",
-      modifiers: "ctrl",
     }));
 
-    helpMenu.append(new gui.MenuItem({ type: "separator" }));
+    helpMenu.append(new nw.MenuItem({ type: "separator" }));
 
-    helpMenu.append(new gui.MenuItem({
+    helpMenu.append(new nw.MenuItem({
       label: "About Boats Animator",
       click: openAbout
     }));
 
-    // Debug menu items
-    debugMenu.append(new gui.MenuItem({
-      label: "Load developer tools",
-      click: utils.showDev,
-      key: "d",
-      modifiers: "ctrl",
-    }));
-
     // Append sub-menus to main menu
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "File",
             submenu: fileMenu
         })
     );
 
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "Edit",
             submenu: editMenu
         })
     );
 
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "Capture",
             submenu: captureMenu
         })
     );
 
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "Help",
             submenu: helpMenu
         })
     );
 
-    menuBar.append(
-        new gui.MenuItem({
-            label: "Debug",
-            submenu: debugMenu
-        })
-    );
-
     // Append main menu to Window
-    gui.Window.get().menu = menuBar;
+    nw.Window.get().menu = menuBar;
 
     // Create Mac menu
     if (process.platform === "darwin") {

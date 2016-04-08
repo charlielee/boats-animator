@@ -1,0 +1,45 @@
+{
+    "main": "app/index.html",
+    "name": "boats-animator",
+    "nodejs": true,
+    "webkit": {
+        "page-cache": false,
+        "java": false,
+        "plugin": false
+    },
+    "window": {
+        "fullscreen": false,
+        "resizable": true,
+        "always_on_top": false,
+        "nodejs": true,
+        "frame": true,
+        "title": "Boats Animator",
+        "kiosk": false,
+        "kiosk_emulation": false,
+        "exe_icon": "app/icons/icon.png",
+        "width": 730,
+        "min_width": 730,
+        "min_height": 450,
+        "as_desktop": false,
+        "visible": true,
+        "show": true,
+        "position": "center",
+        "show_in_taskbar": true,
+        "height": 450,
+        "mac_icon": "app/icons/icon.png",
+        "transparent": false,
+        "icon": "app/icons/icon.png"
+    },
+    "version": "0.6.4",
+    "app_name": "Boats Animator",
+    "chromium-args": "--mixed-context",
+    "engines": {
+        "npm": "^3.7.3"
+    },
+    "dependencies": {
+        "mkdirp": "^0.5.1"
+    },
+    "scripts": {
+        "postinstall": "cp node_modules/mkdirp/index.js app/lib/mkdirp.js"
+  }
+}

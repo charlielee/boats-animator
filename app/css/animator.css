@@ -16,12 +16,15 @@ body {
   height: 100%;
 }
 
+img { -webkit-user-drag: none; }
+
 /* ========== TEXT STYLING ============== */
 
 a {
   color: #D9D9D9;
   text-decoration: none;
   cursor: pointer;
+  -webkit-user-drag: none;
 }
 
 /* ========== Notification bar ============== */
@@ -128,12 +131,19 @@ a {
 }
 
 #sidebar a,
+#sidebar label,
 #sidebar .sidebar-opt {
   color: #d3d3d3;
   cursor: pointer;
 }
 #sidebar a:hover,
+#sidebar label:hover,
 #sidebar .sidebar-opt:hover { border-bottom: 1.5px solid #d3d3d3; }
+
+#sidebar input,
+#sidebar label {
+  vertical-align: middle;
+}
 
 #sidebar-content {
   padding-left: 1em;
@@ -165,8 +175,6 @@ a {
   font-family: monospace;
   word-break: break-word;
 }
-
-#loopCheckbox { cursor: pointer; }
 
 /* ========== VIDEO PREVIEW ============== */
 
@@ -385,7 +393,6 @@ a {
   display: inline-block;
   cursor: pointer;
   padding: 0 1em;
-/*  float: right;*/
 }
 
 #framerate-container {
@@ -475,8 +482,6 @@ a {
   margin-right: 0.5em;
   margin-left: 0.8em;
 }
-
-#statusBar-dev { float: right; }
 
 /* ========== SCROLL BARS ============== */
 
