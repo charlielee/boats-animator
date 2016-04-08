@@ -30,9 +30,7 @@ The menu bar contains an assortment of options both to do with the current proje
 The preview area shows a live feed of the selected camera in [capture mode](#capture-mode) and is where frames are played back in [playback mode](#playback-mode). In capture mode a red border is displayed around the preview area.
 
 ## Undo last frame
-
-!!! note "Keyboard shortcut"
-    `ctrl z`
+**Shortcut: `<Ctrl+Z>`**
 
 ![Undo last frame](../img/undo-last-frame.png)
 
@@ -84,9 +82,7 @@ This is when a live-feed of the selected camera is displayed in the preview area
 This is when a captured frame is displayed in the preview area. Preview mode can be accessed either by selecting a captured frame from the [frame reel](#frame-reel) or by selecting the play button.
 
 ## Capture button
-
-!!! note "Keyboard shortcut"
-    `ctrl c`
+**Shortcut: `<Ctrl+C>`**
 
 ![Capture button](../img/capture-button.png)
 
