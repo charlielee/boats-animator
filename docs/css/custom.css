@@ -1,0 +1,6 @@
+.wy-side-nav-search, .wy-nav-top {
+  background-color: #000;
+}
+
+@media screen and (max-width: 768px) {
+img { width: auto; }
