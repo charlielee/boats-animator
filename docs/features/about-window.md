@@ -10,4 +10,4 @@ Select this to read a copy of Boats Animator's [GPL v3](https://github.com/Boats
 Select this to see [who has contributed](https://github.com/BoatsAreRockable/animator/graphs/contributors) to the development of Boats Animator.
 
 ## Website
-Select this to visit [charlielee.uk/animator](http://charlielee.uk/animator).
+Select this to visit [charlielee.uk/boats-animator](http://charlielee.uk/boats-animator).

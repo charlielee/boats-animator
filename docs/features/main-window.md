@@ -131,7 +131,7 @@ This opens the devtools to inspect the window.
 This reloads the window.
 
 !!! warning "Warning"
-    A known issue is that this causes the NW.js APIs to stop working when used multiple times. **Using this feature is not recommended.** Completely restarting Boats Animator is a better solution to use.
+    A known issue is that this causes the NW.js APIs to stop working when used multiple times. **Using this feature is not recommended.**
 
 ## Sidebar
 ![Sidebar](../img/sidebar.png)
