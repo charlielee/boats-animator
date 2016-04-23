@@ -1,3 +1,5 @@
+/*eslint-env browser, node, es6*/
+
 const utils = (function() {
     "use strict";
   
@@ -33,6 +35,6 @@ const utils = (function() {
     return {
         openURL   : openURL,
         showDev   : showDev,
-        reloadPage: reloadPage    
+        reloadPage: reloadPage
     };
 }());

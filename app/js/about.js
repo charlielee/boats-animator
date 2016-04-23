@@ -1,4 +1,4 @@
-/*jslint browser: true, node: true, debug: true*/
+/*eslint-env browser, node, es6*/
 /* global Buffer, process */
 
 // Launcher window

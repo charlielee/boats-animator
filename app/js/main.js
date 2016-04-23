@@ -1,4 +1,4 @@
-/*jslint browser: true, node: true, debug: true*/
+/*eslint-env browser, node, es6*/
 /* global Buffer, process, utils */
 
 // The width and height of the captured photo. We will set the
