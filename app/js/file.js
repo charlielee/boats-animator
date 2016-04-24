@@ -30,9 +30,7 @@ module.exports = {};
      * @param {String} oldPath - Absolute path to the file to be copied.
      * @param {String} newPath - Absolute path to the file to be created.
      * @param {Object} callback - The callback object.
-     * @param {Function} callback.success - The success callback,
-     *                                      which will recieve the
-     *                                      file contents.
+     * @param {Function} callback.success - The success callback
      * @param {Function} callback.error - The error callback.
      */
     function copyFile(oldPath, newPath, callback) {
@@ -42,6 +40,7 @@ module.exports = {};
           to   = fs.createWriteStream(newPath);
 
       from.pipe(to);
+      // TODO Find a way to call the success callback
 
       from.on("error", function(err) {
         console.error(err);
@@ -96,6 +95,29 @@ module.exports = {};
     }
 
     /**
+     * Rename a file on the hard drive.
+     *
+     * @param {String} oldName - Absolute path to the file to the current file.
+     * @param {String} newName - Absolute path to the file to the new file.
+     * @param {Object} callback - The callback object.
+     * @param {Function} callback.success - The success callback.
+     * @param {Function} callback.error - The error callback.
+     */
+    function renameFile(oldName, newName, callback) {
+      callback = update(callback);
+
+      fs.rename(oldName, newName, function(err) {
+        if (err){
+          console.error(err);
+          callback.error();
+        } else {
+          console.log(`Successfully renamed ${oldName} to ${newName}`);
+          callback.success();
+        }
+      });
+    }
+
+    /**
      * Write a file to the hard drive.
      *
      * @param {String} file - Absolute path to the file to be saved.
@@ -122,5 +144,6 @@ module.exports = {};
     module.exports.copy   = copyFile;
     module.exports.read   = readFile;
     module.exports.write  = writeFile;
+    module.exports.rename = renameFile;
     module.exports.delete = deleteFile;
 }());
