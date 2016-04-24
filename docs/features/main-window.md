@@ -18,7 +18,8 @@ The menu bar contains an assortment of options both to do with the current proje
 * **Capture frame:** select this to activate the [capture button](#capture-button).
 
 ### Help menu
-* **Give feedback:** select this to load the [issues page](https://github.com/BoatsAreRockable/animator/issues) of Boats Animator's GitHub repository.
+* **Online manual:** select this to view Boats Animator's [documentation](http://boatsanimator.readthedocs.org/). **Shortcut: `<F1>`**
+* **Give feedback:** select this to load the [issues page](https://github.com/BoatsAreRockable/Boats-Animator/issues) of Boats Animator's GitHub repository.
 * **About Boats Animator:** select this to load the [about window](about-window).
 
 ### Debug menu
