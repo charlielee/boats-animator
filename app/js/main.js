@@ -1090,8 +1090,12 @@ var features = {
       btnLiveView.click();
     }
   },
-  confirmOK: function() {
-    btnConfirmOK.click();
+  confirmEnter: function() {
+    if (document.activeElement === btnConfirmOK) {
+      btnConfirmOK.click();
+    } else if (document.activeElement === btnConfirmCancel) {
+      btnConfirmCancel.click();
+    }
   },
   confirmCancel: function() {
     btnConfirmCancel.click();
@@ -1123,7 +1127,7 @@ var mainKeys = [
 
 // Shortcuts used in confirm prompts.
 var confirmKeys = [
-  {key: "Enter", active: features.confirmOK},
+  {key: "Enter", active: features.confirmEnter},
   {key: "Escape", active: features.confirmCancel},
   {key: "NumpadDivide", active: features.confirmCancel}
 ];
