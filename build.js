@@ -6,7 +6,8 @@ var userDir = process.env.USERPROFILE,
       version: "0.12.3",
       appName: "Boats Animator",
       buildDir: "bin",
-      cacheDir: `${userDir}\\AppData\\Roaming\\npm\\node_modules\\nw-builder\\cache`
+      cacheDir: `${userDir}\\AppData\\Roaming\\npm\\node_modules\\nw-builder\\cache`,
+      winIco: "win-install\\icon.ico"
     });
 
 nw.on("log", console.log);
