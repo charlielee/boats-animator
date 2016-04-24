@@ -22,7 +22,32 @@ module.exports = {};
         }
 
         return callback;
-}
+    }
+
+    /**
+     * Copy a file on the hard drive.
+     *
+     * @param {String} oldPath - Absolute path to the file to be copied.
+     * @param {String} newPath - Absolute path to the file to be created.
+     * @param {Object} callback - The callback object.
+     * @param {Function} callback.success - The success callback,
+     *                                      which will recieve the
+     *                                      file contents.
+     * @param {Function} callback.error - The error callback.
+     */
+    function copyFile(oldPath, newPath, callback) {
+      callback = update(callback);
+
+      var from = fs.createReadStream(oldPath),
+          to   = fs.createWriteStream(newPath);
+
+      from.pipe(to);
+
+      from.on("error", function(err) {
+        console.error(err);
+        callback.error();
+      });
+    }
 
     /**
      * Delete a file from the hard drive.
@@ -94,6 +119,7 @@ module.exports = {};
     }
 
     // Public exports
+    module.exports.copy   = copyFile;
     module.exports.read   = readFile;
     module.exports.write  = writeFile;
     module.exports.delete = deleteFile;
