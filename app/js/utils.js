@@ -1,5 +1,3 @@
-/*eslint-env browser, node, es6*/
-
 const utils = (function() {
     "use strict";
   

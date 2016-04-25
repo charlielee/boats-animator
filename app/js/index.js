@@ -1,5 +1,3 @@
-/*eslint-env browser, node, es6*/
-
 (function() {
     "use strict";
     // Launcher window
