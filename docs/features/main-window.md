@@ -2,7 +2,7 @@
 ![Main window](../img/main-window.svg)
 
 ## Menu bar
-![Menu bar](../img/menu-bar-2.png)
+![Menu bar](../img/menu-bar.png)
 
 The menu bar contains an assortment of options both to do with the current project and the program in general.
 
