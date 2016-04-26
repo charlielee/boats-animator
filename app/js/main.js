@@ -954,6 +954,14 @@ function loadMenu() {
 
     // Help menu items
     helpMenu.append(new nw.MenuItem({
+      label: "Documentation",
+      click: function() {
+          utils.openURL("http://boatsanimator.readthedocs.org/");
+      },
+      key: "f1",
+      modifiers: "",
+    }));
+    helpMenu.append(new nw.MenuItem({
       label: "Give feedback",
       click: function() {
           utils.openURL("https://github.com/BoatsAreRockable/animator/issues");

@@ -27,10 +27,9 @@ Once you are ready to submit your change you should:
 ## Coding conventions
 ___Under construction___
 
-At the moment the following (non-ideal) conventions are mostly observed in Boats Animator's code:
-* HTML5, CSS3 and ES6 JavaScript that is supported by Chromium 41 may be used.
-* HTML and JS are indented using 4 spaces.
-* CSS is indented using 2 spaces.
+The following conventions are mostly observed in Boats Animator's code:
+* HTML5, CSS3 and ES6 JavaScript that is supported by Chromium 49 may be used.
+* CSS, HTML, JS and JSON should be indented using 2 spaces ([Currently a WIP](https://github.com/BoatsAreRockable/Boats-Animator/issues/140))
 * Trailing white space and empty lines with spaces should be avoided.
 * HTML classes and ids are `spaced-using-dashes`.
 * JavaScript variables and functions are `spacedUsingCamelCase`.
