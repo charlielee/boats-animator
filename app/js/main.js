@@ -935,6 +935,16 @@ function loadMenu() {
         key: "w",
         modifiers: "ctrl",
     }));
+    fileMenu.append(new nw.MenuItem({ type: "separator" }));
+    fileMenu.append(new nw.MenuItem({
+      label: "Exit",
+      click: function() {
+        confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+      },
+      key: "q",
+      modifiers: "ctrl",
+    }));
+
 
     // Edit menu items
     editMenu.append(new nw.MenuItem({
@@ -958,7 +968,7 @@ function loadMenu() {
       click: function() {
           utils.openURL("http://boatsanimator.readthedocs.org/");
       },
-      key: "f1",
+      key: "F1",
       modifiers: "",
     }));
     helpMenu.append(new nw.MenuItem({
