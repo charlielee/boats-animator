@@ -1,5 +1,3 @@
-/* global Buffer, process */
-
 // Launcher window
 var launcherVersion = document.querySelector("#app-version"),
 
