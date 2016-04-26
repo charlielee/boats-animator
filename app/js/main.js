@@ -61,7 +61,6 @@ var width  = 640,
     frameExportDirectory  = _getSaveDirectory(),
     exportedFramesList    = [],
     curDirDisplay         = document.querySelector("#currentDirectoryName"),
-    changeDirectoryButton = document.querySelector("#changeDirectoryButton"),
 
     // Onion skin
     isOnionSkinEnabled = false,
@@ -181,6 +180,7 @@ function startup() {
         },
         function(err) {
             console.error("Could not find a camera to use!");
+            console.error(err);
             notifyError("Could not find a camera to use!");
         }
     );
@@ -306,6 +306,7 @@ function startup() {
   document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
   document.querySelector("#btn-reload-page").addEventListener("click", utils.reloadPage);
 }
+window.onload = startup;
 
 /**
  * Toggle between playback and capture windows.

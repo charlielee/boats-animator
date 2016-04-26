@@ -8,7 +8,6 @@
         win = gui.Window.get(),
 
         // Node modules
-        file     = require("./js/file"),
         newsFeed = require("./js/newsfeed");
 
     /**

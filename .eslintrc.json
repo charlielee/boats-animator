@@ -6,6 +6,9 @@
   },
   "rules": {
     "no-undef": "error",
-    "no-unused-vars": "error"
+    "no-unused-vars": ["error", {"varsIgnorePattern": "utils"}]
+  },
+  "globals": {
+    "utils": true
   }
 }
