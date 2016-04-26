@@ -244,7 +244,7 @@ function startup() {
 
     // Stop the preview
     btnStop.addEventListener("click", function() {
-        if (totalFrames > 0) {
+        if (totalFrames > 0 && winMode === "playback") {
             _removeFrameReelSelection();
             _addFrameReelSelection(totalFrames);
             videoStop();
