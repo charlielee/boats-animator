@@ -31,7 +31,7 @@
         "transparent": false,
         "icon": "icons/icon.png"
     },
-    "version": "0.6.5",
+    "version": "0.7.0",
     "app_name": "Boats Animator",
     "chromium-args": "--mixed-context",
     "engines": {
