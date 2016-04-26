@@ -91,9 +91,13 @@ var width  = 640,
     // Node modules
     file   = require("./js/file"),
     mkdirp = require("./lib/mkdirp"),
+    shortcuts = require("./js/shortcuts"),
 
     // Sidebar
-    btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
+    btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change"),
+
+    // Shortcuts
+    enableShortcuts = false;
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -136,6 +140,7 @@ win.on("close", function() {
 
 function closeAnimator() {
     win.close(true);
+    nw.App.closeAllWindows();
 }
 
 function startup() {
@@ -206,6 +211,8 @@ function startup() {
         }
     });
 
+    shortcuts.add(mainKeys);
+
 
     /* ======= Listeners ======= */
     // Capture a frame
@@ -252,6 +259,9 @@ function startup() {
     });
 
     // Listen for frame rate changes
+    inputChangeFR.addEventListener("focus", function() {
+        shortcuts.remove(mainKeys);
+    });
     inputChangeFR.addEventListener("input", function() {
         if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
             frameRate = parseInt(this.value, 10);
@@ -264,6 +274,7 @@ function startup() {
 
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
+        shortcuts.add(mainKeys)
         inputChangeFR.value = frameRate;
         if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
             inputChangeFR.value = 15;
@@ -881,28 +892,56 @@ function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
+    btnConfirmOK.focus();
+
+    shortcuts.remove(mainKeys);
+    shortcuts.add(confirmKeys);
+    editMenu.items[0].enabled = false;
+    captureMenu.items[0].enabled = false;
 
     function _ok() {
-        confirmContainer.classList.add("hidden");
         callback(args);
-        btnConfirmOK.removeEventListener("click", _ok);
+        _confirmSelect();
     }
 
     function _cancel() {
+        _confirmSelect();
+    }
+
+    function _confirmSelect() {
         confirmContainer.classList.add("hidden");
+
+        btnConfirmOK.removeEventListener("click", _ok);
         btnConfirmCancel.removeEventListener("click", _cancel);
+        
+        btnConfirmOK.removeEventListener("blur", _focusCancel);
+        btnConfirmCancel.removeEventListener("blur", _focusOK);
+
+        shortcuts.remove(confirmKeys);
+        shortcuts.add(mainKeys);
+        editMenu.items[0].enabled = true;
+        captureMenu.items[0].enabled = true;
     }
 
     // Respond to button clicks
     btnConfirmOK.addEventListener("click", _ok);
     btnConfirmCancel.addEventListener("click", _cancel);
+    
+    function _focusOK() {
+        btnConfirmOK.focus();
+    }
+
+    function _focusCancel() {
+        btnConfirmCancel.focus();
+    }
+
+    btnConfirmOK.addEventListener("blur", _focusCancel);
+    btnConfirmCancel.addEventListener("blur", _focusOK);
 }
 
 /**
  * Display top menu
  */
-function loadMenu() {
-    "use strict";
     // Create menu
     var menuBar = new nw.Menu({ type: "menubar" });
 
@@ -912,20 +951,24 @@ function loadMenu() {
         captureMenu = new nw.Menu(),
         helpMenu    = new nw.Menu();
 
+function loadMenu() {
+    "use strict";
+    var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
+
     // File menu items
     fileMenu.append(new nw.MenuItem({
       label: "New project...",
       click: function() {
       },
         key: "n",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
     fileMenu.append(new nw.MenuItem({
       label: "Open project...",
       click: function() {
       },
         key: "o",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
     fileMenu.append(new nw.MenuItem({
       label: "Main Menu",
@@ -933,7 +976,7 @@ function loadMenu() {
         confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
       },
         key: "w",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
 
     // Edit menu items
@@ -941,7 +984,7 @@ function loadMenu() {
       label: "Delete last frame",
       click: undoFrame,
       key: "z",
-      modifiers: "ctrl",
+      modifiers: controlKey,
     }));
 
     // Capture menu items
@@ -949,7 +992,7 @@ function loadMenu() {
       label: "Capture frame",
       click: takePicture,
       key: "1",
-      modifiers: "ctrl",
+      modifiers: controlKey,
     }));
 
     // Help menu items
@@ -1011,4 +1054,82 @@ function loadMenu() {
     if (process.platform === "darwin") {
         menuBar.createMacBuiltin("Boats Animator");
     }
+
 }
+
+/**
+ * Keyboard shortcuts.
+ */
+
+// All of the features that can be set as keyboard shortcuts.
+var features = {
+  takePicture: function() {
+    btnCaptureFrame.click();
+  },
+  undoFrame: undoFrame,
+  audioToggle: function() {
+    audioToggle.checked = !audioToggle.checked;
+  },
+  playPause: function() {
+    btnPlayPause.click();
+  },
+  loopPlayback: function() {
+    btnLoop.click();
+  },
+  liveView: function() {
+    if (totalFrames > 0) {
+      btnLiveView.click();
+    }
+  },
+  confirmEnter: function() {
+    if (document.activeElement === btnConfirmOK) {
+      btnConfirmOK.click();
+    } else if (document.activeElement === btnConfirmCancel) {
+      btnConfirmCancel.click();
+    }
+  },
+  confirmCancel: function() {
+    btnConfirmCancel.click();
+  }
+};
+
+// Shortcuts used in the main window.
+var mainKeys = [
+  // Capture
+  {key: "Enter", active: features.takePicture},
+  {key: "Delete", active: features.undoFrame},
+  {key: "Backspace", active: features.undoFrame},
+  {key: "NumpadMultiply", active: features.undoFrame},
+  {key: "M", active: features.audioToggle},
+
+  // Playback
+  {key: "Space", active: features.playPause},
+  {key: "0", active: features.playPause},
+  {key: "Numpad0", active: features.playPause},
+  {key: "MediaPlayPause", active: features.playPause},
+  {key: "8", active: features.loopPlayback},
+  {key: "Numpad8", active: features.loopPlayback},
+
+  // Framereel
+  {key: "L", active: features.liveView},
+  {key: "3", active: features.liveView},
+  {key: "Numpad3", active: features.liveView}
+];
+
+// Shortcuts used in confirm prompts.
+var confirmKeys = [
+  {key: "Enter", active: features.confirmEnter},
+  {key: "Escape", active: features.confirmCancel},
+  {key: "NumpadDivide", active: features.confirmCancel}
+];
+
+// Stops shortcuts operating in other applications
+win.on("focus", function() {
+  shortcuts.add(mainKeys)
+});
+win.on("restore", function() {
+  shortcuts.add(mainKeys)
+});
+win.on("blur", function() {
+  shortcuts.remove(mainKeys)
+});
