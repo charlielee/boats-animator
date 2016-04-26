@@ -886,10 +886,12 @@ function confirmSet(callback, args, msg) {
         confirmContainer.classList.add("hidden");
         callback(args);
         btnConfirmOK.removeEventListener("click", _ok);
+        btnConfirmCancel.removeEventListener("click", _cancel);
     }
 
     function _cancel() {
         confirmContainer.classList.add("hidden");
+        btnConfirmOK.removeEventListener("click", _ok);
         btnConfirmCancel.removeEventListener("click", _cancel);
     }
 
