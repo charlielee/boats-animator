@@ -94,10 +94,7 @@ var width  = 640,
     shortcuts = require("./js/shortcuts"),
 
     // Sidebar
-    btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change"),
-
-    // Shortcuts
-    enableShortcuts = false;
+    btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -210,9 +207,7 @@ function startup() {
             notifySuccess("Camera successfully connected.");
         }
     });
-
-    shortcuts.add(mainKeys);
-
+    shortcuts.get("default");
 
     /* ======= Listeners ======= */
     // Capture a frame
@@ -259,7 +254,7 @@ function startup() {
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("focus", function() {
-        shortcuts.remove(mainKeys);
+        shortcuts.remove("main");
     });
     inputChangeFR.addEventListener("input", function() {
         if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
@@ -273,7 +268,7 @@ function startup() {
 
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
-        shortcuts.add(mainKeys)
+        shortcuts.add("main")
         inputChangeFR.value = frameRate;
         if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
             inputChangeFR.value = 15;
@@ -897,8 +892,8 @@ function confirmSet(callback, args, msg) {
     confirmContainer.classList.remove("hidden");
     btnConfirmOK.focus();
 
-    shortcuts.remove(mainKeys);
-    shortcuts.add(confirmKeys);
+    shortcuts.remove("main");
+    shortcuts.add("confirm");
     editMenu.items[0].enabled = false;
     captureMenu.items[0].enabled = false;
 
@@ -920,8 +915,8 @@ function confirmSet(callback, args, msg) {
         btnConfirmOK.removeEventListener("blur", _focusCancel);
         btnConfirmCancel.removeEventListener("blur", _focusOK);
 
-        shortcuts.remove(confirmKeys);
-        shortcuts.add(mainKeys);
+        shortcuts.remove("confirm");
+        shortcuts.add("main");
         editMenu.items[0].enabled = true;
         captureMenu.items[0].enabled = true;
     }
@@ -1063,82 +1058,15 @@ function loadMenu() {
     if (process.platform === "darwin") {
         menuBar.createMacBuiltin("Boats Animator");
     }
-
 }
 
-/**
- * Keyboard shortcuts.
- */
-
-// All of the features that can be set as keyboard shortcuts.
-var features = {
-  takePicture: function() {
-    btnCaptureFrame.click();
-  },
-  undoFrame: undoFrame,
-  audioToggle: function() {
-    audioToggle.checked = !audioToggle.checked;
-  },
-  playPause: function() {
-    btnPlayPause.click();
-  },
-  loopPlayback: function() {
-    btnLoop.click();
-  },
-  liveView: function() {
-    if (totalFrames > 0) {
-      btnLiveView.click();
-    }
-  },
-  confirmEnter: function() {
-    if (document.activeElement === btnConfirmOK) {
-      btnConfirmOK.click();
-    } else if (document.activeElement === btnConfirmCancel) {
-      btnConfirmCancel.click();
-    }
-  },
-  confirmCancel: function() {
-    btnConfirmCancel.click();
-  }
-};
-
-// Shortcuts used in the main window.
-var mainKeys = [
-  // Capture
-  {key: "Enter", active: features.takePicture},
-  {key: "Delete", active: features.undoFrame},
-  {key: "Backspace", active: features.undoFrame},
-  {key: "NumpadMultiply", active: features.undoFrame},
-  {key: "M", active: features.audioToggle},
-
-  // Playback
-  {key: "Space", active: features.playPause},
-  {key: "0", active: features.playPause},
-  {key: "Numpad0", active: features.playPause},
-  {key: "MediaPlayPause", active: features.playPause},
-  {key: "8", active: features.loopPlayback},
-  {key: "Numpad8", active: features.loopPlayback},
-
-  // Framereel
-  {key: "L", active: features.liveView},
-  {key: "3", active: features.liveView},
-  {key: "Numpad3", active: features.liveView}
-];
-
-// Shortcuts used in confirm prompts.
-var confirmKeys = [
-  {key: "Enter", active: features.confirmEnter},
-  {key: "Escape", active: features.confirmCancel},
-  {key: "NumpadDivide", active: features.confirmCancel}
-];
-
-// Stops shortcuts operating in other applications
+// Stops globsl shortcuts operating in other applications
 win.on("focus", function() {
-  shortcuts.add(mainKeys)
+  shortcuts.resume();
 });
 win.on("restore", function() {
-  shortcuts.add(mainKeys)
+  shortcuts.resume();
 });
 win.on("blur", function() {
-  shortcuts.remove(mainKeys)
+  shortcuts.pause();
 });

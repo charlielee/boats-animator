@@ -2,50 +2,151 @@ module.exports = {};
 
 (function () {
   "use strict";
-  var curShortcuts = {};
-
-  /**
-   * Choose an array of shortcuts to activate.
-   *
-   * @param {Array} shortcutArray Which array of shortcuts should be enabled.
-   *                              eg mainKeys or confirmKeys.
-   */
-  function addShortcuts(shortcutArray) {
-    if (!enableShortcuts) {
-      shortcutArray.forEach(function(shortcut) {
-        var option = {
-          key : shortcut.key,
-          active : shortcut.active,
-          failed : function(err) {
-            console.error(err);
+  var curShortcuts = {},
+      allShortcuts = {},
+      activeGroups = [],
+      pausedGroups = [],
+      // All of the features that can be set as keyboard shortcuts.
+      features = {
+        // Features in the main window.
+        main: {
+          takePicture: function() {
+            btnCaptureFrame.click();
+          },
+          undoFrame: undoFrame,
+          audioToggle: function() {
+            audioToggle.checked = !audioToggle.checked;
+          },
+          playPause: function() {
+            btnPlayPause.click();
+          },
+          loopPlayback: function() {
+            btnLoop.click();
+          },
+          liveView: function() {
+            if (totalFrames > 0) {
+              btnLiveView.click();
+            }
+          }
+        },
+        // Features in confirm prompts.
+        confirm: {
+          confirmEnter: function() {
+            if (document.activeElement === btnConfirmOK) {
+              btnConfirmOK.click();
+            } else if (document.activeElement === btnConfirmCancel) {
+              btnConfirmCancel.click();
+            }
+          },
+          confirmCancel: function() {
+            btnConfirmCancel.click();
           }
         }
-        curShortcuts[`${shortcut.key}Shortcut`] = new nw.Shortcut(option);
+      };
+
+  /**
+   * Choose a group of shortcuts to activate.
+   *
+   * @param {String} groupName Which group of shortcuts should be enabled.
+   *                           eg main or confirm.
+   */
+  function addShortcuts(groupName) {
+    if (activeGroups.indexOf(groupName) === -1) {
+      allShortcuts[`${groupName}Shortcuts`].forEach(function(shortcut) {
+        curShortcuts[`${shortcut.key}Shortcut`] = new nw.Shortcut(shortcut);
         nw.App.registerGlobalHotKey(curShortcuts[`${shortcut.key}Shortcut`]);
       });
 
-      enableShortcuts = true;
-      console.log("added shortcuts");
+      activeGroups.push(groupName);
+      console.info(`Added ${groupName} shortcuts`);
     }
   }
 
   /**
-   * Choose an array of shortcuts to remove.
-   * @param {Array} shortcutArray Which array of shortcuts should be removed.
-   *                              eg mainKeys or confirmKeys.
+   * Choose a group of shortcuts to remove.
+   *
+   * @param {String} groupName Which group of shortcuts should be removed.
+   *                           eg main or confirm.
    */
-  function removeShortcuts(shortcutArray) {
-    if (enableShortcuts) {
-      shortcutArray.forEach(function(shortcut) {
+  function removeShortcuts(groupName) {
+    if (activeGroups.indexOf(groupName) > -1) {
+      allShortcuts[`${groupName}Shortcuts`].forEach(function(shortcut) {
         nw.App.unregisterGlobalHotKey(curShortcuts[`${shortcut.key}Shortcut`]);
       });
 
-      enableShortcuts = false;
-      console.log("removed shortcuts");
+      activeGroups.splice(activeGroups.indexOf(groupName));
+      console.info(`Removed ${groupName} shortcuts`);
     }
+  }
+
+  /**
+   * Load a JSON file containing keyboard shortcuts.
+   *
+   * @param {String} location Location of file containing shortcut list.
+   */
+  function getShortcuts(location) {
+    if (location === "default") {
+      location = "./json/default-shortcuts.json";
+    }
+    file.read(location, {
+      success: function(data) {
+        data = JSON.parse(data);
+
+        // Iterate through each feature group array (eg main, confirm)
+        Object.keys(features).forEach(function(groupName) {
+
+          // Isolate each group array
+          var group = features[groupName];
+          allShortcuts[`${groupName}Shortcuts`] = [];
+
+          // Iterate through each feature of each group
+          Object.keys(group).forEach(function(feature) {
+            var featureShortcuts = data[feature];
+
+            // Iterate through each shortcut assigned to each feature
+            featureShortcuts.forEach(function(e) {
+              var option = {
+                key : e,
+                active : group[feature],
+                failed : function(err) {
+                  console.error(err);
+                }
+              };
+              allShortcuts[`${groupName}Shortcuts`].push(option);
+            });
+          });
+        });
+        addShortcuts("main");
+      }
+    });
+  }
+
+  /**
+   * Pause keyboard shortcut operation.
+   */
+  function pauseShortcuts() {
+    activeGroups.forEach(function(i) {
+      removeShortcuts(i);
+      pausedGroups.push(i);
+    });
+    console.info(`Paused shortcuts`);
+  }
+
+  /**
+   * Resume keyboard shortcut operation after pausing it.
+   */
+  function resumeShortcuts() {
+    pausedGroups.forEach(function(i) {
+      addShortcuts(i);
+      pausedGroups.length = 0;
+    });
+    console.info(`Resumed shortcuts`);
   }
 
   // Public exports
   module.exports.add = addShortcuts;
   module.exports.remove = removeShortcuts;
+  module.exports.get = getShortcuts;
+  module.exports.pause = pauseShortcuts;
+  module.exports.resume = resumeShortcuts;
 }());
