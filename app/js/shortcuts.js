@@ -53,7 +53,7 @@ module.exports = {};
    */
   function addShortcuts(groupName) {
     // Check the shortcut group hasn't already been added.
-    if (activeGroups.indexOf(groupName) === -1) {
+    if (!activeGroups.includes(groupName)) {
       allShortcuts[`${groupName}Shortcuts`].forEach(function(shortcut) {
         curShortcuts[`${shortcut.key}Shortcut`] = new nw.Shortcut(shortcut);
         nw.App.registerGlobalHotKey(curShortcuts[`${shortcut.key}Shortcut`]);
@@ -72,7 +72,7 @@ module.exports = {};
    */
   function removeShortcuts(groupName) {
     // Check the shortcut group can be removed.
-    if (activeGroups.indexOf(groupName) > -1) {
+    if (activeGroups.includes(groupName)) {
       allShortcuts[`${groupName}Shortcuts`].forEach(function(shortcut) {
         nw.App.unregisterGlobalHotKey(curShortcuts[`${shortcut.key}Shortcut`]);
       });
