@@ -6,6 +6,7 @@ module.exports = {};
       allShortcuts = {},
       activeGroups = [],
       pausedGroups = [],
+
       // All of the features that can be set as keyboard shortcuts.
       features = {
         // Features in the main window.
@@ -31,14 +32,14 @@ module.exports = {};
         },
         // Features in confirm prompts.
         confirm: {
-          confirmEnter: function() {
+          enter: function() {
             if (document.activeElement === btnConfirmOK) {
               btnConfirmOK.click();
             } else if (document.activeElement === btnConfirmCancel) {
               btnConfirmCancel.click();
             }
           },
-          confirmCancel: function() {
+          cancel: function() {
             btnConfirmCancel.click();
           }
         }
@@ -51,6 +52,7 @@ module.exports = {};
    *                           eg main or confirm.
    */
   function addShortcuts(groupName) {
+    // Check the shortcut group hasn't already been added.
     if (activeGroups.indexOf(groupName) === -1) {
       allShortcuts[`${groupName}Shortcuts`].forEach(function(shortcut) {
         curShortcuts[`${shortcut.key}Shortcut`] = new nw.Shortcut(shortcut);
@@ -69,6 +71,7 @@ module.exports = {};
    *                           eg main or confirm.
    */
   function removeShortcuts(groupName) {
+    // Check the shortcut group can be removed.
     if (activeGroups.indexOf(groupName) > -1) {
       allShortcuts[`${groupName}Shortcuts`].forEach(function(shortcut) {
         nw.App.unregisterGlobalHotKey(curShortcuts[`${shortcut.key}Shortcut`]);
@@ -85,6 +88,7 @@ module.exports = {};
    * @param {String} location Location of file containing shortcut list.
    */
   function getShortcuts(location) {
+    // Location is a parameter to allow for custom shortcuts in the future.
     if (location === "default") {
       location = "./json/default-shortcuts.json";
     }
@@ -92,22 +96,30 @@ module.exports = {};
       success: function(data) {
         data = JSON.parse(data);
 
-        // Iterate through each feature group array (eg main, confirm)
+        // Iterate through each feature group object (eg main, confirm)
         Object.keys(features).forEach(function(groupName) {
 
-          // Isolate each group array
-          var group = features[groupName];
+          // Get object with each feature's function
+          var functionsList = features[groupName]
+
+          // Get object with each feature's array of shortcut keys
+          var shortcutsList = data[groupName];
+          
+          // Create an object to output found shortcuts to
           allShortcuts[`${groupName}Shortcuts`] = [];
+          
+          console.info(`---- ${groupName} ----`);
+          console.log(functionsList);
+          console.log(shortcutsList);
 
-          // Iterate through each feature of each group
-          Object.keys(group).forEach(function(feature) {
-            var featureShortcuts = data[feature];
+          // Iterate through each feature in the group
+          Object.keys(functionsList).forEach(function(feature) {
 
-            // Iterate through each shortcut assigned to each feature
-            featureShortcuts.forEach(function(e) {
+            // Iterate through each feature's array of shortcuts
+            shortcutsList[feature].forEach(function(shortcut) {
               var option = {
-                key : e,
-                active : group[feature],
+                key : shortcut,
+                active : functionsList[feature],
                 failed : function(err) {
                   console.error(err);
                 }
