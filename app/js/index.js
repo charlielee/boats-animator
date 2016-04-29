@@ -1,6 +1,3 @@
-/*jslint browser: true, node: true, debug: true*/
-/* global nw */
-
 (function() {
     "use strict";
     let win      = nw.Window.get(),

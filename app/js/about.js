@@ -1,6 +1,3 @@
-/*jslint browser: true, node: true, debug: true*/
-/* global Buffer, process */
-
 // Launcher window
 var launcherVersion = document.querySelector("#app-version"),
     win = nw.Window.get();

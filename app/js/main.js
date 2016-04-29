@@ -1,6 +1,3 @@
-/*jslint browser: true, node: true, debug: true*/
-/* global Buffer, process, utils */
-
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
 // calculated based on the aspect ratio of the input stream.
@@ -63,7 +60,6 @@ var width  = 640,
     frameExportDirectory  = _getSaveDirectory(),
     exportedFramesList    = [],
     curDirDisplay         = document.querySelector("#currentDirectoryName"),
-    changeDirectoryButton = document.querySelector("#changeDirectoryButton"),
 
     // Onion skin
     isOnionSkinEnabled = false,
@@ -181,6 +177,7 @@ function startup() {
         },
         function(err) {
             console.error("Could not find a camera to use!");
+            console.error(err);
             notifyError("Could not find a camera to use!");
         }
     );
@@ -303,6 +300,7 @@ function startup() {
         }
     });
 }
+window.onload = startup;
 
 /**
  * Toggle between playback and capture windows.
