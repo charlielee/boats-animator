@@ -1,42 +1,32 @@
 (function() {
     "use strict";
-    // Launcher window
-    var launcherVersion = document.querySelector("#app-version"),
+    let win      = nw.Window.get(),
+        newsFeed = require("./js/newsfeed"),
+        qAppVersion = document.querySelector("#app-version");
 
-        // GUI window
-        gui = require("nw.gui"),
-        win = gui.Window.get(),
+   // Get the version number from the manifest file
+    qAppVersion.innerHTML = nw.App.manifest.version;
 
-        // Node modules
-        newsFeed = require("./js/newsfeed");
+    // Display the latest news
+    newsFeed.load("http://charlielee.uk/api/core/get_category_posts/?id=12");
 
     /**
      * Occurs when "New Project" is pressed
      */
     function openAnimator() {
-        gui.Window.open("animator.html", {
+        nw.Window.open("animator.html", {
             position: "center",
             width: 1050,
             height: 715,
             min_width: 590,
             min_height: 500,
-            toolbar: false,
             focus: true,
             icon: "icons/icon.png",
         });
         win.close();
     }
 
-    // Get the version number from the manifest file
-    launcherVersion.innerHTML = gui.App.manifest.version;
-
-    // Load the news feed
-    newsFeed.load("http://charlielee.uk/api/core/get_category_posts/?id=12");
-
-    // Start a new project
+    // Open the animator
     document.querySelector("#new-project").addEventListener("click", openAnimator);
 
-    // Developer buttons
-    document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
-    document.querySelector("#btn-reload-page").addEventListener("click", utils.reloadPage);
 }());

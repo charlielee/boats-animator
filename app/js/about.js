@@ -1,9 +1,6 @@
 // Launcher window
 var launcherVersion = document.querySelector("#app-version"),
-
-    // GUI window
-    gui = require("nw.gui"),
-    win = gui.Window.get();
+    win = nw.Window.get();
 
 win.title = "About Boats Animator";
 win.setShowInTaskbar(false);
@@ -17,4 +14,4 @@ win.on("minimize", function() {
 });
 
 // Get the version number from the manifest file
-launcherVersion.innerHTML = gui.App.manifest.version;
+launcherVersion.innerHTML = nw.App.manifest.version;
