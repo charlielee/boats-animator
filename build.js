@@ -3,10 +3,11 @@ var userDir = process.env.USERPROFILE,
     nw = new NwBuilder({
       files: "app\\**\\**", // use the glob format
       platforms: ["linux64", "linux32", "osx64", "win32"],
-      version: "0.12.3",
+      version: "0.14.3",
       appName: "Boats Animator",
       buildDir: "bin",
-      cacheDir: `${userDir}\\AppData\\Roaming\\npm\\node_modules\\nw-builder\\cache`
+      cacheDir: `${userDir}\\AppData\\Roaming\\npm\\node_modules\\nw-builder\\cache`,
+      winIco: "win-install\\icon.ico"
     });
 
 nw.on("log", console.log);

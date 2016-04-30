@@ -1,36 +1,39 @@
 # Contributing to Boats Animator
 Thank you for choosing to help improve Boats Animator!
-### Setup
-1. First fork this repository by pressing ![](https://camo.githubusercontent.com/07b3944af53da32b0cffe98152c45c46431a82f0/687474703a2f2f6938312e73657276696d672e636f6d2f752f6638312f31362f33332f30362f31312f666f726b6d6531322e706e67)
-2. Clone the fork to your computer using: `git clone https://github.com/YOURUSERNAME/animator.git` or [GitHub Desktop](https://desktop.github.com/).
-3. Install [Node.js](https://nodejs.org/en/download/stable/) version **5.x+**
-4. Download version **0.12.3** of [NW.js](http://nwjs.io/) 
-4. Navigate to the `animator/app` directory and run: `npm install`
-5. Run Boats Animator in the downloaded NW executable.
-    -  On Windows the easiest way to do this is to drag the `app` directory onto NW.exe
-    -  More information and instructions for other operating systems can be found on the [NW.js wiki](https://github.com/nwjs/nw.js/wiki/How-to-run-apps).
-    
-### Reporting issues
-If you find a bug or want to suggest an improvement:
-* First check someone else hasn't already reported it in the [issues](https://github.com/BoatsAreRockable/animator/issues) section.
-* If not, create a [new issue](https://github.com/BoatsAreRockable/animator/issues/new) for it.
-* Please make sure to include a clear **title** and **description** as well as any relevent error messages, code snippets or screenshots.
 
-### Submitting Changes
-If you're working on an improvement to Boats Animator it is usually good practise to add a comment to the [relevant issue](https://github.com/BoatsAreRockable/animator/issues).
-Once you are ready to submit your change you should:
-* Send a [GitHub Pull Request](https://github.com/BoatsAreRockable/animator/pull/new/master) to Boats Animator with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)).
+## Setup
+1. First fork this repository by pressing ![Fork](https://camo.githubusercontent.com/07b3944af53da32b0cffe98152c45c46431a82f0/687474703a2f2f6938312e73657276696d672e636f6d2f752f6638312f31362f33332f30362f31312f666f726b6d6531322e706e67)
+2. Clone the fork to your computer using: `git clone https://github.com/YOUR_USERNAME/Boats-Animator.git` or [GitHub Desktop](https://desktop.github.com/).
+3. Install **version 5+** of [Node.js](https://nodejs.org/en/download/stable/).
+4. Navigate to the `animator/app` directory and run: `npm install`.
+
+### Compiling from source code
+To preview Boats Animator we recommend using [NW Builder](https://github.com/nwjs/nw-builder). Install it using `npm install evshiron/nw-builder -g`.
+
+After installing NW Builder, in the `animator` directory run: `nwbuild -r app -v 0.14.2`
+
+Alternatively, download version **0.14.2** of [NW.js](http://nwjs.io/) and follow the instructions relevant to your operating system on the [NW.js wiki](https://github.com/nwjs/nw.js/wiki/How-to-run-apps).
+
+## Reporting issues
+If you find a bug or want to suggest an improvement:
+* First check someone else hasn't already reported it in the [issues](https://github.com/BoatsAreRockable/Boats-Animator/issues) section.
+* If not, create a [new issue](https://github.com/BoatsAreRockable/Boats-Animator/issues/new) for it.
+* Please make sure to include a clear **title** and **description** as well as any relevant error messages, code snippets or screenshots.
+
+## Submitting Changes
+If you're working on an improvement to Boats Animator it is usually good practise to add a comment to the [relevant issue](https://github.com/BoatsAreRockable/Boats-Animator/issues). Once you are ready to submit your change you should:
+* Create a [new pull Request](https://github.com/BoatsAreRockable/Boats-Animator/pull/new/master) with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)).
 * The pull request should reference any relevant issues and have a clear title.
 * The log messages for any commits should also be clear.
 * The coding conventions for Boats Animator should be followed.
+* If your pull request brings any visible changes, the markdown based documentation in the `docs` directory should be updated.
 
 ## Coding conventions
-___Under construction___
-
-The following conventions are mostly observed in Boats Animator's code:
-* HTML5, CSS3 and ES6 JavaScript that is supported by Chromium 49 may be used.
+The following conventions should be observed in Boats Animator's code:
+* HTML5, CSS3 and ES6 JavaScript that is supported by Chromium 50 may be used.
+* Features with the `Webkit` prefix may be used if there is no standardised method available.
 * CSS, HTML, JS and JSON should be indented using 2 spaces ([Currently a WIP](https://github.com/BoatsAreRockable/Boats-Animator/issues/140))
 * Trailing white space and empty lines with spaces should be avoided.
 * HTML classes and ids are `spaced-using-dashes`.
-* JavaScript variables and functions are `spacedUsingCamelCase`.
+Script variables and functions are `spacedUsingCamelCase`.
 * JavaScript functions should be documented using [JSDoc](http://usejsdoc.org/about-getting-started.html).

@@ -10,6 +10,7 @@ The menu bar contains an assortment of options both to do with the current proje
 * **New project:** this has not been implemented yet.
 * **Open project:** this has not been implemented yet.
 * **Main menu:** select this to return to the [launcher window](launcher-window.md).
+* **Exit:** select this to close the program.
 
 ### Edit menu
 * **Delete last frame:** select this to activate the [undo last frame](#undo-last-frame) button.
@@ -18,11 +19,9 @@ The menu bar contains an assortment of options both to do with the current proje
 * **Capture frame:** select this to activate the [capture button](#capture-button).
 
 ### Help menu
-* **Give feedback:** select this to load the [issues page](https://github.com/BoatsAreRockable/animator/issues) of Boats Animator's GitHub repository.
+* **Documentation:** select this to view Boats Animator's [documentation](http://boatsanimator.readthedocs.org/) (the website you are currently on!).
+* **Give feedback:** select this to load the [issues page](https://github.com/BoatsAreRockable/Boats-Animator/issues) of Boats Animator's GitHub repository.
 * **About Boats Animator:** select this to load the [about window](about-window).
-
-### Debug menu
-* **Load developer tools:** this opens the devtools to inspect the window. This feature is intended for usage by developers of Boats Animator.
 
 ## Preview area
 ![Preview area](../img/preview-area.png)
@@ -82,7 +81,7 @@ This is when a live-feed of the selected camera is displayed in the preview area
 This is when a captured frame is displayed in the preview area. Preview mode can be accessed either by selecting a captured frame from the [frame reel](#frame-reel) or by selecting the play button.
 
 ## Capture button
-**Shortcut: `<Ctrl+C>`**
+**Shortcut: `<Ctrl+1>`**
 
 ![Capture button](../img/capture-button.png)
 
@@ -118,20 +117,6 @@ Select this to toggle if playback should continue from the first frame captured 
 ![Frame rate adjuster](../img/frame-rate-adjuster.png)
 
 This is used to set the number of frames per second to be displayed during playback. Whole numbers between 1 and 60 are accepted.
-
-## Debugging tools
-![Debugging tools](../img/debugging-tools.png)
-
-These features are intended for usage by developers of Boats Animator. They will be hidden in future versions.
-
-### Dev tools
-This opens the devtools to inspect the window.
-
-### Refresh
-This reloads the window.
-
-!!! warning "Warning"
-    A known issue is that this causes the NW.js APIs to stop working when used multiple times. **Using this feature is not recommended.**
 
 ## Sidebar
 ![Sidebar](../img/sidebar.png)
