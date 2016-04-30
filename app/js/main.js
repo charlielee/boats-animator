@@ -248,14 +248,14 @@ function startup() {
 
     // Stop the preview
     btnStop.addEventListener("click", function() {
-        if (totalFrames > 0 && winMode === "playback") {
+        if (winMode === "playback") {
             videoStop();
         }
     });
 
   // Preview one frame to the right on framereel
   btnNext.addEventListener("click", function() {
-    if (curSelectedFrame !== totalFrames) {
+    if (curSelectedFrame !== totalFrames && winMode === "playback") {
       videoJumpTo(curSelectedFrame + 1);
     } else {
       btnLiveView.click();
@@ -281,7 +281,13 @@ function startup() {
   });
 
   // Preview last frame on framereel
-  btnLast.addEventListener("click", videoStop);
+  btnLast.addEventListener("click", function() {
+    if (curSelectedFrame < totalFrames && winMode === "playback") {
+      videoStop();
+    } else {
+      btnLiveView.click();
+    }
+  });
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("input", function() {
@@ -596,15 +602,8 @@ function videoPause() {
  */
 function videoStop() {
   "use strict";
-  // Reset the player
-  videoPause();
-  _removeFrameReelSelection();
-  _addFrameReelSelection(totalFrames);
+  videoJumpTo(totalFrames);
   curPlayFrame = 0;
-  playback.setAttribute("src", capturedFrames[totalFrames - 1]);
-
-  // Display newest frame number in status bar
-  _updateStatusBarCurFrame(totalFrames);
   console.info("Playback stopped");
 }
 
@@ -619,11 +618,11 @@ function videoJumpTo(id) {
     // Reset the player
     videoPause();
     _removeFrameReelSelection();
+
+    // Preview selected frame ID
     _addFrameReelSelection(id);
     curPlayFrame = id - 1;
     playback.setAttribute("src", capturedFrames[id - 1]);
-
-    // Display newest frame number in status bar
     _updateStatusBarCurFrame(id);
   }
 }
