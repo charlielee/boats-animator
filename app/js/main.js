@@ -279,26 +279,37 @@ function startup() {
         switchMode("capture");
     });
 
-    // Preview a captured frame
-    frameReelRow.addEventListener("click", function(e) {
-        if (e.target.className === "frame-reel-img") {
-            // Remove previous selection
-            _removeFrameReelSelection();
+  // Preview a captured frame
+  frameReelRow.addEventListener("click", function(e) {
+    var container;
+    if (e.target.className === "frame-reel-img") {
+      container = e.target;
+      console.log(e.target);
+    }
+    if (e.target.className === "frame-reel-no") {
+      container = document.querySelector(`#img-${e.target.getAttribute("id").substring(3)}`);
+      console.log(container);
+    }
+    if (container.classList.contains("selected")) {
+      return false;
+    } else {
+      // Remove previous selection
+      _removeFrameReelSelection();
 
-            // Highlight the clicked image
-            e.target.classList.add("selected");
-            if (winMode !== "playback") {
-                switchMode("playback");
-            }
+      // Highlight the clicked image
+      container.classList.add("selected");
+      if (winMode !== "playback") {
+        switchMode("playback");
+      }
 
-            // Display the image and update all the necessary values
-            var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
-            playback.setAttribute("src", capturedFrames[imageID - 1]);
-            curPlayFrame = imageID - 1;
-            curSelectedFrame = imageID;
-            _updateStatusBarCurFrame(imageID);
-        }
-    });
+      // Display the image and update all the necessary values
+      var imageID = parseInt(container.id.match(/^img-(\d+)$/)[1], 10);
+      playback.setAttribute("src", capturedFrames[imageID - 1]);
+      curPlayFrame = imageID - 1;
+      curSelectedFrame = imageID;
+      _updateStatusBarCurFrame(imageID);
+    }
+  });
 }
 window.onload = startup;
 
@@ -382,7 +393,7 @@ function updateFrameReel(action, id) {
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1]}"><div class="frame-no">${id}</div>
+<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1]}"><div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
 </div></td>`);
 
         // Remove the chosen frame

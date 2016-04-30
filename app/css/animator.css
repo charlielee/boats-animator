@@ -321,11 +321,11 @@ a {
 .frame-reel-preview { position: relative; }
 
 /* Preview image */
-.frame-reel-img { cursor: pointer; }
+.frame-reel-img, .frame-reel-no { cursor: pointer; }
 .frame-reel-img:hover { opacity: 0.8; }
 .frame-reel-img.selected { outline: 1px solid #d9d9d9; }
 
-#area-frame-reel .frame-no {
+#area-frame-reel .frame-reel-no {
   position: absolute;
   top: 0;
   left: 0;
