@@ -163,7 +163,9 @@ function startup() {
 }
 
     // Get the appropriate WebRTC implementation
-    navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+    navigator.getMedia = navigator.mediaDevices.getUserMedia ||
+                         navigator.getUserMedia ||
+                         navigator.webkitGetUserMedia;
 
     navigator.getMedia({ video: true },
         function(stream) {
