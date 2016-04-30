@@ -9,6 +9,7 @@
     "no-unused-vars": ["error", {"varsIgnorePattern": "utils"}]
   },
   "globals": {
+    "nw": true,
     "utils": true
   }
 }
