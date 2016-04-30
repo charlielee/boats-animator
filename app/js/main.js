@@ -53,8 +53,10 @@ var width  = 640,
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Audio
-    captureAudio = new Audio("audio/camera.wav"),
-    audioToggle  = document.querySelector("#audio-toggle"),
+    captureAudio       = new Audio("audio/camera.wav"),
+    btnAudioToggle     = document.querySelector("#btn-audio-toggle"),
+    btnAudioToggleIcon = document.querySelector("#btn-audio-toggle i"),
+
 
     // Status bar
     statusBarCurMode   = document.querySelector("#current-mode span"),
@@ -255,18 +257,20 @@ function startup() {
 
   // Preview one frame to the right on framereel
   btnNext.addEventListener("click", function() {
-    if (curSelectedFrame !== totalFrames && winMode === "playback") {
-      videoJumpTo(curSelectedFrame + 1);
-    } else {
-      btnLiveView.click();
+    if (curSelectedFrame) {
+      if (curSelectedFrame !== totalFrames) {
+        videoJumpTo(curSelectedFrame + 1);
+      } else {
+        btnLiveView.click();
+      }
     }
   });
 
   // Preview one frame to the left on framereel
   btnPrevious.addEventListener("click", function() {
-    if (curSelectedFrame > 1 && winMode === "playback") {
-      videoJumpTo(curSelectedFrame - 1);
-    } else if (winMode === "capture") {
+    if (curSelectedFrame > 1) {
+        videoJumpTo(curSelectedFrame - 1);
+    } else  if (winMode === "capture") {
       switchMode("playback");
       videoJumpTo(totalFrames);
     }
@@ -282,10 +286,25 @@ function startup() {
 
   // Preview last frame on framereel
   btnLast.addEventListener("click", function() {
-    if (curSelectedFrame < totalFrames && winMode === "playback") {
-      videoStop();
+    if (curSelectedFrame) {
+      if (curSelectedFrame !== totalFrames) {
+        videoStop();
+      } else {
+        btnLiveView.click();
+      }
+    }
+  });
+
+  // Audio toggle change
+  btnAudioToggle.addEventListener("click", function() {
+    if (btnAudioToggle.classList.contains("active")) {
+      btnAudioToggle.classList.remove("active");
+      btnAudioToggleIcon.classList.remove("fa-volume-up");
+      btnAudioToggleIcon.classList.add("fa-volume-off");
     } else {
-      btnLiveView.click();
+      btnAudioToggle.classList.add("active");
+      btnAudioToggleIcon.classList.remove("fa-volume-off");
+      btnAudioToggleIcon.classList.add("fa-volume-up");
     }
   });
 
@@ -313,12 +332,14 @@ function startup() {
         notifyInfo("That feature is not yet implemented.");
     });
 
-    // Switch from frame preview back to live view
-    btnLiveView.addEventListener("click", function() {
-        videoStop();
-        _removeFrameReelSelection();
-        switchMode("capture");
-    });
+  // Switch from frame preview back to live view
+  btnLiveView.addEventListener("click", function() {
+    if (totalFrames > 0) {
+      videoStop();
+      _removeFrameReelSelection();
+      switchMode("capture");
+    }
+  });
 
     // Preview a captured frame
     frameReelRow.addEventListener("click", function(e) {
@@ -522,7 +543,7 @@ function _toggleOnionSkin(ev) {
  */
 function audio(name) {
     "use strict";
-    if (audioToggle.checked) {
+    if (btnAudioToggle.classList.contains("active")) {
         name.play();
     }
 }
@@ -624,6 +645,7 @@ function videoJumpTo(id) {
     curPlayFrame = id - 1;
     playback.setAttribute("src", capturedFrames[id - 1]);
     _updateStatusBarCurFrame(id);
+    _frameReelScroll();
   }
 }
 

@@ -282,9 +282,8 @@ a {
   padding: 0 0.5em;
   float: right;
 }
-#btn-play-pause {
+#btn-play-pause, #btn-audio-toggle {
   width: 1.5em;
-  text-align: center;
 }
 
 #btn-loop i.active, #btn-onion-skin-toggle i.active {
