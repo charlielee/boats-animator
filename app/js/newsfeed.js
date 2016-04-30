@@ -12,7 +12,7 @@ module.exports = {};
      */
     function openNews(e) {
         if (e.target.classList.contains("post-title")) {
-            nw.Shell.openExternal(e.target.parentElement.dataset.url);
+            utils.openURL(e.target.parentElement.dataset.url);
         }
     }
 
@@ -68,7 +68,7 @@ module.exports = {};
     function _compilePostHTML(post) {
         return `<div class="post" id="post-${post.id}">
     <header>
-        <a class="post-link" href="#" data-url="${post.url}"><h2 class="post-title">${post.title}</h2></a>
+        <h2 class="post-title"><a class="post-link" href="#" data-url="${post.url}">${post.title}</a>
         <p class="post-date">${post.date}</p>
     </header>
     <div class="post-content"><p>${post.excerpt}</p></div>
