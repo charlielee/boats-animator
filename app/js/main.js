@@ -46,6 +46,10 @@ var width  = 640,
     btnLoop       = document.querySelector("#btn-loop"),
     playback      = document.querySelector("#playback"),
     btnPlayPause  = document.querySelector("#btn-play-pause"),
+    btnNext       = document.querySelector("#btn-next"),
+    btnPrevious   = document.querySelector("#btn-previous"),
+    btnFirst      = document.querySelector("#btn-first"),
+    btnLast       = document.querySelector("#btn-last"),
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Audio
@@ -245,11 +249,39 @@ function startup() {
     // Stop the preview
     btnStop.addEventListener("click", function() {
         if (totalFrames > 0 && winMode === "playback") {
-            _removeFrameReelSelection();
-            _addFrameReelSelection(totalFrames);
             videoStop();
         }
     });
+
+  // Preview one frame to the right on framereel
+  btnNext.addEventListener("click", function() {
+    if (curSelectedFrame !== totalFrames) {
+      videoJumpTo(curSelectedFrame + 1);
+    } else {
+      btnLiveView.click();
+    }
+  });
+
+  // Preview one frame to the left on framereel
+  btnPrevious.addEventListener("click", function() {
+    if (curSelectedFrame > 1 && winMode === "playback") {
+      videoJumpTo(curSelectedFrame - 1);
+    } else if (winMode === "capture") {
+      switchMode("playback");
+      videoJumpTo(totalFrames);
+    }
+  });
+
+  // Preview first frame on framereel
+  btnFirst.addEventListener("click", function() {
+    if (winMode === "capture") {
+      switchMode("playback");
+    }
+    videoJumpTo(1);
+  });
+
+  // Preview last frame on framereel
+  btnLast.addEventListener("click", videoStop);
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("input", function() {
@@ -563,15 +595,37 @@ function videoPause() {
  * Fully stop captured frames preview video.
  */
 function videoStop() {
-    "use strict";
+  "use strict";
+  // Reset the player
+  videoPause();
+  _removeFrameReelSelection();
+  _addFrameReelSelection(totalFrames);
+  curPlayFrame = 0;
+  playback.setAttribute("src", capturedFrames[totalFrames - 1]);
+
+  // Display newest frame number in status bar
+  _updateStatusBarCurFrame(totalFrames);
+  console.info("Playback stopped");
+}
+
+/**
+ * Pause playback and view a specific frame in the preview area.
+ *
+ * @param {Integer} id The frame ID to preview.
+ */
+function videoJumpTo(id) {
+  "use strict";
+  if (totalFrames > 0) {
     // Reset the player
     videoPause();
-    curPlayFrame = 0;
-    playback.setAttribute("src", capturedFrames[totalFrames - 1]);
+    _removeFrameReelSelection();
+    _addFrameReelSelection(id);
+    curPlayFrame = id - 1;
+    playback.setAttribute("src", capturedFrames[id - 1]);
 
     // Display newest frame number in status bar
-    _updateStatusBarCurFrame(totalFrames);
-    console.info("Playback stopped");
+    _updateStatusBarCurFrame(id);
+  }
 }
 
 /**
