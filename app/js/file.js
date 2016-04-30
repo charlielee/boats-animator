@@ -14,6 +14,10 @@ module.exports = {};
     function update(callback) {
         function noop() {}
 
+        if (!callback) {
+          callback = {};
+        }
+
         if (!callback.success) {
             callback.success = noop;
         }
@@ -40,11 +44,17 @@ module.exports = {};
           to   = fs.createWriteStream(newPath);
 
       from.pipe(to);
-      // TODO Find a way to call the success callback
 
+      // An error occurred
       from.on("error", function(err) {
         console.error(err);
-        callback.error();
+        console.error(`Unable to copy ${oldPath} to ${newPath}`);
+      });
+
+      // Copy process was a success
+      to.on("close", function() {
+        console.log(`Successfully copied ${oldPath} to ${newPath}`);
+        callback.success();
       });
     }
 
