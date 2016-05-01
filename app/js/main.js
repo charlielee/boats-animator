@@ -53,10 +53,8 @@ var width  = 640,
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Audio
-    captureAudio       = new Audio("audio/camera.wav"),
-    btnAudioToggle     = document.querySelector("#btn-audio-toggle"),
-    btnAudioToggleIcon = document.querySelector("#btn-audio-toggle i"),
-
+    captureAudio = new Audio("audio/camera.wav"),
+    playAudio    = true,
 
     // Status bar
     statusBarCurMode   = document.querySelector("#current-mode span"),
@@ -295,19 +293,6 @@ function startup() {
     }
   });
 
-  // Audio toggle change
-  btnAudioToggle.addEventListener("click", function() {
-    if (btnAudioToggle.classList.contains("active")) {
-      btnAudioToggle.classList.remove("active");
-      btnAudioToggleIcon.classList.remove("fa-volume-up");
-      btnAudioToggleIcon.classList.add("fa-volume-off");
-    } else {
-      btnAudioToggle.classList.add("active");
-      btnAudioToggleIcon.classList.remove("fa-volume-off");
-      btnAudioToggleIcon.classList.add("fa-volume-up");
-    }
-  });
-
     // Listen for frame rate changes
     inputChangeFR.addEventListener("input", function() {
         if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
@@ -543,7 +528,7 @@ function _toggleOnionSkin(ev) {
  */
 function audio(name) {
     "use strict";
-    if (btnAudioToggle.classList.contains("active")) {
+    if (playAudio === true) {
         name.play();
     }
 }
@@ -696,7 +681,6 @@ function previewCapturedFrames() {
     // Begin playing the frames
     isPlaying = true;
     playBackLoop = setInterval(_videoPlay, (1000 / frameRate));
-    console.info("Playback started");
 }
 
 /**
@@ -1038,6 +1022,20 @@ function loadMenu() {
       key: "1",
       modifiers: "ctrl",
     }));
+
+  captureMenu.append(new nw.MenuItem({ type: "separator" }));
+
+  captureMenu.append(new nw.MenuItem({
+    label: "Play capture sounds",
+    click: function() {
+      playAudio = !playAudio;
+      notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}`);
+    },
+    type: "checkbox",
+    checked: true,
+    key: "m",
+    modifiers: "ctrl",
+  }));
 
     // Help menu items
     helpMenu.append(new nw.MenuItem({

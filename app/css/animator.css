@@ -247,7 +247,7 @@ a {
 }
 
 #left-controls {
-  width: 35%;
+  width: 45%;
 }
 
 #left-controls i {
@@ -260,7 +260,7 @@ a {
 }
 
 #playback-controls {
-  width: 35%;
+  width: 45%;
   font-size: 1.2em;
 }
 
@@ -282,7 +282,7 @@ a {
   padding: 0 0.5em;
   float: right;
 }
-#btn-play-pause, #btn-audio-toggle {
+#btn-play-pause {
   width: 1.5em;
 }
 
