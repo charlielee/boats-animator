@@ -11,8 +11,8 @@ module.exports = {};
    * @param {Object} e - An MouseEvent object.
    */
   function openNews(e) {
-    if (e.target.classList.contains("post-title")) {
-      utils.openURL(e.target.parentElement.dataset.url);
+    if (e.target.classList.contains("post-link")) {
+      utils.openURL(e.target.dataset.url);
     }
   }
 
@@ -68,7 +68,7 @@ module.exports = {};
   function _compilePostHTML(post) {
     return `<div class="post" id="post-${post.id}">
     <header>
-        <h2 class="post-title"><a class="post-link" href="#" data-url="${post.url}">${post.title}</a>
+        <h2 class="post-title"><a class="post-link" href="#" data-url="${post.url}">${post.title}</a></h2>
         <p class="post-date">${post.date}</p>
     </header>
     <div class="post-content"><p>${post.excerpt}</p></div>
