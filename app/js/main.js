@@ -284,15 +284,11 @@ function startup() {
     var container;
     if (e.target.className === "frame-reel-img") {
       container = e.target;
-      console.log(e.target);
     }
     if (e.target.className === "frame-reel-no") {
-      container = document.querySelector(`#img-${e.target.getAttribute("id").substring(3)}`);
-      console.log(container);
+      container = e.target.parentElement.firstElementChild;
     }
-    if (container.classList.contains("selected")) {
-      return false;
-    } else {
+    if (container) {
       // Remove previous selection
       _removeFrameReelSelection();
 
