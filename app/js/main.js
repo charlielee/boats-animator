@@ -34,20 +34,24 @@ var width  = 640,
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
     // Playback
-    frameRate     = 15,
-    isPlaying     = false,
-    isLooping     = false,
-    curPlayFrame  = 0,
-    playBackLoop  = null,
-    btnStop       = document.querySelector("#btn-stop"),
-    btnLoop       = document.querySelector("#btn-loop"),
-    playback      = document.querySelector("#playback"),
-    btnPlayPause  = document.querySelector("#btn-play-pause"),
+    frameRate        = 15,
+    isPlaying        = false,
+    isLooping        = false,
+    curPlayFrame     = 0,
+    playBackLoop     = null,
+    btnStop          = document.querySelector("#btn-stop"),
+    btnLoop          = document.querySelector("#btn-loop"),
+    playback         = document.querySelector("#playback"),
+    btnPlayPause     = document.querySelector("#btn-play-pause"),
+    btnFrameNext     = document.querySelector("#btn-frame-next"),
+    btnFramePrevious = document.querySelector("#btn-frame-previous"),
+    btnFrameFirst    = document.querySelector("#btn-frame-first"),
+    btnFrameLast     = document.querySelector("#btn-frame-last"),
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Audio
     captureAudio = new Audio("audio/camera.wav"),
-    audioToggle  = document.querySelector("#audio-toggle"),
+    playAudio    = true,
 
     // Status bar
     statusBarCurMode   = document.querySelector("#current-mode span"),
@@ -243,12 +247,50 @@ function startup() {
 
     // Stop the preview
     btnStop.addEventListener("click", function() {
-        if (totalFrames > 0 && winMode === "playback") {
-            _removeFrameReelSelection();
-            _addFrameReelSelection(totalFrames);
+        if (winMode === "playback") {
             videoStop();
         }
     });
+
+  // Preview one frame to the right on framereel
+  btnFrameNext.addEventListener("click", function() {
+    if (curSelectedFrame) {
+      if (curSelectedFrame !== totalFrames) {
+        _displayFrame(curSelectedFrame + 1);
+      } else {
+        btnLiveView.click();
+      }
+    }
+  });
+
+  // Preview one frame to the left on framereel
+  btnFramePrevious.addEventListener("click", function() {
+    if (curSelectedFrame > 1) {
+        _displayFrame(curSelectedFrame - 1);
+    } else if (winMode === "capture") {
+      switchMode("playback");
+      _displayFrame(totalFrames);
+    }
+  });
+
+  // Preview first frame on framereel
+  btnFrameFirst.addEventListener("click", function() {
+    if (winMode === "capture") {
+      switchMode("playback");
+    }
+    _displayFrame(1);
+  });
+
+  // Preview last frame on framereel
+  btnFrameLast.addEventListener("click", function() {
+    if (curSelectedFrame) {
+      if (curSelectedFrame !== totalFrames) {
+        videoStop();
+      } else {
+        btnLiveView.click();
+      }
+    }
+  });
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("input", function() {
@@ -274,12 +316,14 @@ function startup() {
         notifyInfo("That feature is not yet implemented.");
     });
 
-    // Switch from frame preview back to live view
-    btnLiveView.addEventListener("click", function() {
-        videoStop();
-        _removeFrameReelSelection();
-        switchMode("capture");
-    });
+  // Switch from frame preview back to live view
+  btnLiveView.addEventListener("click", function() {
+    if (totalFrames > 0) {
+      videoStop();
+      _removeFrameReelSelection();
+      switchMode("capture");
+    }
+  });
 
     // Preview a captured frame
     frameReelRow.addEventListener("click", function(e) {
@@ -484,7 +528,7 @@ function _toggleOnionSkin(ev) {
  */
 function audio(name) {
     "use strict";
-    if (audioToggle.checked) {
+    if (playAudio) {
         name.play();
     }
 }
@@ -563,15 +607,31 @@ function videoPause() {
  * Fully stop captured frames preview video.
  */
 function videoStop() {
-    "use strict";
+  "use strict";
+  _displayFrame(totalFrames);
+  curPlayFrame = 0;
+  console.info("Playback stopped");
+}
+
+/**
+ * Pause playback and view a specific frame in the preview area.
+ *
+ * @param {Integer} id The frame ID to preview.
+ */
+function _displayFrame(id) {
+  "use strict";
+  if (totalFrames > 0) {
     // Reset the player
     videoPause();
-    curPlayFrame = 0;
-    playback.setAttribute("src", capturedFrames[totalFrames - 1]);
+    _removeFrameReelSelection();
 
-    // Display newest frame number in status bar
-    _updateStatusBarCurFrame(totalFrames);
-    console.info("Playback stopped");
+    // Preview selected frame ID
+    _addFrameReelSelection(id);
+    curPlayFrame = id - 1;
+    playback.setAttribute("src", capturedFrames[id - 1]);
+    _updateStatusBarCurFrame(id);
+    _frameReelScroll();
+  }
 }
 
 /**
@@ -963,6 +1023,20 @@ function loadMenu() {
       key: "1",
       modifiers: "ctrl",
     }));
+
+  captureMenu.append(new nw.MenuItem({ type: "separator" }));
+
+  captureMenu.append(new nw.MenuItem({
+    label: "Play capture sounds",
+    click: function() {
+      playAudio = !playAudio;
+      notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}`);
+    },
+    type: "checkbox",
+    checked: true,
+    key: "m",
+    modifiers: "ctrl",
+  }));
 
     // Help menu items
     helpMenu.append(new nw.MenuItem({

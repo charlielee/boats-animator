@@ -247,7 +247,7 @@ a {
 }
 
 #left-controls {
-  width: 35%;
+  width: 45%;
 }
 
 #left-controls i {
@@ -260,7 +260,7 @@ a {
 }
 
 #playback-controls {
-  width: 35%;
+  width: 45%;
   font-size: 1.2em;
 }
 
@@ -278,9 +278,12 @@ a {
   color: #f3f76e;
 }
 
-#btn-play-pause, #btn-stop, #btn-loop {
-  padding: 0 0.25em;
+#playback-controls div {
+  padding: 0 0.5em;
   float: right;
+}
+#btn-play-pause {
+  width: 1.5em;
 }
 
 #btn-loop i.active, #btn-onion-skin-toggle i.active {
