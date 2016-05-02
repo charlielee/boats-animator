@@ -17,6 +17,7 @@ The menu bar contains an assortment of options both to do with the current proje
 
 ### Capture menu
 * **Capture frame:** select this to activate the [capture button](#capture-button).
+* **Play capture sounds:** this toggles whether a sound plays when a frame is captured.
 
 ### Help menu
 * **Documentation:** select this to view Boats Animator's [documentation](http://boatsanimator.readthedocs.org/) (the website you are currently on!).
@@ -100,14 +101,25 @@ This is used to set the amount of [onion skinning](https://en.wikipedia.org/wiki
 
 These buttons affect the playback of captured frames in the [preview area](#preview-area).
 
-### Playback frames
+### First frame
+This previews the first frame captured.
+
+### Previous frame
+This previews one frame to the left in the [frame reel](#frame-reel) of the current frame being displayed.
+
+### Playback / pause frames
 When this is selected playback will begin from the first frame captured or resume from the current frame being previewed if in [playback mode](#playback-mode).
 
-### Pause playback
 The playback frames button switches to a pause button during playback. Selecting it pauses playback at the current frame being previewed.
 
 ### Stop playback
 Select this to stop playback and jump to the last frame captured.
+
+### Next frame
+This previews one frame to the right in the [frame reel](#frame-reel) of the current frame being displayed.
+
+### Last frame
+This previews the last frame captured.
 
 ### Loop playback
 Select this to toggle if playback should continue from the first frame captured when the last frame captured is reached.
@@ -125,9 +137,6 @@ The sidebar contains options that are generally not changed very often during an
 
 ### Change resolution and change camera
 These features have not been implemented yet, although we are working on doing so and are aware that there is a strong demand for them!
-
-### Play audio
-This toggles whether the program should play sounds. The only sound currently used in Boats Animator is a shutter "clicking" sound when the [capture button](#capture-button) is pressed.
 
 ### Change directory
 Select this to change the folder Boats Animator exports captured frames to.
