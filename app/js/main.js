@@ -37,19 +37,19 @@ var width  = 640,
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
     // Playback
-    frameRate     = 15,
-    isPlaying     = false,
-    isLooping     = false,
-    curPlayFrame  = 0,
-    playBackLoop  = null,
-    btnStop       = document.querySelector("#btn-stop"),
-    btnLoop       = document.querySelector("#btn-loop"),
-    playback      = document.querySelector("#playback"),
-    btnPlayPause  = document.querySelector("#btn-play-pause"),
-    btnNext       = document.querySelector("#btn-next"),
-    btnPrevious   = document.querySelector("#btn-previous"),
-    btnFirst      = document.querySelector("#btn-first"),
-    btnLast       = document.querySelector("#btn-last"),
+    frameRate        = 15,
+    isPlaying        = false,
+    isLooping        = false,
+    curPlayFrame     = 0,
+    playBackLoop     = null,
+    btnStop          = document.querySelector("#btn-stop"),
+    btnLoop          = document.querySelector("#btn-loop"),
+    playback         = document.querySelector("#playback"),
+    btnPlayPause     = document.querySelector("#btn-play-pause"),
+    btnFrameNext     = document.querySelector("#btn-frame-next"),
+    btnFramePrevious = document.querySelector("#btn-frame-previous"),
+    btnFrameFirst    = document.querySelector("#btn-frame-first"),
+    btnFrameLast     = document.querySelector("#btn-frame-last"),
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Audio
@@ -254,10 +254,10 @@ function startup() {
     });
 
   // Preview one frame to the right on framereel
-  btnNext.addEventListener("click", function() {
+  btnFrameNext.addEventListener("click", function() {
     if (curSelectedFrame) {
       if (curSelectedFrame !== totalFrames) {
-        videoJumpTo(curSelectedFrame + 1);
+        _displayFrame(curSelectedFrame + 1);
       } else {
         btnLiveView.click();
       }
@@ -265,25 +265,25 @@ function startup() {
   });
 
   // Preview one frame to the left on framereel
-  btnPrevious.addEventListener("click", function() {
+  btnFramePrevious.addEventListener("click", function() {
     if (curSelectedFrame > 1) {
-        videoJumpTo(curSelectedFrame - 1);
-    } else  if (winMode === "capture") {
+        _displayFrame(curSelectedFrame - 1);
+    } else if (winMode === "capture") {
       switchMode("playback");
-      videoJumpTo(totalFrames);
+      _displayFrame(totalFrames);
     }
   });
 
   // Preview first frame on framereel
-  btnFirst.addEventListener("click", function() {
+  btnFrameFirst.addEventListener("click", function() {
     if (winMode === "capture") {
       switchMode("playback");
     }
-    videoJumpTo(1);
+    _displayFrame(1);
   });
 
   // Preview last frame on framereel
-  btnLast.addEventListener("click", function() {
+  btnFrameLast.addEventListener("click", function() {
     if (curSelectedFrame) {
       if (curSelectedFrame !== totalFrames) {
         videoStop();
@@ -528,7 +528,7 @@ function _toggleOnionSkin(ev) {
  */
 function audio(name) {
     "use strict";
-    if (playAudio === true) {
+    if (playAudio) {
         name.play();
     }
 }
@@ -608,7 +608,7 @@ function videoPause() {
  */
 function videoStop() {
   "use strict";
-  videoJumpTo(totalFrames);
+  _displayFrame(totalFrames);
   curPlayFrame = 0;
   console.info("Playback stopped");
 }
@@ -618,7 +618,7 @@ function videoStop() {
  *
  * @param {Integer} id The frame ID to preview.
  */
-function videoJumpTo(id) {
+function _displayFrame(id) {
   "use strict";
   if (totalFrames > 0) {
     // Reset the player
@@ -681,6 +681,7 @@ function previewCapturedFrames() {
     // Begin playing the frames
     isPlaying = true;
     playBackLoop = setInterval(_videoPlay, (1000 / frameRate));
+    console.info("Playback started");
 }
 
 /**
