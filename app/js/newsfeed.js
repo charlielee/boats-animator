@@ -1,5 +1,4 @@
-  /* global nw */
-  module.exports = {};
+module.exports = {};
 
 (function() {
     "use strict";

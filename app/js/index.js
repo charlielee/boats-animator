@@ -1,6 +1,3 @@
-/*jslint browser: true, node: true, debug: true*/
-/* global nw */
-
 (function() {
     "use strict";
     let win      = nw.Window.get(),
@@ -32,10 +29,4 @@
     // Open the animator
     document.querySelector("#new-project").addEventListener("click", openAnimator);
 
-    /**
-     * Development Functions
-     */
-    document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
-
-    document.querySelector("#btn-dev-reload").addEventListener("click", utils.reloadPage);
 }());

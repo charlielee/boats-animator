@@ -16,7 +16,10 @@ module.exports = {};
           },
           undoFrame: undoFrame,
           audioToggle: function() {
-            audioToggle.checked = !audioToggle.checked;
+            playAudio = !playAudio;
+            // Toggle checkbox on related menubar item
+            captureMenu.items[2].checked = !captureMenu.items[2].checked;
+            notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
           },
           playPause: function() {
             btnPlayPause.click();

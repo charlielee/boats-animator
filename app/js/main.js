@@ -1,6 +1,3 @@
-/*jslint browser: true, node: true, debug: true*/
-/* global Buffer, process, utils */
-
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
 // calculated based on the aspect ratio of the input stream.
@@ -37,20 +34,24 @@ var width  = 640,
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
     // Playback
-    frameRate     = 15,
-    isPlaying     = false,
-    isLooping     = false,
-    curPlayFrame  = 0,
-    playBackLoop  = null,
-    btnStop       = document.querySelector("#btn-stop"),
-    btnLoop       = document.querySelector("#btn-loop"),
-    playback      = document.querySelector("#playback"),
-    btnPlayPause  = document.querySelector("#btn-play-pause"),
+    frameRate        = 15,
+    isPlaying        = false,
+    isLooping        = false,
+    curPlayFrame     = 0,
+    playBackLoop     = null,
+    btnStop          = document.querySelector("#btn-stop"),
+    btnLoop          = document.querySelector("#btn-loop"),
+    playback         = document.querySelector("#playback"),
+    btnPlayPause     = document.querySelector("#btn-play-pause"),
+    btnFrameNext     = document.querySelector("#btn-frame-next"),
+    btnFramePrevious = document.querySelector("#btn-frame-previous"),
+    btnFrameFirst    = document.querySelector("#btn-frame-first"),
+    btnFrameLast     = document.querySelector("#btn-frame-last"),
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Audio
     captureAudio = new Audio("audio/camera.wav"),
-    audioToggle  = document.querySelector("#audio-toggle"),
+    playAudio    = true,
 
     // Status bar
     statusBarCurMode   = document.querySelector("#current-mode span"),
@@ -63,7 +64,6 @@ var width  = 640,
     frameExportDirectory  = _getSaveDirectory(),
     exportedFramesList    = [],
     curDirDisplay         = document.querySelector("#currentDirectoryName"),
-    changeDirectoryButton = document.querySelector("#changeDirectoryButton"),
 
     // Onion skin
     isOnionSkinEnabled = false,
@@ -169,7 +169,9 @@ function startup() {
 }
 
     // Get the appropriate WebRTC implementation
-    navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+    navigator.getMedia = navigator.mediaDevices.getUserMedia ||
+                         navigator.getUserMedia ||
+                         navigator.webkitGetUserMedia;
 
     navigator.getMedia({ video: true },
         function(stream) {
@@ -183,6 +185,7 @@ function startup() {
         },
         function(err) {
             console.error("Could not find a camera to use!");
+            console.error(err);
             notifyError("Could not find a camera to use!");
         }
     );
@@ -246,11 +249,50 @@ function startup() {
 
     // Stop the preview
     btnStop.addEventListener("click", function() {
-        if (totalFrames > 0) {
-            _removeFrameReelSelection();
+        if (winMode === "playback") {
             videoStop();
         }
     });
+
+  // Preview one frame to the right on framereel
+  btnFrameNext.addEventListener("click", function() {
+    if (curSelectedFrame) {
+      if (curSelectedFrame !== totalFrames) {
+        _displayFrame(curSelectedFrame + 1);
+      } else {
+        btnLiveView.click();
+      }
+    }
+  });
+
+  // Preview one frame to the left on framereel
+  btnFramePrevious.addEventListener("click", function() {
+    if (curSelectedFrame > 1) {
+        _displayFrame(curSelectedFrame - 1);
+    } else if (winMode === "capture") {
+      switchMode("playback");
+      _displayFrame(totalFrames);
+    }
+  });
+
+  // Preview first frame on framereel
+  btnFrameFirst.addEventListener("click", function() {
+    if (winMode === "capture") {
+      switchMode("playback");
+    }
+    _displayFrame(1);
+  });
+
+  // Preview last frame on framereel
+  btnFrameLast.addEventListener("click", function() {
+    if (curSelectedFrame) {
+      if (curSelectedFrame !== totalFrames) {
+        videoStop();
+      } else {
+        btnLiveView.click();
+      }
+    }
+  });
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("focus", function() {
@@ -280,12 +322,14 @@ function startup() {
         notifyInfo("That feature is not yet implemented.");
     });
 
-    // Switch from frame preview back to live view
-    btnLiveView.addEventListener("click", function() {
-        videoStop();
-        _removeFrameReelSelection();
-        switchMode("capture");
-    });
+  // Switch from frame preview back to live view
+  btnLiveView.addEventListener("click", function() {
+    if (totalFrames > 0) {
+      videoStop();
+      _removeFrameReelSelection();
+      switchMode("capture");
+    }
+  });
 
     // Preview a captured frame
     frameReelRow.addEventListener("click", function(e) {
@@ -307,11 +351,8 @@ function startup() {
             _updateStatusBarCurFrame(imageID);
         }
     });
-  
-  // Developer buttons
-  document.querySelector("#btn-open-dev-tools").addEventListener("click", utils.showDev);
-  document.querySelector("#btn-dev-reload").addEventListener("click", utils.reloadPage);
 }
+window.onload = startup;
 
 /**
  * Toggle between playback and capture windows.
@@ -493,7 +534,7 @@ function _toggleOnionSkin(ev) {
  */
 function audio(name) {
     "use strict";
-    if (audioToggle.checked) {
+    if (playAudio) {
         name.play();
     }
 }
@@ -572,15 +613,31 @@ function videoPause() {
  * Fully stop captured frames preview video.
  */
 function videoStop() {
-    "use strict";
+  "use strict";
+  _displayFrame(totalFrames);
+  curPlayFrame = 0;
+  console.info("Playback stopped");
+}
+
+/**
+ * Pause playback and view a specific frame in the preview area.
+ *
+ * @param {Integer} id The frame ID to preview.
+ */
+function _displayFrame(id) {
+  "use strict";
+  if (totalFrames > 0) {
     // Reset the player
     videoPause();
-    curPlayFrame = 0;
-    playback.setAttribute("src", capturedFrames[totalFrames - 1]);
+    _removeFrameReelSelection();
 
-    // Display newest frame number in status bar
-    _updateStatusBarCurFrame(totalFrames);
-    console.info("Playback stopped");
+    // Preview selected frame ID
+    _addFrameReelSelection(id);
+    curPlayFrame = id - 1;
+    playback.setAttribute("src", capturedFrames[id - 1]);
+    _updateStatusBarCurFrame(id);
+    _frameReelScroll();
+  }
 }
 
 /**
@@ -911,7 +968,7 @@ function confirmSet(callback, args, msg) {
 
         btnConfirmOK.removeEventListener("click", _ok);
         btnConfirmCancel.removeEventListener("click", _cancel);
-        
+
         btnConfirmOK.removeEventListener("blur", _focusCancel);
         btnConfirmCancel.removeEventListener("blur", _focusOK);
 
@@ -947,8 +1004,7 @@ function confirmSet(callback, args, msg) {
     var fileMenu    = new nw.Menu(),
         editMenu    = new nw.Menu(),
         captureMenu = new nw.Menu(),
-        helpMenu    = new nw.Menu(),
-        debugMenu   = new nw.Menu();
+        helpMenu    = new nw.Menu();
 
 function loadMenu() {
     "use strict";
@@ -977,6 +1033,16 @@ function loadMenu() {
         key: "w",
         modifiers: controlKey,
     }));
+    fileMenu.append(new nw.MenuItem({ type: "separator" }));
+    fileMenu.append(new nw.MenuItem({
+      label: "Exit",
+      click: function() {
+        confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+      },
+      key: "q",
+      modifiers: "ctrl",
+    }));
+
 
     // Edit menu items
     editMenu.append(new nw.MenuItem({
@@ -994,7 +1060,29 @@ function loadMenu() {
       modifiers: controlKey,
     }));
 
+  captureMenu.append(new nw.MenuItem({ type: "separator" }));
+
+  captureMenu.append(new nw.MenuItem({
+    label: "Play capture sounds",
+    click: function() {
+      playAudio = !playAudio;
+      notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+    },
+    type: "checkbox",
+    checked: true,
+    key: "m",
+    modifiers: "ctrl",
+  }));
+
     // Help menu items
+    helpMenu.append(new nw.MenuItem({
+      label: "Documentation",
+      click: function() {
+          utils.openURL("http://boatsanimator.readthedocs.org/");
+      },
+      key: "F1",
+      modifiers: "",
+    }));
     helpMenu.append(new nw.MenuItem({
       label: "Give feedback",
       click: function() {
@@ -1007,12 +1095,6 @@ function loadMenu() {
     helpMenu.append(new nw.MenuItem({
       label: "About Boats Animator",
       click: openAbout
-    }));
-
-    // Debug menu items
-    debugMenu.append(new nw.MenuItem({
-      label: "Load developer tools",
-      click: utils.showDev,
     }));
 
     // Append sub-menus to main menu
@@ -1041,13 +1123,6 @@ function loadMenu() {
         new nw.MenuItem({
             label: "Help",
             submenu: helpMenu
-        })
-    );
-
-    menuBar.append(
-        new nw.MenuItem({
-            label: "Debug",
-            submenu: debugMenu
         })
     );
 

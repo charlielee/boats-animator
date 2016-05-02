@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/animator.css">
 </head>
 
-<body onload="startup()">
+<body>
     <!--Notification Bar-->
     <section id="notification-container">
         <div class="notification hidden">
@@ -56,7 +56,6 @@
                 <ul id="capture-options">
                     <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change resolution</a></li>
                     <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
-                    <li><input id="audio-toggle" type="checkbox" checked><label for="audio-toggle">Play audio</label></li>
                 </ul>
             </div>
 
@@ -112,9 +111,13 @@
                             </div>
                     </td>
                     <td id="playback-controls">
-                            <div id="btn-loop" class="mediaControls" title="Loop Playback"><i class="fa fa-refresh"></i></div>
-                            <div id="btn-stop" class="mediaControls" title="Stop Playback"><i class="fa fa-stop"></i></div>
-                            <div id="btn-play-pause" class="mediaControls" title="Playback Frames"><i class="fa fa-play"></i></div>
+                      <div id="btn-loop" title="Loop Playback"><i class="fa fa-refresh"></i></div>
+                      <div id="btn-frame-last" title="Last frame"><i class="fa fa-fast-forward"></i></div>
+                      <div id="btn-frame-next" title="Next frame"><i class="fa fa-step-forward"></i></div>
+                      <div id="btn-stop" title="Stop Playback"><i class="fa fa-stop"></i></div>
+                      <div id="btn-play-pause" title="Playback Frames"><i class="fa fa-play"></i></div>
+                      <div id="btn-frame-previous" title="Previous frame"><i class="fa fa-step-backward"></i></div>
+                      <div id="btn-frame-first" title="First frame"><i class="fa fa-fast-backward"></i></div>
                     </td>
                 </tr>
             </table>
@@ -157,11 +160,6 @@
             <li>Frame <span id="current-frame">0</span> of <span id="num-of-frames">0</span></li>
             <li id="current-frame-rate"><span></span> FPS</li>
             <li class="no-pipe" id="current-mode"><span></span> mode</li>
-            <li id="statusBar-dev" class="no-pipe">
-                <!--Debugging Options-->
-                <button id="btn-open-dev-tools">Dev tools</button>
-                <button id="btn-dev-reload">Refresh</button>
-            </li>
         </ul>
     </div>
 
