@@ -1030,7 +1030,7 @@ function loadMenu() {
     label: "Play capture sounds",
     click: function() {
       playAudio = !playAudio;
-      notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}`);
+      notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
     },
     type: "checkbox",
     checked: true,
