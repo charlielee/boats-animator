@@ -576,17 +576,17 @@ function _toggleVideoLoop() {
  * Pause captured frames preview video.
  */
 function videoPause() {
-    "use strict";
-    // Only pause if needed
-    if (isPlaying) {
-        isPlaying = false;
-        clearInterval(playBackLoop);
+  "use strict";
+  // Only pause if needed
+  if (isPlaying) {
+    isPlaying = false;
+    clearInterval(playBackLoop);
 
-        // Change the play/pause button
-        btnPlayPause.children[0].classList.remove("fa-pause");
-        btnPlayPause.children[0].classList.add("fa-play");
-        console.info("Playback paused");
-    }
+    // Change the play/pause button
+    btnPlayPause.children[0].classList.remove("fa-pause");
+    btnPlayPause.children[0].classList.add("fa-play");
+    console.info("Playback paused");
+  }
 }
 
 /**
