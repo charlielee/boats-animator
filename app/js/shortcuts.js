@@ -69,9 +69,20 @@ module.exports = {};
   function addShortcuts(groupName) {
     // Check the shortcut group hasn't already been added.
     if (!activeGroups.includes(groupName)) {
-      allShortcuts[`${groupName}Shortcuts`].forEach(function(shortcut) {
-        curShortcuts[`${shortcut.key}Shortcut`] = new nw.Shortcut(shortcut);
-        nw.App.registerGlobalHotKey(curShortcuts[`${shortcut.key}Shortcut`]);
+      // Iterate through each feature of the shortcut group
+      allShortcuts[`${groupName}`].forEach(function(feature) {
+        // Iterate through each feature's array of shortcuts
+        feature["keys"].forEach(function(shortcut) {
+          var option = {
+            active: feature.active,
+            key: shortcut,
+            failed : function(err) {
+              console.error(err);
+            }
+          };
+          curShortcuts[option.key] = new nw.Shortcut(option);
+          nw.App.registerGlobalHotKey(curShortcuts[option.key]);
+        });
       });
 
       activeGroups.push(groupName);
@@ -88,8 +99,13 @@ module.exports = {};
   function removeShortcuts(groupName) {
     // Check the shortcut group can be removed.
     if (activeGroups.includes(groupName)) {
-      allShortcuts[`${groupName}Shortcuts`].forEach(function(shortcut) {
-        nw.App.unregisterGlobalHotKey(curShortcuts[`${shortcut.key}Shortcut`]);
+      // Iterate through each feature of the shortcut group
+      allShortcuts[`${groupName}`].forEach(function(feature) {
+        // Iterate through each feature's array of shortcuts
+        feature["keys"].forEach(function(shortcut) {
+
+          nw.App.unregisterGlobalHotKey(curShortcuts[shortcut]);
+        });
       });
 
       activeGroups.splice(activeGroups.indexOf(groupName));
@@ -121,28 +137,21 @@ module.exports = {};
           var shortcutsList = data[groupName];
           
           // Create an object to output found shortcuts to
-          allShortcuts[`${groupName}Shortcuts`] = [];
-          
-          console.info(`---- ${groupName} ----`);
-          console.log(functionsList);
-          console.log(shortcutsList);
+          allShortcuts[`${groupName}`] = [];
 
           // Iterate through each feature in the group
-          Object.keys(functionsList).forEach(function(feature) {
+          Object.keys(functionsList).forEach(function(featureName) {
+            var featureObject = {
+              active : functionsList[featureName],
+              keys: shortcutsList[featureName],
+            };
 
-            // Iterate through each feature's array of shortcuts
-            shortcutsList[feature].forEach(function(shortcut) {
-              var option = {
-                key : shortcut,
-                active : functionsList[feature],
-                failed : function(err) {
-                  console.error(err);
-                }
-              };
-              allShortcuts[`${groupName}Shortcuts`].push(option);
-            });
+            allShortcuts[groupName].push(featureObject);
+
           });
         });
+        console.info(`Got shortcuts from "${location}":`);
+        console.log(allShortcuts);
         addShortcuts("main");
       }
     });
