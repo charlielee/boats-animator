@@ -11,8 +11,8 @@ var width  = 640,
 
     // The various HTML elements we need to configure or control.
     preview     = document.querySelector("#preview"),
-    video       = document.createElement("video"),
-    canvas      = document.createElement("canvas"),
+    playback    = document.querySelector("#playback"),
+    context     = playback.getContext("2d"),
     ratio       = null,
     aspectRatio = null,
 
@@ -41,7 +41,6 @@ var width  = 640,
     playBackLoop     = null,
     btnStop          = document.querySelector("#btn-stop"),
     btnLoop          = document.querySelector("#btn-loop"),
-    playback         = document.querySelector("#playback"),
     btnPlayPause     = document.querySelector("#btn-play-pause"),
     btnFrameNext     = document.querySelector("#btn-frame-next"),
     btnFramePrevious = document.querySelector("#btn-frame-previous"),
@@ -172,41 +171,36 @@ function startup() {
                          navigator.webkitGetUserMedia;
 
     navigator.getMedia({ video: true },
-        function(stream) {
-            var videoBlob = window.URL.createObjectURL(stream);
-            // Play preview video
-            preview.src = videoBlob;
-
-            // Play hidden video of correct resolution
-            video.src = videoBlob;
-            video.play();
-        },
-        function(err) {
-            console.error("Could not find a camera to use!");
-            console.error(err);
-            notifyError("Could not find a camera to use!");
-        }
+      function(stream) {
+        var videoBlob = window.URL.createObjectURL(stream);
+        preview.src = videoBlob;
+      },
+      function(err) {
+        console.error("Could not find a camera to use!");
+        console.error(err);
+        notifyError("Could not find a camera to use!");
+      }
     );
 
-    video.addEventListener("canplay", function() {
-        if (!streaming) {
-            height = video.videoHeight / (video.videoWidth / width);
+    preview.addEventListener("canplay", function() {
+      if (!streaming) {
+        height = preview.videoHeight / (preview.videoWidth / width);
 
-            canvas.setAttribute("width", video.videoWidth.toString());
-            canvas.setAttribute("height", video.videoHeight.toString());
-            streaming = true;
-            ratio = width / height;
-            aspectRatio = ratio.toFixed(2);
-            console.log("height: " + height);
-            console.log("width: " + width);
-            console.log("Aspect ratio: " + aspectRatio);
+        playback.setAttribute("width", preview.videoWidth.toString());
+        playback.setAttribute("height", preview.videoHeight.toString());
+        streaming = true;
+        ratio = width / height;
+        aspectRatio = ratio.toFixed(2);
+        console.log("height: " + height);
+        console.log("width: " + width);
+        console.log("Aspect ratio: " + aspectRatio);
 
-            if (aspectRatio === 1.33) {
-                captureWindow.classList.add("4by3");
-            }
-
-            notifySuccess("Camera successfully connected.");
+        if (aspectRatio === 1.33) {
+          captureWindow.classList.add("4by3");
         }
+
+        notifySuccess("Camera successfully connected.");
+      }
     });
 
 
