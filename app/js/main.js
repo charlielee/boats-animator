@@ -50,7 +50,7 @@ var width  = 640,
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Audio
-    captureAudio = new Audio("audio/camera.wav"),
+    captureAudio = "audio/camera.wav",
     playAudio    = true,
 
     // Status bar
@@ -523,14 +523,15 @@ function _toggleOnionSkin(ev) {
 }
 
 /**
- * Play audio if checkbox checked
- * @param {String} name Name of variable with audio file.
+ * Play audio if checkbox checked.
+ * @param {String} file Location of audio file to play.
  */
-function audio(name) {
-    "use strict";
-    if (playAudio) {
-        name.play();
-    }
+function audio(file) {
+  "use strict";
+  if (playAudio) {
+    var audio = new Audio(file);
+    audio.play();
+  }
 }
 
 function takePicture() {
