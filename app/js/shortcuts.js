@@ -70,11 +70,11 @@ module.exports = {};
     // Check the shortcut group hasn't already been added.
     if (!activeGroups.includes(groupName)) {
       // Iterate through each feature of the shortcut group
-      allShortcuts[`${groupName}`].forEach(function(feature) {
+      Object.keys(allShortcuts[groupName]).forEach(function(featureName) {
         // Iterate through each feature's array of shortcuts
-        feature["keys"].forEach(function(shortcut) {
+        allShortcuts[groupName][featureName]["keys"].forEach(function(shortcut) {
           var option = {
-            active: feature.active,
+            active:  allShortcuts[groupName][featureName].active,
             key: shortcut,
             failed : function(err) {
               console.error(err);
@@ -87,6 +87,7 @@ module.exports = {};
 
       activeGroups.push(groupName);
       console.info(`Added ${groupName} shortcuts`);
+      console.log(allShortcuts["main"]);
     }
   }
 
@@ -100,10 +101,9 @@ module.exports = {};
     // Check the shortcut group can be removed.
     if (activeGroups.includes(groupName)) {
       // Iterate through each feature of the shortcut group
-      allShortcuts[`${groupName}`].forEach(function(feature) {
+      Object.keys(allShortcuts[groupName]).forEach(function(featureName) {
         // Iterate through each feature's array of shortcuts
-        feature["keys"].forEach(function(shortcut) {
-
+        allShortcuts[groupName][featureName]["keys"].forEach(function(shortcut) {
           nw.App.unregisterGlobalHotKey(curShortcuts[shortcut]);
         });
       });
@@ -115,6 +115,7 @@ module.exports = {};
 
   /**
    * Load a JSON file containing keyboard shortcuts.
+   * Then match the shortcuts with their function.
    *
    * @param {String} location Location of file containing shortcut list.
    */
@@ -130,26 +131,24 @@ module.exports = {};
         // Iterate through each feature group object (eg main, confirm)
         Object.keys(features).forEach(function(groupName) {
 
-          // Get object with each feature's function
-          var functionsList = features[groupName]
+          // Create an object for the group
+          allShortcuts[groupName] = {};
 
-          // Get object with each feature's array of shortcut keys
-          var shortcutsList = data[groupName];
-          
-          // Create an object to output found shortcuts to
-          allShortcuts[`${groupName}`] = [];
+          // Iterate through each feature in the group (eg takePicture, undoFrame)
+          Object.keys(features[groupName]).forEach(function(featureName) {
+            // Create an object for the feature
+            allShortcuts[groupName][featureName] = {};
 
-          // Iterate through each feature in the group
-          Object.keys(functionsList).forEach(function(featureName) {
             var featureObject = {
-              active : functionsList[featureName],
-              keys: shortcutsList[featureName],
+              // The feature's function
+              active : features[groupName][featureName],
+              // Array of keyboard shortcuts for the feature
+              keys: data[groupName][featureName],
             };
-
-            allShortcuts[groupName].push(featureObject);
-
+            allShortcuts[groupName][featureName] = featureObject;
           });
         });
+
         console.info(`Got shortcuts from "${location}":`);
         console.log(allShortcuts);
         addShortcuts("main");
@@ -161,9 +160,9 @@ module.exports = {};
    * Pause keyboard shortcut operation.
    */
   function pauseShortcuts() {
-    activeGroups.forEach(function(i) {
-      removeShortcuts(i);
-      pausedGroups.push(i);
+    activeGroups.forEach(function(groupName) {
+      removeShortcuts(groupName);
+      pausedGroups.push(groupName);
     });
     console.info(`Paused shortcuts`);
   }
@@ -172,8 +171,8 @@ module.exports = {};
    * Resume keyboard shortcut operation after pausing it.
    */
   function resumeShortcuts() {
-    pausedGroups.forEach(function(i) {
-      addShortcuts(i);
+    pausedGroups.forEach(function(groupName) {
+      addShortcuts(groupName);
       pausedGroups.length = 0;
     });
     console.info(`Resumed shortcuts`);
