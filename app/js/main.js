@@ -414,7 +414,7 @@ function updateFrameReel(action, id) {
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1]}">
+<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1].src}">
 </div></td>`);
 
         // Remove the chosen frame
@@ -431,8 +431,8 @@ function updateFrameReel(action, id) {
         frameReelTable.classList.remove("hidden");
 
         // Update onion skin frame
-        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame]);
-        playback.setAttribute("src", capturedFrames[onionSkinFrame]);
+        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
+        context.drawImage(capturedFrames[onionSkinFrame], 0, 0, width, height);
 
         // Update frame preview selection
         if (curSelectedFrame) {
@@ -503,7 +503,7 @@ function _toggleOnionSkin(ev) {
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
       if (totalFrames > 0) {
-          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1]);
+          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1].src);
       }
     }
 }
@@ -528,18 +528,18 @@ function takePicture() {
     // Take a picture
     if (width && height) {
         // Draw the image on the canvas
-        var context   = canvas.getContext("2d");
-        canvas.width  = width;
-        canvas.height = height;
-        context.drawImage(video, 0, 0, width, height);
+        playback.width  = width;
+        playback.height = height;
+        context.drawImage(preview, 0, 0, width, height);
 
         // Convert the frame to a PNG
-        var data = canvas.toDataURL("image/png");
+        var frame = new Image();
+        frame.src = playback.toDataURL("image/png");
 
         // Store the image data and update the current frame
-        capturedFrames.push(data);
+        capturedFrames.push(frame);
         totalFrames++;
-        console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${totalFrames} frames`);
+        console.info(`Captured frame: ${frame.src.slice(100, 120)} There are now: ${totalFrames} frames`);
 
         // Save the frame to disk and update the frame reel
         saveFrame(totalFrames);
@@ -614,7 +614,7 @@ function _displayFrame(id) {
     // Preview selected frame ID
     _addFrameReelSelection(id);
     curPlayFrame = id - 1;
-    playback.setAttribute("src", capturedFrames[id - 1]);
+    context.drawImage(capturedFrames[id - 1], 0, 0, width, height);
     _updateStatusBarCurFrame(id);
     _frameReelScroll();
   }
@@ -627,7 +627,7 @@ function _videoPlay() {
     "use strict";
     // Display each frame
     _removeFrameReelSelection();
-    playback.setAttribute("src", capturedFrames[curPlayFrame]);
+    // playback.setAttribute("src", capturedFrames[curPlayFrame].src);
     _updateStatusBarCurFrame(curPlayFrame + 1);
 
     // Display selection outline as each frame is played
@@ -829,8 +829,8 @@ function saveFrame(id) {
     // Create an absolute path to the destination location
     var outputPath = `${frameExportDirectory}/${fileName}.png`;
 
-    // Convert the frame from base64-encoded date to a PNG
-    var imageBuffer = decodeBase64Image(capturedFrames[id - 1]);
+    // Convert the frame from base64-encoded data to a PNG
+    var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
 
     // Save the frame to disk
     file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
