@@ -296,7 +296,7 @@ function startup() {
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("focus", function() {
-        shortcuts.remove("main");
+        shortcuts.pause();
     });
     inputChangeFR.addEventListener("input", function() {
         if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
@@ -310,7 +310,7 @@ function startup() {
 
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
-        shortcuts.add("main")
+        shortcuts.resume();
         inputChangeFR.value = frameRate;
         if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
             inputChangeFR.value = 15;
@@ -951,8 +951,11 @@ function confirmSet(callback, args, msg) {
 
     shortcuts.remove("main");
     shortcuts.add("confirm");
+
+    // Disable menubar items
     editMenu.items[0].enabled = false;
     captureMenu.items[0].enabled = false;
+    captureMenu.items[2].enabled = false;
 
     function _ok() {
         callback(args);
@@ -976,6 +979,7 @@ function confirmSet(callback, args, msg) {
         shortcuts.add("main");
         editMenu.items[0].enabled = true;
         captureMenu.items[0].enabled = true;
+        captureMenu.items[2].enabled = true;
     }
 
     // Respond to button clicks
@@ -1040,7 +1044,7 @@ function loadMenu() {
         confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
       },
       key: "q",
-      modifiers: "ctrl",
+      modifiers: controlKey,
     }));
 
 
@@ -1071,7 +1075,7 @@ function loadMenu() {
     type: "checkbox",
     checked: true,
     key: "m",
-    modifiers: "ctrl",
+    modifiers: controlKey,
   }));
 
     // Help menu items

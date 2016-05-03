@@ -87,7 +87,6 @@ module.exports = {};
 
       activeGroups.push(groupName);
       console.info(`Added ${groupName} shortcuts`);
-      console.log(allShortcuts["main"]);
     }
   }
 
