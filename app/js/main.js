@@ -325,26 +325,18 @@ function startup() {
     }
   });
 
-    // Preview a captured frame
-    frameReelRow.addEventListener("click", function(e) {
-        if (e.target.className === "frame-reel-img") {
-            // Remove previous selection
-            _removeFrameReelSelection();
+  // Preview a captured frame
+  frameReelRow.addEventListener("click", function(e) {
+    if (e.target.className === "frame-reel-img") {
+      if (winMode !== "playback") {
+        switchMode("playback");
+      }
 
-            // Highlight the clicked image
-            e.target.classList.add("selected");
-            if (winMode !== "playback") {
-                switchMode("playback");
-            }
-
-            // Display the image and update all the necessary values
-            var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
-            playback.setAttribute("src", capturedFrames[imageID - 1]);
-            curPlayFrame = imageID - 1;
-            curSelectedFrame = imageID;
-            _updateStatusBarCurFrame(imageID);
-        }
-    });
+      // Display the selected frame
+      var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
+      _displayFrame(imageID);
+    }
+  });
 }
 window.onload = startup;
 
