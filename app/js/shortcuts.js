@@ -26,6 +26,8 @@ module.exports = {};
           },
           loopPlayback: function() {
             btnLoop.click();
+             // Toggle checkbox on related menubar item
+            playbackMenu.items[0].checked = !playbackMenu.items[0].checked;
           },
           liveView: function() {
             if (totalFrames > 0) {

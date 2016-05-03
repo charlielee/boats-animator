@@ -956,6 +956,9 @@ function confirmSet(callback, args, msg) {
     editMenu.items[0].enabled = false;
     captureMenu.items[0].enabled = false;
     captureMenu.items[2].enabled = false;
+    playbackMenu.items[0].enabled = false;
+    playbackMenu.items[2].enabled = false;
+    playbackMenu.items[3].enabled = false;
 
     function _ok() {
         callback(args);
@@ -980,6 +983,9 @@ function confirmSet(callback, args, msg) {
         editMenu.items[0].enabled = true;
         captureMenu.items[0].enabled = true;
         captureMenu.items[2].enabled = true;
+        playbackMenu.items[0].enabled = false;
+        playbackMenu.items[2].enabled = false;
+        playbackMenu.items[3].enabled = false;
     }
 
     // Respond to button clicks
@@ -1008,6 +1014,7 @@ function confirmSet(callback, args, msg) {
     var fileMenu    = new nw.Menu(),
         editMenu    = new nw.Menu(),
         captureMenu = new nw.Menu(),
+        playbackMenu = new nw.Menu(),
         helpMenu    = new nw.Menu();
 
 function loadMenu() {
@@ -1078,6 +1085,38 @@ function loadMenu() {
     modifiers: controlKey,
   }));
 
+  // Playback menu items
+  playbackMenu.append(new nw.MenuItem({
+    label: "Loop playback",
+    click: function() {
+      btnLoop.click()
+    },
+    type: "checkbox",
+    checked: false,
+    key: "8",
+    modifiers: controlKey,
+  }));
+
+  playbackMenu.append(new nw.MenuItem({ type: "separator" }));
+
+  playbackMenu.append(new nw.MenuItem({
+    label: "Display first frame",
+    click: function() {
+      btnFrameFirst.click();
+    },
+    key: "left",
+    modifiers: controlKey,
+  }));
+
+  playbackMenu.append(new nw.MenuItem({
+    label: "Display last frame",
+    click: function() {
+      btnFrameLast.click();
+    },
+    key: "right",
+    modifiers: controlKey,
+  }));
+
     // Help menu items
     helpMenu.append(new nw.MenuItem({
       label: "Documentation",
@@ -1122,6 +1161,13 @@ function loadMenu() {
             submenu: captureMenu
         })
     );
+
+  menuBar.append(
+    new nw.MenuItem({
+      label: "Playback",
+      submenu: playbackMenu
+    })
+  );
 
     menuBar.append(
         new nw.MenuItem({

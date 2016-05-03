@@ -6,8 +6,8 @@
     "playPause": ["Space", "0", "Numpad0", "MediaPlayPause"],
     "loopPlayback": ["8", "Numpad8"],
     "liveView": ["L", "3", "Numpad3"],
-    "firstFrame": ["Ctrl+Left"],
-    "lastFrame": ["Ctrl+Right"],
+    "firstFrame": ["MediaPrevTrack"],
+    "lastFrame": ["MediaNextTrack"],
     "nextFrame": ["Right", "2", "Numpad2"],
     "previousFrame": ["Left", "1", "Numpad1"]
   },
