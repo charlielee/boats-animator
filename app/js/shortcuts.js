@@ -31,6 +31,18 @@ module.exports = {};
             if (totalFrames > 0) {
               btnLiveView.click();
             }
+          },
+          firstFrame: function() {
+            btnFrameFirst.click();
+          },
+          lastFrame: function() {
+            btnFrameLast.click();
+          },
+          nextFrame: function() {
+            btnFrameNext.click();
+          },
+          previousFrame: function() {
+            btnFramePrevious.click();
           }
         },
         // Features in confirm prompts.
