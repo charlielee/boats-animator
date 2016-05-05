@@ -983,9 +983,9 @@ function confirmSet(callback, args, msg) {
         editMenu.items[0].enabled = true;
         captureMenu.items[0].enabled = true;
         captureMenu.items[2].enabled = true;
-        playbackMenu.items[0].enabled = false;
-        playbackMenu.items[2].enabled = false;
-        playbackMenu.items[3].enabled = false;
+        playbackMenu.items[0].enabled = true;
+        playbackMenu.items[2].enabled = true;
+        playbackMenu.items[3].enabled = true;
     }
 
     // Respond to button clicks
