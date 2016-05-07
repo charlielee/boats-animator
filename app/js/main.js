@@ -281,25 +281,18 @@ function startup() {
 
   // Preview a captured frame
   frameReelRow.addEventListener("click", function(e) {
-    var container;
     if (e.target.className === "frame-reel-img") {
-      container = e.target;
-    }
-    if (e.target.className === "frame-reel-no") {
-      container = e.target.parentElement.firstElementChild;
-    }
-    if (container) {
       // Remove previous selection
       _removeFrameReelSelection();
 
       // Highlight the clicked image
-      container.classList.add("selected");
+      e.target.classList.add("selected");
       if (winMode !== "playback") {
         switchMode("playback");
       }
 
       // Display the image and update all the necessary values
-      var imageID = parseInt(container.id.match(/^img-(\d+)$/)[1], 10);
+      var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
       playback.setAttribute("src", capturedFrames[imageID - 1]);
       curPlayFrame = imageID - 1;
       curSelectedFrame = imageID;
@@ -389,7 +382,7 @@ function updateFrameReel(action, id) {
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1]}"><div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
+<div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div><img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1]}">
 </div></td>`);
 
         // Remove the chosen frame
