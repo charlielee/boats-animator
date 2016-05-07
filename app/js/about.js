@@ -2,7 +2,6 @@
 var launcherVersion = document.querySelector("#app-version"),
     win = nw.Window.get();
 
-win.title = "About Boats Animator";
 win.setShowInTaskbar(false);
 
 win.on("blur", function() {
