@@ -267,7 +267,7 @@ function startup() {
   btnFramePrevious.addEventListener("click", function() {
     if (curSelectedFrame > 1) {
         _displayFrame(curSelectedFrame - 1);
-    } else if (winMode === "capture") {
+    } else if (winMode === "capture" && totalFrames) {
       switchMode("playback");
       _displayFrame(totalFrames);
     }
@@ -275,7 +275,7 @@ function startup() {
 
   // Preview first frame on framereel
   btnFrameFirst.addEventListener("click", function() {
-    if (winMode === "capture") {
+    if (winMode === "capture" && totalFrames) {
       switchMode("playback");
     }
     _displayFrame(1);
