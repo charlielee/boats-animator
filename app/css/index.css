@@ -32,6 +32,8 @@ a {
     width: 19em;
 }
 
+.sidebar-header h2 { font-size: 1.2rem; }
+
 .sidebar-header i {
   margin-right: 0.4em;
   font-size: 0.9em;
@@ -80,7 +82,7 @@ a {
 }
 
 .content h2 {
-    font-size: 1.2em;
+    font-size: 1.2rem;
     margin: 0;
     padding: 0.83em 0;
 }
