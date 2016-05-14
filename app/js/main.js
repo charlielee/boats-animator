@@ -437,6 +437,7 @@ function updateFrameReel(action, id) {
             onionSkinFrame = id - 2;
         }
         frameReelRow.removeChild(frameReelRow.children[id - 1]);
+       _updateStatusBarCurFrame(totalFrames - 1);
     }
 
     // We have frames, display them
