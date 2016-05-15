@@ -128,7 +128,8 @@ a {
   padding-right: 1em;
   height: 100%;
   width: 19em;
-  border-left: 1px solid #b5b5b5;
+  border-left: 1px solid #423e3e;
+  background-color: #2B2B2B;
 }
 
 #sidebar a,
