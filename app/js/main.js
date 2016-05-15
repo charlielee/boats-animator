@@ -301,7 +301,12 @@ function startup() {
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
         inputChangeFR.value = frameRate;
-        if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
+        if (
+            inputChangeFR.value > 60 ||
+            inputChangeFR.value < 1 ||
+            Number.isNaN(inputChangeFR.value) ||
+            inputChangeFR.length > 2
+          ) {
             inputChangeFR.value = 15;
         }
     });
