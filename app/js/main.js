@@ -1044,7 +1044,7 @@ function loadMenu() {
     helpMenu.append(new nw.MenuItem({
       label: "Documentation",
       click: function() {
-          utils.openURL("http://boatsanimator.readthedocs.org/");
+          utils.openURL("http://boatsanimator.readthedocs.io/");
       },
       key: "F1",
       modifiers: "",
