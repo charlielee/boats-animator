@@ -38,7 +38,8 @@ var width  = 640,
     isPlaying        = false,
     isLooping        = false,
     curPlayFrame     = 0,
-    playBackLoop     = null,
+    playBackRAF      = null,
+    playBackTimeout  = null,
     btnStop          = document.querySelector("#btn-stop"),
     btnLoop          = document.querySelector("#btn-loop"),
     btnPlayPause     = document.querySelector("#btn-play-pause"),
@@ -580,7 +581,8 @@ function videoPause() {
   // Only pause if needed
   if (isPlaying) {
     isPlaying = false;
-    clearInterval(playBackLoop);
+    cancelAnimationFrame(playBackRAF);
+    clearTimeout(playBackTimeout);
 
     // Change the play/pause button
     btnPlayPause.children[0].classList.remove("fa-pause");
@@ -594,6 +596,7 @@ function videoPause() {
  */
 function videoStop() {
   "use strict";
+  videoPause();
   _displayFrame(totalFrames);
   curPlayFrame = 0;
   console.info("Playback stopped");
@@ -625,9 +628,10 @@ function _displayFrame(id) {
  */
 function _videoPlay() {
     "use strict";
+    playBackRAF = requestAnimationFrame(_videoPlay);
     // Display each frame
     _removeFrameReelSelection();
-    // playback.setAttribute("src", capturedFrames[curPlayFrame].src);
+    context.drawImage(capturedFrames[curPlayFrame], 0, 0, width, height);
     _updateStatusBarCurFrame(curPlayFrame + 1);
 
     // Display selection outline as each frame is played
@@ -650,6 +654,7 @@ function _videoPlay() {
         // Reset playback
         curPlayFrame = 0;
     }
+
 }
 
 /**
@@ -666,7 +671,7 @@ function previewCapturedFrames() {
 
     // Begin playing the frames
     isPlaying = true;
-    playBackLoop = setInterval(_videoPlay, (1000 / frameRate));
+    playBackTimeout = setTimeout(_videoPlay, 1000 / frameRate);
     console.info("Playback started");
 }
 
