@@ -627,7 +627,8 @@ function _displayFrame(id) {
  * Play captured frames preview video.
  */
 function _videoPlay() {
-    "use strict";
+  "use strict";
+  playBackTimeout = setTimeout(function() {
     playBackRAF = requestAnimationFrame(_videoPlay);
     // Display each frame
     _removeFrameReelSelection();
@@ -639,22 +640,21 @@ function _videoPlay() {
 
     // Scroll the framereel with playback
     _frameReelScroll();
-
     curPlayFrame++;
 
     // There are no more frames to preview
     if (curPlayFrame >= totalFrames) {
-         // We are not looping, stop the playback
-        if (!isLooping) {
-            videoStop();
-        } else {
-            console.info("Playback looped");
-        }
+      // We are not looping, stop the playback
+      if (!isLooping) {
+        videoStop();
+      } else {
+        console.info("Playback looped");
+      }
 
-        // Reset playback
-        curPlayFrame = 0;
+      // Reset playback
+      curPlayFrame = 0;
     }
-
+  }, 1000 / frameRate);
 }
 
 /**
@@ -671,7 +671,7 @@ function previewCapturedFrames() {
 
     // Begin playing the frames
     isPlaying = true;
-    playBackTimeout = setTimeout(_videoPlay, 1000 / frameRate);
+    _videoPlay();
     console.info("Playback started");
 }
 
