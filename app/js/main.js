@@ -347,9 +347,9 @@ function _removeFrameReelSelection() {
  * @param {Number} id The image ID to highlight.
  */
 function _addFrameReelSelection(id) {
-    "use strict";
-    document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
-    curSelectedFrame = id;
+  "use strict";
+  document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
+  curSelectedFrame = id;
 }
 
 /**
@@ -382,9 +382,9 @@ function updateFrameReel(action, id) {
         _updateStatusBarCurFrame(totalFrames + 1);
 
         // Insert the new frame into the reel
-        frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
+        frameReelRow.insertAdjacentHTML("beforeend", `<td class="frame-reel-preview">
 <div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div><img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1]}">
-</div></td>`);
+</td>`);
 
         // Remove the chosen frame
     } else if (action === "delete") {
