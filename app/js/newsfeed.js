@@ -29,10 +29,10 @@ module.exports = {};
     // Because setItem() does not have a return value upon successful
     // storage, this kludge does that for us.
     if (localStorage.getItem("ba-news")) {
-      console.info("Latest news sucessfully cached");
+      console.info("Latest news successfully cached");
       return true;
     } else {
-      console.info("Latest news was not sucessfully cached");
+      console.info("Latest news was not successfully cached");
       return false;
     }
   }
