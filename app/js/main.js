@@ -11,8 +11,8 @@ var width  = 640,
 
     // The various HTML elements we need to configure or control.
     preview     = document.querySelector("#preview"),
-    video       = document.createElement("video"),
-    canvas      = document.createElement("canvas"),
+    playback    = document.querySelector("#playback"),
+    context     = playback.getContext("2d"),
     ratio       = null,
     aspectRatio = null,
 
@@ -38,10 +38,10 @@ var width  = 640,
     isPlaying        = false,
     isLooping        = false,
     curPlayFrame     = 0,
-    playBackLoop     = null,
+    playBackRAF      = null,
+    playBackTimeout  = null,
     btnStop          = document.querySelector("#btn-stop"),
     btnLoop          = document.querySelector("#btn-loop"),
-    playback         = document.querySelector("#playback"),
     btnPlayPause     = document.querySelector("#btn-play-pause"),
     btnFrameNext     = document.querySelector("#btn-frame-next"),
     btnFramePrevious = document.querySelector("#btn-frame-previous"),
@@ -172,41 +172,36 @@ function startup() {
                          navigator.webkitGetUserMedia;
 
     navigator.getMedia({ video: true },
-        function(stream) {
-            var videoBlob = window.URL.createObjectURL(stream);
-            // Play preview video
-            preview.src = videoBlob;
-
-            // Play hidden video of correct resolution
-            video.src = videoBlob;
-            video.play();
-        },
-        function(err) {
-            console.error("Could not find a camera to use!");
-            console.error(err);
-            notifyError("Could not find a camera to use!");
-        }
+      function(stream) {
+        var videoBlob = window.URL.createObjectURL(stream);
+        preview.src = videoBlob;
+      },
+      function(err) {
+        console.error("Could not find a camera to use!");
+        console.error(err);
+        notifyError("Could not find a camera to use!");
+      }
     );
 
-    video.addEventListener("canplay", function() {
-        if (!streaming) {
-            height = video.videoHeight / (video.videoWidth / width);
+    preview.addEventListener("canplay", function() {
+      if (!streaming) {
+        height = preview.videoHeight / (preview.videoWidth / width);
 
-            canvas.setAttribute("width", video.videoWidth.toString());
-            canvas.setAttribute("height", video.videoHeight.toString());
-            streaming = true;
-            ratio = width / height;
-            aspectRatio = ratio.toFixed(2);
-            console.log("height: " + height);
-            console.log("width: " + width);
-            console.log("Aspect ratio: " + aspectRatio);
+        playback.setAttribute("width", preview.videoWidth.toString());
+        playback.setAttribute("height", preview.videoHeight.toString());
+        streaming = true;
+        ratio = width / height;
+        aspectRatio = ratio.toFixed(2);
+        console.log("height: " + height);
+        console.log("width: " + width);
+        console.log("Aspect ratio: " + aspectRatio);
 
-            if (aspectRatio === 1.33) {
-                captureWindow.classList.add("4by3");
-            }
-
-            notifySuccess("Camera successfully connected.");
+        if (aspectRatio === 1.33) {
+          captureWindow.classList.add("4by3");
         }
+
+        notifySuccess("Camera successfully connected.");
+      }
     });
 
 
@@ -306,7 +301,12 @@ function startup() {
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
         inputChangeFR.value = frameRate;
-        if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
+        if (
+            inputChangeFR.value > 60 ||
+            inputChangeFR.value < 1 ||
+            Number.isNaN(inputChangeFR.value) ||
+            inputChangeFR.length > 2
+          ) {
             inputChangeFR.value = 15;
         }
     });
@@ -325,26 +325,18 @@ function startup() {
     }
   });
 
-    // Preview a captured frame
-    frameReelRow.addEventListener("click", function(e) {
-        if (e.target.className === "frame-reel-img") {
-            // Remove previous selection
-            _removeFrameReelSelection();
+  // Preview a captured frame
+  frameReelRow.addEventListener("click", function(e) {
+    if (e.target.className === "frame-reel-img") {
+      if (winMode !== "playback") {
+        switchMode("playback");
+      }
 
-            // Highlight the clicked image
-            e.target.classList.add("selected");
-            if (winMode !== "playback") {
-                switchMode("playback");
-            }
-
-            // Display the image and update all the necessary values
-            var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
-            playback.setAttribute("src", capturedFrames[imageID - 1]);
-            curPlayFrame = imageID - 1;
-            curSelectedFrame = imageID;
-            _updateStatusBarCurFrame(imageID);
-        }
-    });
+      // Display the selected frame
+      var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
+      _displayFrame(imageID);
+    }
+  });
 }
 window.onload = startup;
 
@@ -428,7 +420,7 @@ function updateFrameReel(action, id) {
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1]}">
+<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1].src}">
 </div></td>`);
 
         // Remove the chosen frame
@@ -446,8 +438,8 @@ function updateFrameReel(action, id) {
         frameReelTable.classList.remove("hidden");
 
         // Update onion skin frame
-        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame]);
-        playback.setAttribute("src", capturedFrames[onionSkinFrame]);
+        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
+        context.drawImage(capturedFrames[onionSkinFrame], 0, 0, width, height);
 
         // Update frame preview selection
         if (curSelectedFrame) {
@@ -518,7 +510,7 @@ function _toggleOnionSkin(ev) {
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
       if (totalFrames > 0) {
-          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1]);
+          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1].src);
       }
     }
 }
@@ -544,18 +536,18 @@ function takePicture() {
     // Take a picture
     if (width && height) {
         // Draw the image on the canvas
-        var context   = canvas.getContext("2d");
-        canvas.width  = width;
-        canvas.height = height;
-        context.drawImage(video, 0, 0, width, height);
+        playback.width  = width;
+        playback.height = height;
+        context.drawImage(preview, 0, 0, width, height);
 
         // Convert the frame to a PNG
-        var data = canvas.toDataURL("image/png");
+        var frame = new Image();
+        frame.src = playback.toDataURL("image/png");
 
         // Store the image data and update the current frame
-        capturedFrames.push(data);
+        capturedFrames.push(frame);
         totalFrames++;
-        console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${totalFrames} frames`);
+        console.info(`Captured frame: ${frame.src.slice(100, 120)} There are now: ${totalFrames} frames`);
 
         // Save the frame to disk and update the frame reel
         saveFrame(totalFrames);
@@ -592,17 +584,18 @@ function _toggleVideoLoop() {
  * Pause captured frames preview video.
  */
 function videoPause() {
-    "use strict";
-    // Only pause if needed
-    if (isPlaying) {
-        isPlaying = false;
-        clearInterval(playBackLoop);
+  "use strict";
+  // Only pause if needed
+  if (isPlaying) {
+    isPlaying = false;
+    cancelAnimationFrame(playBackRAF);
+    clearTimeout(playBackTimeout);
 
-        // Change the play/pause button
-        btnPlayPause.children[0].classList.remove("fa-pause");
-        btnPlayPause.children[0].classList.add("fa-play");
-        console.info("Playback paused");
-    }
+    // Change the play/pause button
+    btnPlayPause.children[0].classList.remove("fa-pause");
+    btnPlayPause.children[0].classList.add("fa-play");
+    console.info("Playback paused");
+  }
 }
 
 /**
@@ -610,6 +603,7 @@ function videoPause() {
  */
 function videoStop() {
   "use strict";
+  videoPause();
   _displayFrame(totalFrames);
   curPlayFrame = 0;
   console.info("Playback stopped");
@@ -630,7 +624,7 @@ function _displayFrame(id) {
     // Preview selected frame ID
     _addFrameReelSelection(id);
     curPlayFrame = id - 1;
-    playback.setAttribute("src", capturedFrames[id - 1]);
+    context.drawImage(capturedFrames[id - 1], 0, 0, width, height);
     _updateStatusBarCurFrame(id);
     _frameReelScroll();
   }
@@ -640,10 +634,12 @@ function _displayFrame(id) {
  * Play captured frames preview video.
  */
 function _videoPlay() {
-    "use strict";
+  "use strict";
+  playBackTimeout = setTimeout(function() {
+    playBackRAF = requestAnimationFrame(_videoPlay);
     // Display each frame
     _removeFrameReelSelection();
-    playback.setAttribute("src", capturedFrames[curPlayFrame]);
+    context.drawImage(capturedFrames[curPlayFrame], 0, 0, width, height);
     _updateStatusBarCurFrame(curPlayFrame + 1);
 
     // Display selection outline as each frame is played
@@ -651,21 +647,21 @@ function _videoPlay() {
 
     // Scroll the framereel with playback
     _frameReelScroll();
-
     curPlayFrame++;
 
     // There are no more frames to preview
     if (curPlayFrame >= totalFrames) {
-         // We are not looping, stop the playback
-        if (!isLooping) {
-            videoStop();
-        } else {
-            console.info("Playback looped");
-        }
+      // We are not looping, stop the playback
+      if (!isLooping) {
+        videoStop();
+      } else {
+        console.info("Playback looped");
+      }
 
-        // Reset playback
-        curPlayFrame = 0;
+      // Reset playback
+      curPlayFrame = 0;
     }
+  }, 1000 / frameRate);
 }
 
 /**
@@ -682,7 +678,7 @@ function previewCapturedFrames() {
 
     // Begin playing the frames
     isPlaying = true;
-    playBackLoop = setInterval(_videoPlay, (1000 / frameRate));
+    _videoPlay();
     console.info("Playback started");
 }
 
@@ -845,8 +841,8 @@ function saveFrame(id) {
     // Create an absolute path to the destination location
     var outputPath = `${frameExportDirectory}/${fileName}.png`;
 
-    // Convert the frame from base64-encoded date to a PNG
-    var imageBuffer = decodeBase64Image(capturedFrames[id - 1]);
+    // Convert the frame from base64-encoded data to a PNG
+    var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
 
     // Save the frame to disk
     file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
