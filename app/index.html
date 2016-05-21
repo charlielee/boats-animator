@@ -9,15 +9,13 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 
-<body onload="canDisplayNews()">
-    <!--Sidebar content-->
+<body>
+    <!-- News feed -->
     <div id="sidebar">
         <div id="sidebar-content">
-
-            <!--Capture Options-->
             <div class="sidebar-item">
                 <div class="sidebar-header">
-                    <h2><i class="fa fa-newspaper-o"></i> Recent News</h2>
+                    <h2><i class="fa fa-newspaper-o"></i>Recent News</h2>
                 </div>
                 <ul>
                     <li><div class="container-news"></div></li>
@@ -34,22 +32,18 @@
                 <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 2</a></li>
                 <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 3</a></li>
             </ul>-->
-            <button id="new-project" onclick="openAnimator()"><i class="fa fa-file-o"></i><span>New Project</span></button>
+            <button id="new-project"><i class="fa fa-file-o"></i><span>New Project</span></button>
             <button id="load-project" onclick="alert('This feature is coming soon!')"><i class="fa fa-folder-o"></i><span>Load Project</span></button>
         </div>
     </div>
-    
+
     <div id="statusBar">
         <ul>
-            <li>Version <span id="app-version"></span></li>
-            <li>
-                <button onclick="dev()">Dev tools</button>
-                <button onclick="reload()">Refresh</button>
-            </li>
-            <li class="no-pipe" id="statusBar-credits"><a href="#" onclick="gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator')">&copy; Charlie Lee 2016</a></li>
+            <li class="no-pipe">Version <span id="app-version"></span></li>
         </ul>
     </div>
 
-    <script src="js/index.js" async></script>
+    <script src="js/utils.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

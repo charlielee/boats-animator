@@ -1,6 +1,3 @@
-/*jslint browser: true, node: true, debug: true*/
-/* global Buffer, process */
-
 // The width and height of the captured photo. We will set the
 // width to the value defined here, but the height will be
 // calculated based on the aspect ratio of the input stream.
@@ -14,14 +11,13 @@ var width  = 640,
 
     // The various HTML elements we need to configure or control.
     preview     = document.querySelector("#preview"),
-    video       = document.createElement("video"),
-    canvas      = document.createElement("canvas"),
+    playback    = document.querySelector("#playback"),
+    context     = playback.getContext("2d"),
     ratio       = null,
     aspectRatio = null,
 
-    // GUI window
-    gui = require("nw.gui"),
-    win = gui.Window.get(),
+    // NW.js
+    win = nw.Window.get(),
 
     // Mode switching
     btnLiveView    = document.querySelector("#btn-live-view"),
@@ -30,23 +26,27 @@ var width  = 640,
     winMode        = "capture",
 
     // Capture
-    capturedFramesRaw  = [],
-    curFrame           = 0,
+    capturedFrames     = [],
+    totalFrames        = 0,
     curSelectedFrame   = null,
     btnGridToggle      = document.querySelector("#btn-grid-toggle"),
     btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
     // Playback
-    frameRate     = 15,
-    isPlaying     = false,
-    isLooping     = false,
-    curPlayFrame  = 0,
-    playBackLoop  = null,
-    btnStop       = document.querySelector("#btn-stop"),
-    btnLoop       = document.querySelector("#btn-loop"),
-    playback      = document.querySelector("#playback"),
-    btnPlayPause  = document.querySelector("#btn-play-pause"),
+    frameRate        = 15,
+    isPlaying        = false,
+    isLooping        = false,
+    curPlayFrame     = 0,
+    playBackRAF      = null,
+    playBackTimeout  = null,
+    btnStop          = document.querySelector("#btn-stop"),
+    btnLoop          = document.querySelector("#btn-loop"),
+    btnPlayPause     = document.querySelector("#btn-play-pause"),
+    btnFrameNext     = document.querySelector("#btn-frame-next"),
+    btnFramePrevious = document.querySelector("#btn-frame-previous"),
+    btnFrameFirst    = document.querySelector("#btn-frame-first"),
+    btnFrameLast     = document.querySelector("#btn-frame-last"),
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Keyframes
@@ -55,21 +55,20 @@ var width  = 640,
     curStartKeyframe  = null,
 
     // Audio
-    captureAudio = new Audio("audio/camera.wav"),
-    audioToggle  = document.querySelector("#audio-toggle"),
+    captureAudio = "audio/camera.wav",
+    playAudio    = true,
 
     // Status bar
-    statusBarCurMode   = document.querySelector("#currentMode span"),
-    statusBarCurFrame  = document.querySelector("#currentFrame span"),
-    statusBarFrameNum  = document.querySelector("#num-of-frames span"),
-    statusBarFrameRate = document.querySelector("#currentFrameRate span"),
+    statusBarCurMode   = document.querySelector("#current-mode span"),
+    statusBarCurFrame  = document.querySelector("#current-frame"),
+    statusBarFrameNum  = document.querySelector("#num-of-frames"),
+    statusBarFrameRate = document.querySelector("#current-frame-rate span"),
 
     // Export frames
     frameExportDirectory  = null,
     frameExportDirectory  = _getSaveDirectory(),
     exportedFramesList    = [],
     curDirDisplay         = document.querySelector("#currentDirectoryName"),
-    changeDirectoryButton = document.querySelector("#changeDirectoryButton"),
 
     // Onion skin
     isOnionSkinEnabled = false,
@@ -106,17 +105,31 @@ var width  = 640,
  */
 function openIndex() {
     "use strict";
-    gui.Window.open("index.html", {
+    nw.Window.open("index.html", {
         position: "center",
         width: 730,
         height: 450,
         min_width: 730,
         min_height: 450,
-        toolbar: false,
         focus: true,
         icon: "icons/icon.png"
     });
     win.close(true);
+}
+
+/**
+ * Occurs when "Main Menu" is pressed
+ */
+function openAbout() {
+    "use strict";
+    nw.Window.open("about.html", {
+        position: "center",
+        width: 650,
+        height: 300,
+        focus: true,
+        icon: "icons/icon.png",
+        resizable: false,
+    });
 }
 
 /**
@@ -159,43 +172,41 @@ function startup() {
 }
 
     // Get the appropriate WebRTC implementation
-    navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+    navigator.getMedia = navigator.mediaDevices.getUserMedia ||
+                         navigator.getUserMedia ||
+                         navigator.webkitGetUserMedia;
 
     navigator.getMedia({ video: true },
-        function(stream) {
-            var videoBlob = window.URL.createObjectURL(stream);
-            // Play preview video
-            preview.src = videoBlob;
-
-            // Play hidden video of correct resolution
-            video.src = videoBlob;
-            video.play();
-        },
-        function(err) {
-            console.error("Could not find a camera to use!");
-            notifyError("Could not find a camera to use!");
-        }
+      function(stream) {
+        var videoBlob = window.URL.createObjectURL(stream);
+        preview.src = videoBlob;
+      },
+      function(err) {
+        console.error("Could not find a camera to use!");
+        console.error(err);
+        notifyError("Could not find a camera to use!");
+      }
     );
 
-    video.addEventListener("canplay", function() {
-        if (!streaming) {
-            height = video.videoHeight / (video.videoWidth / width);
+    preview.addEventListener("canplay", function() {
+      if (!streaming) {
+        height = preview.videoHeight / (preview.videoWidth / width);
 
-            canvas.setAttribute("width", video.videoWidth.toString());
-            canvas.setAttribute("height", video.videoHeight.toString());
-            streaming = true;
-            ratio = width / height;
-            aspectRatio = ratio.toFixed(2);
-            console.log("height: " + height);
-            console.log("width: " + width);
-            console.log("Aspect ratio: " + aspectRatio);
+        playback.setAttribute("width", preview.videoWidth.toString());
+        playback.setAttribute("height", preview.videoHeight.toString());
+        streaming = true;
+        ratio = width / height;
+        aspectRatio = ratio.toFixed(2);
+        console.log("height: " + height);
+        console.log("width: " + width);
+        console.log("Aspect ratio: " + aspectRatio);
 
-            if (aspectRatio === 1.33) {
-                captureWindow.classList.add("4by3");
-            }
-
-            notifySuccess("Camera successfully connected.");
+        if (aspectRatio === 1.33) {
+          captureWindow.classList.add("4by3");
         }
+
+        notifySuccess("Camera successfully connected.");
+      }
     });
 
 
@@ -229,18 +240,57 @@ function startup() {
     // Play/pause the preview
     btnPlayPause.addEventListener("click", function() {
         // Make sure we have frames to play back
-        if (curFrame > 0) {
+        if (totalFrames > 0) {
             (isPlaying ? videoPause : previewCapturedFrames)();
         }
     });
 
     // Stop the preview
     btnStop.addEventListener("click", function() {
-        if (curFrame > 0) {
-            _removeFrameReelSelection();
+        if (winMode === "playback") {
             videoStop();
         }
     });
+
+  // Preview one frame to the right on framereel
+  btnFrameNext.addEventListener("click", function() {
+    if (curSelectedFrame) {
+      if (curSelectedFrame !== totalFrames) {
+        _displayFrame(curSelectedFrame + 1);
+      } else {
+        btnLiveView.click();
+      }
+    }
+  });
+
+  // Preview one frame to the left on framereel
+  btnFramePrevious.addEventListener("click", function() {
+    if (curSelectedFrame > 1) {
+        _displayFrame(curSelectedFrame - 1);
+    } else if (winMode === "capture" && totalFrames) {
+      switchMode("playback");
+      _displayFrame(totalFrames);
+    }
+  });
+
+  // Preview first frame on framereel
+  btnFrameFirst.addEventListener("click", function() {
+    if (winMode === "capture" && totalFrames) {
+      switchMode("playback");
+    }
+    _displayFrame(1);
+  });
+
+  // Preview last frame on framereel
+  btnFrameLast.addEventListener("click", function() {
+    if (curSelectedFrame) {
+      if (curSelectedFrame !== totalFrames) {
+        videoStop();
+      } else {
+        btnLiveView.click();
+      }
+    }
+  });
 
     // Listen for frame rate changes
     inputChangeFR.addEventListener("input", function() {
@@ -256,7 +306,12 @@ function startup() {
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
         inputChangeFR.value = frameRate;
-        if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
+        if (
+            inputChangeFR.value > 60 ||
+            inputChangeFR.value < 1 ||
+            Number.isNaN(inputChangeFR.value) ||
+            inputChangeFR.length > 2
+          ) {
             inputChangeFR.value = 15;
         }
     });
@@ -266,12 +321,14 @@ function startup() {
         notifyInfo("That feature is not yet implemented.");
     });
 
-    // Switch from frame preview back to live view
-    btnLiveView.addEventListener("click", function() {
-        videoStop();
-        _removeFrameReelSelection();
-        switchMode("capture");
-    });
+  // Switch from frame preview back to live view
+  btnLiveView.addEventListener("click", function() {
+    if (totalFrames > 0) {
+      videoStop();
+      _removeFrameReelSelection();
+      switchMode("capture");
+    }
+  });
 
     // Preview a captured frame
     frameReelRow.addEventListener("click", function(e) {
@@ -286,12 +343,9 @@ function startup() {
                     switchMode("playback");
                 }
 
-                // Display the image and update all the necessary values
+                // Display the selected frame
                 var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
-                playback.setAttribute("src", capturedFramesRaw[imageID - 1]);
-                curPlayFrame = imageID - 1;
-                curSelectedFrame = imageID;
-                statusBarCurFrame.innerHTML = imageID;
+                _displayFrame(imageID);
 
             } else if (e.target.className === "frame-reel-img selected") {
                     addKeyframe("start", curSelectedFrame);
@@ -325,6 +379,7 @@ function startup() {
         }
     });
 }
+window.onload = startup;
 
 /**
  * Toggle between playback and capture windows.
@@ -333,7 +388,7 @@ function switchMode(newMode) {
     "use strict";
     winMode = newMode;
     if (winMode === "capture") {
-        statusBarCurFrame.innerHTML = curFrame;
+        _updateStatusBarCurFrame(totalFrames + 1);
         playbackWindow.classList.add("hidden");
         captureWindow.classList.remove("hidden");
         captureWindow.classList.add("active");
@@ -381,6 +436,15 @@ function _addFrameReelSelection(id) {
 }
 
 /**
+ * Change the current frame number on the status bar.
+ * @param {Integer} id The value to change the frame number to.
+ */
+function _updateStatusBarCurFrame(id) {
+    "use strict";
+    statusBarCurFrame.innerHTML = id;
+}
+
+/**
  * Update the frame reel display as needed.
  *
  * @param {String} action Update the frame reel depending on the
@@ -392,50 +456,42 @@ function updateFrameReel(action, id) {
     "use strict";
     var onionSkinFrame = id - 1;
     // Display number of captured frames in status bar
-    statusBarCurFrame.innerHTML = curFrame;
-    statusBarFrameNum.innerHTML = `${curFrame} ${curFrame === 1 ? "frame" : "frames"}`;
+    statusBarFrameNum.innerHTML = totalFrames;
 
     // Add the newly captured frame
     if (action === "capture") {
         // Remove any frame selection
         _removeFrameReelSelection();
+        _updateStatusBarCurFrame(totalFrames + 1);
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFramesRaw[id - 1]}">
-<i class="btn-frame-delete fa fa-trash" title="Delete Frame"></i>
+<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1].src}">
 </div></td>`);
-
-        // Individual frame deletion
-        var insertedImage = document.querySelector(`.frame-reel-img#img-${id}`);
-        insertedImage.nextElementSibling.addEventListener("click", function() {
-            confirmSet(deleteFrame, id, `Are you sure you want to delete frame ${id}?`);
-        });
-
-        // Deference the selector to reduce memory usage
-        insertedImage = null;
 
         // Remove the chosen frame
     } else if (action === "delete") {
-        if (id !== curFrame) {
+        if (id !== totalFrames) {
             onionSkinFrame = id - 2;
         }
         frameReelRow.removeChild(frameReelRow.children[id - 1]);
+       _updateStatusBarCurFrame(totalFrames - 1);
     }
 
     // We have frames, display them
-    if (curFrame > 0) {
+    if (totalFrames > 0) {
         frameReelMsg.classList.add("hidden");
         frameReelTable.classList.remove("hidden");
 
         // Update onion skin frame
-        onionSkinWindow.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
-        playback.setAttribute("src", capturedFramesRaw[onionSkinFrame]);
+        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
+        context.drawImage(capturedFrames[onionSkinFrame], 0, 0, width, height);
 
         // Update frame preview selection
         if (curSelectedFrame) {
             _removeFrameReelSelection();
-            _addFrameReelSelection(id -1);
+            _addFrameReelSelection(id - 1);
+            _updateStatusBarCurFrame(id - 1);
         }
 
         // All the frames were deleted, display "No frames" message
@@ -505,10 +561,10 @@ function deleteFrame(id) {
     }
 
     exportedFramesList.splice(id - 1, 1);
-    capturedFramesRaw.splice(id - 1, 1);
-    curFrame--;
+    capturedFrames.splice(id - 1, 1);
+    totalFrames--;
     updateFrameReel("delete", id);
-    console.info(`There are now ${curFrame} captured frames`);
+    console.info(`There are now ${totalFrames} captured frames`);
 }
 
 /**
@@ -517,8 +573,8 @@ function deleteFrame(id) {
 function undoFrame() {
     "use strict";
     // Make sure there is a frame to delete
-    if (curFrame > 0) {
-      confirmSet(deleteFrame, curFrame, "Are you sure you want to delete the last frame captured?");
+    if (totalFrames > 0) {
+      confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
     } else {
       notifyError("There is no previous frame to undo!");
     }
@@ -544,21 +600,22 @@ function _toggleOnionSkin(ev) {
 
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
-      if (curFrame > 0) {
-          onionSkinWindow.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+      if (totalFrames > 0) {
+          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1].src);
       }
     }
 }
 
 /**
- * Play audio if checkbox checked
- * @param {String} name Name of variable with audio file.
+ * Play audio if checkbox checked.
+ * @param {String} file Location of audio file to play.
  */
-function audio(name) {
-    "use strict";
-    if (audioToggle.checked) {
-        name.play();
-    }
+function audio(file) {
+  "use strict";
+  if (playAudio) {
+    var audio = new Audio(file);
+    audio.play();
+  }
 }
 
 function takePicture() {
@@ -570,22 +627,22 @@ function takePicture() {
     // Take a picture
     if (width && height) {
         // Draw the image on the canvas
-        var context   = canvas.getContext("2d");
-        canvas.width  = width;
-        canvas.height = height;
-        context.drawImage(video, 0, 0, width, height);
+        playback.width  = width;
+        playback.height = height;
+        context.drawImage(preview, 0, 0, width, height);
 
         // Convert the frame to a PNG
-        var data = canvas.toDataURL("image/png");
+        var frame = new Image();
+        frame.src = playback.toDataURL("image/png");
 
         // Store the image data and update the current frame
-        capturedFramesRaw.push(data);
-        curFrame++;
-        console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${curFrame} frames`);
+        capturedFrames.push(frame);
+        totalFrames++;
+        console.info(`Captured frame: ${frame.src.slice(100, 120)} There are now: ${totalFrames} frames`);
 
         // Save the frame to disk and update the frame reel
-        saveFrame(curFrame);
-        updateFrameReel("capture", curFrame);
+        saveFrame(totalFrames);
+        updateFrameReel("capture", totalFrames);
 
         // Scroll the frame reel to the end
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
@@ -618,76 +675,93 @@ function _toggleVideoLoop() {
  * Pause captured frames preview video.
  */
 function videoPause() {
-    "use strict";
-    // Only pause if needed
-    if (isPlaying) {
-        isPlaying = false;
-        clearInterval(playBackLoop);
+  "use strict";
+  // Only pause if needed
+  if (isPlaying) {
+    isPlaying = false;
+    cancelAnimationFrame(playBackRAF);
+    clearTimeout(playBackTimeout);
 
-        // Change the play/pause button
-        btnPlayPause.children[0].classList.remove("fa-pause");
-        btnPlayPause.children[0].classList.add("fa-play");
-        console.info("Playback paused");
+    // Change the play/pause button
+    btnPlayPause.children[0].classList.remove("fa-pause");
+    btnPlayPause.children[0].classList.add("fa-play");
+    console.info("Playback paused");
 
-        // Enable keyframe options
-        btnStartKeyframe.removeAttribute("disabled");
-        btnClearKeyframe.removeAttribute("disabled");
-    }
+    // Enable keyframe options
+    btnStartKeyframe.removeAttribute("disabled");
+    btnClearKeyframe.removeAttribute("disabled");
+  }
 }
 
 /**
  * Fully stop captured frames preview video.
  */
 function videoStop() {
-    "use strict";
+  "use strict";
+  videoPause();
+  _displayFrame(totalFrames);
+
+  // Reset playback
+  if (curStartKeyframe) {
+    curPlayFrame = curStartKeyframe -1;
+  } else {
+    curPlayFrame = 0;
+  }
+
+  console.info("Playback stopped");
+}
+
+/**
+ * Pause playback and view a specific frame in the preview area.
+ *
+ * @param {Integer} id The frame ID to preview.
+ */
+function _displayFrame(id) {
+  "use strict";
+  if (totalFrames > 0) {
     // Reset the player
     videoPause();
-    if (curStartKeyframe) {
-        // Reset playback
-        curPlayFrame = curStartKeyframe - 1;
-    } else {
-        curPlayFrame = 0;
-    }
-    playback.setAttribute("src", capturedFramesRaw[curFrame - 1]);
+    _removeFrameReelSelection();
 
-    // Display newest frame number in status bar
-    statusBarCurFrame.innerHTML = curFrame;
-    console.info("Playback stopped");
+    // Preview selected frame ID
+    _addFrameReelSelection(id);
+    curPlayFrame = id - 1;
+    context.drawImage(capturedFrames[id - 1], 0, 0, width, height);
+    _updateStatusBarCurFrame(id);
+    _frameReelScroll();
+  }
 }
 
 /**
  * Play captured frames preview video.
  */
 function _videoPlay() {
-    "use strict";
+  "use strict";
+  playBackTimeout = setTimeout(function() {
+    playBackRAF = requestAnimationFrame(_videoPlay);
     // Display each frame
     _removeFrameReelSelection();
-    playback.setAttribute("src", capturedFramesRaw[curPlayFrame]);
-    statusBarCurFrame.innerHTML = curPlayFrame + 1;
+    context.drawImage(capturedFrames[curPlayFrame], 0, 0, width, height);
+    _updateStatusBarCurFrame(curPlayFrame + 1);
 
     // Display selection outline as each frame is played
     _addFrameReelSelection(curPlayFrame + 1);
 
     // Scroll the framereel with playback
     _frameReelScroll();
-
     curPlayFrame++;
 
     // There are no more frames to preview
-    if (curPlayFrame >= curFrame) {
-         // We are not looping, stop the playback
-        if (!isLooping) {
-            videoStop();
-        } else {
-            console.info("Playback looped");
-            if (curStartKeyframe) {
-                // Reset playback
-                curPlayFrame = curStartKeyframe - 1;
-            } else {
-                curPlayFrame = 0;
-            }
-        }
+    if (curPlayFrame >= totalFrames) {
+      // We are not looping, stop the playback
+      videoStop();
+
+      if (isLooping) {
+        previewCapturedFrames();
+        console.info("Playback looped");
+      }
     }
+  }, 1000 / frameRate);
 }
 
 /**
@@ -708,7 +782,7 @@ function previewCapturedFrames() {
 
     // Begin playing the frames
     isPlaying = true;
-    playBackLoop = setInterval(_videoPlay, (1000 / frameRate));
+    _videoPlay();
     console.info("Playback started");
 }
 
@@ -720,9 +794,9 @@ function _frameReelScroll() {
     if (curPlayFrame === 0) {
         // Scroll to start when playback begins
         frameReelArea.scrollLeft = 0;
-    } else if (curPlayFrame + 1 !== curFrame) {
+    } else if (curPlayFrame + 1 !== totalFrames) {
         // Scroll so currently played frame is in view
-        document.querySelector(`.frame-reel-img#img-${curPlayFrame + 2}`).scrollIntoView();
+        document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).scrollIntoView();
     } else {
         // Scroll to end when playback has stopped
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
@@ -876,8 +950,8 @@ function saveFrame(id) {
     // Create an absolute path to the destination location
     var outputPath = `${frameExportDirectory}/${fileName}.png`;
 
-    // Convert the frame from base64-encoded date to a PNG
-    var imageBuffer = decodeBase64Image(capturedFramesRaw[id - 1]);
+    // Convert the frame from base64-encoded data to a PNG
+    var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
 
     // Save the frame to disk
     file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
@@ -979,10 +1053,12 @@ function confirmSet(callback, args, msg) {
         confirmContainer.classList.add("hidden");
         callback(args);
         btnConfirmOK.removeEventListener("click", _ok);
+        btnConfirmCancel.removeEventListener("click", _cancel);
     }
 
     function _cancel() {
         confirmContainer.classList.add("hidden");
+        btnConfirmOK.removeEventListener("click", _ok);
         btnConfirmCancel.removeEventListener("click", _cancel);
     }
 
@@ -997,133 +1073,135 @@ function confirmSet(callback, args, msg) {
 function loadMenu() {
     "use strict";
     // Create menu
-    var menuBar = new gui.Menu({ type: "menubar" });
+    var menuBar = new nw.Menu({ type: "menubar" });
 
     // Create sub-menus
-    var fileMenu    = new gui.Menu(),
-        editMenu    = new gui.Menu(),
-        captureMenu = new gui.Menu(),
-        helpMenu    = new gui.Menu(),
-        debugMenu   = new gui.Menu();
+    var fileMenu    = new nw.Menu(),
+        editMenu    = new nw.Menu(),
+        captureMenu = new nw.Menu(),
+        helpMenu    = new nw.Menu();
 
     // File menu items
-    fileMenu.append(new gui.MenuItem({
+    fileMenu.append(new nw.MenuItem({
       label: "New project...",
       click: function() {
       },
         key: "n",
         modifiers: "ctrl",
     }));
-    fileMenu.append(new gui.MenuItem({
+    fileMenu.append(new nw.MenuItem({
       label: "Open project...",
       click: function() {
       },
         key: "o",
         modifiers: "ctrl",
     }));
-    fileMenu.append(new gui.MenuItem({
+    fileMenu.append(new nw.MenuItem({
       label: "Main Menu",
       click: function() {
         confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
       },
-        key: "m",
+        key: "w",
         modifiers: "ctrl",
     }));
+    fileMenu.append(new nw.MenuItem({ type: "separator" }));
+    fileMenu.append(new nw.MenuItem({
+      label: "Exit",
+      click: function() {
+        confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+      },
+      key: "q",
+      modifiers: "ctrl",
+    }));
+
 
     // Edit menu items
-    editMenu.append(new gui.MenuItem({
+    editMenu.append(new nw.MenuItem({
       label: "Delete last frame",
-      click: function() {
-        undoFrame();
-      },
+      click: undoFrame,
       key: "z",
       modifiers: "ctrl",
     }));
 
     // Capture menu items
-    captureMenu.append(new gui.MenuItem({
+    captureMenu.append(new nw.MenuItem({
       label: "Capture frame",
-      click: function() {
-        takePicture();
-      },
-      key: "c",
+      click: takePicture,
+      key: "1",
       modifiers: "ctrl",
     }));
+
+  captureMenu.append(new nw.MenuItem({ type: "separator" }));
+
+  captureMenu.append(new nw.MenuItem({
+    label: "Play capture sounds",
+    click: function() {
+      playAudio = !playAudio;
+      notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+    },
+    type: "checkbox",
+    checked: true,
+    key: "m",
+    modifiers: "ctrl",
+  }));
 
     // Help menu items
-    helpMenu.append(new gui.MenuItem({
+    helpMenu.append(new nw.MenuItem({
+      label: "Documentation",
+      click: function() {
+          utils.openURL("http://boatsanimator.readthedocs.io/");
+      },
+      key: "F1",
+      modifiers: "",
+    }));
+    helpMenu.append(new nw.MenuItem({
       label: "Give feedback",
       click: function() {
-          gui.Shell.openExternal("https://github.com/BoatsAreRockable/animator/issues");
+          utils.openURL("https://github.com/BoatsAreRockable/animator/issues");
       },
-      key: "/",
-      modifiers: "ctrl",
     }));
 
-    // Debug menu items
-    debugMenu.append(new gui.MenuItem({
-      label: "Load developer tools",
-      click: function() {
-          dev();
-      },
-      key: "d",
-      modifiers: "ctrl",
+    helpMenu.append(new nw.MenuItem({ type: "separator" }));
+
+    helpMenu.append(new nw.MenuItem({
+      label: "About Boats Animator",
+      click: openAbout
     }));
 
     // Append sub-menus to main menu
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "File",
             submenu: fileMenu
         })
     );
 
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "Edit",
             submenu: editMenu
         })
     );
 
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "Capture",
             submenu: captureMenu
         })
     );
 
     menuBar.append(
-        new gui.MenuItem({
+        new nw.MenuItem({
             label: "Help",
             submenu: helpMenu
         })
     );
 
-    menuBar.append(
-        new gui.MenuItem({
-            label: "Debug",
-            submenu: debugMenu
-        })
-    );
-
     // Append main menu to Window
-    gui.Window.get().menu = menuBar;
+    nw.Window.get().menu = menuBar;
 
     // Create Mac menu
     if (process.platform === "darwin") {
         menuBar.createMacBuiltin("Boats Animator");
     }
-}
-
-/**
- * Development Functions
- */
-function dev() {
-    "use strict";
-    win.showDevTools();
-}
-
-function reload() {
-    "use strict";
-    win.reloadDev();
 }

@@ -16,12 +16,15 @@ body {
   height: 100%;
 }
 
+img { -webkit-user-drag: none; }
+
 /* ========== TEXT STYLING ============== */
 
 a {
   color: #D9D9D9;
   text-decoration: none;
   cursor: pointer;
+  -webkit-user-drag: none;
 }
 
 /* ========== Notification bar ============== */
@@ -30,6 +33,7 @@ a {
   width: 100vw;
   position: fixed;
   left: 20vw;
+  z-index: 5;
 }
 
 /* Individual notification */
@@ -39,7 +43,6 @@ a {
   padding-bottom: 0.6em;
   background-color: #2b2b2b;
   box-shadow: 0 1px 5px 1px rgba(27, 27, 27, 0.4);
-  z-index: 5;
   color: #fff;
   transition: transform 0.3s ease;
 }
@@ -128,12 +131,19 @@ a {
 }
 
 #sidebar a,
+#sidebar label,
 #sidebar .sidebar-opt {
   color: #d3d3d3;
   cursor: pointer;
 }
 #sidebar a:hover,
+#sidebar label:hover,
 #sidebar .sidebar-opt:hover { border-bottom: 1.5px solid #d3d3d3; }
+
+#sidebar input,
+#sidebar label {
+  vertical-align: middle;
+}
 
 #sidebar-content {
   padding-left: 1em;
@@ -165,8 +175,6 @@ a {
   font-family: monospace;
   word-break: break-word;
 }
-
-#loopCheckbox { cursor: pointer; }
 
 /* ========== VIDEO PREVIEW ============== */
 
@@ -239,7 +247,7 @@ a {
 }
 
 #left-controls {
-  width: 35%;
+  width: 45%;
 }
 
 #left-controls i {
@@ -252,7 +260,7 @@ a {
 }
 
 #playback-controls {
-  width: 35%;
+  width: 45%;
   font-size: 1.2em;
 }
 
@@ -271,7 +279,7 @@ a {
 }
 
 #playback-controls div {
-  padding: 0 0.25em;
+  padding: 0 0.5em;
   float: right;
   opacity: 1;
   transition: opacity 0.1s linear;
@@ -283,9 +291,7 @@ a {
 }
 
 #btn-play-pause {
-    box-sizing: content-box;
-    text-align: center;
-    width: 17px;
+  width: 1.5em;
 }
 
 #btn-loop i.active, #btn-onion-skin-toggle i.active {
@@ -337,18 +343,6 @@ a {
 
 /* Keyframes */
 .frame-reel-img.keyframe { border: 2px solid #0040FF; }
-
-/* Frame delete button */
-.btn-frame-delete {
-  position: absolute;
-  left: 84%;
-  top: 71%;
-  float: right;
-  cursor: pointer;
-  color: white;
-  text-shadow: 0 0 2px black;
-}
-.btn-frame-delete:hover { opacity: 0.8; }
 
 #btn-live-view {
   width: 67px;
@@ -418,7 +412,6 @@ a {
   display: inline-block;
   cursor: pointer;
   padding: 0 1em;
-/*  float: right;*/
 }
 
 #framerate-container {
@@ -508,8 +501,6 @@ a {
   margin-right: 0.5em;
   margin-left: 0.8em;
 }
-
-#statusBar-credits { float: right; }
 
 /* ========== SCROLL BARS ============== */
 

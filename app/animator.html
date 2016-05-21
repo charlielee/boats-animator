@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/animator.css">
 </head>
 
-<body onload="startup()">
+<body>
     <!--Notification Bar-->
     <section id="notification-container">
         <div class="notification hidden">
@@ -56,7 +56,6 @@
                 <ul id="capture-options">
                     <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change resolution</a></li>
                     <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
-                    <li><input id="audio-toggle" type="checkbox" checked><label for="audio-toggle">Play audio</label></li>
                 </ul>
             </div>
 
@@ -76,17 +75,6 @@
                     </li>
                 </ul>
             </div>
-
-            <!--Debugging Options-->
-            <div class="sidebar-item" id="debugging-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-heartbeat fa-fw"></i> Debugging</h2>
-                </div>
-                <ul>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="dev()">Load developer tools</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="reload()">Reload main window</a></li>
-                </ul>
-            </div>
         </div>
     </div>
 
@@ -102,7 +90,7 @@
         <!--Playback Window-->
         <div id="playback-window" class="hidden">
             <!--The actual playback window -->
-            <img id="playback">
+            <canvas id="playback"></canvas>
         </div>
 
         <!--Playback controls-->
@@ -110,7 +98,6 @@
                 <tr>
                     <td id="left-controls">
                         <div id="btn-delete-last-frame" title="Undo last frame"><i class="fa fa-undo"></i></div>
-                        <div id="btn-delete-frame" title="Delete selected frame"><i class="fa fa-trash"></i></div>
                     </td>
                     <td id="capture-control">
                 <!--
@@ -124,11 +111,15 @@
                             </div>
                     </td>
                     <td id="playback-controls">
-                        <div id="btn-loop" title="Loop Playback"><i class="fa fa-refresh"></i></div>
-                        <div id="btn-stop" title="Stop Playback"><i class="fa fa-stop"></i></div>
-                        <div id="btn-play-pause" title="Playback Frames"><i class="fa fa-play"></i></div>
-                        <div id="btn-clear-keyframe" title="Clear Selection"><i class="fa fa-close"></i></div>
-                        <div id="btn-start-keyframe" title="Begin Selection"><i class="fa fa-arrow-right"></i></div>
+                      <div id="btn-loop" title="Loop Playback"><i class="fa fa-refresh"></i></div>
+                      <div id="btn-frame-last" title="Last frame"><i class="fa fa-fast-forward"></i></div>
+                      <div id="btn-frame-next" title="Next frame"><i class="fa fa-step-forward"></i></div>
+                      <div id="btn-stop" title="Stop Playback"><i class="fa fa-stop"></i></div>
+                      <div id="btn-play-pause" title="Playback Frames"><i class="fa fa-play"></i></div>
+                      <div id="btn-frame-previous" title="Previous frame"><i class="fa fa-step-backward"></i></div>
+                      <div id="btn-frame-first" title="First frame"><i class="fa fa-fast-backward"></i></div>
+                      <div id="btn-clear-keyframe" title="Clear Selection"><i class="fa fa-close"></i></div>
+                      <div id="btn-start-keyframe" title="Begin Selection"><i class="fa fa-arrow-right"></i></div>
                     </td>
                 </tr>
             </table>
@@ -168,14 +159,13 @@
 
     <div id="statusBar">
         <ul>
-            <li id="currentFrame">Current frame: <span>0</span></li>
-            <li id="num-of-frames"><span>0 frames</span> captured</li>
-            <li id="currentFrameRate"><span></span> FPS</li>
-            <li class="no-pipe" id="currentMode"><span></span> mode</li>
-            <li class="no-pipe" id="statusBar-credits"><a href="#" onclick="gui.Shell.openExternal('https://github.com/BoatsAreRockable/animator')">&copy; Charlie Lee 2016</a></li>
+            <li>Frame <span id="current-frame">0</span> of <span id="num-of-frames">0</span></li>
+            <li id="current-frame-rate"><span></span> FPS</li>
+            <li class="no-pipe" id="current-mode"><span></span> mode</li>
         </ul>
     </div>
 
-    <script src="js/main.js" async></script>
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

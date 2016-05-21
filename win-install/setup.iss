@@ -1,5 +1,5 @@
-﻿#define MyAppName "Boats Animator"
-#define MyAppVersion "0.6.3"
+#define MyAppName "Boats Animator"
+#define MyAppVersion "0.7.1"
 #define MyAppPublisher "Charlie Lee"
 #define MyAppURL "https://github.com/BoatsAreRockable/animator"
 #define MyAppExeName "Boats Animator.exe"
@@ -40,7 +40,7 @@ BeveledLabel={#MyAppName} {#MyAppVersion}
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\bin\{#MyAppName}\windows-x32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\{#MyAppName}\win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

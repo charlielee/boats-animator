@@ -1,0 +1,15 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    "no-undef": "error",
+    "no-unused-vars": ["error", {"varsIgnorePattern": "utils"}]
+  },
+  "globals": {
+    "nw": true,
+    "utils": true
+  }
+}
