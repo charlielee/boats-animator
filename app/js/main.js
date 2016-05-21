@@ -417,7 +417,6 @@ function updateFrameReel(action, id) {
     if (action === "capture") {
         // Remove any frame selection
         _removeFrameReelSelection();
-        _updateStatusBarCurFrame(totalFrames + 1);
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
@@ -431,7 +430,6 @@ function updateFrameReel(action, id) {
             onionSkinFrame = id - 2;
         }
         frameReelRow.removeChild(frameReelRow.children[id - 1]);
-       _updateStatusBarCurFrame(totalFrames - 1);
     }
 
   // Update the last frame number above the live view button
@@ -451,6 +449,8 @@ function updateFrameReel(action, id) {
             _removeFrameReelSelection();
             _addFrameReelSelection(id - 1);
             _updateStatusBarCurFrame(id - 1);
+        } else if (winMode === "capture") {
+            _updateStatusBarCurFrame(totalFrames + 1);
         }
 
         // All the frames were deleted, display "No frames" message
