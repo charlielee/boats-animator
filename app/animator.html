@@ -56,7 +56,6 @@
                 <ul id="capture-options">
                     <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change resolution</a></li>
                     <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
-                    <li><input id="audio-toggle" type="checkbox" checked><label for="audio-toggle">Play audio</label></li>
                 </ul>
             </div>
 
@@ -91,7 +90,7 @@
         <!--Playback Window-->
         <div id="playback-window" class="hidden">
             <!--The actual playback window -->
-            <img id="playback">
+            <canvas id="playback"></canvas>
         </div>
 
         <!--Playback controls-->
@@ -112,9 +111,13 @@
                             </div>
                     </td>
                     <td id="playback-controls">
-                            <div id="btn-loop" class="mediaControls" title="Loop Playback"><i class="fa fa-refresh"></i></div>
-                            <div id="btn-stop" class="mediaControls" title="Stop Playback"><i class="fa fa-stop"></i></div>
-                            <div id="btn-play-pause" class="mediaControls" title="Playback Frames"><i class="fa fa-play"></i></div>
+                      <div id="btn-loop" title="Loop Playback"><i class="fa fa-refresh"></i></div>
+                      <div id="btn-frame-last" title="Last frame"><i class="fa fa-fast-forward"></i></div>
+                      <div id="btn-frame-next" title="Next frame"><i class="fa fa-step-forward"></i></div>
+                      <div id="btn-stop" title="Stop Playback"><i class="fa fa-stop"></i></div>
+                      <div id="btn-play-pause" title="Playback Frames"><i class="fa fa-play"></i></div>
+                      <div id="btn-frame-previous" title="Previous frame"><i class="fa fa-step-backward"></i></div>
+                      <div id="btn-frame-first" title="First frame"><i class="fa fa-fast-backward"></i></div>
                     </td>
                 </tr>
             </table>

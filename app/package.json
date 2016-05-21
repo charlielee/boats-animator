@@ -1,6 +1,6 @@
 {
     "main": "index.html",
-    "description": "",
+    "description": "A free stop motion animation program created using HTML5, JavaScript and WebRTC.",
     "name": "boats-animator",
     "nodejs": true,
     "webkit": {
@@ -33,6 +33,10 @@
     },
     "version": "0.7.1",
     "app_name": "Boats Animator",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/BoatsAreRockable/Boats-Animator.git"
+    },
     "chromium-args": "--mixed-context",
     "engines": {
         "npm": "^3.7.3"
