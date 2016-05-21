@@ -332,8 +332,9 @@ function startup() {
 
   // Preview a captured frame
   frameReelRow.addEventListener("click", function(e) {
-    if (e.target.className.indexOf("frame-reel-img") > -1) {
-      if (e.target.className.indexOf("selected") === -1) {
+    if (e.target.className.includes("frame-reel-img")) {
+      // For an unselected, non-keyframe
+      if (!e.target.className.includes("selected")) {
         // Remove previous selection
         _removeFrameReelSelection();
 
@@ -350,7 +351,7 @@ function startup() {
       } else if (e.target.className === "frame-reel-img selected") {
         addKeyframe("start", curSelectedFrame);
 
-      } else if (e.target.className.indexOf("keyframe") > -1) {
+      } else if (e.target.className.includes("keyframe")) {
         // If the current start keyframe is double clicked it is removed
         if (parseInt(e.target.id.slice(4)) === curStartKeyframe) {
           removeKeyframe("start");
@@ -538,6 +539,11 @@ function removeKeyframe(location) {
     btnStartKeyframe.classList.remove("active");
     document.querySelector(`.frame-reel-img#img-${curStartKeyframe}`).classList.remove("keyframe");
     curStartKeyframe = null;
+    if (curSelectedFrame) {
+      curPlayFrame = curSelectedFrame;
+    } else {
+      curPlayFrame = 0;
+    }
     console.info(`Removed curStartKeyframe`);
   }
 
