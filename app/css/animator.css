@@ -228,10 +228,14 @@ a {
 }
 
 #onion-skinning-frame.visible { display: inline; }
+#onion-skinning-frame.visible:not([src]){ display:none; }
 
 /* ========== CONTROLS ============== */
 
-#main-event { width: calc(100% - 19em); }
+#main-event {
+  position: relative;
+  width: calc(100% - 19em);
+}
 
 #framemod-table {
   width: 100%;
