@@ -4,7 +4,7 @@ var userDir = process.env.USERPROFILE,
       files: "app\\**\\**", // use the glob format
       platforms: ["linux64", "linux32", "osx64", "win32"],
       version: "0.14.3",
-      appName: "Boats Animator",
+      appName: "BoatsAnimator",
       buildDir: "bin",
       cacheDir: `${userDir}\\AppData\\Roaming\\npm\\node_modules\\nw-builder\\cache`,
       winIco: "win-install\\icon.ico"
