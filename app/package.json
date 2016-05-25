@@ -1,12 +1,20 @@
 {
-    "main": "index.html",
+    "name": "Boats Animator",
     "description": "A free stop motion animation program created using HTML5, JavaScript and WebRTC.",
-    "name": "boats-animator",
+    "main": "index.html",
     "nodejs": true,
     "webkit": {
         "page-cache": false,
         "java": false,
         "plugin": false
+    },
+    "nwjsBuilder": {
+      "productName": "Boats Animator",
+      "productVersion": "0.7.1",
+      "copyright": "© 2016 Charlie Lee",
+      "companyName": "Boats Animator Developers",
+      "fileVersion": "0.7.1.0",
+      "originalFilename": " "
     },
     "window": {
         "fullscreen": false,
@@ -32,7 +40,6 @@
         "icon": "icons/icon.png"
     },
     "version": "0.7.1",
-    "app_name": "Boats Animator",
     "repository": {
       "type": "git",
       "url": "git+https://github.com/BoatsAreRockable/Boats-Animator.git"
