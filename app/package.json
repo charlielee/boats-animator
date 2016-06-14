@@ -1,6 +1,6 @@
 {
     "name": "Boats Animator",
-    "description": "A free stop motion animation program created using HTML5, JavaScript and WebRTC.",
+    "description": "A free, open-source stop motion animation program.",
     "main": "index.html",
     "nodejs": true,
     "webkit": {
