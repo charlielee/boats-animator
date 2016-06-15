@@ -2,9 +2,9 @@ var nwjsBuilder = require("nwjs-builder"),
     options = {
       platforms: "linux64,linux32,osx64,win32",
       version: "0.14.5",
-      outputDir: "bin/BoatsAnimator",
+      outputDir: "bin/Boats-Animator",
       outputName: "Boats-Animator-{version}-{target}",
-      outputFormat: "ZIP",
+      outputFormat: "DIR",
       executableName: "BoatsAnimator",
       winIco: "win-install/icon.ico"
     };
