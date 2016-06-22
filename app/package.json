@@ -1,5 +1,5 @@
 {
-    "name": "Boats Animator",
+    "name": "boats-animator",
     "description": "A free, open-source stop motion animation program.",
     "main": "index.html",
     "nodejs": true,
