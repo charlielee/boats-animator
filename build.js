@@ -6,7 +6,8 @@ var nwjsBuilder = require("nwjs-builder"),
       outputName: "Boats-Animator-{version}-{target}",
       outputFormat: "DIR",
       executableName: "BoatsAnimator",
-      winIco: "win-install/icon.ico"
+      winIco: "win-install/icon.ico",
+      macIcns: "app/icons/icon.icns"
     };
 
 // Build returns a promise
