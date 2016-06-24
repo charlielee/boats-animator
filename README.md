@@ -19,13 +19,5 @@ The current [feature roadmap](https://docs.google.com/document/d/1UgcyhNkvyirI4g
 
 ## Credits
 
-  * Boats Animator is licensed under [GPL v3](http://www.gnu.org/licenses/gpl.html) or later.
+  * Boats Animator is licensed under [GPL v3](http://www.gnu.org/licenses/gpl.html).
   * The contributors to this project may be found [here](https://github.com/BoatsAreRockable/Boats-Animator/graphs/contributors)
-  * Boats Animator uses the following open source components:
-    * [Font Awesome](http://fontawesome.io/)
-    * [NW.js](https://github.com/nwjs/nw.js)
-    * [mkdirp](https://github.com/substack/node-mkdirp)
-
-## Issues
-
-Any problems or suggestions with Boats Animator should be added to the [issues](https://github.com/BoatsAreRockable/Boats-Animator/issues) page.
