@@ -76,6 +76,7 @@ var width  = 640,
     frameReelMsg   = document.querySelector("#area-frame-reel > p"),
     frameReelRow   = document.querySelector("#area-frame-reel #reel-captured-imgs"),
     frameReelTable = document.querySelector("#area-frame-reel table"),
+    liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
     // Notifications
     notifyBar     = document.querySelector(".notification"),
@@ -384,9 +385,9 @@ function _removeFrameReelSelection() {
  * @param {Number} id The image ID to highlight.
  */
 function _addFrameReelSelection(id) {
-    "use strict";
-    document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
-    curSelectedFrame = id;
+  "use strict";
+  document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
+  curSelectedFrame = id;
 }
 
 /**
@@ -416,10 +417,10 @@ function updateFrameReel(action, id) {
     if (action === "capture") {
         // Remove any frame selection
         _removeFrameReelSelection();
-        _updateStatusBarCurFrame(totalFrames + 1);
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
+<div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
 <img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1].src}">
 </div></td>`);
 
@@ -429,8 +430,10 @@ function updateFrameReel(action, id) {
             onionSkinFrame = id - 2;
         }
         frameReelRow.removeChild(frameReelRow.children[id - 1]);
-       _updateStatusBarCurFrame(totalFrames - 1);
     }
+
+  // Update the last frame number above the live view button
+  liveViewframeNo.innerHTML = totalFrames + 1;
 
     // We have frames, display them
     if (totalFrames > 0) {
@@ -446,6 +449,8 @@ function updateFrameReel(action, id) {
             _removeFrameReelSelection();
             _addFrameReelSelection(id - 1);
             _updateStatusBarCurFrame(id - 1);
+        } else if (winMode === "capture") {
+            _updateStatusBarCurFrame(totalFrames + 1);
         }
 
         // All the frames were deleted, display "No frames" message
