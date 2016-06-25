@@ -39,18 +39,43 @@ fs.mkdir("temp", function(err) {
 // Use nwjs-builder to create the output packages.
 function build() {
   nwjsBuilder.commands.nwbuild("temp", options, function(err) {
-    fs.chmod(`${options.outputDir}/Boats-Animator-${manifest.version}-linux-x64/${options.executableName}`, 0777, function(err) {
-      console.log(err ? err : "Chmod linux64")
-    });
-    fs.chmod(`${options.outputDir}/Boats-Animator-${manifest.version}-linux-ia32/${options.executableName}`, 0777, function(err) {
-      console.log(err ? err : "Chmod linux32")
-    });
-    
     console.log(err ? err : "Finished exporting packages");
+    linux();
 
     fs.rmrf("temp", function(err) {
       console.log(err ? err : "Delete temp directory");
       console.log("Done!");
+    });
+  });
+}
+
+// Linux specific changes.
+function linux() {
+  var linuxOutputs = [
+    `${options.outputDir}/Boats-Animator-${manifest.version}-linux-x64`,
+    `${options.outputDir}/Boats-Animator-${manifest.version}-linux-ia32`
+  ];
+  
+  linuxOutputs.forEach(function(dir) {
+    // Set Linux executable permissions
+    fs.chmod(`${dir}/${options.executableName}`, 0777, function(err) {
+      console.log(err ? err : "Set BoatsAnimator executable file permissions");
+    });
+
+    // Create .desktop file
+    fs.writeFile(`${dir}/boats-animator.desktop`,
+`[Desktop Entry]
+Name=Boats Animator
+Version=${manifest.version}
+Comment=Create stop motion animations
+Exec=bash -c "cd $(dirname %k) && ./${options.executableName}"
+Type=Application
+Terminal=false`, function(err) {
+      console.log(err ? err : "Create .desktop file");
+      // Set .desktop file permissions
+      fs.chmod(`${dir}/boats-animator.desktop`, 0777, function(err) {
+        console.log(err ? err : "Set .desktop file permissions");
+      });
     });
   });
 }
