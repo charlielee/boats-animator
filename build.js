@@ -1,5 +1,6 @@
 var fs = require("fs.extra"),
     nwjsBuilder = require("nwjs-builder"),
+    manifest = require('./package.json'),
     options = {
       platforms: "linux64,linux32,osx64,win32",
       version: "0.14.5",
@@ -38,6 +39,13 @@ fs.mkdir("temp", function(err) {
 // Use nwjs-builder to create the output packages.
 function build() {
   nwjsBuilder.commands.nwbuild("temp", options, function(err) {
+    fs.chmod(`${options.outputDir}/Boats-Animator-${manifest.version}-linux-x64/${options.executableName}`, 0777, function(err) {
+      console.log(err ? err : "Chmod linux64")
+    });
+    fs.chmod(`${options.outputDir}/Boats-Animator-${manifest.version}-linux-ia32/${options.executableName}`, 0777, function(err) {
+      console.log(err ? err : "Chmod linux32")
+    });
+    
     console.log(err ? err : "Finished exporting packages");
 
     fs.rmrf("temp", function(err) {
