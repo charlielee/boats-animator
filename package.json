@@ -1,6 +1,7 @@
 {
     "name": "boats-animator",
     "description": "A free, open-source stop motion animation program.",
+    "license": "GPL-3.0",
     "main": "app/index.html",
     "nodejs": true,
     "webkit": {
