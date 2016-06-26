@@ -1,6 +1,6 @@
 /* Build Boats Animator Executables
 
-Usage: node build <PLATFORMS> <PACKAGES>
+Usage: node build <PLATFORMS> <PACKAGES> <COMPRESS>
 
 <PLATFORMS>
 * String
@@ -12,14 +12,22 @@ Usage: node build <PLATFORMS> <PACKAGES>
 * Which packages to build in addition to binaries. Possible values:
   * "exe" - creates setup file using Inno Setup. Requires `process.platform = "win32"`
 * Default: ""
-*/
-var fs = require("fs.extra"),
-    process = require("process"),
-    exec = require('child_process').exec,
-    curDir = require('path').dirname(require.main.filename),
 
-    manifest = require('./package.json'),
+<COMPRESS>
+* String
+* Whether the output packages be compressed or not. Possible values: "false"
+* Default: "" === true
+*/
+var manifest = require('./package.json'),
+    process  = require("process"),
+    exec     = require('child_process').exec,
+    fs       = require("fs.extra"),
+    curDir   = require('path').dirname(require.main.filename),
+    archiver = require('archiver'),
+
     packages = (process.argv[3] ? process.argv[3] : ""),
+    compress = (process.argv[4] === "false" ? false : true),
+
     nwjsBuilder = require("nwjs-builder"),
     options = {
       platforms: (process.argv[2] ? process.argv[2] : "linux64,linux32,osx64,win32"),
@@ -61,6 +69,7 @@ function build() {
 
       console.log("Running platform specific additions...");
       linux();
+      mac();
       windows();
     });
   });
@@ -69,60 +78,113 @@ function build() {
 // Linux specific changes.
 function linux() {
   // Check whether output platforms contains linux32, linux64, both or neither.
-  var linuxOutputs = [];
+  var linuxDirs = [];
   if (options.platforms.includes("linux32")) {
-    linuxOutputs.push(`${options.outputDir}/Boats-Animator-${manifest.version}-linux-ia32`);
+    linuxDirs.push(`${options.outputDir}/Boats-Animator-${manifest.version}-linux-ia32`);
   }
   if (options.platforms.includes("linux64")) {
-    linuxOutputs.push(`${options.outputDir}/Boats-Animator-${manifest.version}-linux-x64`);
+    linuxDirs.push(`${options.outputDir}/Boats-Animator-${manifest.version}-linux-x64`);
   }
 
-  linuxOutputs.forEach(function(dir) {
+  linuxDirs.forEach(function(dir) {
     // Set Linux executable permissions
     fs.chmod(`${dir}/${options.executableName}`, 0777, function(err) {
       console.log(err ? err : `  linux${dir.slice(-2)}: Set BoatsAnimator executable file permissions`);
-    });
 
-    // Create .desktop file
-    fs.writeFile(`${dir}/boats-animator.desktop`,
-`[Desktop Entry]
-Name=Boats Animator
-Version=${manifest.version}
-Comment=Create stop motion animations
-Exec=bash -c "cd $(dirname %k) && ./${options.executableName}"
-Type=Application
-Terminal=false`, function(err) {
-      console.log(err ? err : `  linux${dir.slice(-2)}: Create .desktop file`);
+      // Create .desktop file
+      fs.writeFile(`${dir}/boats-animator.desktop`,
+  `[Desktop Entry]
+  Name=Boats Animator
+  Version=${manifest.version}
+  Comment=Create stop motion animations
+  Exec=bash -c "cd $(dirname %k) && ./${options.executableName}"
+  Type=Application
+  Terminal=false`, function(err) {
+        console.log(err ? err : `  linux${dir.slice(-2)}: Create .desktop file`);
 
-      // Set .desktop file permissions
-      fs.chmod(`${dir}/boats-animator.desktop`, 0777, function(err) {
-        console.log(err ? err : `  linux${dir.slice(-2)}: Set .desktop file permissions`);
+        // Set .desktop file permissions
+        fs.chmod(`${dir}/boats-animator.desktop`, 0777, function(err) {
+          console.log(err ? err : `  linux${dir.slice(-2)}: Set .desktop file permissions`);
+          
+          // Compress Linux dirs
+          compressDir(dir, "tar.gz");
+        });
       });
     });
   });
 }
 
+// Mac OS specific changes.
+function mac() {
+  if (options.platforms.includes("osx64")) {
+    var macDir = `Boats-Animator-${manifest.version}-osx-x64`;
+    // Compress Mac dirs
+    compressDir(`${options.outputDir}/${macDir}`, "zip");
+  }
+}
+
 // Win32 specific changes.
 function windows() {
-  // Create installer file using Inno Setup
-  if (process.platform === "win32"
-      && options.platforms.includes("win32")
-      && packages.includes("exe")
-     ) {
-    fs.open("C:/Program Files (x86)/Inno Setup 5", "r", function(err, fd) {
-      if (err) {
-        console.error("  win32: Please install Inno Setup 5 to create a win32 installer");
-      } else {
-        exec(`cd C:/Program Files (x86)/Inno Setup 5/ && ISCC.exe ${curDir}/win-install/setup.iss`, function(error, stdout, stderr) {
-          if (error) {
-            console.error(`Exec error: ${error}`);
-          }
-          if (stderr) {
-            console.error(`Stderr: ${stderr}`);
-          }
-          console.log("  win32: Create setup executable");
-        });
-      }
+  if (options.platforms.includes("win32")) {
+    var win32Dir = `Boats-Animator-${manifest.version}-win-ia32`;
+
+    if (process.platform === "win32" && packages.includes("exe")) {
+      // Create installer file using Inno Setup
+      fs.open("C:/Program Files (x86)/Inno Setup 5", "r", function(err, fd) {
+        if (err) {
+          console.error("  win32: Please install Inno Setup 5 to create a win32 installer");
+        } else {
+          exec(`cd C:/Program Files (x86)/Inno Setup 5/ && ISCC.exe ${curDir}/win-install/setup.iss`, function(error, stdout, stderr) {
+            if (error) {
+              console.error(`Exec error: ${error}`);
+            }
+            if (stderr) {
+              console.error(`Stderr: ${stderr}`);
+            }
+            console.log("  win32: Create setup executable");
+            // Compress the Win32 dir after setup exe is made.
+            compressDir(`${options.outputDir}/${win32Dir}`, "zip");
+          });
+        }
+      });
+    } else {
+      // Compress the Win32 dir.
+      compressDir(`${options.outputDir}/${win32Dir}`, "zip");
+    }
+  }
+}
+
+/**
+ * Create a compressed archive from a directory.
+ * @param {String} dir    Location of directory to compress.
+ * @param {String} format Format to compress to (eg ZIP or TAR)
+ */
+function compressDir(dir, format) {
+  if (compress) {
+    var output = fs.createWriteStream(`${dir}.${format}`),
+        archive;
+
+    // Work with tar.gz
+    if (format === "tar.gz") {
+      archive = archiver("tar", { gzip: true });
+    } else {
+      archive = archiver(format);
+    }
+
+    output.on("close", function() {
+      console.log(`  archiver: Compress ${dir} to ${format}`);
+      fs.rmrf(dir, function(err) {
+        console.log(err ? err : `  archiver: Deleted ${dir}`);
+      })
     });
+
+    archive.on("error", function(err) {
+      throw err;
+    });
+
+    archive.pipe(output);
+
+    archive.directory(dir, "/")
+      .finalize();
   }
 }
