@@ -18,15 +18,15 @@ Usage: node build <PLATFORMS> <PACKAGES> <COMPRESS>
 * Whether the output packages be compressed or not. Possible values: "false"
 * Default: "" === true
 */
-var fs = require("fs.extra"),
-    process = require("process"),
-    exec = require('child_process').exec,
-    curDir = require('path').dirname(require.main.filename),
-    manifest = require('./package.json'),
-    packages = (process.argv[3] ? process.argv[3] : ""),
-    compress = (process.argv[4] === "false" ? false : true),
+var manifest = require('./package.json'),
+    process  = require("process"),
+    exec     = require('child_process').exec,
+    fs       = require("fs.extra"),
+    curDir   = require('path').dirname(require.main.filename),
     archiver = require('archiver'),
 
+    packages = (process.argv[3] ? process.argv[3] : ""),
+    compress = (process.argv[4] === "false" ? false : true),
 
     nwjsBuilder = require("nwjs-builder"),
     options = {
