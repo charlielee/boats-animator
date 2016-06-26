@@ -354,6 +354,7 @@ a {
   text-align: center;
   font-size: 2.5em;
   cursor: pointer;
+  margin-right: 5px;
 }
 #btn-live-view:hover { color: #ad0000; }
 
