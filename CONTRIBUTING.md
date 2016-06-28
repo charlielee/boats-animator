@@ -5,14 +5,10 @@ Thank you for choosing to help improve Boats Animator!
 1. First fork this repository by pressing ![Fork](https://camo.githubusercontent.com/07b3944af53da32b0cffe98152c45c46431a82f0/687474703a2f2f6938312e73657276696d672e636f6d2f752f6638312f31362f33332f30362f31312f666f726b6d6531322e706e67)
 2. Clone the fork to your computer using: `git clone https://github.com/YOUR_USERNAME/Boats-Animator.git` or [GitHub Desktop](https://desktop.github.com/).
 3. Install **version 5+** of [Node.js](https://nodejs.org/en/download/stable/).
-4. Navigate to the `animator/app` directory and run: `npm install`.
+4. Run `npm install` in the Boats-Animator directory.
 
 ### Compiling from source code
-To preview Boats Animator we recommend using [NW Builder](https://github.com/nwjs/nw-builder). Install it using `npm install evshiron/nw-builder -g`.
-
-After installing NW Builder, in the `animator` directory run: `nwbuild -r app -v 0.14.2`
-
-Alternatively, download version **0.14.2** of [NW.js](http://nwjs.io/) and follow the instructions relevant to your operating system on the [NW.js wiki](https://github.com/nwjs/nw.js/wiki/How-to-run-apps).
+To preview Boats Animator simply run `npm start` in a terminal window. NOTE: the first time this is run a copy of NW.js will be downloaded this is around 50MB.
 
 ## Reporting issues
 If you find a bug or want to suggest an improvement:

@@ -1,12 +1,21 @@
 {
-    "main": "index.html",
-    "description": "A free stop motion animation program created using HTML5, JavaScript and WebRTC.",
     "name": "boats-animator",
+    "description": "A free, open-source stop motion animation program.",
+    "license": "GPL-3.0",
+    "main": "app/index.html",
     "nodejs": true,
     "webkit": {
         "page-cache": false,
         "java": false,
         "plugin": false
+    },
+    "nwjsBuilder": {
+      "productName": "Boats Animator",
+      "productVersion": "0.7.2",
+      "copyright": "© 2016 Charlie Lee",
+      "companyName": "Boats Animator Developers",
+      "fileVersion": "0.7.2.0",
+      "originalFilename": " "
     },
     "window": {
         "fullscreen": false,
@@ -31,8 +40,7 @@
         "transparent": false,
         "icon": "icons/icon.png"
     },
-    "version": "0.7.1",
-    "app_name": "Boats Animator",
+    "version": "0.7.2",
     "repository": {
       "type": "git",
       "url": "git+https://github.com/BoatsAreRockable/Boats-Animator.git"
@@ -42,9 +50,17 @@
         "npm": "^3.7.3"
     },
     "dependencies": {
+        "nwjs-builder": "^1.12.0",
+        "fs.extra": "^1.3.2",
+        "archiver": "^1.0.0",
+        "command-line-args": "^3.0.0",
         "mkdirp": "^0.5.1"
     },
     "scripts": {
-        "postinstall": "cp node_modules/mkdirp/index.js lib/mkdirp.js"
+        "postinstall": "node install",
+        "start": "nwb nwbuild -v 0.14.5-sdk -r .",
+        "test": "node build -n",
+        "build": "node build",
+        "build-extras": "node build -e exe"
   }
 }

@@ -14,7 +14,7 @@
      * Occurs when "New Project" is pressed
      */
     function openAnimator() {
-        nw.Window.open("animator.html", {
+        nw.Window.open("app/animator.html", {
             position: "center",
             width: 1050,
             height: 715,
