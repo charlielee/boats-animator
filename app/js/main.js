@@ -455,6 +455,9 @@ function updateFrameReel(action, id) {
         frameReelMsg.classList.remove("hidden");
         frameReelTable.classList.add("hidden");
         switchMode("capture");
+
+      // Clear the onion skin window
+      onionSkinWindow.removeAttribute("src");
     }
 }
 
