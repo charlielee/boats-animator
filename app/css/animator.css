@@ -220,17 +220,16 @@ a {
   padding: 0;
   margin: 0;
   border: 0;
-  opacity: 0.5;
+  opacity: 0;
   position: absolute;
   top: 0;
   left: 0;
   object-fit: contain;
   z-index: 2;
-  display: none;
+  display: inline;
 }
 
-#onion-skinning-frame.visible { display: inline; }
-#onion-skinning-frame.visible:not([src]){ display:none; }
+#onion-skinning-frame:not([src]){ display:none; }
 
 /* ========== CONTROLS ============== */
 
@@ -387,7 +386,7 @@ a {
   float: left;
 }
 
-#onion-toggle-td, #framerate-container-td {
+#preview-options-td, #framerate-container-td {
   width: 35%;
 }
 
@@ -452,7 +451,7 @@ a {
 
 #input-onion-skin-opacity {
   -webkit-appearance: none;
-  max-width: 15em;
+  width: 15em;
 }
 
 
