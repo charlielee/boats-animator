@@ -59,6 +59,8 @@
     "scripts": {
         "postinstall": "node install",
         "start": "nwb nwbuild -v 0.14.5-sdk -r .",
-        "test": "node build -n"
+        "test": "node build -n",
+        "build": "node build",
+        "build-extras": "node build -e exe"
   }
 }
