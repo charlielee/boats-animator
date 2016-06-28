@@ -1,23 +1,29 @@
-/* Build Boats Animator Executables
+var help = `===== BUILD BOATS ANIMATOR EXECUTABLES =====
 
-Usage: node build <PLATFORMS> <PACKAGES> <COMPRESS>
+Usage: node build -p <OPTIONS>
 
-<PLATFORMS>
+<OPTIONS>
+--platforms, -p "win32"
 * String
 * Which platforms to output for. Possible values: "linux64,linux32,osx64,win32,win64"
 * Default: "linux64,linux32,osx64,win32"
 
-<PACKAGES>
+--extras, -e "exe"
 * String
 * Which packages to build in addition to binaries. Possible values:
-  * "exe" - creates setup file using Inno Setup. Requires `process.platform = "win32"`
+  > "exe" - Create win32 setup file.
+          - Requires installing Inno Setup 5 and to be running Windows to build.
 * Default: ""
 
-<COMPRESS>
-* String
-* Whether the output packages be compressed or not. Possible values: "false"
-* Default: "" === true
-*/
+--noCompress, -n
+* Boolean
+* Enable to stop output directories from being added to ZIP/TAR archives. Useful for debugging.
+* Default: false
+
+--help, -h true
+* Boolean
+* Displays this help message.`;
+
 var manifest = require('./package.json'),
     process  = require("process"),
     exec     = require('child_process').exec,
@@ -25,12 +31,22 @@ var manifest = require('./package.json'),
     curDir   = require('path').dirname(require.main.filename),
     archiver = require('archiver'),
 
-    packages = (process.argv[3] ? process.argv[3] : ""),
-    compress = (process.argv[4] === "false" ? false : true),
+    // Command line arguments.
+    cmdArgs  = require('command-line-args'),
+    optionDefinitions = [
+      { name: "platforms", alias: "p", type: String, defaultValue: "linux64,linux32,osx64,win32" },
+      { name: "extras", alias: "e", type: String, defaultValue: ""},
+      { name: "noCompress", alias: "n", type: Boolean, defaultValue: false},
+      { name: "help", alias: "h", type: Boolean, defaultValue: false}
+    ],
+    cmdOptions = cmdArgs(optionDefinitions),
+    extras = cmdOptions.extras,
+    compress = (cmdOptions.noCompress ? false : true),
 
+    // nwjs-builder
     nwjsBuilder = require("nwjs-builder"),
     options = {
-      platforms: (process.argv[2] ? process.argv[2] : "linux64,linux32,osx64,win32"),
+      platforms: cmdOptions.platforms,
       version: "0.14.5",
       outputDir: "bin/Boats-Animator",
       outputName: "Boats-Animator-{version}-{target}",
@@ -40,27 +56,35 @@ var manifest = require('./package.json'),
       macIcns: "icons/icon.icns"
     };
 
+if (cmdOptions.help) {
+  console.log(help);
+} else {
+  createTemp();
+}
+
 // Move the files to be packaged to a temp directory.
-fs.mkdir("temp", function(err) {
-  console.log(err ? err : "Create temp directory");
+function createTemp() {
+  fs.mkdir("temp", function(err) {
+    console.log(err ? err : "Create temp directory");
 
-  fs.copy("package.json", "temp/package.json", function(err) {
-    console.log(err ? err : "Copy package.json");
+    fs.copy("package.json", "temp/package.json", function(err) {
+      console.log(err ? err : "Copy package.json");
 
-    fs.mkdir("temp/icons", function(err) {
-      fs.copy("icons/icon.png", "temp/icons/icon.png", function (err) {
-        console.log(err ? err : "Copy icon.png");
-      });
+      fs.mkdir("temp/icons", function(err) {
+        fs.copy("icons/icon.png", "temp/icons/icon.png", function (err) {
+          console.log(err ? err : "Copy icon.png");
+        });
 
-      fs.copyRecursive("app", "temp/app", function(err) {
-        console.log(err ? err : "Copy app directory");
-        build();
+        fs.copyRecursive("app", "temp/app", function(err) {
+          console.log(err ? err : "Copy app directory");
+          build();
+        });
       });
     });
   });
-});
+}
 
-// Use nwjs-builder to create the output packages.
+// Use nwjs-builder to create the output .
 function build() {
   nwjsBuilder.commands.nwbuild("temp", options, function(err) {
     console.log(err ? err : "Finished exporting packages");
@@ -128,7 +152,7 @@ function windows() {
   if (options.platforms.includes("win32")) {
     var win32Dir = `Boats-Animator-${manifest.version}-win-ia32`;
 
-    if (process.platform === "win32" && packages.includes("exe")) {
+    if (process.platform === "win32" && extras.includes("exe")) {
       // Create installer file using Inno Setup
       fs.open("C:/Program Files (x86)/Inno Setup 5", "r", function(err, fd) {
         if (err) {
