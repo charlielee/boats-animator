@@ -78,11 +78,6 @@ var width  = 640,
     frameReelTable = document.querySelector("#area-frame-reel table"),
     liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
-    // Notifications
-    notifyBar     = document.querySelector(".notification"),
-    notifyBarMsg  = document.querySelector(".notification .msg"),
-    notifyBarType = document.querySelector(".notification .notify-type"),
-
     // Confirm messages
     confirmContainer    = document.querySelector("#confirm-container"),
     confirmText         = document.querySelector("#confirm-text"),
@@ -854,83 +849,6 @@ function saveFrame(id) {
 
     // Store the location of the exported frame
     exportedFramesList.push(outputPath);
-}
-
-/**
- * Hide the current notification.
- *
- * @param {String} msgType Class name of the message type
- *                         (e.g., info) displayed.
- */
-function _notifyClose(msgType) {
-    "use strict";
-    // Time in seconds before the notification should go away
-    var timeout = 2.5;
-
-    // Hide the notification bar
-    window.setTimeout(function() {
-        notifyBar.classList.add("hidden");
-    }, 1000 * timeout);
-
-    // Clear the styling a bit later.
-    // Without this, the styling is removed before
-    // the bar is hidden.
-    window.setTimeout(function() {
-        notifyBar.classList.remove(msgType);
-        notifyBarMsg.innerHTML = "";
-        notifyBarType.innerHTML = "";
-    }, 1200 * timeout);
-}
-
-/**
- * Display a success notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifySuccess(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Success";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("success");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("success");
-}
-
-/**
- * Display an information notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifyInfo(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Info";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("info");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("info");
-}
-
-/**
- * Display an error notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifyError(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Error";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("error");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("error");
 }
 
 /**
