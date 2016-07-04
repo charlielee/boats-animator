@@ -85,8 +85,9 @@ var width  = 640,
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
-    file   = require("./js/file"),
-    mkdirp = require("./lib/mkdirp"),
+    file         = require("./js/file"),
+    mkdirp       = require("./lib/mkdirp"),
+    notification = require("./js/notification"),
 
     // Sidebar
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
@@ -175,7 +176,7 @@ function startup() {
       function(err) {
         console.error("Could not find a camera to use!");
         console.error(err);
-        notifyError("Could not find a camera to use!");
+        notification.error("Could not find a camera to use!");
       }
     );
 
@@ -196,7 +197,7 @@ function startup() {
           captureWindow.classList.add("4by3");
         }
 
-        notifySuccess("Camera successfully connected.");
+        notification.success("Camera successfully connected.");
       }
     });
 
@@ -206,7 +207,7 @@ function startup() {
     btnCaptureFrame.addEventListener("click", function() {
         // Prevent taking frames without a set output path
         if (!frameExportDirectory) {
-          notifyError("A save directory must be first set!");
+          notification.error("A save directory must be first set!");
           return false;
         }
 
@@ -309,7 +310,7 @@ function startup() {
 
     // Grid overlay toggle
     btnGridToggle.addEventListener("click", function() {
-        notifyInfo("That feature is not yet implemented.");
+        notification.info("That feature is not yet implemented.");
     });
 
   // Switch from frame preview back to live view
@@ -465,7 +466,7 @@ function deleteFrame(id) {
     "use strict";
     file.delete(exportedFramesList[id - 1], {
         success: function() {
-            notifySuccess("File successfully deleted.");
+            notification.success("File successfully deleted.");
         }
     });
 
@@ -485,7 +486,7 @@ function undoFrame() {
     if (totalFrames > 0) {
       confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
     } else {
-      notifyError("There is no previous frame to undo!");
+      notification.error("There is no previous frame to undo!");
     }
 }
 
@@ -785,10 +786,10 @@ function _createSaveDirectory() {
         if (err) {
             console.error(err);
             console.error(`Failed to create save directory at ${savePath}`);
-            notifyError(`Failed to create save directory at ${savePath}`);
+            notification.error(`Failed to create save directory at ${savePath}`);
         } else {
             console.log(`Successfully created directory at ${savePath}`);
-            notifyInfo(`Successfully created save directory at ${savePath}`);
+            notification.info(`Successfully created save directory at ${savePath}`);
         }
     });
 }
@@ -951,7 +952,7 @@ function loadMenu() {
     label: "Play capture sounds",
     click: function() {
       playAudio = !playAudio;
-      notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+      notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
     },
     type: "checkbox",
     checked: true,
