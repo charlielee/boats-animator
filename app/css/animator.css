@@ -41,7 +41,6 @@ a {
   width: 50%;
   height: 2.75em;
   background-color: #2b2b2b;
-  box-shadow: 0 1px 5px rgba(27, 27, 27, 0.4);
   color: #fff;
   transition: transform 0.3s ease-out;
 }
@@ -65,9 +64,8 @@ a {
 /* Notification message */
 .notification .msg {
   margin: 0;
-  font-size: 1.1em;
   display: inline-block;
-  vertical-align: text-top;
+  vertical-align: middle;
 }
 
 /* ========== CONFIRM BOXES ========== */
