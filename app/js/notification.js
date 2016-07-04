@@ -92,6 +92,7 @@ module.exports = {};
    * @param {String|Number} [msg=""] - The message to display.
    */
   function info(msg) {
+    console.info(`Info: ${msg}`);
     _hideDelayed(_show(_make("info", msg)));
   }
 
@@ -101,6 +102,7 @@ module.exports = {};
    * @param {String|Number} [msg=""] - The message to display.
    */
   function error(msg) {
+    console.error(`Error: ${msg}`);
     _hideDelayed(_show(_make("error", msg)));
   }
 
@@ -110,6 +112,7 @@ module.exports = {};
    * @param {String|Number} [msg=""] - The message to display.
    */
   function success(msg) {
+    console.log(`Success: ${msg}`);
     _hideDelayed(_show(_make("success", msg)));
   }
 
