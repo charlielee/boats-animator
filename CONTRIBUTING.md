@@ -8,7 +8,7 @@ Thank you for choosing to help improve Boats Animator!
 4. Run `npm install` in the Boats-Animator directory.
 
 ### Compiling from source code
-To preview Boats Animator simply run `npm start` in a terminal window. NOTE: the first time this is run a copy of NW.js will be downloaded this is around 50MB.
+To preview Boats Animator simply run `npm start` in a terminal window. Note: the first time this is run a copy of NW.js will be downloaded, this is around 50MB.
 
 ## Reporting issues
 If you find a bug or want to suggest an improvement:
@@ -31,5 +31,5 @@ The following conventions should be observed in Boats Animator's code:
 * CSS, HTML, JS and JSON should be indented using 2 spaces ([Currently a WIP](https://github.com/BoatsAreRockable/Boats-Animator/issues/140))
 * Trailing white space and empty lines with spaces should be avoided.
 * HTML classes and ids are `spaced-using-dashes`.
-Script variables and functions are `spacedUsingCamelCase`.
+JavaScript variables and functions are `spacedUsingCamelCase`.
 * JavaScript functions should be documented using [JSDoc](http://usejsdoc.org/about-getting-started.html).
