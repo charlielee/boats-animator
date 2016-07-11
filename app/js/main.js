@@ -78,11 +78,6 @@ var width  = 640,
     frameReelTable = document.querySelector("#area-frame-reel table"),
     liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
-    // Notifications
-    notifyBar     = document.querySelector(".notification"),
-    notifyBarMsg  = document.querySelector(".notification .msg"),
-    notifyBarType = document.querySelector(".notification .notify-type"),
-
     // Confirm messages
     confirmContainer    = document.querySelector("#confirm-container"),
     confirmText         = document.querySelector("#confirm-text"),
@@ -90,8 +85,9 @@ var width  = 640,
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
-    file   = require("./js/file"),
-    mkdirp = require("./lib/mkdirp"),
+    file         = require("./js/file"),
+    mkdirp       = require("./lib/mkdirp"),
+    notification = require("./js/notification"),
 
     // Sidebar
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
@@ -180,7 +176,7 @@ function startup() {
       function(err) {
         console.error("Could not find a camera to use!");
         console.error(err);
-        notifyError("Could not find a camera to use!");
+        notification.error("Could not find a camera to use!");
       }
     );
 
@@ -201,7 +197,7 @@ function startup() {
           captureWindow.classList.add("4by3");
         }
 
-        notifySuccess("Camera successfully connected.");
+        notification.success("Camera successfully connected.");
       }
     });
 
@@ -211,7 +207,7 @@ function startup() {
     btnCaptureFrame.addEventListener("click", function() {
         // Prevent taking frames without a set output path
         if (!frameExportDirectory) {
-          notifyError("A save directory must be first set!");
+          notification.error("A save directory must be first set!");
           return false;
         }
 
@@ -314,7 +310,7 @@ function startup() {
 
     // Grid overlay toggle
     btnGridToggle.addEventListener("click", function() {
-        notifyInfo("That feature is not yet implemented.");
+        notification.info("That feature is not yet implemented.");
     });
 
   // Switch from frame preview back to live view
@@ -470,7 +466,7 @@ function deleteFrame(id) {
     "use strict";
     file.delete(exportedFramesList[id - 1], {
         success: function() {
-            notifySuccess("File successfully deleted.");
+            notification.success("File successfully deleted.");
         }
     });
 
@@ -490,7 +486,7 @@ function undoFrame() {
     if (totalFrames > 0) {
       confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
     } else {
-      notifyError("There is no previous frame to undo!");
+      notification.error("There is no previous frame to undo!");
     }
 }
 
@@ -790,10 +786,10 @@ function _createSaveDirectory() {
         if (err) {
             console.error(err);
             console.error(`Failed to create save directory at ${savePath}`);
-            notifyError(`Failed to create save directory at ${savePath}`);
+            notification.error(`Failed to create save directory at ${savePath}`);
         } else {
             console.log(`Successfully created directory at ${savePath}`);
-            notifyInfo(`Successfully created save directory at ${savePath}`);
+            notification.info(`Successfully created save directory at ${savePath}`);
         }
     });
 }
@@ -854,83 +850,6 @@ function saveFrame(id) {
 
     // Store the location of the exported frame
     exportedFramesList.push(outputPath);
-}
-
-/**
- * Hide the current notification.
- *
- * @param {String} msgType Class name of the message type
- *                         (e.g., info) displayed.
- */
-function _notifyClose(msgType) {
-    "use strict";
-    // Time in seconds before the notification should go away
-    var timeout = 2.5;
-
-    // Hide the notification bar
-    window.setTimeout(function() {
-        notifyBar.classList.add("hidden");
-    }, 1000 * timeout);
-
-    // Clear the styling a bit later.
-    // Without this, the styling is removed before
-    // the bar is hidden.
-    window.setTimeout(function() {
-        notifyBar.classList.remove(msgType);
-        notifyBarMsg.innerHTML = "";
-        notifyBarType.innerHTML = "";
-    }, 1200 * timeout);
-}
-
-/**
- * Display a success notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifySuccess(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Success";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("success");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("success");
-}
-
-/**
- * Display an information notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifyInfo(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Info";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("info");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("info");
-}
-
-/**
- * Display an error notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifyError(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Error";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("error");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("error");
 }
 
 /**
@@ -1033,7 +952,7 @@ function loadMenu() {
     label: "Play capture sounds",
     click: function() {
       playAudio = !playAudio;
-      notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+      notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
     },
     type: "checkbox",
     checked: true,
