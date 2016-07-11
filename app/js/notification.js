@@ -50,24 +50,6 @@ module.exports = {};
   }
 
   /**
-   * Hide a notification after a set time.
-   * @see _make
-   *
-   * @param {Object} notify - A notification object.
-   * @returns {Object} The notification object given.
-   */
-  function _hideDelayed(notify) {
-    "use strict";
-    // Time in seconds before the notification should go away
-    let timeout = 2.5;
-
-    // Remove the notification
-    window.setTimeout(function() {
-      document.querySelector(`#notification-${notify.id}`).remove();
-    }, 1000 * timeout);
-  }
-
-  /**
    * Show a notification.
    * @see _make
    *
@@ -84,6 +66,24 @@ module.exports = {};
     }, 15)
 
     return notify;
+  }
+
+  /**
+   * Hide a notification after a set time.
+   * @see _make
+   *
+   * @param {Object} notify - A notification object.
+   * @returns {Object} The notification object given.
+   */
+  function _hideDelayed(notify) {
+    "use strict";
+    // Time in seconds before the notification should go away
+    let timeout = 2.5;
+
+    // Remove the notification
+    window.setTimeout(function() {
+      document.querySelector(`#notification-${notify.id}`).remove();
+    }, 1000 * timeout);
   }
 
   /**
