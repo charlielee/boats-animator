@@ -82,7 +82,15 @@ module.exports = {};
 
     // Remove the notification
     window.setTimeout(function() {
-      document.querySelector(`#notification-${notify.id}`).remove();
+      let thisNotify = document.querySelector(`#notification-${notify.id}`);
+      thisNotify.classList.add("hiding");
+
+      // Perform a fade out transition before removing the notification
+      thisNotify.addEventListener("transitionend", function(e) {
+        if (e.propertyName === "opacity") {
+          e.target.remove();
+        }
+      });
     }, 1000 * timeout);
   }
 
