@@ -43,7 +43,8 @@ a {
   height: 2.75em;
   background-color: #2b2b2b;
   color: #fff;
-  transition: margin-top 0.3s ease-out;
+  transition: margin-top 0.3s ease-out,
+              opacity 0.3s ease;
 }
 
 /* Notification type label */
@@ -58,6 +59,7 @@ a {
 
 /* Notification states */
 .notification.visible { margin-top: 0; }
+.notification.hiding { opacity: 0; }
 .notification.success .notify-type { background-color: #2d9e2d; }
 .notification.info .notify-type { background-color: #3a3ae1; }
 .notification.error .notify-type { background-color: #ad0000; }
