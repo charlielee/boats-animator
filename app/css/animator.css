@@ -516,6 +516,8 @@ a {
   margin-left: 0.8em;
 }
 
+#current-mode span { text-transform: capitalize; }
+
 /* ========== SCROLL BARS ============== */
 
 ::-webkit-scrollbar              {

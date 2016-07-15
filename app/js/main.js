@@ -333,9 +333,9 @@ function startup() {
 
   // Preview a captured frame
   frameReelRow.addEventListener("click", function(e) {
-    if (e.target.className.includes("frame-reel-img")) {
+    if (e.target.classList.contains("frame-reel-img")) {
       // For an unselected, non-keyframe
-      if (!e.target.className.includes("selected")) {
+      if (!e.target.classList.contains("selected")) {
         // Remove previous selection
         _removeFrameReelSelection();
 
@@ -346,15 +346,15 @@ function startup() {
         }
 
         // Display the selected frame
-        var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
-        _displayFrame(imageID);
+        _displayFrame(parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10));
 
-      } else if (e.target.className === "frame-reel-img selected") {
+        // Add a beginning keyframe
+      } else if (e.target.matches(".frame-reel-img.selected")) {
         addKeyframe("start", curSelectedFrame);
 
-      } else if (e.target.className.includes("keyframe")) {
+      } else if (e.target.classList.contains("keyframe")) {
         // If the current start keyframe is double clicked it is removed
-        if (parseInt(e.target.id.slice(4)) === curStartKeyframe) {
+        if (parseInt(e.target.id.slice(4), 10) === curStartKeyframe) {
           removeKeyframe("start");
         }
       }
@@ -362,7 +362,7 @@ function startup() {
   });
 
   // Add a start keyframe
-  btnStartKeyframe.addEventListener("click", function(e) {
+  btnStartKeyframe.addEventListener("click", function() {
     if (btnStartKeyframe.hasAttribute("disabled")) {
       return false;
     } else if (curSelectedFrame === curStartKeyframe) {
@@ -373,12 +373,11 @@ function startup() {
   });
 
   // Remove the start keyframe
-  btnClearKeyframe.addEventListener("click", function(e) {
+  btnClearKeyframe.addEventListener("click", function() {
     if (!curStartKeyframe) {
       return false;
-    } else {
-      removeKeyframe("start");
     }
+    removeKeyframe("start");
   });
 }
 
@@ -388,28 +387,29 @@ window.onload = startup;
  * Toggle between playback and capture windows.
  */
 function switchMode(newMode) {
-    "use strict";
-    winMode = newMode;
-    if (winMode === "capture") {
-        _updateStatusBarCurFrame(totalFrames + 1);
-        playbackWindow.classList.add("hidden");
-        captureWindow.classList.remove("hidden");
-        captureWindow.classList.add("active");
-        btnLiveView.classList.add("selected");
-        btnStartKeyframe.setAttribute("disabled", "");
-        if (!curStartKeyframe) {
-            btnClearKeyframe.setAttribute("disabled", "");
-        }
-
-    } else if (winMode === "playback") {
-        playbackWindow.classList.remove("hidden");
-        captureWindow.classList.add("hidden");
-        captureWindow.classList.remove("active");
-        btnLiveView.classList.remove("selected");
-        btnStartKeyframe.removeAttribute("disabled");
+  "use strict";
+  winMode = newMode;
+  if (winMode === "capture") {
+    _updateStatusBarCurFrame(totalFrames + 1);
+    playbackWindow.classList.add("hidden");
+    captureWindow.classList.remove("hidden");
+    captureWindow.classList.add("active");
+    btnLiveView.classList.add("selected");
+    btnStartKeyframe.setAttribute("disabled", "");
+    if (!curStartKeyframe) {
+      btnClearKeyframe.setAttribute("disabled", "");
     }
-    console.log(`Switched to: ${winMode}`);
-    statusBarCurMode.innerHTML = winMode.charAt(0).toUpperCase() + winMode.slice(1);
+
+  } else if (winMode === "playback") {
+    playbackWindow.classList.remove("hidden");
+    captureWindow.classList.add("hidden");
+    captureWindow.classList.remove("active");
+    btnLiveView.classList.remove("selected");
+    btnStartKeyframe.removeAttribute("disabled");
+  }
+
+  console.log(`Switched to: ${winMode}`);
+  statusBarCurMode.innerHTML = winMode;
 }
 
 /**
@@ -510,10 +510,10 @@ function updateFrameReel(action, id) {
 }
 
 /**
- * Set the selected frame as a keyframe
- * @param {String} location The type of keyframe to be added.
- *                          Currently accepted value is "start".
- * @param {Integer} id Which frame should be set as a keyframe.
+ * Set the selected frame as a keyframe.
+ * @param {String} location - The type of keyframe to be added.
+ *                           Currently accepted value is "start".
+ * @param {Integer} id - Which frame should be set as a keyframe.
  */
 function addKeyframe(location, id) {
   "use strict";
@@ -529,14 +529,14 @@ function addKeyframe(location, id) {
     btnStartKeyframe.classList.add("active");
     document.querySelector(`.frame-reel-img#img-${id}`).classList.add("keyframe");
     curStartKeyframe = id;
-    console.info(`New startKeyframe: frame ${id}`);
+    console.info(`New curStartKeyframe: frame ${id}`);
   }
 }
 
 /**
  * Remove the selected keyframe.
- * @param {String} location Which keyframe should be removed.
- *                          Currently accepted value is "start".
+ * @param {String} location - Which keyframe should be removed.
+ *                           Currently accepted value is "start".
  */
 function removeKeyframe(location) {
   "use strict";
@@ -549,7 +549,7 @@ function removeKeyframe(location) {
     } else {
       curPlayFrame = 0;
     }
-    console.info(`Removed curStartKeyframe`);
+    console.info("Removed curStartKeyframe");
   }
 
   btnClearKeyframe.setAttribute("disabled", "");
@@ -558,38 +558,38 @@ function removeKeyframe(location) {
 /**
  * Delete an individual frame.
  *
- * @param {Number} id The frame ID to delete.
+ * @param {Number} id - The frame ID to delete.
  */
-function deleteFrame(id) {
-    "use strict";
-    file.delete(exportedFramesList[id - 1], {
-        success: function() {
-            notifySuccess("File successfully deleted.");
-        }
-    });
+  function deleteFrame(id) {
+  "use strict";
+  file.delete(exportedFramesList[id - 1], {
+    success: function() {
+      notifySuccess("File successfully deleted.");
+    }
+  });
 
   if (id === curStartKeyframe) {
     removeKeyframe("start");
   }
 
-    exportedFramesList.splice(id - 1, 1);
-    capturedFrames.splice(id - 1, 1);
-    totalFrames--;
-    updateFrameReel("delete", id);
-    console.info(`There are now ${totalFrames} captured frames`);
+  exportedFramesList.splice(id - 1, 1);
+  capturedFrames.splice(id - 1, 1);
+  totalFrames--;
+  updateFrameReel("delete", id);
+  console.info(`There are now ${totalFrames} captured frames`);
 }
 
 /**
  * Delete the previously taken frame.
  */
 function undoFrame() {
-    "use strict";
-    // Make sure there is a frame to delete
-    if (totalFrames > 0) {
-      confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
-    } else {
-      notifyError("There is no previous frame to undo!");
-    }
+  "use strict";
+  // Make sure there is a frame to delete
+  if (totalFrames > 0) {
+    confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
+  } else {
+    notifyError("There is no previous frame to undo!");
+  }
 }
 
 /**
@@ -715,7 +715,7 @@ function videoStop() {
 
   // Reset playback
   if (curStartKeyframe) {
-    curPlayFrame = curStartKeyframe -1;
+    curPlayFrame = curStartKeyframe - 1;
   } else {
     curPlayFrame = 0;
   }
@@ -780,39 +780,39 @@ function _videoPlay() {
  * Preview the captured frames.
  */
 function previewCapturedFrames() {
-    "use strict";
-    // Display playback window
-    switchMode("playback");
+  "use strict";
+  // Display playback window
+  switchMode("playback");
 
-    // Update the play/pause button
-    btnPlayPause.children[0].classList.remove("fa-play");
-    btnPlayPause.children[0].classList.add("fa-pause");
+  // Update the play/pause button
+  btnPlayPause.children[0].classList.remove("fa-play");
+  btnPlayPause.children[0].classList.add("fa-pause");
 
   // Disable keyframe options
   btnStartKeyframe.setAttribute("disabled", "");
   btnClearKeyframe.setAttribute("disabled", "");
 
-    // Begin playing the frames
-    isPlaying = true;
-    _videoPlay();
-    console.info("Playback started");
+  // Begin playing the frames
+  isPlaying = true;
+  _videoPlay();
+  console.info("Playback started");
 }
 
 /**
  * Scroll the framereel during playback
  */
 function _frameReelScroll() {
-    "use strict";
-    if (curPlayFrame === 0) {
-        // Scroll to start when playback begins
-        frameReelArea.scrollLeft = 0;
-    } else if (curPlayFrame + 1 !== totalFrames) {
-        // Scroll so currently played frame is in view
-        document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).scrollIntoView();
-    } else {
-        // Scroll to end when playback has stopped
-        frameReelArea.scrollLeft = frameReelArea.scrollWidth;
-    }
+  "use strict";
+  if (curPlayFrame === 0) {
+    // Scroll to start when playback begins
+    frameReelArea.scrollLeft = 0;
+  } else if (curPlayFrame + 1 !== totalFrames) {
+    // Scroll so currently played frame is in view
+    document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).scrollIntoView();
+  } else {
+    // Scroll to end when playback has stopped
+    frameReelArea.scrollLeft = frameReelArea.scrollWidth;
+  }
 
   // Make sure keyframe is visible at the start of playback
   if (curStartKeyframe && curPlayFrame === curStartKeyframe - 1) {
@@ -915,9 +915,10 @@ function _createSaveDirectory() {
 }
 
 /**
-* Converting frames to png
-*/
+ * Converting frames to png.
+ */
 function decodeBase64Image(dataString) {
+  "use strict";
   var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
     response = {};
 
