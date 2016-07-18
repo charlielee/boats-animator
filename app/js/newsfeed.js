@@ -2,7 +2,8 @@ module.exports = {};
 
 (function() {
   "use strict";
-  let qNewsContainer = document.querySelector(".container-news");
+  let qNewsContainer = document.querySelector(".container-news"),
+      loadingDots = document.querySelector(".loading-dots");
   qNewsContainer.addEventListener("click", openNews);
 
   /**
@@ -118,6 +119,7 @@ module.exports = {};
    * @returns {Boolean} Always returns true.
    */
   function displayNews(posts) {
+    loadingDots.classList.add("hidden");
     posts.forEach(function(post) {
       qNewsContainer.insertAdjacentHTML("beforeend", _compilePostHTML(post));
     });
