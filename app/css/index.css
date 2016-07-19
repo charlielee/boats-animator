@@ -131,7 +131,6 @@ a {
   text-align: center;
   z-index: 5;
 }
-.loading-dots.hidden { display: none; }
 
 .dot {
   display: inline;
