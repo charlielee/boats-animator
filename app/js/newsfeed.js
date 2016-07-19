@@ -119,7 +119,7 @@ module.exports = {};
    * @returns {Boolean} Always returns true.
    */
   function displayNews(posts) {
-    loadingDots.parentElement.removeChild(loadingDots);
+    loadingDots.remove();
     posts.forEach(function(post) {
       qNewsContainer.insertAdjacentHTML("beforeend", _compilePostHTML(post));
     });
