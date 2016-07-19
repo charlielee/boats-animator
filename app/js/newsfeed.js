@@ -3,7 +3,7 @@ module.exports = {};
 (function() {
   "use strict";
   let qNewsContainer = document.querySelector(".container-news"),
-      loadingDots = document.querySelector(".loading-dots");
+      loadingDots    = document.querySelector(".loading-dots");
   qNewsContainer.addEventListener("click", openNews);
 
   /**
