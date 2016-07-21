@@ -15,7 +15,7 @@ Releases of Boats Animator are avaliable for download on the [Releases](https://
 
 More information about contributing to Boats Animator is avaliable [here](https://github.com/BoatsAreRockable/Boats-Animator/blob/master/CONTRIBUTING.md).
 
-The current [feature roadmap](https://docs.google.com/document/d/1UgcyhNkvyirI4gy9uSVv-lD5q6sHe_FEAM-AFTBkyCs) may also be of interest.
+The current [feature roadmap](https://docs.google.com/spreadsheets/d/1PaP-foCy83l6-VGcRsOwH5pro-p7uPCX1TsxWOUWEvg/) may also be of interest.
 
 ## Credits
 
