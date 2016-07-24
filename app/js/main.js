@@ -350,12 +350,14 @@ function startup() {
 
         // Add a beginning keyframe
       } else if (e.target.matches(".frame-reel-img.selected")) {
-        addKeyframe("start", curSelectedFrame);
-
-      } else if (e.target.classList.contains("keyframe")) {
-        // If the current start keyframe is double clicked it is removed
-        if (parseInt(e.target.id.slice(4), 10) === curStartKeyframe) {
-          removeKeyframe("start");
+        if (!e.target.classList.contains("keyframe")) {
+          addKeyframe("start", curSelectedFrame);
+        } else {
+          // If the current start keyframe is double clicked it is removed
+          console.log(e.target.id);
+          if (parseInt(e.target.id.slice(4), 10) === curStartKeyframe) {
+            removeKeyframe("start");
+          }
         }
       }
     }
