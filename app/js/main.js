@@ -766,11 +766,16 @@ function _videoPlay() {
     // There are no more frames to preview
     if (curPlayFrame >= totalFrames) {
       // We are not looping, stop the playback
-      videoStop();
-
-      if (isLooping) {
-        previewCapturedFrames();
+      if (!isLooping) {
+        videoStop();
+      } else {
         console.info("Playback looped");
+        // Reset playback
+        if (curStartKeyframe) {
+          curPlayFrame = curStartKeyframe - 1;
+        } else {
+          curPlayFrame = 0;
+        }
       }
     }
   }, 1000 / frameRate);
