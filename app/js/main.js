@@ -1185,13 +1185,7 @@ function loadMenu() {
     }
 }
 
-// Stops globsl shortcuts operating in other applications
-win.on("focus", function() {
-  shortcuts.resume();
-});
-win.on("restore", function() {
-  shortcuts.resume();
-});
-win.on("blur", function() {
-  shortcuts.pause();
-});
+// Stops global shortcuts operating in other applications
+win.on("focus", shortcuts.resume);
+win.on("restore", shortcuts.resume);
+win.on("blur", shortcuts.pause);

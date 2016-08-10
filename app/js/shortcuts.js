@@ -165,7 +165,7 @@ module.exports = {};
       removeShortcuts(groupName);
       pausedGroups.push(groupName);
     });
-    console.info(`Paused shortcuts`);
+    console.info("Paused shortcuts");
   }
 
   /**
