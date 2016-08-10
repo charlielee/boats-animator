@@ -11,8 +11,8 @@ var width  = 640,
 
     // The various HTML elements we need to configure or control.
     preview     = document.querySelector("#preview"),
-    video       = document.createElement("video"),
-    canvas      = document.createElement("canvas"),
+    playback    = document.querySelector("#playback"),
+    context     = playback.getContext("2d"),
     ratio       = null,
     aspectRatio = null,
 
@@ -38,10 +38,10 @@ var width  = 640,
     isPlaying        = false,
     isLooping        = false,
     curPlayFrame     = 0,
-    playBackLoop     = null,
+    playBackRAF      = null,
+    playBackTimeout  = null,
     btnStop          = document.querySelector("#btn-stop"),
     btnLoop          = document.querySelector("#btn-loop"),
-    playback         = document.querySelector("#playback"),
     btnPlayPause     = document.querySelector("#btn-play-pause"),
     btnFrameNext     = document.querySelector("#btn-frame-next"),
     btnFramePrevious = document.querySelector("#btn-frame-previous"),
@@ -50,7 +50,7 @@ var width  = 640,
     inputChangeFR = document.querySelector("#input-fr-change"),
 
     // Audio
-    captureAudio = new Audio("audio/camera.wav"),
+    captureAudio = "audio/camera.wav",
     playAudio    = true,
 
     // Status bar
@@ -76,11 +76,7 @@ var width  = 640,
     frameReelMsg   = document.querySelector("#area-frame-reel > p"),
     frameReelRow   = document.querySelector("#area-frame-reel #reel-captured-imgs"),
     frameReelTable = document.querySelector("#area-frame-reel table"),
-
-    // Notifications
-    notifyBar     = document.querySelector(".notification"),
-    notifyBarMsg  = document.querySelector(".notification .msg"),
-    notifyBarType = document.querySelector(".notification .notify-type"),
+    liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
     // Confirm messages
     confirmContainer    = document.querySelector("#confirm-container"),
@@ -92,6 +88,7 @@ var width  = 640,
     file   = require("./js/file"),
     mkdirp = require("./lib/mkdirp"),
     shortcuts = require("./js/shortcuts"),
+    notification = require("./js/notification"),
 
     // Sidebar
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
@@ -101,7 +98,7 @@ var width  = 640,
  */
 function openIndex() {
     "use strict";
-    nw.Window.open("index.html", {
+    nw.Window.open("app/index.html", {
         position: "center",
         width: 730,
         height: 450,
@@ -118,7 +115,7 @@ function openIndex() {
  */
 function openAbout() {
     "use strict";
-    nw.Window.open("about.html", {
+    nw.Window.open("app/about.html", {
         position: "center",
         width: 650,
         height: 300,
@@ -174,41 +171,36 @@ function startup() {
                          navigator.webkitGetUserMedia;
 
     navigator.getMedia({ video: true },
-        function(stream) {
-            var videoBlob = window.URL.createObjectURL(stream);
-            // Play preview video
-            preview.src = videoBlob;
-
-            // Play hidden video of correct resolution
-            video.src = videoBlob;
-            video.play();
-        },
-        function(err) {
-            console.error("Could not find a camera to use!");
-            console.error(err);
-            notifyError("Could not find a camera to use!");
-        }
+      function(stream) {
+        var videoBlob = window.URL.createObjectURL(stream);
+        preview.src = videoBlob;
+      },
+      function(err) {
+        console.error("Could not find a camera to use!");
+        console.error(err);
+        notification.error("Could not find a camera to use!");
+      }
     );
 
-    video.addEventListener("canplay", function() {
-        if (!streaming) {
-            height = video.videoHeight / (video.videoWidth / width);
+    preview.addEventListener("canplay", function() {
+      if (!streaming) {
+        height = preview.videoHeight / (preview.videoWidth / width);
 
-            canvas.setAttribute("width", video.videoWidth.toString());
-            canvas.setAttribute("height", video.videoHeight.toString());
-            streaming = true;
-            ratio = width / height;
-            aspectRatio = ratio.toFixed(2);
-            console.log("height: " + height);
-            console.log("width: " + width);
-            console.log("Aspect ratio: " + aspectRatio);
+        playback.setAttribute("width", preview.videoWidth.toString());
+        playback.setAttribute("height", preview.videoHeight.toString());
+        streaming = true;
+        ratio = width / height;
+        aspectRatio = ratio.toFixed(2);
+        console.log("height: " + height);
+        console.log("width: " + width);
+        console.log("Aspect ratio: " + aspectRatio);
 
-            if (aspectRatio === 1.33) {
-                captureWindow.classList.add("4by3");
-            }
-
-            notifySuccess("Camera successfully connected.");
+        if (aspectRatio === 1.33) {
+          captureWindow.classList.add("4by3");
         }
+
+        notification.success("Camera successfully connected.");
+      }
     });
     shortcuts.get("default");
 
@@ -217,7 +209,7 @@ function startup() {
     btnCaptureFrame.addEventListener("click", function() {
         // Prevent taking frames without a set output path
         if (!frameExportDirectory) {
-          notifyError("A save directory must be first set!");
+          notification.error("A save directory must be first set!");
           return false;
         }
 
@@ -312,14 +304,19 @@ function startup() {
     inputChangeFR.addEventListener("blur", function() {
         shortcuts.resume();
         inputChangeFR.value = frameRate;
-        if (inputChangeFR.value > 60 || inputChangeFR.value < 1 || NaN || inputChangeFR.length > 2) {
+        if (
+            inputChangeFR.value > 60 ||
+            inputChangeFR.value < 1 ||
+            Number.isNaN(inputChangeFR.value) ||
+            inputChangeFR.length > 2
+          ) {
             inputChangeFR.value = 15;
         }
     });
 
     // Grid overlay toggle
     btnGridToggle.addEventListener("click", function() {
-        notifyInfo("That feature is not yet implemented.");
+        notification.info("That feature is not yet implemented.");
     });
 
   // Switch from frame preview back to live view
@@ -331,26 +328,18 @@ function startup() {
     }
   });
 
-    // Preview a captured frame
-    frameReelRow.addEventListener("click", function(e) {
-        if (e.target.className === "frame-reel-img") {
-            // Remove previous selection
-            _removeFrameReelSelection();
+  // Preview a captured frame
+  frameReelRow.addEventListener("click", function(e) {
+    if (e.target.className === "frame-reel-img") {
+      if (winMode !== "playback") {
+        switchMode("playback");
+      }
 
-            // Highlight the clicked image
-            e.target.classList.add("selected");
-            if (winMode !== "playback") {
-                switchMode("playback");
-            }
-
-            // Display the image and update all the necessary values
-            var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
-            playback.setAttribute("src", capturedFrames[imageID - 1]);
-            curPlayFrame = imageID - 1;
-            curSelectedFrame = imageID;
-            _updateStatusBarCurFrame(imageID);
-        }
-    });
+      // Display the selected frame
+      var imageID = parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10);
+      _displayFrame(imageID);
+    }
+  });
 }
 window.onload = startup;
 
@@ -398,9 +387,9 @@ function _removeFrameReelSelection() {
  * @param {Number} id The image ID to highlight.
  */
 function _addFrameReelSelection(id) {
-    "use strict";
-    document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
-    curSelectedFrame = id;
+  "use strict";
+  document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
+  curSelectedFrame = id;
 }
 
 /**
@@ -430,11 +419,11 @@ function updateFrameReel(action, id) {
     if (action === "capture") {
         // Remove any frame selection
         _removeFrameReelSelection();
-        _updateStatusBarCurFrame(totalFrames + 1);
 
         // Insert the new frame into the reel
         frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1]}">
+<div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
+<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1].src}">
 </div></td>`);
 
         // Remove the chosen frame
@@ -445,20 +434,25 @@ function updateFrameReel(action, id) {
         frameReelRow.removeChild(frameReelRow.children[id - 1]);
     }
 
+  // Update the last frame number above the live view button
+  liveViewframeNo.innerHTML = totalFrames + 1;
+
     // We have frames, display them
     if (totalFrames > 0) {
         frameReelMsg.classList.add("hidden");
         frameReelTable.classList.remove("hidden");
 
         // Update onion skin frame
-        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame]);
-        playback.setAttribute("src", capturedFrames[onionSkinFrame]);
+        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
+        context.drawImage(capturedFrames[onionSkinFrame], 0, 0, width, height);
 
         // Update frame preview selection
         if (curSelectedFrame) {
             _removeFrameReelSelection();
             _addFrameReelSelection(id - 1);
             _updateStatusBarCurFrame(id - 1);
+        } else if (winMode === "capture") {
+            _updateStatusBarCurFrame(totalFrames + 1);
         }
 
         // All the frames were deleted, display "No frames" message
@@ -478,7 +472,7 @@ function deleteFrame(id) {
     "use strict";
     file.delete(exportedFramesList[id - 1], {
         success: function() {
-            notifySuccess("File successfully deleted.");
+            notification.success("File successfully deleted.");
         }
     });
 
@@ -498,7 +492,7 @@ function undoFrame() {
     if (totalFrames > 0) {
       confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
     } else {
-      notifyError("There is no previous frame to undo!");
+      notification.error("There is no previous frame to undo!");
     }
 }
 
@@ -523,20 +517,21 @@ function _toggleOnionSkin(ev) {
       // Display last captured frame
       onionSkinWindow.classList.add("visible");
       if (totalFrames > 0) {
-          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1]);
+          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1].src);
       }
     }
 }
 
 /**
- * Play audio if checkbox checked
- * @param {String} name Name of variable with audio file.
+ * Play audio if checkbox checked.
+ * @param {String} file Location of audio file to play.
  */
-function audio(name) {
-    "use strict";
-    if (playAudio) {
-        name.play();
-    }
+function audio(file) {
+  "use strict";
+  if (playAudio) {
+    var audio = new Audio(file);
+    audio.play();
+  }
 }
 
 function takePicture() {
@@ -548,18 +543,18 @@ function takePicture() {
     // Take a picture
     if (width && height) {
         // Draw the image on the canvas
-        var context   = canvas.getContext("2d");
-        canvas.width  = width;
-        canvas.height = height;
-        context.drawImage(video, 0, 0, width, height);
+        playback.width  = width;
+        playback.height = height;
+        context.drawImage(preview, 0, 0, width, height);
 
         // Convert the frame to a PNG
-        var data = canvas.toDataURL("image/png");
+        var frame = new Image();
+        frame.src = playback.toDataURL("image/png");
 
         // Store the image data and update the current frame
-        capturedFrames.push(data);
+        capturedFrames.push(frame);
         totalFrames++;
-        console.info(`Captured frame: ${data.slice(100, 120)} There are now: ${totalFrames} frames`);
+        console.info(`Captured frame: ${frame.src.slice(100, 120)} There are now: ${totalFrames} frames`);
 
         // Save the frame to disk and update the frame reel
         saveFrame(totalFrames);
@@ -596,17 +591,18 @@ function _toggleVideoLoop() {
  * Pause captured frames preview video.
  */
 function videoPause() {
-    "use strict";
-    // Only pause if needed
-    if (isPlaying) {
-        isPlaying = false;
-        clearInterval(playBackLoop);
+  "use strict";
+  // Only pause if needed
+  if (isPlaying) {
+    isPlaying = false;
+    cancelAnimationFrame(playBackRAF);
+    clearTimeout(playBackTimeout);
 
-        // Change the play/pause button
-        btnPlayPause.children[0].classList.remove("fa-pause");
-        btnPlayPause.children[0].classList.add("fa-play");
-        console.info("Playback paused");
-    }
+    // Change the play/pause button
+    btnPlayPause.children[0].classList.remove("fa-pause");
+    btnPlayPause.children[0].classList.add("fa-play");
+    console.info("Playback paused");
+  }
 }
 
 /**
@@ -614,6 +610,7 @@ function videoPause() {
  */
 function videoStop() {
   "use strict";
+  videoPause();
   _displayFrame(totalFrames);
   curPlayFrame = 0;
   console.info("Playback stopped");
@@ -634,7 +631,7 @@ function _displayFrame(id) {
     // Preview selected frame ID
     _addFrameReelSelection(id);
     curPlayFrame = id - 1;
-    playback.setAttribute("src", capturedFrames[id - 1]);
+    context.drawImage(capturedFrames[id - 1], 0, 0, width, height);
     _updateStatusBarCurFrame(id);
     _frameReelScroll();
   }
@@ -644,10 +641,12 @@ function _displayFrame(id) {
  * Play captured frames preview video.
  */
 function _videoPlay() {
-    "use strict";
+  "use strict";
+  playBackTimeout = setTimeout(function() {
+    playBackRAF = requestAnimationFrame(_videoPlay);
     // Display each frame
     _removeFrameReelSelection();
-    playback.setAttribute("src", capturedFrames[curPlayFrame]);
+    context.drawImage(capturedFrames[curPlayFrame], 0, 0, width, height);
     _updateStatusBarCurFrame(curPlayFrame + 1);
 
     // Display selection outline as each frame is played
@@ -655,21 +654,21 @@ function _videoPlay() {
 
     // Scroll the framereel with playback
     _frameReelScroll();
-
     curPlayFrame++;
 
     // There are no more frames to preview
     if (curPlayFrame >= totalFrames) {
-         // We are not looping, stop the playback
-        if (!isLooping) {
-            videoStop();
-        } else {
-            console.info("Playback looped");
-        }
+      // We are not looping, stop the playback
+      if (!isLooping) {
+        videoStop();
+      } else {
+        console.info("Playback looped");
+      }
 
-        // Reset playback
-        curPlayFrame = 0;
+      // Reset playback
+      curPlayFrame = 0;
     }
+  }, 1000 / frameRate);
 }
 
 /**
@@ -686,7 +685,7 @@ function previewCapturedFrames() {
 
     // Begin playing the frames
     isPlaying = true;
-    playBackLoop = setInterval(_videoPlay, (1000 / frameRate));
+    _videoPlay();
     console.info("Playback started");
 }
 
@@ -700,7 +699,7 @@ function _frameReelScroll() {
         frameReelArea.scrollLeft = 0;
     } else if (curPlayFrame + 1 !== totalFrames) {
         // Scroll so currently played frame is in view
-        document.querySelector(`.frame-reel-img#img-${curPlayFrame + 2}`).scrollIntoView();
+        document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).scrollIntoView();
     } else {
         // Scroll to end when playback has stopped
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
@@ -793,10 +792,10 @@ function _createSaveDirectory() {
         if (err) {
             console.error(err);
             console.error(`Failed to create save directory at ${savePath}`);
-            notifyError(`Failed to create save directory at ${savePath}`);
+            notification.error(`Failed to create save directory at ${savePath}`);
         } else {
             console.log(`Successfully created directory at ${savePath}`);
-            notifyInfo(`Successfully created save directory at ${savePath}`);
+            notification.info(`Successfully created save directory at ${savePath}`);
         }
     });
 }
@@ -849,91 +848,14 @@ function saveFrame(id) {
     // Create an absolute path to the destination location
     var outputPath = `${frameExportDirectory}/${fileName}.png`;
 
-    // Convert the frame from base64-encoded date to a PNG
-    var imageBuffer = decodeBase64Image(capturedFrames[id - 1]);
+    // Convert the frame from base64-encoded data to a PNG
+    var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
 
     // Save the frame to disk
     file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
 
     // Store the location of the exported frame
     exportedFramesList.push(outputPath);
-}
-
-/**
- * Hide the current notification.
- *
- * @param {String} msgType Class name of the message type
- *                         (e.g., info) displayed.
- */
-function _notifyClose(msgType) {
-    "use strict";
-    // Time in seconds before the notification should go away
-    var timeout = 2.5;
-
-    // Hide the notification bar
-    window.setTimeout(function() {
-        notifyBar.classList.add("hidden");
-    }, 1000 * timeout);
-
-    // Clear the styling a bit later.
-    // Without this, the styling is removed before
-    // the bar is hidden.
-    window.setTimeout(function() {
-        notifyBar.classList.remove(msgType);
-        notifyBarMsg.innerHTML = "";
-        notifyBarType.innerHTML = "";
-    }, 1200 * timeout);
-}
-
-/**
- * Display a success notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifySuccess(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Success";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("success");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("success");
-}
-
-/**
- * Display an information notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifyInfo(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Info";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("info");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("info");
-}
-
-/**
- * Display an error notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifyError(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Error";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("error");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("error");
 }
 
 /**
@@ -1077,7 +999,7 @@ function loadMenu() {
     label: "Play capture sounds",
     click: function() {
       playAudio = !playAudio;
-      notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+      notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
     },
     type: "checkbox",
     checked: true,
@@ -1121,7 +1043,7 @@ function loadMenu() {
     helpMenu.append(new nw.MenuItem({
       label: "Documentation",
       click: function() {
-          utils.openURL("http://boatsanimator.readthedocs.org/");
+          utils.openURL("http://boatsanimator.readthedocs.io/");
       },
       key: "F1",
       modifiers: "",

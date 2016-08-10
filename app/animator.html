@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-    <title>Boats Animator</title>
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/fonts.css">
-    <link rel="stylesheet" href="css/animator.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <title>Boats Animator</title>
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/animator.css">
 </head>
 
 <body>
-    <!--Notification Bar-->
-    <section id="notification-container">
-        <div class="notification hidden">
-            <div class="notify-type"></div>
-            <div class="msg"></div>
-        </div>
-    </section>
+  <!-- Notification Bar -->
+  <section id="notification-container"></section>
 
     <!--Confirm messages-->
     <div id="confirm-container" class="hidden">
@@ -90,7 +85,7 @@
         <!--Playback Window-->
         <div id="playback-window" class="hidden">
             <!--The actual playback window -->
-            <img id="playback">
+            <canvas id="playback"></canvas>
         </div>
 
         <!--Playback controls-->
@@ -131,9 +126,10 @@
                       <!--This is where the frame is added through JS -->
                     </tr>
                     <tr>
-                        <td>
+                        <td class="frame-reel-preview">
+                          <div class="frame-reel-no" id="live-view-frame-no"></div>
                            <div id="btn-live-view" title="Live Preview">
-                              <i class="fa fa-video-camera"></i>
+                             <i class="fa fa-video-camera"></i>
                             </div>
                         </td>
                     </tr>
