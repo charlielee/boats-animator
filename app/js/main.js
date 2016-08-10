@@ -546,8 +546,14 @@ function removeKeyframe(location) {
     btnStartKeyframe.classList.remove("active");
     document.querySelector(`.frame-reel-img#img-${curStartKeyframe}`).classList.remove("keyframe");
     curStartKeyframe = null;
+
+    // Removing keyframe in playback mode
     if (curSelectedFrame) {
-      curPlayFrame = curSelectedFrame;
+      if (curSelectedFrame === totalFrames) {
+        videoStop();
+      } else {
+        curPlayFrame = curSelectedFrame;
+      }
     } else {
       curPlayFrame = 0;
     }
