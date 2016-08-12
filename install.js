@@ -10,8 +10,14 @@ fs.exists("app/lib", function(exists) {
       }
     });
   }
+
   fs.copy("node_modules/mkdirp/index.js", "app/lib/mkdirp.js", { replace: true }, function (err) {
     console.log(err ? err : "Copied mkdirp to 'app/lib/mkdirp.js'");
   });
-});
 
+  fs.copy("node_modules/webrtc-adapter/out/adapter_no_edge.js",
+          "app/lib/adapter.js", { replace: true },
+          function (err) {
+            console.log(err ? err : "Copied webrtc-adapter to 'app/lib/adapter.js'");
+          });
+  });

@@ -45,13 +45,9 @@ module.exports = {};
         return {
           audio: false,
           video: {
-              mandatory: {
-                  sourceId: cameraId,
-                  minWidth: resObj.width,
-                  minHeight: resObj.height,
-                  maxWidth: resObj.width,
-                  maxHeight: resObj.height
-              }
+            deviceId: {exact: cameraId},
+            width: {exact: resObj.width},
+            height: {exact: resObj.height}
           }
         };
     }
