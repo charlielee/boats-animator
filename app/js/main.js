@@ -316,7 +316,7 @@ function startup() {
 
     // Grid overlay toggle
     btnGridToggle.addEventListener("click", function() {
-        notification.info("That feature is not yet implemented.");
+        notification.info("This feature is not yet available!");
     });
 
   // Switch from frame preview back to live view
@@ -913,7 +913,7 @@ function confirmSet(callback, args, msg) {
     // Respond to button clicks
     btnConfirmOK.addEventListener("click", _ok);
     btnConfirmCancel.addEventListener("click", _cancel);
-    
+
     function _focusOK() {
         btnConfirmOK.focus();
     }
@@ -947,6 +947,7 @@ function loadMenu() {
     fileMenu.append(new nw.MenuItem({
       label: "New project...",
       click: function() {
+        notification.info("This feature is not yet available!")
       },
         key: "n",
         modifiers: controlKey,
@@ -954,6 +955,7 @@ function loadMenu() {
     fileMenu.append(new nw.MenuItem({
       label: "Open project...",
       click: function() {
+        notification.info("This feature is not yet available!")
       },
         key: "o",
         modifiers: controlKey,
