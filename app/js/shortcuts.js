@@ -176,13 +176,14 @@ module.exports = {};
       addShortcuts(groupName);
       pausedGroups.length = 0;
     });
-    console.info(`Resumed shortcuts`);
+    console.info("Resumed shortcuts");
   }
 
+
   // Public exports
-  module.exports.add = addShortcuts;
+  module.exports.add    = addShortcuts;
+  module.exports.get    = getShortcuts;
+  module.exports.pause  = pauseShortcuts;
   module.exports.remove = removeShortcuts;
-  module.exports.get = getShortcuts;
-  module.exports.pause = pauseShortcuts;
   module.exports.resume = resumeShortcuts;
 }());

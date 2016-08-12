@@ -129,12 +129,14 @@ function openAbout() {
  * Confirm prompt when animator is closed.
  */
 win.on("close", function() {
-    confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+  "use strict";
+  confirmSet(closeAnimator, "", "Are you sure you want to exit Boats Animator?");
 });
 
 function closeAnimator() {
-    win.close(true);
-    nw.App.closeAllWindows();
+  "use strict";
+  win.close(true);
+  nw.App.closeAllWindows();
 }
 
 function startup() {
