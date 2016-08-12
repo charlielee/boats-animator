@@ -19,6 +19,11 @@ The menu bar contains an assortment of options both to do with the current proje
 * **Capture frame:** select this to activate the [capture button](#capture-button).
 * **Play capture sounds:** this toggles whether a sound plays when a frame is captured.
 
+### Playback menu
+* **Loop playback:** toggle if playback should continue from the first frame captured when the last frame captured is reached.
+* **Display first frame:** this previews the first frame captured.
+* **Display last frame:** this previews the last frame captured.
+
 ### Help menu
 * **Documentation:** select this to view Boats Animator's [documentation](http://boatsanimator.readthedocs.org/) (the website you are currently on!).
 * **Give feedback:** select this to load the [issues page](https://github.com/BoatsAreRockable/Boats-Animator/issues) of Boats Animator's GitHub repository.

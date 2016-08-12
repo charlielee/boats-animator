@@ -85,8 +85,9 @@ var width  = 640,
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
-    file         = require("./js/file"),
-    mkdirp       = require("./lib/mkdirp"),
+    file   = require("./js/file"),
+    mkdirp = require("./lib/mkdirp"),
+    shortcuts = require("./js/shortcuts"),
     notification = require("./js/notification"),
 
     // Sidebar
@@ -128,11 +129,14 @@ function openAbout() {
  * Confirm prompt when animator is closed.
  */
 win.on("close", function() {
-    confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+  "use strict";
+  confirmSet(closeAnimator, "", "Are you sure you want to exit Boats Animator?");
 });
 
 function closeAnimator() {
-    win.close(true);
+  "use strict";
+  win.close(true);
+  nw.App.closeAllWindows();
 }
 
 function startup() {
@@ -200,7 +204,7 @@ function startup() {
         notification.success("Camera successfully connected.");
       }
     });
-
+    shortcuts.get("default");
 
     /* ======= Listeners ======= */
     // Capture a frame
@@ -285,6 +289,9 @@ function startup() {
   });
 
     // Listen for frame rate changes
+    inputChangeFR.addEventListener("focus", function() {
+        shortcuts.pause();
+    });
     inputChangeFR.addEventListener("input", function() {
         if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
             frameRate = parseInt(this.value, 10);
@@ -297,6 +304,7 @@ function startup() {
 
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
+        shortcuts.resume();
         inputChangeFR.value = frameRate;
         if (
             inputChangeFR.value > 60 ||
@@ -310,7 +318,7 @@ function startup() {
 
     // Grid overlay toggle
     btnGridToggle.addEventListener("click", function() {
-        notification.info("That feature is not yet implemented.");
+        notification.info("This feature is not yet available!");
     });
 
   // Switch from frame preview back to live view
@@ -863,30 +871,66 @@ function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
+    btnConfirmOK.focus();
+
+    shortcuts.remove("main");
+    shortcuts.add("confirm");
+
+    // Disable menubar items
+    editMenu.items[0].enabled = false;
+    captureMenu.items[0].enabled = false;
+    captureMenu.items[2].enabled = false;
+    playbackMenu.items[0].enabled = false;
+    playbackMenu.items[2].enabled = false;
+    playbackMenu.items[3].enabled = false;
 
     function _ok() {
-        confirmContainer.classList.add("hidden");
         callback(args);
-        btnConfirmOK.removeEventListener("click", _ok);
-        btnConfirmCancel.removeEventListener("click", _cancel);
+        _confirmSelect();
     }
 
     function _cancel() {
+        _confirmSelect();
+    }
+
+    function _confirmSelect() {
         confirmContainer.classList.add("hidden");
+
         btnConfirmOK.removeEventListener("click", _ok);
         btnConfirmCancel.removeEventListener("click", _cancel);
+
+        btnConfirmOK.removeEventListener("blur", _focusCancel);
+        btnConfirmCancel.removeEventListener("blur", _focusOK);
+
+        shortcuts.remove("confirm");
+        shortcuts.add("main");
+        editMenu.items[0].enabled = true;
+        captureMenu.items[0].enabled = true;
+        captureMenu.items[2].enabled = true;
+        playbackMenu.items[0].enabled = true;
+        playbackMenu.items[2].enabled = true;
+        playbackMenu.items[3].enabled = true;
     }
 
     // Respond to button clicks
     btnConfirmOK.addEventListener("click", _ok);
     btnConfirmCancel.addEventListener("click", _cancel);
+
+    function _focusOK() {
+        btnConfirmOK.focus();
+    }
+
+    function _focusCancel() {
+        btnConfirmCancel.focus();
+    }
+
+    btnConfirmOK.addEventListener("blur", _focusCancel);
+    btnConfirmCancel.addEventListener("blur", _focusOK);
 }
 
 /**
  * Display top menu
  */
-function loadMenu() {
-    "use strict";
     // Create menu
     var menuBar = new nw.Menu({ type: "menubar" });
 
@@ -894,22 +938,29 @@ function loadMenu() {
     var fileMenu    = new nw.Menu(),
         editMenu    = new nw.Menu(),
         captureMenu = new nw.Menu(),
+        playbackMenu = new nw.Menu(),
         helpMenu    = new nw.Menu();
+
+function loadMenu() {
+    "use strict";
+    var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
 
     // File menu items
     fileMenu.append(new nw.MenuItem({
       label: "New project...",
       click: function() {
+        notification.info("This feature is not yet available!")
       },
         key: "n",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
     fileMenu.append(new nw.MenuItem({
       label: "Open project...",
       click: function() {
+        notification.info("This feature is not yet available!")
       },
         key: "o",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
     fileMenu.append(new nw.MenuItem({
       label: "Main Menu",
@@ -917,7 +968,7 @@ function loadMenu() {
         confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
       },
         key: "w",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
     fileMenu.append(new nw.MenuItem({ type: "separator" }));
     fileMenu.append(new nw.MenuItem({
@@ -926,7 +977,7 @@ function loadMenu() {
         confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
       },
       key: "q",
-      modifiers: "ctrl",
+      modifiers: controlKey,
     }));
 
 
@@ -935,7 +986,7 @@ function loadMenu() {
       label: "Delete last frame",
       click: undoFrame,
       key: "z",
-      modifiers: "ctrl",
+      modifiers: controlKey,
     }));
 
     // Capture menu items
@@ -943,7 +994,7 @@ function loadMenu() {
       label: "Capture frame",
       click: takePicture,
       key: "1",
-      modifiers: "ctrl",
+      modifiers: controlKey,
     }));
 
   captureMenu.append(new nw.MenuItem({ type: "separator" }));
@@ -957,7 +1008,39 @@ function loadMenu() {
     type: "checkbox",
     checked: true,
     key: "m",
-    modifiers: "ctrl",
+    modifiers: controlKey,
+  }));
+
+  // Playback menu items
+  playbackMenu.append(new nw.MenuItem({
+    label: "Loop playback",
+    click: function() {
+      btnLoop.click()
+    },
+    type: "checkbox",
+    checked: false,
+    key: "8",
+    modifiers: controlKey,
+  }));
+
+  playbackMenu.append(new nw.MenuItem({ type: "separator" }));
+
+  playbackMenu.append(new nw.MenuItem({
+    label: "Display first frame",
+    click: function() {
+      btnFrameFirst.click();
+    },
+    key: "left",
+    modifiers: controlKey,
+  }));
+
+  playbackMenu.append(new nw.MenuItem({
+    label: "Display last frame",
+    click: function() {
+      btnFrameLast.click();
+    },
+    key: "right",
+    modifiers: controlKey,
   }));
 
     // Help menu items
@@ -1005,6 +1088,13 @@ function loadMenu() {
         })
     );
 
+  menuBar.append(
+    new nw.MenuItem({
+      label: "Playback",
+      submenu: playbackMenu
+    })
+  );
+
     menuBar.append(
         new nw.MenuItem({
             label: "Help",
@@ -1020,3 +1110,8 @@ function loadMenu() {
         menuBar.createMacBuiltin("Boats Animator");
     }
 }
+
+// Stops global shortcuts operating in other applications
+win.on("focus", shortcuts.resume);
+win.on("restore", shortcuts.resume);
+win.on("blur", shortcuts.pause);
