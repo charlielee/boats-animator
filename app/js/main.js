@@ -85,9 +85,10 @@ var width  = 640,
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
-    file   = require("./js/file"),
-    mkdirp = require("./lib/mkdirp"),
-    shortcuts = require("./js/shortcuts"),
+    file         = require("./js/file"),
+    camera       = require("./js/camera"),
+    mkdirp       = require("./lib/mkdirp"),
+    shortcuts    = require("./js/shortcuts"),
     notification = require("./js/notification"),
 
     // Sidebar
