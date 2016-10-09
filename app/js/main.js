@@ -59,10 +59,9 @@ var width  = 640,
     statusBarFrameNum  = document.querySelector("#num-of-frames"),
     statusBarFrameRate = document.querySelector("#current-frame-rate span"),
 
-    // Export frames
-    frameExportDirectory  = _getSaveDirectory(),
-    exportedFramesList    = [],
-    curDirDisplay         = document.querySelector("#currentDirectoryName"),
+    // Frame export
+    exportedFramesList = [],
+    curDirDisplay      = document.querySelector("#currentDirectoryName"),
 
     // Onion skin
     isOnionSkinEnabled = false,
@@ -139,14 +138,16 @@ function closeAnimator() {
 }
 
 function startup() {
-    "use strict";
-    // Check if a save directory has been set
-    _checkSaveDirectory();
+  "use strict";
+  // There is no set save directory, set one
+  if (!_getSaveDirectory()) {
+    console.error("No save directory has been set!");
+    _changeSaveDirectory();
 
-    // If the save directory is not set, prompt to set it
-    if (!frameExportDirectory) {
-        _changeSaveDirectory();
-    }
+    // A save directory is set, display it in the UI
+  } else {
+    _displaySaveDirectory(_getSaveDirectory());
+  }
 
     // Set default frame rate
     statusBarFrameRate.innerHTML = frameRate;
@@ -722,18 +723,6 @@ function _onionSkinChangeAmount(ev) {
 }
 
 /**
- * Set directory to export frames to
- */
-function _checkSaveDirectory() {
-    "use strict";
-    if (!_getSaveDirectory()) {
-        console.error("No save directory has been set!");
-    } else {
-        _displayDirectory(frameExportDirectory);
-    }
-}
-
-/**
  * Change the default save directory by opening
  * the system's native directory selection dialog.
  */
@@ -743,10 +732,9 @@ function _changeSaveDirectory() {
 
     chooser.addEventListener("change", function() {
         if (this.value) {
-            frameExportDirectory = this.value;
-            _displayDirectory(frameExportDirectory);
             _setSaveDirectory(this.value);
-            _createSaveDirectory();
+            _createSaveDirectory(this.value);
+            _displaySaveDirectory(this.value);
         }
     });
 
@@ -758,7 +746,7 @@ function _changeSaveDirectory() {
  *
  * @param {String} dir The directory to display.
  */
-function _displayDirectory(dir) {
+function _displaySaveDirectory(dir) {
     "use strict";
     console.log(`Current save directory is ${dir}`);
     curDirDisplay.innerHTML = dir;
@@ -785,18 +773,18 @@ function _getSaveDirectory() {
 
 /**
  * Create the frame save directory.
+ *
+ * @param {String} - The directory to create.
  */
-function _createSaveDirectory() {
+function _createSaveDirectory(dir) {
     "use strict";
-    var savePath = _getSaveDirectory();
-    mkdirp(savePath, function(err) {
+
+    mkdirp(dir, function(err) {
         if (err) {
             console.error(err);
-            console.error(`Failed to create save directory at ${savePath}`);
-            notification.error(`Failed to create save directory at ${savePath}`);
+            notification.error(`Failed to create save directory at ${dir}`);
         } else {
-            console.log(`Successfully created directory at ${savePath}`);
-            notification.info(`Successfully created save directory at ${savePath}`);
+            notification.info(`Successfully created save directory at ${dir}`);
         }
     });
 }
