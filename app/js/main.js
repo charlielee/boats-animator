@@ -60,7 +60,6 @@ var width  = 640,
     statusBarFrameRate = document.querySelector("#current-frame-rate span"),
 
     // Export frames
-    frameExportDirectory  = null,
     frameExportDirectory  = _getSaveDirectory(),
     exportedFramesList    = [],
     curDirDisplay         = document.querySelector("#currentDirectoryName"),
@@ -210,7 +209,7 @@ function startup() {
     // Capture a frame
     btnCaptureFrame.addEventListener("click", function() {
         // Prevent taking frames without a set output path
-        if (!frameExportDirectory) {
+        if (!_getSaveDirectory()) {
           notification.error("A save directory must be first set!");
           return false;
         }
@@ -727,8 +726,8 @@ function _onionSkinChangeAmount(ev) {
  */
 function _checkSaveDirectory() {
     "use strict";
-    if (frameExportDirectory === null) {
-        console.log("No save directory has been set!");
+    if (!_getSaveDirectory()) {
+        console.error("No save directory has been set!");
     } else {
         _displayDirectory(frameExportDirectory);
     }
@@ -769,9 +768,9 @@ function _displayDirectory(dir) {
 /**
  * Set the default save directory.
  */
-function _setSaveDirectory(savePath) {
+function _setSaveDirectory(dir) {
     "use strict";
-    localStorage.setItem("default_directory", savePath);
+    localStorage.setItem("default_directory", dir);
 }
 
 /**
@@ -848,7 +847,7 @@ function saveFrame(id) {
     }
 
     // Create an absolute path to the destination location
-    var outputPath = `${frameExportDirectory}/${fileName}.png`;
+    var outputPath = `${_getSaveDirectory()}/${fileName}.png`;
 
     // Convert the frame from base64-encoded data to a PNG
     var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
