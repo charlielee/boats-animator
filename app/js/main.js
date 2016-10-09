@@ -149,23 +149,23 @@ function startup() {
     _displaySaveDirectory(_getSaveDirectory());
   }
 
-    // Set default frame rate
-    statusBarFrameRate.innerHTML = frameRate;
-    inputChangeFR.value = frameRate;
+  // Set default frame rate
+  statusBarFrameRate.innerHTML = frameRate;
+  inputChangeFR.value = frameRate;
 
-    // Set default view
-    switchMode("capture");
+  // Set default view
+  switchMode("capture");
 
-    // Load top menu
-    loadMenu();
+  // Load top menu
+  loadMenu();
 
-    // Maximise window
-    win.maximize();
+  // Maximise window
+  win.maximize();
 
-    // Windows specific code
-    if (process.platform === "win32") {
-        document.querySelector("body").classList.add("platform-win");
-}
+  // Windows specific code
+  if (process.platform === "win32") {
+    document.querySelector("body").classList.add("platform-win");
+  }
 
     // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.mediaDevices.getUserMedia ||
@@ -727,16 +727,16 @@ function _onionSkinChangeAmount(ev) {
  * the system's native directory selection dialog.
  */
 function _changeSaveDirectory() {
-    "use strict";
-    var chooser = document.querySelector("#chooseDirectory");
+  "use strict";
+  var chooser = document.querySelector("#chooseDirectory");
 
-    chooser.addEventListener("change", function() {
-        if (this.value) {
-            _setSaveDirectory(this.value);
-            _createSaveDirectory(this.value);
-            _displaySaveDirectory(this.value);
-        }
-    });
+  chooser.addEventListener("change", function() {
+    if (this.value) {
+      _setSaveDirectory(this.value);
+      _createSaveDirectory(this.value);
+      _displaySaveDirectory(this.value);
+    }
+  });
 
   chooser.click();
 }
@@ -747,18 +747,18 @@ function _changeSaveDirectory() {
  * @param {String} dir The directory to display.
  */
 function _displaySaveDirectory(dir) {
-    "use strict";
-    console.log(`Current save directory is ${dir}`);
-    curDirDisplay.innerHTML = dir;
-    document.title = `Boats Animator (${dir})`;
+  "use strict";
+  console.info(`Current save directory is ${dir}`);
+  curDirDisplay.innerHTML = dir;
+  document.title = `Boats Animator (${dir})`;
 }
 
 /**
  * Set the default save directory.
  */
 function _setSaveDirectory(dir) {
-    "use strict";
-    localStorage.setItem("default_directory", dir);
+  "use strict";
+  localStorage.setItem("default_directory", dir);
 }
 
 /**
@@ -767,8 +767,8 @@ function _setSaveDirectory(dir) {
  * @return {!String} The stored directory if available, null otherwise.
  */
 function _getSaveDirectory() {
-    "use strict";
-    return localStorage.getItem("default_directory");
+  "use strict";
+  return localStorage.getItem("default_directory");
 }
 
 /**
@@ -777,16 +777,16 @@ function _getSaveDirectory() {
  * @param {String} - The directory to create.
  */
 function _createSaveDirectory(dir) {
-    "use strict";
+  "use strict";
 
-    mkdirp(dir, function(err) {
-        if (err) {
-            console.error(err);
-            notification.error(`Failed to create save directory at ${dir}`);
-        } else {
-            notification.info(`Successfully created save directory at ${dir}`);
-        }
-    });
+  mkdirp(dir, function(err) {
+    if (err) {
+      console.error(err);
+      notification.error(`Failed to create save directory at ${dir}`);
+    } else {
+      notification.info(`Successfully created save directory at ${dir}`);
+    }
+  });
 }
 
 /**
