@@ -844,7 +844,7 @@ function saveFrame(id) {
 
       // Less then 10 frames have been captured
     } else {
-      fileName = fileName = `frame_000${id}`;
+      fileName = `frame_000${id}`;
     }
 
     // Create an absolute path to the destination location
