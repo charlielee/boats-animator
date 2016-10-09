@@ -760,7 +760,7 @@ function _changeSaveDirectory() {
  */
 function _displayDirectory(dir) {
     "use strict";
-    console.log(`Current destination directory is ${dir}`);
+    console.log(`Current save directory is ${dir}`);
     curDirDisplay.innerHTML = dir;
     document.title = `Boats Animator (${dir})`;
 }
@@ -784,7 +784,7 @@ function _getSaveDirectory() {
 }
 
 /**
- * Create the default save directory if needed.
+ * Create the frame save directory.
  */
 function _createSaveDirectory() {
     "use strict";
@@ -805,6 +805,7 @@ function _createSaveDirectory() {
 * Converting frames to png
 */
 function decodeBase64Image(dataString) {
+  "use strict";
   var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
     response = {};
 
