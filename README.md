@@ -9,11 +9,11 @@ A free stop motion animation program created using HTML5, JavaScript and WebRTC 
 
 ## Releases
 
-Releases of Boats Animator are avaliable for download on the [Releases](https://github.com/BoatsAreRockable/Boats-Animator/releases) page.
+Releases of Boats Animator are available for download on the [Releases](https://github.com/BoatsAreRockable/Boats-Animator/releases) page.
 
 ## Contributing
 
-More information about contributing to Boats Animator is avaliable [here](https://github.com/BoatsAreRockable/Boats-Animator/blob/master/CONTRIBUTING.md).
+More information about contributing to Boats Animator is available [here](https://github.com/BoatsAreRockable/Boats-Animator/blob/master/CONTRIBUTING.md).
 
 The current [feature roadmap](https://docs.google.com/spreadsheets/d/1PaP-foCy83l6-VGcRsOwH5pro-p7uPCX1TsxWOUWEvg/) may also be of interest.
 

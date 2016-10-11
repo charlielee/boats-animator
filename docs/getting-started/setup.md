@@ -12,4 +12,4 @@
     Make sure the camera you want to use with Boats Animator is connected to your computer before opening the program.
 
 ## Developers
-If you are interested in helping develop Boats Animator, setup information is avaliable on [GitHub](https://github.com/BoatsAreRockable/Boats-Animator/blob/master/CONTRIBUTING.md).
+If you are interested in helping develop Boats Animator, setup information is available on [GitHub](https://github.com/BoatsAreRockable/Boats-Animator/blob/master/CONTRIBUTING.md).
