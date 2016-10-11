@@ -59,11 +59,9 @@ var width  = 640,
     statusBarFrameNum  = document.querySelector("#num-of-frames"),
     statusBarFrameRate = document.querySelector("#current-frame-rate span"),
 
-    // Export frames
-    frameExportDirectory  = null,
-    frameExportDirectory  = _getSaveDirectory(),
-    exportedFramesList    = [],
-    curDirDisplay         = document.querySelector("#currentDirectoryName"),
+    // Frame export
+    exportedFramesList = [],
+    curDirDisplay      = document.querySelector("#currentDirectoryName"),
 
     // Onion skin
     isOnionSkinEnabled = false,
@@ -140,32 +138,34 @@ function closeAnimator() {
 }
 
 function startup() {
-    "use strict";
-    // Check if a save directory has been set
-    _checkSaveDirectory();
+  "use strict";
+  // There is no set save directory, set one
+  if (!_getSaveDirectory()) {
+    console.error("No save directory has been set!");
+    _changeSaveDirectory();
 
-    // If the save directory is not set, prompt to set it
-    if (!frameExportDirectory) {
-        _changeSaveDirectory();
-    }
+    // A save directory is set, display it in the UI
+  } else {
+    _displaySaveDirectory(_getSaveDirectory());
+  }
 
-    // Set default frame rate
-    statusBarFrameRate.innerHTML = frameRate;
-    inputChangeFR.value = frameRate;
+  // Set default frame rate
+  statusBarFrameRate.innerHTML = frameRate;
+  inputChangeFR.value = frameRate;
 
-    // Set default view
-    switchMode("capture");
+  // Set default view
+  switchMode("capture");
 
-    // Load top menu
-    loadMenu();
+  // Load top menu
+  loadMenu();
 
-    // Maximise window
-    win.maximize();
+  // Maximise window
+  win.maximize();
 
-    // Windows specific code
-    if (process.platform === "win32") {
-        document.querySelector("body").classList.add("platform-win");
-}
+  // Windows specific code
+  if (process.platform === "win32") {
+    document.querySelector("body").classList.add("platform-win");
+  }
 
     // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.mediaDevices.getUserMedia ||
@@ -210,7 +210,7 @@ function startup() {
     // Capture a frame
     btnCaptureFrame.addEventListener("click", function() {
         // Prevent taking frames without a set output path
-        if (!frameExportDirectory) {
+        if (!_getSaveDirectory()) {
           notification.error("A save directory must be first set!");
           return false;
         }
@@ -723,33 +723,20 @@ function _onionSkinChangeAmount(ev) {
 }
 
 /**
- * Set directory to export frames to
- */
-function _checkSaveDirectory() {
-    "use strict";
-    if (frameExportDirectory === null) {
-        console.log("No save directory has been set!");
-    } else {
-        _displayDirectory(frameExportDirectory);
-    }
-}
-
-/**
  * Change the default save directory by opening
  * the system's native directory selection dialog.
  */
 function _changeSaveDirectory() {
-    "use strict";
-    var chooser = document.querySelector("#chooseDirectory");
+  "use strict";
+  var chooser = document.querySelector("#chooseDirectory");
 
-    chooser.addEventListener("change", function() {
-        if (this.value) {
-            frameExportDirectory = this.value;
-            _displayDirectory(frameExportDirectory);
-            _setSaveDirectory(this.value);
-            _createSaveDirectory();
-        }
-    });
+  chooser.addEventListener("change", function() {
+    if (this.value) {
+      _setSaveDirectory(this.value);
+      _createSaveDirectory(this.value);
+      _displaySaveDirectory(this.value);
+    }
+  });
 
   chooser.click();
 }
@@ -759,19 +746,19 @@ function _changeSaveDirectory() {
  *
  * @param {String} dir The directory to display.
  */
-function _displayDirectory(dir) {
-    "use strict";
-    console.log(`Current destination directory is ${dir}`);
-    curDirDisplay.innerHTML = dir;
-    document.title = `Boats Animator (${dir})`;
+function _displaySaveDirectory(dir) {
+  "use strict";
+  console.info(`Current save directory is ${dir}`);
+  curDirDisplay.innerHTML = dir;
+  document.title = `Boats Animator (${dir})`;
 }
 
 /**
  * Set the default save directory.
  */
-function _setSaveDirectory(savePath) {
-    "use strict";
-    localStorage.setItem("default_directory", savePath);
+function _setSaveDirectory(dir) {
+  "use strict";
+  localStorage.setItem("default_directory", dir);
 }
 
 /**
@@ -780,32 +767,33 @@ function _setSaveDirectory(savePath) {
  * @return {!String} The stored directory if available, null otherwise.
  */
 function _getSaveDirectory() {
-    "use strict";
-    return localStorage.getItem("default_directory");
+  "use strict";
+  return localStorage.getItem("default_directory");
 }
 
 /**
- * Create the default save directory if needed.
+ * Create the frame save directory.
+ *
+ * @param {String} - The directory to create.
  */
-function _createSaveDirectory() {
-    "use strict";
-    var savePath = _getSaveDirectory();
-    mkdirp(savePath, function(err) {
-        if (err) {
-            console.error(err);
-            console.error(`Failed to create save directory at ${savePath}`);
-            notification.error(`Failed to create save directory at ${savePath}`);
-        } else {
-            console.log(`Successfully created directory at ${savePath}`);
-            notification.info(`Successfully created save directory at ${savePath}`);
-        }
-    });
+function _createSaveDirectory(dir) {
+  "use strict";
+
+  mkdirp(dir, function(err) {
+    if (err) {
+      console.error(err);
+      notification.error(`Failed to create save directory at ${dir}`);
+    } else {
+      notification.info(`Successfully created save directory at ${dir}`);
+    }
+  });
 }
 
 /**
 * Converting frames to png
 */
 function decodeBase64Image(dataString) {
+  "use strict";
   var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
     response = {};
 
@@ -848,7 +836,7 @@ function saveFrame(id) {
     }
 
     // Create an absolute path to the destination location
-    var outputPath = `${frameExportDirectory}/${fileName}.png`;
+    var outputPath = `${_getSaveDirectory()}/${fileName}.png`;
 
     // Convert the frame from base64-encoded data to a PNG
     var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);

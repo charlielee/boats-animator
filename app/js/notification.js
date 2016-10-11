@@ -76,7 +76,6 @@ module.exports = {};
    * @returns {Object} The notification object given.
    */
   function _hideDelayed(notify) {
-    "use strict";
     // Time in seconds before the notification should go away
     let timeout = 2.5;
 
