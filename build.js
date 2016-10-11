@@ -1,6 +1,6 @@
 var help = `===== BUILD BOATS ANIMATOR EXECUTABLES =====
 
-Usage: node build -p <OPTIONS>
+Usage: node build <OPTIONS>
 
 <OPTIONS>
 --platforms, -p "win32"
