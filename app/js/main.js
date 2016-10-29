@@ -758,7 +758,7 @@ function _displaySaveDirectory(dir) {
  */
 function _setSaveDirectory(dir) {
   "use strict";
-  localStorage.setItem("default_directory", dir);
+  localStorage.setItem("save-directory", dir);
 }
 
 /**
@@ -768,7 +768,7 @@ function _setSaveDirectory(dir) {
  */
 function _getSaveDirectory() {
   "use strict";
-  return localStorage.getItem("default_directory");
+  return localStorage.getItem("save-directory");
 }
 
 /**
