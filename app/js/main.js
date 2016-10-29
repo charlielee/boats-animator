@@ -365,7 +365,7 @@ function switchMode(newMode) {
         btnLiveView.classList.remove("selected");
     }
     console.log(`Switched to: ${winMode}`);
-    statusBarCurMode.innerHTML = winMode.charAt(0).toUpperCase() + winMode.slice(1);
+    statusBarCurMode.innerHTML = winMode;
 }
 
 /**
