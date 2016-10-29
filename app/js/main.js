@@ -83,9 +83,10 @@ var width  = 640,
     btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
-    file   = require("./js/file"),
-    mkdirp = require("./lib/mkdirp"),
-    shortcuts = require("./js/shortcuts"),
+    fs           = require("fs"),
+    file         = require("./js/file"),
+    mkdirp       = require("./lib/mkdirp"),
+    shortcuts    = require("./js/shortcuts"),
     notification = require("./js/notification"),
 
     // Sidebar
@@ -139,14 +140,17 @@ function closeAnimator() {
 
 function startup() {
   "use strict";
-  // There is no set save directory, set one
-  if (!_getSaveDirectory()) {
+
+  let saveDirectory = _getSaveDirectory();
+
+  // There is no set save directory or the directory does not exist
+  if (!_checkSaveDirectory(saveDirectory)) {
     console.error("No save directory has been set!");
     _changeSaveDirectory();
 
-    // A save directory is set, display it in the UI
+    // There is a valid save directory
   } else {
-    _displaySaveDirectory(_getSaveDirectory());
+    _displaySaveDirectory(saveDirectory);
   }
 
   // Set default frame rate
@@ -794,6 +798,17 @@ function _createSaveDirectory(dir) {
 }
 
 /**
+ * Check if the app save directory exists on the file system.
+ *
+ * @param {String} dir - The directory to check.
+ * @returns {Boolean} True if the directory exists, false otherwise.
+ */
+function _checkSaveDirectory(dir) {
+  "use strict";
+  return fs.existsSync(dir);
+}
+
+/**
 * Converting frames to png
 */
 function decodeBase64Image(dataString) {
@@ -846,7 +861,7 @@ function saveFrame(id) {
     var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
 
     // Save the frame to disk
-    file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
+    file.write(outputPath, imageBuffer.data);
 
     // Store the location of the exported frame
     exportedFramesList.push(outputPath);
