@@ -95,32 +95,32 @@ var width  = 640,
  * Occurs when "Main Menu" is pressed
  */
 function openIndex() {
-    "use strict";
-    nw.Window.open("app/index.html", {
-        position: "center",
-        width: 730,
-        height: 450,
-        min_width: 730,
-        min_height: 450,
-        focus: true,
-        icon: "icons/icon.png"
-    });
-    win.close(true);
+  "use strict";
+  nw.Window.open("app/index.html", {
+    position: "center",
+    width: 730,
+    height: 450,
+    min_width: 730,
+    min_height: 450,
+    focus: true,
+    icon: "icons/icon.png"
+  });
+  win.close(true);
 }
 
 /**
  * Occurs when "Main Menu" is pressed
  */
 function openAbout() {
-    "use strict";
-    nw.Window.open("app/about.html", {
-        position: "center",
-        width: 650,
-        height: 300,
-        focus: true,
-        icon: "icons/icon.png",
-        resizable: false,
-    });
+  "use strict";
+  nw.Window.open("app/about.html", {
+    position: "center",
+    width: 650,
+    height: 300,
+    focus: true,
+    icon: "icons/icon.png",
+    resizable: false,
+  });
 }
 
 /**
