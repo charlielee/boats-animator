@@ -829,42 +829,42 @@ function decodeBase64Image(dataString) {
 /**
  * Save the captured frame to the hard drive.
  *
- * @param {Number} id The frame ID to save.
-*/
+ * @param {Number} - id The frame ID to save.
+ */
 function saveFrame(id) {
-    "use strict";
-    var fileName = "";
+  "use strict";
+  var fileName = "";
 
-    // 1K+ frames have been captured
-    if (id >= 1000) {
-      fileName = `frame_${id}`;
-    }
+  // 1K+ frames have been captured
+  if (id >= 1000) {
+    fileName = `frame_${id}`;
+  }
 
-    // 100 frames have been captured
-    else if (id >= 100) {
-      fileName = `frame_0${id}`;
-    }
+  // 100 frames have been captured
+  else if (id >= 100) {
+    fileName = `frame_0${id}`;
+  }
 
-    // 10 frames have been captured
-    else if (id >= 10) {
-      fileName = `frame_00${id}`;
+  // 10 frames have been captured
+  else if (id >= 10) {
+    fileName = `frame_00${id}`;
 
-      // Less then 10 frames have been captured
-    } else {
-      fileName = `frame_000${id}`;
-    }
+  // Less then 10 frames have been captured
+  } else {
+    fileName = `frame_000${id}`;
+  }
 
-    // Create an absolute path to the destination location
-    var outputPath = `${_getSaveDirectory()}/${fileName}.png`;
+  // Create an absolute path to the destination location
+  var outputPath = `${_getSaveDirectory()}/${fileName}.png`;
 
-    // Convert the frame from base64-encoded data to a PNG
-    var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
+  // Convert the frame from base64-encoded data to a PNG
+  var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
 
-    // Save the frame to disk
-    file.write(outputPath, imageBuffer.data);
+  // Save the frame to disk
+  file.write(outputPath, imageBuffer.data);
 
-    // Store the location of the exported frame
-    exportedFramesList.push(outputPath);
+  // Store the location of the exported frame
+  exportedFramesList.push(outputPath);
 }
 
 /**
