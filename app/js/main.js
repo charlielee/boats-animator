@@ -731,7 +731,7 @@ function _onionSkinChangeAmount(ev) {
 }
 
 /**
- * Change the default save directory by opening
+ * Change the app save directory by opening
  * the system's native directory selection dialog.
  */
 function _changeSaveDirectory() {
@@ -750,7 +750,7 @@ function _changeSaveDirectory() {
 }
 
 /**
- * Display the frame destination directory in the UI.
+ * Display the app save directory in the UI.
  *
  * @param {String} dir The directory to display.
  */
@@ -762,7 +762,7 @@ function _displaySaveDirectory(dir) {
 }
 
 /**
- * Set the default save directory.
+ * Set the app save directory.
  */
 function _setSaveDirectory(dir) {
   "use strict";
@@ -770,7 +770,7 @@ function _setSaveDirectory(dir) {
 }
 
 /**
- * Get the default save directory.
+ * Get the app save directory.
  *
  * @return {!String} The stored directory if available, null otherwise.
  */
@@ -780,7 +780,7 @@ function _getSaveDirectory() {
 }
 
 /**
- * Create the frame save directory.
+ * Create the app save directory.
  *
  * @param {String} dir - The directory to create.
  */
