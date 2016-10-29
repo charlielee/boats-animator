@@ -347,25 +347,29 @@ window.onload = startup;
 
 /**
  * Toggle between playback and capture windows.
+ *
+ * @param {String} newMode - The app mode to switch to.
+ * Possible values are "capture" and "playback".
  */
 function switchMode(newMode) {
-    "use strict";
-    winMode = newMode;
-    if (winMode === "capture") {
-        _updateStatusBarCurFrame(totalFrames + 1);
-        playbackWindow.classList.add("hidden");
-        captureWindow.classList.remove("hidden");
-        captureWindow.classList.add("active");
-        btnLiveView.classList.add("selected");
+  "use strict";
+  winMode = newMode;
 
-    } else if (winMode === "playback") {
-        playbackWindow.classList.remove("hidden");
-        captureWindow.classList.add("hidden");
-        captureWindow.classList.remove("active");
-        btnLiveView.classList.remove("selected");
-    }
-    console.log(`Switched to: ${winMode}`);
-    statusBarCurMode.innerHTML = winMode;
+  if (winMode === "capture") {
+    _updateStatusBarCurFrame(totalFrames + 1);
+    playbackWindow.classList.add("hidden");
+    captureWindow.classList.remove("hidden");
+    captureWindow.classList.add("active");
+    btnLiveView.classList.add("selected");
+
+  } else if (winMode === "playback") {
+    playbackWindow.classList.remove("hidden");
+    captureWindow.classList.add("hidden");
+    captureWindow.classList.remove("active");
+    btnLiveView.classList.remove("selected");
+  }
+  console.log(`Switched to: ${winMode}`);
+  statusBarCurMode.innerHTML = winMode;
 }
 
 /**
@@ -774,7 +778,7 @@ function _getSaveDirectory() {
 /**
  * Create the frame save directory.
  *
- * @param {String} - The directory to create.
+ * @param {String} dir - The directory to create.
  */
 function _createSaveDirectory(dir) {
   "use strict";
