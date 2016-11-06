@@ -334,30 +334,20 @@ function startup() {
   // Preview a captured frame
   frameReelRow.addEventListener("click", function(e) {
     if (e.target.classList.contains("frame-reel-img")) {
-      // For an unselected, non-keyframe
-      if (!e.target.classList.contains("selected")) {
-        // Remove previous selection
-        _removeFrameReelSelection();
+      var id = parseInt(e.target.id.slice(4), 10);
 
-        // Highlight the clicked image
-        e.target.classList.add("selected");
+      if (id !== curSelectedFrame) {
+        // Display the selected frame
+        _displayFrame(id);
         if (winMode !== "playback") {
           switchMode("playback");
         }
-
-        // Display the selected frame
-        _displayFrame(parseInt(e.target.id.match(/^img-(\d+)$/)[1], 10));
-
-        // Add a beginning keyframe
-      } else if (e.target.matches(".frame-reel-img.selected")) {
-        if (!e.target.classList.contains("keyframe")) {
-          addKeyframe("start", curSelectedFrame);
+      } else {
+        // Check if keyframe
+        if (id === curStartKeyframe) {
+          removeKeyframe("start");
         } else {
-          // If the current start keyframe is double clicked it is removed
-          console.log(e.target.id);
-          if (parseInt(e.target.id.slice(4), 10) === curStartKeyframe) {
-            removeKeyframe("start");
-          }
+          addKeyframe("start", curSelectedFrame);
         }
       }
     }
