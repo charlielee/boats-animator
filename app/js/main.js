@@ -89,7 +89,7 @@ var width  = 640,
     notification = require("./js/notification"),
 
     // Sidebar
-    btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
+    btnDirectoryChange = document.querySelector("aside #btn-dir-change");
 
 /**
  * Occurs when "Main Menu" is pressed

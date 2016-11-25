@@ -118,7 +118,7 @@ a {
 
 /* ========== SIDEBAR ============== */
 
-#sidebar {
+aside {
   position: relative;
   float: right;
   color: #d3d3d3;
@@ -130,18 +130,18 @@ a {
   background-color: #2B2B2B;
 }
 
-#sidebar a,
-#sidebar label,
-#sidebar .sidebar-opt {
+aside a,
+aside label,
+aside .sidebar-opt {
   color: #d3d3d3;
   cursor: pointer;
 }
-#sidebar a:hover,
-#sidebar label:hover,
-#sidebar .sidebar-opt:hover { border-bottom: 1.5px solid #d3d3d3; }
+aside a:hover,
+aside label:hover,
+aside .sidebar-opt:hover { border-bottom: 1.5px solid #d3d3d3; }
 
-#sidebar input,
-#sidebar label {
+aside input,
+aside label {
   vertical-align: middle;
 }
 
