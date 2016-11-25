@@ -65,7 +65,7 @@ a {
 
 /* ======== Main Area ======== */
 
-#main-event { width: calc(100% - 19em); }
+main { width: calc(100% - 19em); }
 
 .content {
     padding: 0 0 0 2%;

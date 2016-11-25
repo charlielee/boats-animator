@@ -232,7 +232,7 @@ a {
 
 /* ========== CONTROLS ============== */
 
-#main-event {
+main {
   position: relative;
   width: calc(100% - 19em);
 }
