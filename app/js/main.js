@@ -64,10 +64,8 @@ var width  = 640,
     curDirDisplay      = document.querySelector("#currentDirectoryName"),
 
     // Onion skin
-    isOnionSkinEnabled = false,
-    onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
-    onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
-    onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
+    onionSkinWindow = document.querySelector("#onion-skinning-frame"),
+    onionSkinSlider = document.querySelector("#input-onion-skin-opacity"),
 
     // Frame reel
     frameReelArea  = document.querySelector("#area-frame-reel"),
@@ -221,14 +219,13 @@ function startup() {
     // Undo last captured frame
     btnDeleteLastFrame.addEventListener("click", undoFrame);
 
-    // Toggle onion skin
-    onionSkinToggle.addEventListener("click", _toggleOnionSkin);
-
     // Toggle preview looping
     btnLoop.addEventListener("click", _toggleVideoLoop);
 
-    // Change onion skin opacity
-    onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
+  // Change onion skin opacity
+  onionSkinSlider.addEventListener("input", _onionSkinChangeAmount);
+
+
 
     // Change the default save directory
     btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
@@ -462,6 +459,9 @@ function updateFrameReel(action, id) {
         frameReelMsg.classList.remove("hidden");
         frameReelTable.classList.add("hidden");
         switchMode("capture");
+
+      // Clear the onion skin window
+      onionSkinWindow.removeAttribute("src");
     }
 }
 
@@ -495,32 +495,6 @@ function undoFrame() {
       confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
     } else {
       notification.error("There is no previous frame to undo!");
-    }
-}
-
-/**
- * Toggle onion skinning on or off.
- */
-function _toggleOnionSkin(ev) {
-    "use strict";
-    // Onion skin is currently enabled, turn it off
-    if (isOnionSkinEnabled) {
-      isOnionSkinEnabled = false;
-      ev.target.setAttribute("title", "Enable Onion Skin");
-      onionSkinToggle.children[0].classList.remove("active");
-      onionSkinWindow.classList.remove("visible");
-
-      // Onion skin is currently disabled, turn it on
-    } else {
-      isOnionSkinEnabled = true;
-      ev.target.setAttribute("title", "Disable Onion Skin");
-      onionSkinToggle.children[0].classList.add("active");
-
-      // Display last captured frame
-      onionSkinWindow.classList.add("visible");
-      if (totalFrames > 0) {
-          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1].src);
-      }
     }
 }
 
@@ -714,12 +688,17 @@ function _frameReelScroll() {
  * @param {Object} ev Event object from addEventListener.
  */
 function _onionSkinChangeAmount(ev) {
-    "use strict";
-    // Calculate the percentage opacity value
-    var amount = ev.target.value * 5;
+  "use strict";
+  // Calculate the percentage opacity value
+  var amount = ev.target.value;
 
-    ev.target.setAttribute("title", `${amount}%`);
-    onionSkinWindow.style.opacity = amount / 100;
+  ev.target.setAttribute("title", `${amount}%`);
+  onionSkinWindow.style.opacity = Math.abs(amount / 100);
+
+  // Make it easier to switch off onion skinning
+  if (amount >= -6 && amount <= 6) {
+    onionSkinSlider.value = 0;
+  }
 }
 
 /**
