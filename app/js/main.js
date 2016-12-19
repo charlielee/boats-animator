@@ -47,7 +47,7 @@ var width  = 640,
     btnFramePrevious = document.querySelector("#btn-frame-previous"),
     btnFrameFirst    = document.querySelector("#btn-frame-first"),
     btnFrameLast     = document.querySelector("#btn-frame-last"),
-    inputChangeFR = document.querySelector("#input-fr-change"),
+    inputChangeFR    = document.querySelector("#input-fr-change"),
 
     // Audio
     captureAudio = "audio/camera.wav",
@@ -68,17 +68,17 @@ var width  = 640,
     onionSkinSlider = document.querySelector("#input-onion-skin-opacity"),
 
     // Frame reel
-    frameReelArea  = document.querySelector("#area-frame-reel"),
-    frameReelMsg   = document.querySelector("#area-frame-reel > p"),
-    frameReelRow   = document.querySelector("#area-frame-reel #reel-captured-imgs"),
-    frameReelTable = document.querySelector("#area-frame-reel table"),
+    frameReelArea   = document.querySelector("#area-frame-reel"),
+    frameReelMsg    = document.querySelector("#area-frame-reel > p"),
+    frameReelRow    = document.querySelector("#area-frame-reel #reel-captured-imgs"),
+    frameReelTable  = document.querySelector("#area-frame-reel table"),
     liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
     // Confirm messages
-    confirmContainer    = document.querySelector("#confirm-container"),
-    confirmText         = document.querySelector("#confirm-text"),
-    btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
-    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
+    confirmContainer = document.querySelector("#confirm-container"),
+    confirmText      = document.querySelector("#confirm-text"),
+    btnConfirmOK     = document.querySelector("#confirm-container #btn-OK"),
+    btnConfirmCancel = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
     fs           = require("fs"),
@@ -790,8 +790,8 @@ function _checkSaveDirectory(dir) {
 */
 function decodeBase64Image(dataString) {
   "use strict";
-  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-    response = {};
+  var matches  = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+      response = {};
 
   if (matches.length !== 3) {
     return new Error("Invalid input string");
@@ -799,7 +799,6 @@ function decodeBase64Image(dataString) {
 
   response.type = matches[1];
   response.data = new Buffer(matches[2], "base64");
-
   return response;
 }
 
