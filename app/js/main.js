@@ -229,10 +229,8 @@ function startup() {
   // Change onion skin opacity
   onionSkinSlider.addEventListener("input", _onionSkinChangeAmount);
 
-
-
-    // Change the default save directory
-    btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
+  // Change the default save directory
+  btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
 
     // Play/pause the preview
     btnPlayPause.addEventListener("click", function() {
@@ -995,6 +993,11 @@ function loadMenu() {
     checked: true,
     key: "m",
     modifiers: controlKey,
+  }));
+
+  captureMenu.append(new nw.MenuItem({
+    label: "Change capture destination",
+    click: _changeSaveDirectory
   }));
 
   // Playback menu items
