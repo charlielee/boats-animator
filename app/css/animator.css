@@ -302,7 +302,7 @@ a {
   color: #ad0000;
 }
 
-#btn-clear-keyframe { margin-right: 2em; }
+#btn-start-keyframe { margin-left: 2em; }
 #btn-start-keyframe.active i, #btn-clear-keyframe.active i {
   color: #0040FF;
 }
