@@ -55,6 +55,7 @@ a {
   justify-content: center;
   align-items: center;
   margin-right: 0.5em;
+  text-transform: capitalize;
 }
 
 /* Notification states */
