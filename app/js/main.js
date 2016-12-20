@@ -71,6 +71,7 @@ var width  = 640,
     // Onion skin
     onionSkinWindow = document.querySelector("#onion-skinning-frame"),
     onionSkinSlider = document.querySelector("#input-onion-skin-opacity"),
+    onionSkinAmount = 0,
 
     // Frame reel
     frameReelArea   = document.querySelector("#area-frame-reel"),
@@ -491,7 +492,7 @@ function updateFrameReel(action, id) {
         frameReelTable.classList.remove("hidden");
 
         // Update onion skin frame
-        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
+        _onionSkinUpdateFrame();
         context.drawImage(capturedFrames[onionSkinFrame], 0, 0, width, height);
 
         // Update frame preview selection
@@ -836,14 +837,45 @@ function _frameReelScroll() {
 function _onionSkinChangeAmount(ev) {
   "use strict";
   // Calculate the percentage opacity value
-  var amount = ev.target.value;
+  onionSkinAmount = ev.target.value;
+  ev.target.setAttribute("title", `${onionSkinAmount}%`);
+  onionSkinWindow.style.opacity = Math.abs(onionSkinAmount / 100);
 
-  ev.target.setAttribute("title", `${amount}%`);
-  onionSkinWindow.style.opacity = Math.abs(amount / 100);
+  // Update the onion skin frame if necessary
+  if (totalFrames > 0) {
+    _onionSkinUpdateFrame();
+  }
 
   // Make it easier to switch off onion skinning
-  if (amount >= -6 && amount <= 6) {
+  if (onionSkinAmount >= -6 && onionSkinAmount <= 6) {
     onionSkinSlider.value = 0;
+  }
+}
+
+/**
+ * Update the onion skin frame
+ * 
+ */
+function _onionSkinUpdateFrame() {
+  "use strict";
+
+  // If slider is to the right onion skin frame is last frame captured
+  if (onionSkinAmount >= 0 || curStartKeyframe == null) {
+    onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1].src);
+
+    // Remove slider highlight if present
+    if (onionSkinSlider.classList.contains("keyframe")) {
+      onionSkinSlider.classList.remove("keyframe");
+    }
+
+  // If slider is to the left onion skin frame is curStartKeyframe
+  } else if (onionSkinAmount < 0) {
+    onionSkinWindow.setAttribute("src", capturedFrames[curStartKeyframe - 1].src);
+
+    // Highlight slider on hover if onion skin frame is curStartKeyframe
+    if (!onionSkinSlider.classList.contains("keyframe")) {
+      onionSkinSlider.classList.add("keyframe");
+    }
   }
 }
 
