@@ -50,7 +50,6 @@ var width  = 640,
     inputChangeFR    = document.querySelector("#input-fr-change"),
 
     // Keyframes
-    btnStartKeyframe  = document.querySelector("#btn-start-keyframe"),
     btnClearKeyframe  = document.querySelector("#btn-clear-keyframe"),
     curStartKeyframe  = null,
 
@@ -370,17 +369,6 @@ function startup() {
     }
   });
 
-  // Add a start keyframe
-  btnStartKeyframe.addEventListener("click", function() {
-    if (btnStartKeyframe.hasAttribute("disabled")) {
-      return false;
-    } else if (curSelectedFrame === curStartKeyframe) {
-      removeKeyframe("start");
-    } else {
-      addKeyframe("start", curSelectedFrame);
-    }
-  });
-
   // Remove the start keyframe
   btnClearKeyframe.addEventListener("click", function() {
     if (!curStartKeyframe) {
@@ -408,7 +396,6 @@ function switchMode(newMode) {
     captureWindow.classList.remove("hidden");
     captureWindow.classList.add("active");
     btnLiveView.classList.add("selected");
-    btnStartKeyframe.setAttribute("disabled", "");
     if (!curStartKeyframe) {
       btnClearKeyframe.setAttribute("disabled", "");
     }
@@ -418,7 +405,6 @@ function switchMode(newMode) {
     captureWindow.classList.add("hidden");
     captureWindow.classList.remove("active");
     btnLiveView.classList.remove("selected");
-    btnStartKeyframe.removeAttribute("disabled");
   }
 
   console.log(`Switched to: ${winMode}`);
@@ -542,7 +528,6 @@ function addKeyframe(location, id) {
     btnClearKeyframe.removeAttribute("disabled");
 
     // Add a new start keyframe
-    btnStartKeyframe.classList.add("active");
     document.querySelector(`.frame-reel-img#img-${id}`).classList.add("keyframe");
     curStartKeyframe = id;
     console.info(`New curStartKeyframe: frame ${id}`);
@@ -557,7 +542,6 @@ function addKeyframe(location, id) {
 function removeKeyframe(location) {
   "use strict";
   if (location === "start") {
-    btnStartKeyframe.classList.remove("active");
     document.querySelector(`.frame-reel-img#img-${curStartKeyframe}`).classList.remove("keyframe");
     curStartKeyframe = null;
 
@@ -714,7 +698,6 @@ function videoPause() {
     console.info("Playback paused");
 
     // Enable keyframe options
-    btnStartKeyframe.removeAttribute("disabled");
     btnClearKeyframe.removeAttribute("disabled");
   }
 }
@@ -808,7 +791,6 @@ function previewCapturedFrames() {
   btnPlayPause.children[0].classList.add("fa-pause");
 
   // Disable keyframe options
-  btnStartKeyframe.setAttribute("disabled", "");
   btnClearKeyframe.setAttribute("disabled", "");
 
   // Begin playing the frames
@@ -873,7 +855,7 @@ function _onionSkinChangeAmount(ev) {
 
 /**
  * Update the onion skin frame.
- * 
+ *
  */
 function _onionSkinUpdateFrame() {
   "use strict";
