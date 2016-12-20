@@ -830,7 +830,7 @@ function _frameReelScroll() {
 }
 
 /**
- * Change onion skinning opacity.
+ * Change the opacity of the onion skin frame.
  *
  * @param {Object} ev Event object from addEventListener.
  */
@@ -862,7 +862,7 @@ function _onionSkinChangeAmount(ev) {
 }
 
 /**
- * Update the onion skin frame
+ * Update the onion skin frame.
  * 
  */
 function _onionSkinUpdateFrame() {
