@@ -2,6 +2,16 @@
   Style sheet of styles common across all windows of the program.
 */
 
+/* 0. Directory
+   --------------------------------
+   1. Global
+   2. Links
+   3. Main area
+   4. Sidebar
+   5. Footer
+   6. Scrollbars
+*/
+
 /* 1. Global
    -------------------------------- */
 
@@ -66,15 +76,15 @@ main { flex: 1 }
    -------------------------------- */
 
 aside {
-  position: relative;
-  float: right;
-  color: #d3d3d3;
-  z-index: 2;
-  padding: 0 1em 1em 1em;
-  height: 100%;
-  width: 19em;
-  border-left: 1px solid #423e3e;
   background-color: #2B2B2B;
+  border-left: 1px solid #423e3e;
+  color: #d3d3d3;
+  float: right;
+  height: 100%;
+  padding: 0 1em 1em 1em;
+  position: relative;
+  width: 19em;
+  z-index: 2;
 }
 
 aside a,
@@ -85,7 +95,9 @@ aside .sidebar-opt {
 }
 aside a:hover,
 aside label:hover,
-aside .sidebar-opt:hover { border-bottom: 1.5px solid #d3d3d3; }
+aside .sidebar-opt:hover {
+  border-bottom: 1.5px solid #d3d3d3;
+}
 
 aside input,
 aside label {
@@ -95,61 +107,54 @@ aside label {
 aside h2 { font-size: 1.2em; }
 
 aside ul {
-  list-style: none;
   line-height: 1.4;
+  list-style: none;
   padding-left: 1em;
 }
 
 aside li { margin-left: -0.7em; }
-
-#btn-sidebar-toggle {
-  font-size: 1.5em;
-  padding: 0.3em;
-  cursor: pointer;
-  float: right;
-}
 
 .sidebar-item { border-bottom: 1px solid #ADADAD; }
 
 .sidebar-link-dot { margin-right: 6px; }
 
 .sidebar-header i {
-  margin-right: 0.4em;
   font-size: 0.9em;
+  margin-right: 0.4em;
 }
 
 /* 5. Footer
    -------------------------------- */
 
 footer {
-  position: fixed;
   background-color: #d9d9d9;
-  color: #2B2B2B;
   bottom: 0;
+  color: #2B2B2B;
   left: 0;
+  position: fixed;
   width: 100%;
   z-index: 2;
 }
 
 footer a { color: #2B2B2B; }
+footer a:hover, footer a:active { text-decoration: underline; }
 
 footer ul {
   list-style: none;
+  margin: 0.5em 0;
   padding: 0 1em;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
 }
 
 footer li { display: inline-block; }
 
 footer li:not(.no-pipe)::after {
-  content: "|";
   color: #b5b5b5;
-  margin-right: 0.5em;
-  margin-left: 0.8em;
+  content: "|";
+  margin: 0 0.5em 0 0.8em;
 }
 
-/* ========== SCROLL BARS ============== */
+/* 6. Scrollbars
+   -------------------------------- */
 
 ::-webkit-scrollbar              {
   background-color: rgba(9, 9, 9, 0.1);
@@ -157,9 +162,10 @@ footer li:not(.no-pipe)::after {
   height: 12px;
 }
 
-::-webkit-scrollbar-track        { background-color: transparent; }
-
-::-webkit-scrollbar-track-piece  { background-color: transparent; }
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
 
 ::-webkit-scrollbar-thumb        {
   background-color: #423e3e;
