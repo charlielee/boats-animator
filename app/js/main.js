@@ -210,15 +210,15 @@ function startup() {
     });
     shortcuts.get("default");
 
-    /* ======= Listeners ======= */
-    // Capture a frame
-    btnCaptureFrame.addEventListener("click", takeFrame);
+  /* ======= Listeners ======= */
+  // Capture a frame
+  btnCaptureFrame.addEventListener("click", takeFrame);
 
-    // Undo last captured frame
-    btnDeleteLastFrame.addEventListener("click", undoFrame);
+  // Undo last captured frame
+  btnDeleteLastFrame.addEventListener("click", undoFrame);
 
-    // Toggle preview looping
-    btnLoop.addEventListener("click", _toggleVideoLoop);
+  // Toggle preview looping
+  btnLoop.addEventListener("click", _toggleVideoLoop);
 
   // Change onion skin opacity
   onionSkinSlider.addEventListener("input", _onionSkinChangeAmount);
