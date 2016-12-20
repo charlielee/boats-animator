@@ -838,7 +838,6 @@ function _onionSkinChangeAmount(ev) {
   "use strict";
   // Calculate the percentage opacity value
   onionSkinAmount = ev.target.value;
-  ev.target.setAttribute("title", `${onionSkinAmount}%`);
   onionSkinWindow.style.opacity = Math.abs(onionSkinAmount / 100);
 
   // Update the onion skin frame if necessary
@@ -849,6 +848,16 @@ function _onionSkinChangeAmount(ev) {
   // Make it easier to switch off onion skinning
   if (onionSkinAmount >= -6 && onionSkinAmount <= 6) {
     onionSkinSlider.value = 0;
+    onionSkinAmount = 0;
+  }
+
+  // Display a tooltip of the current onion skin amount
+  if (onionSkinAmount > 0 || onionSkinAmount > 0 && curStartKeyframe == null) {
+    ev.target.setAttribute("title", `${Math.abs(onionSkinAmount)}% of last frame`);
+  } else if (onionSkinAmount < 0 ) {
+    ev.target.setAttribute("title", `${Math.abs(onionSkinAmount)}% of keyframe`);
+  } else {
+    ev.target.setAttribute("title", "0%");
   }
 }
 
@@ -869,7 +878,7 @@ function _onionSkinUpdateFrame() {
     }
 
   // If slider is to the left onion skin frame is curStartKeyframe
-  } else if (onionSkinAmount < 0) {
+  } else {
     onionSkinWindow.setAttribute("src", capturedFrames[curStartKeyframe - 1].src);
 
     // Highlight slider on hover if onion skin frame is curStartKeyframe
