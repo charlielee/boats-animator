@@ -243,7 +243,7 @@ function startup() {
     // Play/pause the preview
     btnPlayPause.addEventListener("click", function() {
         // Make sure we have frames to play back
-        if (totalFrames > 0) {
+        if (totalFrames > 0 && curStartKeyframe != totalFrames) {
             (isPlaying ? videoPause : previewCapturedFrames)();
         }
     });
