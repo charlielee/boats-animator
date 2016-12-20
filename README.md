@@ -1,6 +1,6 @@
 # Boats Animator
 
-A free stop motion animation program created using HTML5, JavaScript and WebRTC for Windows, Mac and Linux.
+A free stop motion animation program created using HTML5, JavaScript and WebRTC for Windows, macOS and Linux.
 
   * **Official homepage:** <http://charlielee.uk/boats-animator>
   * **Documentation:** <http://boatsanimator.readthedocs.io>
