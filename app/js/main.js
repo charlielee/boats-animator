@@ -795,7 +795,11 @@ function _checkSaveDirectory(dir) {
 }
 
 /**
-* Converting frames to png
+* Convert frames from base64 to png
+*
+* @author Stack Overflow http://stackoverflow.com/questions/20267939
+* @author Julian Lannigan http://stackoverflow.com/users/1777444
+* @license cc by-sa 3.0
 */
 function decodeBase64Image(dataString) {
   "use strict";
