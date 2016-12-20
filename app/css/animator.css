@@ -174,7 +174,7 @@ a {
   float: right;
 }
 
-.sidebar-item { border-bottom: 1px solid #ADADAD; }
+.sidebar-item:not(:last-of-type) { border-bottom: 1px solid #ADADAD; }
 
 .sidebar-link-dot { margin-right: 6px; }
 
