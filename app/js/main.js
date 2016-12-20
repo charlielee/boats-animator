@@ -144,6 +144,7 @@ function startup() {
   // There is no set save directory or the directory does not exist
   if (!_checkSaveDirectory(saveDirectory)) {
     console.error("No save directory has been set!");
+    _setSaveDirectory(null);
     _changeSaveDirectory();
 
     // There is a valid save directory
@@ -492,7 +493,7 @@ function deleteFrame(id) {
 function takeFrame() {
   "use strict";
   // Prevent taking frames without a set output path
-  if (!_getSaveDirectory()) {
+  if (!_checkSaveDirectory(_getSaveDirectory())) {
     notification.error("A save directory must be first set!");
     return false;
   }
@@ -743,9 +744,9 @@ function _changeSaveDirectory() {
  */
 function _displaySaveDirectory(dir) {
   "use strict";
-  console.info(`Current save directory is ${dir}`);
   curDirDisplay.innerHTML = dir;
   document.title = `Boats Animator (${dir})`;
+  notification.success(`Current save directory is ${dir}`);
 }
 
 /**
@@ -778,8 +779,6 @@ function _createSaveDirectory(dir) {
     if (err) {
       console.error(err);
       notification.error(`Failed to create save directory at ${dir}`);
-    } else {
-      notification.success(`Successfully created save directory at ${dir}`);
     }
   });
 }
