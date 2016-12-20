@@ -27,50 +27,36 @@
 
     <!--Sidebar content-->
     <aside>
-        <div id="sidebar-content">
-
-            <!--Project Options, currently disabled because there is no code yet-->
+        <!--Project Options, currently disabled because there is no code yet-->
 <!--
-            <div class="sidebar-item" id="debugging-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-file-text fa-fw"></i> Project</h2>
-                </div>
-                <ul>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">New Project</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Open Project</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Project Options</a></li>
-                </ul>
-            </div>
+      <div class="sidebar-item" id="debugging-header">
+        <div class="sidebar-header">
+          <h2><i class="fa fa-file-text fa-fw"></i> Project</h2>
+        </div>
+        <ul>
+          <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">New Project</a></li>
+          <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Open Project</a></li>
+          <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Project Options</a></li>
+        </ul>
+      </div>
 -->
 
-            <!--Capture Options-->
-            <div class="sidebar-item" id="capture-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-camera fa-fw"></i> Capture</h2>
-                </div>
-                <ul id="capture-options">
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change resolution</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#" onclick="alert('Coming soon!');">Change camera</a></li>
-                </ul>
-            </div>
-
-            <!--Export Options-->
-            <div class="sidebar-item" id="export-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-download fa-fw"></i> Export</h2>
-                </div>
-                <ul>
-                    <li>Captured frames will be exported to:
-                        <p id="currentDirectoryName" class="italics">No directory selected</p>
-                    </li>
-                    <li>
-                        <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
-                        <span class="sidebar-opt" id="btn-dir-change">Change directory</span>
-                        <input id="chooseDirectory" style="display:none;" type="file" nwdirectory  />
-                    </li>
-                </ul>
-            </div>
+      <!--Export Options-->
+      <div class="sidebar-item" id="export-header">
+        <div class="sidebar-header">
+          <h2><i class="fa fa-download fa-fw"></i> Export</h2>
         </div>
+        <ul>
+          <li>Captured frames will be exported to:
+            <p id="currentDirectoryName" class="italics">No directory selected</p>
+          </li>
+          <li>
+            <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
+            <span class="sidebar-opt" id="btn-dir-change">Change directory</span>
+            <input id="chooseDirectory" style="display:none;" type="file" nwdirectory  />
+          </li>
+        </ul>
+      </div>
     </aside>
 
     <main>

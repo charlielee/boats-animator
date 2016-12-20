@@ -123,7 +123,7 @@ aside {
   float: right;
   color: #d3d3d3;
   z-index: 2;
-  padding-right: 1em;
+  padding: 0 1em 1em 1em;
   height: 100%;
   width: 19em;
   border-left: 1px solid #423e3e;
@@ -145,19 +145,14 @@ aside label {
   vertical-align: middle;
 }
 
-#sidebar-content {
-  padding-left: 1em;
-  padding-bottom: 1em;
-}
+aside h2 { font-size: 1.2em; }
 
-#sidebar-content h2 { font-size: 1.2em; }
-
-#sidebar-content ul {
+aside ul {
   list-style: none;
   line-height: 1.4;
 }
 
-#sidebar-content li { margin-left: -0.7em; }
+aside li { margin-left: -0.7em; }
 
 #btn-sidebar-toggle {
   font-size: 1.5em;

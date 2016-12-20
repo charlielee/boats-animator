@@ -27,7 +27,7 @@ aside {
     float: right;
     color: #d3d3d3;
     z-index: 2;
-    padding-right: 1em;
+    padding: 0 1em 1em 1em;
     height: 100%;
     width: 19em;
 }
@@ -39,18 +39,11 @@ aside {
   font-size: 0.9em;
 }
 
-#sidebar-content {
-  padding-left: 1em;
-  padding-bottom: 1em;
-}
-
-#sidebar-content ul {
+aside ul {
   list-style: none;
   line-height: 1.5;
-  padding-left: 1.5em;
+  padding-left: 1em;
 }
-
-#sidebar-content li { margin-left: -0.7em; }
 
 #btn-sidebar-toggle {
   font-size: 1.5em;
