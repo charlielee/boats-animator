@@ -1,0 +1,63 @@
+/*!
+  Style sheet of styles common across all windows of the program.
+*/
+
+/* 1. Global
+   -------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background-color: #2B2B2B;
+  color: #D9D9D9;
+  cursor: default;
+  display: flex;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9em;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: none;
+}
+
+img { -webkit-user-drag: none; }
+
+/* 2. Links
+   -------------------------------- */
+
+a {
+  color: #D9D9D9;
+  cursor: pointer;
+  text-decoration: underline;
+  -webkit-user-drag: none;
+}
+a:active { text-decoration: none; }
+
+/* 3. Main area
+   -------------------------------- */
+
+main { flex: 1 }
+
+.content {
+  background-color: #171717;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  padding: 0 0 0 2%;
+  width: 100%;
+}
+
+.content h1 {
+  margin: 0;
+  padding: 0.5em 0 0 0;
+}
+
+.content h2 {
+  font-size: 1.2em;
+  margin: 0;
+  padding: 0.83em 0;
+}
+
+.content p {
+  margin: 0 0 4em 0;
+}
