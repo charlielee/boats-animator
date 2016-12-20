@@ -55,6 +55,7 @@ a {
   justify-content: center;
   align-items: center;
   margin-right: 0.5em;
+  text-transform: capitalize;
 }
 
 /* Notification states */
@@ -498,6 +499,8 @@ a {
   margin-right: 0.5em;
   margin-left: 0.8em;
 }
+
+#current-mode span { text-transform: capitalize; }
 
 /* ========== SCROLL BARS ============== */
 

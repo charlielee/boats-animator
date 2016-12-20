@@ -47,7 +47,7 @@ var width  = 640,
     btnFramePrevious = document.querySelector("#btn-frame-previous"),
     btnFrameFirst    = document.querySelector("#btn-frame-first"),
     btnFrameLast     = document.querySelector("#btn-frame-last"),
-    inputChangeFR = document.querySelector("#input-fr-change"),
+    inputChangeFR    = document.querySelector("#input-fr-change"),
 
     // Audio
     captureAudio = "audio/camera.wav",
@@ -68,57 +68,59 @@ var width  = 640,
     onionSkinSlider = document.querySelector("#input-onion-skin-opacity"),
 
     // Frame reel
-    frameReelArea  = document.querySelector("#area-frame-reel"),
-    frameReelMsg   = document.querySelector("#area-frame-reel > p"),
-    frameReelRow   = document.querySelector("#area-frame-reel #reel-captured-imgs"),
-    frameReelTable = document.querySelector("#area-frame-reel table"),
+    frameReelArea   = document.querySelector("#area-frame-reel"),
+    frameReelMsg    = document.querySelector("#area-frame-reel > p"),
+    frameReelRow    = document.querySelector("#area-frame-reel #reel-captured-imgs"),
+    frameReelTable  = document.querySelector("#area-frame-reel table"),
     liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
     // Confirm messages
-    confirmContainer    = document.querySelector("#confirm-container"),
-    confirmText         = document.querySelector("#confirm-text"),
-    btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
-    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
+    confirmContainer = document.querySelector("#confirm-container"),
+    confirmText      = document.querySelector("#confirm-text"),
+    btnConfirmOK     = document.querySelector("#confirm-container #btn-OK"),
+    btnConfirmCancel = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
-    file   = require("./js/file"),
-    mkdirp = require("./lib/mkdirp"),
-    shortcuts = require("./js/shortcuts"),
+    fs           = require("fs"),
+    file         = require("./js/file"),
+    mkdirp       = require("./lib/mkdirp"),
+    shortcuts    = require("./js/shortcuts"),
     notification = require("./js/notification"),
 
     // Sidebar
+    dirChooseDialog    = document.querySelector("#chooseDirectory"),
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
 
 /**
  * Occurs when "Main Menu" is pressed
  */
 function openIndex() {
-    "use strict";
-    nw.Window.open("app/index.html", {
-        position: "center",
-        width: 730,
-        height: 450,
-        min_width: 730,
-        min_height: 450,
-        focus: true,
-        icon: "icons/icon.png"
-    });
-    win.close(true);
+  "use strict";
+  nw.Window.open("app/index.html", {
+    position: "center",
+    width: 730,
+    height: 450,
+    min_width: 730,
+    min_height: 450,
+    focus: true,
+    icon: "icons/icon.png"
+  });
+  win.close(true);
 }
 
 /**
  * Occurs when "Main Menu" is pressed
  */
 function openAbout() {
-    "use strict";
-    nw.Window.open("app/about.html", {
-        position: "center",
-        width: 650,
-        height: 300,
-        focus: true,
-        icon: "icons/icon.png",
-        resizable: false,
-    });
+  "use strict";
+  nw.Window.open("app/about.html", {
+    position: "center",
+    width: 650,
+    height: 300,
+    focus: true,
+    icon: "icons/icon.png",
+    resizable: false,
+  });
 }
 
 /**
@@ -137,14 +139,18 @@ function closeAnimator() {
 
 function startup() {
   "use strict";
-  // There is no set save directory, set one
-  if (!_getSaveDirectory()) {
+
+  let saveDirectory = _getSaveDirectory();
+
+  // There is no set save directory or the directory does not exist
+  if (!_checkSaveDirectory(saveDirectory)) {
     console.error("No save directory has been set!");
+    _setSaveDirectory(null);
     _changeSaveDirectory();
 
-    // A save directory is set, display it in the UI
+    // There is a valid save directory
   } else {
-    _displaySaveDirectory(_getSaveDirectory());
+    _displaySaveDirectory(saveDirectory);
   }
 
   // Set default frame rate
@@ -204,31 +210,30 @@ function startup() {
     });
     shortcuts.get("default");
 
-    /* ======= Listeners ======= */
-    // Capture a frame
-    btnCaptureFrame.addEventListener("click", function() {
-        // Prevent taking frames without a set output path
-        if (!_getSaveDirectory()) {
-          notification.error("A save directory must be first set!");
-          return false;
-        }
+  /* ======= Listeners ======= */
+  // Capture a frame
+  btnCaptureFrame.addEventListener("click", takeFrame);
 
-        takePicture();
-    });
+  // Undo last captured frame
+  btnDeleteLastFrame.addEventListener("click", undoFrame);
 
-    // Undo last captured frame
-    btnDeleteLastFrame.addEventListener("click", undoFrame);
-
-    // Toggle preview looping
-    btnLoop.addEventListener("click", _toggleVideoLoop);
+  // Toggle preview looping
+  btnLoop.addEventListener("click", _toggleVideoLoop);
 
   // Change onion skin opacity
   onionSkinSlider.addEventListener("input", _onionSkinChangeAmount);
 
+  // Change the default save directory
+  btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
 
-
-    // Change the default save directory
-    btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
+  // Choose save directory dialog
+  dirChooseDialog.addEventListener("change", function() {
+    if (this.value) {
+      _setSaveDirectory(this.value);
+      _createSaveDirectory(this.value);
+      _displaySaveDirectory(this.value);
+    }
+  });
 
     // Play/pause the preview
     btnPlayPause.addEventListener("click", function() {
@@ -344,31 +349,35 @@ window.onload = startup;
 
 /**
  * Toggle between playback and capture windows.
+ *
+ * @param {String} newMode - The app mode to switch to.
+ * Possible values are "capture" and "playback".
  */
 function switchMode(newMode) {
-    "use strict";
-    winMode = newMode;
-    if (winMode === "capture") {
-        _updateStatusBarCurFrame(totalFrames + 1);
-        playbackWindow.classList.add("hidden");
-        captureWindow.classList.remove("hidden");
-        captureWindow.classList.add("active");
-        btnLiveView.classList.add("selected");
+  "use strict";
+  winMode = newMode;
 
-    } else if (winMode === "playback") {
-        playbackWindow.classList.remove("hidden");
-        captureWindow.classList.add("hidden");
-        captureWindow.classList.remove("active");
-        btnLiveView.classList.remove("selected");
-    }
-    console.log(`Switched to: ${winMode}`);
-    statusBarCurMode.innerHTML = winMode.charAt(0).toUpperCase() + winMode.slice(1);
+  if (winMode === "capture") {
+    _updateStatusBarCurFrame(totalFrames + 1);
+    playbackWindow.classList.add("hidden");
+    captureWindow.classList.remove("hidden");
+    captureWindow.classList.add("active");
+    btnLiveView.classList.add("selected");
+
+  } else if (winMode === "playback") {
+    playbackWindow.classList.remove("hidden");
+    captureWindow.classList.add("hidden");
+    captureWindow.classList.remove("active");
+    btnLiveView.classList.remove("selected");
+  }
+  console.log(`Switched to: ${winMode}`);
+  statusBarCurMode.innerHTML = winMode;
 }
 
 /**
  * Remove selected frame highlight from the timeline.
  *
- * @return {Boolean} True if there was a highlight to remove, false otherwise.
+ * @returns {Boolean} True if there was a highlight to remove, false otherwise.
  */
 function _removeFrameReelSelection() {
     "use strict";
@@ -486,6 +495,24 @@ function deleteFrame(id) {
 }
 
 /**
+ * Trigger frame capturing.
+ * Prevents capturing if a save directory is not set.
+ *
+ * @returns {Boolean} True if a frame was captured, false otherwise.
+ */
+function takeFrame() {
+  "use strict";
+  // Prevent taking frames without a set output path
+  if (!_checkSaveDirectory(_getSaveDirectory())) {
+    notification.error("A save directory must be first set!");
+    return false;
+  }
+
+  _captureFrame();
+  return true;
+}
+
+/**
  * Delete the previously taken frame.
  */
 function undoFrame() {
@@ -510,7 +537,7 @@ function audio(file) {
   }
 }
 
-function takePicture() {
+function _captureFrame() {
     "use strict";
     if (winMode === "playback") {
         switchMode("capture");
@@ -702,58 +729,48 @@ function _onionSkinChangeAmount(ev) {
 }
 
 /**
- * Change the default save directory by opening
+ * Change the app save directory by opening
  * the system's native directory selection dialog.
  */
 function _changeSaveDirectory() {
   "use strict";
-  var chooser = document.querySelector("#chooseDirectory");
-
-  chooser.addEventListener("change", function() {
-    if (this.value) {
-      _setSaveDirectory(this.value);
-      _createSaveDirectory(this.value);
-      _displaySaveDirectory(this.value);
-    }
-  });
-
-  chooser.click();
+  document.querySelector("#chooseDirectory").click();
 }
 
 /**
- * Display the frame destination directory in the UI.
+ * Display the app save directory in the UI.
  *
  * @param {String} dir The directory to display.
  */
 function _displaySaveDirectory(dir) {
   "use strict";
-  console.info(`Current save directory is ${dir}`);
   curDirDisplay.innerHTML = dir;
   document.title = `Boats Animator (${dir})`;
+  notification.success(`Current save directory is ${dir}`);
 }
 
 /**
- * Set the default save directory.
+ * Set the app save directory.
  */
 function _setSaveDirectory(dir) {
   "use strict";
-  localStorage.setItem("default_directory", dir);
+  localStorage.setItem("save-directory", dir);
 }
 
 /**
- * Get the default save directory.
+ * Get the app save directory.
  *
- * @return {!String} The stored directory if available, null otherwise.
+ * @returns {!String} The stored directory if available, null otherwise.
  */
 function _getSaveDirectory() {
   "use strict";
-  return localStorage.getItem("default_directory");
+  return localStorage.getItem("save-directory");
 }
 
 /**
- * Create the frame save directory.
+ * Create the app save directory.
  *
- * @param {String} - The directory to create.
+ * @param {String} dir - The directory to create.
  */
 function _createSaveDirectory(dir) {
   "use strict";
@@ -762,10 +779,19 @@ function _createSaveDirectory(dir) {
     if (err) {
       console.error(err);
       notification.error(`Failed to create save directory at ${dir}`);
-    } else {
-      notification.info(`Successfully created save directory at ${dir}`);
     }
   });
+}
+
+/**
+ * Check if the app save directory exists on the file system.
+ *
+ * @param {String} dir - The directory to check.
+ * @returns {Boolean} True if the directory exists, false otherwise.
+ */
+function _checkSaveDirectory(dir) {
+  "use strict";
+  return fs.existsSync(dir);
 }
 
 /**
@@ -773,8 +799,8 @@ function _createSaveDirectory(dir) {
 */
 function decodeBase64Image(dataString) {
   "use strict";
-  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-    response = {};
+  var matches  = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+      response = {};
 
   if (matches.length !== 3) {
     return new Error("Invalid input string");
@@ -782,49 +808,48 @@ function decodeBase64Image(dataString) {
 
   response.type = matches[1];
   response.data = new Buffer(matches[2], "base64");
-
   return response;
 }
 
 /**
  * Save the captured frame to the hard drive.
  *
- * @param {Number} id The frame ID to save.
-*/
+ * @param {Number} - id The frame ID to save.
+ */
 function saveFrame(id) {
-    "use strict";
-    var fileName = "";
+  "use strict";
+  var fileName = "";
 
-    // 1K+ frames have been captured
-    if (id >= 1000) {
-      fileName = `frame_${id}`;
-    }
+  // 1K+ frames have been captured
+  if (id >= 1000) {
+    fileName = `frame_${id}`;
+  }
 
-    // 100 frames have been captured
-    else if (id >= 100) {
-      fileName = `frame_0${id}`;
-    }
+  // 100 frames have been captured
+  else if (id >= 100) {
+    fileName = `frame_0${id}`;
+  }
 
-    // 10 frames have been captured
-    else if (id >= 10) {
-      fileName = `frame_00${id}`;
+  // 10 frames have been captured
+  else if (id >= 10) {
+    fileName = `frame_00${id}`;
 
-      // Less then 10 frames have been captured
-    } else {
-      fileName = `frame_000${id}`;
-    }
+  // Less then 10 frames have been captured
+  } else {
+    fileName = `frame_000${id}`;
+  }
 
-    // Create an absolute path to the destination location
-    var outputPath = `${_getSaveDirectory()}/${fileName}.png`;
+  // Create an absolute path to the destination location
+  var outputPath = `${_getSaveDirectory()}/${fileName}.png`;
 
-    // Convert the frame from base64-encoded data to a PNG
-    var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
+  // Convert the frame from base64-encoded data to a PNG
+  var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
 
-    // Save the frame to disk
-    file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
+  // Save the frame to disk
+  file.write(outputPath, imageBuffer.data);
 
-    // Store the location of the exported frame
-    exportedFramesList.push(outputPath);
+  // Store the location of the exported frame
+  exportedFramesList.push(outputPath);
 }
 
 /**
@@ -959,7 +984,7 @@ function loadMenu() {
     // Capture menu items
     captureMenu.append(new nw.MenuItem({
       label: "Capture frame",
-      click: takePicture,
+      click: takeFrame,
       key: "1",
       modifiers: controlKey,
     }));
@@ -976,6 +1001,11 @@ function loadMenu() {
     checked: true,
     key: "m",
     modifiers: controlKey,
+  }));
+
+  captureMenu.append(new nw.MenuItem({
+    label: "Change capture destination",
+    click: _changeSaveDirectory
   }));
 
   // Playback menu items
