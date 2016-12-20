@@ -26,7 +26,7 @@ a:active {
 
 /* ======== Main Area ======== */
 
-#main-event { width: 100%; }
+main { width: 100%; }
 
 .content {
     padding: 0 0 0 2%;
