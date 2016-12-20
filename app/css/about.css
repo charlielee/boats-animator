@@ -17,33 +17,3 @@
     display: block;
     transform: translateY(100%);
 }
-
-/* ========== Status bar ============== */
-
-footer {
-  position: fixed;
-  background-color: #D9D9D9;
-  color: #2B2B2B;
-  bottom: 0;
-  width: 100%;
-  z-index: 2;
-}
-
-footer a { color: #2B2B2B; }
-footer a:hover, footer a:active { text-decoration: underline; }
-
-footer ul {
-  list-style: none;
-  padding: 0 1em;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-footer li { display: inline-block; }
-
-footer li:not(.no-pipe)::after {
-  content: "|";
-  color: #b5b5b5;
-  margin-right: 0.5em;
-  margin-left: 0.8em;
-}
