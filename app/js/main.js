@@ -88,6 +88,7 @@ var width  = 640,
     notification = require("./js/notification"),
 
     // Sidebar
+    dirChooseDialog    = document.querySelector("#chooseDirectory"),
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
 
 /**
@@ -224,6 +225,15 @@ function startup() {
 
   // Change the default save directory
   btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
+
+  // Choose save directory dialog
+  dirChooseDialog.addEventListener("change", function() {
+    if (this.value) {
+      _setSaveDirectory(this.value);
+      _createSaveDirectory(this.value);
+      _displaySaveDirectory(this.value);
+    }
+  });
 
     // Play/pause the preview
     btnPlayPause.addEventListener("click", function() {
@@ -724,17 +734,7 @@ function _onionSkinChangeAmount(ev) {
  */
 function _changeSaveDirectory() {
   "use strict";
-  var chooser = document.querySelector("#chooseDirectory");
-
-  chooser.addEventListener("change", function() {
-    if (this.value) {
-      _setSaveDirectory(this.value);
-      _createSaveDirectory(this.value);
-      _displaySaveDirectory(this.value);
-    }
-  });
-
-  chooser.click();
+  document.querySelector("#chooseDirectory").click();
 }
 
 /**
