@@ -1,6 +1,6 @@
 var help = `===== BUILD BOATS ANIMATOR EXECUTABLES =====
 
-Usage: node build -p <OPTIONS>
+Usage: node build <OPTIONS>
 
 <OPTIONS>
 --platforms, -p "win32"
@@ -47,7 +47,7 @@ var manifest = require('./package.json'),
     nwjsBuilder = require("nwjs-builder"),
     options = {
       platforms: cmdOptions.platforms,
-      version: "0.14.5",
+      version: "0.14.7",
       outputDir: "bin/Boats-Animator",
       outputName: "Boats-Animator-{version}-{target}",
       outputFormat: "DIR",

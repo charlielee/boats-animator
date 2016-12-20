@@ -13,6 +13,7 @@ pages:
   - "Main window": features/main-window.md
   - "Launcher window": features/launcher-window.md
   - "About window": features/about-window.md
+  - "Keyboard shortcuts": features/keyboard-shortcuts.md
 theme: readthedocs
 extra_css: [css/custom.css]
 markdown_extensions:

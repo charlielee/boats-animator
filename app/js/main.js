@@ -47,7 +47,7 @@ var width  = 640,
     btnFramePrevious = document.querySelector("#btn-frame-previous"),
     btnFrameFirst    = document.querySelector("#btn-frame-first"),
     btnFrameLast     = document.querySelector("#btn-frame-last"),
-    inputChangeFR = document.querySelector("#input-fr-change"),
+    inputChangeFR    = document.querySelector("#input-fr-change"),
 
     // Keyframes
     btnStartKeyframe  = document.querySelector("#btn-start-keyframe"),
@@ -64,113 +64,117 @@ var width  = 640,
     statusBarFrameNum  = document.querySelector("#num-of-frames"),
     statusBarFrameRate = document.querySelector("#current-frame-rate span"),
 
-    // Export frames
-    frameExportDirectory  = null,
-    frameExportDirectory  = _getSaveDirectory(),
-    exportedFramesList    = [],
-    curDirDisplay         = document.querySelector("#currentDirectoryName"),
+    // Frame export
+    exportedFramesList = [],
+    curDirDisplay      = document.querySelector("#currentDirectoryName"),
 
     // Onion skin
-    isOnionSkinEnabled = false,
-    onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
-    onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
-    onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
+    onionSkinWindow = document.querySelector("#onion-skinning-frame"),
+    onionSkinSlider = document.querySelector("#input-onion-skin-opacity"),
 
     // Frame reel
-    frameReelArea  = document.querySelector("#area-frame-reel"),
-    frameReelMsg   = document.querySelector("#area-frame-reel > p"),
-    frameReelRow   = document.querySelector("#area-frame-reel #reel-captured-imgs"),
-    frameReelTable = document.querySelector("#area-frame-reel table"),
+    frameReelArea   = document.querySelector("#area-frame-reel"),
+    frameReelMsg    = document.querySelector("#area-frame-reel > p"),
+    frameReelRow    = document.querySelector("#area-frame-reel #reel-captured-imgs"),
+    frameReelTable  = document.querySelector("#area-frame-reel table"),
     liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
-    // Notifications
-    notifyBar     = document.querySelector(".notification"),
-    notifyBarMsg  = document.querySelector(".notification .msg"),
-    notifyBarType = document.querySelector(".notification .notify-type"),
-
     // Confirm messages
-    confirmContainer    = document.querySelector("#confirm-container"),
-    confirmText         = document.querySelector("#confirm-text"),
-    btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
-    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
+    confirmContainer = document.querySelector("#confirm-container"),
+    confirmText      = document.querySelector("#confirm-text"),
+    btnConfirmOK     = document.querySelector("#confirm-container #btn-OK"),
+    btnConfirmCancel = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
-    file   = require("./js/file"),
-    mkdirp = require("./lib/mkdirp"),
+    fs           = require("fs"),
+    file         = require("./js/file"),
+    mkdirp       = require("./lib/mkdirp"),
+    shortcuts    = require("./js/shortcuts"),
+    notification = require("./js/notification"),
 
     // Sidebar
+    dirChooseDialog    = document.querySelector("#chooseDirectory"),
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
 
 /**
  * Occurs when "Main Menu" is pressed
  */
 function openIndex() {
-    "use strict";
-    nw.Window.open("app/index.html", {
-        position: "center",
-        width: 730,
-        height: 450,
-        min_width: 730,
-        min_height: 450,
-        focus: true,
-        icon: "icons/icon.png"
-    });
-    win.close(true);
+  "use strict";
+  nw.Window.open("app/index.html", {
+    position: "center",
+    width: 730,
+    height: 450,
+    min_width: 730,
+    min_height: 450,
+    focus: true,
+    icon: "icons/icon.png"
+  });
+  win.close(true);
 }
 
 /**
  * Occurs when "Main Menu" is pressed
  */
 function openAbout() {
-    "use strict";
-    nw.Window.open("app/about.html", {
-        position: "center",
-        width: 650,
-        height: 300,
-        focus: true,
-        icon: "icons/icon.png",
-        resizable: false,
-    });
+  "use strict";
+  nw.Window.open("app/about.html", {
+    position: "center",
+    width: 650,
+    height: 300,
+    focus: true,
+    icon: "icons/icon.png",
+    resizable: false,
+  });
 }
 
 /**
  * Confirm prompt when animator is closed.
  */
 win.on("close", function() {
-    confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+  "use strict";
+  confirmSet(closeAnimator, "", "Are you sure you want to exit Boats Animator?");
 });
 
 function closeAnimator() {
-    win.close(true);
+  "use strict";
+  win.close(true);
+  nw.App.closeAllWindows();
 }
 
 function startup() {
-    "use strict";
-    // Check if a save directory has been set
-    _checkSaveDirectory();
+  "use strict";
 
-    // If the save directory is not set, prompt to set it
-    if (!frameExportDirectory) {
-        _changeSaveDirectory();
-    }
+  let saveDirectory = _getSaveDirectory();
 
-    // Set default frame rate
-    statusBarFrameRate.innerHTML = frameRate;
-    inputChangeFR.value = frameRate;
+  // There is no set save directory or the directory does not exist
+  if (!_checkSaveDirectory(saveDirectory)) {
+    console.error("No save directory has been set!");
+    _setSaveDirectory(null);
+    _changeSaveDirectory();
 
-    // Set default view
-    switchMode("capture");
+    // There is a valid save directory
+  } else {
+    _displaySaveDirectory(saveDirectory);
+  }
 
-    // Load top menu
-    loadMenu();
+  // Set default frame rate
+  statusBarFrameRate.innerHTML = frameRate;
+  inputChangeFR.value = frameRate;
 
-    // Maximise window
-    win.maximize();
+  // Set default view
+  switchMode("capture");
 
-    // Windows specific code
-    if (process.platform === "win32") {
-        document.querySelector("body").classList.add("platform-win");
-}
+  // Load top menu
+  loadMenu();
+
+  // Maximise window
+  win.maximize();
+
+  // Windows specific code
+  if (process.platform === "win32") {
+    document.querySelector("body").classList.add("platform-win");
+  }
 
     // Get the appropriate WebRTC implementation
     navigator.getMedia = navigator.mediaDevices.getUserMedia ||
@@ -185,7 +189,7 @@ function startup() {
       function(err) {
         console.error("Could not find a camera to use!");
         console.error(err);
-        notifyError("Could not find a camera to use!");
+        notification.error("Could not find a camera to use!");
       }
     );
 
@@ -206,37 +210,35 @@ function startup() {
           captureWindow.classList.add("4by3");
         }
 
-        notifySuccess("Camera successfully connected.");
+        notification.success("Camera successfully connected.");
       }
     });
+    shortcuts.get("default");
 
+  /* ======= Listeners ======= */
+  // Capture a frame
+  btnCaptureFrame.addEventListener("click", takeFrame);
 
-    /* ======= Listeners ======= */
-    // Capture a frame
-    btnCaptureFrame.addEventListener("click", function() {
-        // Prevent taking frames without a set output path
-        if (!frameExportDirectory) {
-          notifyError("A save directory must be first set!");
-          return false;
-        }
+  // Undo last captured frame
+  btnDeleteLastFrame.addEventListener("click", undoFrame);
 
-        takePicture();
-    });
+  // Toggle preview looping
+  btnLoop.addEventListener("click", _toggleVideoLoop);
 
-    // Undo last captured frame
-    btnDeleteLastFrame.addEventListener("click", undoFrame);
+  // Change onion skin opacity
+  onionSkinSlider.addEventListener("input", _onionSkinChangeAmount);
 
-    // Toggle onion skin
-    onionSkinToggle.addEventListener("click", _toggleOnionSkin);
+  // Change the default save directory
+  btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
 
-    // Toggle preview looping
-    btnLoop.addEventListener("click", _toggleVideoLoop);
-
-    // Change onion skin opacity
-    onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
-
-    // Change the default save directory
-    btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
+  // Choose save directory dialog
+  dirChooseDialog.addEventListener("change", function() {
+    if (this.value) {
+      _setSaveDirectory(this.value);
+      _createSaveDirectory(this.value);
+      _displaySaveDirectory(this.value);
+    }
+  });
 
     // Play/pause the preview
     btnPlayPause.addEventListener("click", function() {
@@ -294,6 +296,9 @@ function startup() {
   });
 
     // Listen for frame rate changes
+    inputChangeFR.addEventListener("focus", function() {
+        shortcuts.pause();
+    });
     inputChangeFR.addEventListener("input", function() {
         if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
             frameRate = parseInt(this.value, 10);
@@ -306,6 +311,7 @@ function startup() {
 
     // Listen for leaving frame rate input
     inputChangeFR.addEventListener("blur", function() {
+        shortcuts.resume();
         inputChangeFR.value = frameRate;
         if (
             inputChangeFR.value > 60 ||
@@ -319,7 +325,7 @@ function startup() {
 
     // Grid overlay toggle
     btnGridToggle.addEventListener("click", function() {
-        notifyInfo("That feature is not yet implemented.");
+        notification.info("This feature is not yet available!");
     });
 
   // Switch from frame preview back to live view
@@ -377,10 +383,14 @@ window.onload = startup;
 
 /**
  * Toggle between playback and capture windows.
+ *
+ * @param {String} newMode - The app mode to switch to.
+ * Possible values are "capture" and "playback".
  */
 function switchMode(newMode) {
   "use strict";
   winMode = newMode;
+
   if (winMode === "capture") {
     _updateStatusBarCurFrame(totalFrames + 1);
     playbackWindow.classList.add("hidden");
@@ -407,7 +417,7 @@ function switchMode(newMode) {
 /**
  * Remove selected frame highlight from the timeline.
  *
- * @return {Boolean} True if there was a highlight to remove, false otherwise.
+ * @returns {Boolean} True if there was a highlight to remove, false otherwise.
  */
 function _removeFrameReelSelection() {
     "use strict";
@@ -498,6 +508,9 @@ function updateFrameReel(action, id) {
         frameReelMsg.classList.remove("hidden");
         frameReelTable.classList.add("hidden");
         switchMode("capture");
+
+      // Clear the onion skin window
+      onionSkinWindow.removeAttribute("src");
     }
 }
 
@@ -558,11 +571,11 @@ function removeKeyframe(location) {
  *
  * @param {Number} id - The frame ID to delete.
  */
-  function deleteFrame(id) {
+function deleteFrame(id) {
   "use strict";
   file.delete(exportedFramesList[id - 1], {
     success: function() {
-      notifySuccess("File successfully deleted.");
+      notification.success("File successfully deleted.");
     }
   });
 
@@ -578,6 +591,24 @@ function removeKeyframe(location) {
 }
 
 /**
+ * Trigger frame capturing.
+ * Prevents capturing if a save directory is not set.
+ *
+ * @returns {Boolean} True if a frame was captured, false otherwise.
+ */
+function takeFrame() {
+  "use strict";
+  // Prevent taking frames without a set output path
+  if (!_checkSaveDirectory(_getSaveDirectory())) {
+    notification.error("A save directory must be first set!");
+    return false;
+  }
+
+  _captureFrame();
+  return true;
+}
+
+/**
  * Delete the previously taken frame.
  */
 function undoFrame() {
@@ -586,34 +617,8 @@ function undoFrame() {
   if (totalFrames > 0) {
     confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
   } else {
-    notifyError("There is no previous frame to undo!");
+    notification.error("There is no previous frame to undo!");
   }
-}
-
-/**
- * Toggle onion skinning on or off.
- */
-function _toggleOnionSkin(ev) {
-    "use strict";
-    // Onion skin is currently enabled, turn it off
-    if (isOnionSkinEnabled) {
-      isOnionSkinEnabled = false;
-      ev.target.setAttribute("title", "Enable Onion Skin");
-      onionSkinToggle.children[0].classList.remove("active");
-      onionSkinWindow.classList.remove("visible");
-
-      // Onion skin is currently disabled, turn it on
-    } else {
-      isOnionSkinEnabled = true;
-      ev.target.setAttribute("title", "Disable Onion Skin");
-      onionSkinToggle.children[0].classList.add("active");
-
-      // Display last captured frame
-      onionSkinWindow.classList.add("visible");
-      if (totalFrames > 0) {
-          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1].src);
-      }
-    }
 }
 
 /**
@@ -628,7 +633,7 @@ function audio(file) {
   }
 }
 
-function takePicture() {
+function _captureFrame() {
     "use strict";
     if (winMode === "playback") {
         switchMode("capture");
@@ -829,92 +834,83 @@ function _frameReelScroll() {
  * @param {Object} ev Event object from addEventListener.
  */
 function _onionSkinChangeAmount(ev) {
-    "use strict";
-    // Calculate the percentage opacity value
-    var amount = ev.target.value * 5;
+  "use strict";
+  // Calculate the percentage opacity value
+  var amount = ev.target.value;
 
-    ev.target.setAttribute("title", `${amount}%`);
-    onionSkinWindow.style.opacity = amount / 100;
+  ev.target.setAttribute("title", `${amount}%`);
+  onionSkinWindow.style.opacity = Math.abs(amount / 100);
+
+  // Make it easier to switch off onion skinning
+  if (amount >= -6 && amount <= 6) {
+    onionSkinSlider.value = 0;
+  }
 }
 
 /**
- * Set directory to export frames to
- */
-function _checkSaveDirectory() {
-    "use strict";
-    if (frameExportDirectory === null) {
-        console.log("No save directory has been set!");
-    } else {
-        _displayDirectory(frameExportDirectory);
-    }
-}
-
-/**
- * Change the default save directory by opening
+ * Change the app save directory by opening
  * the system's native directory selection dialog.
  */
 function _changeSaveDirectory() {
-    "use strict";
-    var chooser = document.querySelector("#chooseDirectory");
-
-    chooser.addEventListener("change", function() {
-        if (this.value) {
-            frameExportDirectory = this.value;
-            _displayDirectory(frameExportDirectory);
-            _setSaveDirectory(this.value);
-            _createSaveDirectory();
-        }
-    });
-
-  chooser.click();
+  "use strict";
+  document.querySelector("#chooseDirectory").click();
 }
 
 /**
- * Display the frame destination directory in the UI.
+ * Display the app save directory in the UI.
  *
  * @param {String} dir The directory to display.
  */
-function _displayDirectory(dir) {
-    "use strict";
-    console.log(`Current destination directory is ${dir}`);
-    curDirDisplay.innerHTML = dir;
-    document.title = `Boats Animator (${dir})`;
+function _displaySaveDirectory(dir) {
+  "use strict";
+  curDirDisplay.innerHTML = dir;
+  document.title = `Boats Animator (${dir})`;
+  notification.success(`Current save directory is ${dir}`);
 }
 
 /**
- * Set the default save directory.
+ * Set the app save directory.
  */
-function _setSaveDirectory(savePath) {
-    "use strict";
-    localStorage.setItem("default_directory", savePath);
+function _setSaveDirectory(dir) {
+  "use strict";
+  localStorage.setItem("save-directory", dir);
 }
 
 /**
- * Get the default save directory.
+ * Get the app save directory.
  *
- * @return {!String} The stored directory if available, null otherwise.
+ * @returns {!String} The stored directory if available, null otherwise.
  */
 function _getSaveDirectory() {
-    "use strict";
-    return localStorage.getItem("default_directory");
+  "use strict";
+  return localStorage.getItem("save-directory");
 }
 
 /**
- * Create the default save directory if needed.
+ * Create the app save directory.
+ *
+ * @param {String} dir - The directory to create.
  */
-function _createSaveDirectory() {
-    "use strict";
-    var savePath = _getSaveDirectory();
-    mkdirp(savePath, function(err) {
-        if (err) {
-            console.error(err);
-            console.error(`Failed to create save directory at ${savePath}`);
-            notifyError(`Failed to create save directory at ${savePath}`);
-        } else {
-            console.log(`Successfully created directory at ${savePath}`);
-            notifyInfo(`Successfully created save directory at ${savePath}`);
-        }
-    });
+function _createSaveDirectory(dir) {
+  "use strict";
+
+  mkdirp(dir, function(err) {
+    if (err) {
+      console.error(err);
+      notification.error(`Failed to create save directory at ${dir}`);
+    }
+  });
+}
+
+/**
+ * Check if the app save directory exists on the file system.
+ *
+ * @param {String} dir - The directory to check.
+ * @returns {Boolean} True if the directory exists, false otherwise.
+ */
+function _checkSaveDirectory(dir) {
+  "use strict";
+  return fs.existsSync(dir);
 }
 
 /**
@@ -922,8 +918,8 @@ function _createSaveDirectory() {
  */
 function decodeBase64Image(dataString) {
   "use strict";
-  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-    response = {};
+  var matches  = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+      response = {};
 
   if (matches.length !== 3) {
     return new Error("Invalid input string");
@@ -931,126 +927,48 @@ function decodeBase64Image(dataString) {
 
   response.type = matches[1];
   response.data = new Buffer(matches[2], "base64");
-
   return response;
 }
 
 /**
  * Save the captured frame to the hard drive.
  *
- * @param {Number} id The frame ID to save.
-*/
+ * @param {Number} - id The frame ID to save.
+ */
 function saveFrame(id) {
-    "use strict";
-    var fileName = "";
+  "use strict";
+  var fileName = "";
 
-    // 1K+ frames have been captured
-    if (id >= 1000) {
-      fileName = `frame_${id}`;
-    }
+  // 1K+ frames have been captured
+  if (id >= 1000) {
+    fileName = `frame_${id}`;
+  }
 
-    // 100 frames have been captured
-    else if (id >= 100) {
-      fileName = `frame_0${id}`;
-    }
+  // 100 frames have been captured
+  else if (id >= 100) {
+    fileName = `frame_0${id}`;
+  }
 
-    // 10 frames have been captured
-    else if (id >= 10) {
-      fileName = `frame_00${id}`;
+  // 10 frames have been captured
+  else if (id >= 10) {
+    fileName = `frame_00${id}`;
 
-      // Less then 10 frames have been captured
-    } else {
-      fileName = fileName = `frame_000${id}`;
-    }
+  // Less then 10 frames have been captured
+  } else {
+    fileName = `frame_000${id}`;
+  }
 
-    // Create an absolute path to the destination location
-    var outputPath = `${frameExportDirectory}/${fileName}.png`;
+  // Create an absolute path to the destination location
+  var outputPath = `${_getSaveDirectory()}/${fileName}.png`;
 
-    // Convert the frame from base64-encoded data to a PNG
-    var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
+  // Convert the frame from base64-encoded data to a PNG
+  var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
 
-    // Save the frame to disk
-    file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
+  // Save the frame to disk
+  file.write(outputPath, imageBuffer.data);
 
-    // Store the location of the exported frame
-    exportedFramesList.push(outputPath);
-}
-
-/**
- * Hide the current notification.
- *
- * @param {String} msgType Class name of the message type
- *                         (e.g., info) displayed.
- */
-function _notifyClose(msgType) {
-    "use strict";
-    // Time in seconds before the notification should go away
-    var timeout = 2.5;
-
-    // Hide the notification bar
-    window.setTimeout(function() {
-        notifyBar.classList.add("hidden");
-    }, 1000 * timeout);
-
-    // Clear the styling a bit later.
-    // Without this, the styling is removed before
-    // the bar is hidden.
-    window.setTimeout(function() {
-        notifyBar.classList.remove(msgType);
-        notifyBarMsg.innerHTML = "";
-        notifyBarType.innerHTML = "";
-    }, 1200 * timeout);
-}
-
-/**
- * Display a success notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifySuccess(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Success";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("success");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("success");
-}
-
-/**
- * Display an information notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifyInfo(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Info";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("info");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("info");
-}
-
-/**
- * Display an error notification.
- *
- * @param {String|Number} [msg=""] The message to display.
- */
-function notifyError(msg) {
-    "use strict";
-    msg = msg || "";
-
-    notifyBarType.innerHTML = "Error";
-    notifyBarMsg.innerHTML = msg;
-    notifyBar.classList.add("error");
-    notifyBar.classList.remove("hidden");
-
-    _notifyClose("error");
+  // Store the location of the exported frame
+  exportedFramesList.push(outputPath);
 }
 
 /**
@@ -1064,30 +982,66 @@ function confirmSet(callback, args, msg) {
     "use strict";
     confirmText.innerHTML = msg;
     confirmContainer.classList.remove("hidden");
+    btnConfirmOK.focus();
+
+    shortcuts.remove("main");
+    shortcuts.add("confirm");
+
+    // Disable menubar items
+    editMenu.items[0].enabled = false;
+    captureMenu.items[0].enabled = false;
+    captureMenu.items[2].enabled = false;
+    playbackMenu.items[0].enabled = false;
+    playbackMenu.items[2].enabled = false;
+    playbackMenu.items[3].enabled = false;
 
     function _ok() {
-        confirmContainer.classList.add("hidden");
         callback(args);
-        btnConfirmOK.removeEventListener("click", _ok);
-        btnConfirmCancel.removeEventListener("click", _cancel);
+        _confirmSelect();
     }
 
     function _cancel() {
+        _confirmSelect();
+    }
+
+    function _confirmSelect() {
         confirmContainer.classList.add("hidden");
+
         btnConfirmOK.removeEventListener("click", _ok);
         btnConfirmCancel.removeEventListener("click", _cancel);
+
+        btnConfirmOK.removeEventListener("blur", _focusCancel);
+        btnConfirmCancel.removeEventListener("blur", _focusOK);
+
+        shortcuts.remove("confirm");
+        shortcuts.add("main");
+        editMenu.items[0].enabled = true;
+        captureMenu.items[0].enabled = true;
+        captureMenu.items[2].enabled = true;
+        playbackMenu.items[0].enabled = true;
+        playbackMenu.items[2].enabled = true;
+        playbackMenu.items[3].enabled = true;
     }
 
     // Respond to button clicks
     btnConfirmOK.addEventListener("click", _ok);
     btnConfirmCancel.addEventListener("click", _cancel);
+
+    function _focusOK() {
+        btnConfirmOK.focus();
+    }
+
+    function _focusCancel() {
+        btnConfirmCancel.focus();
+    }
+
+    btnConfirmOK.addEventListener("blur", _focusCancel);
+    btnConfirmCancel.addEventListener("blur", _focusOK);
 }
 
 /**
  * Display top menu
  */
-function loadMenu() {
-    "use strict";
     // Create menu
     var menuBar = new nw.Menu({ type: "menubar" });
 
@@ -1095,22 +1049,29 @@ function loadMenu() {
     var fileMenu    = new nw.Menu(),
         editMenu    = new nw.Menu(),
         captureMenu = new nw.Menu(),
+        playbackMenu = new nw.Menu(),
         helpMenu    = new nw.Menu();
+
+function loadMenu() {
+    "use strict";
+    var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
 
     // File menu items
     fileMenu.append(new nw.MenuItem({
       label: "New project...",
       click: function() {
+        notification.info("This feature is not yet available!")
       },
         key: "n",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
     fileMenu.append(new nw.MenuItem({
       label: "Open project...",
       click: function() {
+        notification.info("This feature is not yet available!")
       },
         key: "o",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
     fileMenu.append(new nw.MenuItem({
       label: "Main Menu",
@@ -1118,7 +1079,7 @@ function loadMenu() {
         confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
       },
         key: "w",
-        modifiers: "ctrl",
+        modifiers: controlKey,
     }));
     fileMenu.append(new nw.MenuItem({ type: "separator" }));
     fileMenu.append(new nw.MenuItem({
@@ -1127,7 +1088,7 @@ function loadMenu() {
         confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
       },
       key: "q",
-      modifiers: "ctrl",
+      modifiers: controlKey,
     }));
 
 
@@ -1136,15 +1097,15 @@ function loadMenu() {
       label: "Delete last frame",
       click: undoFrame,
       key: "z",
-      modifiers: "ctrl",
+      modifiers: controlKey,
     }));
 
     // Capture menu items
     captureMenu.append(new nw.MenuItem({
       label: "Capture frame",
-      click: takePicture,
+      click: takeFrame,
       key: "1",
-      modifiers: "ctrl",
+      modifiers: controlKey,
     }));
 
   captureMenu.append(new nw.MenuItem({ type: "separator" }));
@@ -1153,12 +1114,49 @@ function loadMenu() {
     label: "Play capture sounds",
     click: function() {
       playAudio = !playAudio;
-      notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+      notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
     },
     type: "checkbox",
     checked: true,
     key: "m",
-    modifiers: "ctrl",
+    modifiers: controlKey,
+  }));
+
+  captureMenu.append(new nw.MenuItem({
+    label: "Change capture destination",
+    click: _changeSaveDirectory
+  }));
+
+  // Playback menu items
+  playbackMenu.append(new nw.MenuItem({
+    label: "Loop playback",
+    click: function() {
+      btnLoop.click()
+    },
+    type: "checkbox",
+    checked: false,
+    key: "8",
+    modifiers: controlKey,
+  }));
+
+  playbackMenu.append(new nw.MenuItem({ type: "separator" }));
+
+  playbackMenu.append(new nw.MenuItem({
+    label: "Display first frame",
+    click: function() {
+      btnFrameFirst.click();
+    },
+    key: "left",
+    modifiers: controlKey,
+  }));
+
+  playbackMenu.append(new nw.MenuItem({
+    label: "Display last frame",
+    click: function() {
+      btnFrameLast.click();
+    },
+    key: "right",
+    modifiers: controlKey,
   }));
 
     // Help menu items
@@ -1206,6 +1204,13 @@ function loadMenu() {
         })
     );
 
+  menuBar.append(
+    new nw.MenuItem({
+      label: "Playback",
+      submenu: playbackMenu
+    })
+  );
+
     menuBar.append(
         new nw.MenuItem({
             label: "Help",
@@ -1221,3 +1226,8 @@ function loadMenu() {
         menuBar.createMacBuiltin("Boats Animator");
     }
 }
+
+// Stops global shortcuts operating in other applications
+win.on("focus", shortcuts.resume);
+win.on("restore", shortcuts.resume);
+win.on("blur", shortcuts.pause);
