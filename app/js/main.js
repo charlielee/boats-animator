@@ -210,15 +210,7 @@ function startup() {
 
     /* ======= Listeners ======= */
     // Capture a frame
-    btnCaptureFrame.addEventListener("click", function() {
-        // Prevent taking frames without a set output path
-        if (!_getSaveDirectory()) {
-          notification.error("A save directory must be first set!");
-          return false;
-        }
-
-        takePicture();
-    });
+    btnCaptureFrame.addEventListener("click", takeFrame);
 
     // Undo last captured frame
     btnDeleteLastFrame.addEventListener("click", undoFrame);
@@ -374,7 +366,7 @@ function switchMode(newMode) {
 /**
  * Remove selected frame highlight from the timeline.
  *
- * @return {Boolean} True if there was a highlight to remove, false otherwise.
+ * @returns {Boolean} True if there was a highlight to remove, false otherwise.
  */
 function _removeFrameReelSelection() {
     "use strict";
@@ -492,6 +484,24 @@ function deleteFrame(id) {
 }
 
 /**
+ * Trigger frame capturing.
+ * Prevents capturing if a save directory is not set.
+ *
+ * @returns {Boolean} True if a frame was captured, false otherwise.
+ */
+function takeFrame() {
+  "use strict";
+  // Prevent taking frames without a set output path
+  if (!_getSaveDirectory()) {
+    notification.error("A save directory must be first set!");
+    return false;
+  }
+
+  _captureFrame();
+  return true;
+}
+
+/**
  * Delete the previously taken frame.
  */
 function undoFrame() {
@@ -516,7 +526,7 @@ function audio(file) {
   }
 }
 
-function takePicture() {
+function _captureFrame() {
     "use strict";
     if (winMode === "playback") {
         switchMode("capture");
@@ -749,7 +759,7 @@ function _setSaveDirectory(dir) {
 /**
  * Get the app save directory.
  *
- * @return {!String} The stored directory if available, null otherwise.
+ * @returns {!String} The stored directory if available, null otherwise.
  */
 function _getSaveDirectory() {
   "use strict";
@@ -975,7 +985,7 @@ function loadMenu() {
     // Capture menu items
     captureMenu.append(new nw.MenuItem({
       label: "Capture frame",
-      click: takePicture,
+      click: takeFrame,
       key: "1",
       modifiers: controlKey,
     }));
