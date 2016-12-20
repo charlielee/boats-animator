@@ -779,7 +779,7 @@ function _createSaveDirectory(dir) {
       console.error(err);
       notification.error(`Failed to create save directory at ${dir}`);
     } else {
-      notification.info(`Successfully created save directory at ${dir}`);
+      notification.success(`Successfully created save directory at ${dir}`);
     }
   });
 }
