@@ -151,8 +151,7 @@ module.exports = {};
           });
         });
 
-        console.info(`Got shortcuts from "${location}":`);
-        console.log(allShortcuts);
+        console.info(`Loaded shortcuts from "${location}"`);
         addShortcuts("main");
       }
     });
