@@ -73,9 +73,9 @@ a:active {
     transform: translateY(100%);
 }
 
-/* ========== Status Bar ============== */
+/* ========== Status bar ============== */
 
-#statusBar {
+footer {
   position: fixed;
   background-color: #D9D9D9;
   color: #2B2B2B;
@@ -84,23 +84,21 @@ a:active {
   z-index: 2;
 }
 
-#statusBar a { color: #2B2B2B; }
-#statusBar a:hover, #statusBar a:active { text-decoration: underline; }
+footer a { color: #2B2B2B; }
+footer a:hover, footer a:active { text-decoration: underline; }
 
-#statusBar ul {
+footer ul {
   list-style: none;
   padding: 0 1em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
 
-#statusBar li { display: inline-block; }
+footer li { display: inline-block; }
 
-#statusBar li:not(.no-pipe)::after {
+footer li:not(.no-pipe)::after {
   content: "|";
   color: #b5b5b5;
   margin-right: 0.5em;
   margin-left: 0.8em;
 }
-
-#statusBar-credits { float: right; }
