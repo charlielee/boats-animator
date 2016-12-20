@@ -87,7 +87,7 @@ This is when a live-feed of the selected camera is displayed in the preview area
 This is when a captured frame is displayed in the preview area. Preview mode can be accessed either by selecting a captured frame from the [frame reel](#frame-reel) or by selecting the play button.
 
 ## Capture button
-**Shortcut: `<Ctrl+1>`**
+**Shortcut: `<Enter>`**
 
 ![Capture button](../img/capture-button.png)
 
