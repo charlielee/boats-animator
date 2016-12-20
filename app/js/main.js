@@ -360,11 +360,7 @@ function startup() {
         }
       } else {
         // Check if keyframe
-        if (id === curStartKeyframe) {
-          removeKeyframe("start");
-        } else {
-          addKeyframe("start", curSelectedFrame);
-        }
+        addKeyframe("start", curSelectedFrame);
       }
     }
   });
