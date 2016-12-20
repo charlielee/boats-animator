@@ -89,7 +89,6 @@ module.exports = {};
       });
 
       activeGroups.push(groupName);
-      console.info(`Added ${groupName} shortcuts`);
     }
   }
 
@@ -111,7 +110,6 @@ module.exports = {};
       });
 
       activeGroups.splice(activeGroups.indexOf(groupName));
-      console.info(`Removed ${groupName} shortcuts`);
     }
   }
 
@@ -151,7 +149,6 @@ module.exports = {};
           });
         });
 
-        console.info(`Loaded shortcuts from "${location}"`);
         addShortcuts("main");
       }
     });
@@ -165,7 +162,6 @@ module.exports = {};
       removeShortcuts(groupName);
       pausedGroups.push(groupName);
     });
-    console.info("Paused shortcuts");
   }
 
   /**
@@ -176,7 +172,6 @@ module.exports = {};
       addShortcuts(groupName);
       pausedGroups.length = 0;
     });
-    console.info("Resumed shortcuts");
   }
 
 
