@@ -43,7 +43,7 @@ main { flex: 1 }
   height: 100vh;
   margin: 0;
   overflow: hidden;
-  padding: 0 0 0 2%;
+  padding: 0 1em;
   width: 100%;
 }
 
@@ -60,4 +60,60 @@ main { flex: 1 }
 
 .content p {
   margin: 0 0 4em 0;
+}
+
+/* 4. Sidebar
+   -------------------------------- */
+
+aside {
+  position: relative;
+  float: right;
+  color: #d3d3d3;
+  z-index: 2;
+  padding: 0 1em 1em 1em;
+  height: 100%;
+  width: 19em;
+  border-left: 1px solid #423e3e;
+  background-color: #2B2B2B;
+}
+
+aside a,
+aside label,
+aside .sidebar-opt {
+  color: #d3d3d3;
+  cursor: pointer;
+}
+aside a:hover,
+aside label:hover,
+aside .sidebar-opt:hover { border-bottom: 1.5px solid #d3d3d3; }
+
+aside input,
+aside label {
+  vertical-align: middle;
+}
+
+aside h2 { font-size: 1.2em; }
+
+aside ul {
+  list-style: none;
+  line-height: 1.4;
+  padding-left: 1em;
+}
+
+aside li { margin-left: -0.7em; }
+
+#btn-sidebar-toggle {
+  font-size: 1.5em;
+  padding: 0.3em;
+  cursor: pointer;
+  float: right;
+}
+
+.sidebar-item { border-bottom: 1px solid #ADADAD; }
+
+.sidebar-link-dot { margin-right: 6px; }
+
+.sidebar-header i {
+  margin-right: 0.4em;
+  font-size: 0.9em;
 }
