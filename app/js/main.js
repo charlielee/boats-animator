@@ -217,6 +217,16 @@ function startup() {
     shortcuts.get("default");
 
   /* ======= Listeners ======= */
+  // Change resolution
+  document.querySelector("#capture-options li:first-child").addEventListener("click", function() {
+    notification.info("This feature is not yet available!");
+  });
+
+  // Change camera
+  document.querySelector("#capture-options li:last-child").addEventListener("click", function() {
+    notification.info("This feature is not yet available!");
+  });
+
   // Capture a frame
   btnCaptureFrame.addEventListener("click", takeFrame);
 
@@ -324,10 +334,10 @@ function startup() {
         }
     });
 
-    // Grid overlay toggle
-    btnGridToggle.addEventListener("click", function() {
-        notification.info("This feature is not yet available!");
-    });
+  // Grid overlay toggle
+  btnGridToggle.addEventListener("click", function() {
+    notification.info("This feature is not yet available!");
+  });
 
   // Switch from frame preview back to live view
   btnLiveView.addEventListener("click", function() {
@@ -955,8 +965,12 @@ function _checkSaveDirectory(dir) {
 }
 
 /**
- * Converting frames to png.
- */
+* Convert frames from base64 to png
+*
+* @author Stack Overflow http://stackoverflow.com/questions/20267939
+* @author Julian Lannigan http://stackoverflow.com/users/1777444
+* @license cc by-sa 3.0
+*/
 function decodeBase64Image(dataString) {
   "use strict";
   var matches  = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
