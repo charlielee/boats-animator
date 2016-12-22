@@ -2,7 +2,7 @@ module.exports = {};
 
 (function() {
   "use strict";
-  var fs = require("fs");
+  const fs = require("fs");
 
   /**
    * Update the callback object to add missing repsonse methods.
