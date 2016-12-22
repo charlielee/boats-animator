@@ -148,7 +148,7 @@ function startup() {
 
     // There is a valid save directory
   } else {
-    _displaySaveDirectory(saveDirectory);
+    _displaySaveDirectory(path);
   }
 
   // Set default frame rate
