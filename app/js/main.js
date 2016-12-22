@@ -171,6 +171,9 @@ function startup() {
     document.querySelector("body").classList.add("platform-win");
   }
 
+  // Load the keyboard shortcuts
+  shortcuts.get("default");
+
   // Get the video stream
   navigator.mediaDevices.getUserMedia({ video: true })
   .then((stream) => {
@@ -181,27 +184,26 @@ function startup() {
     notification.error("Could not find a camera to use!");
   });
 
-    preview.addEventListener("canplay", function() {
-      if (!streaming) {
-        height = preview.videoHeight / (preview.videoWidth / width);
+  preview.addEventListener("canplay", function() {
+    if (!streaming) {
+      height = preview.videoHeight / (preview.videoWidth / width);
 
-        playback.setAttribute("width", preview.videoWidth.toString());
-        playback.setAttribute("height", preview.videoHeight.toString());
-        streaming = true;
-        ratio = width / height;
-        aspectRatio = ratio.toFixed(2);
-        console.log("height: " + height);
-        console.log("width: " + width);
-        console.log("Aspect ratio: " + aspectRatio);
+      playback.setAttribute("width", preview.videoWidth.toString());
+      playback.setAttribute("height", preview.videoHeight.toString());
+      streaming = true;
+      ratio = width / height;
+      aspectRatio = ratio.toFixed(2);
+      console.log("height: " + height);
+      console.log("width: " + width);
+      console.log("Aspect ratio: " + aspectRatio);
 
-        if (aspectRatio === 1.33) {
-          captureWindow.classList.add("4by3");
-        }
-
-        notification.success("Camera successfully connected.");
+      if (aspectRatio === 1.33) {
+        captureWindow.classList.add("4by3");
       }
-    });
-    shortcuts.get("default");
+
+      notification.success("Camera successfully connected.");
+    }
+  });
 
   /* ======= Listeners ======= */
   // Change resolution
