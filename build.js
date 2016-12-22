@@ -47,7 +47,7 @@ var manifest = require('./package.json'),
     nwjsBuilder = require("nwjs-builder"),
     options = {
       platforms: cmdOptions.platforms,
-      version: "0.19.2",
+      version: "0.19.3",
       outputDir: "bin/Boats-Animator",
       outputName: "Boats-Animator-{version}-{target}",
       outputFormat: "DIR",
@@ -129,7 +129,7 @@ function linux() {
         // Set .desktop file permissions
         fs.chmod(`${dir}/boats-animator.desktop`, 0777, function(err) {
           console.log(err ? err : `  linux${dir.slice(-2)}: Set .desktop file permissions`);
-          
+
           // Compress Linux dirs
           compressDir(dir, "tar.gz");
         });
