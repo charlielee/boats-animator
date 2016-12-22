@@ -712,7 +712,7 @@ function _frameReelScroll() {
         frameReelArea.scrollLeft = 0;
     } else if (curPlayFrame + 1 !== totalFrames) {
         // Scroll so currently played frame is in view
-        document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).scrollIntoView();
+        document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).parentNode.scrollIntoView();
     } else {
         // Scroll to end when playback has stopped
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
