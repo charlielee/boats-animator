@@ -336,9 +336,12 @@ a {
 #area-frame-reel > table.hidden { display: none; }
 
 /* Image container */
+td:first-of-type .frame-reel-preview {
+  padding-left: 0.25em;
+}
 .frame-reel-preview {
   position: relative;
-  padding-left: 0.25em;
+  padding-right: 0.25em;
 }
 
 /* Preview image */
@@ -359,7 +362,6 @@ a {
   text-align: center;
   font-size: 2.5em;
   cursor: pointer;
-  margin-right: 5px;
 }
 #btn-live-view:hover { color: #ad0000; }
 
