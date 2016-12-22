@@ -169,44 +169,39 @@ function startup() {
     document.querySelector("body").classList.add("platform-win");
   }
 
-    // Get the appropriate WebRTC implementation
-    navigator.getMedia = navigator.mediaDevices.getUserMedia ||
-                         navigator.getUserMedia ||
-                         navigator.webkitGetUserMedia;
+  // Load the keyboard shortcuts
+  shortcuts.get("default");
 
-    navigator.getMedia({ video: true },
-      function(stream) {
-        var videoBlob = window.URL.createObjectURL(stream);
-        preview.src = videoBlob;
-      },
-      function(err) {
-        console.error("Could not find a camera to use!");
-        console.error(err);
-        notification.error("Could not find a camera to use!");
+  // Get the video stream
+  navigator.mediaDevices.getUserMedia({ video: true })
+  .then((stream) => {
+    preview.src = window.URL.createObjectURL(stream);
+  })
+  .catch((err) => {
+    console.error(err);
+    notification.error("Could not find a camera to use!");
+  });
+
+  preview.addEventListener("canplay", function() {
+    if (!streaming) {
+      height = preview.videoHeight / (preview.videoWidth / width);
+
+      playback.setAttribute("width", preview.videoWidth.toString());
+      playback.setAttribute("height", preview.videoHeight.toString());
+      streaming = true;
+      ratio = width / height;
+      aspectRatio = ratio.toFixed(2);
+      console.log("height: " + height);
+      console.log("width: " + width);
+      console.log("Aspect ratio: " + aspectRatio);
+
+      if (aspectRatio === 1.33) {
+        captureWindow.classList.add("4by3");
       }
-    );
 
-    preview.addEventListener("canplay", function() {
-      if (!streaming) {
-        height = preview.videoHeight / (preview.videoWidth / width);
-
-        playback.setAttribute("width", preview.videoWidth.toString());
-        playback.setAttribute("height", preview.videoHeight.toString());
-        streaming = true;
-        ratio = width / height;
-        aspectRatio = ratio.toFixed(2);
-        console.log("height: " + height);
-        console.log("width: " + width);
-        console.log("Aspect ratio: " + aspectRatio);
-
-        if (aspectRatio === 1.33) {
-          captureWindow.classList.add("4by3");
-        }
-
-        notification.success("Camera successfully connected.");
-      }
-    });
-    shortcuts.get("default");
+      notification.success("Camera successfully connected.");
+    }
+  });
 
   /* ======= Listeners ======= */
   // Change resolution

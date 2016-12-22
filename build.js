@@ -47,7 +47,7 @@ var manifest = require('./package.json'),
     nwjsBuilder = require("nwjs-builder"),
     options = {
       platforms: cmdOptions.platforms,
-      version: "0.14.7",
+      version: "0.19.2",
       outputDir: "bin/Boats-Animator",
       outputName: "Boats-Animator-{version}-{target}",
       outputFormat: "DIR",
