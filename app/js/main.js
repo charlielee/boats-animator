@@ -171,22 +171,15 @@ function startup() {
     document.querySelector("body").classList.add("platform-win");
   }
 
-    // Get the appropriate WebRTC implementation
-    navigator.getMedia = navigator.mediaDevices.getUserMedia ||
-                         navigator.getUserMedia ||
-                         navigator.webkitGetUserMedia;
-
-    navigator.getMedia({ video: true },
-      function(stream) {
-        var videoBlob = window.URL.createObjectURL(stream);
-        preview.src = videoBlob;
-      },
-      function(err) {
-        console.error("Could not find a camera to use!");
-        console.error(err);
-        notification.error("Could not find a camera to use!");
-      }
-    );
+  // Get the video stream
+  navigator.mediaDevices.getUserMedia({ video: true })
+  .then((stream) => {
+    preview.src = window.URL.createObjectURL(stream);
+  })
+  .catch((err) => {
+    console.error(err);
+    notification.error("Could not find a camera to use!");
+  });
 
     preview.addEventListener("canplay", function() {
       if (!streaming) {
