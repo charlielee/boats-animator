@@ -81,11 +81,10 @@ var width  = 640,
     btnConfirmCancel = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
-    fs           = require("fs"),
-    file         = require("./js/file"),
-    mkdirp       = require("./lib/mkdirp"),
-    shortcuts    = require("./js/shortcuts"),
-    notification = require("./js/notification"),
+    file          = require("./js/file"),
+    shortcuts     = require("./js/shortcuts"),
+    notification  = require("./js/notification"),
+    saveDirectory = require("./js/savedirectory"),
 
     // Sidebar
     dirChooseDialog    = document.querySelector("#chooseDirectory"),
@@ -139,13 +138,12 @@ function closeAnimator() {
 
 function startup() {
   "use strict";
-
-  let saveDirectory = _getSaveDirectory();
+  let path = saveDirectory.get();
 
   // There is no set save directory or the directory does not exist
-  if (!_checkSaveDirectory(saveDirectory)) {
+  if (!path) {
     console.error("No save directory has been set!");
-    _setSaveDirectory(null);
+    saveDirectory.set(null);
     _changeSaveDirectory();
 
     // There is a valid save directory
@@ -239,8 +237,8 @@ function startup() {
   // Choose save directory dialog
   dirChooseDialog.addEventListener("change", function() {
     if (this.value) {
-      _setSaveDirectory(this.value);
-      _createSaveDirectory(this.value);
+      saveDirectory.set(this.value);
+      saveDirectory.make(this.value);
       _displaySaveDirectory(this.value);
     }
   });
@@ -513,7 +511,7 @@ function deleteFrame(id) {
 function takeFrame() {
   "use strict";
   // Prevent taking frames without a set output path
-  if (!_checkSaveDirectory(_getSaveDirectory())) {
+  if (!saveDirectory.get()) {
     notification.error("A save directory must be first set!");
     return false;
   }
@@ -760,51 +758,6 @@ function _displaySaveDirectory(dir) {
 }
 
 /**
- * Set the app save directory.
- */
-function _setSaveDirectory(dir) {
-  "use strict";
-  localStorage.setItem("save-directory", dir);
-}
-
-/**
- * Get the app save directory.
- *
- * @returns {!String} The stored directory if available, null otherwise.
- */
-function _getSaveDirectory() {
-  "use strict";
-  return localStorage.getItem("save-directory");
-}
-
-/**
- * Create the app save directory.
- *
- * @param {String} dir - The directory to create.
- */
-function _createSaveDirectory(dir) {
-  "use strict";
-
-  mkdirp(dir, function(err) {
-    if (err) {
-      console.error(err);
-      notification.error(`Failed to create save directory at ${dir}`);
-    }
-  });
-}
-
-/**
- * Check if the app save directory exists on the file system.
- *
- * @param {String} dir - The directory to check.
- * @returns {Boolean} True if the directory exists, false otherwise.
- */
-function _checkSaveDirectory(dir) {
-  "use strict";
-  return fs.existsSync(dir);
-}
-
-/**
 * Convert frames from base64 to png
 *
 * @author Stack Overflow http://stackoverflow.com/questions/20267939
@@ -854,7 +807,7 @@ function saveFrame(id) {
   }
 
   // Create an absolute path to the destination location
-  var outputPath = `${_getSaveDirectory()}/${fileName}.png`;
+  var outputPath = `${saveDirectory.get()}/${fileName}.png`;
 
   // Convert the frame from base64-encoded data to a PNG
   var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
