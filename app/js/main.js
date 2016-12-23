@@ -238,20 +238,20 @@ function startup() {
     }
   });
 
-    // Play/pause the preview
-    btnPlayPause.addEventListener("click", function() {
-        // Make sure we have frames to play back
-        if (totalFrames > 0) {
-            (isPlaying ? videoPause : previewCapturedFrames)();
-        }
-    });
+  // Play/pause the preview
+  btnPlayPause.addEventListener("click", function() {
+    // Make sure we have frames to play back
+    if (totalFrames > 0) {
+      (isPlaying ? videoPause : previewCapturedFrames)();
+    }
+  });
 
-    // Stop the preview
-    btnStop.addEventListener("click", function() {
-        if (winMode === "playback") {
-            videoStop();
-        }
-    });
+  // Stop the preview
+  btnStop.addEventListener("click", function() {
+    if (winMode === "playback") {
+      videoStop();
+    }
+  });
 
   // Preview one frame to the right on framereel
   btnFrameNext.addEventListener("click", function() {
@@ -293,33 +293,33 @@ function startup() {
     }
   });
 
-    // Listen for frame rate changes
-    inputChangeFR.addEventListener("focus", function() {
-        shortcuts.pause();
-    });
-    inputChangeFR.addEventListener("input", function() {
-        if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
-            frameRate = parseInt(this.value, 10);
-        } else {
-            frameRate = 15;
-        }
-        statusBarFrameRate.innerHTML = frameRate;
-        videoStop();
-    });
+  // Listen for frame rate changes
+  inputChangeFR.addEventListener("focus", function() {
+    shortcuts.pause();
+  });
+  inputChangeFR.addEventListener("input", function() {
+    if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
+      frameRate = parseInt(this.value, 10);
+    } else {
+      frameRate = 15;
+    }
+    statusBarFrameRate.innerHTML = frameRate;
+    videoStop();
+  });
 
-    // Listen for leaving frame rate input
-    inputChangeFR.addEventListener("blur", function() {
-        shortcuts.resume();
-        inputChangeFR.value = frameRate;
-        if (
-            inputChangeFR.value > 60 ||
-            inputChangeFR.value < 1 ||
-            Number.isNaN(inputChangeFR.value) ||
-            inputChangeFR.length > 2
-          ) {
-            inputChangeFR.value = 15;
-        }
-    });
+  // Listen for leaving frame rate input
+  inputChangeFR.addEventListener("blur", function() {
+    shortcuts.resume();
+    inputChangeFR.value = frameRate;
+    if (
+        inputChangeFR.value > 60 ||
+        inputChangeFR.value < 1 ||
+        Number.isNaN(inputChangeFR.value) ||
+        inputChangeFR.length > 2
+      ) {
+      inputChangeFR.value = 15;
+    }
+  });
 
   // Grid overlay toggle
   btnGridToggle.addEventListener("click", function() {
