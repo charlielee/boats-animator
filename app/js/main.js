@@ -21,8 +21,7 @@ var width  = 640,
 
     // Mode switching
     btnLiveView    = document.querySelector("#btn-live-view"),
-    captureWindow  = document.querySelector("#capture-window"),
-    playbackWindow = document.querySelector("#playback-window"),
+    previewWindow  = document.querySelector("#preview-window"),
     winMode        = "capture",
 
     // Capture
@@ -206,10 +205,6 @@ function startup() {
         console.log("width: " + width);
         console.log("Aspect ratio: " + aspectRatio);
 
-        if (aspectRatio === 1.33) {
-          captureWindow.classList.add("4by3");
-        }
-
         notification.success("Camera successfully connected.");
       }
     });
@@ -388,18 +383,26 @@ function switchMode(newMode) {
 
   if (winMode === "capture") {
     _updateStatusBarCurFrame(totalFrames + 1);
-    playbackWindow.classList.add("hidden");
-    captureWindow.classList.remove("hidden");
-    captureWindow.classList.add("active");
+    // Hide playback canvas
+    playback.classList.add("hidden");
+    // Display video feed
+    if (preview.classList.contains("hidden")) {
+      preview.classList.remove("hidden");
+    }
+    previewWindow.classList.add("active");
     btnLiveView.classList.add("selected");
+
     if (!curStartKeyframe) {
       btnClearKeyframe.setAttribute("disabled", "");
     }
 
   } else if (winMode === "playback") {
-    playbackWindow.classList.remove("hidden");
-    captureWindow.classList.add("hidden");
-    captureWindow.classList.remove("active");
+    // Display preview canvas
+    playback.classList.remove("hidden");
+    // Hide video feed
+    preview.classList.add("hidden");
+
+    previewWindow.classList.remove("active");
     btnLiveView.classList.remove("selected");
   }
 
