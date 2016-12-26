@@ -883,15 +883,13 @@ function confirmSet(callback, args, msg) {
 /**
  * Display top menu
  */
-    // Create menu
-    var menuBar = new nw.Menu({ type: "menubar" });
-
-    // Create sub-menus
-    var fileMenu    = new nw.Menu(),
-        editMenu    = new nw.Menu(),
-        captureMenu = new nw.Menu(),
-        playbackMenu = new nw.Menu(),
-        helpMenu    = new nw.Menu();
+// Create top menu and sub-menus
+var menuBar      = new nw.Menu({ type: "menubar" }),
+    fileMenu     = new nw.Menu(),
+    editMenu     = new nw.Menu(),
+    captureMenu  = new nw.Menu(),
+    playbackMenu = new nw.Menu(),
+    helpMenu     = new nw.Menu();
 
 function loadMenu() {
     "use strict";
