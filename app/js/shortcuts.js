@@ -141,7 +141,7 @@ module.exports = {};
 
             var featureObject = {
               // The feature's function
-              active : features[groupName][featureName],
+              active: features[groupName][featureName],
               // Array of keyboard shortcuts for the feature
               keys: data[groupName][featureName],
             };

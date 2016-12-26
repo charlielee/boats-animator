@@ -294,9 +294,7 @@ function startup() {
   });
 
   // Listen for frame rate changes
-  inputChangeFR.addEventListener("focus", function() {
-    shortcuts.pause();
-  });
+  inputChangeFR.addEventListener("focus", shortcuts.pause);
   inputChangeFR.addEventListener("input", function() {
     if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
       frameRate = parseInt(this.value, 10);
