@@ -1062,7 +1062,9 @@ function loadMenu() {
 
     // Create Mac menu
     if (process.platform === "darwin") {
-        menuBar.createMacBuiltin("Boats Animator");
+        menuBar.createMacBuiltin("Boats Animator", {
+          hideEdit: true
+        });
     }
 }
 
