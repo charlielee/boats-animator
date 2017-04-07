@@ -41,7 +41,7 @@ module.exports = {};
     let details = {
       id: _id(),
       _class: type,
-      type: `${type.charAt(0).toUpperCase()}${type.substring(1)}`,
+      type: type,
       msg: msg || "",
     };
 

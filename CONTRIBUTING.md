@@ -4,7 +4,7 @@ Thank you for choosing to help improve Boats Animator!
 ## Setup
 1. First fork this repository by pressing ![Fork](https://camo.githubusercontent.com/07b3944af53da32b0cffe98152c45c46431a82f0/687474703a2f2f6938312e73657276696d672e636f6d2f752f6638312f31362f33332f30362f31312f666f726b6d6531322e706e67) at the top of this page.
 2. Clone the fork to your computer using: `git clone https://github.com/YOUR_USERNAME/boats-animator.git` or [GitHub Desktop](https://desktop.github.com/).
-3. Install **version 5 or above** of [Node.js](https://nodejs.org/en/download/stable/).
+3. Install **version 5 or above** of [Node.js](https://nodejs.org/).
 4. Run `npm install` in the `boats-animator` directory.
 
 ### Running from source code
@@ -30,7 +30,7 @@ If you're working on an improvement to Boats Animator it is usually good practis
 
 ## Coding conventions
 The following conventions should be observed in Boats Animator's code:
-* HTML5, CSS3 and ES6 JavaScript that is supported by Chromium 50 may be used.
+* HTML5, CSS3 and ES6 JavaScript that is supported by Chromium 55 may be used.
 * Features with the `Webkit` prefix may be used if there is no standardised method available.
 * Code should use **2 space indentation** ([currently a WIP](https://github.com/BoatsAreRockable/Boats-Animator/issues/140)).
 * Trailing white space should be avoided.

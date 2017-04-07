@@ -1,7 +1,7 @@
 # Keyboard shortcuts
 There are numerous keyboard shortcuts shortcuts available in Boats Animator; here is a comprehensive list of all of them.
 
-!!! note "Note for Mac OS X users:"
+!!! note "Note for macOS users:"
     The `Command` key should be used in place of any shortcuts listed with `Ctrl` in them.
 
 | Action                 | Primary          | Alt 1                | Alt 2           | Alt 3                |

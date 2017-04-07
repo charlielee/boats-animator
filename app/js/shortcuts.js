@@ -2,7 +2,8 @@ module.exports = {};
 
 (function () {
   "use strict";
-  var curShortcuts = {},
+  var notification = require("./notification"),
+      curShortcuts = {},
       allShortcuts = {},
       activeGroups = [],
       pausedGroups = [],
@@ -19,7 +20,7 @@ module.exports = {};
             playAudio = !playAudio;
             // Toggle checkbox on related menubar item
             captureMenu.items[2].checked = !captureMenu.items[2].checked;
-            notifyInfo(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+            notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
           },
           playPause: function() {
             btnPlayPause.click();
@@ -88,7 +89,6 @@ module.exports = {};
       });
 
       activeGroups.push(groupName);
-      console.info(`Added ${groupName} shortcuts`);
     }
   }
 
@@ -110,7 +110,6 @@ module.exports = {};
       });
 
       activeGroups.splice(activeGroups.indexOf(groupName));
-      console.info(`Removed ${groupName} shortcuts`);
     }
   }
 
@@ -142,7 +141,7 @@ module.exports = {};
 
             var featureObject = {
               // The feature's function
-              active : features[groupName][featureName],
+              active: features[groupName][featureName],
               // Array of keyboard shortcuts for the feature
               keys: data[groupName][featureName],
             };
@@ -150,8 +149,6 @@ module.exports = {};
           });
         });
 
-        console.info(`Got shortcuts from "${location}":`);
-        console.log(allShortcuts);
         addShortcuts("main");
       }
     });
@@ -165,7 +162,6 @@ module.exports = {};
       removeShortcuts(groupName);
       pausedGroups.push(groupName);
     });
-    console.info("Paused shortcuts");
   }
 
   /**
@@ -176,7 +172,6 @@ module.exports = {};
       addShortcuts(groupName);
       pausedGroups.length = 0;
     });
-    console.info("Resumed shortcuts");
   }
 
 
