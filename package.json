@@ -56,6 +56,9 @@
         "command-line-args": "^3.0.0",
         "mkdirp": "^0.5.1"
     },
+    "devDependencies": {
+        "nw-dev": "^3.0.1"
+    },
     "scripts": {
         "postinstall": "node install",
         "start": "nwb nwbuild -v 0.19.3-sdk -r .",
