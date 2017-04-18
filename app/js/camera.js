@@ -26,24 +26,48 @@ module.exports = {};
       qCameraSelect = document.querySelector("#camera-select-td select"),
       videoCapture  = document.createElement("video");
 
-    /**
-     * Get the user-selected resolution.
-     *
-     * @return {String} The corresponding key for the equivalent constraint.
-     */
-    // function getSelectedResolution() {
-    //     return qResoluSelect.options[qResoluSelect.options.selectedIndex].value;
-    // }
 
-    function _getSelectedCamera() {
-      return qCameraSelect.options[qCameraSelect.options.selectedIndex].value;
-    }
+
+
+  /**
+   * Creates a video element with a source of the camera
+   * and resolution the user selected.
+   */
+  function getCamera() {
+    console.log(_getSelectedCamera());
+    // _getMedia(_getSelectedCamera(), constraints[getSelectedResolution()]);
+    _getMedia(constraints["480p"]);
+    return videoCapture;
+  }
+
+  /**
+   * Get the user-selected resolution.
+   * @return {String} The corresponding key for the equivalent constraint.
+   */
+  // function getSelectedResolution() {
+  //     return qResoluSelect.options[qResoluSelect.options.selectedIndex].value;
+  // }
+
+  /**
+   * Gets the user-selected camera.
+   * @return {string} The deviceId of the camera the user has selected.
+   */
+  function _getSelectedCamera() {
+    return qCameraSelect.options[qCameraSelect.options.selectedIndex].value;
+  }
+
+  function _getMedia(constraints) {
+    // Load the stream and display it
+    navigator.mediaDevices.getUserMedia(constraints)
+    .then(mediaSuccessCapture)
+    .catch(mediaError);;
+  }
 
   /**
    * Play hidden video in the correct resolution.
    */
   function mediaSuccessCapture(mediaStream) {
-//         console.log("capture!!!");
+    // console.log("capture!!!");
     videoCapture.src = window.URL.createObjectURL(mediaStream);
     videoCapture.play();
 
@@ -51,24 +75,10 @@ module.exports = {};
     module.exports.videoCapture = videoCapture;
   }
 
-    function mediaError(err) {
-      notification.error("Could not find a camera to use!");
-      console.error(err);
-    }
-
-    function _getMedia(constraints) {
-      // Load the stream and display it
-      navigator.mediaDevices.getUserMedia(constraints)
-      .then(mediaSuccessCapture)
-      .catch(mediaError);;
-    }
-
-    function getCamera() {
-      console.log(_getSelectedCamera());
-        // _getMedia(_getSelectedCamera(), constraints[getSelectedResolution()]);
-        _getMedia(constraints["480p"]);
-        return videoCapture;
-    }
+  function mediaError(err) {
+    notification.error("Could not find a camera to use!");
+    console.error(err);
+  }
 
     function _findVideoSources(sources) {
       let i = 1;
@@ -90,10 +100,10 @@ module.exports = {};
       });
 
       // TODO FAKE CAMERA REMOVE PLEASE
-      var option = window.document.createElement("option");
-      option.text = "Nope";
-      option.value = "Hahha";
-      qCameraSelect.appendChild(option);
+      // var option = window.document.createElement("option");
+      // option.text = "Nope";
+      // option.value = "Hahha";
+      // qCameraSelect.appendChild(option);
 
       // Default select the first camera
       qCameraSelect.options[0].selected = true;
