@@ -8,7 +8,7 @@
   qAppVersion.innerHTML = nw.App.manifest.version;
 
   // Display the latest news
-  newsFeed.load("http://charlielee.uk/api/core/get_category_posts/?id=12");
+  newsFeed.load("http://charlielee.uk/feed/boats-animator.json");
 
   /**
    * Occurs when "New Project" is pressed

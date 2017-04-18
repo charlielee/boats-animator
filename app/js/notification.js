@@ -41,7 +41,7 @@ module.exports = {};
     let details = {
       id: _id(),
       _class: type,
-      type: `${type.charAt(0).toUpperCase()}${type.substring(1)}`,
+      type: type,
       msg: msg || "",
     };
 
@@ -76,7 +76,6 @@ module.exports = {};
    * @returns {Object} The notification object given.
    */
   function _hideDelayed(notify) {
-    "use strict";
     // Time in seconds before the notification should go away
     let timeout = 2.5;
 

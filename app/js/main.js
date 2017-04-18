@@ -47,7 +47,7 @@ var width  = 640,
     btnFramePrevious = document.querySelector("#btn-frame-previous"),
     btnFrameFirst    = document.querySelector("#btn-frame-first"),
     btnFrameLast     = document.querySelector("#btn-frame-last"),
-    inputChangeFR = document.querySelector("#input-fr-change"),
+    inputChangeFR    = document.querySelector("#input-fr-change"),
 
     // Audio
     captureAudio = "audio/camera.wav",
@@ -59,71 +59,68 @@ var width  = 640,
     statusBarFrameNum  = document.querySelector("#num-of-frames"),
     statusBarFrameRate = document.querySelector("#current-frame-rate span"),
 
-    // Export frames
-    frameExportDirectory  = null,
-    frameExportDirectory  = _getSaveDirectory(),
-    exportedFramesList    = [],
-    curDirDisplay         = document.querySelector("#currentDirectoryName"),
+    // Frame export
+    exportedFramesList = [],
+    curDirDisplay      = document.querySelector("#currentDirectoryName"),
 
     // Onion skin
-    isOnionSkinEnabled = false,
-    onionSkinToggle    = document.querySelector("#btn-onion-skin-toggle"),
-    onionSkinWindow    = document.querySelector("#onion-skinning-frame"),
-    onionSkinOpacity   = document.querySelector("#input-onion-skin-opacity"),
+    onionSkinWindow = document.querySelector("#onion-skinning-frame"),
+    onionSkinSlider = document.querySelector("#input-onion-skin-opacity"),
 
     // Frame reel
-    frameReelArea  = document.querySelector("#area-frame-reel"),
-    frameReelMsg   = document.querySelector("#area-frame-reel > p"),
-    frameReelRow   = document.querySelector("#area-frame-reel #reel-captured-imgs"),
-    frameReelTable = document.querySelector("#area-frame-reel table"),
+    frameReelArea   = document.querySelector("#area-frame-reel"),
+    frameReelMsg    = document.querySelector("#area-frame-reel > p"),
+    frameReelRow    = document.querySelector("#area-frame-reel #reel-captured-imgs"),
+    frameReelTable  = document.querySelector("#area-frame-reel table"),
     liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
     // Confirm messages
-    confirmContainer    = document.querySelector("#confirm-container"),
-    confirmText         = document.querySelector("#confirm-text"),
-    btnConfirmOK        = document.querySelector("#confirm-container #btn-OK"),
-    btnConfirmCancel    = document.querySelector("#confirm-container #btn-cancel"),
+    confirmContainer = document.querySelector("#confirm-container"),
+    confirmText      = document.querySelector("#confirm-text"),
+    btnConfirmOK     = document.querySelector("#confirm-container #btn-OK"),
+    btnConfirmCancel = document.querySelector("#confirm-container #btn-cancel"),
 
     // Node modules
-    file         = require("./js/file"),
-    camera       = require("./js/camera"),
-    mkdirp       = require("./lib/mkdirp"),
-    shortcuts    = require("./js/shortcuts"),
-    notification = require("./js/notification"),
+    file          = require("./js/file"),
+    camera        = require("./js/camera"),
+    shortcuts     = require("./js/shortcuts"),
+    notification  = require("./js/notification"),
+    saveDirectory = require("./js/savedirectory"),
 
     // Sidebar
+    dirChooseDialog    = document.querySelector("#chooseDirectory"),
     btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
 
 /**
  * Occurs when "Main Menu" is pressed
  */
 function openIndex() {
-    "use strict";
-    nw.Window.open("app/index.html", {
-        position: "center",
-        width: 730,
-        height: 450,
-        min_width: 730,
-        min_height: 450,
-        focus: true,
-        icon: "icons/icon.png"
-    });
-    win.close(true);
+  "use strict";
+  nw.Window.open("app/index.html", {
+    position: "center",
+    width: 730,
+    height: 450,
+    min_width: 730,
+    min_height: 450,
+    focus: true,
+    icon: "icons/icon.png"
+  });
+  win.close(true);
 }
 
 /**
  * Occurs when "Main Menu" is pressed
  */
 function openAbout() {
-    "use strict";
-    nw.Window.open("app/about.html", {
-        position: "center",
-        width: 650,
-        height: 300,
-        focus: true,
-        icon: "icons/icon.png",
-        resizable: false,
-    });
+  "use strict";
+  nw.Window.open("app/about.html", {
+    position: "center",
+    width: 650,
+    height: 300,
+    focus: true,
+    icon: "icons/icon.png",
+    resizable: false,
+  });
 }
 
 /**
@@ -141,113 +138,121 @@ function closeAnimator() {
 }
 
 function startup() {
-    "use strict";
-    // Check if a save directory has been set
-    _checkSaveDirectory();
+  "use strict";
+  let path = saveDirectory.get();
 
-    // If the save directory is not set, prompt to set it
-    if (!frameExportDirectory) {
-        _changeSaveDirectory();
+  // There is no set save directory or the directory does not exist
+  if (!path) {
+    console.error("No save directory has been set!");
+    saveDirectory.set(null);
+    _changeSaveDirectory();
+
+    // There is a valid save directory
+  } else {
+    _displaySaveDirectory(path);
+  }
+
+  // Set default frame rate
+  statusBarFrameRate.innerHTML = frameRate;
+  inputChangeFR.value = frameRate;
+
+  // Set default view
+  switchMode("capture");
+
+  // Load top menu
+  loadMenu();
+
+  // Maximise window
+  win.maximize();
+
+  // Windows specific code
+  if (process.platform === "win32") {
+    document.querySelector("body").classList.add("platform-win");
+  }
+
+  // Load the keyboard shortcuts
+  shortcuts.get("default");
+
+  // Get the video stream
+  navigator.mediaDevices.getUserMedia({ video: true })
+  .then((stream) => {
+    preview.src = window.URL.createObjectURL(stream);
+  })
+  .catch((err) => {
+    console.error(err);
+    notification.error("Could not find a camera to use!");
+  });
+
+  preview.addEventListener("canplay", function() {
+    if (!streaming) {
+      height = preview.videoHeight / (preview.videoWidth / width);
+
+      playback.setAttribute("width", preview.videoWidth.toString());
+      playback.setAttribute("height", preview.videoHeight.toString());
+      streaming = true;
+      ratio = width / height;
+      aspectRatio = ratio.toFixed(2);
+      console.log("height: " + height);
+      console.log("width: " + width);
+      console.log("Aspect ratio: " + aspectRatio);
+
+      if (aspectRatio === 1.33) {
+        captureWindow.classList.add("4by3");
+      }
+
+      notification.success("Camera successfully connected.");
     }
+  });
 
-    // Set default frame rate
-    statusBarFrameRate.innerHTML = frameRate;
-    inputChangeFR.value = frameRate;
+  /* ======= Listeners ======= */
+  // Change resolution
+  document.querySelector("#capture-options li:first-child").addEventListener("click", function() {
+    notification.info("This feature is not yet available!");
+  });
 
-    // Set default view
-    switchMode("capture");
+  // Change camera
+  document.querySelector("#capture-options li:last-child").addEventListener("click", function() {
+    notification.info("This feature is not yet available!");
+  });
 
-    // Load top menu
-    loadMenu();
+  // Capture a frame
+  btnCaptureFrame.addEventListener("click", takeFrame);
 
-    // Maximise window
-    win.maximize();
+  // Undo last captured frame
+  btnDeleteLastFrame.addEventListener("click", undoFrame);
 
-    // Windows specific code
-    if (process.platform === "win32") {
-        document.querySelector("body").classList.add("platform-win");
-}
+  // Toggle preview looping
+  btnLoop.addEventListener("click", _toggleVideoLoop);
 
-    // Get the appropriate WebRTC implementation
-    navigator.getMedia = navigator.mediaDevices.getUserMedia ||
-                         navigator.getUserMedia ||
-                         navigator.webkitGetUserMedia;
+  // Change onion skin opacity
+  onionSkinSlider.addEventListener("input", _onionSkinChangeAmount);
 
-    navigator.getMedia({ video: true },
-      function(stream) {
-        var videoBlob = window.URL.createObjectURL(stream);
-        preview.src = videoBlob;
-      },
-      function(err) {
-        console.error("Could not find a camera to use!");
-        console.error(err);
-        notification.error("Could not find a camera to use!");
-      }
-    );
+  // Change the default save directory
+  btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
 
-    preview.addEventListener("canplay", function() {
-      if (!streaming) {
-        height = preview.videoHeight / (preview.videoWidth / width);
+  // Choose save directory dialog
+  dirChooseDialog.addEventListener("change", function() {
+    if (this.value) {
+      saveDirectory.set(this.value);
+      saveDirectory.make(this.value);
+      _displaySaveDirectory(this.value);
+    }
+  });
 
-        playback.setAttribute("width", preview.videoWidth.toString());
-        playback.setAttribute("height", preview.videoHeight.toString());
-        streaming = true;
-        ratio = width / height;
-        aspectRatio = ratio.toFixed(2);
-        console.log("height: " + height);
-        console.log("width: " + width);
-        console.log("Aspect ratio: " + aspectRatio);
+  // Play/pause the preview
+  btnPlayPause.addEventListener("click", function() {
+    // Make sure we have frames to play back
+    if (totalFrames > 0) {
+      (isPlaying ? videoPause : previewCapturedFrames)();
+    }
+  });
 
-        if (aspectRatio === 1.33) {
-          captureWindow.classList.add("4by3");
-        }
-
-        notification.success("Camera successfully connected.");
-      }
-    });
-    shortcuts.get("default");
-
-    /* ======= Listeners ======= */
-    // Capture a frame
-    btnCaptureFrame.addEventListener("click", function() {
-        // Prevent taking frames without a set output path
-        if (!frameExportDirectory) {
-          notification.error("A save directory must be first set!");
-          return false;
-        }
-
-        takePicture();
-    });
-
-    // Undo last captured frame
-    btnDeleteLastFrame.addEventListener("click", undoFrame);
-
-    // Toggle onion skin
-    onionSkinToggle.addEventListener("click", _toggleOnionSkin);
-
-    // Toggle preview looping
-    btnLoop.addEventListener("click", _toggleVideoLoop);
-
-    // Change onion skin opacity
-    onionSkinOpacity.addEventListener("input", _onionSkinChangeAmount);
-
-    // Change the default save directory
-    btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
-
-    // Play/pause the preview
-    btnPlayPause.addEventListener("click", function() {
-        // Make sure we have frames to play back
-        if (totalFrames > 0) {
-            (isPlaying ? videoPause : previewCapturedFrames)();
-        }
-    });
-
-    // Stop the preview
-    btnStop.addEventListener("click", function() {
-        if (winMode === "playback") {
-            videoStop();
-        }
-    });
+  // Stop the preview
+  btnStop.addEventListener("click", function() {
+    if (winMode === "playback") {
+      videoStop();
+    }
+  });
 
   // Preview one frame to the right on framereel
   btnFrameNext.addEventListener("click", function() {
@@ -289,38 +294,36 @@ function startup() {
     }
   });
 
-    // Listen for frame rate changes
-    inputChangeFR.addEventListener("focus", function() {
-        shortcuts.pause();
-    });
-    inputChangeFR.addEventListener("input", function() {
-        if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
-            frameRate = parseInt(this.value, 10);
-        } else {
-            frameRate = 15;
-        }
-        statusBarFrameRate.innerHTML = frameRate;
-        videoStop();
-    });
+  // Listen for frame rate changes
+  inputChangeFR.addEventListener("focus", shortcuts.pause);
+  inputChangeFR.addEventListener("input", function() {
+    if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
+      frameRate = parseInt(this.value, 10);
+    } else {
+      frameRate = 15;
+    }
+    statusBarFrameRate.innerHTML = frameRate;
+    videoStop();
+  });
 
-    // Listen for leaving frame rate input
-    inputChangeFR.addEventListener("blur", function() {
-        shortcuts.resume();
-        inputChangeFR.value = frameRate;
-        if (
-            inputChangeFR.value > 60 ||
-            inputChangeFR.value < 1 ||
-            Number.isNaN(inputChangeFR.value) ||
-            inputChangeFR.length > 2
-          ) {
-            inputChangeFR.value = 15;
-        }
-    });
+  // Listen for leaving frame rate input
+  inputChangeFR.addEventListener("blur", function() {
+    shortcuts.resume();
+    inputChangeFR.value = frameRate;
+    if (
+        inputChangeFR.value > 60 ||
+        inputChangeFR.value < 1 ||
+        Number.isNaN(inputChangeFR.value) ||
+        inputChangeFR.length > 2
+      ) {
+      inputChangeFR.value = 15;
+    }
+  });
 
-    // Grid overlay toggle
-    btnGridToggle.addEventListener("click", function() {
-        notification.info("This feature is not yet available!");
-    });
+  // Grid overlay toggle
+  btnGridToggle.addEventListener("click", function() {
+    notification.info("This feature is not yet available!");
+  });
 
   // Switch from frame preview back to live view
   btnLiveView.addEventListener("click", function() {
@@ -348,31 +351,35 @@ window.onload = startup;
 
 /**
  * Toggle between playback and capture windows.
+ *
+ * @param {String} newMode - The app mode to switch to.
+ * Possible values are "capture" and "playback".
  */
 function switchMode(newMode) {
-    "use strict";
-    winMode = newMode;
-    if (winMode === "capture") {
-        _updateStatusBarCurFrame(totalFrames + 1);
-        playbackWindow.classList.add("hidden");
-        captureWindow.classList.remove("hidden");
-        captureWindow.classList.add("active");
-        btnLiveView.classList.add("selected");
+  "use strict";
+  winMode = newMode;
 
-    } else if (winMode === "playback") {
-        playbackWindow.classList.remove("hidden");
-        captureWindow.classList.add("hidden");
-        captureWindow.classList.remove("active");
-        btnLiveView.classList.remove("selected");
-    }
-    console.log(`Switched to: ${winMode}`);
-    statusBarCurMode.innerHTML = winMode.charAt(0).toUpperCase() + winMode.slice(1);
+  if (winMode === "capture") {
+    _updateStatusBarCurFrame(totalFrames + 1);
+    playbackWindow.classList.add("hidden");
+    captureWindow.classList.remove("hidden");
+    captureWindow.classList.add("active");
+    btnLiveView.classList.add("selected");
+
+  } else if (winMode === "playback") {
+    playbackWindow.classList.remove("hidden");
+    captureWindow.classList.add("hidden");
+    captureWindow.classList.remove("active");
+    btnLiveView.classList.remove("selected");
+  }
+  console.log(`Switched to: ${winMode}`);
+  statusBarCurMode.innerHTML = winMode;
 }
 
 /**
  * Remove selected frame highlight from the timeline.
  *
- * @return {Boolean} True if there was a highlight to remove, false otherwise.
+ * @returns {Boolean} True if there was a highlight to remove, false otherwise.
  */
 function _removeFrameReelSelection() {
     "use strict";
@@ -463,6 +470,9 @@ function updateFrameReel(action, id) {
         frameReelMsg.classList.remove("hidden");
         frameReelTable.classList.add("hidden");
         switchMode("capture");
+
+      // Clear the onion skin window
+      onionSkinWindow.removeAttribute("src");
     }
 }
 
@@ -487,6 +497,24 @@ function deleteFrame(id) {
 }
 
 /**
+ * Trigger frame capturing.
+ * Prevents capturing if a save directory is not set.
+ *
+ * @returns {Boolean} True if a frame was captured, false otherwise.
+ */
+function takeFrame() {
+  "use strict";
+  // Prevent taking frames without a set output path
+  if (!saveDirectory.get()) {
+    notification.error("A save directory must be first set!");
+    return false;
+  }
+
+  _captureFrame();
+  return true;
+}
+
+/**
  * Delete the previously taken frame.
  */
 function undoFrame() {
@@ -496,32 +524,6 @@ function undoFrame() {
       confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
     } else {
       notification.error("There is no previous frame to undo!");
-    }
-}
-
-/**
- * Toggle onion skinning on or off.
- */
-function _toggleOnionSkin(ev) {
-    "use strict";
-    // Onion skin is currently enabled, turn it off
-    if (isOnionSkinEnabled) {
-      isOnionSkinEnabled = false;
-      ev.target.setAttribute("title", "Enable Onion Skin");
-      onionSkinToggle.children[0].classList.remove("active");
-      onionSkinWindow.classList.remove("visible");
-
-      // Onion skin is currently disabled, turn it on
-    } else {
-      isOnionSkinEnabled = true;
-      ev.target.setAttribute("title", "Disable Onion Skin");
-      onionSkinToggle.children[0].classList.add("active");
-
-      // Display last captured frame
-      onionSkinWindow.classList.add("visible");
-      if (totalFrames > 0) {
-          onionSkinWindow.setAttribute("src", capturedFrames[totalFrames - 1].src);
-      }
     }
 }
 
@@ -537,7 +539,7 @@ function audio(file) {
   }
 }
 
-function takePicture() {
+function _captureFrame() {
     "use strict";
     if (winMode === "playback") {
         switchMode("capture");
@@ -702,7 +704,7 @@ function _frameReelScroll() {
         frameReelArea.scrollLeft = 0;
     } else if (curPlayFrame + 1 !== totalFrames) {
         // Scroll so currently played frame is in view
-        document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).scrollIntoView();
+        document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).parentNode.scrollIntoView();
     } else {
         // Scroll to end when playback has stopped
         frameReelArea.scrollLeft = frameReelArea.scrollWidth;
@@ -715,100 +717,51 @@ function _frameReelScroll() {
  * @param {Object} ev Event object from addEventListener.
  */
 function _onionSkinChangeAmount(ev) {
-    "use strict";
-    // Calculate the percentage opacity value
-    var amount = ev.target.value * 5;
+  "use strict";
+  // Calculate the percentage opacity value
+  var amount = ev.target.value;
 
-    ev.target.setAttribute("title", `${amount}%`);
-    onionSkinWindow.style.opacity = amount / 100;
+  ev.target.setAttribute("title", `${amount}%`);
+  onionSkinWindow.style.opacity = Math.abs(amount / 100);
+
+  // Make it easier to switch off onion skinning
+  if (amount >= -6 && amount <= 6) {
+    onionSkinSlider.value = 0;
+  }
 }
 
 /**
- * Set directory to export frames to
- */
-function _checkSaveDirectory() {
-    "use strict";
-    if (frameExportDirectory === null) {
-        console.log("No save directory has been set!");
-    } else {
-        _displayDirectory(frameExportDirectory);
-    }
-}
-
-/**
- * Change the default save directory by opening
+ * Change the app save directory by opening
  * the system's native directory selection dialog.
  */
 function _changeSaveDirectory() {
-    "use strict";
-    var chooser = document.querySelector("#chooseDirectory");
-
-    chooser.addEventListener("change", function() {
-        if (this.value) {
-            frameExportDirectory = this.value;
-            _displayDirectory(frameExportDirectory);
-            _setSaveDirectory(this.value);
-            _createSaveDirectory();
-        }
-    });
-
-  chooser.click();
+  "use strict";
+  document.querySelector("#chooseDirectory").click();
 }
 
 /**
- * Display the frame destination directory in the UI.
+ * Display the app save directory in the UI.
  *
  * @param {String} dir The directory to display.
  */
-function _displayDirectory(dir) {
-    "use strict";
-    console.log(`Current destination directory is ${dir}`);
-    curDirDisplay.innerHTML = dir;
-    document.title = `Boats Animator (${dir})`;
+function _displaySaveDirectory(dir) {
+  "use strict";
+  curDirDisplay.innerHTML = dir;
+  document.title = `Boats Animator (${dir})`;
+  notification.success(`Current save directory is ${dir}`);
 }
 
 /**
- * Set the default save directory.
- */
-function _setSaveDirectory(savePath) {
-    "use strict";
-    localStorage.setItem("default_directory", savePath);
-}
-
-/**
- * Get the default save directory.
- *
- * @return {!String} The stored directory if available, null otherwise.
- */
-function _getSaveDirectory() {
-    "use strict";
-    return localStorage.getItem("default_directory");
-}
-
-/**
- * Create the default save directory if needed.
- */
-function _createSaveDirectory() {
-    "use strict";
-    var savePath = _getSaveDirectory();
-    mkdirp(savePath, function(err) {
-        if (err) {
-            console.error(err);
-            console.error(`Failed to create save directory at ${savePath}`);
-            notification.error(`Failed to create save directory at ${savePath}`);
-        } else {
-            console.log(`Successfully created directory at ${savePath}`);
-            notification.info(`Successfully created save directory at ${savePath}`);
-        }
-    });
-}
-
-/**
-* Converting frames to png
+* Convert frames from base64 to png
+*
+* @author Stack Overflow http://stackoverflow.com/questions/20267939
+* @author Julian Lannigan http://stackoverflow.com/users/1777444
+* @license cc by-sa 3.0
 */
 function decodeBase64Image(dataString) {
-  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-    response = {};
+  "use strict";
+  var matches  = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+      response = {};
 
   if (matches.length !== 3) {
     return new Error("Invalid input string");
@@ -816,49 +769,48 @@ function decodeBase64Image(dataString) {
 
   response.type = matches[1];
   response.data = new Buffer(matches[2], "base64");
-
   return response;
 }
 
 /**
  * Save the captured frame to the hard drive.
  *
- * @param {Number} id The frame ID to save.
-*/
+ * @param {Number} - id The frame ID to save.
+ */
 function saveFrame(id) {
-    "use strict";
-    var fileName = "";
+  "use strict";
+  var fileName = "";
 
-    // 1K+ frames have been captured
-    if (id >= 1000) {
-      fileName = `frame_${id}`;
-    }
+  // 1K+ frames have been captured
+  if (id >= 1000) {
+    fileName = `frame_${id}`;
+  }
 
-    // 100 frames have been captured
-    else if (id >= 100) {
-      fileName = `frame_0${id}`;
-    }
+  // 100 frames have been captured
+  else if (id >= 100) {
+    fileName = `frame_0${id}`;
+  }
 
-    // 10 frames have been captured
-    else if (id >= 10) {
-      fileName = `frame_00${id}`;
+  // 10 frames have been captured
+  else if (id >= 10) {
+    fileName = `frame_00${id}`;
 
-      // Less then 10 frames have been captured
-    } else {
-      fileName = fileName = `frame_000${id}`;
-    }
+  // Less then 10 frames have been captured
+  } else {
+    fileName = `frame_000${id}`;
+  }
 
-    // Create an absolute path to the destination location
-    var outputPath = `${frameExportDirectory}/${fileName}.png`;
+  // Create an absolute path to the destination location
+  var outputPath = `${saveDirectory.get()}/${fileName}.png`;
 
-    // Convert the frame from base64-encoded data to a PNG
-    var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
+  // Convert the frame from base64-encoded data to a PNG
+  var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
 
-    // Save the frame to disk
-    file.write(outputPath, imageBuffer.data, {error: _createSaveDirectory});
+  // Save the frame to disk
+  file.write(outputPath, imageBuffer.data);
 
-    // Store the location of the exported frame
-    exportedFramesList.push(outputPath);
+  // Store the location of the exported frame
+  exportedFramesList.push(outputPath);
 }
 
 /**
@@ -932,15 +884,13 @@ function confirmSet(callback, args, msg) {
 /**
  * Display top menu
  */
-    // Create menu
-    var menuBar = new nw.Menu({ type: "menubar" });
-
-    // Create sub-menus
-    var fileMenu    = new nw.Menu(),
-        editMenu    = new nw.Menu(),
-        captureMenu = new nw.Menu(),
-        playbackMenu = new nw.Menu(),
-        helpMenu    = new nw.Menu();
+// Create top menu and sub-menus
+var menuBar      = new nw.Menu({ type: "menubar" }),
+    fileMenu     = new nw.Menu(),
+    editMenu     = new nw.Menu(),
+    captureMenu  = new nw.Menu(),
+    playbackMenu = new nw.Menu(),
+    helpMenu     = new nw.Menu();
 
 function loadMenu() {
     "use strict";
@@ -993,7 +943,7 @@ function loadMenu() {
     // Capture menu items
     captureMenu.append(new nw.MenuItem({
       label: "Capture frame",
-      click: takePicture,
+      click: takeFrame,
       key: "1",
       modifiers: controlKey,
     }));
@@ -1010,6 +960,11 @@ function loadMenu() {
     checked: true,
     key: "m",
     modifiers: controlKey,
+  }));
+
+  captureMenu.append(new nw.MenuItem({
+    label: "Change capture destination",
+    click: _changeSaveDirectory
   }));
 
   // Playback menu items
@@ -1108,7 +1063,9 @@ function loadMenu() {
 
     // Create Mac menu
     if (process.platform === "darwin") {
-        menuBar.createMacBuiltin("Boats Animator");
+        menuBar.createMacBuiltin("Boats Animator", {
+          hideEdit: true
+        });
     }
 }
 

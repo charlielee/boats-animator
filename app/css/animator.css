@@ -38,9 +38,11 @@ a {
 
 /* Individual notification */
 .notification {
+  display: flex;
   margin-top: -2.75em;
   width: 50%;
-  height: 2.75em;
+  min-height: 2.75em;
+
   background-color: #2b2b2b;
   color: #fff;
   transition: margin-top 0.3s ease-out,
@@ -50,11 +52,15 @@ a {
 /* Notification type label */
 .notify-type {
   width: 4.5em;
-  height: inherit;
+  margin-right: 0.5em;
+  padding: 0.2em;
+
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  margin-right: 0.5em;
+
+  text-transform: capitalize;
+  font-size: 0.9em;
 }
 
 /* Notification states */
@@ -66,9 +72,11 @@ a {
 
 /* Notification message */
 .notification .msg {
-  margin: 0;
-  display: inline-block;
-  vertical-align: middle;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 0.95em;
 }
 
 /* ========== CONFIRM BOXES ========== */
@@ -166,7 +174,7 @@ a {
   float: right;
 }
 
-.sidebar-item { border-bottom: 1px solid #ADADAD; }
+.sidebar-item:not(:last-of-type) { border-bottom: 1px solid #ADADAD; }
 
 .sidebar-link-dot { margin-right: 6px; }
 
@@ -218,17 +226,16 @@ a {
   padding: 0;
   margin: 0;
   border: 0;
-  opacity: 0.5;
+  opacity: 0;
   position: absolute;
   top: 0;
   left: 0;
   object-fit: contain;
   z-index: 2;
-  display: none;
+  display: inline;
 }
 
-#onion-skinning-frame.visible { display: inline; }
-#onion-skinning-frame.visible:not([src]){ display:none; }
+#onion-skinning-frame:not([src]){ display:none; }
 
 /* ========== CONTROLS ============== */
 
@@ -329,9 +336,12 @@ a {
 #area-frame-reel > table.hidden { display: none; }
 
 /* Image container */
+td:first-of-type .frame-reel-preview {
+  padding-left: 0.25em;
+}
 .frame-reel-preview {
   position: relative;
-  padding-left: 0.25em;
+  padding-right: 0.25em;
 }
 
 /* Preview image */
@@ -352,7 +362,6 @@ a {
   text-align: center;
   font-size: 2.5em;
   cursor: pointer;
-  margin-right: 5px;
 }
 #btn-live-view:hover { color: #ad0000; }
 
@@ -385,7 +394,7 @@ a {
   float: left;
 }
 
-#onion-toggle-td, #framerate-container-td {
+#preview-options-td, #framerate-container-td {
   width: 35%;
 }
 
@@ -450,7 +459,7 @@ a {
 
 #input-onion-skin-opacity {
   -webkit-appearance: none;
-  max-width: 15em;
+  width: 15em;
 }
 
 
@@ -499,6 +508,8 @@ a {
   margin-right: 0.5em;
   margin-left: 0.8em;
 }
+
+#current-mode span { text-transform: capitalize; }
 
 /* ========== SCROLL BARS ============== */
 
