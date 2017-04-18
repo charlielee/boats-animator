@@ -44,10 +44,10 @@ module.exports = {};
    */
   function mediaSuccessCapture(mediaStream) {
 //         console.log("capture!!!");
-//         videoCapture.src = window.URL.createObjectURL(mediaStream);
-//         videoCapture.play();
+    videoCapture.src = window.URL.createObjectURL(mediaStream);
+    videoCapture.play();
 
-//         // Make the capture stream available for public access
+    // Make the capture stream available for public access
     module.exports.videoCapture = videoCapture;
   }
 
@@ -57,13 +57,10 @@ module.exports = {};
     }
 
     function _getMedia(constraints) {
-      // Convert the standardized constraints format into the WebKit prefixed form
-      // constraints.video = adapter.constraintsToChrome_(constraints.video);
-      // constraints.video.deviceId.exact = id;
-
       // Load the stream and display it
-      window.navigator.getUserMedia = window.navigator.getUserMedia || window.navigator.webkitGetUserMedia;
-      window.navigator.getUserMedia(constraints, mediaSuccessCapture, mediaError);
+      navigator.mediaDevices.getUserMedia(constraints)
+      .then(mediaSuccessCapture)
+      .catch(mediaError);;
     }
 
     function getCamera() {
@@ -76,7 +73,7 @@ module.exports = {};
     function _findVideoSources(sources) {
       let i = 1;
       sources.forEach(function(source) {
-        if (source.kind === "video") {
+        if (source.kind === "videoinput") {
           // Get the proper camera name
           let cameraName = `Camera ${i}`;
           if (source.label) {
@@ -86,7 +83,7 @@ module.exports = {};
           // Create the menu selection
           var option = window.document.createElement("option");
           option.text = cameraName;
-          option.value = source.id;
+          option.value = source.deviceId;
           qCameraSelect.appendChild(option);
           i++;
         }
@@ -103,11 +100,16 @@ module.exports = {};
     }
 
     // Get the available cameras
-    window.MediaStreamTrack.getSources(_findVideoSources);
+    navigator.mediaDevices.enumerateDevices()
+    .then(_findVideoSources)
+    .catch(function(error) {
+      console.error(error);
+    });
 
-    var ID_FOR_TEST = "0b168b5be19ccabedf048b81f304f118947a9ab05be3f6dcaed823b3818501aa";
+
+   // var ID_FOR_TEST = "0b168b5be19ccabedf048b81f304f118947a9ab05be3f6dcaed823b3818501aa";
 //     // console.log(_getSelectedCamera());
-    cameraResolutions.get(ID_FOR_TEST);
+    //cameraResolutions.get(ID_FOR_TEST);
 //     // console.log(cameraResolutions.resolutions);
 
 
