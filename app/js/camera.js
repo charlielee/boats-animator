@@ -59,7 +59,6 @@ module.exports = {};
   function _getMedia(camera, constraints) {
     // Load the stream and display it
     constraints["video"]["deviceId"] = camera;
-    console.log(constraints);
     navigator.mediaDevices.getUserMedia(constraints)
     .then(mediaSuccessCapture)
     .catch(mediaError);;
@@ -113,11 +112,14 @@ module.exports = {};
     }
 
     // Get the available cameras
-    navigator.mediaDevices.enumerateDevices()
-    .then(_findVideoSources)
-    .catch(function(error) {
-      console.error(error);
-    });
+    function init(callback) {
+      navigator.mediaDevices.enumerateDevices()
+      .then(_findVideoSources)
+      .then(callback)
+      .catch(function(error) {
+        console.error(error);
+      });
+    }
 
 
    // var ID_FOR_TEST = "0b168b5be19ccabedf048b81f304f118947a9ab05be3f6dcaed823b3818501aa";
@@ -127,6 +129,7 @@ module.exports = {};
 
 
   // Public exports
+  module.exports.init = init;
   module.exports.get = getCamera;
 //     // module.exports.setCameraResolution = setCameraResolution;
 }());

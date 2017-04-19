@@ -175,50 +175,16 @@ function startup() {
   // Load the keyboard shortcuts
   shortcuts.get("default");
 
-  // Get the video stream
-  // camera.init(function(error) {
-  //   if (error) { 
-  //     console.error(error);
-  //   } else {
-  //     console.log(camera.get());
-  //   }
-  // });
-  //let prev = camera.get();
-  //prev.id = "preview";
-  //captureWindow.appendChild(prev);
-
-  // camera.init(function(err) {
-  //   if (err) {
-  //     console.error(err);
-  //   } else {
-  //     let prev = camera.get();
-  //     //preview.src = camera.src;
-  //     //let prev = camera.get();
-  //      prev.id = "preview";
-  //      captureWindow.appendChild(prev);
-  //   }
-  // });
-
-  cameraSelect.addEventListener("change", function() {
+  // Initialises the camera module
+  camera.init(function() {
+    // Get default camera
     let cam = camera.get();
-    preview.src = cam.src;
-
-    //preview.parentNode.removeChild(preview);
-    //let prev = camera.get();
-    //    prev.id = "preview";
-   // captureWindow.appendChild(prev);
-    //captureWindow.appendChild(camera.get());
+    cam.addEventListener("canplay", function() {
+      preview.src = cam.src;
+    });
   });
 
-  // navigator.mediaDevices.getUserMedia({ video: true })
-  // .then((stream) => {
-  //   preview.src = window.URL.createObjectURL(stream);
-  // })
-  // .catch((err) => {
-  //   console.error(err);
-  //   notification.error("Could not find a camera to use!");
-  // });
-
+  // Initialises the preview window
   preview.addEventListener("canplay", function() {
     if (!streaming) {
       height = preview.videoHeight / (preview.videoWidth / width);
@@ -235,8 +201,6 @@ function startup() {
       if (aspectRatio === 1.33) {
         captureWindow.classList.add("4by3");
       }
-
-      notification.success("Camera successfully connected.");
     }
   });
 
@@ -247,8 +211,11 @@ function startup() {
   });
 
   // Change camera
-  document.querySelector("#capture-options li:last-child").addEventListener("click", function() {
-    notification.info("This feature is not yet available!");
+  cameraSelect.addEventListener("change", function() {
+    let cam = camera.get();
+    cam.addEventListener("canplay", function() {
+      preview.src = cam.src;
+    });
   });
 
   // Capture a frame
