@@ -2,8 +2,7 @@ module.exports = {};
 
 (function() {
   "use strict";
-  let /*adapter = require("./../lib/adapter"),*/
-      cameraResolutions = require("./camera-resolutions"),
+  let cameraResolutions = require("./camera-resolutions"),
       notification = require("./notification"),
       constraints = {
         "1080p": {
@@ -20,21 +19,16 @@ module.exports = {};
         }
       };
 
-
   // Get the DOM selectors needed
   let qResoluSelect = document.querySelector("#form-resolution-select"),
       qCameraSelect = document.querySelector("#camera-select-td select"),
       videoCapture  = document.createElement("video");
-
-
-
 
   /**
    * Creates a video element with a source of the camera
    * and resolution the user selected.
    */
   function getCamera() {
-    console.log(_getSelectedResolution());
     _getMedia(_getSelectedCamera(), constraints[_getSelectedResolution()]);
     //_getMedia(_getSelectedCamera(), constraints["480p"]);
     return videoCapture;
@@ -57,7 +51,6 @@ module.exports = {};
   }
 
   function _getMedia(camera, constraints) {
-    console.log(constraints);
     // Update the user-selected camera
     constraints["video"]["deviceId"] = camera;
 
@@ -103,12 +96,6 @@ module.exports = {};
           i++;
         }
       });
-
-      // TODO FAKE CAMERA REMOVE PLEASE
-      // var option = window.document.createElement("option");
-      // option.text = "Nope";
-      // option.value = "Hahha";
-      // qCameraSelect.appendChild(option);
 
       // Default select the first camera
       qCameraSelect.options[0].selected = true;
