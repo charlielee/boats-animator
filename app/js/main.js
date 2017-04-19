@@ -59,6 +59,8 @@ var width  = 640,
     statusBarFrameNum  = document.querySelector("#num-of-frames"),
     statusBarFrameRate = document.querySelector("#current-frame-rate span"),
 
+    cameraSelect       = document.querySelector("#camera-select-td select"),
+
     // Frame export
     exportedFramesList = [],
     curDirDisplay      = document.querySelector("#currentDirectoryName"),
@@ -174,14 +176,48 @@ function startup() {
   shortcuts.get("default");
 
   // Get the video stream
-  navigator.mediaDevices.getUserMedia({ video: true })
-  .then((stream) => {
-    preview.src = window.URL.createObjectURL(stream);
-  })
-  .catch((err) => {
-    console.error(err);
-    notification.error("Could not find a camera to use!");
+  // camera.init(function(error) {
+  //   if (error) { 
+  //     console.error(error);
+  //   } else {
+  //     console.log(camera.get());
+  //   }
+  // });
+  //let prev = camera.get();
+  //prev.id = "preview";
+  //captureWindow.appendChild(prev);
+
+  // camera.init(function(err) {
+  //   if (err) {
+  //     console.error(err);
+  //   } else {
+  //     let prev = camera.get();
+  //     //preview.src = camera.src;
+  //     //let prev = camera.get();
+  //      prev.id = "preview";
+  //      captureWindow.appendChild(prev);
+  //   }
+  // });
+
+  cameraSelect.addEventListener("change", function() {
+    let cam = camera.get();
+    preview.src = cam.src;
+
+    //preview.parentNode.removeChild(preview);
+    //let prev = camera.get();
+    //    prev.id = "preview";
+   // captureWindow.appendChild(prev);
+    //captureWindow.appendChild(camera.get());
   });
+
+  // navigator.mediaDevices.getUserMedia({ video: true })
+  // .then((stream) => {
+  //   preview.src = window.URL.createObjectURL(stream);
+  // })
+  // .catch((err) => {
+  //   console.error(err);
+  //   notification.error("Could not find a camera to use!");
+  // });
 
   preview.addEventListener("canplay", function() {
     if (!streaming) {
@@ -544,6 +580,8 @@ function _captureFrame() {
     if (winMode === "playback") {
         switchMode("capture");
     }
+
+    console.log(width, height);
 
     // Take a picture
     if (width && height) {

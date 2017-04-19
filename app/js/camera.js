@@ -36,7 +36,7 @@ module.exports = {};
   function getCamera() {
     console.log(_getSelectedCamera());
     // _getMedia(_getSelectedCamera(), constraints[getSelectedResolution()]);
-    _getMedia(constraints["480p"]);
+    _getMedia(_getSelectedCamera(), constraints["480p"]);
     return videoCapture;
   }
 
@@ -56,8 +56,10 @@ module.exports = {};
     return qCameraSelect.options[qCameraSelect.options.selectedIndex].value;
   }
 
-  function _getMedia(constraints) {
+  function _getMedia(camera, constraints) {
     // Load the stream and display it
+    constraints["video"]["deviceId"] = camera;
+    console.log(constraints);
     navigator.mediaDevices.getUserMedia(constraints)
     .then(mediaSuccessCapture)
     .catch(mediaError);;
@@ -67,6 +69,7 @@ module.exports = {};
    * Play hidden video in the correct resolution.
    */
   function mediaSuccessCapture(mediaStream) {
+    notification.success("Camera successfully connected.");
     // console.log("capture!!!");
     videoCapture.src = window.URL.createObjectURL(mediaStream);
     videoCapture.play();

@@ -77,8 +77,9 @@ module.exports = {};
         }
 
         // Load the stream and display it
-        window.navigator.getUserMedia = window.navigator.getUserMedia || window.navigator.webkitGetUserMedia;
-        window.navigator.getUserMedia(constraints, onSuccess, onError);
+        navigator.mediaDevices.getUserMedia(constraints)
+        .then(onSuccess)
+        .catch(onError);
     }
 
     function getCameraResolutions(camId, debug) {
