@@ -34,9 +34,9 @@ module.exports = {};
    * and resolution the user selected.
    */
   function getCamera() {
-    console.log(_getSelectedCamera());
-    // _getMedia(_getSelectedCamera(), constraints[getSelectedResolution()]);
-    _getMedia(_getSelectedCamera(), constraints["480p"]);
+    console.log(_getSelectedResolution());
+    _getMedia(_getSelectedCamera(), constraints[_getSelectedResolution()]);
+    //_getMedia(_getSelectedCamera(), constraints["480p"]);
     return videoCapture;
   }
 
@@ -44,9 +44,9 @@ module.exports = {};
    * Get the user-selected resolution.
    * @return {String} The corresponding key for the equivalent constraint.
    */
-  // function getSelectedResolution() {
-  //     return qResoluSelect.options[qResoluSelect.options.selectedIndex].value;
-  // }
+  function _getSelectedResolution() {
+      return qResoluSelect.options[qResoluSelect.options.selectedIndex].value;
+  }
 
   /**
    * Gets the user-selected camera.
@@ -57,8 +57,11 @@ module.exports = {};
   }
 
   function _getMedia(camera, constraints) {
-    // Load the stream and display it
+    console.log(constraints);
+    // Update the user-selected camera
     constraints["video"]["deviceId"] = camera;
+
+    // Load the stream and display it
     navigator.mediaDevices.getUserMedia(constraints)
     .then(mediaSuccessCapture)
     .catch(mediaError);;
