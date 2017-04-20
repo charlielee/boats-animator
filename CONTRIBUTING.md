@@ -14,6 +14,9 @@ To preview Boats Animator simply run `npm start` in a terminal window. Note: the
 * To build Linux, Mac and Windows executable files for Boats Animator run: `npm run-script build`.
 * To customise which builds are output further run: `node build --help`.
 
+## Live-reloading
+If you looking to help develop Boats Animator, you may find live reloading to be useful. This can easily be toggled by either adding the line `utils.setLiveReload(true)` to the code or running it in NW.js' `F12` Developer Tools console. 
+
 ## Reporting issues
 If you find a bug or want to suggest an improvement:
 * First check someone else hasn't already reported it in the [issues](https://github.com/BoatsAreRockable/Boats-Animator/issues) section.

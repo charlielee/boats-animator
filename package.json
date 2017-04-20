@@ -11,10 +11,10 @@
     },
     "nwjsBuilder": {
       "productName": "Boats Animator",
-      "productVersion": "0.7.4",
+      "productVersion": "0.7.5",
       "copyright": "© 2017 Charlie Lee",
       "companyName": "Boats Animator Developers",
-      "fileVersion": "0.7.4.0",
+      "fileVersion": "0.7.5.0",
       "originalFilename": " "
     },
     "window": {
@@ -40,7 +40,7 @@
         "transparent": false,
         "icon": "icons/icon.png"
     },
-    "version": "0.7.4",
+    "version": "0.7.5",
     "repository": {
       "type": "git",
       "url": "git+https://github.com/BoatsAreRockable/Boats-Animator.git"
@@ -55,6 +55,9 @@
         "archiver": "^1.0.0",
         "command-line-args": "^3.0.0",
         "mkdirp": "^0.5.1"
+    },
+    "devDependencies": {
+        "nw-dev": "^3.0.1"
     },
     "scripts": {
         "postinstall": "node install",
