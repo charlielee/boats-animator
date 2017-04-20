@@ -46,7 +46,10 @@ a:active { text-decoration: none; }
 /* 3. Main area
    -------------------------------- */
 
-main { flex: 1 }
+main {
+  flex: 1;
+  overflow: hidden;
+}
 
 .content {
   background-color: #171717;
@@ -79,12 +82,9 @@ aside {
   background-color: #2B2B2B;
   border-left: 1px solid #423e3e;
   color: #d3d3d3;
-  float: right;
-  height: 100%;
   padding: 0 1em 1em 1em;
   position: relative;
   width: 19em;
-  z-index: 2;
 }
 
 aside a,
