@@ -88,7 +88,7 @@ var width  = 640,
 
     // Sidebar
     dirChooseDialog    = document.querySelector("#chooseDirectory"),
-    btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
+    btnDirectoryChange = document.querySelector("aside #btn-dir-change");
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -204,15 +204,6 @@ function startup() {
   });
 
   /* ======= Listeners ======= */
-  // Change resolution
-  document.querySelector("#capture-options li:first-child").addEventListener("click", function() {
-    notification.info("This feature is not yet available!");
-  });
-
-  // Change camera
-  document.querySelector("#capture-options li:last-child").addEventListener("click", function() {
-    notification.info("This feature is not yet available!");
-  });
 
   // Capture a frame
   btnCaptureFrame.addEventListener("click", takeFrame);

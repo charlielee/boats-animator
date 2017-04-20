@@ -1,0 +1,178 @@
+/*!
+  Style sheet of styles common across all windows of the program.
+*/
+
+/* 0. Directory
+   --------------------------------
+   1. Global
+   2. Links
+   3. Main area
+   4. Sidebar
+   5. Footer
+   6. Scrollbars
+*/
+
+/* 1. Global
+   -------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background-color: #2B2B2B;
+  color: #D9D9D9;
+  cursor: default;
+  display: flex;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9em;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: none;
+}
+
+img { -webkit-user-drag: none; }
+
+/* 2. Links
+   -------------------------------- */
+
+a {
+  color: #D9D9D9;
+  cursor: pointer;
+  text-decoration: underline;
+  -webkit-user-drag: none;
+}
+a:active { text-decoration: none; }
+
+/* 3. Main area
+   -------------------------------- */
+
+main { flex: 1 }
+
+.content {
+  background-color: #171717;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  padding: 0 1em;
+  width: 100%;
+}
+
+.content h1 {
+  margin: 0;
+  padding: 0.5em 0 0 0;
+}
+
+.content h2 {
+  font-size: 1.2em;
+  margin: 0;
+  padding: 0.83em 0;
+}
+
+.content p {
+  margin: 0 0 4em 0;
+}
+
+/* 4. Sidebar
+   -------------------------------- */
+
+aside {
+  background-color: #2B2B2B;
+  border-left: 1px solid #423e3e;
+  color: #d3d3d3;
+  float: right;
+  height: 100%;
+  padding: 0 1em 1em 1em;
+  position: relative;
+  width: 19em;
+  z-index: 2;
+}
+
+aside a,
+aside label,
+aside .sidebar-opt {
+  color: #d3d3d3;
+  cursor: pointer;
+}
+aside a:hover,
+aside label:hover,
+aside .sidebar-opt:hover {
+  border-bottom: 1.5px solid #d3d3d3;
+}
+
+aside input,
+aside label {
+  vertical-align: middle;
+}
+
+aside h2 { font-size: 1.2em; }
+
+aside ul {
+  line-height: 1.4;
+  list-style: none;
+  padding-left: 1em;
+}
+
+aside li { margin-left: -0.7em; }
+
+.sidebar-item { border-bottom: 1px solid #ADADAD; }
+
+.sidebar-link-dot { margin-right: 6px; }
+
+.sidebar-header i {
+  font-size: 0.9em;
+  margin-right: 0.4em;
+}
+
+/* 5. Footer
+   -------------------------------- */
+
+footer {
+  background-color: #d9d9d9;
+  bottom: 0;
+  color: #2B2B2B;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+}
+
+footer a { color: #2B2B2B; }
+footer a:hover, footer a:active { text-decoration: underline; }
+
+footer ul {
+  list-style: none;
+  margin: 0.5em 0;
+  padding: 0 1em;
+}
+
+footer li { display: inline-block; }
+
+footer li:not(.no-pipe)::after {
+  color: #b5b5b5;
+  content: "|";
+  margin: 0 0.5em 0 0.8em;
+}
+
+/* 6. Scrollbars
+   -------------------------------- */
+
+::-webkit-scrollbar              {
+  background-color: rgba(9, 9, 9, 0.1);
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb        {
+  background-color: #423e3e;
+  border-radius: 5px;
+  border: 1px solid #171717;
+}
+
+::-webkit-scrollbar-thumb:hover { background-color: #5C5858; }
+
+::-webkit-scrollbar-thumb:active { background-color: #827E7E; }

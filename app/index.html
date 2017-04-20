@@ -6,51 +6,59 @@
   <title>Boats Animator</title>
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
-    <!-- News feed -->
-    <div id="sidebar">
-        <div id="sidebar-content">
-            <div class="sidebar-item">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-newspaper-o"></i>Recent News</h2>
-                </div>
-                <ul>
-                  <li>
-                    <div class="container-news">
-                      <div class="loading-dots">
-                        <span class="dot one">.</span><span class="dot two">.</span><span class="dot three">.</span>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
+
+  <main>
+    <div class="content">
+      <h2>Projects</h2>
+      <!--Recent projects example, disabled as will be dynamically injected.
+      <ul id="projects-container">
+        <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 1</a></li>
+        <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 2</a></li>
+        <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 3</a></li>
+      </ul>-->
+
+      <button id="new-project">
+        <i class="fa fa-file-o"></i><span>New Project</span>
+      </button>
+
+      <button id="load-project" onclick="alert('This feature is not yet available!')">
+        <i class="fa fa-folder-o"></i><span>Load Project</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- News feed -->
+  <aside>
+    <div class="sidebar-item">
+      <div class="sidebar-header">
+        <h2><i class="fa fa-newspaper-o"></i>Recent News</h2>
+      </div>
+
+      <ul>
+        <li>
+          <div class="container-news">
+            <div class="loading-dots">
+            <span class="dot one">.</span><span class="dot two">.</span><span class="dot three">.</span>
             </div>
-        </div>
+          </div>
+        </li>
+      </ul>
     </div>
-    <div id="main-event">
-        <div class="content">
-            <h2>Projects</h2>
-            <!--Recent projects example, disabled as will be dynamically injected.
-            <ul id="projects-container">
-                <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 1</a></li>
-                <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 2</a></li>
-                <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 3</a></li>
-            </ul>-->
-            <button id="new-project"><i class="fa fa-file-o"></i><span>New Project</span></button>
-            <button id="load-project" onclick="alert('This feature is not yet available!')"><i class="fa fa-folder-o"></i><span>Load Project</span></button>
-        </div>
-    </div>
+  </aside>
 
-    <div id="statusBar">
-        <ul>
-            <li class="no-pipe">Version <span id="app-version"></span></li>
-        </ul>
-    </div>
+  <footer>
+    <ul> 
+      <li class="no-pipe">Version <span id="app-version"></span></li>
+    </ul>
+  </footer>
 
-    <script id="dev-reload-script"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/index.js"></script>
+  <script id="dev-reload-script"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/index.js"></script>
 </body>
 </html>

@@ -6,6 +6,7 @@
   <title>Boats Animator</title>
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/animator.css">
 </head>
 
@@ -25,55 +26,7 @@
         </section>
     </div>
 
-    <!--Sidebar content-->
-    <div id="sidebar">
-        <div id="sidebar-content">
-
-            <!--Project Options, currently disabled because there is no code yet-->
-<!--
-            <div class="sidebar-item" id="debugging-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-file-text fa-fw"></i> Project</h2>
-                </div>
-                <ul>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">New Project</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Open Project</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Project Options</a></li>
-                </ul>
-            </div>
--->
-
-            <!--Capture Options-->
-            <div class="sidebar-item" id="capture-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-camera fa-fw"></i> Capture</h2>
-                </div>
-                <ul id="capture-options">
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Change resolution</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Change camera</a></li>
-                </ul>
-            </div>
-
-            <!--Export Options-->
-            <div class="sidebar-item" id="export-header">
-                <div class="sidebar-header">
-                    <h2><i class="fa fa-download fa-fw"></i> Export</h2>
-                </div>
-                <ul>
-                    <li>Captured frames will be exported to:
-                        <p id="currentDirectoryName" class="italics">No directory selected</p>
-                    </li>
-                    <li>
-                        <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
-                        <span class="sidebar-opt" id="btn-dir-change">Change directory</span>
-                        <input id="chooseDirectory" style="display:none;" type="file" nwdirectory  />
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="main-event">
+    <main>
         <!--Capture Window-->
         <div id="capture-window">
             <!--The actual onion skinning frame, injected through JS-->
@@ -142,15 +95,49 @@
                 <td id="framerate-container-td"><div id="framerate-container"><input id="input-fr-change" type="number" value="15" min="1" max="60" title="Framerate"><label for="input-fr-change"> FPS</label></div></td>
             </tr>
         </table>
-    </div>
+    </main>
 
-    <div id="statusBar">
+    <!--Sidebar content-->
+    <aside>
+        <!--Project Options, currently disabled because there is no code yet-->
+<!--
+      <div class="sidebar-item" id="debugging-header">
+        <div class="sidebar-header">
+          <h2><i class="fa fa-file-text fa-fw"></i> Project</h2>
+        </div>
+        <ul>
+          <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">New Project</a></li>
+          <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Open Project</a></li>
+          <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Project Options</a></li>
+        </ul>
+      </div>
+-->
+
+      <!--Export Options-->
+      <div class="sidebar-item" id="export-header">
+        <div class="sidebar-header">
+          <h2><i class="fa fa-download fa-fw"></i> Export</h2>
+        </div>
+        <ul>
+          <li>Captured frames will be exported to:
+            <p id="currentDirectoryName" class="italics">No directory selected</p>
+          </li>
+          <li>
+            <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
+            <span class="sidebar-opt" id="btn-dir-change">Change directory</span>
+            <input id="chooseDirectory" style="display:none;" type="file" nwdirectory  />
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <footer>
         <ul>
             <li>Frame <span id="current-frame">0</span> of <span id="num-of-frames">0</span></li>
             <li id="current-frame-rate"><span></span> FPS</li>
             <li class="no-pipe" id="current-mode"><span></span> mode</li>
         </ul>
-    </div>
+    </footer>
 
   <script id="dev-reload-script"></script>
   <script src="js/utils.js"></script>
