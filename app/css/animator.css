@@ -1,3 +1,11 @@
+/* 1. Main area
+   -------------------------------- */
+
+#main-area {
+  display: flex;
+  flex-direction: column;
+}
+
 /* ========== Notification bar ============== */
 
 #notification-container {
@@ -106,8 +114,8 @@
 /* ========== VIDEO PREVIEW ============== */
 
 #capture-window, #playback-window {
-  height: calc(100vh - 210px);
-  width: 100%;
+  display: flex;
+  flex: 1;
   text-align: center;
   background-color: black;
   position: relative;
@@ -119,39 +127,24 @@
 
 #capture-window.active { border-color: #ad0000; }
 
-#preview {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
+#preview,
 #playback {
-  height: 100%;
-  width: 100%;
-  max-height: calc(100vh - 210px);
+  flex: 1;
   object-fit: contain;
+  width: 100%;
 }
 
 /*========== ONION SKINNING ==============*/
 
 #onion-skinning-frame {
   height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  border: 0;
+  left: 0;
+  object-fit: contain;
   opacity: 0;
   position: absolute;
   top: 0;
-  left: 0;
-  object-fit: contain;
+  width: 100%;
   z-index: 2;
-  display: inline;
 }
 
 #onion-skinning-frame:not([src]){ display:none; }
