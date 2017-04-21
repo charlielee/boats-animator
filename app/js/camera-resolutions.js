@@ -8,6 +8,10 @@ module.exports = {};
         supported   = [],
         videoStream = window.document.createElement("video");
 
+    const camera = require("./camera");
+
+    const preview = document.querySelector("#preview");
+
     // Define the resolutions to scan for
     const resolutions = [
         {
@@ -94,7 +98,14 @@ module.exports = {};
             curTestId++;
             playStream(curTestId);
         } else {
-            module.exports.resolutions = supported;
+          // Push avaliable resolutions when testing is complete
+          module.exports.resolutions = supported;
+
+          // Update the preview area
+          let cam = camera.get();
+          cam.addEventListener("canplay", function() {
+            preview.src = cam.src;
+          });
         }
     }
 

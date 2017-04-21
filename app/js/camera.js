@@ -18,7 +18,8 @@ module.exports = {};
           video: {width: {exact: 320}, height: {exact: 240}}
         }
       },
-      curStream = null;
+      curStream = null,
+      curResolutions = [];
 
   // Get the DOM selectors needed
   let qResoluSelect = document.querySelector("#form-resolution-select"),
@@ -30,7 +31,9 @@ module.exports = {};
    * and resolution the user selected.
    */
   function getCamera() {
-    _getMedia(_getSelectedCamera(), constraints[_getSelectedResolution()]);
+    curResolutions = cameraResolutions.resolutions;
+    // curResolutions[_getSelectedResolution()]
+    _getMedia(_getSelectedCamera(), curResolutions[0]);
     //_getMedia(_getSelectedCamera(), constraints["480p"]);
     return videoCapture;
   }
@@ -105,20 +108,19 @@ module.exports = {};
         }
       });
 
-      // Default select the first camera
+      // Default select the first camera and get its resolutions
       qCameraSelect.options[0].selected = true;
+      cameraResolutions.get(_getSelectedCamera());
     }
 
     // Get the available cameras
-    function init(callback) {
+    function init() {
       navigator.mediaDevices.enumerateDevices()
       .then(_findVideoSources)
-      .then(callback)
       .catch(function(error) {
         console.error(error);
       });
     }
-
 
    // var ID_FOR_TEST = "0b168b5be19ccabedf048b81f304f118947a9ab05be3f6dcaed823b3818501aa";
 //     // console.log(_getSelectedCamera());
@@ -129,5 +131,8 @@ module.exports = {};
   // Public exports
   module.exports.init = init;
   module.exports.get = getCamera;
+  module.exports.getResolutions = cameraResolutions.get;
+  // module.exports.getResolutions = cameraResolutions.get();
+
 //     // module.exports.setCameraResolution = setCameraResolution;
 }());

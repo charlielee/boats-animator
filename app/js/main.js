@@ -176,13 +176,7 @@ function startup() {
   shortcuts.get("default");
 
   // Initialises the camera module
-  camera.init(function() {
-    // Get default camera
-    let cam = camera.get();
-    cam.addEventListener("canplay", function() {
-      preview.src = cam.src;
-    });
-  });
+  camera.init();
 
   // Initialises the preview window
   preview.addEventListener("canplay", function() {
@@ -209,13 +203,13 @@ function startup() {
   });
 
   /* ======= Listeners ======= */
-  // Change resolution
-  document.querySelector("#capture-options li:first-child").addEventListener("click", function() {
-    notification.info("This feature is not yet available!");
+  // Get the resolutions for a camera upon changing it.
+  cameraSelect.addEventListener("change", function() {
+    camera.getResolutions();
   });
 
-  // Change camera
-  cameraSelect.addEventListener("change", function() {
+  // Reload the camera on changing resolution
+  resolutionSelect.addEventListener("click", function() {
     let cam = camera.get();
     cam.addEventListener("canplay", function() {
       preview.src = cam.src;
