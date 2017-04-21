@@ -17,7 +17,8 @@ module.exports = {};
         "320p": {
           video: {width: {exact: 320}, height: {exact: 240}}
         }
-      };
+      },
+      curStream = null;
 
   // Get the DOM selectors needed
   let qResoluSelect = document.querySelector("#form-resolution-select"),
@@ -50,9 +51,15 @@ module.exports = {};
     return qCameraSelect.options[qCameraSelect.options.selectedIndex].value;
   }
 
-  function _getMedia(camera, constraints) {
+  function _getMedia(camId, constraints) {
+    // Stop the previous camera from streaming
+    if (curStream) {
+      let curTrack = curStream.getVideoTracks()[0];
+      curTrack.stop();
+    }
+
     // Update the user-selected camera
-    constraints["video"]["deviceId"] = camera;
+    constraints["video"]["deviceId"] = camId;
 
     // Load the stream and display it
     navigator.mediaDevices.getUserMedia(constraints)
@@ -65,9 +72,10 @@ module.exports = {};
    */
   function mediaSuccessCapture(mediaStream) {
     notification.success("Camera successfully connected.");
-    // console.log("capture!!!");
     videoCapture.src = window.URL.createObjectURL(mediaStream);
     videoCapture.play();
+
+    curStream = mediaStream;
 
     // Make the capture stream available for public access
     module.exports.videoCapture = videoCapture;
