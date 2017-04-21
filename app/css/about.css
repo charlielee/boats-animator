@@ -1,19 +1,4 @@
-/* ======= Buttons ======== */
+/* Buttons
+   -------------------------------- */
 
-.content button {
-    width: calc(33% - 0.5em);
-    margin-right: 0.5em;
-    float: left;
-}
-
-.content button:last-of-type { margin: 0; }
-
-.content button i {
-    font-size: 400%;
-    float: left;
-}
-
-.content button span {
-    display: block;
-    transform: translateY(100%);
-}
+.content button i { font-size: 4em; }

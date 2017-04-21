@@ -20,22 +20,7 @@
 #projects-container a { color: #d3d3d3; }
 #projects-container a:hover { border-bottom: 1.5px solid #d3d3d3; }
 
-.content button {
-    width: calc(50% - 0.5em);
-    float: left;
-}
-
-.content button:last-of-type { float: right; }
-
-.content button i {
-    font-size: 400%;
-    float: left;
-}
-
-.content button span {
-    display: block;
-    transform: translateY(100%);
-}
+.content button i { font-size: 4em; }
 
 /* ========== Recent News ============ */
 .loading-dots {

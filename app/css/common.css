@@ -35,6 +35,20 @@ body {
 
 img { -webkit-user-drag: none; }
 
+/* Container for a row of buttons */
+
+.btn-group { display: flex; }
+
+.btn-group button {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  margin-right: 1em;
+}
+.btn-group button:last-of-type { margin-right: 0; }
+
+.btn-group span { flex: 1; }
+
 /* 2. Links
    -------------------------------- */
 
