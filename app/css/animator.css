@@ -1,4 +1,4 @@
-/* 1. Main area
+/* Main area
    -------------------------------- */
 
 #main-area {
@@ -274,45 +274,19 @@ td:first-of-type .frame-reel-preview {
 #btn-live-view i { padding-top: 0.2em; }
 
 
-/* ========== CONTROL PANEL ============== */
+/* Control panel
+   -------------------------------- */
 
-#control-panel-table {
-  border-spacing: 0;
+#control-panel {
+  display: flex;
   padding: 0.5em 0;
   white-space: nowrap;
   width: 100%;
 }
 
-#control-panel-table td {
-/*    border: 1px solid white;*/
-}
+/* Preview options */
 
-#other-options-container {
-  padding: 1em 0;
-}
-
-#onion-skin-control {
-  display: inline-block;
-  float: left;
-}
-
-#preview-options-td, #framerate-container-td {
-  width: 35%;
-}
-
-#btn-onion-skin-toggle {
-  position: relative;
-/*
-  top: 0.5em;
-  margin-top: 3em;
-*/
-  display: inline-block;
-  cursor: pointer;
-  padding: 0 1em;
-/*  float: right;*/
-}
-
-#btn-onion-skin-toggle i, #btn-grid-toggle i {
+#btn-grid-toggle i {
   font-size: 1.7em;
 }
 
@@ -323,28 +297,10 @@ td:first-of-type .frame-reel-preview {
   padding: 0 1em;
 }
 
-#framerate-container {
-  position: relative;
-  display: inline-block;
-  float: right;
-  padding-right: 1em;
-}
+/* Onion skin opacity options */
 
-#input-fr-change {
-  width: 4em;
-  border: 1px solid #171717;
-  background-color: #d9d9d9;
-  color: #171717;
-  padding: 5px;
-}
-
-#onion-opacity-td {
+#onion-skin-opacity-options {
   text-align: center;
-}
-
-#onion-opacity-slider-container {
-    text-align: center;
-    margin-top: -4.6em;
 }
 
 #slider-background-middle {
@@ -364,7 +320,6 @@ td:first-of-type .frame-reel-preview {
   width: 15em;
 }
 
-
 #input-onion-skin-opacity:focus { outline: none; }
 
 #input-onion-skin-opacity::-webkit-slider-runnable-track {
@@ -383,6 +338,23 @@ td:first-of-type .frame-reel-preview {
 
 #input-onion-skin-opacity:focus::-webkit-slider-runnable-track { background-color: #D9D9D9; }
 
-/* ========== STATUS BAR ============== */
+/* Frame rate options */
+
+#frame-rate-options {
+  display: inline-block;
+  padding-right: 1em;
+  text-align: right;
+}
+
+#input-fr-change {
+  width: 4em;
+  border: 1px solid #171717;
+  background-color: #d9d9d9;
+  color: #171717;
+  padding: 5px;
+}
+
+/* Status bar
+   -------------------------------- */
 
 #current-mode span { text-transform: capitalize; }

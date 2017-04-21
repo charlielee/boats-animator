@@ -83,17 +83,19 @@
                 </table>
             </div>
 
-            <table id="control-panel-table">
-                <tr>
-                    <td id="preview-options-td">
-                        <div id="btn-grid-toggle"><i class="fa fa-th" title="Grid Overlay"></i></div>
-                    </td>
+        <article id="control-panel">
+          <section id="preview-options">
+            <div id="btn-grid-toggle"><i class="fa fa-th" title="Grid Overlay"></i></div>
+          </section>
 
-                    <td id="onion-opacity-td"><input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="-100" max="100" value="0" title="0%" step="2"><div id="slider-background-middle"></div>
-                    </td>
-                    <td id="framerate-container-td"><div id="framerate-container"><input id="input-fr-change" type="number" value="15" min="1" max="60" title="Framerate"><label for="input-fr-change"> FPS</label></div></td>
-                </tr>
-            </table>
+          <section id="onion-skin-opacity-options">
+            <input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="-100" max="100" value="0" title="0%" step="2"><div id="slider-background-middle"></div>
+          </section>
+
+          <section id="frame-rate-options">
+            <input id="input-fr-change" type="number" value="15" min="1" max="60" title="Framerate"><label for="input-fr-change"> FPS</label>
+          </section>
+        </article>
       </section>
 
         <!--Sidebar content-->
