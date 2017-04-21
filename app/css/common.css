@@ -65,7 +65,6 @@ main h2 {
 
 main section {
   flex: 1;
-  overflow: hidden;
 }
 
 .content {
