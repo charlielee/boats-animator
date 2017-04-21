@@ -149,64 +149,54 @@
 
 #onion-skinning-frame:not([src]){ display:none; }
 
-/* ========== CONTROLS ============== */
+/* Frame mod panel.
+   -------------------------------- */
 
-#framemod-table {
-  width: 100%;
-  padding-left: 1em;
-  padding-right: 1em;
+#frame-mod-panel {
   background-color: #171717;
+  padding: 0 1em;
+  width: 100%;
 }
 
-#framemod-table div {
+#frame-mod-panel > * {
+  align-items: center;
+  display: flex;
+}
+
+/* Buttons within the frame mod panel */
+#frame-mod-panel div {
   cursor: pointer;
-  font-size: 1.1em;
+  font-size: 1.3em;
   display: inline-block;
+  padding: 0 0.5em;
 }
 
-#left-controls {
-  width: 45%;
-}
+/* ===  Left controls === */
 
-#left-controls i {
-  padding: 0 0.25em;
-  font-size: 1.2em;
-}
+#left-controls { flex: 4; }
 
-#capture-control {
-  text-align: center;
-}
+/* ===  Capture control === */
 
-#playback-controls {
-  width: 45%;
-  font-size: 1.2em;
-}
-
-#btn-capture-frame {
-  cursor: pointer;
-}
+#capture-control { justify-content: center; }
 
 #btn-capture-frame i {
   color: #f9ff23;
-  font-size: 2em;
+  font-size: 1.8em;
   padding: 0.2em 0;
 }
 
-#btn-capture-frame i:hover {
-  color: #f3f76e;
+#btn-capture-frame i:hover { color: #f3f76e; }
+
+/* ===  Playback controls === */
+
+#playback-controls {
+  justify-content: flex-end;
+  flex: 4;
 }
 
-#playback-controls div {
-  padding: 0 0.5em;
-  float: right;
-}
-#btn-play-pause {
-  width: 1.5em;
-}
+#btn-play-pause { width: 1.5em; }
 
-#btn-loop i.active, #btn-onion-skin-toggle i.active {
-  color: #ad0000;
-}
+#btn-loop i.active { color: #ad0000; }
 
 /* ========== FRAME REEL ============== */
 
