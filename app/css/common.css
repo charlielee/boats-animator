@@ -36,9 +36,7 @@ body {
 img { -webkit-user-drag: none; }
 
 /* Container for a row of buttons */
-
 .btn-group { display: flex; }
-
 .btn-group button {
   align-items: center;
   display: flex;
@@ -46,8 +44,11 @@ img { -webkit-user-drag: none; }
   margin-right: 1em;
 }
 .btn-group button:last-of-type { margin-right: 0; }
-
 .btn-group span { flex: 1; }
+
+/* Denotes an element as a flexbox and sets its children to "flex: 1" */
+.flex { display: flex; }
+.flex > * { flex: 1; }
 
 /* 2. Links
    -------------------------------- */
@@ -68,6 +69,11 @@ main {
   flex: 1;
 }
 
+main > section {
+  flex: 1;
+  overflow: hidden;
+}
+
 main h1 {
   font-size: 1.8em;
   margin: 0.5em 0;
@@ -75,10 +81,6 @@ main h1 {
 
 main h2 {
   font-size: 1.3em;
-}
-
-main section {
-  flex: 1;
 }
 
 .content {
