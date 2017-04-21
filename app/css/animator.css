@@ -284,11 +284,7 @@ td:first-of-type .frame-reel-preview {
   width: 100%;
 }
 
-/* Preview options */
-
-#btn-grid-toggle i {
-  font-size: 1.7em;
-}
+/* === Preview options === */
 
 #btn-grid-toggle {
   position: relative;
@@ -297,27 +293,24 @@ td:first-of-type .frame-reel-preview {
   padding: 0 1em;
 }
 
-/* Onion skin opacity options */
+#btn-grid-toggle i { font-size: 1.7em; }
 
-#onion-skin-opacity-options {
-  text-align: center;
-}
+/* === Onion skin opacity options === */
+
+#onion-skin-opacity-options { text-align: center; }
 
 #slider-background-middle {
   position: relative;
-/*  left: 1.65em;*/
   height: 1.9em;
   width: 0.09em;
   background-color: white;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: -1.24em;
+  margin: -1.24em auto 0 auto;
   z-index: -1;
 }
 
 #input-onion-skin-opacity {
-  -webkit-appearance: none;
   width: 15em;
+  -webkit-appearance: none;
 }
 
 #input-onion-skin-opacity:focus { outline: none; }
@@ -327,6 +320,7 @@ td:first-of-type .frame-reel-preview {
   cursor: pointer;
   background-color: #D9D9D9;
 }
+
 #input-onion-skin-opacity::-webkit-slider-thumb {
   height: 1.7em;
   width: 1.7em;
@@ -338,7 +332,7 @@ td:first-of-type .frame-reel-preview {
 
 #input-onion-skin-opacity:focus::-webkit-slider-runnable-track { background-color: #D9D9D9; }
 
-/* Frame rate options */
+/* === Frame rate options === */
 
 #frame-rate-options {
   display: inline-block;
