@@ -192,8 +192,6 @@ function startup() {
       streaming = true;
       ratio = width / height;
       aspectRatio = ratio.toFixed(2);
-      console.log("height: " + height);
-      console.log("width: " + width);
       console.log("Aspect ratio: " + aspectRatio);
 
       if (aspectRatio === 1.33) {
@@ -455,7 +453,7 @@ function updateFrameReel(action, id) {
 
         // Update onion skin frame
         onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
-        context.drawImage(capturedFrames[onionSkinFrame], 0, 0, width, height);
+        context.drawImage(capturedFrames[onionSkinFrame], 0, 0, preview.videoWidth, preview.videoHeight);
 
         // Update frame preview selection
         if (curSelectedFrame) {
@@ -546,14 +544,12 @@ function _captureFrame() {
         switchMode("capture");
     }
 
-    console.log(width, height);
-
     // Take a picture
-    if (width && height) {
+    if (streaming) {
         // Draw the image on the canvas
-        playback.width  = width;
-        playback.height = height;
-        context.drawImage(preview, 0, 0, width, height);
+        playback.width  = preview.videoWidth;
+        playback.height = preview.videoHeight;
+        context.drawImage(preview, 0, 0, preview.videoWidth, preview.videoHeight);
 
         // Convert the frame to a PNG
         var frame = new Image();
@@ -639,7 +635,7 @@ function _displayFrame(id) {
     // Preview selected frame ID
     _addFrameReelSelection(id);
     curPlayFrame = id - 1;
-    context.drawImage(capturedFrames[id - 1], 0, 0, width, height);
+    context.drawImage(capturedFrames[id - 1], 0, 0, preview.videoWidth, preview.videoHeight);
     _updateStatusBarCurFrame(id);
     _frameReelScroll();
   }
@@ -654,7 +650,7 @@ function _videoPlay() {
     playBackRAF = requestAnimationFrame(_videoPlay);
     // Display each frame
     _removeFrameReelSelection();
-    context.drawImage(capturedFrames[curPlayFrame], 0, 0, width, height);
+    context.drawImage(capturedFrames[curPlayFrame], 0, 0, preview.videoWidth, preview.videoHeight);
     _updateStatusBarCurFrame(curPlayFrame + 1);
 
     // Display selection outline as each frame is played

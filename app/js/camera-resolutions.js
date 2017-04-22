@@ -95,12 +95,6 @@ module.exports = {};
       curTestId = 0;
       supported = [];
 
-      // Stop the previous camera from streaming
-      if (curStream) {
-        let curTrack = curStream.getVideoTracks()[0];
-        curTrack.stop();
-      }
-
       cameraId = camId;
       logging = debug || false;
       playStream(curTestId);
@@ -154,7 +148,13 @@ module.exports = {};
         let candidate = resolutions[curTestId];
 
         if ((videoStream.videoWidth === candidate.width) && (videoStream.videoHeight === candidate.height)) {
-            supported.push(makeConstraints(resolutions[curTestId]));
+          supported.push(makeConstraints(resolutions[curTestId]));
+
+          // Stop the camera from streaming
+          if (curStream) {
+            let curTrack = curStream.getVideoTracks()[0];
+            curTrack.stop();
+          }
             // console.log("Is supported");
         } /*else {
             console.log("Not supported");
