@@ -49,8 +49,17 @@
                     <h2><i class="fa fa-camera fa-fw"></i> Capture</h2>
                 </div>
                 <ul id="capture-options">
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Change resolution</a></li>
-                    <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Change camera</a></li>
+                  <li id="camera-select-td">
+                    <!-- Camera selection -->
+                    <p>Camera source:</p>
+                    <select></select>
+                  </li>
+                  <!-- Resolution selection -->
+                  <li id="resolution-select-td">
+                    <p>Image resolution:</p>
+                    <select id="form-resolution-select">
+                    </select>
+                  </li>
                 </ul>
             </div>
 
@@ -138,17 +147,6 @@
                 </td>
 
                 <td id="onion-opacity-td"><input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="-100" max="100" value="0" title="0%" step="2"><div id="slider-background-middle"></div>
-                </td>
-
-                <!-- Camera selection -->
-                <td id="camera-select-td">
-                  <select></select>
-                </td>
-
-                <!-- Resolution selection -->
-                <td id="resolution-select-td">
-                  <select id="form-resolution-select">
-                  </select>
                 </td>
 
                 <td id="framerate-container-td"><div id="framerate-container"><input id="input-fr-change" type="number" value="15" min="1" max="60" title="Framerate"><label for="input-fr-change"> FPS</label></div></td>
