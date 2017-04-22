@@ -89,11 +89,15 @@ module.exports = {};
         .catch(onError);
     }
 
-    function getCameraResolutions(camId, debug) {
-      console.log("Begin testing");
+    function getCameraResolutions(camId, debug) {;
       // Reset previous testing
       curTestId = 0;
       supported = [];
+
+      // Clear previous resolutions list
+      while (qResoluSelect.lastChild) {
+        qResoluSelect.removeChild(qResoluSelect.lastChild);
+      }
 
       cameraId = camId;
       logging = debug || false;
@@ -120,14 +124,8 @@ module.exports = {};
         }
     }
 
+    // Create menu selection options for each resolution in supported
     function _updateResoluSelect() {
-      // Clear previous resolutions list
-      qResoluSelect.innerHTML = "";
-      // while (qResoluSelect.lastChild) {
-      //   qResoluSelect.removeChild(qResoluSelect.lastChild);
-      // }
-
-      // Create menu selection options for each resolution
       let i = 0;
       supported.forEach(function(res) {
         let width = res.video.width.exact,
