@@ -32,8 +32,7 @@ module.exports = {};
    */
   function getCamera() {
     curResolutions = cameraResolutions.resolutions;
-    // curResolutions[_getSelectedResolution()]
-    _getMedia(_getSelectedCamera(), curResolutions[0]);
+    _getMedia(_getSelectedCamera(), curResolutions[_getSelectedResolution()]);
     //_getMedia(_getSelectedCamera(), constraints["480p"]);
     return videoCapture;
   }
@@ -110,7 +109,7 @@ module.exports = {};
 
       // Default select the first camera and get its resolutions
       qCameraSelect.options[0].selected = true;
-      cameraResolutions.get(_getSelectedCamera());
+      cameraResolutions.get(_getSelectedCamera(), true);
     }
 
     // Get the available cameras
@@ -122,6 +121,10 @@ module.exports = {};
       });
     }
 
+    function getResolutions() {
+      cameraResolutions.get(_getSelectedCamera(), true);
+    }
+
    // var ID_FOR_TEST = "0b168b5be19ccabedf048b81f304f118947a9ab05be3f6dcaed823b3818501aa";
 //     // console.log(_getSelectedCamera());
     //cameraResolutions.get(ID_FOR_TEST);
@@ -131,7 +134,7 @@ module.exports = {};
   // Public exports
   module.exports.init = init;
   module.exports.get = getCamera;
-  module.exports.getResolutions = cameraResolutions.get;
+  module.exports.getResolutions = getResolutions;
   // module.exports.getResolutions = cameraResolutions.get();
 
 //     // module.exports.setCameraResolution = setCameraResolution;

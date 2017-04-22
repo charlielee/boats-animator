@@ -5,12 +5,14 @@ module.exports = {};
     let logging     = false,
         cameraId    = null,
         curTestId   = 0,
+        curStream   = null,
         supported   = [],
         videoStream = window.document.createElement("video");
 
     const camera = require("./camera");
 
-    const preview = document.querySelector("#preview");
+    const preview = document.querySelector("#preview"),
+          qResoluSelect = document.querySelector("#form-resolution-select");
 
     // Define the resolutions to scan for
     const resolutions = [
@@ -45,7 +47,7 @@ module.exports = {};
     ];
 
     function makeConstraints(resObj) {
-        console.info(`${resObj.width}x${resObj.height}`);
+        // console.info(`${resObj.width}x${resObj.height}`);
         return {
           audio: false,
           video: {
@@ -60,10 +62,11 @@ module.exports = {};
         let candidate = resolutions[testId];
 
         function onSuccess(stream) {
-            videoStream.width = candidate.width;
-            videoStream.height = candidate.height;
-            videoStream.src = window.URL.createObjectURL(stream);
-            videoStream.play();
+          curStream = stream;
+          videoStream.width = candidate.width;
+          videoStream.height = candidate.height;
+          videoStream.src = window.URL.createObjectURL(stream);
+          videoStream.play();
         }
 
         function onError(err) {
@@ -87,9 +90,20 @@ module.exports = {};
     }
 
     function getCameraResolutions(camId, debug) {
-        cameraId = camId;
-        logging = debug || false;
-        playStream(curTestId);
+      console.log("Begin testing");
+      // Reset previous testing
+      curTestId = 0;
+      supported = [];
+
+      // Stop the previous camera from streaming
+      if (curStream) {
+        let curTrack = curStream.getVideoTracks()[0];
+        curTrack.stop();
+      }
+
+      cameraId = camId;
+      logging = debug || false;
+      playStream(curTestId);
     }
 
     function runNextTest() {
@@ -100,13 +114,40 @@ module.exports = {};
         } else {
           // Push avaliable resolutions when testing is complete
           module.exports.resolutions = supported;
+          _updateResoluSelect();
 
           // Update the preview area
           let cam = camera.get();
           cam.addEventListener("canplay", function() {
             preview.src = cam.src;
           });
+
+          console.log("OUTPUT:", supported);
         }
+    }
+
+    function _updateResoluSelect() {
+      // Clear previous resolutions list
+      qResoluSelect.innerHTML = "";
+      // while (qResoluSelect.lastChild) {
+      //   qResoluSelect.removeChild(qResoluSelect.lastChild);
+      // }
+
+      // Create menu selection options for each resolution
+      let i = 0;
+      supported.forEach(function(res) {
+        let width = res.video.width.exact,
+            height = res.video.height.exact;
+
+        var option = window.document.createElement("option");
+        option.text = `${width}x${height}`;
+        option.value = i;
+        qResoluSelect.appendChild(option);
+        i++;
+      });
+
+      // Default select the first resolution
+      qResoluSelect.options[0].selected = true;
     }
 
     videoStream.addEventListener("canplay", function() {

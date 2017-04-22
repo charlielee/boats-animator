@@ -209,7 +209,7 @@ function startup() {
   });
 
   // Reload the camera on changing resolution
-  resolutionSelect.addEventListener("click", function() {
+  resolutionSelect.addEventListener("change", function() {
     let cam = camera.get();
     cam.addEventListener("canplay", function() {
       preview.src = cam.src;
