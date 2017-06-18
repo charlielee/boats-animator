@@ -1,17 +1,17 @@
 /* ========== Projects Area ============= */
 
 #projects-container {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 #projects-container li {
-    margin: 0;
-    width: 100%;
-    padding: 1em 0;
-    list-style-type: none;
-    border-bottom: 1px solid #ADADAD;
-    position: relative;
+  margin: 0;
+  width: 100%;
+  padding: 1em 0;
+  list-style-type: none;
+  border-bottom: 1px solid #ADADAD;
+  position: relative;
 }
 
 #projects-container li:first-of-type { padding-top: 0; }
@@ -51,21 +51,21 @@
 
 
 .container-news {
-    margin-top: -0.8em;
-    height: 25.8em;
-    overflow-y: scroll;
+  margin-top: -0.8em;
+  height: 25.8em;
+  overflow-y: scroll;
 }
 
 .post,
 .container-news h3  {
-    color: #fff;
-    padding-right: 1em;
+  color: #fff;
+  padding-right: 1em;
 }
 .post { margin-bottom: 1.5em; }
 
 .post-link {
-    color: #fff;
-    text-decoration: none;
+  color: #fff;
+  text-decoration: none;
 }
 .post-link:hover {
   color: #fff;
@@ -73,11 +73,11 @@
 }
 
 .post-title {
-    margin: 0;
-    margin-bottom: -0.4em;
-    font-size: 1.2em;
-    font-weight: 500;
-    color: #fff;
+  margin: 0;
+  margin-bottom: -0.4em;
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #fff;
 }
 .post-date {
   margin: 0.2em 0 1.2em 0;
