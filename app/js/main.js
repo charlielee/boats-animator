@@ -203,14 +203,17 @@ function startup() {
   /* ======= Listeners ======= */
   // Get the resolutions for a camera upon changing it.
   cameraSelect.addEventListener("change", function() {
+    preview.classList.add("hidden");
     camera.getResolutions();
   });
 
   // Reload the camera on changing resolution
   resolutionSelect.addEventListener("change", function() {
+    preview.classList.add("hidden");
     let cam = camera.get();
     cam.addEventListener("canplay", function() {
       preview.src = cam.src;
+      preview.classList.remove("hidden");
     });
   });
 

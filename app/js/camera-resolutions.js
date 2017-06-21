@@ -117,6 +117,9 @@ module.exports = {};
           // Update the preview area
           let cam = camera.get();
           cam.addEventListener("canplay", function() {
+            if (preview.classList.contains("hidden")) {
+              preview.classList.remove("hidden");
+            }
             preview.src = cam.src;
           });
 

@@ -122,7 +122,7 @@ module.exports = {};
     }
 
     function getResolutions() {
-      cameraResolutions.get(_getSelectedCamera(), true);
+      cameraResolutions.get(_getSelectedCamera());
     }
 
    // var ID_FOR_TEST = "0b168b5be19ccabedf048b81f304f118947a9ab05be3f6dcaed823b3818501aa";
