@@ -718,7 +718,9 @@ function _onionSkinChangeAmount(ev) {
 
   // Make it easier to switch off onion skinning
   if (amount >= -6 && amount <= 6) {
+    onionSkinWindow.style.opacity = 0;
     onionSkinSlider.value = 0;
+    onionSkinSlider.setAttribute("title", "0%");
   }
 }
 
