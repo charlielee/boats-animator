@@ -293,7 +293,9 @@ function startup() {
       frameRate = 15;
     }
     statusBarFrameRate.innerHTML = frameRate;
-    videoStop();
+    if (winMode == "playback") {
+      videoStop();
+    }
   });
 
   // Listen for leaving frame rate input
