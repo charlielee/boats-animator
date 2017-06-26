@@ -18,6 +18,7 @@ The menu bar contains an assortment of options both to do with the current proje
 ### Capture menu
 * **Capture frame:** select this to activate the [capture button](#capture-button).
 * **Play capture sounds:** this toggles whether a sound plays when a frame is captured.
+* **Change capture destination:** select this to change the folder Boats Animator exports captured frames to.
 
 ### Playback menu
 * **Loop playback:** toggle if playback should continue from the first frame captured when the last frame captured is reached.
@@ -133,9 +134,6 @@ This is used to set the number of frames per second to be displayed during playb
 ![Sidebar](../img/sidebar.png)
 
 The sidebar contains options that are generally not changed very often during animating.
-
-### Change resolution and change camera
-These features have not been implemented yet, although we are working on doing so and are aware that there is a strong demand for them!
 
 ### Change directory
 Select this to change the folder Boats Animator exports captured frames to.
