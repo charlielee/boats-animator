@@ -18,11 +18,15 @@ var width  = 0,
     // NW.js
     win = nw.Window.get(),
 
+    // Loading Window
+    loadingWindow        = document.querySelector("#loading-window"),
+    loadingWindowMessage = document.querySelector("#loading-window-message"),
+    loadingWindowDots    = document.querySelector("#loading-window-dots"),
+
     // Mode switching
     btnLiveView      = document.querySelector("#btn-live-view"),
     captureWindow    = document.querySelector("#capture-window"),
     playbackWindow   = document.querySelector("#playback-window"),
-    loadingWindow    = document.querySelector("#loading-window"),
     curPreviewWindow = null;
 
     // Capture

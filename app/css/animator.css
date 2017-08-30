@@ -137,16 +137,26 @@
   width: 100%;
 }
 
-.loading-dots {
+
+/**== Loading Window ==*/
+#loading-window {
+  justify-content: center;
+  flex-direction: column;
+}
+
+#loading-window-message.hidden,
+#loading-window-dots.hidden {
+  display: none;
+}
+
+#loading-window-message {
   text-align: center;
-  z-index: 5;
 }
 
 /** Loading animation */
-#camera-loading {
+#loading-window-dots {
   align-items: center;
   display: flex;
-  height: 100%;
   justify-content: center;
   width: 100%;
 }
