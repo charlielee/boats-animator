@@ -19,9 +19,10 @@ var width  = 0,
     win = nw.Window.get(),
 
     // Mode switching
-    btnLiveView    = document.querySelector("#btn-live-view"),
-    captureWindow  = document.querySelector("#capture-window"),
-    playbackWindow = document.querySelector("#playback-window"),
+    btnLiveView      = document.querySelector("#btn-live-view"),
+    captureWindow    = document.querySelector("#capture-window"),
+    playbackWindow   = document.querySelector("#playback-window"),
+    loadingWindow    = document.querySelector("#loading-window"),
     curPreviewWindow = null;
 
     // Capture
@@ -371,12 +372,14 @@ function switchMode(newMode) {
   if (curPreviewWindow === captureWindow) {
     _updateStatusBarCurFrame(totalFrames + 1);
     btnLiveView.classList.add("selected");
+    statusBarCurMode.innerText = "Capture";
 
   } else if (curPreviewWindow === playbackWindow) {
     btnLiveView.classList.remove("selected");
+    statusBarCurMode.innerText = "Playback";
   }
+
   console.log(`Switched to: ${curPreviewWindow.id}`);
-  statusBarCurMode.innerHTML = curPreviewWindow.id;
 }
 
 /**
