@@ -7,8 +7,8 @@
 The menu bar contains an assortment of options both to do with the current project and the program in general.
 
 ### File menu
-* **New project:** this has not been implemented yet.
-* **Open project:** this has not been implemented yet.
+* **New project:** this feature has not been implemented yet.
+* **Open project:** this feature has not been implemented yet.
 * **Main menu:** select this to return to the [launcher window](launcher-window.md).
 * **Exit:** select this to close the program.
 
@@ -18,6 +18,7 @@ The menu bar contains an assortment of options both to do with the current proje
 ### Capture menu
 * **Capture frame:** select this to activate the [capture button](#capture-button).
 * **Play capture sounds:** this toggles whether a sound plays when a frame is captured.
+* **Change capture destination:** select this to change the folder Boats Animator exports captured frames to.
 
 ### Playback menu
 * **Loop playback:** toggle if playback should continue from the first frame captured when the last frame captured is reached.
@@ -57,9 +58,6 @@ The preview options buttons change what masks are displayed on the preview area.
 ### Grid toggle
 This enables / disables a [rule of thirds](https://en.wikipedia.org/wiki/Rule_of_thirds) grid over the preview area. **Please note that this feature has not been implemented yet**.
 
-### Onion skinning toggle
-This enables / disables [onion skinning](https://en.wikipedia.org/wiki/Onion_skinning), which is when a translucent version of the last image captured is displayed on top of the preview area. The onion skinning strength is set with the [onion skinning slider](#onion-skinning-slider). Onion skinning is only displayed in [capture mode](#capture-mode).
-
 ## Status bar
 ![Status bar](../img/status-bar.png)
 
@@ -96,10 +94,7 @@ Select this button to capture a new frame from the live-feed that is visible in 
 ## Onion skinning slider
 ![Onion skinning slider](../img/onion-skinning-slider.png)
 
-This is used to set the amount of [onion skinning](https://en.wikipedia.org/wiki/Onion_skinning) to be displayed in the preview area in [capture mode](#capture-mode). Move the slider to the left to make the live-feed more visible and to the right to make the last frame captured more visible.
-
-!!! note "Note"
-    Remember that this slider only has an effect when the [onion skinning toggle](#onion-skinning-toggle)  is enabled.
+This is used to set the amount of [onion skinning](https://en.wikipedia.org/wiki/Onion_skinning) that is displayed in the preview area in [capture mode](#capture-mode). Move the slider to the right of center to increase the opacity of the last frame captured. At present, moving the slider to the left will have the same effect. To turn off onion skinning move the slider back to the center.
 
 ## Playback controls
 ![Playback controls](../img/playback-controls.png)
@@ -139,9 +134,6 @@ This is used to set the number of frames per second to be displayed during playb
 ![Sidebar](../img/sidebar.png)
 
 The sidebar contains options that are generally not changed very often during animating.
-
-### Change resolution and change camera
-These features have not been implemented yet, although we are working on doing so and are aware that there is a strong demand for them!
 
 ### Change directory
 Select this to change the folder Boats Animator exports captured frames to.

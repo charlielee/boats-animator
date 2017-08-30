@@ -91,7 +91,7 @@ var width  = 0,
 
     // Sidebar
     dirChooseDialog    = document.querySelector("#chooseDirectory"),
-    btnDirectoryChange = document.querySelector("#sidebar #btn-dir-change");
+    btnDirectoryChange = document.querySelector("aside #btn-dir-change");
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -201,6 +201,7 @@ function startup() {
   });
 
   /* ======= Listeners ======= */
+
   // Get the resolutions for a camera upon changing it.
   cameraSelect.addEventListener("change", function() {
     preview.classList.add("hidden");
@@ -305,7 +306,9 @@ function startup() {
       frameRate = 15;
     }
     statusBarFrameRate.innerHTML = frameRate;
-    videoStop();
+    if (winMode == "playback") {
+      videoStop();
+    }
   });
 
   // Listen for leaving frame rate input
@@ -728,7 +731,9 @@ function _onionSkinChangeAmount(ev) {
 
   // Make it easier to switch off onion skinning
   if (amount >= -6 && amount <= 6) {
+    onionSkinWindow.style.opacity = 0;
     onionSkinSlider.value = 0;
+    onionSkinSlider.setAttribute("title", "0%");
   }
 }
 

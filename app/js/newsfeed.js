@@ -92,7 +92,7 @@ module.exports = {};
       posts.push({
         id: curPost.id,
         url: curPost.url,
-        date: new Date(curPost.date).toLocaleDateString(),
+        date: new Date(curPost.date).toLocaleString([], {month: "long", day: "numeric", year: "numeric"}),
         title: curPost.title_plain,
         excerpt: curPost.excerpt
       });
