@@ -117,7 +117,7 @@
 
 /* ========== VIDEO PREVIEW ============== */
 
-#capture-window, #playback-window {
+.preview-area-window {
   display: flex;
   flex: 1;
   text-align: center;
@@ -126,8 +126,7 @@
   border: 2px solid transparent;
 }
 
-#capture-window.hidden,
-#playback-window.hidden { display: none; }
+.preview-area-window.hidden { display: none; }
 
 #capture-window.active { border-color: #ad0000; }
 
