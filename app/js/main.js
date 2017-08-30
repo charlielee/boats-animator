@@ -22,7 +22,7 @@ var width  = 0,
     btnLiveView    = document.querySelector("#btn-live-view"),
     captureWindow  = document.querySelector("#capture-window"),
     playbackWindow = document.querySelector("#playback-window"),
-    curPreviewWindow = captureWindow;
+    curPreviewWindow = null;
 
     // Capture
     capturedFrames     = [],
@@ -204,17 +204,14 @@ function startup() {
 
   // Get the resolutions for a camera upon changing it.
   cameraSelect.addEventListener("change", function() {
-    preview.classList.add("hidden");
     camera.getResolutions();
   });
 
   // Reload the camera on changing resolution
   resolutionSelect.addEventListener("change", function() {
-    preview.classList.add("hidden");
     let cam = camera.get();
     cam.addEventListener("canplay", function() {
       preview.src = cam.src;
-      preview.classList.remove("hidden");
     });
   });
 
@@ -362,19 +359,20 @@ window.onload = startup;
  */
 function switchMode(newMode) {
   "use strict";
+  // Hide the old window
+  if (curPreviewWindow) {
+    curPreviewWindow.classList.remove("active")
+  }
+
+  // Display the new window
   curPreviewWindow = newMode;
+  curPreviewWindow.classList.add("active");
 
   if (curPreviewWindow === captureWindow) {
     _updateStatusBarCurFrame(totalFrames + 1);
-    playbackWindow.classList.add("hidden");
-    captureWindow.classList.remove("hidden");
-    captureWindow.classList.add("active");
     btnLiveView.classList.add("selected");
 
   } else if (curPreviewWindow === playbackWindow) {
-    playbackWindow.classList.remove("hidden");
-    captureWindow.classList.add("hidden");
-    captureWindow.classList.remove("active");
     btnLiveView.classList.remove("selected");
   }
   console.log(`Switched to: ${curPreviewWindow.id}`);
