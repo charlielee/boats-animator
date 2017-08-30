@@ -22,7 +22,7 @@ var width  = 0,
     btnLiveView    = document.querySelector("#btn-live-view"),
     captureWindow  = document.querySelector("#capture-window"),
     playbackWindow = document.querySelector("#playback-window"),
-    winMode        = "capture",
+    curPreviewWindow = captureWindow;
 
     // Capture
     capturedFrames     = [],
@@ -159,7 +159,7 @@ function startup() {
   inputChangeFR.value = frameRate;
 
   // Set default view
-  switchMode("capture");
+  switchMode(captureWindow);
 
   // Load top menu
   loadMenu();
@@ -252,7 +252,7 @@ function startup() {
 
   // Stop the preview
   btnStop.addEventListener("click", function() {
-    if (winMode === "playback") {
+    if (curPreviewWindow === playbackWindow) {
       videoStop();
     }
   });
@@ -272,16 +272,16 @@ function startup() {
   btnFramePrevious.addEventListener("click", function() {
     if (curSelectedFrame > 1) {
         _displayFrame(curSelectedFrame - 1);
-    } else if (winMode === "capture" && totalFrames) {
-      switchMode("playback");
+    } else if (curPreviewWindow === captureWindow && totalFrames) {
+      switchMode(playbackWindow);
       _displayFrame(totalFrames);
     }
   });
 
   // Preview first frame on framereel
   btnFrameFirst.addEventListener("click", function() {
-    if (winMode === "capture" && totalFrames) {
-      switchMode("playback");
+    if (curPreviewWindow === captureWindow && totalFrames) {
+      switchMode(playbackWindow);
     }
     _displayFrame(1);
   });
@@ -306,7 +306,7 @@ function startup() {
       frameRate = 15;
     }
     statusBarFrameRate.innerHTML = frameRate;
-    if (winMode == "playback") {
+    if (curPreviewWindow == playbackWindow) {
       videoStop();
     }
   });
@@ -335,15 +335,15 @@ function startup() {
     if (totalFrames > 0) {
       videoStop();
       _removeFrameReelSelection();
-      switchMode("capture");
+      switchMode(captureWindow);
     }
   });
 
   // Preview a captured frame
   frameReelRow.addEventListener("click", function(e) {
     if (e.target.className === "frame-reel-img") {
-      if (winMode !== "playback") {
-        switchMode("playback");
+      if (curPreviewWindow !== playbackWindow) {
+        switchMode(playbackWindow);
       }
 
       // Display the selected frame
@@ -357,28 +357,28 @@ window.onload = startup;
 /**
  * Toggle between playback and capture windows.
  *
- * @param {String} newMode - The app mode to switch to.
- * Possible values are "capture" and "playback".
+ * @param {HTMLElement} newMode - The app window to switch to.
+ * Possible values are captureWindow and playbackWindow.
  */
 function switchMode(newMode) {
   "use strict";
-  winMode = newMode;
+  curPreviewWindow = newMode;
 
-  if (winMode === "capture") {
+  if (curPreviewWindow === captureWindow) {
     _updateStatusBarCurFrame(totalFrames + 1);
     playbackWindow.classList.add("hidden");
     captureWindow.classList.remove("hidden");
     captureWindow.classList.add("active");
     btnLiveView.classList.add("selected");
 
-  } else if (winMode === "playback") {
+  } else if (curPreviewWindow === playbackWindow) {
     playbackWindow.classList.remove("hidden");
     captureWindow.classList.add("hidden");
     captureWindow.classList.remove("active");
     btnLiveView.classList.remove("selected");
   }
-  console.log(`Switched to: ${winMode}`);
-  statusBarCurMode.innerHTML = winMode;
+  console.log(`Switched to: ${curPreviewWindow.id}`);
+  statusBarCurMode.innerHTML = curPreviewWindow.id;
 }
 
 /**
@@ -466,7 +466,7 @@ function updateFrameReel(action, id) {
             _removeFrameReelSelection();
             _addFrameReelSelection(id - 1);
             _updateStatusBarCurFrame(id - 1);
-        } else if (winMode === "capture") {
+        } else if (curPreviewWindow === captureWindow) {
             _updateStatusBarCurFrame(totalFrames + 1);
         }
 
@@ -474,7 +474,7 @@ function updateFrameReel(action, id) {
     } else {
         frameReelMsg.classList.remove("hidden");
         frameReelTable.classList.add("hidden");
-        switchMode("capture");
+        switchMode(captureWindow);
 
       // Clear the onion skin window
       onionSkinWindow.removeAttribute("src");
@@ -546,8 +546,8 @@ function audio(file) {
 
 function _captureFrame() {
     "use strict";
-    if (winMode === "playback") {
-        switchMode("capture");
+    if (curPreviewWindow === playbackWindow) {
+        switchMode(captureWindow);
     }
 
     // Take a picture
@@ -687,7 +687,7 @@ function _videoPlay() {
 function previewCapturedFrames() {
     "use strict";
     // Display playback window
-    switchMode("playback");
+    switchMode(playbackWindow);
 
     // Update the play/pause button
     btnPlayPause.children[0].classList.remove("fa-play");
