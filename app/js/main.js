@@ -12,17 +12,16 @@ var width  = 0,
     preview     = document.querySelector("#preview"),
     playback    = document.querySelector("#playback"),
     context     = playback.getContext("2d"),
-    ratio       = null,
-    aspectRatio = null,
 
     // NW.js
     win = nw.Window.get(),
 
     // Mode switching
+    PreviewArea      = require("./js/previewArea"),
     btnLiveView      = document.querySelector("#btn-live-view"),
-    captureWindow    = document.querySelector("#capture-window"),
-    playbackWindow   = document.querySelector("#playback-window"),
-    curPreviewWindow = null;
+    CaptureWindow    = new PreviewArea(document.querySelector("#capture-window")),
+    PlaybackWindow   = new PreviewArea(document.querySelector("#playback-window")),
+
 
     // Capture
     capturedFrames     = [],
@@ -159,7 +158,7 @@ function startup() {
   inputChangeFR.value = frameRate;
 
   // Set default view
-  switchMode(captureWindow);
+  switchMode(CaptureWindow);
 
   // Load top menu
   loadMenu();
@@ -190,13 +189,6 @@ function startup() {
       playback.setAttribute("width", preview.videoWidth.toString());
       playback.setAttribute("height", preview.videoHeight.toString());
       streaming = true;
-      ratio = width / height;
-      aspectRatio = ratio.toFixed(2);
-      console.log("Aspect ratio: " + aspectRatio);
-
-      if (aspectRatio === 1.33) {
-        captureWindow.classList.add("4by3");
-      }
     }
   });
 
@@ -249,7 +241,7 @@ function startup() {
 
   // Stop the preview
   btnStop.addEventListener("click", function() {
-    if (curPreviewWindow === playbackWindow) {
+    if (PreviewArea.curWindow === PlaybackWindow) {
       videoStop();
     }
   });
@@ -269,16 +261,16 @@ function startup() {
   btnFramePrevious.addEventListener("click", function() {
     if (curSelectedFrame > 1) {
         _displayFrame(curSelectedFrame - 1);
-    } else if (curPreviewWindow === captureWindow && totalFrames) {
-      switchMode(playbackWindow);
+    } else if (PreviewArea.curWindow === CaptureWindow && totalFrames) {
+      switchMode(PlaybackWindow);
       _displayFrame(totalFrames);
     }
   });
 
   // Preview first frame on framereel
   btnFrameFirst.addEventListener("click", function() {
-    if (curPreviewWindow === captureWindow && totalFrames) {
-      switchMode(playbackWindow);
+    if (PreviewArea.curWindow === CaptureWindow && totalFrames) {
+      switchMode(PlaybackWindow);
     }
     _displayFrame(1);
   });
@@ -303,7 +295,7 @@ function startup() {
       frameRate = 15;
     }
     statusBarFrameRate.innerHTML = frameRate;
-    if (curPreviewWindow == playbackWindow) {
+    if (PreviewArea.curWindow == PlaybackWindow) {
       videoStop();
     }
   });
@@ -332,15 +324,15 @@ function startup() {
     if (totalFrames > 0) {
       videoStop();
       _removeFrameReelSelection();
-      switchMode(captureWindow);
+      switchMode(CaptureWindow);
     }
   });
 
   // Preview a captured frame
   frameReelRow.addEventListener("click", function(e) {
     if (e.target.className === "frame-reel-img") {
-      if (curPreviewWindow !== playbackWindow) {
-        switchMode(playbackWindow);
+      if (PreviewArea.curWindow !== PlaybackWindow) {
+        switchMode(PlaybackWindow);
       }
 
       // Display the selected frame
@@ -354,31 +346,24 @@ window.onload = startup;
 /**
  * Toggle between playback and capture windows.
  *
- * @param {HTMLElement} newMode - The app window to switch to.
- * Possible values are captureWindow and playbackWindow.
+ * @param {PreviewArea} NewWindow - The PreviewArea window to switch to.
+ * Possible values are CaptureWindow and PlaybackWindow.
  */
-function switchMode(newMode) {
+function switchMode(NewWindow) {
   "use strict";
-  // Hide the old window
-  if (curPreviewWindow) {
-    curPreviewWindow.classList.remove("active")
-  }
+  NewWindow.display();
 
-  // Display the new window
-  curPreviewWindow = newMode;
-  curPreviewWindow.classList.add("active");
-
-  if (curPreviewWindow === captureWindow) {
+  if (PreviewArea.curWindow === CaptureWindow) {
     _updateStatusBarCurFrame(totalFrames + 1);
     btnLiveView.classList.add("selected");
     statusBarCurMode.innerText = "Capture";
 
-  } else if (curPreviewWindow === playbackWindow) {
+  } else if (PreviewArea.curWindow === PlaybackWindow) {
     btnLiveView.classList.remove("selected");
     statusBarCurMode.innerText = "Playback";
   }
 
-  console.log(`Switched to: ${curPreviewWindow.id}`);
+  console.log(`Switched to: ${NewWindow.el.id}`);
 }
 
 /**
@@ -466,7 +451,7 @@ function updateFrameReel(action, id) {
             _removeFrameReelSelection();
             _addFrameReelSelection(id - 1);
             _updateStatusBarCurFrame(id - 1);
-        } else if (curPreviewWindow === captureWindow) {
+        } else if (PreviewArea.curWindow === CaptureWindow) {
             _updateStatusBarCurFrame(totalFrames + 1);
         }
 
@@ -474,7 +459,7 @@ function updateFrameReel(action, id) {
     } else {
         frameReelMsg.classList.remove("hidden");
         frameReelTable.classList.add("hidden");
-        switchMode(captureWindow);
+        switchMode(CaptureWindow);
 
       // Clear the onion skin window
       onionSkinWindow.removeAttribute("src");
@@ -546,8 +531,8 @@ function audio(file) {
 
 function _captureFrame() {
     "use strict";
-    if (curPreviewWindow === playbackWindow) {
-        switchMode(captureWindow);
+    if (PreviewArea.curWindow === PlaybackWindow) {
+        switchMode(CaptureWindow);
     }
 
     // Take a picture
@@ -687,7 +672,7 @@ function _videoPlay() {
 function previewCapturedFrames() {
     "use strict";
     // Display playback window
-    switchMode(playbackWindow);
+    switchMode(PlaybackWindow);
 
     // Update the play/pause button
     btnPlayPause.children[0].classList.remove("fa-play");

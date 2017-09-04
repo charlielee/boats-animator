@@ -4,15 +4,13 @@ module.exports = {};
 (function () {
   "use strict";
   // Loading Window
-  loadingWindow        = document.querySelector("#loading-window"),
-  loadingWindowMessage = document.querySelector("#loading-window-message"),
-  loadingWindowDots    = document.querySelector("#loading-window-dots"),
-
-  // Currently active PreviewArea
-  currentWindow = null;
+  var loadingWindow = document.querySelector("#loading-window");
+  var loadingWindowMessage = document.querySelector("#loading-window-message");
+  var loadingWindowDots = document.querySelector("#loading-window-dots");
 
   /**
-   * Objects for Preview Area windows.
+   * Constructor for PreviewArea windows.
+   * @param {HTMLElement} el - the HTMLElement the window is associated with.
    */
   function PreviewArea(el) {
     this.el = el;
@@ -20,6 +18,8 @@ module.exports = {};
     this.loadingMessage = "";
     this.loadingDots = true;
   }
+
+  PreviewArea.curWindow = null;
 
   PreviewArea.prototype = {
     constructor: PreviewArea,
@@ -52,11 +52,11 @@ module.exports = {};
      * Displays a preview area instance.
      */
     display: function() {
-      // Update the currentWindow
-      if (currentWindow) {
-        currentWindow.el.classList.remove("active");
+      // Update the curWindow
+      if (PreviewArea.curWindow) {
+        PreviewArea.curWindow.el.classList.remove("active");
       }
-      currentWindow = this;
+      PreviewArea.curWindow = this;
 
       // Check if new window is loading
       if (this.isLoading) {
