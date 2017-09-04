@@ -22,6 +22,10 @@ var width  = 0,
     CaptureWindow    = new PreviewArea(document.querySelector("#capture-window")),
     PlaybackWindow   = new PreviewArea(document.querySelector("#playback-window")),
 
+    // Camera
+    camera        = require("./js/camera"),
+
+
 
     // Capture
     capturedFrames     = [],
@@ -83,7 +87,6 @@ var width  = 0,
 
     // Node modules
     file          = require("./js/file"),
-    camera        = require("./js/camera"),
     shortcuts     = require("./js/shortcuts"),
     notification  = require("./js/notification"),
     saveDirectory = require("./js/savedirectory"),

@@ -141,8 +141,8 @@ module.exports = {};
         i++;
       });
 
-      // Default select the first resolution
-      qResoluSelect.options[0].selected = true;
+      // Default select the last resolution (ie the lowest one)
+      qResoluSelect.options[qResoluSelect.options.length - 1].selected = true;
     }
 
     videoStream.addEventListener("canplay", function() {
