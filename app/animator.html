@@ -125,13 +125,17 @@
           <h2><i class="fa fa-camera fa-fw"></i> Capture</h2>
         </div>
         <ul id="capture-options">
+          <!-- Camera selection -->
           <li id="camera-select-td">
-            <!-- Camera selection -->
-            <p>Camera source:<br/><select></select></p>
+            <p>Camera source:</p>
+            <select>
+              <option disabled selected value style="display: none;">No camera selected</option>
+            </select>
           </li>
           <!-- Resolution selection -->
           <li id="resolution-select-td">
-            <p>Image resolution:<br/><select id="form-resolution-select"></select></p>
+            <p>Image resolution:</p>
+            <select id="form-resolution-select"></select>
           </li>
         </ul>
       </div>

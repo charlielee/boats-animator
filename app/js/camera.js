@@ -52,10 +52,6 @@ module.exports = {};
         i++;
       }
     });
-
-    // Default select the first camera and get its resolutions
-    qCameraSelect.options[0].selected = true;
-    cameraResolutions.get(_getSelectedCamera(), true);
   }
 
   /**
