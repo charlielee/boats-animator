@@ -174,9 +174,6 @@ function startup() {
   // Load the keyboard shortcuts
   shortcuts.get("default");
 
-  // Initialises the camera module
-  camera.init();
-
   // Initialises the preview window
   preview.addEventListener("canplay", function() {
     if (!streaming) {

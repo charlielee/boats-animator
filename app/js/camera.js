@@ -26,6 +26,38 @@ module.exports = {};
       qCameraSelect = document.querySelector("#camera-select-td select"),
       videoCapture  = document.createElement("video");
 
+  // Get the available cameras
+  navigator.mediaDevices.enumerateDevices()
+  .then(_findVideoSources)
+  .catch(function(error) {
+    console.error(error);
+  });
+
+  // Add each video source to the "current camera" menu
+  function _findVideoSources(sources) {
+    let i = 1;
+    sources.forEach(function(source) {
+      if (source.kind === "videoinput") {
+        // Get the proper camera name
+        let cameraName = `Camera ${i}`;
+        if (source.label) {
+          cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
+        }
+
+        // Create the menu selection
+        var option = window.document.createElement("option");
+        option.text = cameraName;
+        option.value = source.deviceId;
+        qCameraSelect.appendChild(option);
+        i++;
+      }
+    });
+
+    // Default select the first camera and get its resolutions
+    qCameraSelect.options[0].selected = true;
+    cameraResolutions.get(_getSelectedCamera(), true);
+  }
+
   /**
    * Creates a video element with a source of the camera
    * and resolution the user selected.
@@ -88,38 +120,7 @@ module.exports = {};
     console.error(err);
   }
 
-    function _findVideoSources(sources) {
-      let i = 1;
-      sources.forEach(function(source) {
-        if (source.kind === "videoinput") {
-          // Get the proper camera name
-          let cameraName = `Camera ${i}`;
-          if (source.label) {
-            cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
-          }
 
-          // Create the menu selection
-          var option = window.document.createElement("option");
-          option.text = cameraName;
-          option.value = source.deviceId;
-          qCameraSelect.appendChild(option);
-          i++;
-        }
-      });
-
-      // Default select the first camera and get its resolutions
-      qCameraSelect.options[0].selected = true;
-      cameraResolutions.get(_getSelectedCamera(), true);
-    }
-
-    // Get the available cameras
-    function init() {
-      navigator.mediaDevices.enumerateDevices()
-      .then(_findVideoSources)
-      .catch(function(error) {
-        console.error(error);
-      });
-    }
 
     function getResolutions() {
       cameraResolutions.get(_getSelectedCamera());
@@ -130,9 +131,7 @@ module.exports = {};
     //cameraResolutions.get(ID_FOR_TEST);
 //     // console.log(cameraResolutions.resolutions);
 
-
   // Public exports
-  module.exports.init = init;
   module.exports.get = getCamera;
   module.exports.getResolutions = getResolutions;
   // module.exports.getResolutions = cameraResolutions.get();
