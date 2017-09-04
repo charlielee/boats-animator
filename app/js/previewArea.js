@@ -28,8 +28,12 @@ module.exports = {};
      * Displays the loading window are the current preview area.
      */
     showLoading: function(message = this.loadingMessage, dots = this.loadingDots) {
+      this.loadingMessage = message;
+      this.loadingDots = dots;
+      this.isLoading = true;
+
       // Hide current window
-      if (!loadingWindow.classList.contains("active")) {
+      if (this.el.classList.contains("active")) {
         this.el.classList.remove("active");
       }
 
@@ -42,10 +46,12 @@ module.exports = {};
       }
       if (loadingWindowDots.classList.contains("hidden") && dots) {
         loadingWindowDots.classList.remove("hidden");
+      } else {
+        loadingWindowDots.classList.add("hidden");
       }
 
       // Update loading window message
-      loadingWindowMessage.innerHTML = loadingMessage;
+      loadingWindowMessage.innerHTML = message;
     },
 
     /**
@@ -62,6 +68,9 @@ module.exports = {};
       if (this.isLoading) {
         this.showLoading();
       } else {
+        if (loadingWindow.classList.contains("active")) {
+          loadingWindow.classList.remove("active");
+        }
         // Display the new window
         if (!this.el.classList.contains("active")) {
           this.el.classList.add("active");
