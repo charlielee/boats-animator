@@ -4,20 +4,6 @@ module.exports = {};
   "use strict";
   let cameraResolutions = require("./camera-resolutions"),
       notification = require("./notification"),
-      constraints = {
-        "1080p": {
-          video: {width: {exact: 1920}, height: {exact: 1080}}
-        },
-        "720p": {
-          video: {width: {exact: 1280}, height: {exact: 720}}
-        },
-        "480p": {
-          video: {width: {exact: 640}, height: {exact: 480}}
-        },
-        "320p": {
-          video: {width: {exact: 320}, height: {exact: 240}}
-        }
-      },
       curStream = null,
       curResolutions = [];
 
@@ -61,7 +47,6 @@ module.exports = {};
   function getCamera() {
     curResolutions = cameraResolutions.resolutions;
     _getMedia(_getSelectedCamera(), curResolutions[_getSelectedResolution()]);
-    //_getMedia(_getSelectedCamera(), constraints["480p"]);
     return videoCapture;
   }
 
@@ -116,21 +101,11 @@ module.exports = {};
     console.error(err);
   }
 
-
-
-    function getResolutions() {
-      cameraResolutions.get(_getSelectedCamera());
-    }
-
-   // var ID_FOR_TEST = "0b168b5be19ccabedf048b81f304f118947a9ab05be3f6dcaed823b3818501aa";
-//     // console.log(_getSelectedCamera());
-    //cameraResolutions.get(ID_FOR_TEST);
-//     // console.log(cameraResolutions.resolutions);
+  function getResolutions() {
+    cameraResolutions.get(_getSelectedCamera());
+  }
 
   // Public exports
   module.exports.get = getCamera;
   module.exports.getResolutions = getResolutions;
-  // module.exports.getResolutions = cameraResolutions.get();
-
-//     // module.exports.setCameraResolution = setCameraResolution;
 }());
