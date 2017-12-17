@@ -203,7 +203,6 @@ function startup() {
     camera.getResolutions();
 
     preview.addEventListener("canplay", function() {
-      CaptureWindow.isLoading = false;
       CaptureWindow.display();
     });
   });

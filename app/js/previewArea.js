@@ -44,8 +44,11 @@ module.exports = {};
       if (loadingWindowMessage.classList.contains("hidden") && message != "") {
         loadingWindowMessage.classList.remove("hidden");
       }
-      if (loadingWindowDots.classList.contains("hidden") && dots) {
-        loadingWindowDots.classList.remove("hidden");
+
+      if (dots) {
+        if (loadingWindowDots.classList.contains("hidden")) {
+          loadingWindowDots.classList.remove("hidden")
+        }
       } else {
         loadingWindowDots.classList.add("hidden");
       }
@@ -64,17 +67,14 @@ module.exports = {};
       }
       PreviewArea.curWindow = this;
 
-      // Check if new window is loading
-      if (this.isLoading) {
-        this.showLoading();
-      } else {
-        if (loadingWindow.classList.contains("active")) {
-          loadingWindow.classList.remove("active");
-        }
-        // Display the new window
-        if (!this.el.classList.contains("active")) {
-          this.el.classList.add("active");
-        }
+      // Hide loading window
+      if (loadingWindow.classList.contains("active")) {
+        loadingWindow.classList.remove("active");
+      }
+
+      // Display the new window
+      if (!this.el.classList.contains("active")) {
+        this.el.classList.add("active");
       }
     }
   };
