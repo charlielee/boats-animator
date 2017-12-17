@@ -15,6 +15,14 @@
   <!-- Notification Bar -->
   <section id="notification-container"></section>
 
+  <!--Loading Window-->
+  <div id="loading-window">
+    <h3 id="loading-window-message"></h3>
+    <div id="loading-window-dots">
+      <span class="dot one">.</span><span class="dot two">.</span><span class="dot three">.</span>
+    </div>
+  </div>
+
   <!--Confirm messages-->
   <div id="confirm-container" class="hidden">
     <section id="confirm">
@@ -29,13 +37,6 @@
 
   <main>
     <section id="main-area">
-      <!--Loading Window-->
-      <div id="loading-window" class="preview-area-window">
-        <h3 id="loading-window-message"></h3>
-        <div id="loading-window-dots">
-          <span class="dot one">.</span><span class="dot two">.</span><span class="dot three">.</span>
-        </div>
-      </div>
       <!--Capture Window-->
       <div id="capture-window" class="preview-area-window">
         <!--The actual onion skinning frame, injected through JS-->

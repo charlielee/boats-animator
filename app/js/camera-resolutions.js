@@ -9,7 +9,9 @@ module.exports = {};
         supported   = [],
         videoStream = window.document.createElement("video");
 
-    const camera = require("./camera");
+    const camera = require("./camera"),
+          notification = require("./notification"),
+          previewArea = require("./previewArea");
 
     const preview = document.querySelector("#preview"),
           qResoluSelect = document.querySelector("#form-resolution-select");
@@ -142,7 +144,12 @@ module.exports = {};
       });
 
       // Default select the last resolution (ie the lowest one)
-      qResoluSelect.options[qResoluSelect.options.length - 1].selected = true;
+      try {
+        qResoluSelect.options[qResoluSelect.options.length - 1].selected = true;
+      } catch (err) {
+        notification.error(`${camera.getCurrentCameraName()} could not be loaded!`);
+        previewArea.curWindow.display();
+      }
     }
 
     videoStream.addEventListener("canplay", function() {

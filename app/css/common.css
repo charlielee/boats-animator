@@ -120,7 +120,6 @@ aside .sidebar-opt {
   cursor: pointer;
 }
 aside a:hover,
-aside label:hover,
 aside .sidebar-opt:hover {
   border-bottom: 1.5px solid #d3d3d3;
 }

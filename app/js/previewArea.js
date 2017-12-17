@@ -4,6 +4,7 @@ module.exports = {};
 (function () {
   "use strict";
   // Loading Window
+  var body = document.body;
   var loadingWindow = document.querySelector("#loading-window");
   var loadingWindowMessage = document.querySelector("#loading-window-message");
   var loadingWindowDots = document.querySelector("#loading-window-dots");
@@ -32,11 +33,6 @@ module.exports = {};
       this.loadingDots = dots;
       this.isLoading = true;
 
-      // Hide current window
-      if (this.el.classList.contains("active")) {
-        this.el.classList.remove("active");
-      }
-
       // See which elements should be displayed
       if (!loadingWindow.classList.contains("active")) {
         loadingWindow.classList.add("active");
@@ -46,6 +42,7 @@ module.exports = {};
       }
 
       if (dots) {
+        body.style.cursor = "progress"
         if (loadingWindowDots.classList.contains("hidden")) {
           loadingWindowDots.classList.remove("hidden")
         }
@@ -68,6 +65,8 @@ module.exports = {};
       PreviewArea.curWindow = this;
 
       // Hide loading window
+      this.isLoading = false;
+      body.style.cursor = "initial"
       if (loadingWindow.classList.contains("active")) {
         loadingWindow.classList.remove("active");
       }

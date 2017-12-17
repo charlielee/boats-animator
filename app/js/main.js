@@ -162,7 +162,6 @@ function startup() {
 
   // Set default view
   switchMode(CaptureWindow);
-  CaptureWindow.showLoading("No Camera Selected", false);
 
   // Load top menu
   loadMenu();
@@ -198,7 +197,6 @@ function startup() {
   // Get the resolutions for a camera upon changing it.
   cameraSelect.addEventListener("change", function() {
     // Display the capture window
-    CaptureWindow.display();
     CaptureWindow.showLoading(`Loading ${camera.getCurrentCameraName()}`, true);
     camera.getResolutions();
 

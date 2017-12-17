@@ -86,7 +86,7 @@ module.exports = {};
     // Load the stream and display it
     navigator.mediaDevices.getUserMedia(constraints)
     .then(mediaSuccessCapture)
-    .catch(mediaError);;
+    .catch(mediaError);
   }
 
   /**
