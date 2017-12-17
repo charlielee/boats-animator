@@ -146,7 +146,7 @@
 
 #loading-window-message.hidden,
 #loading-window-dots.hidden {
-  display: none;
+  opacity: 0;
 }
 
 #loading-window-message {
