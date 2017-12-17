@@ -133,10 +133,10 @@ aside label {
 aside ul {
   line-height: 1.4;
   list-style: none;
-  padding-left: 1em;
+  padding-left: 0.3em;
 }
 
-aside li { margin-left: -0.7em; }
+aside li { margin: 1em 0; }
 
 .sidebar-item { border-bottom: 1px solid #ADADAD; }
 
