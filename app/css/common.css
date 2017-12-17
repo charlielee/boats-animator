@@ -35,6 +35,13 @@ body {
 
 img { -webkit-user-drag: none; }
 
+input[type="number"], input[type="text"], select {
+  background-color: #d9d9d9;
+  border: 1px solid #171717;
+  color: #171717;
+  padding: 5px;
+}
+
 /* Container for a row of buttons */
 .btn-group { display: flex; }
 .btn-group button {
