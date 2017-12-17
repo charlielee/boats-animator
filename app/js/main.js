@@ -199,7 +199,7 @@ function startup() {
   cameraSelect.addEventListener("change", function() {
     // Display the capture window
     CaptureWindow.display();
-    CaptureWindow.showLoading("Loading Resolutions", true);
+    CaptureWindow.showLoading(`Loading ${camera.getCurrentCameraName()}`, true);
     camera.getResolutions();
 
     preview.addEventListener("canplay", function() {

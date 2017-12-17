@@ -5,7 +5,8 @@ module.exports = {};
   let cameraResolutions = require("./camera-resolutions"),
       notification = require("./notification"),
       curStream = null,
-      curResolutions = [];
+      curResolutions = [],
+      cameraNames = {};
 
   // Get the DOM selectors needed
   let qResoluSelect = document.querySelector("#form-resolution-select"),
@@ -29,6 +30,7 @@ module.exports = {};
         if (source.label) {
           cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
         }
+        cameraNames[source.deviceId] = cameraName;
 
         // Create the menu selection
         var option = window.document.createElement("option");
@@ -38,6 +40,11 @@ module.exports = {};
         i++;
       }
     });
+  }
+
+  // Returns the user friendly name of the current source
+  function getCurrentCameraName() {
+    return cameraNames[_getSelectedCamera()];
   }
 
   /**
@@ -107,5 +114,6 @@ module.exports = {};
 
   // Public exports
   module.exports.get = getCamera;
+  module.exports.getCurrentCameraName = getCurrentCameraName;
   module.exports.getResolutions = getResolutions;
 }());
