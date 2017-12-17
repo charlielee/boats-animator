@@ -209,9 +209,11 @@ function startup() {
 
   // Reload the camera on changing resolution
   resolutionSelect.addEventListener("change", function() {
+    CaptureWindow.showLoading("Updating Resolution", true);
     let cam = camera.get();
     cam.addEventListener("canplay", function() {
       preview.src = cam.src;
+      CaptureWindow.display();
     });
   });
 
