@@ -65,37 +65,90 @@ module.exports = {};
         qCameraSelect.appendChild(option);
         i++;
 
-        // Add to camera list
-        var cam = new Camera(source.deviceId, cameraName);
-        console.log(cam);
+        // Add to camera list if new
+        if (!(source.deviceId in Camera.list)) {
+          var cam = new Camera(source.deviceId, cameraName);
+          console.log(cam);
+        }
       }
     });
   }
 
-
-  // Returns a camera object from an id
-  Camera.getCameraById = function (id) {
-    return Camera.list[id];
-  }
-
+  /** Instance methods */
   Camera.prototype = {
     constructor: Camera,
+
+    /**
+     * Returns a video feed at the camera's current resolution
+     */
+    getCurrentResolution: function() {
+      if (this.curResolution) {
+        return this.curResolution;
+      } else {
+        getResolutions();
+        return videoCapture;
+      }
+    },
 
     /**
      * Updates the resolution of a camera
      * 
      * @param {integer} index - the position in the camera's array of resolutions to update to. 
      */
-    updateResolution: function(index) {
-      _getMedia(_getSelectedCamera(), this.resolutions[index]);
-
+    updateResolution: function (index) {
+      return getCamera2(this, this.resolutions[index])
     }
   }
 
-  // Returns the user friendly name of the current source
-  function getCurrentCameraName() {
-    return cameraNames[_getSelectedCamera()];
+  /** Static methods */
+
+  // Returns a camera object from an id
+  Camera.getCameraById = function (id) {
+    return Camera.list[id];
   }
+
+  /**
+   * Get the user-selected resolution.
+   * @return {String} The corresponding key for the equivalent constraint.
+   */
+  Camera.getSelectedResolution = function () {
+    return qResoluSelect.options[qResoluSelect.options.selectedIndex].value;
+  }
+
+  /**
+   * Gets the user-selected camera.
+   * @return {string} The deviceId of the camera the user has selected.
+   */
+  Camera.getSelectedCamera = function () {
+    var camId = qCameraSelect.options[qCameraSelect.options.selectedIndex].value;
+    return Camera.list[camId];
+  }
+
+
+
+
+
+
+  /**
+   * Creates a video element with a source of the camera
+   * and resolution the user selected.
+   */
+  function getCamera2(cam, res = null) {
+    if (!res) {
+      res = cam.curResolution;
+    }
+    _getMedia(cam.id, res);
+    return videoCapture;
+  }
+
+
+
+
+
+    // Returns the user friendly name of the current source
+    function getCurrentCameraName() {
+      return cameraNames[_getSelectedCamera()];
+    }
 
   /**
    * Creates a video element with a source of the camera

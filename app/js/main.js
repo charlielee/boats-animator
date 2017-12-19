@@ -198,7 +198,12 @@ function startup() {
   cameraSelect.addEventListener("change", function() {
     // Display the capture window
     CaptureWindow.showLoading(`Loading ${camera.getCurrentCameraName()}`, true);
-    camera.getResolutions();
+    // camera.getResolutions();
+    
+    // Get selected camera
+    var curCam = camera.Camera.getSelectedCamera();
+    // Get video feed at the camera's current resolution
+    preview.src = curCam.getCurrentResolution().src;
 
     preview.addEventListener("canplay", function() {
       CaptureWindow.display();
