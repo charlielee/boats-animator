@@ -57,7 +57,7 @@ module.exports = {};
         if (source.label) {
           cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
         }
-        cameraNames[source.deviceId] = cameraName;
+        // cameraNames[source.deviceId] = cameraName;
 
         // Create the menu selection
         var option = window.document.createElement("option");
@@ -90,7 +90,7 @@ module.exports = {};
         Camera._updateResoluSelect(this.resolutions);
       } else {
         // Find resolutions
-        getResolutions();
+        cameraResolutions.get(this.id);
       }
     },
 
@@ -186,37 +186,37 @@ module.exports = {};
   }
 
 
-    // Returns the user friendly name of the current source
-    function getCurrentCameraName() {
-      return cameraNames[_getSelectedCamera()];
-    }
+    // // Returns the user friendly name of the current source
+    // function getCurrentCameraName() {
+    //   return cameraNames[_getSelectedCamera()];
+    // }
 
-  /**
-   * Creates a video element with a source of the camera
-   * and resolution the user selected.
-   */
-  function getCamera() {
-    curResolutions = cameraResolutions.resolutions;
-    console.log(curResolutions);
-    _getMedia(_getSelectedCamera(), curResolutions[_getSelectedResolution()]);
-    return videoCapture;
-  }
+  // /**
+  //  * Creates a video element with a source of the camera
+  //  * and resolution the user selected.
+  //  */
+  // function getCamera() {
+  //   curResolutions = cameraResolutions.resolutions;
+  //   console.log(curResolutions);
+  //   _getMedia(_getSelectedCamera(), curResolutions[_getSelectedResolution()]);
+  //   return videoCapture;
+  // }
 
-  /**
-   * Get the user-selected resolution.
-   * @return {String} The corresponding key for the equivalent constraint.
-   */
-  function _getSelectedResolution() {
-      return qResoluSelect.options[qResoluSelect.options.selectedIndex].value;
-  }
+  // /**
+  //  * Get the user-selected resolution.
+  //  * @return {String} The corresponding key for the equivalent constraint.
+  //  */
+  // function _getSelectedResolution() {
+  //     return qResoluSelect.options[qResoluSelect.options.selectedIndex].value;
+  // }
 
-  /**
-   * Gets the user-selected camera.
-   * @return {string} The deviceId of the camera the user has selected.
-   */
-  function _getSelectedCamera() {
-    return qCameraSelect.options[qCameraSelect.options.selectedIndex].value;
-  }
+  // /**
+  //  * Gets the user-selected camera.
+  //  * @return {string} The deviceId of the camera the user has selected.
+  //  */
+  // function _getSelectedCamera() {
+  //   return qCameraSelect.options[qCameraSelect.options.selectedIndex].value;
+  // }
 
   /** getUserMedia functions */
 
@@ -255,13 +255,12 @@ module.exports = {};
     console.error(err);
   }
 
-  function getResolutions() {
-    cameraResolutions.get(_getSelectedCamera());
-  }
+  // function getResolutions() {
+  //   cameraResolutions.get(_getSelectedCamera());
+  // }
 
   // Public exports
-  module.exports.get = getCamera;
-  module.exports.getCurrentCameraName = getCurrentCameraName;
-  module.exports.getResolutions = getResolutions;
+  // module.exports.get = getCamera;
+  // module.exports.getCurrentCameraName = getCurrentCameraName;
   module.exports.Camera = Camera;
 }());
