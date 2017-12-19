@@ -23,9 +23,7 @@ var width  = 0,
     PlaybackWindow   = new PreviewArea(document.querySelector("#playback-window")),
 
     // Camera
-    camera        = require("./js/camera"),
-
-
+    Camera        = require("./js/camera"),
 
     // Capture
     capturedFrames     = [],
@@ -197,7 +195,7 @@ function startup() {
   // Get the resolutions for a camera upon changing it.
   cameraSelect.addEventListener("change", function() {
     // Get selected camera
-    var curCam = camera.Camera.getSelectedCamera();
+    var curCam = Camera.getSelectedCamera();
     // Show the possible resolutions for the camera
     curCam.showResolutions();
   });
@@ -205,11 +203,11 @@ function startup() {
   // Reload the camera on changing resolution
   resolutionSelect.addEventListener("change", function() {
     // Get selected camera
-    var curCam = camera.Camera.getSelectedCamera();
+    var curCam = Camera.getSelectedCamera();
     // Get video feed with updated resolution
-    var feed = curCam.updateResolution(camera.Camera.getSelectedResolution());
+    var feed = curCam.updateResolution(Camera.getSelectedResolution());
     // Display this feed in the preview area
-    camera.Camera.display(feed, preview);
+    Camera.display(feed, preview);
   });
 
   // Capture a frame

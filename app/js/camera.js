@@ -1,16 +1,15 @@
 module.exports = {};
 
 /** A class for managing camera. */
-(function() {
+(function () {
   "use strict";
   // Import modules
   var cameraResolutions = require("./camera-resolutions");
   var notification = require("./notification");
   var previewArea = require("./previewArea");
 
-  let curStream = null,
-      curResolutions = [],
-      cameraNames = {};
+  // The current video stream
+  let curStream = null;
 
   // Get the DOM selectors needed
   let qResoluSelect = document.querySelector("#form-resolution-select"),
@@ -22,12 +21,12 @@ module.exports = {};
   // Contains a list of all the Camera objects created
   Camera.list = {};
 
-  // The id of the currently selected camera
-  Camera.curId = null;
-
   /**
-   * Constructor for a camera.
-   * @param {HTMLElement} el - the HTMLElement the window is associated with.
+   * Constructor for a Camera.
+   * @param {ConstrainDOMString} id - the camera's MediaTrackConstraints.deviceId.
+   * @param {String} name - the user friendly name of the camera
+   * @param {MediaTrackConstraints[]} resolutions - an array of MediaTrackConstraints defining each
+   *                                                resolution supported by the camera (optional).
    */
   function Camera(id, name, resolutions = {}) {
     this.id = id;
@@ -43,21 +42,20 @@ module.exports = {};
   // Get the available cameras
   navigator.mediaDevices.enumerateDevices()
   .then(_findVideoSources)
-  .catch(function(error) {
+  .catch(function (error) {
     console.error(error);
   });
 
   // Add each video source to the "current camera" menu
   function _findVideoSources(sources) {
     let i = 1;
-    sources.forEach(function(source) {
+    sources.forEach(function (source) {
       if (source.kind === "videoinput") {
         // Get the proper camera name
         let cameraName = `Camera ${i}`;
         if (source.label) {
           cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
         }
-        // cameraNames[source.deviceId] = cameraName;
 
         // Create the menu selection
         var option = window.document.createElement("option");
@@ -69,7 +67,6 @@ module.exports = {};
         // Add to camera list if new
         if (!(source.deviceId in Camera.list)) {
           var cam = new Camera(source.deviceId, cameraName);
-          console.log(cam);
         }
       }
     });
@@ -80,9 +77,9 @@ module.exports = {};
     constructor: Camera,
 
     /**
-     * Gets the resolutions of a camera and update the select object
+     * Gets the resolutions of a camera and update the select element listing them.
      */
-    showResolutions: function() {
+    showResolutions: function () {
       // Display loading window
       previewArea.curWindow.showLoading(`Loading ${this.name}`, true);
       // See if resolutions have already been found
@@ -95,34 +92,31 @@ module.exports = {};
     },
 
     /**
-     * Updates the resolution of a camera
-     * 
-     * @param {integer} index - the position in the camera's array of resolutions to update to. 
-     * 
+     * Updates the resolution of a camera.
+     * @param {Integer} index - the position in the camera's array of resolutions to update to. 
      * @return A video feed with the upload resolution.
      */
     updateResolution: function (index) {
       this.curResolution = index;
-      return getCamera2(this, this.resolutions[index])
+      return getCamera(this, this.resolutions[index])
     }
   }
 
   /** Static methods */
 
-  // Displays a camera feed onto another video object
-  Camera.display = function(feed, output) {
-    feed.addEventListener("canplay", function() {
+  /**
+   * Displays the stream from a video onto another video element.
+   * @param {HTMLVideoElement} feed - the source element.
+   * @param {HTMLVideoElement} output - the target element.
+   */
+  Camera.display = function (feed, output) {
+    feed.addEventListener("canplay", function () {
       output.src = feed.src;
     });
   }
 
-  // Returns a camera object from an id
-  Camera.getCameraById = function (id) {
-    return Camera.list[id];
-  }
-
   /**
-   * Get the user-selected resolution.
+   * Get the array index of the user-selected resolution.
    * @return {String} The corresponding key for the equivalent constraint.
    */
   Camera.getSelectedResolution = function () {
@@ -130,7 +124,7 @@ module.exports = {};
   }
 
   /**
-   * Gets the user-selected camera.
+   * Get the user-selected Camera.
    * @return {string} The deviceId of the camera the user has selected.
    */
   Camera.getSelectedCamera = function () {
@@ -138,11 +132,15 @@ module.exports = {};
     return Camera.list[camId];
   }
 
-  // Create menu selection options for each resolution in supported
+  /**
+   * Create menu selection options for each resolution in supported
+   * @param {MediaTrackConstraints[]} supported - an array of MediaTrackConstraints defining
+   *                                              each resolution supported by the camera.
+   * */
   Camera._updateResoluSelect = function (supported) {
     qResoluSelect.innerHTML = "";
     let i = 0;
-    supported.forEach(function(res) {
+    supported.forEach(function (res) {
       let width = res.video.width.exact,
           height = res.video.height.exact;
 
@@ -172,53 +170,23 @@ module.exports = {};
     }
   }
 
+  /** getUserMedia functions */
 
   /**
    * Creates a video element with a source of the camera
    * and resolution the user selected.
+   * 
+   * @param {Camera} cam - the camera object to use.
+   * @param {Integer} res - the corresponding key for the equivalent
+   *                        constraint in the Camera's resolution object.
    */
-  function getCamera2(cam, res = null) {
+  function getCamera(cam, res = null) {
     if (!res) {
       res = cam.curResolution;
     }
     _getMedia(cam.id, res);
     return videoCapture;
   }
-
-
-    // // Returns the user friendly name of the current source
-    // function getCurrentCameraName() {
-    //   return cameraNames[_getSelectedCamera()];
-    // }
-
-  // /**
-  //  * Creates a video element with a source of the camera
-  //  * and resolution the user selected.
-  //  */
-  // function getCamera() {
-  //   curResolutions = cameraResolutions.resolutions;
-  //   console.log(curResolutions);
-  //   _getMedia(_getSelectedCamera(), curResolutions[_getSelectedResolution()]);
-  //   return videoCapture;
-  // }
-
-  // /**
-  //  * Get the user-selected resolution.
-  //  * @return {String} The corresponding key for the equivalent constraint.
-  //  */
-  // function _getSelectedResolution() {
-  //     return qResoluSelect.options[qResoluSelect.options.selectedIndex].value;
-  // }
-
-  // /**
-  //  * Gets the user-selected camera.
-  //  * @return {string} The deviceId of the camera the user has selected.
-  //  */
-  // function _getSelectedCamera() {
-  //   return qCameraSelect.options[qCameraSelect.options.selectedIndex].value;
-  // }
-
-  /** getUserMedia functions */
 
   function _getMedia(camId, constraints) {
     // Stop the previous camera from streaming
@@ -255,12 +223,6 @@ module.exports = {};
     console.error(err);
   }
 
-  // function getResolutions() {
-  //   cameraResolutions.get(_getSelectedCamera());
-  // }
-
-  // Public exports
-  // module.exports.get = getCamera;
-  // module.exports.getCurrentCameraName = getCurrentCameraName;
-  module.exports.Camera = Camera;
+  /** Public exports */
+  module.exports = Camera;
 }());

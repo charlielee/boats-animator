@@ -9,12 +9,7 @@ module.exports = {};
         supported   = [],
         videoStream = window.document.createElement("video");
 
-    const camera = require("./camera"),
-          notification = require("./notification"),
-          previewArea = require("./previewArea");
-
-    const preview = document.querySelector("#preview"),
-          qResoluSelect = document.querySelector("#form-resolution-select");
+    const Camera = require("./camera");
 
     // Define the resolutions to scan for
     const resolutions = [
@@ -96,11 +91,6 @@ module.exports = {};
       curTestId = 0;
       supported = [];
 
-      // Clear previous resolutions list
-      while (qResoluSelect.lastChild) {
-        qResoluSelect.removeChild(qResoluSelect.lastChild);
-      }
-
       cameraId = camId;
       logging = debug || false;
       playStream(curTestId);
@@ -112,50 +102,12 @@ module.exports = {};
             curTestId++;
             playStream(curTestId);
         } else {
-          // Push avaliable resolutions when testing is complete
-          module.exports.resolutions = supported;
-
-
-          camera.Camera.list[cameraId].resolutions = supported;
-        //   previewArea.curWindow.display();
-          camera.Camera._updateResoluSelect(supported);
-        //   _updateResoluSelect();
-
-        //   // Update the preview area
-        //   let cam = camera.get();
-        //   cam.addEventListener("canplay", function() {
-        //     if (preview.classList.contains("hidden")) {
-        //       preview.classList.remove("hidden");
-        //     }
-        //     preview.src = cam.src;
-        //   });
-
-          console.log("OUTPUT:", supported);
+          // Push available resolutions when testing is complete
+          Camera.list[cameraId].resolutions = supported;
+          Camera._updateResoluSelect(supported);
+          console.log("Supported resolutions:", supported);
         }
     }
-
-    // Create menu selection options for each resolution in supported
-    // function _updateResoluSelect() {
-    //   let i = 0;
-    //   supported.forEach(function(res) {
-    //     let width = res.video.width.exact,
-    //         height = res.video.height.exact;
-
-    //     var option = window.document.createElement("option");
-    //     option.text = `${width}x${height}`;
-    //     option.value = i;
-    //     qResoluSelect.appendChild(option);
-    //     i++;
-    //   });
-
-    //   // Default select the last resolution (ie the lowest one)
-    //   try {
-    //     qResoluSelect.options[qResoluSelect.options.length - 1].selected = true;
-    //   } catch (err) {
-    //     notification.error(`${camera.getCurrentCameraName()} could not be loaded!`);
-    //     previewArea.curWindow.display();
-    //   }
-    // }
 
     videoStream.addEventListener("canplay", function() {
         let candidate = resolutions[curTestId];
