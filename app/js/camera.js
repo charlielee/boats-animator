@@ -165,6 +165,7 @@ module.exports = {};
       Camera.display(feed, document.querySelector("#preview"));
     } catch (err) {
       notification.error(`${curCam.name} could not be loaded!`);
+      document.querySelector("#preview").src = "#";
     } finally {
       previewArea.curWindow.display();
     }
@@ -208,7 +209,7 @@ module.exports = {};
    * Play hidden video in the correct resolution.
    */
   function mediaSuccessCapture(mediaStream) {
-    notification.success("Camera successfully connected.");
+    notification.success(`${Camera.getSelectedCamera().name} successfully connected.`);
     videoCapture.src = window.URL.createObjectURL(mediaStream);
     videoCapture.play();
 
