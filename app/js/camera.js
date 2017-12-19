@@ -6,6 +6,7 @@ module.exports = {};
   // Import modules
   var cameraResolutions = require("./camera-resolutions");
   var notification = require("./notification");
+  var previewArea = require("./previewArea");
 
   let curStream = null,
       curResolutions = [],
@@ -79,16 +80,21 @@ module.exports = {};
     constructor: Camera,
 
     /**
-     * Returns a video feed at the camera's current resolution
+     * Gets the resolutions of a camera and update the select object
      */
-    getCurrentResolution: function() {
-      if (this.curResolution) {
-        return this.curResolution;
+    showResolutions: function() {
+      // Display loading window
+      previewArea.curWindow.showLoading(`Loading ${this.name}`, true);
+      // See if resolutions have already been found
+      if (this.resolutions.length > 0) {
+        Camera._updateResoluSelect(this.resolutions);
       } else {
+        // Find resolutions
         getResolutions();
-        return videoCapture;
       }
     },
+
+
 
     /**
      * Updates the resolution of a camera
@@ -124,6 +130,32 @@ module.exports = {};
     return Camera.list[camId];
   }
 
+
+  // Create menu selection options for each resolution in supported
+  Camera._updateResoluSelect = function (supported) {
+    qResoluSelect.innerHTML = "";
+    let i = 0;
+    supported.forEach(function(res) {
+      let width = res.video.width.exact,
+          height = res.video.height.exact;
+
+      var option = window.document.createElement("option");
+      option.text = `${width}x${height}`;
+      option.value = i;
+      qResoluSelect.appendChild(option);
+      i++;
+    });
+
+    // Default select the last resolution (ie the lowest one)
+    try {
+      qResoluSelect.options[qResoluSelect.options.length - 1].selected = true;
+    } catch (err) {
+      // notification.error(`${camera.getCurrentCameraName()} could not be loaded!`);
+      alert("Error");
+      // 
+    }
+    previewArea.curWindow.display();
+  }
 
 
 

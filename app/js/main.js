@@ -197,13 +197,13 @@ function startup() {
   // Get the resolutions for a camera upon changing it.
   cameraSelect.addEventListener("change", function() {
     // Display the capture window
-    CaptureWindow.showLoading(`Loading ${camera.getCurrentCameraName()}`, true);
+    
     // camera.getResolutions();
     
     // Get selected camera
     var curCam = camera.Camera.getSelectedCamera();
-    // Get video feed at the camera's current resolution
-    preview.src = curCam.getCurrentResolution().src;
+    // Show the possible resolutions for the camera
+    curCam.showResolutions();
 
     preview.addEventListener("canplay", function() {
       CaptureWindow.display();
