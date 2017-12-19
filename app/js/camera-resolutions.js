@@ -9,8 +9,6 @@ module.exports = {};
         supported   = [],
         videoStream = window.document.createElement("video");
 
-    const Camera = require("./camera");
-
     // Define the resolutions to scan for
     const resolutions = [
         {
@@ -103,6 +101,7 @@ module.exports = {};
             playStream(curTestId);
         } else {
           // Push available resolutions when testing is complete
+          const Camera = require("./camera");
           Camera.list[cameraId].resolutions = supported;
           Camera._updateResoluSelect(supported);
           console.log("Supported resolutions:", supported);
