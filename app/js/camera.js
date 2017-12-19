@@ -32,7 +32,7 @@ module.exports = {};
   function Camera(id, name, resolutions = {}) {
     this.id = id;
     this.name = name;
-    this.curResolution;
+    this.curResolution = null;
     this.resolutions = resolutions;
     this.responsive = null;
     Camera.list[id] = this;
@@ -102,6 +102,7 @@ module.exports = {};
      * @return A video feed with the upload resolution.
      */
     updateResolution: function (index) {
+      this.curResolution = index;
       return getCamera2(this, this.resolutions[index])
     }
   }
@@ -155,9 +156,9 @@ module.exports = {};
     // Get selected camera
     var curCam = Camera.getSelectedCamera();
 
-    // Default select the lowest resolution (ie the last one in the list)
+    // Default select the last chosen or lowest resolution (ie the last one in the list)
     try {
-      var index = qResoluSelect.options.length - 1;
+      var index = (curCam.curResolution ? curCam.curResolution : qResoluSelect.options.length - 1);
       qResoluSelect.options[index].selected = true;
 
       // Get video feed with updated resolution
