@@ -209,9 +209,7 @@ function startup() {
     // Get video feed with updated resolution
     var feed = curCam.updateResolution(camera.Camera.getSelectedResolution());
     // Display this feed in the preview area
-    feed.addEventListener("canplay", function() {
-      preview.src = feed.src;
-    });
+    camera.Camera.display(feed, preview);
   });
 
   // Capture a frame

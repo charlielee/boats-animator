@@ -108,6 +108,13 @@ module.exports = {};
 
   /** Static methods */
 
+  // Displays a camera feed onto another video object
+  Camera.display = function(feed, output) {
+    feed.addEventListener("canplay", function() {
+      output.src = feed.src;
+    });
+  }
+
   // Returns a camera object from an id
   Camera.getCameraById = function (id) {
     return Camera.list[id];
@@ -145,15 +152,23 @@ module.exports = {};
       i++;
     });
 
-    // Default select the last resolution (ie the lowest one)
+    // Get selected camera
+    var curCam = Camera.getSelectedCamera();
+
+    // Default select the lowest resolution (ie the last one in the list)
     try {
-      qResoluSelect.options[qResoluSelect.options.length - 1].selected = true;
+      var index = qResoluSelect.options.length - 1;
+      qResoluSelect.options[index].selected = true;
+
+      // Get video feed with updated resolution
+      var feed = curCam.updateResolution(index);
+      // Display this feed in the preview area
+      Camera.display(feed, document.querySelector("#preview"));
     } catch (err) {
-      // notification.error(`${camera.getCurrentCameraName()} could not be loaded!`);
-      alert("Error");
-      // 
+      notification.error(`${curCam.name} could not be loaded!`);
+    } finally {
+      previewArea.curWindow.display();
     }
-    previewArea.curWindow.display();
   }
 
 
