@@ -61,6 +61,7 @@ var width  = 0,
 
     cameraSelect       = document.querySelector("#camera-select-td select"),
     resolutionSelect   = document.querySelector("#resolution-select-td select"),
+    curCameraReload    = document.querySelector("#current-camera-reload"),
 
     // Frame export
     exportedFramesList = [],
@@ -196,7 +197,7 @@ function startup() {
   cameraSelect.addEventListener("change", function() {
     // Get selected camera
     var curCam = Camera.getSelectedCamera();
-    // Show the possible resolutions for the camera
+    // Show the possible resolutions for the camera and update preview area
     curCam.showResolutions();
   });
 
@@ -208,6 +209,18 @@ function startup() {
     var feed = curCam.updateResolution(Camera.getSelectedResolution());
     // Display this feed in the preview area
     Camera.display(feed, preview);
+  });
+
+  // Listen to button to reload currently selected camera
+  curCameraReload.addEventListener("click", function () {
+    try {
+      // Get selected camera
+      var curCam = Camera.getSelectedCamera();
+      // Show the possible resolutions for the camera and update preview area
+      curCam.showResolutions();
+    } catch (err) {
+      console.info("No camera was selected to reload.");
+    }
   });
 
   // Capture a frame
