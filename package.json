@@ -10,12 +10,12 @@
         "plugin": false
     },
     "nwjsBuilder": {
-      "productName": "Boats Animator",
-      "productVersion": "0.7.5",
-      "copyright": "© 2017 Charlie Lee",
-      "companyName": "Boats Animator Developers",
-      "fileVersion": "0.7.5.0",
-      "originalFilename": " "
+        "productName": "Boats Animator",
+        "productVersion": "0.7.5",
+        "copyright": "© 2017 Charlie Lee",
+        "companyName": "Boats Animator Developers",
+        "fileVersion": "0.7.5.0",
+        "originalFilename": " "
     },
     "window": {
         "fullscreen": false,
@@ -42,8 +42,8 @@
     },
     "version": "0.7.5",
     "repository": {
-      "type": "git",
-      "url": "git+https://github.com/BoatsAreRockable/Boats-Animator.git"
+        "type": "git",
+        "url": "git+https://github.com/BoatsAreRockable/Boats-Animator.git"
     },
     "chromium-args": "--mixed-context",
     "engines": {
@@ -54,7 +54,8 @@
         "fs.extra": "^1.3.2",
         "archiver": "^1.0.0",
         "command-line-args": "^3.0.0",
-        "mkdirp": "^0.5.1"
+        "mkdirp": "^0.5.1",
+        "webrtc-adapter": "^6.0.3"
     },
     "devDependencies": {
         "nw-dev": "^3.0.1"
@@ -65,5 +66,5 @@
         "test": "node build -n",
         "build": "node build",
         "build-extras": "node build -e exe"
-  }
+    }
 }
