@@ -183,9 +183,9 @@
   animation: showHideDot 2.5s ease-in-out infinite;
 }
 
-.one { animation-delay: 0.2s; }
-.two { animation-delay: 0.4s; }
-.three { animation-delay: 0.6s; }
+.dot.one { animation-delay: 0.2s; }
+.dot.two { animation-delay: 0.4s; }
+.dot.three { animation-delay: 0.6s; }
 
 @keyframes showHideDot {
   0% { opacity: 0; }
