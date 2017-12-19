@@ -214,6 +214,9 @@ function startup() {
   // Listen to button to reload currently selected camera
   curCameraReload.addEventListener("click", function () {
     try {
+      // Detect all available cameras
+      Camera.enumerateDevices();
+
       // Get selected camera
       var curCam = Camera.getSelectedCamera();
       // Show the possible resolutions for the camera and update preview area

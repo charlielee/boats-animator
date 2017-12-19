@@ -37,41 +37,6 @@ module.exports = {};
     Camera.list[id] = this;
   }
 
-  /** On load */
-
-  // Get the available cameras
-  navigator.mediaDevices.enumerateDevices()
-  .then(_findVideoSources)
-  .catch(function (error) {
-    console.error(error);
-  });
-
-  // Add each video source to the "current camera" menu
-  function _findVideoSources(sources) {
-    let i = 1;
-    sources.forEach(function (source) {
-      if (source.kind === "videoinput") {
-        // Get the proper camera name
-        let cameraName = `Camera ${i}`;
-        if (source.label) {
-          cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
-        }
-
-        // Create the menu selection
-        var option = window.document.createElement("option");
-        option.text = cameraName;
-        option.value = source.deviceId;
-        qCameraSelect.appendChild(option);
-        i++;
-
-        // Add to camera list if new
-        if (!(source.deviceId in Camera.list)) {
-          var cam = new Camera(source.deviceId, cameraName);
-        }
-      }
-    });
-  }
-
   /** Instance methods */
   Camera.prototype = {
     constructor: Camera,
@@ -171,6 +136,44 @@ module.exports = {};
     }
   }
 
+  /**
+   * Get the available cameras and updates the camera list.
+   */ 
+  Camera.enumerateDevices = function () {
+    navigator.mediaDevices.enumerateDevices()
+    .then(_findVideoSources)
+    .catch(function (error) {
+      console.error(error);
+    });
+  }
+
+  // Add each video source to the "current camera" menu
+  function _findVideoSources(sources) {
+    let i = 1;
+    sources.forEach(function (source) {
+      if (source.kind === "videoinput") {
+        // Get the proper camera name
+        let cameraName = `Camera ${i}`;
+        if (source.label) {
+          cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
+        }
+        i++;
+
+        // Add to camera list if new
+        if (!(source.deviceId in Camera.list)) {
+          // Create the menu selection
+          var option = window.document.createElement("option");
+          option.text = cameraName;
+          option.value = source.deviceId;
+          qCameraSelect.appendChild(option);
+
+          var cam = new Camera(source.deviceId, cameraName);
+          notification.success(`Detected ${cam.name}`);
+        }
+      }
+    });
+  }
+
   /** getUserMedia functions */
 
   /**
@@ -223,6 +226,9 @@ module.exports = {};
     notification.error("Could not find a camera to use!");
     console.error(err);
   }
+
+  /** On load get cameras */
+  Camera.enumerateDevices();
 
   /** Public exports */
   module.exports = Camera;
