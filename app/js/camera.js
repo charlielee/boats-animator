@@ -1,10 +1,13 @@
 module.exports = {};
 
+/** A class for managing camera. */
 (function() {
   "use strict";
-  let cameraResolutions = require("./camera-resolutions"),
-      notification = require("./notification"),
-      curStream = null,
+  // Import modules
+  var cameraResolutions = require("./camera-resolutions");
+  var notification = require("./notification");
+
+  let curStream = null,
       curResolutions = [],
       cameraNames = {};
 
@@ -12,6 +15,29 @@ module.exports = {};
   let qResoluSelect = document.querySelector("#form-resolution-select"),
       qCameraSelect = document.querySelector("#camera-select-td select"),
       videoCapture  = document.createElement("video");
+
+  /** Class variables */
+
+  // Contains a list of all the Camera objects created
+  Camera.list = {};
+
+  // The id of the currently selected camera
+  Camera.curId = null;
+
+  /**
+   * Constructor for a camera.
+   * @param {HTMLElement} el - the HTMLElement the window is associated with.
+   */
+  function Camera(id, name, resolutions = {}) {
+    this.id = id;
+    this.name = name;
+    this.curResolution;
+    this.resolutions = resolutions;
+    this.responsive = null;
+    Camera.list[id] = this;
+  }
+
+  /** On load */
 
   // Get the available cameras
   navigator.mediaDevices.enumerateDevices()
@@ -38,8 +64,32 @@ module.exports = {};
         option.value = source.deviceId;
         qCameraSelect.appendChild(option);
         i++;
+
+        // Add to camera list
+        var cam = new Camera(source.deviceId, cameraName);
+        console.log(cam);
       }
     });
+  }
+
+
+  // Returns a camera object from an id
+  Camera.getCameraById = function (id) {
+    return Camera.list[id];
+  }
+
+  Camera.prototype = {
+    constructor: Camera,
+
+    /**
+     * Updates the resolution of a camera
+     * 
+     * @param {integer} index - the position in the camera's array of resolutions to update to. 
+     */
+    updateResolution: function(index) {
+      _getMedia(_getSelectedCamera(), this.resolutions[index]);
+
+    }
   }
 
   // Returns the user friendly name of the current source
@@ -53,6 +103,7 @@ module.exports = {};
    */
   function getCamera() {
     curResolutions = cameraResolutions.resolutions;
+    console.log(curResolutions);
     _getMedia(_getSelectedCamera(), curResolutions[_getSelectedResolution()]);
     return videoCapture;
   }
@@ -72,6 +123,8 @@ module.exports = {};
   function _getSelectedCamera() {
     return qCameraSelect.options[qCameraSelect.options.selectedIndex].value;
   }
+
+  /** getUserMedia functions */
 
   function _getMedia(camId, constraints) {
     // Stop the previous camera from streaming
@@ -101,6 +154,7 @@ module.exports = {};
 
     // Make the capture stream available for public access
     module.exports.videoCapture = videoCapture;
+    console.log(videoCapture);
   }
 
   function mediaError(err) {
@@ -116,4 +170,5 @@ module.exports = {};
   module.exports.get = getCamera;
   module.exports.getCurrentCameraName = getCurrentCameraName;
   module.exports.getResolutions = getResolutions;
+  module.exports.Camera = Camera;
 }());
