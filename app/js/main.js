@@ -196,27 +196,21 @@ function startup() {
 
   // Get the resolutions for a camera upon changing it.
   cameraSelect.addEventListener("change", function() {
-    // Display the capture window
-    
-    // camera.getResolutions();
-    
     // Get selected camera
     var curCam = camera.Camera.getSelectedCamera();
     // Show the possible resolutions for the camera
     curCam.showResolutions();
-
-    preview.addEventListener("canplay", function() {
-      CaptureWindow.display();
-    });
   });
 
   // Reload the camera on changing resolution
   resolutionSelect.addEventListener("change", function() {
-    CaptureWindow.showLoading("Updating Resolution", true);
-    let cam = camera.get();
-    cam.addEventListener("canplay", function() {
-      preview.src = cam.src;
-      CaptureWindow.display();
+    // Get selected camera
+    var curCam = camera.Camera.getSelectedCamera();
+    // Get video feed with updated resolution
+    var feed = curCam.updateResolution(camera.Camera.getSelectedResolution());
+    // Display this feed in the preview area
+    feed.addEventListener("canplay", function() {
+      preview.src = feed.src;
     });
   });
 

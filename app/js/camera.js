@@ -94,12 +94,12 @@ module.exports = {};
       }
     },
 
-
-
     /**
      * Updates the resolution of a camera
      * 
      * @param {integer} index - the position in the camera's array of resolutions to update to. 
+     * 
+     * @return A video feed with the upload resolution.
      */
     updateResolution: function (index) {
       return getCamera2(this, this.resolutions[index])
@@ -130,7 +130,6 @@ module.exports = {};
     return Camera.list[camId];
   }
 
-
   // Create menu selection options for each resolution in supported
   Camera._updateResoluSelect = function (supported) {
     qResoluSelect.innerHTML = "";
@@ -158,9 +157,6 @@ module.exports = {};
   }
 
 
-
-
-
   /**
    * Creates a video element with a source of the camera
    * and resolution the user selected.
@@ -172,9 +168,6 @@ module.exports = {};
     _getMedia(cam.id, res);
     return videoCapture;
   }
-
-
-
 
 
     // Returns the user friendly name of the current source
@@ -239,7 +232,6 @@ module.exports = {};
 
     // Make the capture stream available for public access
     module.exports.videoCapture = videoCapture;
-    console.log(videoCapture);
   }
 
   function mediaError(err) {
