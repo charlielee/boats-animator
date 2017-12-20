@@ -214,6 +214,11 @@ function startup() {
     }
   });
 
+  // Refresh camera list when device changes are detected
+  navigator.mediaDevices.addEventListener("devicechange", function () {
+    Camera.enumerateDevices();
+  });
+
   // Capture a frame
   btnCaptureFrame.addEventListener("click", takeFrame);
 
