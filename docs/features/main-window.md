@@ -50,14 +50,6 @@ The frame reel area displays thumbnails of all of the frames that have been capt
 ### Live-view button
 On the far right of the frame reel is the live-view button. After previewing captured frames, select this to return to [capture mode](#capture-mode). In capture mode this button has a white outline around it.
 
-## Preview options
-![Preview options](../img/preview-options.png)
-
-The preview options buttons change what masks are displayed on the preview area.
-
-### Grid toggle
-This enables / disables a [rule of thirds](https://en.wikipedia.org/wiki/Rule_of_thirds) grid over the preview area. **Please note that this feature has not been implemented yet**.
-
 ## Status bar
 ![Status bar](../img/status-bar.png)
 

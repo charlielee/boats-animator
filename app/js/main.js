@@ -29,7 +29,6 @@ var width  = 640,
     capturedFrames     = [],
     totalFrames        = 0,
     curSelectedFrame   = null,
-    btnGridToggle      = document.querySelector("#btn-grid-toggle"),
     btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
@@ -310,11 +309,6 @@ function startup() {
       ) {
       inputChangeFR.value = 15;
     }
-  });
-
-  // Grid overlay toggle
-  btnGridToggle.addEventListener("click", function() {
-    notification.info("This feature is not yet available!");
   });
 
   // Switch from frame preview back to live view
