@@ -14,7 +14,7 @@ module.exports = {};
   // Get the DOM selectors needed
   let qResoluSelect   = document.querySelector("#form-resolution-select"),
       qCameraSelect   = document.querySelector("#camera-select-td select"),
-      statusBarCurRes = document.querySelector("#current-resolution"),      
+      statusBarCurRes = document.querySelector("#current-resolution"),
       videoCapture    = document.createElement("video");
 
   /** Class variables */
@@ -61,7 +61,7 @@ module.exports = {};
 
     /**
      * Updates the resolution of a camera.
-     * @param {Integer} index - the position in the camera's array of resolutions to update to. 
+     * @param {Integer} index - the position in the camera's array of resolutions to update to.
      * @return A video feed with the upload resolution.
      */
     updateResolution: function (index) {
@@ -141,7 +141,7 @@ module.exports = {};
 
   /**
    * Get the available cameras and updates the camera list.
-   */ 
+   */
   Camera.enumerateDevices = function () {
     navigator.mediaDevices.enumerateDevices()
     .then(_findVideoSources)
@@ -182,7 +182,7 @@ module.exports = {};
   /**
    * Creates a video element with a source of the camera
    * and resolution the user selected.
-   * 
+   *
    * @param {Camera} cam - the camera object to use.
    * @param {Integer} res - the corresponding key for the equivalent
    *                        constraint in the Camera's resolution object.
@@ -218,7 +218,7 @@ module.exports = {};
     var curCam = Camera.getSelectedCamera();
     var curRes = qResoluSelect.options[Camera.getSelectedResolution()].innerText;
     // Notify whether this is a new camera connection or a resolution change
-    if (Camera.successCam == curCam) {
+    if (Camera.successCam === curCam) {
       notification.success(`${curCam.name} resolution is ${curRes}`);
     } else {
       notification.success(`${curCam.name} successfully connected`);

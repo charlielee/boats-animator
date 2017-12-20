@@ -307,7 +307,7 @@ function startup() {
       frameRate = 15;
     }
     statusBarFrameRate.innerHTML = frameRate;
-    if (PreviewArea.curWindow == PlaybackWindow) {
+    if (PreviewArea.curWindow === PlaybackWindow) {
       videoStop();
     }
   });

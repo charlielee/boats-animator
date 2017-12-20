@@ -37,7 +37,7 @@ module.exports = {};
       if (!loadingWindow.classList.contains("active")) {
         loadingWindow.classList.add("active");
       }
-      if (loadingWindowMessage.classList.contains("hidden") && message != "") {
+      if (loadingWindowMessage.classList.contains("hidden") && message !== "") {
         loadingWindowMessage.classList.remove("hidden");
       }
 
