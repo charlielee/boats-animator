@@ -219,7 +219,7 @@ module.exports = {};
     var curRes = qResoluSelect.options[Camera.getSelectedResolution()].innerText;
     // Notify whether this is a new camera connection or a resolution change
     if (Camera.successCam === curCam) {
-      notification.success(`${curCam.name} resolution is ${curRes}`);
+      notification.success(`${curCam.name} resolution is now ${curRes}`);
     } else {
       notification.success(`${curCam.name} successfully connected`);
       Camera.successCam = curCam;

@@ -965,7 +965,7 @@ function loadMenu() {
   }));
 
   captureMenu.append(new nw.MenuItem({
-    label: "Change capture destination",
+    label: "Change export directory",
     click: _changeSaveDirectory
   }));
 
