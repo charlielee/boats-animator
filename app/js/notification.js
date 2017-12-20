@@ -77,7 +77,7 @@ module.exports = {};
    */
   function _hideDelayed(notify) {
     // Time in seconds before the notification should go away
-    let timeout = 2.5;
+    let timeout = 3.5;
 
     // Remove the notification
     window.setTimeout(function() {
