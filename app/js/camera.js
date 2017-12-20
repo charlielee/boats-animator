@@ -18,8 +18,10 @@ module.exports = {};
 
   /** Class variables */
 
-  // Contains a list of all the Camera objects created
+  /** Contains a list of all the Camera objects created */
   Camera.list = {};
+  /** The last camera selected that successfully connected */
+  Camera.successCam = {};
 
   /**
    * Constructor for a Camera.
@@ -212,7 +214,16 @@ module.exports = {};
    * Play hidden video in the correct resolution.
    */
   function mediaSuccessCapture(mediaStream) {
-    notification.success(`${Camera.getSelectedCamera().name} successfully connected.`);
+    var curCam = Camera.getSelectedCamera();
+    var curRes = qResoluSelect.options[Camera.getSelectedResolution()].innerText;
+    // Notify whether this is a new camera connection or a resolution change
+    if (Camera.successCam == curCam) {
+      notification.success(`${curCam.name} resolution is ${curRes}`);
+    } else {
+      notification.success(`${curCam.name} successfully connected`);
+      Camera.successCam = curCam;
+    }
+
     videoCapture.src = window.URL.createObjectURL(mediaStream);
     videoCapture.play();
 
