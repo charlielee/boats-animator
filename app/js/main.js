@@ -215,9 +215,7 @@ function startup() {
   });
 
   // Refresh camera list when device changes are detected
-  navigator.mediaDevices.addEventListener("devicechange", function () {
-    Camera.enumerateDevices();
-  });
+  navigator.mediaDevices.addEventListener("devicechange", Camera.enumerateDevices);
 
   // Capture a frame
   btnCaptureFrame.addEventListener("click", takeFrame);
@@ -779,7 +777,7 @@ function decodeBase64Image(dataString) {
 /**
  * Save the captured frame to the hard drive.
  *
- * @param {Number} - id The frame ID to save.
+ * @param {Number} id - The frame ID to save.
  */
 function saveFrame(id) {
   "use strict";
