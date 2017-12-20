@@ -33,7 +33,7 @@ If you're working on an improvement to Boats Animator it is usually good practis
 
 ## Coding conventions
 The following conventions should be observed in Boats Animator's code:
-* HTML5, CSS3 and ES6 JavaScript that is supported by Chromium 55 may be used.
+* HTML5, CSS3 and ES6 JavaScript that is supported by Chromium 62 may be used.
 * Features with the `Webkit` prefix may be used if there is no standardised method available.
 * Code should use **2 space indentation** ([currently a WIP](https://github.com/BoatsAreRockable/Boats-Animator/issues/140)).
 * Trailing white space should be avoided.
