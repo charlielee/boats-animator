@@ -1,12 +1,6 @@
-// The width and height of the captured photo. We will set the
-// width to the value defined here, but the height will be
-// calculated based on the aspect ratio of the input stream.
-var width  = 0,
-    height = 0,
-
-    // |streaming| indicates whether or not we're currently streaming
-    // video from the camera. Obviously, we start at false.
-    streaming = false,
+// Indicates whether or not we're currently streaming
+// video from the camera. Obviously, we start at false.
+var streaming = false,
 
     // The various HTML elements we need to configure or control.
     preview     = document.querySelector("#preview"),
@@ -179,12 +173,6 @@ function startup() {
   // Initialises the preview window
   preview.addEventListener("canplay", function() {
     if (!streaming) {
-      let curHeight = resolutionSelect.value;
-      curHeight = curHeight.substr(0, curHeight.length - 1);
-      height = parseInt(curHeight)
-
-      width = preview.videoWidth / (preview.videoHeight / height);
-
       playback.setAttribute("width", preview.videoWidth.toString());
       playback.setAttribute("height", preview.videoHeight.toString());
       streaming = true;
