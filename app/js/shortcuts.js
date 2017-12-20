@@ -3,7 +3,6 @@ module.exports = {};
 (function () {
   "use strict";
   var notification = require("./notification"),
-      Mousetrap    = require("mousetrap"),
       curShortcuts = {},
       allShortcuts = {},
       activeGroups = [],
@@ -84,10 +83,8 @@ module.exports = {};
               console.error(err);
             }
           };
-          Mousetrap.bind(option.key, option.active);
-          curShortcuts[option.key] = option;
-          // curShortcuts[option.key] = new nw.Shortcut(option);
-          // nw.App.registerGlobalHotKey(curShortcuts[option.key]);
+          curShortcuts[option.key] = new nw.Shortcut(option);
+          nw.App.registerGlobalHotKey(curShortcuts[option.key]);
         });
       });
 
@@ -108,9 +105,7 @@ module.exports = {};
       Object.keys(allShortcuts[groupName]).forEach(function(featureName) {
         // Iterate through each feature's array of shortcuts
         allShortcuts[groupName][featureName]["keys"].forEach(function(shortcut) {
-          Mousetrap.unbind(shortcut);
-          // nw.App.unregisterGlobalHotKey(curShortcuts[shortcut]);
-          
+          nw.App.unregisterGlobalHotKey(curShortcuts[shortcut]);
         });
       });
 
@@ -132,7 +127,6 @@ module.exports = {};
     file.read(location, {
       success: function(data) {
         data = JSON.parse(data);
-        console.log(data);
 
         // Iterate through each feature group object (eg main, confirm)
         Object.keys(features).forEach(function(groupName) {
@@ -180,13 +174,10 @@ module.exports = {};
     });
   }
 
-  module.exports.get    = getShortcuts;
-  module.exports.features = features;
-
 
   // Public exports
   module.exports.add    = addShortcuts;
-  
+  module.exports.get    = getShortcuts;
   module.exports.pause  = pauseShortcuts;
   module.exports.remove = removeShortcuts;
   module.exports.resume = resumeShortcuts;
