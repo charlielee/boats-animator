@@ -12,9 +12,10 @@ module.exports = {};
   let curStream = null;
 
   // Get the DOM selectors needed
-  let qResoluSelect = document.querySelector("#form-resolution-select"),
-      qCameraSelect = document.querySelector("#camera-select-td select"),
-      videoCapture  = document.createElement("video");
+  let qResoluSelect   = document.querySelector("#form-resolution-select"),
+      qCameraSelect   = document.querySelector("#camera-select-td select"),
+      statusBarCurRes = document.querySelector("#current-resolution"),      
+      videoCapture    = document.createElement("video");
 
   /** Class variables */
 
@@ -223,6 +224,9 @@ module.exports = {};
       notification.success(`${curCam.name} successfully connected`);
       Camera.successCam = curCam;
     }
+
+    // Update resolution in status bar
+    statusBarCurRes.innerText = curRes;
 
     videoCapture.src = window.URL.createObjectURL(mediaStream);
     videoCapture.play();
