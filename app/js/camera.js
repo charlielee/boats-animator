@@ -37,7 +37,6 @@ module.exports = {};
     this.curResolution = null;
     this.resolutions = resolutions;
     this.responsive = null;
-    Camera.list[id] = this;
   }
 
   /** Instance methods */
@@ -114,7 +113,7 @@ module.exports = {};
 
       var option = window.document.createElement("option");
       option.text = `${width}x${height}`;
-      option.value = i;
+      option.value = `${i}`;
       qResoluSelect.appendChild(option);
       i++;
     });
@@ -153,6 +152,7 @@ module.exports = {};
   // Add each video source to the "current camera" menu
   function _findVideoSources(sources) {
     let i = 1;
+
     sources.forEach(function (source) {
       if (source.kind === "videoinput") {
         // Get the proper camera name
@@ -165,12 +165,13 @@ module.exports = {};
         // Add to camera list if new
         if (!(source.deviceId in Camera.list)) {
           // Create the menu selection
-          var option = window.document.createElement("option");
+          const option = window.document.createElement("option");
           option.text = cameraName;
           option.value = source.deviceId;
           qCameraSelect.appendChild(option);
 
-          var cam = new Camera(source.deviceId, cameraName);
+          const cam = new Camera(source.deviceId, cameraName);
+          Camera.list[source.deviceId] = cam;
           notification.success(`Detected ${cam.name}`);
         }
       }
