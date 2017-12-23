@@ -106,8 +106,7 @@ module.exports = {};
    * */
   Camera._updateResoluSelect = function (supported) {
     qResoluSelect.innerHTML = "";
-    let i = 0;
-    supported.forEach(function (res) {
+    supported.forEach(function(res, i) {
       let width = res.video.width.exact,
           height = res.video.height.exact;
 
@@ -115,7 +114,6 @@ module.exports = {};
       option.text = `${width}x${height}`;
       option.value = `${i}`;
       qResoluSelect.appendChild(option);
-      i++;
     });
 
     // Get selected camera
@@ -155,30 +153,35 @@ module.exports = {};
    * @param {Array} sources - @todo.
    */
   function _findVideoSources(sources) {
+    // Remove all options except "No camera selected"
+    var num = qCameraSelect.options.length;
+    if (num) {
+      while (num-- > 1) {
+        qCameraSelect.options.remove(num);
+      }
+    }
 
-    // Filter out all non-video stream
+    // Filter out all non-video streams
     sources = sources.filter(source => source.kind === "videoinput");
     sources.forEach(function(source, i) {
-      if (source.kind === "videoinput") {
         // Get the proper camera name
         let cameraName = `Camera #${i + 1}`;
         if (source.label) {
           cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
         }
 
+        // Create the menu selection
+        const option = window.document.createElement("option");
+        option.text = cameraName;
+        option.value = source.deviceId;
+        qCameraSelect.appendChild(option);
+
         // Add to camera list if new
         if (!(source.deviceId in Camera.list)) {
-          // Create the menu selection
-          const option = window.document.createElement("option");
-          option.text = cameraName;
-          option.value = source.deviceId;
-          qCameraSelect.appendChild(option);
-
           const cam = new Camera(source.deviceId, cameraName);
           Camera.list[source.deviceId] = cam;
           notification.success(`Detected ${cam.name}`);
         }
-      }
     });
   }
 
