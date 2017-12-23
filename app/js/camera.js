@@ -149,7 +149,11 @@ module.exports = {};
     });
   }
 
-  // Add each video source to the "current camera" menu
+  /**
+   * Add each video source to the "current camera" menu.
+   *
+   * @param {Array} sources - @todo.
+   */
   function _findVideoSources(sources) {
 
     // Filter out all non-video stream
