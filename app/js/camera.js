@@ -164,24 +164,24 @@ module.exports = {};
     // Filter out all non-video streams
     sources = sources.filter(source => source.kind === "videoinput");
     sources.forEach(function(source, i) {
-        // Get the proper camera name
-        let cameraName = `Camera #${i + 1}`;
-        if (source.label) {
-          cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
-        }
+      // Get the proper camera name
+      let cameraName = `Camera #${i + 1}`;
+      if (source.label) {
+        cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
+      }
 
-        // Create the menu selection
-        const option = window.document.createElement("option");
-        option.text = cameraName;
-        option.value = source.deviceId;
-        qCameraSelect.appendChild(option);
+      // Create the menu selection
+      const option = window.document.createElement("option");
+      option.text = cameraName;
+      option.value = source.deviceId;
+      qCameraSelect.appendChild(option);
 
-        // Add to camera list if new
-        if (!(source.deviceId in Camera.list)) {
-          const cam = new Camera(source.deviceId, cameraName);
-          Camera.list[source.deviceId] = cam;
-          notification.success(`Detected ${cam.name}`);
-        }
+      // Add to camera list if new
+      if (!(source.deviceId in Camera.list)) {
+        const cam = new Camera(source.deviceId, cameraName);
+        Camera.list[source.deviceId] = cam;
+        notification.success(`Detected ${cam.name}`);
+      }
     });
   }
 
