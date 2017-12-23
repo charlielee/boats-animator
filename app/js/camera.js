@@ -151,16 +151,16 @@ module.exports = {};
 
   // Add each video source to the "current camera" menu
   function _findVideoSources(sources) {
-    let i = 1;
 
-    sources.forEach(function (source) {
+    // Filter out all non-video stream
+    sources = sources.filter(source => source.kind === "videoinput");
+    sources.forEach(function(source, i) {
       if (source.kind === "videoinput") {
         // Get the proper camera name
-        let cameraName = `Camera ${i}`;
+        let cameraName = `Camera #${i + 1}`;
         if (source.label) {
           cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
         }
-        i++;
 
         // Add to camera list if new
         if (!(source.deviceId in Camera.list)) {
