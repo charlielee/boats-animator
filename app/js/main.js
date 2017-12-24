@@ -977,9 +977,9 @@ function loadMenu() {
     label: "Display first frame",
     click: function() {
       btnFrameFirst.click();
-    },
-    key: "left",
-    modifiers: controlKey,
+    }//,
+    // key: "left",
+    // modifiers: controlKey,
   }));
 
   playbackMenu.append(new nw.MenuItem({

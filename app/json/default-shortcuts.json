@@ -1,6 +1,6 @@
 {
   "main": {
-    "takePicture": ["enter"],
+    "takePicture": ["ctrl+alt+c", "enter"],
     "undoFrame": ["del", "backspace", "*"],
     "audioToggle": ["m"],
     "playPause": ["space", "0", "MediaPlayPause"],

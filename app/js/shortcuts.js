@@ -3,7 +3,6 @@ module.exports = {};
 (function () {
   "use strict";
   var notification = require("./notification"),
-      curShortcuts = {},
       allShortcuts = {},
       activeGroups = [],
 
@@ -83,9 +82,6 @@ module.exports = {};
             }
           };
           Mousetrap.bind(option.key, option.active);
-          curShortcuts[option.key] = option;
-          // curShortcuts[option.key] = new nw.Shortcut(option);
-          // nw.App.registerGlobalHotKey(curShortcuts[option.key]);
         });
       });
 
@@ -107,8 +103,6 @@ module.exports = {};
         // Iterate through each feature's array of shortcuts
         allShortcuts[groupName][featureName]["keys"].forEach(function(shortcut) {
           Mousetrap.unbind(shortcut);
-          // nw.App.unregisterGlobalHotKey(curShortcuts[shortcut]);
-          
         });
       });
 
@@ -172,14 +166,42 @@ module.exports = {};
     Mousetrap.unpause();
   }
 
-  module.exports.get    = getShortcuts;
-  module.exports.features = features;
+  /**
+   * Get a feature's primary shortcut key to use for a menubar item.
+   * @param {String} featureName Name of the shortcut feature.
+   */
+  function getPrimaryKey(featureName) {
+    var shortcut = allShortcuts["main"][featureName]["keys"][0],
+        key      = shortcut.substr(shortcut.lastIndexOf("+") + 1);
 
+    return key;
+  }
+
+  /**
+   * Get a feature's primary shortcut modifiers to use for a menubar item.
+   * @param {String} featureName Name of the shortcut feature.
+   */
+  function getPrimaryModifiers(featureName) {
+    var shortcut = allShortcuts["main"][featureName]["keys"][0],
+        modifiers = shortcut.substring(0, shortcut.lastIndexOf("+"));
+
+    if (modifiers) {
+      // Ctrl === Command on Mac OS
+      if (modifiers.includes("mod")) {
+        modifiers.replace("mod", ((process.platform === "darwin") ? "command" : "ctrl"));
+      }
+      return modifiers;
+    } else {
+      return "";
+    }
+  }
 
   // Public exports
   module.exports.add    = addShortcuts;
-  
+  module.exports.get    = getShortcuts;
   module.exports.pause  = pauseShortcuts;
   module.exports.remove = removeShortcuts;
   module.exports.resume = resumeShortcuts;
+  module.exports.getPrimaryKey = getPrimaryKey;
+  module.exports.getPrimaryModifiers = getPrimaryModifiers;
 }());
