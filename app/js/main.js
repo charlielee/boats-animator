@@ -170,7 +170,9 @@ function startup() {
   }
 
   // Load the keyboard shortcuts
-  shortcuts.get("default");
+  shortcuts.get("default", function() {
+    shortcuts.add("main");
+  });
 
   // Get the video stream
   navigator.mediaDevices.getUserMedia({ video: true })

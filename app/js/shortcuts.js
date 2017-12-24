@@ -76,15 +76,11 @@ module.exports = {};
         allShortcuts[groupName][featureName]["keys"].forEach(function(shortcut) {
           var option = {
             active:  allShortcuts[groupName][featureName].active,
-            key: shortcut,
-            failed : function(err) {
-              console.error(err);
-            }
+            key: shortcut
           };
           Mousetrap.bind(option.key, option.active);
         });
       });
-
       activeGroups.push(groupName);
     }
   }
@@ -115,8 +111,9 @@ module.exports = {};
    * Then match the shortcuts with their function.
    *
    * @param {String} location Location of file containing shortcut list.
+   * @returns {function} callback
    */
-  function getShortcuts(location) {
+  function getShortcuts(location, callback) {
     // Location is a parameter to allow for custom shortcuts in the future.
     if (location === "default") {
       location = "./app/json/default-shortcuts.json";
@@ -147,7 +144,7 @@ module.exports = {};
           });
         });
 
-        addShortcuts("main");
+        callback(allShortcuts);
       }
     });
   }
