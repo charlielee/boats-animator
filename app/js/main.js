@@ -158,9 +158,6 @@ function startup() {
   // Set default view
   switchMode("capture");
 
-  // Load top menu
-  loadMenu();
-
   // Maximise window
   win.maximize();
 
@@ -172,6 +169,8 @@ function startup() {
   // Load the keyboard shortcuts
   shortcuts.get("default", function() {
     shortcuts.add("main");
+    // Load top menu
+    loadMenu();
   });
 
   // Get the video stream
@@ -930,16 +929,16 @@ function loadMenu() {
     editMenu.append(new nw.MenuItem({
       label: "Delete last frame",
       click: undoFrame,
-      key: "z",
-      modifiers: controlKey,
+      key: shortcuts.getPrimaryKey("undoFrame"),
+      modifiers: shortcuts.getPrimaryModifiers("undoFrame"),
     }));
 
     // Capture menu items
     captureMenu.append(new nw.MenuItem({
       label: "Capture frame",
       click: takeFrame,
-      key: "1",
-      modifiers: controlKey,
+      key: shortcuts.getPrimaryKey("takePicture"),
+      modifiers: shortcuts.getPrimaryModifiers("takePicture"),
     }));
 
   captureMenu.append(new nw.MenuItem({ type: "separator" }));
@@ -952,8 +951,8 @@ function loadMenu() {
     },
     type: "checkbox",
     checked: true,
-    key: "m",
-    modifiers: controlKey,
+    key: shortcuts.getPrimaryKey("audioToggle"),
+    modifiers: shortcuts.getPrimaryModifiers("audioToggle"),
   }));
 
   captureMenu.append(new nw.MenuItem({
@@ -969,8 +968,8 @@ function loadMenu() {
     },
     type: "checkbox",
     checked: false,
-    key: "8",
-    modifiers: controlKey,
+    key: shortcuts.getPrimaryKey("loopPlayback"),
+    modifiers: shortcuts.getPrimaryModifiers("loopPlayback"),
   }));
 
   playbackMenu.append(new nw.MenuItem({ type: "separator" }));
@@ -979,9 +978,9 @@ function loadMenu() {
     label: "Display first frame",
     click: function() {
       btnFrameFirst.click();
-    }//,
-    // key: "left",
-    // modifiers: controlKey,
+    },
+    key: shortcuts.getPrimaryKey("firstFrame"),
+    modifiers: shortcuts.getPrimaryModifiers("firstFrame"),
   }));
 
   playbackMenu.append(new nw.MenuItem({
@@ -989,8 +988,8 @@ function loadMenu() {
     click: function() {
       btnFrameLast.click();
     },
-    key: "right",
-    modifiers: controlKey,
+    key: shortcuts.getPrimaryKey("lastFrame"),
+    modifiers: shortcuts.getPrimaryModifiers("lastFrame"),
   }));
 
     // Help menu items

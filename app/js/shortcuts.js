@@ -185,9 +185,10 @@ module.exports = {};
     if (modifiers) {
       // Ctrl === Command on Mac OS
       if (modifiers.includes("mod")) {
-        modifiers.replace("mod", ((process.platform === "darwin") ? "command" : "ctrl"));
+        return modifiers.replace("mod", ((process.platform === "darwin") ? "command" : "ctrl"));
+      } else {
+        return modifiers;
       }
-      return modifiers;
     } else {
       return "";
     }
