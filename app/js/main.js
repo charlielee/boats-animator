@@ -85,6 +85,7 @@ var width  = 640,
     shortcuts     = require("./js/shortcuts"),
     notification  = require("./js/notification"),
     saveDirectory = require("./js/savedirectory"),
+    menubar       = require("./js/menubar"),
 
     // Sidebar
     dirChooseDialog    = document.querySelector("#chooseDirectory"),
@@ -167,10 +168,10 @@ function startup() {
   }
 
   // Load the keyboard shortcuts
-  shortcuts.get("default", function() {
+  shortcuts.get("default", function () {
     shortcuts.add("main");
     // Load top menu
-    loadMenu();
+    menubar.load();
   });
 
   // Get the video stream
@@ -823,12 +824,7 @@ function confirmSet(callback, args, msg) {
     shortcuts.add("confirm");
 
     // Disable menubar items
-    editMenu.items[0].enabled = false;
-    captureMenu.items[0].enabled = false;
-    captureMenu.items[2].enabled = false;
-    playbackMenu.items[0].enabled = false;
-    playbackMenu.items[2].enabled = false;
-    playbackMenu.items[3].enabled = false;
+    menubar.toggleItems();
 
     function _ok() {
         callback(args);
@@ -850,12 +846,7 @@ function confirmSet(callback, args, msg) {
 
         shortcuts.remove("confirm");
         shortcuts.add("main");
-        editMenu.items[0].enabled = true;
-        captureMenu.items[0].enabled = true;
-        captureMenu.items[2].enabled = true;
-        playbackMenu.items[0].enabled = true;
-        playbackMenu.items[2].enabled = true;
-        playbackMenu.items[3].enabled = true;
+        menubar.toggleItems();
     }
 
     // Respond to button clicks
@@ -872,192 +863,4 @@ function confirmSet(callback, args, msg) {
 
     btnConfirmOK.addEventListener("blur", _focusCancel);
     btnConfirmCancel.addEventListener("blur", _focusOK);
-}
-
-/**
- * Display top menu
- */
-// Create top menu and sub-menus
-var menuBar      = new nw.Menu({ type: "menubar" }),
-    fileMenu     = new nw.Menu(),
-    editMenu     = new nw.Menu(),
-    captureMenu  = new nw.Menu(),
-    playbackMenu = new nw.Menu(),
-    helpMenu     = new nw.Menu();
-
-function loadMenu() {
-    "use strict";
-    var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
-
-    // File menu items
-    fileMenu.append(new nw.MenuItem({
-      label: "New project...",
-      click: function() {
-        notification.info("This feature is not yet available!")
-      },
-        key: "n",
-        modifiers: controlKey,
-    }));
-    fileMenu.append(new nw.MenuItem({
-      label: "Open project...",
-      click: function() {
-        notification.info("This feature is not yet available!")
-      },
-        key: "o",
-        modifiers: controlKey,
-    }));
-    fileMenu.append(new nw.MenuItem({
-      label: "Main Menu",
-      click: function() {
-        confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
-      },
-        key: "w",
-        modifiers: controlKey,
-    }));
-    fileMenu.append(new nw.MenuItem({ type: "separator" }));
-    fileMenu.append(new nw.MenuItem({
-      label: "Exit",
-      click: function() {
-        confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
-      },
-      key: "q",
-      modifiers: controlKey,
-    }));
-
-
-    // Edit menu items
-    editMenu.append(new nw.MenuItem({
-      label: "Delete last frame",
-      click: undoFrame,
-      key: shortcuts.getPrimaryKey("undoFrame"),
-      modifiers: shortcuts.getPrimaryModifiers("undoFrame"),
-    }));
-
-    // Capture menu items
-    captureMenu.append(new nw.MenuItem({
-      label: "Capture frame",
-      click: takeFrame,
-      key: shortcuts.getPrimaryKey("takePicture"),
-      modifiers: shortcuts.getPrimaryModifiers("takePicture"),
-    }));
-
-  captureMenu.append(new nw.MenuItem({ type: "separator" }));
-
-  captureMenu.append(new nw.MenuItem({
-    label: "Play capture sounds",
-    click: function() {
-      playAudio = !playAudio;
-      notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
-    },
-    type: "checkbox",
-    checked: true,
-    key: shortcuts.getPrimaryKey("audioToggle"),
-    modifiers: shortcuts.getPrimaryModifiers("audioToggle"),
-  }));
-
-  captureMenu.append(new nw.MenuItem({
-    label: "Change capture destination",
-    click: _changeSaveDirectory
-  }));
-
-  // Playback menu items
-  playbackMenu.append(new nw.MenuItem({
-    label: "Loop playback",
-    click: function() {
-      btnLoop.click()
-    },
-    type: "checkbox",
-    checked: false,
-    key: shortcuts.getPrimaryKey("loopPlayback"),
-    modifiers: shortcuts.getPrimaryModifiers("loopPlayback"),
-  }));
-
-  playbackMenu.append(new nw.MenuItem({ type: "separator" }));
-
-  playbackMenu.append(new nw.MenuItem({
-    label: "Display first frame",
-    click: function() {
-      btnFrameFirst.click();
-    },
-    key: shortcuts.getPrimaryKey("firstFrame"),
-    modifiers: shortcuts.getPrimaryModifiers("firstFrame"),
-  }));
-
-  playbackMenu.append(new nw.MenuItem({
-    label: "Display last frame",
-    click: function() {
-      btnFrameLast.click();
-    },
-    key: shortcuts.getPrimaryKey("lastFrame"),
-    modifiers: shortcuts.getPrimaryModifiers("lastFrame"),
-  }));
-
-    // Help menu items
-    helpMenu.append(new nw.MenuItem({
-      label: "Documentation",
-      click: function() {
-          utils.openURL("http://boatsanimator.readthedocs.io/");
-      },
-      key: "F1",
-      modifiers: "",
-    }));
-    helpMenu.append(new nw.MenuItem({
-      label: "Give feedback",
-      click: function() {
-          utils.openURL("https://github.com/BoatsAreRockable/animator/issues");
-      },
-    }));
-
-    helpMenu.append(new nw.MenuItem({ type: "separator" }));
-
-    helpMenu.append(new nw.MenuItem({
-      label: "About Boats Animator",
-      click: openAbout
-    }));
-
-    // Append sub-menus to main menu
-    menuBar.append(
-        new nw.MenuItem({
-            label: "File",
-            submenu: fileMenu
-        })
-    );
-
-    menuBar.append(
-        new nw.MenuItem({
-            label: "Edit",
-            submenu: editMenu
-        })
-    );
-
-    menuBar.append(
-        new nw.MenuItem({
-            label: "Capture",
-            submenu: captureMenu
-        })
-    );
-
-  menuBar.append(
-    new nw.MenuItem({
-      label: "Playback",
-      submenu: playbackMenu
-    })
-  );
-
-    menuBar.append(
-        new nw.MenuItem({
-            label: "Help",
-            submenu: helpMenu
-        })
-    );
-
-    // Append main menu to Window
-    nw.Window.get().menu = menuBar;
-
-    // Create Mac menu
-    if (process.platform === "darwin") {
-        menuBar.createMacBuiltin("Boats Animator", {
-          hideEdit: true
-        });
-    }
 }

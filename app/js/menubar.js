@@ -2,195 +2,154 @@ module.exports = {};
 
 (function () {
   "use strict";
-  /**
-   * Display top menu
-   */
+  var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
   // Create top menu and sub-menus
   var menuBar = new nw.Menu({ type: "menubar" });
-  var menuItems = {},
-    fileMenu = new nw.Menu(),
-    editMenu = new nw.Menu(),
-    captureMenu = new nw.Menu(),
-    playbackMenu = new nw.Menu(),
-    helpMenu = new nw.Menu();
+  var subMenus = {
+    file: new nw.Menu(),
+    edit: new nw.Menu(),
+    capture: new nw.Menu(),
+    playback: new nw.Menu(),
+    help: new nw.Menu(),
+  };
 
-  
   /**
-   * Adds an item to the menubar.
-   * @param {nw.Menu} menu - the menu to add the item to.
-   * @param {nw.MenuItem} menuItem - the menu item too add.
+   * Displays the top menu
    */
-  function addItem(menu, menuItem) {
-    "use strict";
-    menu.append(menuItem);
-  }
-
-
   function loadMenu() {
-    "use strict";
-    var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
+    // Menu items to add
+    var menuItems = {
+      file: [
+        {
+          label: "New project...",
+          click: function () {
+            notification.info("This feature is not yet available!")
+          },
+          key: "n",
+          modifiers: controlKey,
+        },
+        {
+          label: "Open project...",
+          click: function () {
+            notification.info("This feature is not yet available!")
+          },
+          key: "o",
+          modifiers: controlKey,
+        },
+        {
+          label: "Main Menu",
+          click: function () {
+            confirmSet(openIndex, "", "Returning to the menu will cause any unsaved work to be lost!");
+          },
+          key: "w",
+          modifiers: controlKey,
+        },
+        { type: "separator" },
+        {
+          label: "Exit",
+          click: function () {
+            confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+          },
+          key: "q",
+          modifiers: controlKey,
+        }
+      ],
+      edit: [
+        {
+          label: "Delete last frame",
+          click: undoFrame,
+          key: shortcuts.getPrimaryKey("undoFrame"),
+          modifiers: shortcuts.getPrimaryModifiers("undoFrame"),
+        }
+      ],
+      capture: [
+        {
+          label: "Capture frame",
+          click: takeFrame,
+          key: shortcuts.getPrimaryKey("takePicture"),
+          modifiers: shortcuts.getPrimaryModifiers("takePicture"),
+        },
+        { type: "separator" },
+        {
+          label: "Play capture sounds",
+          click: function () {
+            playAudio = !playAudio;
+            notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+          },
+          type: "checkbox",
+          checked: true,
+          key: shortcuts.getPrimaryKey("audioToggle"),
+          modifiers: shortcuts.getPrimaryModifiers("audioToggle"),
+        },
+        {
+          label: "Change capture destination",
+          click: _changeSaveDirectory
+        }
+      ],
+      playback: [
+        {
+          label: "Loop playback",
+          click: function () {
+            btnLoop.click()
+          },
+          type: "checkbox",
+          checked: false,
+          key: shortcuts.getPrimaryKey("loopPlayback"),
+          modifiers: shortcuts.getPrimaryModifiers("loopPlayback"),
+        },
+        { type: "separator" },
+        {
+          label: "Display first frame",
+          click: function () {
+            btnFrameFirst.click();
+          },
+          key: shortcuts.getPrimaryKey("firstFrame"),
+          modifiers: shortcuts.getPrimaryModifiers("firstFrame"),
+        },
+        {
+          label: "Display last frame",
+          click: function () {
+            btnFrameLast.click();
+          },
+          key: shortcuts.getPrimaryKey("lastFrame"),
+          modifiers: shortcuts.getPrimaryModifiers("lastFrame"),
+        }
+      ],
+      help: [
+        {
+          label: "Documentation",
+          click: function () {
+            utils.openURL("http://boatsanimator.readthedocs.io/");
+          },
+          key: "F1",
+          modifiers: "",
+        },
+        {
+          label: "Give feedback",
+          click: function () {
+            utils.openURL("https://github.com/BoatsAreRockable/animator/issues");
+          },
+        },
+        { type: "separator" },
+        {
+          label: "About Boats Animator",
+          click: openAbout
+        }
+      ]
+    };
 
-    // File menu items
-    fileMenu.append(new nw.MenuItem({
-      label: "New project...",
-      click: function () {
-        notification.info("This feature is not yet available!")
-      },
-      key: "n",
-      modifiers: controlKey,
-    }));
-    fileMenu.append(new nw.MenuItem({
-      label: "Open project...",
-      click: function () {
-        notification.info("This feature is not yet available!")
-      },
-      key: "o",
-      modifiers: controlKey,
-    }));
-    fileMenu.append(new nw.MenuItem({
-      label: "Main Menu",
-      click: function () {
-        confirmSet(openIndex, "", "Returning to the menu will cause any unsaved work to be lost!");
-      },
-      key: "w",
-      modifiers: controlKey,
-    }));
-    fileMenu.append(new nw.MenuItem({ type: "separator" }));
-    fileMenu.append(new nw.MenuItem({
-      label: "Exit",
-      click: function () {
-        confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
-      },
-      key: "q",
-      modifiers: controlKey,
-    }));
-
-
-    // Edit menu items
-    editMenu.append(new nw.MenuItem({
-      label: "Delete last frame",
-      click: undoFrame,
-      key: "z",
-      modifiers: controlKey,
-    }));
-
-    // Capture menu items
-    captureMenu.append(new nw.MenuItem({
-      label: "Capture frame",
-      click: takeFrame,
-      key: "1",
-      modifiers: controlKey,
-    }));
-
-    captureMenu.append(new nw.MenuItem({ type: "separator" }));
-
-    captureMenu.append(new nw.MenuItem({
-      label: "Play capture sounds",
-      click: function () {
-        playAudio = !playAudio;
-        notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
-      },
-      type: "checkbox",
-      checked: true,
-      key: "m",
-      modifiers: controlKey,
-    }));
-
-    captureMenu.append(new nw.MenuItem({
-      label: "Change capture destination",
-      click: _changeSaveDirectory
-    }));
-
-    // Playback menu items
-    playbackMenu.append(new nw.MenuItem({
-      label: "Loop playback",
-      click: function () {
-        btnLoop.click()
-      },
-      type: "checkbox",
-      checked: false,
-      key: "8",
-      modifiers: controlKey,
-    }));
-
-    playbackMenu.append(new nw.MenuItem({ type: "separator" }));
-
-    playbackMenu.append(new nw.MenuItem({
-      label: "Display first frame",
-      click: function () {
-        btnFrameFirst.click();
-      },
-      key: "left",
-      modifiers: controlKey,
-    }));
-
-    playbackMenu.append(new nw.MenuItem({
-      label: "Display last frame",
-      click: function () {
-        btnFrameLast.click();
-      },
-      key: "right",
-      modifiers: "",
-    }));
-
-    // Help menu items
-    helpMenu.append(new nw.MenuItem({
-      label: "Documentation",
-      click: function () {
-        utils.openURL("http://boatsanimator.readthedocs.io/");
-      },
-      key: "F1",
-      modifiers: "",
-    }));
-    helpMenu.append(new nw.MenuItem({
-      label: "Give feedback",
-      click: function () {
-        utils.openURL("https://github.com/BoatsAreRockable/animator/issues");
-      },
-    }));
-
-    helpMenu.append(new nw.MenuItem({ type: "separator" }));
-
-    helpMenu.append(new nw.MenuItem({
-      label: "About Boats Animator",
-      click: openAbout
-    }));
-
-    // Append sub-menus to main menu
-    menuBar.append(
-      new nw.MenuItem({
-        label: "File",
-        submenu: fileMenu
-      })
-    );
-
-    menuBar.append(
-      new nw.MenuItem({
-        label: "Edit",
-        submenu: editMenu
-      })
-    );
-
-    menuBar.append(
-      new nw.MenuItem({
-        label: "Capture",
-        submenu: captureMenu
-      })
-    );
-
-    menuBar.append(
-      new nw.MenuItem({
-        label: "Playback",
-        submenu: playbackMenu
-      })
-    );
-
-    menuBar.append(
-      new nw.MenuItem({
-        label: "Help",
-        submenu: helpMenu
-      })
-    );
+    Object.keys(subMenus).forEach(function (curSubMenuName) {
+      // Append items to submenu
+      menuItems[curSubMenuName].forEach(function (menuItem) {
+        subMenus[curSubMenuName].append(new nw.MenuItem(menuItem));
+      });
+      var subMenuName = curSubMenuName.charAt(0).toUpperCase() + curSubMenuName.slice(1);
+      // Append submenu to main menu
+      menuBar.append(new nw.MenuItem({
+        label: subMenuName,
+        submenu: subMenus[curSubMenuName]
+      }));
+    });
 
     // Append main menu to Window
     nw.Window.get().menu = menuBar;
@@ -202,5 +161,20 @@ module.exports = {};
       });
     }
   }
-  module.exports.check = checkDir;
+
+  /**
+   * Toggles whether the menu items are disabled or not (excluding the file menu).
+   */
+  function toggleItems() {
+    Object.keys(subMenus).forEach(function (subMenuName) {
+      if (subMenuName != "file") {
+        subMenus[subMenuName].items.forEach(function (menuItem) {
+          menuItem.enabled = !menuItem.enabled;
+        });
+      }
+    });
+  }
+
+  module.exports.load = loadMenu;
+  module.exports.toggleItems = toggleItems;
 }());

@@ -111,7 +111,7 @@ module.exports = {};
    * Then match the shortcuts with their function.
    *
    * @param {String} location Location of file containing shortcut list.
-   * @returns {function} callback
+   * @param {requestCallback} callback - The callback that handles the response.
    */
   function getShortcuts(location, callback) {
     // Location is a parameter to allow for custom shortcuts in the future.
@@ -143,7 +143,6 @@ module.exports = {};
             allShortcuts[groupName][featureName] = featureObject;
           });
         });
-
         callback(allShortcuts);
       }
     });
