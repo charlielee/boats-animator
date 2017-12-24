@@ -175,6 +175,7 @@ module.exports = {};
     });
   }
 
+  module.exports.subMenus = subMenus;
   module.exports.load = loadMenu;
   module.exports.toggleItems = toggleItems;
 }());

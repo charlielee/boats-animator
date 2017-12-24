@@ -17,7 +17,7 @@ module.exports = {};
           audioToggle: function() {
             playAudio = !playAudio;
             // Toggle checkbox on related menubar item
-            captureMenu.items[2].checked = !captureMenu.items[2].checked;
+            menubar.subMenus.capture.items[2].checked = !menubar.subMenus.capture.items[2].checked;
             notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
           },
           playPause: function() {
@@ -26,7 +26,7 @@ module.exports = {};
           loopPlayback: function() {
             btnLoop.click();
              // Toggle checkbox on related menubar item
-            playbackMenu.items[0].checked = !playbackMenu.items[0].checked;
+             menubar.subMenus.playback.items[0].checked = !menubar.subMenus.capture.items[0].checked;
           },
           liveView: function() {
             if (totalFrames > 0) {
@@ -121,7 +121,6 @@ module.exports = {};
     file.read(location, {
       success: function(data) {
         data = JSON.parse(data);
-        console.log(data);
 
         // Iterate through each feature group object (eg main, confirm)
         Object.keys(features).forEach(function(groupName) {
