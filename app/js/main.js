@@ -285,7 +285,6 @@ function startup() {
   });
 
   // Listen for frame rate changes
-  inputChangeFR.addEventListener("focus", shortcuts.pause);
   inputChangeFR.addEventListener("input", function() {
     if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
       frameRate = parseInt(this.value, 10);
@@ -300,7 +299,6 @@ function startup() {
 
   // Listen for leaving frame rate input
   inputChangeFR.addEventListener("blur", function() {
-    shortcuts.resume();
     inputChangeFR.value = frameRate;
     if (
         inputChangeFR.value > 60 ||
@@ -1062,8 +1060,3 @@ function loadMenu() {
         });
     }
 }
-
-// Stops global shortcuts operating in other applications
-win.on("focus", shortcuts.resume);
-win.on("restore", shortcuts.resume);
-win.on("blur", shortcuts.pause);
