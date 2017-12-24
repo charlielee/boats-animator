@@ -6,7 +6,6 @@ module.exports = {};
       curShortcuts = {},
       allShortcuts = {},
       activeGroups = [],
-      pausedGroups = [],
 
       // All of the features that can be set as keyboard shortcuts.
       features = {
@@ -163,20 +162,14 @@ module.exports = {};
    * Pause keyboard shortcut operation.
    */
   function pauseShortcuts() {
-    activeGroups.forEach(function(groupName) {
-      removeShortcuts(groupName);
-      pausedGroups.push(groupName);
-    });
+    Mousetrap.pause();
   }
 
   /**
    * Resume keyboard shortcut operation after pausing it.
    */
   function resumeShortcuts() {
-    pausedGroups.forEach(function(groupName) {
-      addShortcuts(groupName);
-      pausedGroups.length = 0;
-    });
+    Mousetrap.unpause();
   }
 
   module.exports.get    = getShortcuts;
