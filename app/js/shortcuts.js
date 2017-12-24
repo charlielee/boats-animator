@@ -3,7 +3,6 @@ module.exports = {};
 (function () {
   "use strict";
   var notification = require("./notification"),
-      Mousetrap    = require("mousetrap"),
       curShortcuts = {},
       allShortcuts = {},
       activeGroups = [],
