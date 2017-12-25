@@ -10,8 +10,16 @@ fs.exists("app/lib", function(exists) {
       }
     });
   }
+  // mkdirp
   fs.copy("node_modules/mkdirp/index.js", "app/lib/mkdirp.js", { replace: true }, function (err) {
     console.log(err ? err : "Copied mkdirp to 'app/lib/mkdirp.js'");
+  });
+  // Mousetrap
+  fs.copy("node_modules/mousetrap/mousetrap.min.js", "app/lib/mousetrap.js", { replace: true }, function (err) {
+    console.log(err ? err : "Copied mousetrap.min.js to 'app/lib/mousetrap.js'");
+  });
+  fs.copy("node_modules/mousetrap/plugins/pause/mousetrap-pause.min.js", "app/lib/mousetrap-pause.js", { replace: true }, function (err) {
+    console.log(err ? err : "Copied mousetrap-pause.min.js to 'app/lib/mousetrap-pause.js'");
   });
 });
 
