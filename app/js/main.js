@@ -357,14 +357,14 @@ function switchMode(newMode) {
  * @returns {Boolean} True if there was a highlight to remove, false otherwise.
  */
 function _removeFrameReelSelection() {
-    "use strict";
-    var selectedFrame = document.querySelector(".frame-reel-img.selected");
-    if (selectedFrame) {
-        selectedFrame.classList.remove("selected");
-        curSelectedFrame = null;
-        return true;
-    }
-    return false;
+  "use strict";
+  var selectedFrame = document.querySelector(".frame-reel-img.selected");
+  if (selectedFrame) {
+    selectedFrame.classList.remove("selected");
+    curSelectedFrame = null;
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -611,7 +611,7 @@ function videoStop() {
 /**
  * Pause playback and view a specific frame in the preview area.
  *
- * @param {Integer} id The frame ID to preview.
+ * @param {Integer} id - The frame ID to preview.
  */
 function _displayFrame(id) {
   "use strict";
@@ -642,6 +642,7 @@ function _videoPlay() {
       // We are not looping, stop the playback
       if (!isLooping) {
         switchToLiveView();
+        return;
       }
 
       // Loop the playback
