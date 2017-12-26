@@ -232,7 +232,6 @@ function startup() {
 
   // Play/pause the preview
   btnPlayPause.addEventListener("click", function() {
-    // Make sure we have frames to play back
     if (totalFrames > 0) {
       (isPlaying ? videoPause : previewCapturedFrames)();
     }
@@ -480,7 +479,7 @@ function deleteFrame(id) {
     capturedFrames.splice(id - 1, 1);
     totalFrames--;
     updateFrameReel("delete", id);
-    console.info(`There are now ${totalFrames} captured frames`);
+    console.info(`Total frames captured: ${totalFrames}`);
 }
 
 /**
@@ -546,7 +545,8 @@ function _captureFrame() {
         // Store the image data and update the current frame
         capturedFrames.push(frame);
         totalFrames++;
-        console.info(`Captured frame: ${frame.src.slice(100, 120)} There are now: ${totalFrames} frames`);
+        console.info(`Captured frame: ${frame.src.slice(100, 120)}`);
+        console.info(`Total frames captured: ${totalFrames}`);
 
         // Save the frame to disk and update the frame reel
         saveFrame(totalFrames);
@@ -636,30 +636,28 @@ function _videoPlay() {
   "use strict";
   playBackTimeout = setTimeout(function() {
     playBackRAF = requestAnimationFrame(_videoPlay);
-    // Display each frame
-    _removeFrameReelSelection();
-    context.drawImage(capturedFrames[curPlayFrame], 0, 0, width, height);
-    _updateStatusBarCurFrame(curPlayFrame + 1);
-
-    // Display selection outline as each frame is played
-    _addFrameReelSelection(curPlayFrame + 1);
-
-    // Scroll the framereel with playback
-    _frameReelScroll();
-    curPlayFrame++;
 
     // There are no more frames to preview
     if (curPlayFrame >= totalFrames) {
       // We are not looping, stop the playback
       if (!isLooping) {
         switchToLiveView();
-      } else {
-        console.info("Playback looped");
       }
 
-      // Reset playback
+      // Loop the playback
+      console.info("Playback looped");
       curPlayFrame = 0;
     }
+
+    // Display each frame and update the UI accordingly
+    _removeFrameReelSelection();
+    context.drawImage(capturedFrames[curPlayFrame], 0, 0, width, height);
+    _updateStatusBarCurFrame(curPlayFrame + 1);
+    _addFrameReelSelection(curPlayFrame + 1);
+
+    // Scroll the framereel with playback
+    _frameReelScroll();
+    curPlayFrame++;
   }, 1000 / frameRate);
 }
 
@@ -676,9 +674,9 @@ function previewCapturedFrames() {
     btnPlayPause.children[0].classList.add("fa-pause");
 
     // Begin playing the frames
+    console.info("Playback started");
     isPlaying = true;
     _videoPlay();
-    console.info("Playback started");
 }
 
 /**
