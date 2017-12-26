@@ -461,6 +461,7 @@ function switchToLiveView() {
     _removeFrameReelSelection();
     switchMode("capture");
   }
+}
 
 /**
  * Delete an individual frame.
@@ -651,7 +652,7 @@ function _videoPlay() {
     if (curPlayFrame >= totalFrames) {
       // We are not looping, stop the playback
       if (!isLooping) {
-        videoStop();
+        switchToLiveView();
       } else {
         console.info("Playback looped");
       }
