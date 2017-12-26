@@ -251,7 +251,7 @@ function startup() {
       if (curSelectedFrame !== totalFrames) {
         _displayFrame(curSelectedFrame + 1);
       } else {
-        btnLiveView.click();
+        switchToLiveView();
       }
     }
   });
@@ -277,11 +277,7 @@ function startup() {
   // Preview last frame on framereel
   btnFrameLast.addEventListener("click", function() {
     if (curSelectedFrame) {
-      if (curSelectedFrame !== totalFrames) {
-        videoStop();
-      } else {
-        btnLiveView.click();
-      }
+      (curSelectedFrame !== totalFrames ? videoStop : switchToLiveView)();
     }
   });
 
@@ -312,13 +308,7 @@ function startup() {
   });
 
   // Switch from frame preview back to live view
-  btnLiveView.addEventListener("click", function() {
-    if (totalFrames > 0) {
-      videoStop();
-      _removeFrameReelSelection();
-      switchMode("capture");
-    }
-  });
+  btnLiveView.addEventListener("click", switchToLiveView);
 
   // Preview a captured frame
   frameReelRow.addEventListener("click", function(e) {
@@ -461,6 +451,16 @@ function updateFrameReel(action, id) {
       onionSkinWindow.removeAttribute("src");
     }
 }
+
+/**
+ * Stop active playback and switch to live view.
+ */
+function switchToLiveView() {
+  if (totalFrames > 0) {
+    videoStop();
+    _removeFrameReelSelection();
+    switchMode("capture");
+  }
 
 /**
  * Delete an individual frame.
