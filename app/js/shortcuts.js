@@ -29,9 +29,7 @@ module.exports = {};
              menubar.subMenus.playback.items[0].checked = !menubar.subMenus.capture.items[0].checked;
           },
           liveView: function() {
-            if (totalFrames > 0) {
-              btnLiveView.click();
-            }
+            switchToLiveView();
           },
           firstFrame: function() {
             btnFrameFirst.click();
