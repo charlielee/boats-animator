@@ -10,6 +10,7 @@ module.exports = {};
    * Open the desired news post in the user's browser.
    *
    * @param {Object} e - An MouseEvent object.
+   * @returns {void}
    */
   function openNews(e) {
     if (e.target.classList.contains("post-link")) {
@@ -64,7 +65,7 @@ module.exports = {};
    * Construct the HTML structure for the news.
    *
    * @param {Object} post - A news article object.
-   * @returns {String}
+   * @returns {String} The generated HTML.
    */
   function _compilePostHTML(post) {
     return `<div class="post" id="post-${post.id}">
@@ -106,6 +107,8 @@ module.exports = {};
 
   /**
    * Display an error message if the news cannot be loaded.
+   * @param {Object} err - Browser-generated error message.
+   * @returns {void}
    */
   function erroring(err) {
     qNewsContainer.innerHTML = "<h3>News could not be loaded at this time.</h3>";
@@ -130,6 +133,7 @@ module.exports = {};
    * Fetch the latest news.
    *
    * @param {String} url - The URL to the JSON news feed.
+   * @returns {void}
    */
   function load(url) {
     window.fetch(url, {

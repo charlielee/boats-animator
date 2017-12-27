@@ -62,8 +62,9 @@ module.exports = {};
   /**
    * Choose a group of shortcuts to activate.
    *
-   * @param {String} groupName Which group of shortcuts should be enabled.
-   *                           eg main or confirm.
+   * @param {String} groupName - Which group of shortcuts should be removed,
+   *                             e.g., main or confirm.
+   * @returns {void}
    */
   function addShortcuts(groupName) {
     // Check the shortcut group hasn't already been added.
@@ -86,8 +87,9 @@ module.exports = {};
   /**
    * Choose a group of shortcuts to remove.
    *
-   * @param {String} groupName Which group of shortcuts should be removed.
-   *                           eg main or confirm.
+   * @param {String} groupName - Which group of shortcuts should be removed,
+   *                             e.g., main or confirm.
+   * @returns {void}
    */
   function removeShortcuts(groupName) {
     // Check the shortcut group can be removed.
@@ -109,7 +111,8 @@ module.exports = {};
    * Then match the shortcuts with their function.
    *
    * @param {String} location Location of file containing shortcut list.
-   * @param {requestCallback} callback - The callback that handles the response.
+   * @param {Function} callback - The callback that handles the response.
+   * @returns {void}
    */
   function getShortcuts(location, callback) {
     // Location is a parameter to allow for custom shortcuts in the future.
@@ -147,6 +150,7 @@ module.exports = {};
 
   /**
    * Pause keyboard shortcut operation.
+   * @returns {void}
    */
   function pauseShortcuts() {
     Mousetrap.pause();
@@ -154,6 +158,7 @@ module.exports = {};
 
   /**
    * Resume keyboard shortcut operation after pausing it.
+   * @returns {void}
    */
   function resumeShortcuts() {
     Mousetrap.unpause();
@@ -161,7 +166,8 @@ module.exports = {};
 
   /**
    * Get a feature's primary shortcut key to use for a menubar item.
-   * @param {String} featureName Name of the shortcut feature.
+   * @param {String} featureName - Name of the shortcut feature.
+   * @returns {String}
    */
   function getPrimaryKey(featureName) {
     var shortcut = allShortcuts["main"][featureName]["keys"][0],
@@ -172,7 +178,8 @@ module.exports = {};
 
   /**
    * Get a feature's primary shortcut modifiers to use for a menubar item.
-   * @param {String} featureName Name of the shortcut feature.
+   * @param {String} featureName - Name of the shortcut feature.
+   * @returns {String}
    */
   function getPrimaryModifiers(featureName) {
     var shortcut = allShortcuts["main"][featureName]["keys"][0],

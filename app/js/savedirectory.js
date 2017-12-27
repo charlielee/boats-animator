@@ -21,6 +21,7 @@ module.exports = {};
    * Set the app save directory.
    *
    * @param {String} dir The directory to save.
+   * @returns {void}
    */
   function setDir(dir) {
     localStorage.setItem(SAVE_DIRECTORY_KEY, dir);
@@ -40,6 +41,7 @@ module.exports = {};
    * Create the app save directory.
    *
    * @param {String} dir - The directory to create.
+   * @returns {void}
    */
   function makeDir(dir) {
     mkdirp(dir, function(err) {

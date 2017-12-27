@@ -11,6 +11,7 @@ const utils = (function() {
    * Open a URL in the user's browser.
    *
    * @param {String} url - The URL to open.
+   * @returns {void}
    */
   function openURL(url) {
     nw.Shell.openExternal(url);
@@ -20,6 +21,7 @@ const utils = (function() {
    * Enable live code reloading for development purposes.
    *
    * @param {Boolean} [reload=true] - Set to false to disable.
+   * @returns {void}
    */
   function setLiveReload(reload=true) {
     document.querySelector("#dev-reload-script").src = (
