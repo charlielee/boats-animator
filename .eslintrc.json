@@ -7,7 +7,20 @@
   "rules": {
     "no-undef": "error",
     "no-unused-vars": ["error", {"varsIgnorePattern": "utils"}],
-    "strict": ["error", "function"]
+    "strict": ["error", "function"],
+    "eqeqeq": ["error", "always"],
+    "space-before-function-paren": ["error", {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+    }],
+    "valid-jsdoc": ["error", {
+      "prefer": {
+        "arg": "param",
+        "argument": "param",
+        "return": "returns"
+      }
+    }]
   },
   "globals": {
     "nw": true,
