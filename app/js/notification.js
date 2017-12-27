@@ -8,7 +8,7 @@ module.exports = {};
   /**
    * @private
    * Generate a notification ID.
-   * @returns {Number}
+   * @returns {Number} The ID number.
    */
   function _id() {
     notifyId++;
@@ -20,7 +20,7 @@ module.exports = {};
    * @see _make()
    *
    * @param {Object} notify - A notification object.
-   * @returns {String}
+   * @returns {String} The compiled notification HTML.
    */
   function _compile(notify) {
     return `<div class="notification ${notify._class}" id="notification-${notify.id}">
@@ -97,6 +97,7 @@ module.exports = {};
    * Display an information notification.
    *
    * @param {String|Number} [msg=""] - The message to display.
+   * @returns {void}
    */
   function info(msg) {
     console.info(`Info: ${msg}`);
@@ -107,6 +108,7 @@ module.exports = {};
    * Display an error notification.
    *
    * @param {String|Number} [msg=""] - The message to display.
+   * @returns {void}
    */
   function error(msg) {
     console.error(`Error: ${msg}`);
@@ -117,6 +119,7 @@ module.exports = {};
    * Display a success notification.
    *
    * @param {String|Number} [msg=""] - The message to display.
+   * @returns {void}
    */
   function success(msg) {
     console.log(`Success: ${msg}`);
