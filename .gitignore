@@ -24,6 +24,7 @@ Testing/
 bin/
 app/lib/
 node_modules/
+.vscode/
 jsconfig.json
 *.~is
 npm-debug.log
