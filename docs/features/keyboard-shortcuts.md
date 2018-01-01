@@ -21,3 +21,8 @@ There are numerous keyboard shortcuts available in Boats Animator; here is a com
 | **Confirm prompts**     |                  |              |                 |         |
 | Select confirm button   | **`Enter`**      |              |                 |         |
 | Cancel confirm prompt   | **`Esc`**        | **`/`**      |                 |         |
+
+## Shortcuts on a number keypad
+Boats Animator's shortcuts have been chosen so that the most common can be accessed using a number keypad:
+
+![Keypad shortcuts](../img/keypad-shortcuts-min.png)
