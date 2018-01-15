@@ -154,6 +154,7 @@
 
 #frame-mod-panel {
   background-color: #171717;
+  border-bottom: 1px solid #423e3e;
   padding: 0 1em;
   width: 100%;
 }
