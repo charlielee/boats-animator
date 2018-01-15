@@ -18,7 +18,8 @@
   <!--Confirm messages-->
   <div id="confirm-container" class="hidden">
     <section id="confirm">
-      <h2 id="confirm-title"><i class="fa fa-exclamation-triangle"></i> Confirm</h2>
+      <h2 id="confirm-title">
+        <i class="fa fa-exclamation-triangle"></i> Confirm</h2>
       <p id="confirm-text"></p>
       <div id="confirm-button-container">
         <button id="btn-cancel">Cancel</button>
@@ -46,7 +47,9 @@
       <!--Playback controls-->
       <div id="frame-mod-panel" class="flex">
         <section id="left-controls">
-          <div id="btn-delete-last-frame" title="Undo last frame"><i class="fa fa-undo"></i></div>
+          <div id="btn-delete-last-frame" title="Undo last frame">
+            <i class="fa fa-undo"></i>
+          </div>
         </section>
         <section id="capture-control">
           <div id="btn-capture-frame" title="Capture Frame">
@@ -54,13 +57,27 @@
           </div>
         </section>
         <section id="playback-controls">
-          <div id="btn-frame-first" title="First frame"><i class="fa fa-fast-backward"></i></div>
-          <div id="btn-frame-previous" title="Previous frame"><i class="fa fa-step-backward"></i></div>
-          <div id="btn-play-pause" title="Playback Frames"><i class="fa fa-play"></i></div>
-          <div id="btn-stop" title="Stop Playback"><i class="fa fa-stop"></i></div>
-          <div id="btn-frame-next" title="Next frame"><i class="fa fa-step-forward"></i></div>
-          <div id="btn-frame-last" title="Last frame"><i class="fa fa-fast-forward"></i></div>
-          <div id="btn-loop" title="Loop Playback"><i class="fa fa-refresh"></i></div>
+          <div id="btn-frame-first" title="First frame">
+            <i class="fa fa-fast-backward"></i>
+          </div>
+          <div id="btn-frame-previous" title="Previous frame">
+            <i class="fa fa-step-backward"></i>
+          </div>
+          <div id="btn-play-pause" title="Playback Frames">
+            <i class="fa fa-play"></i>
+          </div>
+          <div id="btn-stop" title="Stop Playback">
+            <i class="fa fa-stop"></i>
+          </div>
+          <div id="btn-frame-next" title="Next frame">
+            <i class="fa fa-step-forward"></i>
+          </div>
+          <div id="btn-frame-last" title="Last frame">
+            <i class="fa fa-fast-forward"></i>
+          </div>
+          <div id="btn-loop" title="Loop Playback">
+            <i class="fa fa-refresh"></i>
+          </div>
         </section>
       </div>
 
@@ -83,12 +100,16 @@
       </div>
 
       <div id="control-panel" class="flex">
+        <section id="preview-options">
+          <!--This area will contain features like grid and aspect ratio mask toggle-->
+        </section>
         <section id="onion-skin-opacity-options">
           <input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="-100" max="100" value="0" title="0%" step="2">
           <div id="slider-background-middle"></div>
         </section>
         <section id="frame-rate-options">
-          <input id="input-fr-change" type="number" value="15" min="1" max="60" title="Framerate"><label for="input-fr-change"> FPS</label>
+          <input id="input-fr-change" type="number" value="15" min="1" max="60" title="Framerate">
+          <label for="input-fr-change"> FPS</label>
         </section>
       </div>
     </section>
@@ -112,7 +133,8 @@
       <!--Export Options-->
       <div class="sidebar-item" id="export-header">
         <div class="sidebar-header">
-          <h2><i class="fa fa-download fa-fw"></i> Export</h2>
+          <h2>
+            <i class="fa fa-download fa-fw"></i> Export</h2>
         </div>
         <ul>
           <li>Captured frames will be exported to:
@@ -130,9 +152,14 @@
 
   <footer>
     <ul>
-      <li>Frame <span id="current-frame">0</span> of <span id="num-of-frames">0</span></li>
-      <li id="current-frame-rate"><span></span> FPS</li>
-      <li class="no-pipe" id="current-mode"><span></span> mode</li>
+      <li>Frame
+        <span id="current-frame">0</span> of
+        <span id="num-of-frames">0</span>
+      </li>
+      <li id="current-frame-rate">
+        <span></span> FPS</li>
+      <li class="no-pipe" id="current-mode">
+        <span></span> mode</li>
     </ul>
   </footer>
 
