@@ -43,7 +43,7 @@
   "version": "0.7.5",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BoatsAreRockable/Boats-Animator.git"
+    "url": "git+https://github.com/charlielee/boats-animator.git"
   },
   "chromium-args": "--mixed-context",
   "engines": {

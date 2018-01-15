@@ -1,6 +1,6 @@
 site_name: Boats Animator
 site_dir: bin/mkdocs
-repo_url: https://github.com/BoatsAreRockable/Boats-Animator
+repo_url: https://github.com/charlielee/boats-animator
 pages:
 - Home: index.md
 - Introduction:
