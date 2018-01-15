@@ -127,7 +127,7 @@ module.exports = {};
         {
           label: "Give feedback",
           click: function () {
-            utils.openURL("https://github.com/BoatsAreRockable/animator/issues");
+            utils.openURL("https://github.com/charlielee/boats-animator/issues");
           },
         },
         { type: "separator" },
