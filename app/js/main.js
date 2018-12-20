@@ -193,23 +193,11 @@ function startup() {
     Camera.display(feed, preview);
   });
 
-  // // Listen to button to reload currently selected camera
-  // curCameraReload.addEventListener("click", function () {
-  //   try {
-  //     // Detect all available cameras
-  //     Camera.enumerateDevices();
-
-  //     // Get selected camera
-  //     var curCam = Camera.getSelectedCamera();
-  //     // Show the possible resolutions for the camera and update preview area
-  //     curCam.showResolutions();
-  //   } catch (err) {
-  //     console.info("No camera was selected to reload.");
-  //   }
-  // });
-
   // Refresh camera list when device changes are detected
-  navigator.mediaDevices.addEventListener("devicechange", Camera.enumerateDevices);
+  navigator.mediaDevices.addEventListener("devicechange", function(e) {
+    console.log(e);
+    Camera.enumerateDevices();
+  });
 
   // Capture a frame
   btnCaptureFrame.addEventListener("click", takeFrame);

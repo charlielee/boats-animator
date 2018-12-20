@@ -153,7 +153,18 @@ module.exports = {};
    * @param {Array} sources - @todo.
    */
   function _findVideoSources(sources) {
-    // Remove all options except "No camera selected"
+    // If no camera has been selected yet add "no camera selected option"
+    if (qCameraSelect.length == 0) {
+      const option = window.document.createElement("option");
+      option.text = "No camera selected";
+      option.setAttribute("disabled", true);
+      option.setAttribute("style", "display: none;");
+      option.setAttribute("value", "#");
+      qCameraSelect.appendChild(option);
+      qCameraSelect.value = "#";
+    }
+
+    // Remove all camera select options except "No camera selected"
     var num = qCameraSelect.options.length;
     if (num) {
       while (num-- > 1) {
@@ -161,8 +172,12 @@ module.exports = {};
       }
     }
 
+    // Reset check for if current camera is connected
+    var isCurCamStillConnected = false;
+
     // Filter out all non-video streams
     sources = sources.filter(source => source.kind === "videoinput");
+    // Add any new devices that have been connected and check for the currently connected camera
     sources.forEach(function(source, i) {
       // Get the proper camera name
       let cameraName = `Camera #${i + 1}`;
@@ -182,7 +197,23 @@ module.exports = {};
         Camera.list[source.deviceId] = cam;
         notification.success(`Detected ${cam.name}`);
       }
+
+      // Check if device is the current camera
+      if (source.deviceId === Camera.successCam.id) {
+        isCurCamStillConnected = true;
+      }
     });
+
+    // Switch to "no camera selected" if current success camera is no longer connected
+    if (Object.keys(Camera.successCam).length > 0 && !isCurCamStillConnected) {
+      notification.info(`${Camera.successCam.name} has been removed`);
+      Camera.successCam = {};
+
+      // Switch to "no camera selected"
+      qCameraSelect.value = "#";
+      // Reset resolution select
+      qResoluSelect.innerHTML = "";
+    }
   }
 
   /** getUserMedia functions */
