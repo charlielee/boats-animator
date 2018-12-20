@@ -1,18 +1,18 @@
 {
   "main": {
-    "takePicture": ["Enter"],
-    "undoFrame": ["Delete", "Backspace", "NumpadMultiply"],
-    "audioToggle": ["M"],
-    "playPause": ["Space", "0", "Numpad0", "MediaPlayPause"],
-    "loopPlayback": ["8", "Numpad8"],
-    "liveView": ["L", "3", "Numpad3"],
-    "firstFrame": ["MediaPrevTrack"],
-    "lastFrame": ["MediaNextTrack"],
-    "nextFrame": ["Right", "2", "Numpad2"],
-    "previousFrame": ["Left", "1", "Numpad1"]
+    "takePicture": ["mod+1", "enter"],
+    "undoFrame": ["mod+z", "del", "backspace", "*"],
+    "audioToggle": ["mod+m"],
+    "playPause": ["space", "0"],
+    "loopPlayback": ["8"],
+    "liveView": ["l", "3"],
+    "firstFrame": ["mod+left"],
+    "lastFrame": ["mod+right"],
+    "nextFrame": ["right", "2"],
+    "previousFrame": ["left", "1"]
   },
   "confirm": {
-    "enter": ["Enter"],
-    "cancel": ["Escape", "NumpadDivide"]
+    "enter": ["enter"],
+    "cancel": ["escape", "/"]
   }
 }

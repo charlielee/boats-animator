@@ -11,7 +11,8 @@
   newsFeed.load("http://charlielee.uk/feed/boats-animator.json");
 
   /**
-   * Occurs when "New Project" is pressed
+   * Occurs when "New Project" is pressed.
+   * @returns {void}
    */
   function openAnimator() {
     nw.Window.open("app/animator.html", {

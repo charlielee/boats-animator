@@ -19,13 +19,13 @@ If you looking to help develop Boats Animator, you may find live reloading to be
 
 ## Reporting issues
 If you find a bug or want to suggest an improvement:
-* First check someone else hasn't already reported it in the [issues](https://github.com/BoatsAreRockable/Boats-Animator/issues) section.
-* If not, create a [new issue](https://github.com/BoatsAreRockable/Boats-Animator/issues/new) for it.
+* First check someone else hasn't already reported it in the [issues](https://github.com/charlielee/boats-animator/issues) section.
+* If not, create a [new issue](https://github.com/charlielee/boats-animator/issues/new) for it.
 * Please make sure to include a clear **title** and **description** as well as any relevant error messages, code snippets or screenshots.
 
 ## Submitting changes
-If you're working on an improvement to Boats Animator it is usually good practise to add a comment to the [relevant issue](https://github.com/BoatsAreRockable/Boats-Animator/issues). Once you are ready to submit your changes you should:
-* Create a [new pull request](https://github.com/BoatsAreRockable/Boats-Animator/pull/new/master) with a clear list of what you've done *([read more about pull requests](http://help.github.com/pull-requests/))*.
+If you're working on an improvement to Boats Animator it is usually good practise to add a comment to the [relevant issue](https://github.com/charlielee/boats-animator/issues). Once you are ready to submit your changes you should:
+* Create a [new pull request](https://github.com/charlielee/boats-animator/pull/new/master) with a clear list of what you've done *([read more about pull requests](http://help.github.com/pull-requests/))*.
 * The pull request should reference any relevant issues and have a clear title.
 * The log messages for any commits should also be clear.
 * The coding conventions for Boats Animator should be followed.
@@ -35,7 +35,7 @@ If you're working on an improvement to Boats Animator it is usually good practis
 The following conventions should be observed in Boats Animator's code:
 * HTML5, CSS3 and ES6 JavaScript that is supported by Chromium 62 may be used.
 * Features with the `Webkit` prefix may be used if there is no standardised method available.
-* Code should use **2 space indentation** ([currently a WIP](https://github.com/BoatsAreRockable/Boats-Animator/issues/140)).
+* Code should use **2 space indentation** ([currently a WIP](https://github.com/charlielee/boats-animator/issues/140)).
 * Trailing white space should be avoided.
 * HTML classes and ids are `spaced-using-dashes`. JavaScript variables and functions are `spacedUsingCamelCase`.
 * JavaScript functions should be documented using [JSDoc](http://usejsdoc.org/about-getting-started.html) notation.

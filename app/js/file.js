@@ -35,6 +35,7 @@ module.exports = {};
    * @param {Object} callback - The callback object.
    * @param {Function} callback.success - The success callback.
    * @param {Function} callback.error - The error callback.
+   * @returns {void}
    */
   function copyFile(oldPath, newPath, callback) {
     callback = update(callback);
@@ -64,6 +65,7 @@ module.exports = {};
    * @param {Object} callback - The callback object.
    * @param {Function} callback.success - The success callback.
    * @param {Function} callback.error - The error callback.
+   * @returns {void}
    */
   function deleteFile(file, callback) {
     callback = update(callback);
@@ -88,6 +90,7 @@ module.exports = {};
    *                                      which will recieve the
    *                                      file contents.
    * @param {Function} callback.error - The error callback.
+   * @returns {void}
    */
   function readFile(file, callback) {
     callback = update(callback);
@@ -111,6 +114,7 @@ module.exports = {};
    * @param {Object} callback - The callback object.
    * @param {Function} callback.success - The success callback.
    * @param {Function} callback.error - The error callback.
+   * @returns {void}
    */
   function renameFile(oldName, newName, callback) {
     callback = update(callback);
@@ -130,10 +134,11 @@ module.exports = {};
    * Write a file to the hard drive.
    *
    * @param {String} file - Absolute path to the file to be saved.
-   * @param {Binary} data - The file data to br written.
+   * @param {*} data - The file data to be written.
    * @param {Object} callback - The callback object.
    * @param {Function} callback.success - The success callback.
    * @param {Function} callback.error - The error callback.
+   * @returns {void}
    */
   function writeFile(file, data, callback) {
     callback = update(callback);

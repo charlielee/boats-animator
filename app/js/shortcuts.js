@@ -3,10 +3,8 @@ module.exports = {};
 (function () {
   "use strict";
   var notification = require("./notification"),
-      curShortcuts = {},
       allShortcuts = {},
       activeGroups = [],
-      pausedGroups = [],
 
       // All of the features that can be set as keyboard shortcuts.
       features = {
@@ -19,7 +17,7 @@ module.exports = {};
           audioToggle: function() {
             playAudio = !playAudio;
             // Toggle checkbox on related menubar item
-            captureMenu.items[2].checked = !captureMenu.items[2].checked;
+            menubar.subMenus.capture.items[2].checked = !menubar.subMenus.capture.items[2].checked;
             notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
           },
           playPause: function() {
@@ -28,12 +26,10 @@ module.exports = {};
           loopPlayback: function() {
             btnLoop.click();
              // Toggle checkbox on related menubar item
-            playbackMenu.items[0].checked = !playbackMenu.items[0].checked;
+             menubar.subMenus.playback.items[0].checked = !menubar.subMenus.capture.items[0].checked;
           },
           liveView: function() {
-            if (totalFrames > 0) {
-              btnLiveView.click();
-            }
+            switchToLiveView();
           },
           firstFrame: function() {
             btnFrameFirst.click();
@@ -66,8 +62,9 @@ module.exports = {};
   /**
    * Choose a group of shortcuts to activate.
    *
-   * @param {String} groupName Which group of shortcuts should be enabled.
-   *                           eg main or confirm.
+   * @param {String} groupName - Which group of shortcuts should be removed,
+   *                             e.g., main or confirm.
+   * @returns {void}
    */
   function addShortcuts(groupName) {
     // Check the shortcut group hasn't already been added.
@@ -78,16 +75,11 @@ module.exports = {};
         allShortcuts[groupName][featureName]["keys"].forEach(function(shortcut) {
           var option = {
             active:  allShortcuts[groupName][featureName].active,
-            key: shortcut,
-            failed : function(err) {
-              console.error(err);
-            }
+            key: shortcut
           };
-          curShortcuts[option.key] = new nw.Shortcut(option);
-          nw.App.registerGlobalHotKey(curShortcuts[option.key]);
+          Mousetrap.bind(option.key, option.active);
         });
       });
-
       activeGroups.push(groupName);
     }
   }
@@ -95,8 +87,9 @@ module.exports = {};
   /**
    * Choose a group of shortcuts to remove.
    *
-   * @param {String} groupName Which group of shortcuts should be removed.
-   *                           eg main or confirm.
+   * @param {String} groupName - Which group of shortcuts should be removed,
+   *                             e.g., main or confirm.
+   * @returns {void}
    */
   function removeShortcuts(groupName) {
     // Check the shortcut group can be removed.
@@ -105,7 +98,7 @@ module.exports = {};
       Object.keys(allShortcuts[groupName]).forEach(function(featureName) {
         // Iterate through each feature's array of shortcuts
         allShortcuts[groupName][featureName]["keys"].forEach(function(shortcut) {
-          nw.App.unregisterGlobalHotKey(curShortcuts[shortcut]);
+          Mousetrap.unbind(shortcut);
         });
       });
 
@@ -118,8 +111,10 @@ module.exports = {};
    * Then match the shortcuts with their function.
    *
    * @param {String} location Location of file containing shortcut list.
+   * @param {Function} callback - The callback that handles the response.
+   * @returns {void}
    */
-  function getShortcuts(location) {
+  function getShortcuts(location, callback) {
     // Location is a parameter to allow for custom shortcuts in the future.
     if (location === "default") {
       location = "./app/json/default-shortcuts.json";
@@ -148,32 +143,59 @@ module.exports = {};
             allShortcuts[groupName][featureName] = featureObject;
           });
         });
-
-        addShortcuts("main");
+        callback(allShortcuts);
       }
     });
   }
 
   /**
    * Pause keyboard shortcut operation.
+   * @returns {void}
    */
   function pauseShortcuts() {
-    activeGroups.forEach(function(groupName) {
-      removeShortcuts(groupName);
-      pausedGroups.push(groupName);
-    });
+    Mousetrap.pause();
   }
 
   /**
    * Resume keyboard shortcut operation after pausing it.
+   * @returns {void}
    */
   function resumeShortcuts() {
-    pausedGroups.forEach(function(groupName) {
-      addShortcuts(groupName);
-      pausedGroups.length = 0;
-    });
+    Mousetrap.unpause();
   }
 
+  /**
+   * Get a feature's primary shortcut key to use for a menubar item.
+   * @param {String} featureName - Name of the shortcut feature.
+   * @returns {String}
+   */
+  function getPrimaryKey(featureName) {
+    var shortcut = allShortcuts["main"][featureName]["keys"][0],
+        key      = shortcut.substr(shortcut.lastIndexOf("+") + 1);
+
+    return key;
+  }
+
+  /**
+   * Get a feature's primary shortcut modifiers to use for a menubar item.
+   * @param {String} featureName - Name of the shortcut feature.
+   * @returns {String}
+   */
+  function getPrimaryModifiers(featureName) {
+    var shortcut = allShortcuts["main"][featureName]["keys"][0],
+        modifiers = shortcut.substring(0, shortcut.lastIndexOf("+"));
+
+    if (modifiers) {
+      // Ctrl === Command on Mac OS
+      if (modifiers.includes("mod")) {
+        return modifiers.replace("mod", ((process.platform === "darwin") ? "command" : "ctrl"));
+      } else {
+        return modifiers;
+      }
+    } else {
+      return "";
+    }
+  }
 
   // Public exports
   module.exports.add    = addShortcuts;
@@ -181,4 +203,6 @@ module.exports = {};
   module.exports.pause  = pauseShortcuts;
   module.exports.remove = removeShortcuts;
   module.exports.resume = resumeShortcuts;
+  module.exports.getPrimaryKey = getPrimaryKey;
+  module.exports.getPrimaryModifiers = getPrimaryModifiers;
 }());

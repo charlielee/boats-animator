@@ -8,7 +8,7 @@ module.exports = {};
   /**
    * @private
    * Generate a notification ID.
-   * @returns {Number}
+   * @returns {Number} The ID number.
    */
   function _id() {
     notifyId++;
@@ -20,7 +20,7 @@ module.exports = {};
    * @see _make()
    *
    * @param {Object} notify - A notification object.
-   * @returns {String}
+   * @returns {String} The compiled notification HTML.
    */
   function _compile(notify) {
     return `<div class="notification ${notify._class}" id="notification-${notify.id}">
@@ -77,7 +77,7 @@ module.exports = {};
    */
   function _hideDelayed(notify) {
     // Time in seconds before the notification should go away
-    let timeout = 2.5;
+    let timeout = 3.5;
 
     // Remove the notification
     window.setTimeout(function() {
@@ -97,8 +97,9 @@ module.exports = {};
    * Display an information notification.
    *
    * @param {String|Number} [msg=""] - The message to display.
+   * @returns {void}
    */
-  function info(msg) {
+  function info(msg="") {
     console.info(`Info: ${msg}`);
     _hideDelayed(_show(_make("info", msg)));
   }
@@ -107,8 +108,9 @@ module.exports = {};
    * Display an error notification.
    *
    * @param {String|Number} [msg=""] - The message to display.
+   * @returns {void}
    */
-  function error(msg) {
+  function error(msg="") {
     console.error(`Error: ${msg}`);
     _hideDelayed(_show(_make("error", msg)));
   }
@@ -117,8 +119,9 @@ module.exports = {};
    * Display a success notification.
    *
    * @param {String|Number} [msg=""] - The message to display.
+   * @returns {void}
    */
-  function success(msg) {
+  function success(msg="") {
     console.log(`Success: ${msg}`);
     _hideDelayed(_show(_make("success", msg)));
   }
