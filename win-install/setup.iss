@@ -1,5 +1,5 @@
 #define MyAppName "Boats Animator"
-#define MyAppVersion "0.7.5"
+#define MyAppVersion "0.8.0"
 #define MyAppPublisher "Charlie Lee"
 #define MyAppURL "https://github.com/charlielee/boats-animator"
 #define MyAppExeName "BoatsAnimator.exe"
