@@ -22,4 +22,3 @@ fs.exists("app/lib", function(exists) {
     console.log(err ? err : "Copied mousetrap-pause.min.js to 'app/lib/mousetrap-pause.js'");
   });
 });
-
