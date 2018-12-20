@@ -35,6 +35,13 @@ body {
 
 img { -webkit-user-drag: none; }
 
+input[type="number"], input[type="text"], select {
+  background-color: #d9d9d9;
+  border: 1px solid #171717;
+  color: #171717;
+  padding: 5px;
+}
+
 /* Container for a row of buttons */
 .btn-group { display: flex; }
 .btn-group button {
@@ -107,13 +114,11 @@ aside {
 }
 
 aside a,
-aside label,
 aside .sidebar-opt {
   color: #d3d3d3;
   cursor: pointer;
 }
 aside a:hover,
-aside label:hover,
 aside .sidebar-opt:hover {
   border-bottom: 1.5px solid #d3d3d3;
 }
@@ -126,10 +131,10 @@ aside label {
 aside ul {
   line-height: 1.4;
   list-style: none;
-  padding-left: 1em;
+  padding-left: 0.3em;
 }
 
-aside li { margin-left: -0.7em; }
+aside li { margin: 1em 0; }
 
 .sidebar-item { border-bottom: 1px solid #ADADAD; }
 

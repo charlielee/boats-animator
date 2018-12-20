@@ -1,29 +1,23 @@
-// The width and height of the captured photo. We will set the
-// width to the value defined here, but the height will be
-// calculated based on the aspect ratio of the input stream.
-var width  = 640,
-    //This is upscaling from 480 so onion-skinning will fit the preview window
-    height = 0,
-
-    // |streaming| indicates whether or not we're currently streaming
-    // video from the camera. Obviously, we start at false.
-    streaming = false,
+// Indicates whether or not we're currently streaming
+// video from the camera. Obviously, we start at false.
+var streaming = false,
 
     // The various HTML elements we need to configure or control.
     preview     = document.querySelector("#preview"),
     playback    = document.querySelector("#playback"),
     context     = playback.getContext("2d"),
-    ratio       = null,
-    aspectRatio = null,
 
     // NW.js
     win = nw.Window.get(),
 
     // Mode switching
-    btnLiveView    = document.querySelector("#btn-live-view"),
-    captureWindow  = document.querySelector("#capture-window"),
-    playbackWindow = document.querySelector("#playback-window"),
-    winMode        = "capture",
+    PreviewArea      = require("./js/previewArea"),
+    btnLiveView      = document.querySelector("#btn-live-view"),
+    CaptureWindow    = new PreviewArea(document.querySelector("#capture-window")),
+    PlaybackWindow   = new PreviewArea(document.querySelector("#playback-window")),
+
+    // Camera
+    Camera        = require("./js/camera"),
 
     // Capture
     capturedFrames     = [],
@@ -57,6 +51,9 @@ var width  = 640,
     statusBarCurFrame  = document.querySelector("#current-frame"),
     statusBarFrameNum  = document.querySelector("#num-of-frames"),
     statusBarFrameRate = document.querySelector("#current-frame-rate span"),
+
+    cameraSelect       = document.querySelector("#camera-select-td select"),
+    resolutionSelect   = document.querySelector("#resolution-select-td select"),
 
     // Frame export
     exportedFramesList = [],
@@ -156,7 +153,7 @@ function startup() {
   inputChangeFR.value = frameRate;
 
   // Set default view
-  switchMode("capture");
+  switchMode(CaptureWindow);
 
   // Maximise window
   win.maximize();
@@ -173,38 +170,35 @@ function startup() {
     menubar.load();
   });
 
-  // Get the video stream
-  navigator.mediaDevices.getUserMedia({ video: true })
-  .then((stream) => {
-    preview.src = window.URL.createObjectURL(stream);
-  })
-  .catch((err) => {
-    console.error(err);
-    notification.error("Could not find a camera to use!");
-  });
-
+  // Initialises the preview window
   preview.addEventListener("canplay", function() {
     if (!streaming) {
-      height = preview.videoHeight / (preview.videoWidth / width);
-
       playback.setAttribute("width", preview.videoWidth.toString());
       playback.setAttribute("height", preview.videoHeight.toString());
       streaming = true;
-      ratio = width / height;
-      aspectRatio = ratio.toFixed(2);
-      console.log("height: " + height);
-      console.log("width: " + width);
-      console.log("Aspect ratio: " + aspectRatio);
-
-      if (aspectRatio === 1.33) {
-        captureWindow.classList.add("4by3");
-      }
-
-      notification.success("Camera successfully connected.");
     }
   });
 
   /* ======= Listeners ======= */
+
+  // Get the resolutions for a camera upon changing it
+  cameraSelect.addEventListener("change", function() {
+     var curCam = Camera.getSelectedCamera();
+     curCam.showResolutions();
+  });
+
+  // Reload the camera on changing resolution
+  resolutionSelect.addEventListener("change", function() {
+    var curCam = Camera.getSelectedCamera();
+    var feed = curCam.updateResolution(Camera.getSelectedResolution());
+    Camera.display(feed, preview);
+  });
+
+  // Refresh camera list when device changes are detected
+  navigator.mediaDevices.addEventListener("devicechange", function(e) {
+    console.log(e);
+    Camera.enumerateDevices();
+  });
 
   // Capture a frame
   btnCaptureFrame.addEventListener("click", takeFrame);
@@ -239,7 +233,7 @@ function startup() {
 
   // Stop the preview
   btnStop.addEventListener("click", function() {
-    if (winMode === "playback") {
+    if (PreviewArea.curWindow === PlaybackWindow) {
       videoStop();
     }
   });
@@ -259,16 +253,16 @@ function startup() {
   btnFramePrevious.addEventListener("click", function() {
     if (curSelectedFrame > 1) {
         _displayFrame(curSelectedFrame - 1);
-    } else if (winMode === "capture" && totalFrames) {
-      switchMode("playback");
+    } else if (PreviewArea.curWindow === CaptureWindow && totalFrames) {
+      switchMode(PlaybackWindow);
       _displayFrame(totalFrames);
     }
   });
 
   // Preview first frame on framereel
   btnFrameFirst.addEventListener("click", function() {
-    if (winMode === "capture" && totalFrames) {
-      switchMode("playback");
+    if (PreviewArea.curWindow === CaptureWindow && totalFrames) {
+      switchMode(PlaybackWindow);
     }
     _displayFrame(1);
   });
@@ -288,7 +282,7 @@ function startup() {
       frameRate = 15;
     }
     statusBarFrameRate.innerHTML = frameRate;
-    if (winMode == "playback") {
+    if (PreviewArea.curWindow === PlaybackWindow) {
       videoStop();
     }
   });
@@ -312,8 +306,8 @@ function startup() {
   // Preview a captured frame
   frameReelRow.addEventListener("click", function(e) {
     if (e.target.className === "frame-reel-img") {
-      if (winMode !== "playback") {
-        switchMode("playback");
+      if (PreviewArea.curWindow !== PlaybackWindow) {
+        switchMode(PlaybackWindow);
       }
 
       // Display the selected frame
@@ -327,28 +321,24 @@ window.onload = startup;
 /**
  * Toggle between playback and capture windows.
  *
- * @param {String} newMode - The app mode to switch to.
- * Possible values are "capture" and "playback".
+ * @param {PreviewArea} NewWindow - The PreviewArea window to switch to.
+ * Possible values are CaptureWindow and PlaybackWindow.
  */
-function switchMode(newMode) {
+function switchMode(NewWindow) {
   "use strict";
-  winMode = newMode;
+  NewWindow.display();
 
-  if (winMode === "capture") {
+  if (PreviewArea.curWindow === CaptureWindow) {
     _updateStatusBarCurFrame(totalFrames + 1);
-    playbackWindow.classList.add("hidden");
-    captureWindow.classList.remove("hidden");
-    captureWindow.classList.add("active");
     btnLiveView.classList.add("selected");
+    statusBarCurMode.innerText = "Capture";
 
-  } else if (winMode === "playback") {
-    playbackWindow.classList.remove("hidden");
-    captureWindow.classList.add("hidden");
-    captureWindow.classList.remove("active");
+  } else if (PreviewArea.curWindow === PlaybackWindow) {
     btnLiveView.classList.remove("selected");
+    statusBarCurMode.innerText = "Playback";
   }
-  console.log(`Switched to: ${winMode}`);
-  statusBarCurMode.innerHTML = winMode;
+
+  console.log(`Switched to: ${NewWindow.el.id}`);
 }
 
 /**
@@ -429,14 +419,14 @@ function updateFrameReel(action, id) {
 
         // Update onion skin frame
         onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
-        context.drawImage(capturedFrames[onionSkinFrame], 0, 0, width, height);
+        context.drawImage(capturedFrames[onionSkinFrame], 0, 0, preview.videoWidth, preview.videoHeight);
 
         // Update frame preview selection
         if (curSelectedFrame) {
             _removeFrameReelSelection();
             _addFrameReelSelection(id - 1);
             _updateStatusBarCurFrame(id - 1);
-        } else if (winMode === "capture") {
+        } else if (PreviewArea.curWindow === CaptureWindow) {
             _updateStatusBarCurFrame(totalFrames + 1);
         }
 
@@ -444,7 +434,7 @@ function updateFrameReel(action, id) {
     } else {
         frameReelMsg.classList.remove("hidden");
         frameReelTable.classList.add("hidden");
-        switchMode("capture");
+        switchMode(CaptureWindow);
 
       // Clear the onion skin window
       onionSkinWindow.removeAttribute("src");
@@ -458,7 +448,7 @@ function switchToLiveView() {
   if (totalFrames > 0) {
     videoStop();
     _removeFrameReelSelection();
-    switchMode("capture");
+    switchMode(CaptureWindow);
   }
 }
 
@@ -527,16 +517,16 @@ function audio(file) {
 
 function _captureFrame() {
     "use strict";
-    if (winMode === "playback") {
-        switchMode("capture");
+    if (PreviewArea.curWindow === PlaybackWindow) {
+        switchMode(CaptureWindow);
     }
 
     // Take a picture
-    if (width && height) {
+    if (streaming) {
         // Draw the image on the canvas
-        playback.width  = width;
-        playback.height = height;
-        context.drawImage(preview, 0, 0, width, height);
+        playback.width  = preview.videoWidth;
+        playback.height = preview.videoHeight;
+        context.drawImage(preview, 0, 0, preview.videoWidth, preview.videoHeight);
 
         // Convert the frame to a PNG
         var frame = new Image();
@@ -623,7 +613,7 @@ function _displayFrame(id) {
     // Preview selected frame ID
     _addFrameReelSelection(id);
     curPlayFrame = id - 1;
-    context.drawImage(capturedFrames[id - 1], 0, 0, width, height);
+    context.drawImage(capturedFrames[id - 1], 0, 0, preview.videoWidth, preview.videoHeight);
     _updateStatusBarCurFrame(id);
     _frameReelScroll();
   }
@@ -652,7 +642,7 @@ function _videoPlay() {
 
     // Display each frame and update the UI accordingly
     _removeFrameReelSelection();
-    context.drawImage(capturedFrames[curPlayFrame], 0, 0, width, height);
+    context.drawImage(capturedFrames[curPlayFrame], 0, 0, preview.videoWidth, preview.videoHeight);
     _updateStatusBarCurFrame(curPlayFrame + 1);
     _addFrameReelSelection(curPlayFrame + 1);
 
@@ -668,7 +658,7 @@ function _videoPlay() {
 function previewCapturedFrames() {
     "use strict";
     // Display playback window
-    switchMode("playback");
+    switchMode(PlaybackWindow);
 
     // Update the play/pause button
     btnPlayPause.children[0].classList.remove("fa-play");
@@ -763,7 +753,7 @@ function decodeBase64Image(dataString) {
 /**
  * Save the captured frame to the hard drive.
  *
- * @param {Number} - id The frame ID to save.
+ * @param {Number} id - The frame ID to save.
  */
 function saveFrame(id) {
   "use strict";

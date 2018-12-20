@@ -5,7 +5,7 @@
     "es6": true
   },
   "rules": {
-    "no-undef": "error",
+    "no-undef": "eslint:recommended",
     "no-unused-vars": ["error", {"varsIgnorePattern": "utils"}],
     "strict": ["error", "function"],
     "eqeqeq": ["error", "always"],

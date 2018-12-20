@@ -111,10 +111,14 @@
   word-break: break-word;
 }
 
+#capture-options select {
+  width: 100%;
+}
+
 /* ========== VIDEO PREVIEW ============== */
 
-#capture-window, #playback-window {
-  display: flex;
+.preview-area-window {
+  display: none;
   flex: 1;
   text-align: center;
   background-color: black;
@@ -122,8 +126,7 @@
   border: 2px solid transparent;
 }
 
-#capture-window.hidden,
-#playback-window.hidden { display: none; }
+.preview-area-window.active { display: flex; }
 
 #capture-window.active { border-color: #ad0000; }
 
@@ -132,6 +135,59 @@
   flex: 1;
   object-fit: contain;
   width: 100%;
+}
+
+
+/**== Loading Window ==*/
+#loading-window {
+  background-color: rgba(23, 23, 23, 0.5);
+  display: none;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  position: absolute;
+  text-align: center;
+  width: 100vw;
+  z-index: 4;
+}
+#loading-window.active { display: flex; }
+
+#loading-window-message.hidden,
+#loading-window-dots.hidden {
+  opacity: 0;
+}
+
+#loading-window-message {
+  text-align: center;
+}
+
+/** Loading animation */
+#loading-window-dots {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.dot {
+  display: inline;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+  position: relative;
+  font-size: 3.5em;
+  opacity: 0;
+  animation: showHideDot 2.5s ease-in-out infinite;
+}
+
+.dot.one { animation-delay: 0.2s; }
+.dot.two { animation-delay: 0.4s; }
+.dot.three { animation-delay: 0.6s; }
+
+@keyframes showHideDot {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  60% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 /*========== ONION SKINNING ==============*/
@@ -334,10 +390,6 @@ td:first-of-type .frame-reel-preview {
 
 #input-fr-change {
   width: 4em;
-  border: 1px solid #171717;
-  background-color: #d9d9d9;
-  color: #171717;
-  padding: 5px;
 }
 
 /* Status bar
