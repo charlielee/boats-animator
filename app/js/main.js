@@ -23,7 +23,6 @@ var streaming = false,
     capturedFrames     = [],
     totalFrames        = 0,
     curSelectedFrame   = null,
-    btnGridToggle      = document.querySelector("#btn-grid-toggle"),
     btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
     btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
@@ -82,6 +81,7 @@ var streaming = false,
     shortcuts     = require("./js/shortcuts"),
     notification  = require("./js/notification"),
     saveDirectory = require("./js/savedirectory"),
+    menubar       = require("./js/menubar"),
 
     // Sidebar
     dirChooseDialog    = document.querySelector("#chooseDirectory"),
@@ -155,9 +155,6 @@ function startup() {
   // Set default view
   switchMode(CaptureWindow);
 
-  // Load top menu
-  loadMenu();
-
   // Maximise window
   win.maximize();
 
@@ -167,7 +164,11 @@ function startup() {
   }
 
   // Load the keyboard shortcuts
-  shortcuts.get("default");
+  shortcuts.get("default", function () {
+    shortcuts.add("main");
+    // Load top menu
+    menubar.load();
+  });
 
   // Initialises the preview window
   preview.addEventListener("canplay", function() {
@@ -225,7 +226,6 @@ function startup() {
 
   // Play/pause the preview
   btnPlayPause.addEventListener("click", function() {
-    // Make sure we have frames to play back
     if (totalFrames > 0) {
       (isPlaying ? videoPause : previewCapturedFrames)();
     }
@@ -244,7 +244,7 @@ function startup() {
       if (curSelectedFrame !== totalFrames) {
         _displayFrame(curSelectedFrame + 1);
       } else {
-        btnLiveView.click();
+        switchToLiveView();
       }
     }
   });
@@ -270,16 +270,11 @@ function startup() {
   // Preview last frame on framereel
   btnFrameLast.addEventListener("click", function() {
     if (curSelectedFrame) {
-      if (curSelectedFrame !== totalFrames) {
-        videoStop();
-      } else {
-        btnLiveView.click();
-      }
+      (curSelectedFrame !== totalFrames ? videoStop : switchToLiveView)();
     }
   });
 
   // Listen for frame rate changes
-  inputChangeFR.addEventListener("focus", shortcuts.pause);
   inputChangeFR.addEventListener("input", function() {
     if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
       frameRate = parseInt(this.value, 10);
@@ -294,7 +289,6 @@ function startup() {
 
   // Listen for leaving frame rate input
   inputChangeFR.addEventListener("blur", function() {
-    shortcuts.resume();
     inputChangeFR.value = frameRate;
     if (
         inputChangeFR.value > 60 ||
@@ -306,19 +300,8 @@ function startup() {
     }
   });
 
-  // Grid overlay toggle
-  btnGridToggle.addEventListener("click", function() {
-    notification.info("This feature is not yet available!");
-  });
-
   // Switch from frame preview back to live view
-  btnLiveView.addEventListener("click", function() {
-    if (totalFrames > 0) {
-      videoStop();
-      _removeFrameReelSelection();
-      switchMode(CaptureWindow);
-    }
-  });
+  btnLiveView.addEventListener("click", switchToLiveView);
 
   // Preview a captured frame
   frameReelRow.addEventListener("click", function(e) {
@@ -364,14 +347,14 @@ function switchMode(NewWindow) {
  * @returns {Boolean} True if there was a highlight to remove, false otherwise.
  */
 function _removeFrameReelSelection() {
-    "use strict";
-    var selectedFrame = document.querySelector(".frame-reel-img.selected");
-    if (selectedFrame) {
-        selectedFrame.classList.remove("selected");
-        curSelectedFrame = null;
-        return true;
-    }
-    return false;
+  "use strict";
+  var selectedFrame = document.querySelector(".frame-reel-img.selected");
+  if (selectedFrame) {
+    selectedFrame.classList.remove("selected");
+    curSelectedFrame = null;
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -459,6 +442,17 @@ function updateFrameReel(action, id) {
 }
 
 /**
+ * Stop active playback and switch to live view.
+ */
+function switchToLiveView() {
+  if (totalFrames > 0) {
+    videoStop();
+    _removeFrameReelSelection();
+    switchMode(CaptureWindow);
+  }
+}
+
+/**
  * Delete an individual frame.
  *
  * @param {Number} id The frame ID to delete.
@@ -475,7 +469,7 @@ function deleteFrame(id) {
     capturedFrames.splice(id - 1, 1);
     totalFrames--;
     updateFrameReel("delete", id);
-    console.info(`There are now ${totalFrames} captured frames`);
+    console.info(`Total frames captured: ${totalFrames}`);
 }
 
 /**
@@ -541,7 +535,8 @@ function _captureFrame() {
         // Store the image data and update the current frame
         capturedFrames.push(frame);
         totalFrames++;
-        console.info(`Captured frame: ${frame.src.slice(100, 120)} There are now: ${totalFrames} frames`);
+        console.info(`Captured frame: ${frame.src.slice(100, 120)}`);
+        console.info(`Total frames captured: ${totalFrames}`);
 
         // Save the frame to disk and update the frame reel
         saveFrame(totalFrames);
@@ -606,7 +601,7 @@ function videoStop() {
 /**
  * Pause playback and view a specific frame in the preview area.
  *
- * @param {Integer} id The frame ID to preview.
+ * @param {Integer} id - The frame ID to preview.
  */
 function _displayFrame(id) {
   "use strict";
@@ -631,30 +626,29 @@ function _videoPlay() {
   "use strict";
   playBackTimeout = setTimeout(function() {
     playBackRAF = requestAnimationFrame(_videoPlay);
-    // Display each frame
-    _removeFrameReelSelection();
-    context.drawImage(capturedFrames[curPlayFrame], 0, 0, preview.videoWidth, preview.videoHeight);
-    _updateStatusBarCurFrame(curPlayFrame + 1);
-
-    // Display selection outline as each frame is played
-    _addFrameReelSelection(curPlayFrame + 1);
-
-    // Scroll the framereel with playback
-    _frameReelScroll();
-    curPlayFrame++;
 
     // There are no more frames to preview
     if (curPlayFrame >= totalFrames) {
       // We are not looping, stop the playback
       if (!isLooping) {
-        videoStop();
-      } else {
-        console.info("Playback looped");
+        switchToLiveView();
+        return;
       }
 
-      // Reset playback
+      // Loop the playback
+      console.info("Playback looped");
       curPlayFrame = 0;
     }
+
+    // Display each frame and update the UI accordingly
+    _removeFrameReelSelection();
+    context.drawImage(capturedFrames[curPlayFrame], 0, 0, preview.videoWidth, preview.videoHeight);
+    _updateStatusBarCurFrame(curPlayFrame + 1);
+    _addFrameReelSelection(curPlayFrame + 1);
+
+    // Scroll the framereel with playback
+    _frameReelScroll();
+    curPlayFrame++;
   }, 1000 / frameRate);
 }
 
@@ -671,9 +665,9 @@ function previewCapturedFrames() {
     btnPlayPause.children[0].classList.add("fa-pause");
 
     // Begin playing the frames
+    console.info("Playback started");
     isPlaying = true;
     _videoPlay();
-    console.info("Playback started");
 }
 
 /**
@@ -814,12 +808,7 @@ function confirmSet(callback, args, msg) {
     shortcuts.add("confirm");
 
     // Disable menubar items
-    editMenu.items[0].enabled = false;
-    captureMenu.items[0].enabled = false;
-    captureMenu.items[2].enabled = false;
-    playbackMenu.items[0].enabled = false;
-    playbackMenu.items[2].enabled = false;
-    playbackMenu.items[3].enabled = false;
+    menubar.toggleItems();
 
     function _ok() {
         callback(args);
@@ -841,12 +830,7 @@ function confirmSet(callback, args, msg) {
 
         shortcuts.remove("confirm");
         shortcuts.add("main");
-        editMenu.items[0].enabled = true;
-        captureMenu.items[0].enabled = true;
-        captureMenu.items[2].enabled = true;
-        playbackMenu.items[0].enabled = true;
-        playbackMenu.items[2].enabled = true;
-        playbackMenu.items[3].enabled = true;
+        menubar.toggleItems();
     }
 
     // Respond to button clicks
@@ -864,196 +848,3 @@ function confirmSet(callback, args, msg) {
     btnConfirmOK.addEventListener("blur", _focusCancel);
     btnConfirmCancel.addEventListener("blur", _focusOK);
 }
-
-/**
- * Display top menu
- */
-// Create top menu and sub-menus
-var menuBar      = new nw.Menu({ type: "menubar" }),
-    fileMenu     = new nw.Menu(),
-    editMenu     = new nw.Menu(),
-    captureMenu  = new nw.Menu(),
-    playbackMenu = new nw.Menu(),
-    helpMenu     = new nw.Menu();
-
-function loadMenu() {
-    "use strict";
-    var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
-
-    // File menu items
-    fileMenu.append(new nw.MenuItem({
-      label: "New project...",
-      click: function() {
-        notification.info("This feature is not yet available!")
-      },
-        key: "n",
-        modifiers: controlKey,
-    }));
-    fileMenu.append(new nw.MenuItem({
-      label: "Open project...",
-      click: function() {
-        notification.info("This feature is not yet available!")
-      },
-        key: "o",
-        modifiers: controlKey,
-    }));
-    fileMenu.append(new nw.MenuItem({
-      label: "Main Menu",
-      click: function() {
-        confirmSet(openIndex,"","Returning to the menu will cause any unsaved work to be lost!");
-      },
-        key: "w",
-        modifiers: controlKey,
-    }));
-    fileMenu.append(new nw.MenuItem({ type: "separator" }));
-    fileMenu.append(new nw.MenuItem({
-      label: "Exit",
-      click: function() {
-        confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
-      },
-      key: "q",
-      modifiers: controlKey,
-    }));
-
-
-    // Edit menu items
-    editMenu.append(new nw.MenuItem({
-      label: "Delete last frame",
-      click: undoFrame,
-      key: "z",
-      modifiers: controlKey,
-    }));
-
-    // Capture menu items
-    captureMenu.append(new nw.MenuItem({
-      label: "Capture frame",
-      click: takeFrame,
-      key: "1",
-      modifiers: controlKey,
-    }));
-
-  captureMenu.append(new nw.MenuItem({ type: "separator" }));
-
-  captureMenu.append(new nw.MenuItem({
-    label: "Play capture sounds",
-    click: function() {
-      playAudio = !playAudio;
-      notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
-    },
-    type: "checkbox",
-    checked: true,
-    key: "m",
-    modifiers: controlKey,
-  }));
-
-  captureMenu.append(new nw.MenuItem({
-    label: "Change export directory",
-    click: _changeSaveDirectory
-  }));
-
-  // Playback menu items
-  playbackMenu.append(new nw.MenuItem({
-    label: "Loop playback",
-    click: function() {
-      btnLoop.click()
-    },
-    type: "checkbox",
-    checked: false,
-    key: "8",
-    modifiers: controlKey,
-  }));
-
-  playbackMenu.append(new nw.MenuItem({ type: "separator" }));
-
-  playbackMenu.append(new nw.MenuItem({
-    label: "Display first frame",
-    click: function() {
-      btnFrameFirst.click();
-    },
-    key: "left",
-    modifiers: controlKey,
-  }));
-
-  playbackMenu.append(new nw.MenuItem({
-    label: "Display last frame",
-    click: function() {
-      btnFrameLast.click();
-    },
-    key: "right",
-    modifiers: controlKey,
-  }));
-
-    // Help menu items
-    helpMenu.append(new nw.MenuItem({
-      label: "Documentation",
-      click: function() {
-          utils.openURL("http://boatsanimator.readthedocs.io/");
-      },
-      key: "F1",
-      modifiers: "",
-    }));
-    helpMenu.append(new nw.MenuItem({
-      label: "Give feedback",
-      click: function() {
-          utils.openURL("https://github.com/BoatsAreRockable/animator/issues");
-      },
-    }));
-
-    helpMenu.append(new nw.MenuItem({ type: "separator" }));
-
-    helpMenu.append(new nw.MenuItem({
-      label: "About Boats Animator",
-      click: openAbout
-    }));
-
-    // Append sub-menus to main menu
-    menuBar.append(
-        new nw.MenuItem({
-            label: "File",
-            submenu: fileMenu
-        })
-    );
-
-    menuBar.append(
-        new nw.MenuItem({
-            label: "Edit",
-            submenu: editMenu
-        })
-    );
-
-    menuBar.append(
-        new nw.MenuItem({
-            label: "Capture",
-            submenu: captureMenu
-        })
-    );
-
-  menuBar.append(
-    new nw.MenuItem({
-      label: "Playback",
-      submenu: playbackMenu
-    })
-  );
-
-    menuBar.append(
-        new nw.MenuItem({
-            label: "Help",
-            submenu: helpMenu
-        })
-    );
-
-    // Append main menu to Window
-    nw.Window.get().menu = menuBar;
-
-    // Create Mac menu
-    if (process.platform === "darwin") {
-        menuBar.createMacBuiltin("Boats Animator", {
-          hideEdit: true
-        });
-    }
-}
-
-// Stops global shortcuts operating in other applications
-win.on("focus", shortcuts.resume);
-win.on("restore", shortcuts.resume);
-win.on("blur", shortcuts.pause);

@@ -27,7 +27,7 @@ The menu bar contains an assortment of options both to do with the current proje
 
 ### Help menu
 * **Documentation:** select this to view Boats Animator's [documentation](http://boatsanimator.readthedocs.org/) (the website you are currently on!).
-* **Give feedback:** select this to load the [issues page](https://github.com/BoatsAreRockable/Boats-Animator/issues) of Boats Animator's GitHub repository.
+* **Give feedback:** select this to load the [issues page](https://github.com/charlielee/boats-animator/issues) of Boats Animator's GitHub repository.
 * **About Boats Animator:** select this to load the [about window](about-window).
 
 ## Preview area
@@ -49,14 +49,6 @@ The frame reel area displays thumbnails of all of the frames that have been capt
 
 ### Live-view button
 On the far right of the frame reel is the live-view button. After previewing captured frames, select this to return to [capture mode](#capture-mode). In capture mode this button has a white outline around it.
-
-## Preview options
-![Preview options](../img/preview-options.png)
-
-The preview options buttons change what masks are displayed on the preview area.
-
-### Grid toggle
-This enables / disables a [rule of thirds](https://en.wikipedia.org/wiki/Rule_of_thirds) grid over the preview area. **Please note that this feature has not been implemented yet**.
 
 ## Status bar
 ![Status bar](../img/status-bar.png)
