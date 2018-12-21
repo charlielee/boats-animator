@@ -2,90 +2,90 @@
 // video from the camera. Obviously, we start at false.
 var streaming = false,
 
-    // The various HTML elements we need to configure or control.
-    preview     = document.querySelector("#preview"),
-    playback    = document.querySelector("#playback"),
-    context     = playback.getContext("2d"),
+  // The various HTML elements we need to configure or control.
+  preview = document.querySelector("#preview"),
+  playback = document.querySelector("#playback"),
+  context = playback.getContext("2d"),
 
-    // NW.js
-    win = nw.Window.get(),
+  // NW.js
+  win = nw.Window.get(),
 
-    // Mode switching
-    PreviewArea      = require("./js/previewArea"),
-    btnLiveView      = document.querySelector("#btn-live-view"),
-    CaptureWindow    = new PreviewArea(document.querySelector("#capture-window")),
-    PlaybackWindow   = new PreviewArea(document.querySelector("#playback-window")),
+  // Mode switching
+  PreviewArea = require("./js/previewArea"),
+  btnLiveView = document.querySelector("#btn-live-view"),
+  CaptureWindow = new PreviewArea(document.querySelector("#capture-window")),
+  PlaybackWindow = new PreviewArea(document.querySelector("#playback-window")),
 
-    // Camera
-    Camera        = require("./js/camera"),
+  // Camera
+  Camera = require("./js/camera"),
 
-    // Capture
-    capturedFrames     = [],
-    totalFrames        = 0,
-    curSelectedFrame   = null,
-    btnCaptureFrame    = document.querySelector("#btn-capture-frame"),
-    btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
+  // Capture
+  capturedFrames = [],
+  totalFrames = 0,
+  curSelectedFrame = null,
+  btnCaptureFrame = document.querySelector("#btn-capture-frame"),
+  btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
-    // Playback
-    frameRate        = 15,
-    isPlaying        = false,
-    isLooping        = false,
-    curPlayFrame     = 0,
-    playBackRAF      = null,
-    playBackTimeout  = null,
-    btnStop          = document.querySelector("#btn-stop"),
-    btnLoop          = document.querySelector("#btn-loop"),
-    btnPlayPause     = document.querySelector("#btn-play-pause"),
-    btnFrameNext     = document.querySelector("#btn-frame-next"),
-    btnFramePrevious = document.querySelector("#btn-frame-previous"),
-    btnFrameFirst    = document.querySelector("#btn-frame-first"),
-    btnFrameLast     = document.querySelector("#btn-frame-last"),
-    inputChangeFR    = document.querySelector("#input-fr-change"),
+  // Playback
+  frameRate = 15,
+  isPlaying = false,
+  isLooping = false,
+  curPlayFrame = 0,
+  playBackRAF = null,
+  playBackTimeout = null,
+  btnStop = document.querySelector("#btn-stop"),
+  btnLoop = document.querySelector("#btn-loop"),
+  btnPlayPause = document.querySelector("#btn-play-pause"),
+  btnFrameNext = document.querySelector("#btn-frame-next"),
+  btnFramePrevious = document.querySelector("#btn-frame-previous"),
+  btnFrameFirst = document.querySelector("#btn-frame-first"),
+  btnFrameLast = document.querySelector("#btn-frame-last"),
+  inputChangeFR = document.querySelector("#input-fr-change"),
 
-    // Audio
-    captureAudio = "audio/camera.wav",
-    playAudio    = true,
+  // Audio
+  captureAudio = "audio/camera.wav",
+  playAudio = true,
 
-    // Status bar
-    statusBarCurMode   = document.querySelector("#current-mode span"),
-    statusBarCurFrame  = document.querySelector("#current-frame"),
-    statusBarFrameNum  = document.querySelector("#num-of-frames"),
-    statusBarFrameRate = document.querySelector("#current-frame-rate span"),
+  // Status bar
+  statusBarCurMode = document.querySelector("#current-mode span"),
+  statusBarCurFrame = document.querySelector("#current-frame"),
+  statusBarFrameNum = document.querySelector("#num-of-frames"),
+  statusBarFrameRate = document.querySelector("#current-frame-rate span"),
 
-    cameraSelect       = document.querySelector("#camera-select-td select"),
-    resolutionSelect   = document.querySelector("#resolution-select-td select"),
+  cameraSelect = document.querySelector("#camera-select-td select"),
+  resolutionSelect = document.querySelector("#resolution-select-td select"),
 
-    // Frame export
-    exportedFramesList = [],
-    curDirDisplay      = document.querySelector("#currentDirectoryName"),
+  // Frame export
+  exportedFramesList = [],
+  curDirDisplay = document.querySelector("#currentDirectoryName"),
 
-    // Onion skin
-    onionSkinWindow = document.querySelector("#onion-skinning-frame"),
-    onionSkinSlider = document.querySelector("#input-onion-skin-opacity"),
+  // Onion skin
+  onionSkinWindow = document.querySelector("#onion-skinning-frame"),
+  onionSkinSlider = document.querySelector("#input-onion-skin-opacity"),
 
-    // Frame reel
-    frameReelArea   = document.querySelector("#area-frame-reel"),
-    frameReelMsg    = document.querySelector("#area-frame-reel > p"),
-    frameReelRow    = document.querySelector("#area-frame-reel #reel-captured-imgs"),
-    frameReelTable  = document.querySelector("#area-frame-reel table"),
-    liveViewframeNo = document.querySelector("#live-view-frame-no"),
+  // Frame reel
+  frameReelArea = document.querySelector("#area-frame-reel"),
+  frameReelMsg = document.querySelector("#area-frame-reel > p"),
+  frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs"),
+  frameReelTable = document.querySelector("#area-frame-reel table"),
+  liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
-    // Confirm messages
-    confirmContainer = document.querySelector("#confirm-container"),
-    confirmText      = document.querySelector("#confirm-text"),
-    btnConfirmOK     = document.querySelector("#confirm-container #btn-OK"),
-    btnConfirmCancel = document.querySelector("#confirm-container #btn-cancel"),
+  // Confirm messages
+  confirmContainer = document.querySelector("#confirm-container"),
+  confirmText = document.querySelector("#confirm-text"),
+  btnConfirmOK = document.querySelector("#confirm-container #btn-OK"),
+  btnConfirmCancel = document.querySelector("#confirm-container #btn-cancel"),
 
-    // Node modules
-    file          = require("./js/file"),
-    shortcuts     = require("./js/shortcuts"),
-    notification  = require("./js/notification"),
-    saveDirectory = require("./js/savedirectory"),
-    menubar       = require("./js/menubar"),
+  // Node modules
+  file = require("./js/file"),
+  shortcuts = require("./js/shortcuts"),
+  notification = require("./js/notification"),
+  saveDirectory = require("./js/savedirectory"),
+  menubar = require("./js/menubar"),
 
-    // Sidebar
-    dirChooseDialog    = document.querySelector("#chooseDirectory"),
-    btnDirectoryChange = document.querySelector("aside #btn-dir-change");
+  // Sidebar
+  dirChooseDialog = document.querySelector("#chooseDirectory"),
+  btnDirectoryChange = document.querySelector("aside #btn-dir-change");
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -122,7 +122,7 @@ function openAbout() {
 /**
  * Confirm prompt when animator is closed.
  */
-win.on("close", function() {
+win.on("close", function () {
   "use strict";
   confirmSet(closeAnimator, "", "Are you sure you want to exit Boats Animator?");
 });
@@ -171,7 +171,7 @@ function startup() {
   });
 
   // Initialises the preview window
-  preview.addEventListener("canplay", function() {
+  preview.addEventListener("canplay", function () {
     if (!streaming) {
       playback.setAttribute("width", preview.videoWidth.toString());
       playback.setAttribute("height", preview.videoHeight.toString());
@@ -182,20 +182,20 @@ function startup() {
   /* ======= Listeners ======= */
 
   // Get the resolutions for a camera upon changing it
-  cameraSelect.addEventListener("change", function() {
-     var curCam = Camera.getSelectedCamera();
-     curCam.showResolutions();
+  cameraSelect.addEventListener("change", function () {
+    var curCam = Camera.getSelectedCamera();
+    curCam.showResolutions();
   });
 
   // Reload the camera on changing resolution
-  resolutionSelect.addEventListener("change", function() {
+  resolutionSelect.addEventListener("change", function () {
     var curCam = Camera.getSelectedCamera();
     var feed = curCam.updateResolution(Camera.getSelectedResolution());
     Camera.display(feed, preview);
   });
 
   // Refresh camera list when device changes are detected
-  navigator.mediaDevices.addEventListener("devicechange", function(e) {
+  navigator.mediaDevices.addEventListener("devicechange", function (e) {
     console.log(e);
     Camera.enumerateDevices();
   });
@@ -216,7 +216,7 @@ function startup() {
   btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
 
   // Choose save directory dialog
-  dirChooseDialog.addEventListener("change", function() {
+  dirChooseDialog.addEventListener("change", function () {
     if (this.value) {
       saveDirectory.set(this.value);
       saveDirectory.make(this.value);
@@ -225,21 +225,21 @@ function startup() {
   });
 
   // Play/pause the preview
-  btnPlayPause.addEventListener("click", function() {
+  btnPlayPause.addEventListener("click", function () {
     if (totalFrames > 0) {
       (isPlaying ? videoPause : previewCapturedFrames)();
     }
   });
 
   // Stop the preview
-  btnStop.addEventListener("click", function() {
+  btnStop.addEventListener("click", function () {
     if (PreviewArea.curWindow === PlaybackWindow) {
       videoStop();
     }
   });
 
   // Preview one frame to the right on framereel
-  btnFrameNext.addEventListener("click", function() {
+  btnFrameNext.addEventListener("click", function () {
     if (curSelectedFrame) {
       if (curSelectedFrame !== totalFrames) {
         _displayFrame(curSelectedFrame + 1);
@@ -250,9 +250,9 @@ function startup() {
   });
 
   // Preview one frame to the left on framereel
-  btnFramePrevious.addEventListener("click", function() {
+  btnFramePrevious.addEventListener("click", function () {
     if (curSelectedFrame > 1) {
-        _displayFrame(curSelectedFrame - 1);
+      _displayFrame(curSelectedFrame - 1);
     } else if (PreviewArea.curWindow === CaptureWindow && totalFrames) {
       switchMode(PlaybackWindow);
       _displayFrame(totalFrames);
@@ -260,7 +260,7 @@ function startup() {
   });
 
   // Preview first frame on framereel
-  btnFrameFirst.addEventListener("click", function() {
+  btnFrameFirst.addEventListener("click", function () {
     if (PreviewArea.curWindow === CaptureWindow && totalFrames) {
       switchMode(PlaybackWindow);
     }
@@ -268,14 +268,14 @@ function startup() {
   });
 
   // Preview last frame on framereel
-  btnFrameLast.addEventListener("click", function() {
+  btnFrameLast.addEventListener("click", function () {
     if (curSelectedFrame) {
       (curSelectedFrame !== totalFrames ? videoStop : switchToLiveView)();
     }
   });
 
   // Listen for frame rate changes
-  inputChangeFR.addEventListener("input", function() {
+  inputChangeFR.addEventListener("input", function () {
     if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
       frameRate = parseInt(this.value, 10);
     } else {
@@ -288,14 +288,14 @@ function startup() {
   });
 
   // Listen for leaving frame rate input
-  inputChangeFR.addEventListener("blur", function() {
+  inputChangeFR.addEventListener("blur", function () {
     inputChangeFR.value = frameRate;
     if (
-        inputChangeFR.value > 60 ||
-        inputChangeFR.value < 1 ||
-        Number.isNaN(inputChangeFR.value) ||
-        inputChangeFR.length > 2
-      ) {
+      inputChangeFR.value > 60 ||
+      inputChangeFR.value < 1 ||
+      Number.isNaN(inputChangeFR.value) ||
+      inputChangeFR.length > 2
+    ) {
       inputChangeFR.value = 15;
     }
   });
@@ -304,7 +304,7 @@ function startup() {
   btnLiveView.addEventListener("click", switchToLiveView);
 
   // Preview a captured frame
-  frameReelRow.addEventListener("click", function(e) {
+  frameReelRow.addEventListener("click", function (e) {
     if (e.target.className === "frame-reel-img") {
       if (PreviewArea.curWindow !== PlaybackWindow) {
         switchMode(PlaybackWindow);
@@ -372,8 +372,8 @@ function _addFrameReelSelection(id) {
  * @param {Integer} id The value to change the frame number to.
  */
 function _updateStatusBarCurFrame(id) {
-    "use strict";
-    statusBarCurFrame.innerHTML = id;
+  "use strict";
+  statusBarCurFrame.innerHTML = id;
 }
 
 /**
@@ -385,60 +385,60 @@ function _updateStatusBarCurFrame(id) {
  * @param {Number} id The image ID to use in the update.
  */
 function updateFrameReel(action, id) {
-    "use strict";
-    var onionSkinFrame = id - 1;
-    // Display number of captured frames in status bar
-    statusBarFrameNum.innerHTML = totalFrames;
+  "use strict";
+  var onionSkinFrame = id - 1;
+  // Display number of captured frames in status bar
+  statusBarFrameNum.innerHTML = totalFrames;
 
-    // Add the newly captured frame
-    if (action === "capture") {
-        // Remove any frame selection
-        _removeFrameReelSelection();
+  // Add the newly captured frame
+  if (action === "capture") {
+    // Remove any frame selection
+    _removeFrameReelSelection();
 
-        // Insert the new frame into the reel
-        frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
+    // Insert the new frame into the reel
+    frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
 <div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
 <img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1].src}">
 </div></td>`);
 
-        // Remove the chosen frame
-    } else if (action === "delete") {
-        if (id !== totalFrames) {
-            onionSkinFrame = id - 2;
-        }
-        frameReelRow.removeChild(frameReelRow.children[id - 1]);
+    // Remove the chosen frame
+  } else if (action === "delete") {
+    if (id !== totalFrames) {
+      onionSkinFrame = id - 2;
     }
+    frameReelRow.removeChild(frameReelRow.children[id - 1]);
+  }
 
   // Update the last frame number above the live view button
   liveViewframeNo.innerHTML = totalFrames + 1;
 
-    // We have frames, display them
-    if (totalFrames > 0) {
-        frameReelMsg.classList.add("hidden");
-        frameReelTable.classList.remove("hidden");
+  // We have frames, display them
+  if (totalFrames > 0) {
+    frameReelMsg.classList.add("hidden");
+    frameReelTable.classList.remove("hidden");
 
-        // Update onion skin frame
-        onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
-        context.drawImage(capturedFrames[onionSkinFrame], 0, 0, preview.videoWidth, preview.videoHeight);
+    // Update onion skin frame
+    onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
+    context.drawImage(capturedFrames[onionSkinFrame], 0, 0, preview.videoWidth, preview.videoHeight);
 
-        // Update frame preview selection
-        if (curSelectedFrame) {
-            _removeFrameReelSelection();
-            _addFrameReelSelection(id - 1);
-            _updateStatusBarCurFrame(id - 1);
-        } else if (PreviewArea.curWindow === CaptureWindow) {
-            _updateStatusBarCurFrame(totalFrames + 1);
-        }
-
-        // All the frames were deleted, display "No frames" message
-    } else {
-        frameReelMsg.classList.remove("hidden");
-        frameReelTable.classList.add("hidden");
-        switchMode(CaptureWindow);
-
-      // Clear the onion skin window
-      onionSkinWindow.removeAttribute("src");
+    // Update frame preview selection
+    if (curSelectedFrame) {
+      _removeFrameReelSelection();
+      _addFrameReelSelection(id - 1);
+      _updateStatusBarCurFrame(id - 1);
+    } else if (PreviewArea.curWindow === CaptureWindow) {
+      _updateStatusBarCurFrame(totalFrames + 1);
     }
+
+    // All the frames were deleted, display "No frames" message
+  } else {
+    frameReelMsg.classList.remove("hidden");
+    frameReelTable.classList.add("hidden");
+    switchMode(CaptureWindow);
+
+    // Clear the onion skin window
+    onionSkinWindow.removeAttribute("src");
+  }
 }
 
 /**
@@ -458,18 +458,18 @@ function switchToLiveView() {
  * @param {Number} id The frame ID to delete.
  */
 function deleteFrame(id) {
-    "use strict";
-    file.delete(exportedFramesList[id - 1], {
-        success: function() {
-            notification.success("File successfully deleted.");
-        }
-    });
+  "use strict";
+  file.delete(exportedFramesList[id - 1], {
+    success: function () {
+      notification.success("File successfully deleted.");
+    }
+  });
 
-    exportedFramesList.splice(id - 1, 1);
-    capturedFrames.splice(id - 1, 1);
-    totalFrames--;
-    updateFrameReel("delete", id);
-    console.info(`Total frames captured: ${totalFrames}`);
+  exportedFramesList.splice(id - 1, 1);
+  capturedFrames.splice(id - 1, 1);
+  totalFrames--;
+  updateFrameReel("delete", id);
+  console.info(`Total frames captured: ${totalFrames}`);
 }
 
 /**
@@ -494,13 +494,13 @@ function takeFrame() {
  * Delete the previously taken frame.
  */
 function undoFrame() {
-    "use strict";
-    // Make sure there is a frame to delete
-    if (totalFrames > 0) {
-      confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
-    } else {
-      notification.error("There is no previous frame to undo!");
-    }
+  "use strict";
+  // Make sure there is a frame to delete
+  if (totalFrames > 0) {
+    confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
+  } else {
+    notification.error("There is no previous frame to undo!");
+  }
 }
 
 /**
@@ -516,57 +516,57 @@ function audio(file) {
 }
 
 function _captureFrame() {
-    "use strict";
-    if (PreviewArea.curWindow === PlaybackWindow) {
-        switchMode(CaptureWindow);
-    }
+  "use strict";
+  if (PreviewArea.curWindow === PlaybackWindow) {
+    switchMode(CaptureWindow);
+  }
 
-    // Take a picture
-    if (streaming) {
-        // Draw the image on the canvas
-        playback.width  = preview.videoWidth;
-        playback.height = preview.videoHeight;
-        context.drawImage(preview, 0, 0, preview.videoWidth, preview.videoHeight);
+  // Take a picture
+  if (streaming) {
+    // Draw the image on the canvas
+    playback.width = preview.videoWidth;
+    playback.height = preview.videoHeight;
+    context.drawImage(preview, 0, 0, preview.videoWidth, preview.videoHeight);
 
-        // Convert the frame to a PNG
-        var frame = new Image();
-        frame.src = playback.toDataURL("image/png");
+    // Convert the frame to a PNG
+    var frame = new Image();
+    frame.src = playback.toDataURL("image/png");
 
-        // Store the image data and update the current frame
-        capturedFrames.push(frame);
-        totalFrames++;
-        console.info(`Captured frame: ${frame.src.slice(100, 120)}`);
-        console.info(`Total frames captured: ${totalFrames}`);
+    // Store the image data and update the current frame
+    capturedFrames.push(frame);
+    totalFrames++;
+    console.info(`Captured frame: ${frame.src.slice(100, 120)}`);
+    console.info(`Total frames captured: ${totalFrames}`);
 
-        // Save the frame to disk and update the frame reel
-        saveFrame(totalFrames);
-        updateFrameReel("capture", totalFrames);
+    // Save the frame to disk and update the frame reel
+    saveFrame(totalFrames);
+    updateFrameReel("capture", totalFrames);
 
-        // Scroll the frame reel to the end
-        frameReelArea.scrollLeft = frameReelArea.scrollWidth;
+    // Scroll the frame reel to the end
+    frameReelArea.scrollLeft = frameReelArea.scrollWidth;
 
-        // Play a camera sound
-        audio(captureAudio);
-    }
+    // Play a camera sound
+    audio(captureAudio);
+  }
 }
 
 /**
  * Toggle captured frames preview looping.
  */
 function _toggleVideoLoop() {
-    "use strict";
-    // Disable looping
-    if (isLooping) {
-        isLooping = false;
-        btnLoop.children[0].classList.remove("active");
+  "use strict";
+  // Disable looping
+  if (isLooping) {
+    isLooping = false;
+    btnLoop.children[0].classList.remove("active");
 
-        // Enable looping
-    } else {
-        isLooping = true;
-        btnLoop.children[0].classList.add("active");
-    }
+    // Enable looping
+  } else {
+    isLooping = true;
+    btnLoop.children[0].classList.add("active");
+  }
 
-    console.info(`Loop playback: ${isLooping}`);
+  console.info(`Loop playback: ${isLooping}`);
 }
 
 /**
@@ -624,7 +624,7 @@ function _displayFrame(id) {
  */
 function _videoPlay() {
   "use strict";
-  playBackTimeout = setTimeout(function() {
+  playBackTimeout = setTimeout(function () {
     playBackRAF = requestAnimationFrame(_videoPlay);
 
     // There are no more frames to preview
@@ -656,35 +656,35 @@ function _videoPlay() {
  * Preview the captured frames.
  */
 function previewCapturedFrames() {
-    "use strict";
-    // Display playback window
-    switchMode(PlaybackWindow);
+  "use strict";
+  // Display playback window
+  switchMode(PlaybackWindow);
 
-    // Update the play/pause button
-    btnPlayPause.children[0].classList.remove("fa-play");
-    btnPlayPause.children[0].classList.add("fa-pause");
+  // Update the play/pause button
+  btnPlayPause.children[0].classList.remove("fa-play");
+  btnPlayPause.children[0].classList.add("fa-pause");
 
-    // Begin playing the frames
-    console.info("Playback started");
-    isPlaying = true;
-    _videoPlay();
+  // Begin playing the frames
+  console.info("Playback started");
+  isPlaying = true;
+  _videoPlay();
 }
 
 /**
  * Scroll the framereel during playback
  */
 function _frameReelScroll() {
-    "use strict";
-    if (curPlayFrame === 0) {
-        // Scroll to start when playback begins
-        frameReelArea.scrollLeft = 0;
-    } else if (curPlayFrame + 1 !== totalFrames) {
-        // Scroll so currently played frame is in view
-        document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).parentNode.scrollIntoView();
-    } else {
-        // Scroll to end when playback has stopped
-        frameReelArea.scrollLeft = frameReelArea.scrollWidth;
-    }
+  "use strict";
+  if (curPlayFrame === 0) {
+    // Scroll to start when playback begins
+    frameReelArea.scrollLeft = 0;
+  } else if (curPlayFrame + 1 !== totalFrames) {
+    // Scroll so currently played frame is in view
+    document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).parentNode.scrollIntoView();
+  } else {
+    // Scroll to end when playback has stopped
+    frameReelArea.scrollLeft = frameReelArea.scrollWidth;
+  }
 }
 
 /**
@@ -738,8 +738,8 @@ function _displaySaveDirectory(dir) {
 */
 function decodeBase64Image(dataString) {
   "use strict";
-  var matches  = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-      response = {};
+  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+    response = {};
 
   if (matches.length !== 3) {
     return new Error("Invalid input string");
@@ -773,7 +773,7 @@ function saveFrame(id) {
   else if (id >= 10) {
     fileName = `frame_00${id}`;
 
-  // Less then 10 frames have been captured
+    // Less then 10 frames have been captured
   } else {
     fileName = `frame_000${id}`;
   }
@@ -799,52 +799,52 @@ function saveFrame(id) {
  * @param {String} msg Message to display in confirm dialogue.
  */
 function confirmSet(callback, args, msg) {
-    "use strict";
-    confirmText.innerHTML = msg;
-    confirmContainer.classList.remove("hidden");
-    btnConfirmOK.focus();
+  "use strict";
+  confirmText.innerHTML = msg;
+  confirmContainer.classList.remove("hidden");
+  btnConfirmOK.focus();
 
-    shortcuts.remove("main");
-    shortcuts.add("confirm");
+  shortcuts.remove("main");
+  shortcuts.add("confirm");
 
-    // Disable menubar items
+  // Disable menubar items
+  menubar.toggleItems();
+
+  function _ok() {
+    callback(args);
+    _confirmSelect();
+  }
+
+  function _cancel() {
+    _confirmSelect();
+  }
+
+  function _confirmSelect() {
+    confirmContainer.classList.add("hidden");
+
+    btnConfirmOK.removeEventListener("click", _ok);
+    btnConfirmCancel.removeEventListener("click", _cancel);
+
+    btnConfirmOK.removeEventListener("blur", _focusCancel);
+    btnConfirmCancel.removeEventListener("blur", _focusOK);
+
+    shortcuts.remove("confirm");
+    shortcuts.add("main");
     menubar.toggleItems();
+  }
 
-    function _ok() {
-        callback(args);
-        _confirmSelect();
-    }
+  // Respond to button clicks
+  btnConfirmOK.addEventListener("click", _ok);
+  btnConfirmCancel.addEventListener("click", _cancel);
 
-    function _cancel() {
-        _confirmSelect();
-    }
+  function _focusOK() {
+    btnConfirmOK.focus();
+  }
 
-    function _confirmSelect() {
-        confirmContainer.classList.add("hidden");
+  function _focusCancel() {
+    btnConfirmCancel.focus();
+  }
 
-        btnConfirmOK.removeEventListener("click", _ok);
-        btnConfirmCancel.removeEventListener("click", _cancel);
-
-        btnConfirmOK.removeEventListener("blur", _focusCancel);
-        btnConfirmCancel.removeEventListener("blur", _focusOK);
-
-        shortcuts.remove("confirm");
-        shortcuts.add("main");
-        menubar.toggleItems();
-    }
-
-    // Respond to button clicks
-    btnConfirmOK.addEventListener("click", _ok);
-    btnConfirmCancel.addEventListener("click", _cancel);
-
-    function _focusOK() {
-        btnConfirmOK.focus();
-    }
-
-    function _focusCancel() {
-        btnConfirmCancel.focus();
-    }
-
-    btnConfirmOK.addEventListener("blur", _focusCancel);
-    btnConfirmCancel.addEventListener("blur", _focusOK);
+  btnConfirmOK.addEventListener("blur", _focusCancel);
+  btnConfirmCancel.addEventListener("blur", _focusOK);
 }
