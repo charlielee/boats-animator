@@ -5,7 +5,7 @@ A free stop motion animation program created using HTML5, JavaScript and WebRTC 
   * **Official homepage:** <http://charlielee.uk/boats-animator>
   * **Documentation:** <http://boatsanimator.readthedocs.io>
 
-![Screenshot of Boats Animator v0.8.0](https://i.imgur.com/g5N1kt9.png)
+![Screenshot of Boats Animator v0.8.0](https://i.imgur.com/Bbzb56T.png)
 
 ## Download
 
