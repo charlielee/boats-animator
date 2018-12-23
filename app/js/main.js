@@ -517,6 +517,10 @@ function audio(file) {
 
 function _captureFrame() {
   "use strict";
+
+  // Stop playback
+  videoStop();
+
   if (PreviewArea.curWindow === PlaybackWindow) {
     switchMode(CaptureWindow);
   }
