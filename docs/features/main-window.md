@@ -1,6 +1,8 @@
 # Main window
 ![Main window](../img/main-window.png)
 
+[TOC]
+
 ## Menu bar
 ![Menu bar](../img/menu-bar.png)
 
