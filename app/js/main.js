@@ -82,6 +82,7 @@ var streaming = false,
   notification = require("./js/notification"),
   saveDirectory = require("./js/savedirectory"),
   menubar = require("./js/menubar"),
+  directory = require("./js/directory"),
 
   // Sidebar
   dirChooseDialog = document.querySelector("#chooseDirectory"),
@@ -169,6 +170,11 @@ function startup() {
     // Load top menu
     menubar.load();
   });
+
+  // Load all existing frames in this directory
+  let existingFrames = directory.getDirectoryContents(path);
+  totalFrames = existingFrames.total;
+  capturedFrames = existingFrames.files;
 
   // Initialises the preview window
   preview.addEventListener("canplay", function () {
