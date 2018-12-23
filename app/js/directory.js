@@ -14,7 +14,7 @@ module.exports = {};
     // Get all the images in the directory,
     // filtering out image-related files and all directories
     dirInfo = dirInfo.filter(function(file) {
-      return !FILTERED_FILES.includes(file.name) && !file.isDirectory();
+      return !FILTERED_FILES.includes(file.name) && file.isFile();
     });
 
     // Get absolute paths to each file
