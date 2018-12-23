@@ -419,7 +419,6 @@ function updateFrameReel(action, id) {
 
     // Update onion skin frame
     onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
-    context.drawImage(capturedFrames[onionSkinFrame], 0, 0, preview.videoWidth, preview.videoHeight);
 
     // Update frame preview selection
     if (curSelectedFrame) {
@@ -663,6 +662,9 @@ function previewCapturedFrames() {
   "use strict";
   // Display playback window
   switchMode(PlaybackWindow);
+
+  // Reset canvas to first frame
+  context.drawImage(capturedFrames[0], 0, 0, preview.videoWidth, preview.videoHeight);
 
   // Update the play/pause button
   btnPlayPause.children[0].classList.remove("fa-play");
