@@ -1,5 +1,5 @@
 # Main window
-![Main window](../img/main-window.svg)
+![Main window](../img/main-window.png)
 
 ## Menu bar
 ![Menu bar](../img/menu-bar.png)
@@ -65,6 +65,11 @@ This is an indicator of what is currently being displayed in the preview area. W
 
 This is the frame rate that will be used to playback frames. The playback frame rate can be adjusted using the [frame rate adjuster](#frame-rate-adjuster).
 
+### Current resolution
+`0000x0000` or `No camera selected`
+
+This is the current capture resolution that has been selected. `No camera selected` is displayed when a capture device is yet to be selected in the sidebar.
+
 ### Current mode
 `x mode`
 
@@ -127,7 +132,22 @@ This is used to set the number of frames per second to be displayed during playb
 
 The sidebar contains options that are generally not changed very often during animating.
 
-### Change directory
+### Capture
+
+#### Camera source
+This is used to select the device to capture frames with. The list will automatically update if a device is plugged in or unplugged.
+
+!!! note "Note"
+    Please note that Boats Animator currently only supports webcams and other similar USB devices. D-SLR support is not expected anytime soon.
+
+#### Image resolution
+This is used to select the resolution to capture frames at. The list is updated when the **camera source** is changed, to only show resolutions that are supported by the given device.
+
+If you select a resolution, switch to a different device, and switch back again, the last resolution selected will be remembered.
+
+### Export
+
+#### Change directory
 Select this to change the folder Boats Animator exports captured frames to.
 
 !!! warning "Warning"
