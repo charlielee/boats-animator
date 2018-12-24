@@ -82,6 +82,7 @@ var streaming = false,
   notification = require("./js/notification"),
   saveDirectory = require("./js/savedirectory"),
   menubar = require("./js/menubar"),
+  swal = require("./lib/sweetalert"),
 
   // Sidebar
   dirChooseDialog = document.querySelector("#chooseDirectory"),

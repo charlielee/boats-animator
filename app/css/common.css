@@ -10,6 +10,7 @@
    4. Sidebar
    5. Footer
    6. Scrollbars
+   7. Alerts
 */
 
 /* 1. Global
@@ -195,3 +196,9 @@ footer li:not(.no-pipe)::after {
 ::-webkit-scrollbar-thumb:hover { background-color: #5C5858; }
 
 ::-webkit-scrollbar-thumb:active { background-color: #827E7E; }
+
+/* 7. Alerts
+   -------------------------------- */
+
+/* Fix blue outline around SweetAlert modals */
+.swal-overlay { outline: none; }
