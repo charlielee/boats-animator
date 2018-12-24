@@ -663,8 +663,10 @@ function previewCapturedFrames() {
   // Display playback window
   switchMode(PlaybackWindow);
 
-  // Reset canvas to first frame
-  context.drawImage(capturedFrames[0], 0, 0, preview.videoWidth, preview.videoHeight);
+  // Reset canvas to first frame if playing from start
+  if (curPlayFrame == 0) {
+    context.drawImage(capturedFrames[0], 0, 0, preview.videoWidth, preview.videoHeight);
+  }
 
   // Update the play/pause button
   btnPlayPause.children[0].classList.remove("fa-play");
