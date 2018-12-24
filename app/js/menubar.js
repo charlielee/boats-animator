@@ -39,7 +39,14 @@ module.exports = {};
         {
           label: "Main Menu",
           click: function () {
-            confirmSet(openIndex, "", "Returning to the menu will cause any unsaved work to be lost!");
+            shortcuts.pause();
+            confirmSet({text: "Returning to the menu will cause any unsaved work to be lost!"})
+            .then((response) => {
+              if (response) {
+                openIndex();
+              }
+              shortcuts.resume();
+            });
           },
           key: "w",
           modifiers: controlKey,
@@ -48,7 +55,14 @@ module.exports = {};
         {
           label: "Exit",
           click: function () {
-            confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+            shortcuts.pause();
+            confirmSet({text: "Are you sure you want to exit Boats Animator?"})
+            .then((response) => {
+              if (response) {
+                closeAnimator();
+              }
+              shortcuts.resume();
+            });
           },
           key: "q",
           modifiers: controlKey,
