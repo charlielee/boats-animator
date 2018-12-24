@@ -125,7 +125,12 @@ function openAbout() {
  */
 win.on("close", function () {
   "use strict";
-  confirmSet(closeAnimator, "", "Are you sure you want to exit Boats Animator?");
+  confirmSet({text: "Are you sure you want to exit Boats Animator?"})
+  .then((response) => {
+    if (response) {
+      closeAnimator();
+    }
+  });
 });
 
 function closeAnimator() {
@@ -497,7 +502,13 @@ function undoFrame() {
   "use strict";
   // Make sure there is a frame to delete
   if (totalFrames > 0) {
-    confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
+    // Display warning alert to confirm deletion
+    confirmSet({text: "Are you sure you want to delete the last frame captured?"})
+    .then((response) => {
+      if (response) {
+        deleteFrame(totalFrames);
+      }
+    });
   } else {
     notification.error("There is no previous frame to undo!");
   }
@@ -801,59 +812,94 @@ function saveFrame(id) {
 }
 
 /**
+ * Creates a dialogue box
+ * @param {Object} swalArgs The SweetAlert arguments to use.
+ * @returns {Promise} Returns a Promise with the outcome of the dialogue.
+ *                    Resolves true if confirm was selected and null if the alert was dismissed.
+ */
+function confirmSet(swalArgs) {
+  // Set default SweetAlert argument values
+  swalArgs.title = ("title" in swalArgs) ? swalArgs.title : "Confirm";
+  swalArgs.text = ("text" in swalArgs) ? swalArgs.text : "Are you sure?";
+  swalArgs.icon = ("icon" in swalArgs) ? swalArgs.icon : "warning";
+  swalArgs.buttons = ("buttons" in swalArgs) ? swalArgs.buttons : true;
+  swalArgs.dangerMode = ("dangerMode" in swalArgs) ? dangerMode.buttons : true;
+
+  // Pause main shortcuts and menubar items
+  shortcuts.remove("main");
+  shortcuts.add("confirm");
+  menubar.toggleItems();
+
+  return new Promise(function(resolve, reject) {
+    // Create a SweetAlert dialogue with the selected arguments
+    swal(swalArgs)
+    .then((response) => {
+      // Resume main shortcuts and menubar items
+      shortcuts.remove("confirm");
+      shortcuts.add("main");
+      menubar.toggleItems();
+
+      // Resolve the promise
+      resolve(response);
+    });
+  });
+}
+
+/**
  * Confirm the action to be performed.
  *
  * @param {Function} callback The function to run on "OK" being pressed.
  * @param {*} args Arguments of function to run.
  * @param {String} msg Message to display in confirm dialogue.
  */
-function confirmSet(callback, args, msg) {
-  "use strict";
-  confirmText.innerHTML = msg;
-  confirmContainer.classList.remove("hidden");
-  btnConfirmOK.focus();
+// function confirmSet(callback, args, msg) {
+//   "use strict";
+  
+//   confirmText.innerHTML = msg;
+//   confirmContainer.classList.remove("hidden");
+//   btnConfirmOK.focus();
 
-  shortcuts.remove("main");
-  shortcuts.add("confirm");
+//   shortcuts.remove("main");
+//   shortcuts.add("confirm");
 
-  // Disable menubar items
-  menubar.toggleItems();
+//   // Disable menubar items
+//   menubar.toggleItems();
 
-  function _ok() {
-    callback(args);
-    _confirmSelect();
-  }
+//   function _ok() {
+//     callback(args);
+//     _confirmSelect();
+//   }
 
-  function _cancel() {
-    _confirmSelect();
-  }
+//   function _cancel() {
+//     _confirmSelect();
+//   }
 
-  function _confirmSelect() {
-    confirmContainer.classList.add("hidden");
+//   function _confirmSelect() {
+//     confirmContainer.classList.add("hidden");
 
-    btnConfirmOK.removeEventListener("click", _ok);
-    btnConfirmCancel.removeEventListener("click", _cancel);
+//     btnConfirmOK.removeEventListener("click", _ok);
+//     btnConfirmCancel.removeEventListener("click", _cancel);
 
-    btnConfirmOK.removeEventListener("blur", _focusCancel);
-    btnConfirmCancel.removeEventListener("blur", _focusOK);
+//     btnConfirmOK.removeEventListener("blur", _focusCancel);
+//     btnConfirmCancel.removeEventListener("blur", _focusOK);
 
-    shortcuts.remove("confirm");
-    shortcuts.add("main");
-    menubar.toggleItems();
-  }
+//     shortcuts.remove("confirm");
+//     shortcuts.add("main");
+//     menubar.toggleItems();
+//   }
 
-  // Respond to button clicks
-  btnConfirmOK.addEventListener("click", _ok);
-  btnConfirmCancel.addEventListener("click", _cancel);
+//   // Respond to button clicks
+//   btnConfirmOK.addEventListener("click", _ok);
+//   btnConfirmCancel.addEventListener("click", _cancel);
 
-  function _focusOK() {
-    btnConfirmOK.focus();
-  }
+//   function _focusOK() {
+//     btnConfirmOK.focus();
+//   }
 
-  function _focusCancel() {
-    btnConfirmCancel.focus();
-  }
+//   function _focusCancel() {
+//     btnConfirmCancel.focus();
+//   }
 
-  btnConfirmOK.addEventListener("blur", _focusCancel);
-  btnConfirmCancel.addEventListener("blur", _focusOK);
-}
+//   btnConfirmOK.addEventListener("blur", _focusCancel);
+//   btnConfirmCancel.addEventListener("blur", _focusOK);
+// }
