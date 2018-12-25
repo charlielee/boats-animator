@@ -818,6 +818,7 @@ function saveFrame(id) {
  *                    Resolves true if confirm was selected and null if the alert was dismissed.
  */
 function confirmSet(swalArgs) {
+  "use strict";
   // Set default SweetAlert argument values
   swalArgs.title = ("title" in swalArgs) ? swalArgs.title : "Confirm";
   swalArgs.text = ("text" in swalArgs) ? swalArgs.text : "Are you sure?";
