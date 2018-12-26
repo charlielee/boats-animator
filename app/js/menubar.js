@@ -39,7 +39,12 @@ module.exports = {};
         {
           label: "Main Menu",
           click: function () {
-            confirmSet(openIndex, "", "Returning to the menu will cause any unsaved work to be lost!");
+            confirmSet({text: "Returning to the menu will cause any unsaved work to be lost!"})
+            .then((response) => {
+              if (response) {
+                openIndex();
+              }
+            });
           },
           key: "w",
           modifiers: controlKey,
@@ -48,7 +53,12 @@ module.exports = {};
         {
           label: "Exit",
           click: function () {
-            confirmSet(closeAnimator, "", "Are you sure you to exit Boats Animator?");
+            confirmSet({text: "Are you sure you want to exit Boats Animator?"})
+            .then((response) => {
+              if (response) {
+                closeAnimator();
+              }
+            });
           },
           key: "q",
           modifiers: controlKey,
