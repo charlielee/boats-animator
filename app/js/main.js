@@ -70,12 +70,6 @@ var streaming = false,
   frameReelTable = document.querySelector("#area-frame-reel table"),
   liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
-  // Confirm messages
-  confirmContainer = document.querySelector("#confirm-container"),
-  confirmText = document.querySelector("#confirm-text"),
-  btnConfirmOK = document.querySelector("#confirm-container #btn-OK"),
-  btnConfirmCancel = document.querySelector("#confirm-container #btn-cancel"),
-
   // Node modules
   file = require("./js/file"),
   shortcuts = require("./js/shortcuts"),
@@ -824,7 +818,6 @@ function confirmSet(swalArgs) {
   swalArgs.text = ("text" in swalArgs) ? swalArgs.text : "Are you sure?";
   swalArgs.icon = ("icon" in swalArgs) ? swalArgs.icon : "warning";
   swalArgs.buttons = ("buttons" in swalArgs) ? swalArgs.buttons : true;
-  swalArgs.dangerMode = ("dangerMode" in swalArgs) ? dangerMode.buttons : true;
 
   // Pause main shortcuts and menubar items
   shortcuts.remove("main");
@@ -845,62 +838,3 @@ function confirmSet(swalArgs) {
     });
   });
 }
-
-/**
- * Confirm the action to be performed.
- *
- * @param {Function} callback The function to run on "OK" being pressed.
- * @param {*} args Arguments of function to run.
- * @param {String} msg Message to display in confirm dialogue.
- */
-// function confirmSet(callback, args, msg) {
-//   "use strict";
-  
-//   confirmText.innerHTML = msg;
-//   confirmContainer.classList.remove("hidden");
-//   btnConfirmOK.focus();
-
-//   shortcuts.remove("main");
-//   shortcuts.add("confirm");
-
-//   // Disable menubar items
-//   menubar.toggleItems();
-
-//   function _ok() {
-//     callback(args);
-//     _confirmSelect();
-//   }
-
-//   function _cancel() {
-//     _confirmSelect();
-//   }
-
-//   function _confirmSelect() {
-//     confirmContainer.classList.add("hidden");
-
-//     btnConfirmOK.removeEventListener("click", _ok);
-//     btnConfirmCancel.removeEventListener("click", _cancel);
-
-//     btnConfirmOK.removeEventListener("blur", _focusCancel);
-//     btnConfirmCancel.removeEventListener("blur", _focusOK);
-
-//     shortcuts.remove("confirm");
-//     shortcuts.add("main");
-//     menubar.toggleItems();
-//   }
-
-//   // Respond to button clicks
-//   btnConfirmOK.addEventListener("click", _ok);
-//   btnConfirmCancel.addEventListener("click", _cancel);
-
-//   function _focusOK() {
-//     btnConfirmOK.focus();
-//   }
-
-//   function _focusCancel() {
-//     btnConfirmCancel.focus();
-//   }
-
-//   btnConfirmOK.addEventListener("blur", _focusCancel);
-//   btnConfirmCancel.addEventListener("blur", _focusOK);
-// }
