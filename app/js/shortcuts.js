@@ -47,6 +47,10 @@ module.exports = {};
         // Features in confirm prompts.
         confirm: {
           enter: function() {
+            // Confirm messages
+            var btnConfirmOK = document.querySelector(".swal-button--confirm");
+            var btnConfirmCancel = document.querySelector(".swal-button--cancel");
+
             if (document.activeElement === btnConfirmOK) {
               btnConfirmOK.click();
             } else if (document.activeElement === btnConfirmCancel) {
@@ -54,6 +58,7 @@ module.exports = {};
             }
           },
           cancel: function() {
+            var btnConfirmCancel = document.querySelector(".swal-button--cancel");
             btnConfirmCancel.click();
           }
         }
