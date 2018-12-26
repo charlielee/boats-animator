@@ -23,6 +23,6 @@ fs.exists("app/lib", function(exists) {
   });
   // SweetAlert
   fs.copy("node_modules/sweetalert/dist/sweetalert.min.js", "app/lib/sweetalert.js", { replace: true }, function (err) {
-    console.log(err ? err : "Copied mousetrap-pause.min.js to 'app/lib/mousetrap-pause.js'");
+    console.log(err ? err : "Copied sweetalert.min.js to 'app/lib/sweetalert.js'");
   });
 });
