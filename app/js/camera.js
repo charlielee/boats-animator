@@ -36,7 +36,6 @@ module.exports = {};
     this.name = name;
     this.curResolution = null;
     this.resolutions = resolutions;
-    this.responsive = null;
   }
 
   /** Instance methods */
@@ -65,6 +64,8 @@ module.exports = {};
      */
     updateResolution: function (index) {
       this.curResolution = index;
+      // Update curResolution in localStorage
+      Camera.setStoredCams();
       return getCamera(this, this.resolutions[index])
     }
   }
@@ -100,6 +101,33 @@ module.exports = {};
   }
 
   /**
+   * Update localStorage with the contents of camera.list
+   */
+  Camera.setStoredCams = function() {
+    localStorage.setItem("ba-stored-cams", JSON.stringify(Camera.list));
+  }
+
+  /**
+   * Populate Camera.list with the contents of the localStorage list of cameras
+   */
+  Camera.getStoredCams = function() {
+    let storedCams = JSON.parse(localStorage.getItem("ba-stored-cams"));
+    // Check there is a camera list object from a previous session
+    if (storedCams) {
+      for (var cam in storedCams) {
+        // Retrieve each cam found
+        var curCamJSON = storedCams[cam];
+        var curCam = new Camera(curCamJSON["id"], curCamJSON["name"]);
+        curCam.curResolution = curCamJSON["curResolution"];
+        curCam.resolutions = curCamJSON["resolutions"];
+
+        // Add to Camera.list
+        Camera.list[curCamJSON["id"]] = curCam;
+      }
+    }
+  }
+
+  /**
    * Create menu selection options for each resolution in supported
    * @param {MediaTrackConstraints[]} supported - an array of MediaTrackConstraints defining
    *                                              each resolution supported by the camera.
@@ -124,6 +152,9 @@ module.exports = {};
       var index = (curCam.curResolution ? curCam.curResolution : qResoluSelect.options.length - 1);
       qResoluSelect.options[index].selected = true;
 
+      // Update localStorage
+      Camera.setStoredCams();
+
       // Get video feed with updated resolution
       var feed = curCam.updateResolution(index);
       // Display this feed in the preview area
@@ -140,6 +171,7 @@ module.exports = {};
    * Get the available cameras and updates the camera list.
    */
   Camera.enumerateDevices = function () {
+    Camera.getStoredCams();
     navigator.mediaDevices.enumerateDevices()
     .then(_findVideoSources)
     .catch(function (error) {
@@ -196,6 +228,8 @@ module.exports = {};
         const cam = new Camera(source.deviceId, cameraName);
         Camera.list[source.deviceId] = cam;
         notification.success(`Detected ${cam.name}`);
+        // Update localStorage list
+        Camera.setStoredCams();
       }
 
       // Check if device is the current camera
