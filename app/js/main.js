@@ -70,18 +70,13 @@ var streaming = false,
   frameReelTable = document.querySelector("#area-frame-reel table"),
   liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
-  // Confirm messages
-  confirmContainer = document.querySelector("#confirm-container"),
-  confirmText = document.querySelector("#confirm-text"),
-  btnConfirmOK = document.querySelector("#confirm-container #btn-OK"),
-  btnConfirmCancel = document.querySelector("#confirm-container #btn-cancel"),
-
   // Node modules
   file = require("./js/file"),
   shortcuts = require("./js/shortcuts"),
   notification = require("./js/notification"),
   saveDirectory = require("./js/savedirectory"),
   menubar = require("./js/menubar"),
+  swal = require("./lib/sweetalert"),
 
   // Sidebar
   dirChooseDialog = document.querySelector("#chooseDirectory"),
@@ -124,7 +119,12 @@ function openAbout() {
  */
 win.on("close", function () {
   "use strict";
-  confirmSet(closeAnimator, "", "Are you sure you want to exit Boats Animator?");
+  confirmSet({text: "Are you sure you want to exit Boats Animator?"})
+  .then((response) => {
+    if (response) {
+      closeAnimator();
+    }
+  });
 });
 
 function closeAnimator() {
@@ -496,7 +496,13 @@ function undoFrame() {
   "use strict";
   // Make sure there is a frame to delete
   if (totalFrames > 0) {
-    confirmSet(deleteFrame, totalFrames, "Are you sure you want to delete the last frame captured?");
+    // Display warning alert to confirm deletion
+    confirmSet({text: "Are you sure you want to delete the last frame captured?"})
+    .then((response) => {
+      if (response) {
+        deleteFrame(totalFrames);
+      }
+    });
   } else {
     notification.error("There is no previous frame to undo!");
   }
@@ -800,59 +806,35 @@ function saveFrame(id) {
 }
 
 /**
- * Confirm the action to be performed.
- *
- * @param {Function} callback The function to run on "OK" being pressed.
- * @param {*} args Arguments of function to run.
- * @param {String} msg Message to display in confirm dialogue.
+ * Creates a dialogue box
+ * @param {Object} swalArgs The SweetAlert arguments to use.
+ * @returns {Promise} Returns a Promise with the outcome of the dialogue.
+ *                    Resolves true if confirm was selected and null if the alert was dismissed.
  */
-function confirmSet(callback, args, msg) {
+function confirmSet(swalArgs) {
   "use strict";
-  confirmText.innerHTML = msg;
-  confirmContainer.classList.remove("hidden");
-  btnConfirmOK.focus();
+  // Set default SweetAlert argument values
+  swalArgs.title = swalArgs.title ? swalArgs.title : "Confirm";
+  swalArgs.text = swalArgs.text ? swalArgs.text : "Are you sure?";
+  swalArgs.icon = swalArgs.icon ? swalArgs.icon : "warning";
+  swalArgs.buttons = swalArgs.button ? swalArgs.buttons : true;
 
+  // Pause main shortcuts and menubar items
   shortcuts.remove("main");
   shortcuts.add("confirm");
-
-  // Disable menubar items
   menubar.toggleItems();
 
-  function _ok() {
-    callback(args);
-    _confirmSelect();
-  }
+  return new Promise(function(resolve, reject) {
+    // Create a SweetAlert dialogue with the selected arguments
+    swal(swalArgs)
+    .then((response) => {
+      // Resume main shortcuts and menubar items
+      shortcuts.remove("confirm");
+      shortcuts.add("main");
+      menubar.toggleItems();
 
-  function _cancel() {
-    _confirmSelect();
-  }
-
-  function _confirmSelect() {
-    confirmContainer.classList.add("hidden");
-
-    btnConfirmOK.removeEventListener("click", _ok);
-    btnConfirmCancel.removeEventListener("click", _cancel);
-
-    btnConfirmOK.removeEventListener("blur", _focusCancel);
-    btnConfirmCancel.removeEventListener("blur", _focusOK);
-
-    shortcuts.remove("confirm");
-    shortcuts.add("main");
-    menubar.toggleItems();
-  }
-
-  // Respond to button clicks
-  btnConfirmOK.addEventListener("click", _ok);
-  btnConfirmCancel.addEventListener("click", _cancel);
-
-  function _focusOK() {
-    btnConfirmOK.focus();
-  }
-
-  function _focusCancel() {
-    btnConfirmCancel.focus();
-  }
-
-  btnConfirmOK.addEventListener("blur", _focusCancel);
-  btnConfirmCancel.addEventListener("blur", _focusOK);
+      // Resolve the promise
+      resolve(response);
+    });
+  });
 }
