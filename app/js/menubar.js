@@ -39,13 +39,11 @@ module.exports = {};
         {
           label: "Main Menu",
           click: function () {
-            shortcuts.pause();
             confirmSet({text: "Returning to the menu will cause any unsaved work to be lost!"})
             .then((response) => {
               if (response) {
                 openIndex();
               }
-              shortcuts.resume();
             });
           },
           key: "w",
@@ -55,13 +53,11 @@ module.exports = {};
         {
           label: "Exit",
           click: function () {
-            shortcuts.pause();
             confirmSet({text: "Are you sure you want to exit Boats Animator?"})
             .then((response) => {
               if (response) {
                 closeAnimator();
               }
-              shortcuts.resume();
             });
           },
           key: "q",
