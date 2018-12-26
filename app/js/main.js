@@ -814,10 +814,10 @@ function saveFrame(id) {
 function confirmSet(swalArgs) {
   "use strict";
   // Set default SweetAlert argument values
-  swalArgs.title = ("title" in swalArgs) ? swalArgs.title : "Confirm";
-  swalArgs.text = ("text" in swalArgs) ? swalArgs.text : "Are you sure?";
-  swalArgs.icon = ("icon" in swalArgs) ? swalArgs.icon : "warning";
-  swalArgs.buttons = ("buttons" in swalArgs) ? swalArgs.buttons : true;
+  swalArgs.title = swalArgs.title ? swalArgs.title : "Confirm";
+  swalArgs.text = swalArgs.text ? swalArgs.text : "Are you sure?";
+  swalArgs.icon = swalArgs.icon ? swalArgs.icon : "warning";
+  swalArgs.buttons = swalArgs.button ? swalArgs.buttons : true;
 
   // Pause main shortcuts and menubar items
   shortcuts.remove("main");
