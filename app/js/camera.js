@@ -227,7 +227,6 @@ module.exports = {};
       if (!(source.deviceId in Camera.list)) {
         const cam = new Camera(source.deviceId, cameraName);
         Camera.list[source.deviceId] = cam;
-        notification.success(`Detected ${cam.name}`);
         // Update localStorage list
         Camera.setStoredCams();
       }
