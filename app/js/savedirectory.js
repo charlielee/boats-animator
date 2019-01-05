@@ -3,6 +3,7 @@ module.exports = {};
 (function() {
   "use strict";
   const fs                 = require("fs"),
+        glob               = require("glob"),
         mkdirp             = require("../lib/mkdirp"),
         notification       = require("./notification"),
         SAVE_DIRECTORY_KEY = "ba-save-dir";
@@ -15,6 +16,26 @@ module.exports = {};
    */
   function checkDir(dir) {
     return fs.existsSync(dir);
+  }
+
+  /**
+   * Check if the app save directory has any frames, to prevent them being overwritten.
+   *
+   * @param {String} dir - The directory to check.
+   */
+  function checkDirHasNoFrames(dir, cb) {
+    glob("**/frame_*.png", {cwd: dir}, function (err, files) {
+      if (err) {
+        console.error(err);
+      } else {
+        // Display warning if any files matching the glob are found
+        if (files.length > 0) {
+          cb(true);
+        } else {
+          cb(false);
+        }
+      }
+    });
   }
 
   /**
@@ -58,4 +79,5 @@ module.exports = {};
   module.exports.get   = getDir;
   module.exports.make  = makeDir;
   module.exports.check = checkDir;
+  module.exports.checkDirHasNoFrames = checkDirHasNoFrames;
 }());
