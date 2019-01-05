@@ -119,9 +119,9 @@ module.exports = {};
     // Get selected camera
     var curCam = Camera.getSelectedCamera();
 
-    // Default select the last chosen or lowest resolution (ie the last one in the list)
+    // Default select the last chosen or highest resolution (ie the first one in the list)
     try {
-      var index = (curCam.curResolution ? curCam.curResolution : qResoluSelect.options.length - 1);
+      var index = (curCam.curResolution ? curCam.curResolution : 0);
       qResoluSelect.options[index].selected = true;
 
       // Get video feed with updated resolution
