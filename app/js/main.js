@@ -817,7 +817,7 @@ function confirmSet(swalArgs) {
   swalArgs.title = swalArgs.title ? swalArgs.title : "Confirm";
   swalArgs.text = swalArgs.text ? swalArgs.text : "Are you sure?";
   swalArgs.icon = swalArgs.icon ? swalArgs.icon : "warning";
-  swalArgs.buttons = swalArgs.button ? swalArgs.buttons : true;
+  swalArgs.buttons = swalArgs.buttons ? swalArgs.buttons : true;
 
   // Pause main shortcuts and menubar items
   shortcuts.remove("main");
