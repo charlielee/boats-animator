@@ -11,10 +11,10 @@
   },
   "nwjsBuilder": {
     "productName": "Boats Animator",
-    "productVersion": "0.8.0",
+    "productVersion": "0.8.1",
     "copyright": "© 2018 Charlie Lee",
     "companyName": "Boats Animator Developers",
-    "fileVersion": "0.8.0.0",
+    "fileVersion": "0.8.1.0",
     "originalFilename": " "
   },
   "window": {
@@ -40,7 +40,7 @@
     "transparent": false,
     "icon": "icons/icon.png"
   },
-  "version": "0.8.0",
+  "version": "0.8.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/charlielee/boats-animator.git"
