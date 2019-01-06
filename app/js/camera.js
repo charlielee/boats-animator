@@ -79,7 +79,7 @@ module.exports = {};
    */
   Camera.display = function (feed, output) {
     feed.addEventListener("canplay", function () {
-      output.src = feed.src;
+      output.srcObject = feed.srcObject;
     });
   }
 
@@ -161,7 +161,6 @@ module.exports = {};
       Camera.display(feed, document.querySelector("#preview"));
     } catch (err) {
       notification.error(`${curCam.name} could not be loaded!`);
-      document.querySelector("#preview").src = "#";
     } finally {
       previewArea.curWindow.display();
     }
@@ -300,7 +299,7 @@ module.exports = {};
     // Update resolution in status bar
     statusBarCurRes.innerText = curRes;
 
-    videoCapture.src = window.URL.createObjectURL(mediaStream);
+    videoCapture.srcObject = mediaStream;
     videoCapture.play();
 
     curStream = mediaStream;

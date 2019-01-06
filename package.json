@@ -63,7 +63,7 @@
   },
   "scripts": {
     "postinstall": "node install",
-    "start": "nwb nwbuild -v 0.26.6-sdk -r .",
+    "start": "nwb nwbuild -v 0.35.4-sdk -r .",
     "test": "node build -n",
     "build": "node build",
     "build-extras": "node build -e exe"
