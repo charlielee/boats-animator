@@ -60,7 +60,7 @@ module.exports = {};
           curStream = stream;
           videoStream.width = candidate.width;
           videoStream.height = candidate.height;
-          videoStream.src = window.URL.createObjectURL(stream);
+          videoStream.srcObject = stream;
           videoStream.play();
         }
 
