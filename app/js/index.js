@@ -21,10 +21,10 @@
       height: 715,
       min_width: 590,
       min_height: 500,
-      focus: true,
-      icon: "icons/icon.png",
+      icon: "icons/icon.png"
+    }, function(newWin) {
+      win.close();
     });
-    win.close();
   }
 
   // Open the animator
