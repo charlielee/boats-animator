@@ -196,7 +196,6 @@ function startup() {
 
   // Refresh camera list when device changes are detected
   navigator.mediaDevices.addEventListener("devicechange", function (e) {
-    console.log(e);
     Camera.enumerateDevices();
   });
 
