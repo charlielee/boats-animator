@@ -3,7 +3,6 @@ module.exports = {};
 (function() {
   "use strict";
   const fs                 = require("fs"),
-        glob               = require("glob"),
         mkdirp             = require("../lib/mkdirp"),
         notification       = require("./notification"),
         SAVE_DIRECTORY_KEY = "ba-save-dir";
@@ -22,20 +21,20 @@ module.exports = {};
    * Check if the app save directory has any frames, to prevent them being overwritten.
    *
    * @param {String} dir - The directory to check.
+   * @callback Returns true if frames found in the selected directory, otherwise false.
    */
   function checkDirHasNoFrames(dir, cb) {
-    glob("**/frame_*.png", {cwd: dir, nodir: true}, function (err, files) {
-      if (err) {
-        console.error(err);
-      } else {
-        // Display warning if any files matching the glob are found
-        if (files.length > 0) {
-          cb(true);
-        } else {
-          cb(false);
-        }
-      }
-    });
+    var files = fs.readdirSync(dir);
+
+    // Filter files that are frames
+    var regex = /frame(.)+png/i;
+    var filteredFiles = files.filter((fileName) => {return regex.test(fileName)});
+
+    if (filteredFiles.length > 0) {
+      cb(true);
+    } else {
+      cb(false);
+    }
   }
 
   /**
