@@ -11,10 +11,10 @@
   },
   "nwjsBuilder": {
     "productName": "Boats Animator",
-    "productVersion": "0.8.0",
-    "copyright": "© 2018 Charlie Lee",
+    "productVersion": "0.8.1",
+    "copyright": "© 2019 Charlie Lee",
     "companyName": "Boats Animator Developers",
-    "fileVersion": "0.8.0.0",
+    "fileVersion": "0.8.1.0",
     "originalFilename": " "
   },
   "window": {
@@ -40,7 +40,7 @@
     "transparent": false,
     "icon": "icons/icon.png"
   },
-  "version": "0.8.0",
+  "version": "0.8.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/charlielee/boats-animator.git"
@@ -64,7 +64,7 @@
   },
   "scripts": {
     "postinstall": "node install",
-    "start": "nwb nwbuild -v 0.26.6-sdk -r .",
+    "start": "nwb nwbuild -v 0.35.4-sdk -r .",
     "test": "node build -n",
     "build": "node build",
     "build-extras": "node build -e exe"

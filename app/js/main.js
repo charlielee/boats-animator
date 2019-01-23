@@ -93,10 +93,10 @@ function openIndex() {
     height: 450,
     min_width: 730,
     min_height: 450,
-    focus: true,
     icon: "icons/icon.png"
+  }, function(newWin) {
+    win.close(true);
   });
-  win.close(true);
 }
 
 /**
@@ -108,7 +108,6 @@ function openAbout() {
     position: "center",
     width: 650,
     height: 300,
-    focus: true,
     icon: "icons/icon.png",
     resizable: false,
   });
@@ -212,7 +211,6 @@ function startup() {
 
   // Refresh camera list when device changes are detected
   navigator.mediaDevices.addEventListener("devicechange", function (e) {
-    console.log(e);
     Camera.enumerateDevices();
   });
 
