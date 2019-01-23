@@ -36,7 +36,6 @@ module.exports = {};
     this.name = name;
     this.curResolution = null;
     this.resolutions = resolutions;
-    this.responsive = null;
   }
 
   /** Instance methods */
@@ -65,6 +64,8 @@ module.exports = {};
      */
     updateResolution: function (index) {
       this.curResolution = index;
+      // Update curResolution in localStorage
+      Camera.setStoredCams();
       return getCamera(this, this.resolutions[index])
     }
   }
@@ -78,7 +79,7 @@ module.exports = {};
    */
   Camera.display = function (feed, output) {
     feed.addEventListener("canplay", function () {
-      output.src = feed.src;
+      output.srcObject = feed.srcObject;
     });
   }
 
@@ -97,6 +98,33 @@ module.exports = {};
   Camera.getSelectedCamera = function () {
     var camId = qCameraSelect.options[qCameraSelect.options.selectedIndex].value;
     return Camera.list[camId];
+  }
+
+  /**
+   * Update localStorage with the contents of camera.list
+   */
+  Camera.setStoredCams = function() {
+    localStorage.setItem("ba-stored-cams", JSON.stringify(Camera.list));
+  }
+
+  /**
+   * Populate Camera.list with the contents of the localStorage list of cameras
+   */
+  Camera.getStoredCams = function() {
+    let storedCams = JSON.parse(localStorage.getItem("ba-stored-cams"));
+    // Check there is a camera list object from a previous session
+    if (storedCams) {
+      for (var cam in storedCams) {
+        // Retrieve each cam found
+        var curCamJSON = storedCams[cam];
+        var curCam = new Camera(curCamJSON["id"], curCamJSON["name"]);
+        curCam.curResolution = curCamJSON["curResolution"];
+        curCam.resolutions = curCamJSON["resolutions"];
+
+        // Add to Camera.list
+        Camera.list[curCamJSON["id"]] = curCam;
+      }
+    }
   }
 
   /**
@@ -119,10 +147,13 @@ module.exports = {};
     // Get selected camera
     var curCam = Camera.getSelectedCamera();
 
-    // Default select the last chosen or lowest resolution (ie the last one in the list)
+    // Default select the last chosen or highest resolution (ie the first one in the list)
     try {
-      var index = (curCam.curResolution ? curCam.curResolution : qResoluSelect.options.length - 1);
+      var index = (curCam.curResolution ? curCam.curResolution : 0);
       qResoluSelect.options[index].selected = true;
+
+      // Update localStorage
+      Camera.setStoredCams();
 
       // Get video feed with updated resolution
       var feed = curCam.updateResolution(index);
@@ -130,7 +161,6 @@ module.exports = {};
       Camera.display(feed, document.querySelector("#preview"));
     } catch (err) {
       notification.error(`${curCam.name} could not be loaded!`);
-      document.querySelector("#preview").src = "#";
     } finally {
       previewArea.curWindow.display();
     }
@@ -140,6 +170,7 @@ module.exports = {};
    * Get the available cameras and updates the camera list.
    */
   Camera.enumerateDevices = function () {
+    Camera.getStoredCams();
     navigator.mediaDevices.enumerateDevices()
     .then(_findVideoSources)
     .catch(function (error) {
@@ -195,7 +226,8 @@ module.exports = {};
       if (!(source.deviceId in Camera.list)) {
         const cam = new Camera(source.deviceId, cameraName);
         Camera.list[source.deviceId] = cam;
-        notification.success(`Detected ${cam.name}`);
+        // Update localStorage list
+        Camera.setStoredCams();
       }
 
       // Check if device is the current camera
@@ -267,7 +299,7 @@ module.exports = {};
     // Update resolution in status bar
     statusBarCurRes.innerText = curRes;
 
-    videoCapture.src = window.URL.createObjectURL(mediaStream);
+    videoCapture.srcObject = mediaStream;
     videoCapture.play();
 
     curStream = mediaStream;
