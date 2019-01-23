@@ -24,7 +24,7 @@ module.exports = {};
    * @param {String} dir - The directory to check.
    */
   function checkDirHasNoFrames(dir, cb) {
-    glob("**/frame_*.png", {cwd: dir}, function (err, files) {
+    glob("**/frame_*.png", {cwd: dir, nodir: true}, function (err, files) {
       if (err) {
         console.error(err);
       } else {
