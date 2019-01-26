@@ -167,6 +167,22 @@ function startup() {
     shortcuts.add("main");
     // Load top menu
     menubar.load();
+
+    // Check the current save directory is clean
+    saveDirectory.checkDirHasNoFrames(path, function(hasFrames) {
+      if (hasFrames) {
+        confirmSet({
+          title: "Warning",
+          text: "The current save directory already contains captured frames! Please switch save directory or they will be overwritten.",
+          buttons: ["Continue", "Change save directory"]
+        })
+        .then((response) => {
+          if (response) {
+            _changeSaveDirectory();
+          }
+        });
+      }
+    });
   });
 
   // Initialises the preview window
@@ -219,6 +235,19 @@ function startup() {
       saveDirectory.set(this.value);
       saveDirectory.make(this.value);
       _displaySaveDirectory(this.value);
+      saveDirectory.checkDirHasNoFrames(this.value, function(hasFrames) {
+        if (hasFrames) {
+          confirmSet({
+            text: "The current save directory already contains captured frames! Please switch save directory or they will be overwritten.",
+            buttons: ["Continue", "Change save directory"]
+          })
+          .then((response) => {
+            if (response) {
+              _changeSaveDirectory();
+            }
+          });
+        }
+      });
     }
   });
 
