@@ -18,6 +18,26 @@ module.exports = {};
   }
 
   /**
+   * Check if the app save directory has any frames, to prevent them being overwritten.
+   *
+   * @param {String} dir - The directory to check.
+   * @callback Returns true if frames found in the selected directory, otherwise false.
+   */
+  function checkDirHasNoFrames(dir, cb) {
+    var files = fs.readdirSync(dir);
+
+    // Filter files that are frames
+    var regex = /frame(.)+png/i;
+    var filteredFiles = files.filter((fileName) => {return regex.test(fileName)});
+
+    if (filteredFiles.length > 0) {
+      cb(true);
+    } else {
+      cb(false);
+    }
+  }
+
+  /**
    * Set the app save directory.
    *
    * @param {String} dir The directory to save.
@@ -58,4 +78,5 @@ module.exports = {};
   module.exports.get   = getDir;
   module.exports.make  = makeDir;
   module.exports.check = checkDir;
+  module.exports.checkDirHasNoFrames = checkDirHasNoFrames;
 }());
