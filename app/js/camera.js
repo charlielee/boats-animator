@@ -213,7 +213,7 @@ module.exports = {};
       // Get the proper camera name
       let cameraName = `Camera #${i + 1}`;
       if (source.label) {
-        cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
+        cameraName = source.label.split("(")[0];
       }
 
       // Create the menu selection
@@ -224,6 +224,7 @@ module.exports = {};
 
       // Add to camera list if new
       if (!(source.deviceId in Camera.list)) {
+        console.log(cameraName);
         const cam = new Camera(source.deviceId, cameraName);
         Camera.list[source.deviceId] = cam;
         // Update localStorage list
