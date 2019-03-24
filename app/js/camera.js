@@ -6,7 +6,7 @@ module.exports = {};
   // Import modules
   var cameraResolutions = require("./camera-resolutions");
   var notification = require("./notification");
-  var previewArea = require("./previewArea");
+  var previewArea = require("./ui/previewArea");
 
   // The current video stream
   let curStream = null;
