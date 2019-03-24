@@ -8,11 +8,14 @@ var streaming = false,
   context = playback.getContext("2d"),
 
   // NW.js
-  win = nw.Window.get(),
+  win = nw.Window.get();
+
+  // UI
+  var StatusBar = require("./ui/StatusBar/StatusBar");
+  var PreviewArea = require("./ui/PreviewArea/PreviewArea");
 
   // Mode switching
-  PreviewArea = require("./js/ui/previewArea"),
-  btnLiveView = document.querySelector("#btn-live-view"),
+  var btnLiveView = document.querySelector("#btn-live-view"),
   CaptureWindow = new PreviewArea(document.querySelector("#capture-window")),
   PlaybackWindow = new PreviewArea(document.querySelector("#playback-window")),
 
@@ -45,12 +48,6 @@ var streaming = false,
   // Audio
   captureAudio = "audio/camera.wav",
   playAudio = true,
-
-  // Status bar
-  statusBarCurMode = document.querySelector("#current-mode span"),
-  statusBarCurFrame = document.querySelector("#current-frame"),
-  statusBarFrameNum = document.querySelector("#num-of-frames"),
-  statusBarFrameRate = document.querySelector("#current-frame-rate span"),
 
   cameraSelect = document.querySelector("#camera-select-td select"),
   resolutionSelect = document.querySelector("#resolution-select-td select"),
@@ -148,7 +145,7 @@ function startup() {
   }
 
   // Set default frame rate
-  statusBarFrameRate.innerHTML = frameRate;
+  StatusBar.setFrameRate(frameRate);
   inputChangeFR.value = frameRate;
 
   // Set default view
@@ -308,7 +305,7 @@ function startup() {
     } else {
       frameRate = 15;
     }
-    statusBarFrameRate.innerHTML = frameRate;
+    StatusBar.setFrameRate(frameRate);
     if (PreviewArea.curWindow === PlaybackWindow) {
       videoStop();
     }
@@ -356,13 +353,13 @@ function switchMode(NewWindow) {
   NewWindow.display();
 
   if (PreviewArea.curWindow === CaptureWindow) {
-    _updateStatusBarCurFrame(totalFrames + 1);
+    StatusBar.setCurrentFrame(totalFrames + 1);
     btnLiveView.classList.add("selected");
-    statusBarCurMode.innerText = "Capture";
+    StatusBar.setMode("Capture");
 
   } else if (PreviewArea.curWindow === PlaybackWindow) {
     btnLiveView.classList.remove("selected");
-    statusBarCurMode.innerText = "Playback";
+    StatusBar.setMode("Playback");
   }
 
   console.log(`Switched to: ${NewWindow.el.id}`);
@@ -395,15 +392,6 @@ function _addFrameReelSelection(id) {
 }
 
 /**
- * Change the current frame number on the status bar.
- * @param {Integer} id The value to change the frame number to.
- */
-function _updateStatusBarCurFrame(id) {
-  "use strict";
-  statusBarCurFrame.innerHTML = id;
-}
-
-/**
  * Update the frame reel display as needeed.
  *
  * @param {String} action Update the frame reel depending on the
@@ -415,7 +403,7 @@ function updateFrameReel(action, id) {
   "use strict";
   var onionSkinFrame = id - 1;
   // Display number of captured frames in status bar
-  statusBarFrameNum.innerHTML = totalFrames;
+  StatusBar.setTotalFrames(totalFrames);
 
   // Add the newly captured frame
   if (action === "capture") {
@@ -451,9 +439,9 @@ function updateFrameReel(action, id) {
     if (curSelectedFrame) {
       _removeFrameReelSelection();
       _addFrameReelSelection(id - 1);
-      _updateStatusBarCurFrame(id - 1);
+      StatusBar.setCurrentFrame(id - 1);
     } else if (PreviewArea.curWindow === CaptureWindow) {
-      _updateStatusBarCurFrame(totalFrames + 1);
+      StatusBar.setCurrentFrame(totalFrames + 1);
     }
 
     // All the frames were deleted, display "No frames" message
@@ -650,7 +638,7 @@ function _displayFrame(id) {
     _addFrameReelSelection(id);
     curPlayFrame = id - 1;
     context.drawImage(capturedFrames[id - 1], 0, 0, preview.videoWidth, preview.videoHeight);
-    _updateStatusBarCurFrame(id);
+    StatusBar.setCurrentFrame(id);
     _frameReelScroll();
   }
 }
@@ -679,7 +667,7 @@ function _videoPlay() {
     // Display each frame and update the UI accordingly
     _removeFrameReelSelection();
     context.drawImage(capturedFrames[curPlayFrame], 0, 0, preview.videoWidth, preview.videoHeight);
-    _updateStatusBarCurFrame(curPlayFrame + 1);
+    StatusBar.setCurrentFrame(curPlayFrame + 1);
     _addFrameReelSelection(curPlayFrame + 1);
 
     // Scroll the framereel with playback
