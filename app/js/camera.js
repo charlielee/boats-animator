@@ -6,7 +6,8 @@ module.exports = {};
   // Import modules
   var cameraResolutions = require("./camera-resolutions");
   var notification = require("./notification");
-  var previewArea = require("./ui/previewArea");
+  var PreviewArea = require("../ui/PreviewArea/PreviewArea");
+  var StatusBar = require("../ui/StatusBar/StatusBar");
 
   // The current video stream
   let curStream = null;
@@ -14,7 +15,6 @@ module.exports = {};
   // Get the DOM selectors needed
   let qResoluSelect   = document.querySelector("#form-resolution-select"),
       qCameraSelect   = document.querySelector("#camera-select-td select"),
-      statusBarCurRes = document.querySelector("#current-resolution"),
       videoCapture    = document.createElement("video");
 
   /** Class variables */
@@ -47,7 +47,7 @@ module.exports = {};
      */
     showResolutions: function () {
       // Display loading window
-      previewArea.curWindow.showLoading(`Loading ${this.name}`, true);
+      PreviewArea.curWindow.showLoading(`Loading ${this.name}`, true);
       // See if resolutions have already been found
       if (this.resolutions.length > 0) {
         Camera._updateResoluSelect(this.resolutions);
@@ -162,7 +162,7 @@ module.exports = {};
     } catch (err) {
       notification.error(`${curCam.name} could not be loaded!`);
     } finally {
-      previewArea.curWindow.display();
+      PreviewArea.curWindow.display();
     }
   }
 
@@ -298,7 +298,7 @@ module.exports = {};
     }
 
     // Update resolution in status bar
-    statusBarCurRes.innerText = curRes;
+    StatusBar.setResolution(curRes);
 
     videoCapture.srcObject = mediaStream;
     videoCapture.play();
