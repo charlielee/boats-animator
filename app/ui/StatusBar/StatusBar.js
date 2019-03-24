@@ -5,6 +5,7 @@ var statusBarFrameRate = document.querySelector("#current-frame-rate span");
 var statusBarCurRes = document.querySelector("#current-resolution");
 var statusBarCurMode = document.querySelector("#current-mode span");
 
+// todo Set instance of StatusBar and generate html
 class StatusBar {
   constructor() {
     this.frameNo = 0;
