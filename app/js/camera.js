@@ -5,7 +5,7 @@ module.exports = {};
   "use strict";
   // Import modules
   var cameraResolutions = require("./camera-resolutions");
-  var notification = require("./notification");
+  var Notification = require("../ui/Notification/Notification");
   var PreviewArea = require("../ui/PreviewArea/PreviewArea");
   var StatusBar = require("../ui/StatusBar/StatusBar");
 
@@ -160,7 +160,7 @@ module.exports = {};
       // Display this feed in the preview area
       Camera.display(feed, document.querySelector("#preview"));
     } catch (err) {
-      notification.error(`${curCam.name} could not be loaded!`);
+      Notification.error(`${curCam.name} could not be loaded!`);
     } finally {
       PreviewArea.curWindow.display();
     }
@@ -239,7 +239,7 @@ module.exports = {};
 
     // Switch to "no camera selected" if current success camera is no longer connected
     if (Object.keys(Camera.successCam).length > 0 && !isCurCamStillConnected) {
-      notification.info(`${Camera.successCam.name} has been removed`);
+      Notification.info(`${Camera.successCam.name} has been removed`);
       Camera.successCam = {};
 
       // Switch to "no camera selected"
@@ -291,9 +291,9 @@ module.exports = {};
     var curRes = qResoluSelect.options[Camera.getSelectedResolution()].innerText;
     // Notify whether this is a new camera connection or a resolution change
     if (Camera.successCam === curCam) {
-      notification.success(`${curCam.name} resolution is now ${curRes}`);
+      Notification.success(`${curCam.name} resolution is now ${curRes}`);
     } else {
-      notification.success(`${curCam.name} successfully connected`);
+      Notification.success(`${curCam.name} successfully connected`);
       Camera.successCam = curCam;
     }
 
@@ -310,7 +310,7 @@ module.exports = {};
   }
 
   function mediaError(err) {
-    notification.error("Could not find a camera to use!");
+    Notification.error("Could not find a camera to use!");
     console.error(err);
   }
 
