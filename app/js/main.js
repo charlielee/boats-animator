@@ -11,7 +11,7 @@ var streaming = false,
   win = nw.Window.get(),
 
   // Mode switching
-  PreviewArea = require("./js/previewArea"),
+  PreviewArea = require("./js/ui/previewArea"),
   btnLiveView = document.querySelector("#btn-live-view"),
   CaptureWindow = new PreviewArea(document.querySelector("#capture-window")),
   PlaybackWindow = new PreviewArea(document.querySelector("#playback-window")),
