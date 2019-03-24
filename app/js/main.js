@@ -11,6 +11,7 @@ var streaming = false,
   win = nw.Window.get();
 
   // UI
+  var Notification = require("./ui/Notification/Notification");
   var StatusBar = require("./ui/StatusBar/StatusBar");
   var PreviewArea = require("./ui/PreviewArea/PreviewArea");
 
@@ -70,7 +71,6 @@ var streaming = false,
   // Node modules
   file = require("./js/file"),
   shortcuts = require("./js/shortcuts"),
-  notification = require("./js/notification"),
   saveDirectory = require("./js/savedirectory"),
   menubar = require("./js/menubar"),
   swal = require("./lib/sweetalert"),
@@ -475,7 +475,7 @@ function deleteFrame(id) {
   "use strict";
   file.delete(exportedFramesList[id - 1], {
     success: function () {
-      notification.success("File successfully deleted.");
+      Notification.success("File successfully deleted.");
     }
   });
 
@@ -496,7 +496,7 @@ function takeFrame() {
   "use strict";
   // Prevent taking frames without a set output path
   if (!saveDirectory.get()) {
-    notification.error("A save directory must be first set!");
+    Notification.error("A save directory must be first set!");
     return false;
   }
 
@@ -519,7 +519,7 @@ function undoFrame() {
       }
     });
   } else {
-    notification.error("There is no previous frame to undo!");
+    Notification.error("There is no previous frame to undo!");
   }
 }
 
@@ -755,7 +755,7 @@ function _displaySaveDirectory(dir) {
   "use strict";
   curDirDisplay.innerHTML = dir;
   document.title = `Boats Animator (${dir})`;
-  notification.success(`Current save directory is ${dir}`);
+  Notification.success(`Current save directory is ${dir}`);
 }
 
 /**

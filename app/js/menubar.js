@@ -23,7 +23,7 @@ module.exports = {};
         {
           label: "New project...",
           click: function () {
-            notification.info("This feature is not yet available!")
+            Notification.info("This feature is not yet available!")
           },
           key: "n",
           modifiers: controlKey,
@@ -31,7 +31,7 @@ module.exports = {};
         {
           label: "Open project...",
           click: function () {
-            notification.info("This feature is not yet available!")
+            Notification.info("This feature is not yet available!")
           },
           key: "o",
           modifiers: controlKey,
@@ -84,7 +84,7 @@ module.exports = {};
           label: "Play capture sounds",
           click: function () {
             playAudio = !playAudio;
-            notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+            Notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
           },
           type: "checkbox",
           checked: true,
