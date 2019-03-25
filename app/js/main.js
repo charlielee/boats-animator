@@ -268,7 +268,7 @@ function startup() {
       if (FrameReel.curSelectedFrame !== totalFrames) {
         _displayFrame(FrameReel.curSelectedFrame + 1);
       } else {
-        switchToLiveView();
+        switchMode(CaptureWindow);
       }
     }
   });
@@ -294,7 +294,7 @@ function startup() {
   // Preview last frame on framereel
   btnFrameLast.addEventListener("click", function () {
     if (FrameReel.curSelectedFrame) {
-      (FrameReel.curSelectedFrame !== totalFrames ? videoStop : switchToLiveView)();
+      (FrameReel.curSelectedFrame !== totalFrames ? videoStop : switchMode(CaptureWindow))();
     }
   });
 
@@ -325,7 +325,7 @@ function startup() {
   });
 
   // Switch from frame preview back to live view
-  btnLiveView.addEventListener("click", switchToLiveView);
+  btnLiveView.addEventListener("click", switchMode(CaptureWindow));
 
   // Preview a captured frame
   frameReelRow.addEventListener("click", function (e) {
@@ -353,6 +353,7 @@ function switchMode(NewWindow) {
   NewWindow.display();
 
   if (PreviewArea.curWindow === CaptureWindow) {
+    videoStop();
     StatusBar.setCurrentFrame(totalFrames + 1);
     StatusBar.setMode("Capture");
     FrameReel.selectLiveViewButton();
@@ -416,17 +417,6 @@ function updateFrameReel(action, id) {
 
     // Clear the onion skin window
     onionSkinWindow.removeAttribute("src");
-  }
-}
-
-/**
- * Stop active playback and switch to live view.
- */
-function switchToLiveView() {
-  if (totalFrames > 0) {
-    videoStop();
-
-    switchMode(CaptureWindow);
   }
 }
 
@@ -623,7 +613,7 @@ function _videoPlay() {
     if (curPlayFrame >= totalFrames) {
       // We are not looping, stop the playback
       if (!isLooping) {
-        switchToLiveView();
+        switchMode(CaptureWindow);
         return;
       }
 
