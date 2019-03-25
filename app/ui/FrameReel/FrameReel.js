@@ -35,6 +35,9 @@ class FrameReel {
 
     // Update the last frame number above the live view button
     liveViewFrameNo.innerText = this.totalFrames + 1;
+
+    // Hide no frames message
+    this._showNoFramesMessage(false);
   }
 
   /**
@@ -42,8 +45,16 @@ class FrameReel {
    * @param {integer} id The id of the frame to remove (note ids should start at 1).
    */
   removeFrame(id) {
+    // Deselect the currently selected frame
+    this._deselectFrame();
+
     frameReelRow.removeChild(frameReelRow.children[id - 1]);
     this.totalFrames--;
+
+    // Show the "No frames captured" message
+    if (this.totalFrames === 0) {
+      this._showNoFramesMessage();
+    }
 
     // todo When delete frame at any position is implemented,
     // update frame numbers displayed in the reel
@@ -63,6 +74,22 @@ class FrameReel {
   }
 
   /**
+   * Chooses whether an outline should be displayed around the live view button.
+   * @param {boolean} select Set to true to select the live view button,
+   *                         false to deselect it.
+   */
+  selectLiveViewButton(select = true) {
+    this.liveViewButtonSelected = select;
+
+    if (select) {
+      this._deselectFrame();
+      this._scrollToLiveView();
+    }
+    btnLiveView.classList.toggle("selected", select);
+  }
+
+  
+  /**
    * Deselects the currently frame on the frame reel.
    */
   _deselectFrame() {
@@ -74,16 +101,12 @@ class FrameReel {
     }
     return false;
   }
-  
-  _scrollTo() {
 
-  }
-
-  /**
+    /**
    * Indicates whether the "No frames captured" message should be displayed or not.
    * @param {boolean} show True to show the message, false to hide it (default true)
    */
-  showNoFramesMessage(show = true) {
+  _showNoFramesMessage(show = true) {
     if (show) {
       frameReelMsg.classList.remove("hidden");
       frameReelTable.classList.add("hidden");
@@ -94,18 +117,20 @@ class FrameReel {
   }
   
   /**
-   * Chooses whether an outline should be displayed around the live view button.
-   * @param {boolean} select Set to true to select the live view button,
-   *                         false to deselect it.
+   * Scrolls the frame reel to make a given frame id visible.
+   * @param {integer} id The id of the frame to show.
    */
-  selectLiveViewButton(select = true) {
-    if (select) {
-      this._deselectFrame();
-    }
+  _scrollToFrame(id) {
+    // Scroll so currently played frame is in view
+    document.querySelector(`.frame-reel-img#img-${id}`).parentNode.scrollIntoView();
+  }
 
-    this.liveViewButtonSelected = select;
-    btnLiveView.classList.toggle("selected", select);
-    console.log("Live view buton set to"+select);
+  /**
+   * Scrolls the frame reel to show the live view button.
+   */
+  _scrollToLiveView() {
+    // Scroll the frame reel to the end
+    frameReelArea.scrollLeft = frameReelArea.scrollWidth;
   }
 }
 
