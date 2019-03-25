@@ -44,6 +44,9 @@ class FrameReel {
   removeFrame(id) {
     frameReelRow.removeChild(frameReelRow.children[id - 1]);
     this.totalFrames--;
+
+    // todo When delete frame at any position is implemented,
+    // update frame numbers displayed in the reel
   }
 
   /**
