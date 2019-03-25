@@ -354,11 +354,11 @@ function switchMode(NewWindow) {
 
   if (PreviewArea.curWindow === CaptureWindow) {
     StatusBar.setCurrentFrame(totalFrames + 1);
-    btnLiveView.classList.add("selected");
     StatusBar.setMode("Capture");
+    FrameReel.selectLiveViewButton();
 
   } else if (PreviewArea.curWindow === PlaybackWindow) {
-    btnLiveView.classList.remove("selected");
+    FrameReel.selectLiveViewButton(false);
     StatusBar.setMode("Playback");
   }
 
@@ -425,7 +425,7 @@ function updateFrameReel(action, id) {
 function switchToLiveView() {
   if (totalFrames > 0) {
     videoStop();
-    FrameReel._deselectFrame();
+
     switchMode(CaptureWindow);
   }
 }
@@ -581,8 +581,10 @@ function videoPause() {
 function videoStop() {
   "use strict";
   videoPause();
-  _displayFrame(totalFrames);
   curPlayFrame = 0;
+  if (totalFrames > 0 && PreviewArea.curWindow === PlaybackWindow) {
+    _displayFrame(totalFrames);
+  }
   console.info("Playback stopped");
 }
 
@@ -600,11 +602,13 @@ function _displayFrame(id) {
 
     // Preview selected frame ID
     FrameReel.selectFrame(id);
-    curPlayFrame = id - 1;
     context.drawImage(capturedFrames[id - 1], 0, 0, preview.videoWidth, preview.videoHeight);
     StatusBar.setCurrentFrame(id);
     _frameReelScroll();
   }
+
+  // Set the current play frame
+  curPlayFrame = id - 1;
 }
 
 /**
@@ -646,7 +650,10 @@ function _videoPlay() {
 function previewCapturedFrames() {
   "use strict";
   // Display playback window
-  switchMode(PlaybackWindow);
+  if (PreviewArea.curWindow === CaptureWindow) {
+    switchMode(PlaybackWindow);
+    curPlayFrame = 0;
+  }
 
   // Reset canvas to first frame if playing from start
   if (curPlayFrame == 0) {
