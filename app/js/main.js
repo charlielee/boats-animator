@@ -62,7 +62,6 @@ var streaming = false,
   onionSkinSlider = document.querySelector("#input-onion-skin-opacity"),
 
   // Frame reel
-  frameReelArea = document.querySelector("#area-frame-reel"),
   frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs"),
 
   // Node modules
@@ -575,7 +574,6 @@ function _displayFrame(id) {
     FrameReel.selectFrame(id);
     context.drawImage(capturedFrames[id - 1], 0, 0, preview.videoWidth, preview.videoHeight);
     StatusBar.setCurrentFrame(id);
-    _frameReelScroll();
   }
 
   // Set the current play frame
@@ -604,13 +602,10 @@ function _videoPlay() {
     }
 
     // Display each frame and update the UI accordingly
-    FrameReel._deselectFrame()
     context.drawImage(capturedFrames[curPlayFrame], 0, 0, preview.videoWidth, preview.videoHeight);
     StatusBar.setCurrentFrame(curPlayFrame + 1);
     FrameReel.selectFrame(curPlayFrame + 1);
 
-    // Scroll the framereel with playback
-    _frameReelScroll();
     curPlayFrame++;
   }, 1000 / frameRate);
 }
@@ -639,23 +634,6 @@ function previewCapturedFrames() {
   console.info("Playback started");
   isPlaying = true;
   _videoPlay();
-}
-
-/**
- * Scroll the framereel during playback
- */
-function _frameReelScroll() {
-  "use strict";
-  if (curPlayFrame === 0) {
-    // Scroll to start when playback begins
-    frameReelArea.scrollLeft = 0;
-  } else if (curPlayFrame + 1 !== totalFrames) {
-    // Scroll so currently played frame is in view
-    document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).parentNode.scrollIntoView();
-  } else {
-    // Scroll to end when playback has stopped
-    frameReelArea.scrollLeft = frameReelArea.scrollWidth;
-  }
 }
 
 /**
