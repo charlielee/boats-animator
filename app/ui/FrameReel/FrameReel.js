@@ -89,8 +89,13 @@ class FrameReel {
    *                         false to deselect it.
    */
   selectLiveViewButton(select = true) {
+    if (select) {
+      this._deselectFrame();
+    }
+
     this.liveViewButtonSelected = select;
     btnLiveView.classList.toggle("selected", select);
+    console.log("Live view buton set to"+select);
   }
 }
 
