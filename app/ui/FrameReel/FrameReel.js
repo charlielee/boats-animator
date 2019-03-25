@@ -6,7 +6,6 @@ var frameReelTable = document.querySelector("#area-frame-reel table");
 var btnLiveView = document.querySelector("#btn-live-view");
 var liveViewFrameNo = document.querySelector("#live-view-frame-no");
 
-// todo
 class FrameReel {
   constructor() {
     // The id of the currently selected frame
@@ -92,9 +91,8 @@ class FrameReel {
     btnLiveView.classList.toggle("selected", select);
   }
 
-  
   /**
-   * Deselects the currently frame on the frame reel.
+   * Deselects the currently selected frame on the frame reel.
    */
   _deselectFrame() {
     var selectedFrame = document.querySelector(".frame-reel-img.selected");
@@ -106,7 +104,7 @@ class FrameReel {
     return false;
   }
 
-    /**
+  /**
    * Indicates whether the "No frames captured" message should be displayed or not.
    * @param {boolean} show True to show the message, false to hide it (default true)
    */
