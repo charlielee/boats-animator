@@ -68,9 +68,13 @@ class FrameReel {
     // Deselect the currently selected frame
     this._deselectFrame();
     this.selectLiveViewButton(false);
+
     // Highlight the chosen frame
     document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
     this.curSelectedFrame = id;
+
+    // Scroll the chosen frame into view
+    this._scrollToFrame(id);
   }
 
   /**
