@@ -568,7 +568,6 @@ function _displayFrame(id) {
   if (totalFrames > 0) {
     // Reset the player
     videoPause();
-    FrameReel._deselectFrame();
 
     // Preview selected frame ID
     FrameReel.selectFrame(id);
