@@ -18,11 +18,17 @@ class FrameReel {
   /**
    * Adds a frame to the frame reel.
    * @param {integer} id The id of the frame to add (note ids should start at 1).
+   * @param {blob} imageSrc The imageSrc of the frame.
    */
-  addFrame(id) {
+  addFrame(id, imageSrc) {
     // Deselect the currently selected frame
     this._deselectFrame();
 
+    // Insert the new frame into the reel
+    frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
+    <div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
+    <img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${imageSrc}">
+    </div></td>`);
   }
 
   /**
@@ -30,7 +36,7 @@ class FrameReel {
    * @param {integer} id The id of the frame to remove (note ids should start at 1).
    */
   removeFrame(id) {
-
+    frameReelRow.removeChild(frameReelRow.children[id - 1]);
   }
 
   /**
@@ -43,7 +49,7 @@ class FrameReel {
     this.selectLiveViewButton(false);
     // Highlight the chosen frame
     document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
-    curSelectedFrame = id;
+    this.curSelectedFrame = id;
   }
 
   /**
@@ -59,12 +65,30 @@ class FrameReel {
     return false;
   }
   
+  _scrollTo() {
+
+  }
+
+  /**
+   * Indicates whether the "No frames captured" message should be displayed or not.
+   * @param {boolean} show True to show the message, false to hide it (default true)
+   */
+  showNoFramesMessage(show = true) {
+    if (show) {
+      frameReelMsg.classList.remove("hidden");
+      frameReelTable.classList.add("hidden");
+    } else {
+      frameReelMsg.classList.add("hidden");
+      frameReelTable.classList.remove("hidden");
+    }
+  }
+  
   /**
    * Chooses whether an outline should be displayed around the live view button.
    * @param {boolean} select Set to true to select the live view button,
    *                         false to deselect it.
    */
-  selectLiveViewButton(select) {
+  selectLiveViewButton(select = true) {
     this.liveViewButtonSelected = select;
     btnLiveView.classList.toggle("selected", select);
   }

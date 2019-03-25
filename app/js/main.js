@@ -27,7 +27,6 @@ var streaming = false,
   // Capture
   capturedFrames = [],
   totalFrames = 0,
-  curSelectedFrame = null,
   btnCaptureFrame = document.querySelector("#btn-capture-frame"),
   btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
@@ -382,21 +381,14 @@ function updateFrameReel(action, id) {
 
   // Add the newly captured frame
   if (action === "capture") {
-    // Remove any frame selection
-    FrameReel._deselectFrame();
-
-    // Insert the new frame into the reel
-    frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1].src}">
-</div></td>`);
+    FrameReel.addFrame(id, capturedFrames[id - 1].src);
 
     // Remove the chosen frame
   } else if (action === "delete") {
     if (id !== totalFrames) {
       onionSkinFrame = id - 2;
     }
-    frameReelRow.removeChild(frameReelRow.children[id - 1]);
+    FrameReel.removeFrame(id)
   }
 
   // Update the last frame number above the live view button
@@ -404,15 +396,13 @@ function updateFrameReel(action, id) {
 
   // We have frames, display them
   if (totalFrames > 0) {
-    frameReelMsg.classList.add("hidden");
-    frameReelTable.classList.remove("hidden");
+    FrameReel.showNoFramesMessage(false);
 
     // Update onion skin frame
     onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
 
     // Update frame preview selection
     if (FrameReel.curSelectedFrame) {
-      FrameReel._deselectFrame();
       FrameReel.selectFrame(id - 1);
       StatusBar.setCurrentFrame(id - 1);
     } else if (PreviewArea.curWindow === CaptureWindow) {
@@ -421,8 +411,7 @@ function updateFrameReel(action, id) {
 
     // All the frames were deleted, display "No frames" message
   } else {
-    frameReelMsg.classList.remove("hidden");
-    frameReelTable.classList.add("hidden");
+    FrameReel.showNoFramesMessage();
     switchMode(CaptureWindow);
 
     // Clear the onion skin window
