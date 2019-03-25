@@ -63,10 +63,7 @@ var streaming = false,
 
   // Frame reel
   frameReelArea = document.querySelector("#area-frame-reel"),
-  frameReelMsg = document.querySelector("#area-frame-reel > p"),
   frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs"),
-  frameReelTable = document.querySelector("#area-frame-reel table"),
-  liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
   // Node modules
   file = require("./js/file"),
@@ -391,9 +388,6 @@ function updateFrameReel(action, id) {
     }
     FrameReel.removeFrame(id)
   }
-
-  // Update the last frame number above the live view button
-  liveViewframeNo.innerHTML = totalFrames + 1;
 
   // We have frames, display them
   if (totalFrames > 0) {

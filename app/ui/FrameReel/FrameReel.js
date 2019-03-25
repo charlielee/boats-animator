@@ -4,13 +4,15 @@ var frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs"
 var frameReelTable = document.querySelector("#area-frame-reel table");
 
 var btnLiveView = document.querySelector("#btn-live-view");
-var liveViewframeNo = document.querySelector("#live-view-frame-no");
+var liveViewFrameNo = document.querySelector("#live-view-frame-no");
 
 // todo
 class FrameReel {
   constructor() {
     // The id of the currently selected frame
     this.curSelectedFrame = null;
+    // Total number of frames in the frame reel
+    this.totalFrames = 0;
     // Whether the live view button is selected or not
     this.liveViewButtonSelected = false;
   }
@@ -29,6 +31,10 @@ class FrameReel {
     <div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
     <img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${imageSrc}">
     </div></td>`);
+    this.totalFrames++;
+
+    // Update the last frame number above the live view button
+    liveViewFrameNo.innerText = this.totalFrames + 1;
   }
 
   /**
@@ -37,6 +43,7 @@ class FrameReel {
    */
   removeFrame(id) {
     frameReelRow.removeChild(frameReelRow.children[id - 1]);
+    this.totalFrames--;
   }
 
   /**
