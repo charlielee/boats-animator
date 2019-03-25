@@ -389,26 +389,16 @@ function updateFrameReel(action, id) {
     FrameReel.removeFrame(id)
   }
 
+  // Switch to capture mode
+  // todo in the future "delete any frame" may mean sometimes
+  // we should switch to playback mode
+  switchMode(CaptureWindow);
+
   // We have frames, display them
   if (totalFrames > 0) {
-    FrameReel.showNoFramesMessage(false);
-
     // Update onion skin frame
     onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
-
-    // Update frame preview selection
-    if (FrameReel.curSelectedFrame) {
-      FrameReel.selectFrame(id - 1);
-      StatusBar.setCurrentFrame(id - 1);
-    } else if (PreviewArea.curWindow === CaptureWindow) {
-      StatusBar.setCurrentFrame(totalFrames + 1);
-    }
-
-    // All the frames were deleted, display "No frames" message
   } else {
-    FrameReel.showNoFramesMessage();
-    switchMode(CaptureWindow);
-
     // Clear the onion skin window
     onionSkinWindow.removeAttribute("src");
   }
@@ -513,9 +503,6 @@ function _captureFrame() {
     // Save the frame to disk and update the frame reel
     saveFrame(totalFrames);
     updateFrameReel("capture", totalFrames);
-
-    // Scroll the frame reel to the end
-    frameReelArea.scrollLeft = frameReelArea.scrollWidth;
 
     // Play a camera sound
     audio(captureAudio);
