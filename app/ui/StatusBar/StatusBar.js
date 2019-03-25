@@ -47,7 +47,6 @@ class StatusBar {
     statusBarCurRes.innerText = curRes;
   }
 
-  
   /**
    * Changes the mode displayed on the status bar.
    * @param {string} mode Name of the mode (eg "Capture" or "Playback")
