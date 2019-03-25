@@ -11,9 +11,10 @@ var streaming = false,
   win = nw.Window.get();
 
   // UI
+  var FrameReel = new (require("./ui/FrameReel/FrameReel"))();
   var Notification = require("./ui/Notification/Notification");
-  var StatusBar = require("./ui/StatusBar/StatusBar");
   var PreviewArea = require("./ui/PreviewArea/PreviewArea");
+  var StatusBar = require("./ui/StatusBar/StatusBar");
 
   // Mode switching
   var btnLiveView = document.querySelector("#btn-live-view"),
@@ -264,9 +265,9 @@ function startup() {
 
   // Preview one frame to the right on framereel
   btnFrameNext.addEventListener("click", function () {
-    if (curSelectedFrame) {
-      if (curSelectedFrame !== totalFrames) {
-        _displayFrame(curSelectedFrame + 1);
+    if (FrameReel.curSelectedFrame) {
+      if (FrameReel.curSelectedFrame !== totalFrames) {
+        _displayFrame(FrameReel.curSelectedFrame + 1);
       } else {
         switchToLiveView();
       }
@@ -275,8 +276,8 @@ function startup() {
 
   // Preview one frame to the left on framereel
   btnFramePrevious.addEventListener("click", function () {
-    if (curSelectedFrame > 1) {
-      _displayFrame(curSelectedFrame - 1);
+    if (FrameReel.curSelectedFrame > 1) {
+      _displayFrame(FrameReel.curSelectedFrame - 1);
     } else if (PreviewArea.curWindow === CaptureWindow && totalFrames) {
       switchMode(PlaybackWindow);
       _displayFrame(totalFrames);
@@ -293,8 +294,8 @@ function startup() {
 
   // Preview last frame on framereel
   btnFrameLast.addEventListener("click", function () {
-    if (curSelectedFrame) {
-      (curSelectedFrame !== totalFrames ? videoStop : switchToLiveView)();
+    if (FrameReel.curSelectedFrame) {
+      (FrameReel.curSelectedFrame !== totalFrames ? videoStop : switchToLiveView)();
     }
   });
 
@@ -366,32 +367,6 @@ function switchMode(NewWindow) {
 }
 
 /**
- * Remove selected frame highlight from the timeline.
- *
- * @returns {Boolean} True if there was a highlight to remove, false otherwise.
- */
-function _removeFrameReelSelection() {
-  "use strict";
-  var selectedFrame = document.querySelector(".frame-reel-img.selected");
-  if (selectedFrame) {
-    selectedFrame.classList.remove("selected");
-    curSelectedFrame = null;
-    return true;
-  }
-  return false;
-}
-
-/**
- * Add selected frame highlight to frame.
- * @param {Number} id The image ID to highlight.
- */
-function _addFrameReelSelection(id) {
-  "use strict";
-  document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
-  curSelectedFrame = id;
-}
-
-/**
  * Update the frame reel display as needeed.
  *
  * @param {String} action Update the frame reel depending on the
@@ -408,7 +383,7 @@ function updateFrameReel(action, id) {
   // Add the newly captured frame
   if (action === "capture") {
     // Remove any frame selection
-    _removeFrameReelSelection();
+    FrameReel._deselectFrame();
 
     // Insert the new frame into the reel
     frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
@@ -436,9 +411,9 @@ function updateFrameReel(action, id) {
     onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
 
     // Update frame preview selection
-    if (curSelectedFrame) {
-      _removeFrameReelSelection();
-      _addFrameReelSelection(id - 1);
+    if (FrameReel.curSelectedFrame) {
+      FrameReel._deselectFrame();
+      FrameReel.selectFrame(id - 1);
       StatusBar.setCurrentFrame(id - 1);
     } else if (PreviewArea.curWindow === CaptureWindow) {
       StatusBar.setCurrentFrame(totalFrames + 1);
@@ -461,7 +436,7 @@ function updateFrameReel(action, id) {
 function switchToLiveView() {
   if (totalFrames > 0) {
     videoStop();
-    _removeFrameReelSelection();
+    FrameReel._deselectFrame();
     switchMode(CaptureWindow);
   }
 }
@@ -632,10 +607,10 @@ function _displayFrame(id) {
   if (totalFrames > 0) {
     // Reset the player
     videoPause();
-    _removeFrameReelSelection();
+    FrameReel._deselectFrame();
 
     // Preview selected frame ID
-    _addFrameReelSelection(id);
+    FrameReel.selectFrame(id);
     curPlayFrame = id - 1;
     context.drawImage(capturedFrames[id - 1], 0, 0, preview.videoWidth, preview.videoHeight);
     StatusBar.setCurrentFrame(id);
@@ -665,10 +640,10 @@ function _videoPlay() {
     }
 
     // Display each frame and update the UI accordingly
-    _removeFrameReelSelection();
+    FrameReel._deselectFrame()
     context.drawImage(capturedFrames[curPlayFrame], 0, 0, preview.videoWidth, preview.videoHeight);
     StatusBar.setCurrentFrame(curPlayFrame + 1);
-    _addFrameReelSelection(curPlayFrame + 1);
+    FrameReel.selectFrame(curPlayFrame + 1);
 
     // Scroll the framereel with playback
     _frameReelScroll();

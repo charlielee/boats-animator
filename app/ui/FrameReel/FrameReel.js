@@ -20,6 +20,8 @@ class FrameReel {
    * @param {integer} id The id of the frame to add (note ids should start at 1).
    */
   addFrame(id) {
+    // Deselect the currently selected frame
+    this._deselectFrame();
 
   }
 
@@ -33,10 +35,28 @@ class FrameReel {
 
   /**
    * Highlights and scrolls to a given frame on the frame reel.
-   * @param {integer} id The id of the frame to highlight and scroll to.
+   * @param {integer} id The id of the frame to highlight and scroll to (note ids should start at 1).
    */
   selectFrame(id) {
+    // Deselect the currently selected frame
+    this._deselectFrame();
+    this.selectLiveViewButton(false);
+    // Highlight the chosen frame
+    document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
+    curSelectedFrame = id;
+  }
 
+  /**
+   * Deselects the currently frame on the frame reel.
+   */
+  _deselectFrame() {
+    var selectedFrame = document.querySelector(".frame-reel-img.selected");
+    if (selectedFrame) {
+      selectedFrame.classList.remove("selected");
+      this.curSelectedFrame = null;
+      return true;
+    }
+    return false;
   }
   
   /**
@@ -46,14 +66,8 @@ class FrameReel {
    */
   selectLiveViewButton(select) {
     this.liveViewButtonSelected = select;
-    if (select) {
-      btnLiveView.classList.add("selected");
-    } else {
-      btnLiveView.classList.remove("selected");
-    }
+    btnLiveView.classList.toggle("selected", select);
   }
-
-
 }
 
 module.exports = FrameReel;
