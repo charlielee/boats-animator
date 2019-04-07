@@ -10,12 +10,16 @@ var streaming = false,
   // NW.js
   win = nw.Window.get();
 
-  // UI
-  var FrameReel = new (require("./ui/FrameReel/FrameReel"))();
+  // UI imports
+  var FrameReel = require("./ui/FrameReel/FrameReel");
   var Notification = require("./ui/Notification/Notification");
   var OnionSkin = require("./ui/OnionSkin/OnionSkin");
   var PreviewArea = require("./ui/PreviewArea/PreviewArea");
   var StatusBar = require("./ui/StatusBar/StatusBar");
+
+  // UI instances
+  var frameReelInst = new FrameReel();
+  var onionSkinInst = new OnionSkin();
 
   // Mode switching
   var btnLiveView = document.querySelector("#btn-live-view"),
@@ -254,9 +258,9 @@ function startup() {
 
   // Preview one frame to the right on framereel
   btnFrameNext.addEventListener("click", function () {
-    if (FrameReel.curSelectedFrame) {
-      if (FrameReel.curSelectedFrame !== totalFrames) {
-        _displayFrame(FrameReel.curSelectedFrame + 1);
+    if (frameReelInst.curSelectedFrame) {
+      if (frameReelInst.curSelectedFrame !== totalFrames) {
+        _displayFrame(frameReelInst.curSelectedFrame + 1);
       } else {
         switchMode(CaptureWindow);
       }
@@ -265,8 +269,8 @@ function startup() {
 
   // Preview one frame to the left on framereel
   btnFramePrevious.addEventListener("click", function () {
-    if (FrameReel.curSelectedFrame > 1) {
-      _displayFrame(FrameReel.curSelectedFrame - 1);
+    if (frameReelInst.curSelectedFrame > 1) {
+      _displayFrame(frameReelInst.curSelectedFrame - 1);
     } else if (PreviewArea.curWindow === CaptureWindow && totalFrames) {
       switchMode(PlaybackWindow);
       _displayFrame(totalFrames);
@@ -283,8 +287,8 @@ function startup() {
 
   // Preview last frame on framereel
   btnFrameLast.addEventListener("click", function () {
-    if (FrameReel.curSelectedFrame) {
-      (FrameReel.curSelectedFrame !== totalFrames ? videoStop : switchMode(CaptureWindow))();
+    if (frameReelInst.curSelectedFrame) {
+      (frameReelInst.curSelectedFrame !== totalFrames ? videoStop : switchMode(CaptureWindow))();
     }
   });
 
@@ -329,9 +333,6 @@ function startup() {
       _displayFrame(imageID);
     }
   });
-
-  var onionSkinSlider = document.querySelector("#input-onion-skin-opacity");
-  onionSkinSlider.addEventListener("input", OnionSkin._setOpacityFromSlider);
 }
 window.onload = startup;
 
@@ -349,10 +350,10 @@ function switchMode(NewWindow) {
     videoStop();
     StatusBar.setCurrentFrame(totalFrames + 1);
     StatusBar.setMode("Capture");
-    FrameReel.selectLiveViewButton();
+    frameReelInst.selectLiveViewButton();
 
   } else if (PreviewArea.curWindow === PlaybackWindow) {
-    FrameReel.selectLiveViewButton(false);
+    frameReelInst.selectLiveViewButton(false);
     StatusBar.setMode("Playback");
   }
 
@@ -375,14 +376,14 @@ function updateFrameReel(action, id) {
 
   // Add the newly captured frame
   if (action === "capture") {
-    FrameReel.addFrame(id, capturedFrames[id - 1].src);
+    frameReelInst.addFrame(id, capturedFrames[id - 1].src);
 
     // Remove the chosen frame
   } else if (action === "delete") {
     if (id !== totalFrames) {
       onionSkinFrame = id - 2;
     }
-    FrameReel.removeFrame(id)
+    frameReelInst.removeFrame(id)
   }
 
   // Switch to capture mode
@@ -393,10 +394,10 @@ function updateFrameReel(action, id) {
   // We have frames, display them
   if (totalFrames > 0) {
     // Update onion skin frame
-    OnionSkin.setFrame(capturedFrames[onionSkinFrame].src);
+    onionSkinInst.setFrame(capturedFrames[onionSkinFrame].src);
   } else {
     // Clear the onion skin window
-    OnionSkin.clear();
+    onionSkinInst.clear();
   }
 }
 
@@ -567,7 +568,7 @@ function _displayFrame(id) {
     videoPause();
 
     // Preview selected frame ID
-    FrameReel.selectFrame(id);
+    frameReelInst.selectFrame(id);
     context.drawImage(capturedFrames[id - 1], 0, 0, preview.videoWidth, preview.videoHeight);
     StatusBar.setCurrentFrame(id);
   }
@@ -600,7 +601,7 @@ function _videoPlay() {
     // Display each frame and update the UI accordingly
     context.drawImage(capturedFrames[curPlayFrame], 0, 0, preview.videoWidth, preview.videoHeight);
     StatusBar.setCurrentFrame(curPlayFrame + 1);
-    FrameReel.selectFrame(curPlayFrame + 1);
+    frameReelInst.selectFrame(curPlayFrame + 1);
 
     curPlayFrame++;
   }, 1000 / frameRate);

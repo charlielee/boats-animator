@@ -4,14 +4,14 @@ var onionSkinSlider = document.querySelector("#input-onion-skin-opacity");
 class OnionSkin {
   constructor() {
     // Listens to changes to the onion skin slider
-    // onionSkinSlider.addEventListener("input", OnionSkin._setOpacityFromSlider);
+    onionSkinSlider.addEventListener("input", OnionSkin._setOpacityFromSlider);
   }
 
   /**
    * Sets the opacity of the onion skin window.
    * @param {integer} opacity - The opacity level of the window (value between 0 and 100).
    */
-  static setOpacity(opacity) {
+  setOpacity(opacity) {
     onionSkinWindow.style.opacity = Math.abs(opacity / 100);
     onionSkinSlider.setAttribute("title", `${amount}%`);
 
@@ -27,14 +27,14 @@ class OnionSkin {
    * Sets the image to display in the onion skin window.
    * @param {blob} imageSrc - The imageSrc of the frame.
    */
-  static setFrame(imageSrc) {
+  setFrame(imageSrc) {
     onionSkinWindow.setAttribute("src", imageSrc);
   }
 
   /**
    * Clears the frame in onion skin window.
    */
-  static clear() {
+  clear() {
     onionSkinWindow.removeAttribute("src");
   }
 
@@ -42,7 +42,7 @@ class OnionSkin {
    * Sets opacity of the onion skin window when the slider is moved.
    * @param {Object} e - Event object from addEventListener.
    */
-  static _setOpacityFromSlider(e) {
+  _setOpacityFromSlider(e) {
     var amount = e.target.value;
     OnionSkin.setOpacity(amount);
   }
