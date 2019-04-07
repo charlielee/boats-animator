@@ -4,8 +4,6 @@ var streaming = false,
 
   // The various HTML elements we need to configure or control.
   preview = document.querySelector("#preview"),
-  playback = document.querySelector("#playback"),
-  context = playback.getContext("2d"),
 
   // NW.js
   win = nw.Window.get();
@@ -14,12 +12,14 @@ var streaming = false,
   var FrameReel = require("./ui/FrameReel/FrameReel");
   var Notification = require("./ui/Notification/Notification");
   var OnionSkin = require("./ui/OnionSkin/OnionSkin");
+  var PlaybackCanvas = require("./ui/PlaybackCanvas/PlaybackCanvas");
   var PreviewArea = require("./ui/PreviewArea/PreviewArea");
   var StatusBar = require("./ui/StatusBar/StatusBar");
 
   // UI instances
   var frameReelInst = new FrameReel();
   var onionSkinInst = new OnionSkin();
+  var playbackCanvasInst = new PlaybackCanvas();
 
   // Mode switching
   var btnLiveView = document.querySelector("#btn-live-view"),
@@ -182,8 +182,7 @@ function startup() {
   // Initialises the preview window
   preview.addEventListener("canplay", function () {
     if (!streaming) {
-      playback.setAttribute("width", preview.videoWidth.toString());
-      playback.setAttribute("height", preview.videoHeight.toString());
+      playbackCanvasInst.setDimensions(preview.videoWidth.toString(), preview.videoHeight.toString())
       streaming = true;
     }
   });
@@ -483,13 +482,12 @@ function _captureFrame() {
   // Take a picture
   if (streaming) {
     // Draw the image on the canvas
-    playback.width = preview.videoWidth;
-    playback.height = preview.videoHeight;
-    context.drawImage(preview, 0, 0, preview.videoWidth, preview.videoHeight);
+    playbackCanvasInst.setDimensions(preview.videoWidth, preview.videoHeight);
+    playbackCanvasInst.drawImage(preview);
 
     // Convert the frame to a PNG
     var frame = new Image();
-    frame.src = playback.toDataURL("image/png");
+    frame.src = playbackCanvasInst.getSrc();
 
     // Store the image data and update the current frame
     capturedFrames.push(frame);
@@ -569,7 +567,7 @@ function _displayFrame(id) {
 
     // Preview selected frame ID
     frameReelInst.selectFrame(id);
-    context.drawImage(capturedFrames[id - 1], 0, 0, preview.videoWidth, preview.videoHeight);
+    playbackCanvasInst.drawImage(capturedFrames[id - 1]);
     StatusBar.setCurrentFrame(id);
   }
 
@@ -599,7 +597,7 @@ function _videoPlay() {
     }
 
     // Display each frame and update the UI accordingly
-    context.drawImage(capturedFrames[curPlayFrame], 0, 0, preview.videoWidth, preview.videoHeight);
+    playbackCanvasInst.drawImage(capturedFrames[curPlayFrame]);
     StatusBar.setCurrentFrame(curPlayFrame + 1);
     frameReelInst.selectFrame(curPlayFrame + 1);
 
@@ -620,7 +618,7 @@ function previewCapturedFrames() {
 
   // Reset canvas to first frame if playing from start
   if (curPlayFrame == 0) {
-    context.drawImage(capturedFrames[0], 0, 0, preview.videoWidth, preview.videoHeight);
+    playbackCanvasInst.drawImage(capturedFrames[0]);
   }
 
   // Update the play/pause button

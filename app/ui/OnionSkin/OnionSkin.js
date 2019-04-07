@@ -1,6 +1,7 @@
 var onionSkinWindow = document.querySelector("#onion-skinning-frame");
 var onionSkinSlider = document.querySelector("#input-onion-skin-opacity");
 
+/** Class for the onion skin feature. */
 class OnionSkin {
   constructor() {
     // Listens to changes to the onion skin slider
