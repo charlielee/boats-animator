@@ -13,6 +13,7 @@ var streaming = false,
   // UI
   var FrameReel = new (require("./ui/FrameReel/FrameReel"))();
   var Notification = require("./ui/Notification/Notification");
+  var OnionSkin = require("./ui/OnionSkin/OnionSkin");
   var PreviewArea = require("./ui/PreviewArea/PreviewArea");
   var StatusBar = require("./ui/StatusBar/StatusBar");
 
@@ -56,10 +57,6 @@ var streaming = false,
   // Frame export
   exportedFramesList = [],
   curDirDisplay = document.querySelector("#currentDirectoryName"),
-
-  // Onion skin
-  onionSkinWindow = document.querySelector("#onion-skinning-frame"),
-  onionSkinSlider = document.querySelector("#input-onion-skin-opacity"),
 
   // Frame reel
   frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs"),
@@ -216,9 +213,6 @@ function startup() {
   // Toggle preview looping
   btnLoop.addEventListener("click", _toggleVideoLoop);
 
-  // Change onion skin opacity
-  onionSkinSlider.addEventListener("input", _onionSkinChangeAmount);
-
   // Change the default save directory
   btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
 
@@ -335,6 +329,9 @@ function startup() {
       _displayFrame(imageID);
     }
   });
+
+  var onionSkinSlider = document.querySelector("#input-onion-skin-opacity");
+  onionSkinSlider.addEventListener("input", OnionSkin._setOpacityFromSlider);
 }
 window.onload = startup;
 
@@ -396,10 +393,10 @@ function updateFrameReel(action, id) {
   // We have frames, display them
   if (totalFrames > 0) {
     // Update onion skin frame
-    onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
+    OnionSkin.setFrame(capturedFrames[onionSkinFrame].src);
   } else {
     // Clear the onion skin window
-    onionSkinWindow.removeAttribute("src");
+    OnionSkin.clear();
   }
 }
 
@@ -633,27 +630,6 @@ function previewCapturedFrames() {
   console.info("Playback started");
   isPlaying = true;
   _videoPlay();
-}
-
-/**
- * Change onion skinning opacity.
- *
- * @param {Object} ev Event object from addEventListener.
- */
-function _onionSkinChangeAmount(ev) {
-  "use strict";
-  // Calculate the percentage opacity value
-  var amount = ev.target.value;
-
-  ev.target.setAttribute("title", `${amount}%`);
-  onionSkinWindow.style.opacity = Math.abs(amount / 100);
-
-  // Make it easier to switch off onion skinning
-  if (amount >= -6 && amount <= 6) {
-    onionSkinWindow.style.opacity = 0;
-    onionSkinSlider.value = 0;
-    onionSkinSlider.setAttribute("title", "0%");
-  }
 }
 
 /**
