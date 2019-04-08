@@ -157,11 +157,6 @@ function startup() {
   // Maximise window
   win.maximize();
 
-  // Windows specific code
-  if (process.platform === "win32") {
-    document.querySelector("body").classList.add("platform-win");
-  }
-
   // Load the keyboard shortcuts
   shortcuts.get("default", function () {
     shortcuts.add("main");
