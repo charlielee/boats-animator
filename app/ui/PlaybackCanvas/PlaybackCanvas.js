@@ -19,3 +19,5 @@ class PlaybackCanvas {
     playback.setAttribute("height", height);
   }
 }
+
+module.exports = PlaybackCanvas;
