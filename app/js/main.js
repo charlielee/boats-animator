@@ -318,7 +318,9 @@ function startup() {
   });
 
   // Switch from frame preview back to live view
-  btnLiveView.addEventListener("click", switchMode(CaptureWindow));
+  btnLiveView.addEventListener("click", function() {
+    switchMode(CaptureWindow);
+  });
 
   // Preview a captured frame
   frameReelRow.addEventListener("click", function (e) {

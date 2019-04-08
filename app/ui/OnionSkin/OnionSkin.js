@@ -4,16 +4,19 @@ var onionSkinSlider = document.querySelector("#input-onion-skin-opacity");
 /** Class for the onion skin feature. */
 class OnionSkin {
   constructor() {
+    var onionSkinThis = this;
     // Listens to changes to the onion skin slider
-    onionSkinSlider.addEventListener("input", OnionSkin._setOpacityFromSlider);
+    onionSkinSlider.addEventListener("input", function(e) {
+      onionSkinThis._setOpacityFromSlider(e);
+    });
   }
 
   /**
    * Sets the opacity of the onion skin window.
-   * @param {integer} opacity - The opacity level of the window (value between 0 and 100).
+   * @param {integer} amount - The opacity level of the window (value between 0 and 100).
    */
-  setOpacity(opacity) {
-    onionSkinWindow.style.opacity = Math.abs(opacity / 100);
+  setOpacity(amount) {
+    onionSkinWindow.style.opacity = Math.abs(amount / 100);
     onionSkinSlider.setAttribute("title", `${amount}%`);
 
     // Make it easier to switch off onion skinning
@@ -45,7 +48,7 @@ class OnionSkin {
    */
   _setOpacityFromSlider(e) {
     var amount = e.target.value;
-    OnionSkin.setOpacity(amount);
+    this.setOpacity(amount);
   }
 }
 
