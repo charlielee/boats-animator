@@ -565,24 +565,26 @@ function _captureFrame() {
     context.drawImage(preview, 0, 0, preview.videoWidth, preview.videoHeight);
 
     // Convert the frame to a PNG
-    var frame = new Image();
-    frame.src = playback.toDataURL("image/png");
+    playback.toBlob(function(blob) {
+      var frame = new Image();
+      var url = URL.createObjectURL(blob);
+      frame.src = url;
 
-    // Store the image data and update the current frame
-    capturedFrames.push(frame);
-    totalFrames++;
-    console.info(`Captured frame: ${frame.src.slice(100, 120)}`);
-    console.info(`Total frames captured: ${totalFrames}`);
+      // Store the image data and update the current frame
+      capturedFrames.push(frame);
+      totalFrames++;
+      console.info(`Captured frame: ${totalFrames}`);
 
-    // Save the frame to disk and update the frame reel
-    saveFrame(totalFrames);
-    updateFrameReel("capture", totalFrames);
+      // Save the frame to disk and update the frame reel
+      updateFrameReel("capture", totalFrames);
+      saveFrame(totalFrames, blob);
 
-    // Scroll the frame reel to the end
-    frameReelArea.scrollLeft = frameReelArea.scrollWidth;
+      // Scroll the frame reel to the end
+      frameReelArea.scrollLeft = frameReelArea.scrollWidth;
 
-    // Play a camera sound
-    audio(captureAudio);
+      // Play a camera sound
+      audio(captureAudio);
+    });
   }
 }
 
@@ -629,8 +631,10 @@ function videoPause() {
 function videoStop() {
   "use strict";
   videoPause();
-  _displayFrame(totalFrames);
   curPlayFrame = 0;
+  if (totalFrames > 0 && PreviewArea.curWindow === PlaybackWindow) {
+    _displayFrame(totalFrames);
+  }
   console.info("Playback stopped");
 }
 
@@ -796,7 +800,7 @@ function decodeBase64Image(dataString) {
  *
  * @param {Number} id - The frame ID to save.
  */
-function saveFrame(id) {
+function saveFrame(id, blob) {
   "use strict";
   var fileName = "";
 
@@ -822,11 +826,14 @@ function saveFrame(id) {
   // Create an absolute path to the destination location
   var outputPath = `${saveDirectory.get()}/${fileName}.png`;
 
-  // Convert the frame from base64-encoded data to a PNG
-  var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
-
   // Save the frame to disk
-  file.write(outputPath, imageBuffer.data);
+  var reader = new FileReader()
+  reader.onload = function(){
+    // Convert the frame blob to buffer
+    var buffer = new Buffer.from(reader.result)
+    file.write(outputPath, buffer);
+  }
+  reader.readAsArrayBuffer(blob)
 
   // Store the location of the exported frame
   exportedFramesList.push(outputPath);
