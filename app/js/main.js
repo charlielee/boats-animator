@@ -787,7 +787,7 @@ function decodeBase64Image(dataString) {
   }
 
   response.type = matches[1];
-  response.data = new Buffer(matches[2], "base64");
+  response.data = new Buffer.from(matches[2], "base64");
   return response;
 }
 
