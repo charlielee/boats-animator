@@ -27,7 +27,7 @@ module.exports = {};
     var files = fs.readdirSync(dir);
 
     // Filter files that are frames
-    var regex = /frame(.)+png/i;
+    var regex = /\b(frame)(.)+(.png)\b/i;
     var filteredFiles = files.filter((fileName) => {return regex.test(fileName)});
 
     if (filteredFiles.length > 0) {
