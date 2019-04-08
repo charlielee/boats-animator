@@ -775,27 +775,6 @@ function _displaySaveDirectory(dir) {
 }
 
 /**
-* Convert frames from base64 to png
-*
-* @author Stack Overflow http://stackoverflow.com/questions/20267939
-* @author Julian Lannigan http://stackoverflow.com/users/1777444
-* @license cc by-sa 3.0
-*/
-function decodeBase64Image(dataString) {
-  "use strict";
-  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-    response = {};
-
-  if (matches.length !== 3) {
-    return new Error("Invalid input string");
-  }
-
-  response.type = matches[1];
-  response.data = new Buffer.from(matches[2], "base64");
-  return response;
-}
-
-/**
  * Save the captured frame to the hard drive.
  *
  * @param {Number} id - The frame ID to save.
