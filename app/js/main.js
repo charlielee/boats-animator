@@ -151,11 +151,6 @@ function startup() {
   // Maximise window
   win.maximize();
 
-  // Windows specific code
-  if (process.platform === "win32") {
-    document.querySelector("body").classList.add("platform-win");
-  }
-
   // Load the keyboard shortcuts
   shortcuts.get("default", function () {
     shortcuts.add("main");
@@ -488,21 +483,26 @@ function _captureFrame() {
     playbackCanvasInst.drawImage(preview);
 
     // Convert the frame to a PNG
-    var frame = new Image();
-    frame.src = playbackCanvasInst.getSrc();
+    playback.toBlob(function(blob) {
+      // Play a camera sound
+      audio(captureAudio);
 
-    // Store the image data and update the current frame
-    capturedFrames.push(frame);
-    totalFrames++;
-    console.info(`Captured frame: ${frame.src.slice(100, 120)}`);
-    console.info(`Total frames captured: ${totalFrames}`);
+      var frame = new Image();
+      var url = URL.createObjectURL(blob);
+      frame.src = url;
 
-    // Save the frame to disk and update the frame reel
-    saveFrame(totalFrames);
-    updateFrameReel("capture", totalFrames);
+      // Store the image data and update the current frame
+      capturedFrames.push(frame);
+      totalFrames++;
+      console.info(`Captured frame: ${totalFrames}`);
 
-    // Play a camera sound
-    audio(captureAudio);
+      // Save the frame to disk and update the frame reel
+      updateFrameReel("capture", totalFrames);
+      saveFrame(totalFrames, blob);
+
+      // Scroll the frame reel to the end
+      frameReelArea.scrollLeft = frameReelArea.scrollWidth;
+    }, "image/png");
   }
 }
 
@@ -655,32 +655,12 @@ function _displaySaveDirectory(dir) {
 }
 
 /**
-* Convert frames from base64 to png
-*
-* @author Stack Overflow http://stackoverflow.com/questions/20267939
-* @author Julian Lannigan http://stackoverflow.com/users/1777444
-* @license cc by-sa 3.0
-*/
-function decodeBase64Image(dataString) {
-  "use strict";
-  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-    response = {};
-
-  if (matches.length !== 3) {
-    return new Error("Invalid input string");
-  }
-
-  response.type = matches[1];
-  response.data = new Buffer(matches[2], "base64");
-  return response;
-}
-
-/**
  * Save the captured frame to the hard drive.
  *
  * @param {Number} id - The frame ID to save.
+ * @param {Blob} blob - The Blob object containing image data to save.
  */
-function saveFrame(id) {
+function saveFrame(id, blob) {
   "use strict";
   var fileName = "";
 
@@ -706,11 +686,14 @@ function saveFrame(id) {
   // Create an absolute path to the destination location
   var outputPath = `${saveDirectory.get()}/${fileName}.png`;
 
-  // Convert the frame from base64-encoded data to a PNG
-  var imageBuffer = decodeBase64Image(capturedFrames[id - 1].src);
-
   // Save the frame to disk
-  file.write(outputPath, imageBuffer.data);
+  var reader = new FileReader()
+  reader.onload = function(){
+    // Convert the frame blob to buffer
+    var buffer = new Buffer.from(reader.result)
+    file.write(outputPath, buffer);
+  }
+  reader.readAsArrayBuffer(blob)
 
   // Store the location of the exported frame
   exportedFramesList.push(outputPath);
