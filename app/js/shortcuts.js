@@ -2,7 +2,7 @@ module.exports = {};
 
 (function () {
   "use strict";
-  var notification = require("./notification"),
+  var Notification = require("../ui/Notification/Notification"),
       allShortcuts = {},
       activeGroups = [],
 
@@ -18,7 +18,7 @@ module.exports = {};
             playAudio = !playAudio;
             // Toggle checkbox on related menubar item
             menubar.subMenus.capture.items[2].checked = !menubar.subMenus.capture.items[2].checked;
-            notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+            Notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
           },
           playPause: function() {
             btnPlayPause.click();
