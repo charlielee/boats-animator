@@ -250,6 +250,13 @@ td:first-of-type .frame-reel-preview {
 }
 
 /* Preview image */
+.frame-reel-img {
+  background-color: #2B2B2B;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 50px;
+  width: 67px;
+}
 .frame-reel-img:hover { opacity: 0.8; }
 .frame-reel-img.selected { outline: 1px solid #d9d9d9; }
 

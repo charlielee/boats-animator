@@ -6,10 +6,6 @@ class PlaybackCanvas {
   constructor() {
   }
 
-  getSrc() {
-    return playback.toDataURL("image/png");
-  }
-
   drawImage(imgSrc) {
     context.drawImage(imgSrc, 0, 0, preview.videoWidth, preview.videoHeight);
   }
