@@ -4,7 +4,7 @@ module.exports = {};
   "use strict";
   const fs                 = require("fs"),
         mkdirp             = require("../lib/mkdirp"),
-        notification       = require("./notification"),
+        Notification       = require("../ui/Notification/Notification"),
         SAVE_DIRECTORY_KEY = "ba-save-dir";
 
   /**
@@ -67,7 +67,7 @@ module.exports = {};
     mkdirp(dir, function(err) {
       if (err) {
         console.error(err);
-        notification.error(`Failed to create save directory at ${dir}`);
+        Notification.error(`Failed to create save directory at ${dir}`);
       }
     });
   }

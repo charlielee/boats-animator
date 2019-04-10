@@ -5,8 +5,9 @@ module.exports = {};
   "use strict";
   // Import modules
   var cameraResolutions = require("./camera-resolutions");
-  var notification = require("./notification");
-  var previewArea = require("./previewArea");
+  var Notification = require("../ui/Notification/Notification");
+  var PreviewArea = require("../ui/PreviewArea/PreviewArea");
+  var StatusBar = require("../ui/StatusBar/StatusBar");
 
   // The current video stream
   let curStream = null;
@@ -14,7 +15,6 @@ module.exports = {};
   // Get the DOM selectors needed
   let qResoluSelect   = document.querySelector("#form-resolution-select"),
       qCameraSelect   = document.querySelector("#camera-select-td select"),
-      statusBarCurRes = document.querySelector("#current-resolution"),
       videoCapture    = document.createElement("video");
 
   /** Class variables */
@@ -47,7 +47,7 @@ module.exports = {};
      */
     showResolutions: function () {
       // Display loading window
-      previewArea.curWindow.showLoading(`Loading ${this.name}`, true);
+      PreviewArea.curWindow.showLoading(`Loading ${this.name}`, true);
       // See if resolutions have already been found
       if (this.resolutions.length > 0) {
         Camera._updateResoluSelect(this.resolutions);
@@ -160,9 +160,9 @@ module.exports = {};
       // Display this feed in the preview area
       Camera.display(feed, document.querySelector("#preview"));
     } catch (err) {
-      notification.error(`${curCam.name} could not be loaded!`);
+      Notification.error(`${curCam.name} could not be loaded!`);
     } finally {
-      previewArea.curWindow.display();
+      PreviewArea.curWindow.display();
     }
   }
 
@@ -213,7 +213,7 @@ module.exports = {};
       // Get the proper camera name
       let cameraName = `Camera #${i + 1}`;
       if (source.label) {
-        cameraName = source.label.substr(0, source.label.indexOf("(") - 1);
+        cameraName = source.label.split("(")[0];
       }
 
       // Create the menu selection
@@ -224,6 +224,7 @@ module.exports = {};
 
       // Add to camera list if new
       if (!(source.deviceId in Camera.list)) {
+        console.log(cameraName);
         const cam = new Camera(source.deviceId, cameraName);
         Camera.list[source.deviceId] = cam;
         // Update localStorage list
@@ -238,7 +239,7 @@ module.exports = {};
 
     // Switch to "no camera selected" if current success camera is no longer connected
     if (Object.keys(Camera.successCam).length > 0 && !isCurCamStillConnected) {
-      notification.info(`${Camera.successCam.name} has been removed`);
+      Notification.info(`${Camera.successCam.name} has been removed`);
       Camera.successCam = {};
 
       // Switch to "no camera selected"
@@ -290,14 +291,14 @@ module.exports = {};
     var curRes = qResoluSelect.options[Camera.getSelectedResolution()].innerText;
     // Notify whether this is a new camera connection or a resolution change
     if (Camera.successCam === curCam) {
-      notification.success(`${curCam.name} resolution is now ${curRes}`);
+      Notification.success(`${curCam.name} resolution is now ${curRes}`);
     } else {
-      notification.success(`${curCam.name} successfully connected`);
+      Notification.success(`${curCam.name} successfully connected`);
       Camera.successCam = curCam;
     }
 
     // Update resolution in status bar
-    statusBarCurRes.innerText = curRes;
+    StatusBar.setResolution(curRes);
 
     videoCapture.srcObject = mediaStream;
     videoCapture.play();
@@ -309,7 +310,7 @@ module.exports = {};
   }
 
   function mediaError(err) {
-    notification.error("Could not find a camera to use!");
+    Notification.error("Could not find a camera to use!");
     console.error(err);
   }
 

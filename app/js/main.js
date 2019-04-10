@@ -4,15 +4,25 @@ var streaming = false,
 
   // The various HTML elements we need to configure or control.
   preview = document.querySelector("#preview"),
-  playback = document.querySelector("#playback"),
-  context = playback.getContext("2d"),
 
   // NW.js
-  win = nw.Window.get(),
+  win = nw.Window.get();
+
+  // UI imports
+  var FrameReel = require("./ui/FrameReel/FrameReel");
+  var Notification = require("./ui/Notification/Notification");
+  var OnionSkin = require("./ui/OnionSkin/OnionSkin");
+  var PlaybackCanvas = require("./ui/PlaybackCanvas/PlaybackCanvas");
+  var PreviewArea = require("./ui/PreviewArea/PreviewArea");
+  var StatusBar = require("./ui/StatusBar/StatusBar");
+
+  // UI instances
+  var frameReelInst = new FrameReel();
+  var onionSkinInst = new OnionSkin();
+  var playbackCanvasInst = new PlaybackCanvas();
 
   // Mode switching
-  PreviewArea = require("./js/previewArea"),
-  btnLiveView = document.querySelector("#btn-live-view"),
+  var btnLiveView = document.querySelector("#btn-live-view"),
   CaptureWindow = new PreviewArea(document.querySelector("#capture-window")),
   PlaybackWindow = new PreviewArea(document.querySelector("#playback-window")),
 
@@ -22,7 +32,6 @@ var streaming = false,
   // Capture
   capturedFrames = [],
   totalFrames = 0,
-  curSelectedFrame = null,
   btnCaptureFrame = document.querySelector("#btn-capture-frame"),
   btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
@@ -46,12 +55,6 @@ var streaming = false,
   captureAudio = "audio/camera.wav",
   playAudio = true,
 
-  // Status bar
-  statusBarCurMode = document.querySelector("#current-mode span"),
-  statusBarCurFrame = document.querySelector("#current-frame"),
-  statusBarFrameNum = document.querySelector("#num-of-frames"),
-  statusBarFrameRate = document.querySelector("#current-frame-rate span"),
-
   cameraSelect = document.querySelector("#camera-select-td select"),
   resolutionSelect = document.querySelector("#resolution-select-td select"),
 
@@ -59,21 +62,12 @@ var streaming = false,
   exportedFramesList = [],
   curDirDisplay = document.querySelector("#currentDirectoryName"),
 
-  // Onion skin
-  onionSkinWindow = document.querySelector("#onion-skinning-frame"),
-  onionSkinSlider = document.querySelector("#input-onion-skin-opacity"),
-
   // Frame reel
-  frameReelArea = document.querySelector("#area-frame-reel"),
-  frameReelMsg = document.querySelector("#area-frame-reel > p"),
   frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs"),
-  frameReelTable = document.querySelector("#area-frame-reel table"),
-  liveViewframeNo = document.querySelector("#live-view-frame-no"),
 
   // Node modules
   file = require("./js/file"),
   shortcuts = require("./js/shortcuts"),
-  notification = require("./js/notification"),
   saveDirectory = require("./js/savedirectory"),
   menubar = require("./js/menubar"),
   swal = require("./lib/sweetalert"),
@@ -148,7 +142,7 @@ function startup() {
   }
 
   // Set default frame rate
-  statusBarFrameRate.innerHTML = frameRate;
+  StatusBar.setFrameRate(frameRate);
   inputChangeFR.value = frameRate;
 
   // Set default view
@@ -183,8 +177,7 @@ function startup() {
   // Initialises the preview window
   preview.addEventListener("canplay", function () {
     if (!streaming) {
-      playback.setAttribute("width", preview.videoWidth.toString());
-      playback.setAttribute("height", preview.videoHeight.toString());
+      playbackCanvasInst.setDimensions(preview.videoWidth.toString(), preview.videoHeight.toString())
       streaming = true;
     }
   });
@@ -217,9 +210,6 @@ function startup() {
 
   // Toggle preview looping
   btnLoop.addEventListener("click", _toggleVideoLoop);
-
-  // Change onion skin opacity
-  onionSkinSlider.addEventListener("input", _onionSkinChangeAmount);
 
   // Change the default save directory
   btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
@@ -262,19 +252,19 @@ function startup() {
 
   // Preview one frame to the right on framereel
   btnFrameNext.addEventListener("click", function () {
-    if (curSelectedFrame) {
-      if (curSelectedFrame !== totalFrames) {
-        _displayFrame(curSelectedFrame + 1);
+    if (frameReelInst.curSelectedFrame) {
+      if (frameReelInst.curSelectedFrame !== totalFrames) {
+        _displayFrame(frameReelInst.curSelectedFrame + 1);
       } else {
-        switchToLiveView();
+        switchMode(CaptureWindow);
       }
     }
   });
 
   // Preview one frame to the left on framereel
   btnFramePrevious.addEventListener("click", function () {
-    if (curSelectedFrame > 1) {
-      _displayFrame(curSelectedFrame - 1);
+    if (frameReelInst.curSelectedFrame > 1) {
+      _displayFrame(frameReelInst.curSelectedFrame - 1);
     } else if (PreviewArea.curWindow === CaptureWindow && totalFrames) {
       switchMode(PlaybackWindow);
       _displayFrame(totalFrames);
@@ -291,8 +281,8 @@ function startup() {
 
   // Preview last frame on framereel
   btnFrameLast.addEventListener("click", function () {
-    if (curSelectedFrame) {
-      (curSelectedFrame !== totalFrames ? videoStop : switchToLiveView)();
+    if (frameReelInst.curSelectedFrame) {
+      (frameReelInst.curSelectedFrame !== totalFrames ? videoStop : switchMode(CaptureWindow))();
     }
   });
 
@@ -303,7 +293,7 @@ function startup() {
     } else {
       frameRate = 15;
     }
-    statusBarFrameRate.innerHTML = frameRate;
+    StatusBar.setFrameRate(frameRate);
     if (PreviewArea.curWindow === PlaybackWindow) {
       videoStop();
     }
@@ -323,7 +313,9 @@ function startup() {
   });
 
   // Switch from frame preview back to live view
-  btnLiveView.addEventListener("click", switchToLiveView);
+  btnLiveView.addEventListener("click", function() {
+    switchMode(CaptureWindow);
+  });
 
   // Preview a captured frame
   frameReelRow.addEventListener("click", function (e) {
@@ -351,51 +343,17 @@ function switchMode(NewWindow) {
   NewWindow.display();
 
   if (PreviewArea.curWindow === CaptureWindow) {
-    _updateStatusBarCurFrame(totalFrames + 1);
-    btnLiveView.classList.add("selected");
-    statusBarCurMode.innerText = "Capture";
+    videoStop();
+    StatusBar.setCurrentFrame(totalFrames + 1);
+    StatusBar.setMode("Capture");
+    frameReelInst.selectLiveViewButton();
 
   } else if (PreviewArea.curWindow === PlaybackWindow) {
-    btnLiveView.classList.remove("selected");
-    statusBarCurMode.innerText = "Playback";
+    frameReelInst.selectLiveViewButton(false);
+    StatusBar.setMode("Playback");
   }
 
   console.log(`Switched to: ${NewWindow.el.id}`);
-}
-
-/**
- * Remove selected frame highlight from the timeline.
- *
- * @returns {Boolean} True if there was a highlight to remove, false otherwise.
- */
-function _removeFrameReelSelection() {
-  "use strict";
-  var selectedFrame = document.querySelector(".frame-reel-img.selected");
-  if (selectedFrame) {
-    selectedFrame.classList.remove("selected");
-    curSelectedFrame = null;
-    return true;
-  }
-  return false;
-}
-
-/**
- * Add selected frame highlight to frame.
- * @param {Number} id The image ID to highlight.
- */
-function _addFrameReelSelection(id) {
-  "use strict";
-  document.querySelector(`.frame-reel-img#img-${id}`).classList.add("selected");
-  curSelectedFrame = id;
-}
-
-/**
- * Change the current frame number on the status bar.
- * @param {Integer} id The value to change the frame number to.
- */
-function _updateStatusBarCurFrame(id) {
-  "use strict";
-  statusBarCurFrame.innerHTML = id;
 }
 
 /**
@@ -410,66 +368,32 @@ function updateFrameReel(action, id) {
   "use strict";
   var onionSkinFrame = id - 1;
   // Display number of captured frames in status bar
-  statusBarFrameNum.innerHTML = totalFrames;
+  StatusBar.setTotalFrames(totalFrames);
 
   // Add the newly captured frame
   if (action === "capture") {
-    // Remove any frame selection
-    _removeFrameReelSelection();
-
-    // Insert the new frame into the reel
-    frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-<div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
-<img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${capturedFrames[id - 1].src}">
-</div></td>`);
+    frameReelInst.addFrame(id, capturedFrames[id - 1].src);
 
     // Remove the chosen frame
   } else if (action === "delete") {
     if (id !== totalFrames) {
       onionSkinFrame = id - 2;
     }
-    frameReelRow.removeChild(frameReelRow.children[id - 1]);
+    frameReelInst.removeFrame(id)
   }
 
-  // Update the last frame number above the live view button
-  liveViewframeNo.innerHTML = totalFrames + 1;
+  // Switch to capture mode
+  // todo in the future "delete any frame" may mean sometimes
+  // we should switch to playback mode
+  switchMode(CaptureWindow);
 
   // We have frames, display them
   if (totalFrames > 0) {
-    frameReelMsg.classList.add("hidden");
-    frameReelTable.classList.remove("hidden");
-
     // Update onion skin frame
-    onionSkinWindow.setAttribute("src", capturedFrames[onionSkinFrame].src);
-
-    // Update frame preview selection
-    if (curSelectedFrame) {
-      _removeFrameReelSelection();
-      _addFrameReelSelection(id - 1);
-      _updateStatusBarCurFrame(id - 1);
-    } else if (PreviewArea.curWindow === CaptureWindow) {
-      _updateStatusBarCurFrame(totalFrames + 1);
-    }
-
-    // All the frames were deleted, display "No frames" message
+    onionSkinInst.setFrame(capturedFrames[onionSkinFrame].src);
   } else {
-    frameReelMsg.classList.remove("hidden");
-    frameReelTable.classList.add("hidden");
-    switchMode(CaptureWindow);
-
     // Clear the onion skin window
-    onionSkinWindow.removeAttribute("src");
-  }
-}
-
-/**
- * Stop active playback and switch to live view.
- */
-function switchToLiveView() {
-  if (totalFrames > 0) {
-    videoStop();
-    _removeFrameReelSelection();
-    switchMode(CaptureWindow);
+    onionSkinInst.clear();
   }
 }
 
@@ -482,7 +406,7 @@ function deleteFrame(id) {
   "use strict";
   file.delete(exportedFramesList[id - 1], {
     success: function () {
-      notification.success("File successfully deleted.");
+      Notification.success("File successfully deleted.");
     }
   });
 
@@ -503,7 +427,7 @@ function takeFrame() {
   "use strict";
   // Prevent taking frames without a set output path
   if (!saveDirectory.get()) {
-    notification.error("A save directory must be first set!");
+    Notification.error("A save directory must be first set!");
     return false;
   }
 
@@ -526,7 +450,7 @@ function undoFrame() {
       }
     });
   } else {
-    notification.error("There is no previous frame to undo!");
+    Notification.error("There is no previous frame to undo!");
   }
 }
 
@@ -555,9 +479,8 @@ function _captureFrame() {
   // Take a picture
   if (streaming) {
     // Draw the image on the canvas
-    playback.width = preview.videoWidth;
-    playback.height = preview.videoHeight;
-    context.drawImage(preview, 0, 0, preview.videoWidth, preview.videoHeight);
+    playbackCanvasInst.setDimensions(preview.videoWidth, preview.videoHeight);
+    playbackCanvasInst.drawImage(preview);
 
     // Convert the frame to a PNG
     playback.toBlob(function(blob) {
@@ -576,9 +499,6 @@ function _captureFrame() {
       // Save the frame to disk and update the frame reel
       updateFrameReel("capture", totalFrames);
       saveFrame(totalFrames, blob);
-
-      // Scroll the frame reel to the end
-      frameReelArea.scrollLeft = frameReelArea.scrollWidth;
     }, "image/png");
   }
 }
@@ -643,13 +563,11 @@ function _displayFrame(id) {
   if (totalFrames > 0) {
     // Reset the player
     videoPause();
-    _removeFrameReelSelection();
 
     // Preview selected frame ID
-    _addFrameReelSelection(id);
-    context.drawImage(capturedFrames[id - 1], 0, 0, preview.videoWidth, preview.videoHeight);
-    _updateStatusBarCurFrame(id);
-    _frameReelScroll();
+    frameReelInst.selectFrame(id);
+    playbackCanvasInst.drawImage(capturedFrames[id - 1]);
+    StatusBar.setCurrentFrame(id);
   }
 
   // Set the current play frame
@@ -668,7 +586,7 @@ function _videoPlay() {
     if (curPlayFrame >= totalFrames) {
       // We are not looping, stop the playback
       if (!isLooping) {
-        switchToLiveView();
+        switchMode(CaptureWindow);
         return;
       }
 
@@ -678,13 +596,10 @@ function _videoPlay() {
     }
 
     // Display each frame and update the UI accordingly
-    _removeFrameReelSelection();
-    context.drawImage(capturedFrames[curPlayFrame], 0, 0, preview.videoWidth, preview.videoHeight);
-    _updateStatusBarCurFrame(curPlayFrame + 1);
-    _addFrameReelSelection(curPlayFrame + 1);
+    playbackCanvasInst.drawImage(capturedFrames[curPlayFrame]);
+    StatusBar.setCurrentFrame(curPlayFrame + 1);
+    frameReelInst.selectFrame(curPlayFrame + 1);
 
-    // Scroll the framereel with playback
-    _frameReelScroll();
     curPlayFrame++;
   }, 1000 / frameRate);
 }
@@ -702,7 +617,7 @@ function previewCapturedFrames() {
 
   // Reset canvas to first frame if playing from start
   if (curPlayFrame == 0) {
-    context.drawImage(capturedFrames[0], 0, 0, preview.videoWidth, preview.videoHeight);
+    playbackCanvasInst.drawImage(capturedFrames[0]);
   }
 
   // Update the play/pause button
@@ -713,44 +628,6 @@ function previewCapturedFrames() {
   console.info("Playback started");
   isPlaying = true;
   _videoPlay();
-}
-
-/**
- * Scroll the framereel during playback
- */
-function _frameReelScroll() {
-  "use strict";
-  if (curPlayFrame === 0) {
-    // Scroll to start when playback begins
-    frameReelArea.scrollLeft = 0;
-  } else if (curPlayFrame + 1 !== totalFrames) {
-    // Scroll so currently played frame is in view
-    document.querySelector(`.frame-reel-img#img-${curPlayFrame + 1}`).parentNode.scrollIntoView();
-  } else {
-    // Scroll to end when playback has stopped
-    frameReelArea.scrollLeft = frameReelArea.scrollWidth;
-  }
-}
-
-/**
- * Change onion skinning opacity.
- *
- * @param {Object} ev Event object from addEventListener.
- */
-function _onionSkinChangeAmount(ev) {
-  "use strict";
-  // Calculate the percentage opacity value
-  var amount = ev.target.value;
-
-  ev.target.setAttribute("title", `${amount}%`);
-  onionSkinWindow.style.opacity = Math.abs(amount / 100);
-
-  // Make it easier to switch off onion skinning
-  if (amount >= -6 && amount <= 6) {
-    onionSkinWindow.style.opacity = 0;
-    onionSkinSlider.value = 0;
-    onionSkinSlider.setAttribute("title", "0%");
-  }
 }
 
 /**
@@ -771,7 +648,7 @@ function _displaySaveDirectory(dir) {
   "use strict";
   curDirDisplay.innerHTML = dir;
   document.title = `Boats Animator (${dir})`;
-  notification.success(`Current save directory is ${dir}`);
+  Notification.success(`Current save directory is ${dir}`);
 }
 
 /**
