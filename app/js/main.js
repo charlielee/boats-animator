@@ -566,6 +566,9 @@ function _captureFrame() {
 
     // Convert the frame to a PNG
     playback.toBlob(function(blob) {
+      // Play a camera sound
+      audio(captureAudio);
+
       var frame = new Image();
       var url = URL.createObjectURL(blob);
       frame.src = url;
@@ -581,10 +584,7 @@ function _captureFrame() {
 
       // Scroll the frame reel to the end
       frameReelArea.scrollLeft = frameReelArea.scrollWidth;
-
-      // Play a camera sound
-      audio(captureAudio);
-    });
+    }, "image/png");
   }
 }
 
@@ -783,6 +783,7 @@ function _displaySaveDirectory(dir) {
  * Save the captured frame to the hard drive.
  *
  * @param {Number} id - The frame ID to save.
+ * @param {Blob} blob - The Blob object containing image data to save.
  */
 function saveFrame(id, blob) {
   "use strict";
