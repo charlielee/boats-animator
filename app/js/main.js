@@ -373,6 +373,7 @@ function updateFrameReel(action, id) {
   // Add the newly captured frame
   if (action === "capture") {
     frameReelInst.addFrame(id, capturedFrames[id - 1].src);
+    frameReelInst.setFrameThumbnail(id, capturedFrames[id - 1].src)
 
     // Remove the chosen frame
   } else if (action === "delete") {

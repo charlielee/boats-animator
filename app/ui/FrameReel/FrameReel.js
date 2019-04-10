@@ -19,17 +19,16 @@ class FrameReel {
   /**
    * Adds a frame to the frame reel.
    * @param {integer} id The id of the frame to add (note ids should start at 1).
-   * @param {blob} imageSrc The imageSrc of the frame.
    */
-  addFrame(id, imageSrc) {
+  addFrame(id) {
     // Deselect the currently selected frame
     this._deselectFrame();
 
     // Insert the new frame into the reel
     frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
     <div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
-    <img class="frame-reel-img" id="img-${id}" title="Frame ${id}" width="67" height="50" src="${imageSrc}">
-    </div></td>`);
+    <div class="frame-reel-img" id="img-${id}" title="Frame ${id}">
+    </div></div></td>`);
     this.totalFrames++;
 
     // Update the last frame number above the live view button
@@ -37,6 +36,15 @@ class FrameReel {
 
     // Hide no frames message
     this._showNoFramesMessage(false);
+  }
+
+  /**
+   * Sets the thumbnail of a frame reel item.
+   * @param {Number} id The id of the frame to add (note ids should start at 1).
+   * @param {Blob} imageSrc The imageSrc of the frame.
+   */
+  setFrameThumbnail(id, imageSrc) {
+    document.querySelector(`#img-${id}`).style.backgroundImage = `url("${imageSrc}")`;
   }
 
   /**
