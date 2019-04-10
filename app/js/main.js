@@ -499,9 +499,6 @@ function _captureFrame() {
       // Save the frame to disk and update the frame reel
       updateFrameReel("capture", totalFrames);
       saveFrame(totalFrames, blob);
-
-      // Scroll the frame reel to the end
-      frameReelArea.scrollLeft = frameReelArea.scrollWidth;
     }, "image/png");
   }
 }
