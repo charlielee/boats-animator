@@ -23,7 +23,7 @@ var streaming = false,
   var StatusBar = require("./ui/StatusBar/StatusBar");
 
   // UI instances
-  var frameReelInst = new FrameReel();
+  var frameReelInst = takeInst.frameReel;
 
   // Mode switching
   var btnLiveView = document.querySelector("#btn-live-view"),
@@ -278,7 +278,7 @@ function startup() {
   // Preview last frame on framereel
   btnFrameLast.addEventListener("click", function () {
     if (frameReelInst.curSelectedFrame) {
-      (frameReelInst.curSelectedFrame !== takeInst.getTotalFrames() ? videoStop : switchMode(CaptureWindow))();
+      (frameReelInst.curSelectedFrame !== takeInst.getTotalFrames() ? videoStop() : switchMode(CaptureWindow));
     }
   });
 
