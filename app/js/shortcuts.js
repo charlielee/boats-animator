@@ -3,7 +3,7 @@ module.exports = {};
 (function () {
   "use strict";
   var AudioManager = require("../common/AudioManager/AudioManager");
-  var file = require("./js/file");
+  var file = require("./file");
   var Notification = require("../ui/Notification/Notification");
   
   var allShortcuts = {},

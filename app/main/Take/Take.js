@@ -9,7 +9,7 @@ var StatusBar = require("../../ui/StatusBar/StatusBar");
 
 // Common imports
 var AudioManager = require("../../common/AudioManager/AudioManager");
-var file = require("../../js/file"),
+var file = require("../../js/file");
 
 /** Represents a single take (image sequence). */
 class Take {
@@ -148,10 +148,20 @@ class Take {
   /**
    * TODO - build on code in issue-85 branch
    * Imports frames to the take from a given directory.
-   * @param {String} path The folder to import frames todo
+   * @param {String} path The folder to import frames from.
    */
   importFrames(path) {
     // todo
+  }
+
+  /**
+   * Loads the take into view.
+   */
+  display() {
+    // todo
+    // Clear and reload frame reel
+    // Reload statusbar
+    // Reload playback
   }
 
   /**

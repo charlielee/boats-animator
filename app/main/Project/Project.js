@@ -8,14 +8,15 @@ class Project {
    * @param {String} title The project's title
    */
   constructor(title) {
-    // this.frameRate = new FrameRate(15);
-    // this.saveDirectory = new SaveDirectory("/some/file/location");
+    // todo this.frameRate = new FrameRate(15);
+    // todo this.saveDirectory = new SaveDirectory("/some/file/location");
     this.title = title;
     this.takes = [];
   }
 
   /**
-   * Adds a take to the project.
+   * Adds a Take to the project.
+   * Returns the new Take.
    */
   addTake() {
     var takeNumber = this.takes.length + 1;
