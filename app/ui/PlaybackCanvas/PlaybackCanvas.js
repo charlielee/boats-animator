@@ -12,6 +12,18 @@ class PlaybackCanvas {
   }
 
   /**
+   * Converts the playback canvas image to a Blob.
+   * @callback getBlobCallback
+   * @param {Blob} blob The Blob data from the canvas.
+   */
+  static getBlob(callback) {
+    // Convert the frame to a PNG
+    playback.toBlob(function(blob) {
+      callback(blob);
+    }, "image/png");
+  }
+
+  /**
    * Updates the dimensions of the playback canvas.
    * @param {Number} width The new width of the playback canvas.
    * @param {Number} height The new height of the playback canvas.
