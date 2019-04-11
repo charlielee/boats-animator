@@ -9,6 +9,7 @@ var StatusBar = require("../../ui/StatusBar/StatusBar");
 
 // Common imports
 var AudioManager = require("../../common/AudioManager/AudioManager");
+var file = require("../../js/file"),
 
 /** Represents a single take (image sequence). */
 class Take {
@@ -24,7 +25,7 @@ class Take {
     // Array of the paths of the captured images
     this.exportedFramesPaths = [];
     // The frame reel for the take
-    this.frameReel = new FrameReel();
+    this.frameReel = new FrameReel(); // todo use take framereel
     // The onion skin for the take
     this.onionSkin = new OnionSkin();
   }
