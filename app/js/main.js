@@ -19,7 +19,6 @@ var streaming = false,
   // UI instances
   var frameReelInst = new FrameReel();
   var onionSkinInst = new OnionSkin();
-  var playbackCanvasInst = new PlaybackCanvas();
 
   // Mode switching
   var btnLiveView = document.querySelector("#btn-live-view"),
@@ -177,7 +176,7 @@ function startup() {
   // Initialises the preview window
   preview.addEventListener("canplay", function () {
     if (!streaming) {
-      playbackCanvasInst.setDimensions(preview.videoWidth.toString(), preview.videoHeight.toString())
+      PlaybackCanvas.setDimensions(preview.videoWidth.toString(), preview.videoHeight.toString())
       streaming = true;
     }
   });
@@ -480,8 +479,8 @@ function _captureFrame() {
   // Take a picture
   if (streaming) {
     // Draw the image on the canvas
-    playbackCanvasInst.setDimensions(preview.videoWidth, preview.videoHeight);
-    playbackCanvasInst.drawImage(preview);
+    PlaybackCanvas.setDimensions(preview.videoWidth, preview.videoHeight);
+    PlaybackCanvas.drawImage(preview);
 
     // Convert the frame to a PNG
     playback.toBlob(function(blob) {
@@ -567,7 +566,7 @@ function _displayFrame(id) {
 
     // Preview selected frame ID
     frameReelInst.selectFrame(id);
-    playbackCanvasInst.drawImage(capturedFrames[id - 1]);
+    PlaybackCanvas.drawImage(capturedFrames[id - 1]);
     StatusBar.setCurrentFrame(id);
   }
 
@@ -597,7 +596,7 @@ function _videoPlay() {
     }
 
     // Display each frame and update the UI accordingly
-    playbackCanvasInst.drawImage(capturedFrames[curPlayFrame]);
+    PlaybackCanvas.drawImage(capturedFrames[curPlayFrame]);
     StatusBar.setCurrentFrame(curPlayFrame + 1);
     frameReelInst.selectFrame(curPlayFrame + 1);
 
@@ -618,7 +617,7 @@ function previewCapturedFrames() {
 
   // Reset canvas to first frame if playing from start
   if (curPlayFrame == 0) {
-    playbackCanvasInst.drawImage(capturedFrames[0]);
+    PlaybackCanvas.drawImage(capturedFrames[0]);
   }
 
   // Update the play/pause button
