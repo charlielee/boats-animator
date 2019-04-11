@@ -483,7 +483,7 @@ function _captureFrame() {
     PlaybackCanvas.drawImage(preview);
 
     // Convert the frame to a PNG
-    playback.toBlob(function(blob) {
+    PlaybackCanvas.getBlob(function(blob) {
       // Play a camera sound
       audio(captureAudio);
 
@@ -499,7 +499,7 @@ function _captureFrame() {
       // Save the frame to disk and update the frame reel
       updateFrameReel("capture", totalFrames);
       saveFrame(totalFrames, blob);
-    }, "image/png");
+    });
   }
 }
 
