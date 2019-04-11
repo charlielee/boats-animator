@@ -20,6 +20,9 @@ var streaming = false,
   var frameReelInst = new FrameReel();
   var onionSkinInst = new OnionSkin();
 
+  // Common imports
+  var AudioManager = require("./common/AudioManager/AudioManager");
+
   // Mode switching
   var btnLiveView = document.querySelector("#btn-live-view"),
   CaptureWindow = new PreviewArea(document.querySelector("#capture-window")),
@@ -49,10 +52,6 @@ var streaming = false,
   btnFrameFirst = document.querySelector("#btn-frame-first"),
   btnFrameLast = document.querySelector("#btn-frame-last"),
   inputChangeFR = document.querySelector("#input-fr-change"),
-
-  // Audio
-  captureAudio = "audio/camera.wav",
-  playAudio = true,
 
   cameraSelect = document.querySelector("#camera-select-td select"),
   resolutionSelect = document.querySelector("#resolution-select-td select"),
@@ -454,18 +453,6 @@ function undoFrame() {
   }
 }
 
-/**
- * Play audio if checkbox checked.
- * @param {String} file Location of audio file to play.
- */
-function audio(file) {
-  "use strict";
-  if (playAudio) {
-    var audio = new Audio(file);
-    audio.play();
-  }
-}
-
 function _captureFrame() {
   "use strict";
 
@@ -485,7 +472,7 @@ function _captureFrame() {
     // Convert the frame to a PNG
     PlaybackCanvas.getBlob(function(blob) {
       // Play a camera sound
-      audio(captureAudio);
+      AudioManager.play("audio/camera.wav");
 
       var frame = new Image();
       var url = URL.createObjectURL(blob);
