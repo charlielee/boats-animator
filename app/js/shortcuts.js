@@ -2,6 +2,7 @@ module.exports = {};
 
 (function () {
   "use strict";
+  var AudioManager = require("../common/AudioManager/AudioManager");
   var Notification = require("../ui/Notification/Notification"),
       allShortcuts = {},
       activeGroups = [],
@@ -15,10 +16,10 @@ module.exports = {};
           },
           undoFrame: undoFrame,
           audioToggle: function() {
-            playAudio = !playAudio;
+            AudioManager.setEnabled(!AudioManager.getEnabled())
             // Toggle checkbox on related menubar item
             menubar.subMenus.capture.items[2].checked = !menubar.subMenus.capture.items[2].checked;
-            Notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+            Notification.info(`Capture sounds ${AudioManager.getEnabled() ? "enabled" : "disabled"}.`);
           },
           playPause: function() {
             btnPlayPause.click();

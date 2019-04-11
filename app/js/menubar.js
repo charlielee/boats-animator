@@ -83,8 +83,8 @@ module.exports = {};
         {
           label: "Play capture sounds",
           click: function () {
-            playAudio = !playAudio;
-            Notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+            AudioManager.setEnabled(!AudioManager.getEnabled())
+            Notification.info(`Capture sounds ${AudioManager.getEnabled() ? "enabled" : "disabled"}.`);
           },
           type: "checkbox",
           checked: true,
