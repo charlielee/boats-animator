@@ -3,8 +3,10 @@ module.exports = {};
 (function () {
   "use strict";
   var AudioManager = require("../common/AudioManager/AudioManager");
-  var Notification = require("../ui/Notification/Notification"),
-      allShortcuts = {},
+  var file = require("./js/file");
+  var Notification = require("../ui/Notification/Notification");
+  
+  var allShortcuts = {},
       activeGroups = [],
 
       // All of the features that can be set as keyboard shortcuts.

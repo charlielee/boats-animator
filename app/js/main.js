@@ -9,10 +9,11 @@ var streaming = false,
   win = nw.Window.get();
 
   // Main imports
-  var Take = require("./main/Take/Take");
+  var Project = require("./main/Project/Project");
 
   // Main instances
-  var takeInst = new Take(1);
+  var projectInst = new Project("Untitled Project");
+  var takeInst = projectInst.addTake();
 
   // UI imports
   var FrameReel = require("./ui/FrameReel/FrameReel");
@@ -62,7 +63,6 @@ var streaming = false,
   frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs"),
 
   // Node modules
-  file = require("./js/file"),
   shortcuts = require("./js/shortcuts"),
   saveDirectory = require("./js/savedirectory"),
   menubar = require("./js/menubar"),
