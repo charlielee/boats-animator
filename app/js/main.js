@@ -38,7 +38,6 @@ var streaming = false,
   btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame"),
 
   // Playback
-  frameRate = 15,
   isPlaying = false,
   isLooping = false,
   curPlayFrame = 0,
@@ -51,7 +50,6 @@ var streaming = false,
   btnFramePrevious = document.querySelector("#btn-frame-previous"),
   btnFrameFirst = document.querySelector("#btn-frame-first"),
   btnFrameLast = document.querySelector("#btn-frame-last"),
-  inputChangeFR = document.querySelector("#input-fr-change"),
 
   cameraSelect = document.querySelector("#camera-select-td select"),
   resolutionSelect = document.querySelector("#resolution-select-td select"),
@@ -136,10 +134,6 @@ function startup() {
   } else {
     _displaySaveDirectory(path);
   }
-
-  // Set default frame rate
-  StatusBar.setFrameRate(frameRate);
-  inputChangeFR.value = frameRate;
 
   // Set default view
   switchMode(CaptureWindow);
@@ -279,32 +273,6 @@ function startup() {
   btnFrameLast.addEventListener("click", function () {
     if (frameReelInst.curSelectedFrame) {
       (frameReelInst.curSelectedFrame !== takeInst.getTotalFrames() ? videoStop() : switchMode(CaptureWindow));
-    }
-  });
-
-  // Listen for frame rate changes
-  inputChangeFR.addEventListener("input", function () {
-    if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
-      frameRate = parseInt(this.value, 10);
-    } else {
-      frameRate = 15;
-    }
-    StatusBar.setFrameRate(frameRate);
-    if (PreviewArea.curWindow === PlaybackWindow) {
-      videoStop();
-    }
-  });
-
-  // Listen for leaving frame rate input
-  inputChangeFR.addEventListener("blur", function () {
-    inputChangeFR.value = frameRate;
-    if (
-      inputChangeFR.value > 60 ||
-      inputChangeFR.value < 1 ||
-      Number.isNaN(inputChangeFR.value) ||
-      inputChangeFR.length > 2
-    ) {
-      inputChangeFR.value = 15;
     }
   });
 
@@ -513,7 +481,7 @@ function _videoPlay() {
     frameReelInst.selectFrame(curPlayFrame + 1);
 
     curPlayFrame++;
-  }, 1000 / frameRate);
+  }, 1000 / projectInst.frameRate.getFrameRateValue());
 }
 
 /**
