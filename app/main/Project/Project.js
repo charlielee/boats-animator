@@ -1,6 +1,9 @@
 // Main imports
 var Take = require("../../main/Take/Take");
 
+// UI imports
+var FrameRate = require("../../ui/FrameRate/FrameRate");
+
 /** Represents a project (a series of takes) */
 class Project {
   /**
@@ -8,7 +11,7 @@ class Project {
    * @param {String} title The project's title
    */
   constructor(title) {
-    // todo this.frameRate = new FrameRate(15);
+    this.frameRate = new FrameRate(15);
     // todo this.saveDirectory = new SaveDirectory("/some/file/location");
     this.title = title;
     this.takes = [];
@@ -31,21 +34,6 @@ class Project {
    */
   getTake(takeNumber) {
     return this.takes[takeNumber - 1];
-  }
-
-  /**
-   * Updates the project frame rate
-   * @param {Number} newFrameRate 
-   */
-  setFrameRate(newFrameRate) {
-    // todo
-  }
-
-  /**
-   * Returns the frame rate of the project.
-   */
-  getFrameRate() {
-    // todo
   }
 }
 
