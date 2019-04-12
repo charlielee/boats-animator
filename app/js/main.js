@@ -10,13 +10,13 @@ var streaming = false,
 
   // Main imports
   var Project = require("./main/Project/Project");
+  var SaveDirectory = require("./main/SaveDirectory/SaveDirectory");
 
   // Main instances
   var projectInst = new Project("Untitled Project");
   var takeInst = projectInst.addTake();
 
   // UI imports
-  var FrameReel = require("./ui/FrameReel/FrameReel");
   var Notification = require("./ui/Notification/Notification");
   var PlaybackCanvas = require("./ui/PlaybackCanvas/PlaybackCanvas");
   var PreviewArea = require("./ui/PreviewArea/PreviewArea");
@@ -62,7 +62,6 @@ var streaming = false,
 
   // Node modules
   shortcuts = require("./js/shortcuts"),
-  saveDirectory = require("./js/savedirectory"),
   menubar = require("./js/menubar"),
   swal = require("./lib/sweetalert"),
 
@@ -122,12 +121,12 @@ function closeAnimator() {
 
 function startup() {
   "use strict";
-  let path = saveDirectory.get();
+  let path = SaveDirectory.get();
 
   // There is no set save directory or the directory does not exist
   if (!path) {
     console.error("No save directory has been set!");
-    saveDirectory.set(null);
+    SaveDirectory.set(null);
     _changeSaveDirectory();
 
     // There is a valid save directory
@@ -148,7 +147,7 @@ function startup() {
     menubar.load();
 
     // Check the current save directory is clean
-    saveDirectory.checkDirHasNoFrames(path, function(hasFrames) {
+    SaveDirectory.checkDirHasNoFrames(path, function(hasFrames) {
       if (hasFrames) {
         confirmSet({
           title: "Warning",
@@ -207,10 +206,10 @@ function startup() {
   // Choose save directory dialog
   dirChooseDialog.addEventListener("change", function () {
     if (this.value) {
-      saveDirectory.set(this.value);
-      saveDirectory.make(this.value);
+      SaveDirectory.set(this.value);
+      SaveDirectory.make(this.value);
       _displaySaveDirectory(this.value);
-      saveDirectory.checkDirHasNoFrames(this.value, function(hasFrames) {
+      SaveDirectory.checkDirHasNoFrames(this.value, function(hasFrames) {
         if (hasFrames) {
           confirmSet({
             text: "The current save directory already contains captured frames! Please switch save directory or they will be overwritten.",
@@ -341,7 +340,7 @@ function deleteFrame(id) {
 function takeFrame() {
   "use strict";
   // Prevent taking frames without a set output path
-  if (!saveDirectory.get()) {
+  if (!SaveDirectory.get()) {
     Notification.error("A save directory must be first set!");
     return false;
   }
