@@ -3,8 +3,8 @@ module.exports = {};
 (function() {
   "use strict";
   const fs                 = require("fs"),
-        mkdirp             = require("../lib/mkdirp"),
-        Notification       = require("../ui/Notification/Notification"),
+        mkdirp             = require("../../lib/mkdirp"),
+        Notification       = require("../../ui/Notification/Notification"),
         SAVE_DIRECTORY_KEY = "ba-save-dir";
 
   /**

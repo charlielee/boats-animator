@@ -1,5 +1,5 @@
 // Main imports
-var saveDirectory = require("../../js/savedirectory");
+var SaveDirectory = require("../SaveDirectory/SaveDirectory");
 
 // UI imports
 var FrameReel = require("../../ui/FrameReel/FrameReel");
@@ -117,7 +117,7 @@ class Take {
     }
   
     // Create an absolute path to the destination location
-    var outputPath = `${saveDirectory.get()}/${fileName}.png`;
+    var outputPath = `${SaveDirectory.get()}/${fileName}.png`;
   
     // Save the frame to disk
     var reader = new FileReader()
