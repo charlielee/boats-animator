@@ -25,7 +25,7 @@ class Take {
     // Array of the paths of the captured images
     this.exportedFramesPaths = [];
     // The frame reel for the take
-    this.frameReel = new FrameReel(); // todo use take framereel
+    this.frameReel = new FrameReel();
     // The onion skin for the take
     this.onionSkin = new OnionSkin();
   }

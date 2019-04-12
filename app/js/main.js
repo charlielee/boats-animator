@@ -22,9 +22,6 @@ var streaming = false,
   var PreviewArea = require("./ui/PreviewArea/PreviewArea");
   var StatusBar = require("./ui/StatusBar/StatusBar");
 
-  // UI instances
-  var frameReelInst = takeInst.frameReel;
-
   // Mode switching
   var btnLiveView = document.querySelector("#btn-live-view"),
   CaptureWindow = new PreviewArea(document.querySelector("#capture-window")),
@@ -241,9 +238,9 @@ function startup() {
 
   // Preview one frame to the right on framereel
   btnFrameNext.addEventListener("click", function () {
-    if (frameReelInst.curSelectedFrame) {
-      if (frameReelInst.curSelectedFrame !== takeInst.getTotalFrames()) {
-        _displayFrame(frameReelInst.curSelectedFrame + 1);
+    if (takeInst.frameReel.curSelectedFrame) {
+      if (takeInst.frameReel.curSelectedFrame !== takeInst.getTotalFrames()) {
+        _displayFrame(takeInst.frameReel.curSelectedFrame + 1);
       } else {
         switchMode(CaptureWindow);
       }
@@ -252,8 +249,8 @@ function startup() {
 
   // Preview one frame to the left on framereel
   btnFramePrevious.addEventListener("click", function () {
-    if (frameReelInst.curSelectedFrame > 1) {
-      _displayFrame(frameReelInst.curSelectedFrame - 1);
+    if (takeInst.frameReel.curSelectedFrame > 1) {
+      _displayFrame(takeInst.frameReel.curSelectedFrame - 1);
     } else if (PreviewArea.curWindow === CaptureWindow && takeInst.getTotalFrames()) {
       switchMode(PlaybackWindow);
       _displayFrame(takeInst.getTotalFrames());
@@ -270,8 +267,8 @@ function startup() {
 
   // Preview last frame on framereel
   btnFrameLast.addEventListener("click", function () {
-    if (frameReelInst.curSelectedFrame) {
-      (frameReelInst.curSelectedFrame !== takeInst.getTotalFrames() ? videoStop() : switchMode(CaptureWindow));
+    if (takeInst.frameReel.curSelectedFrame) {
+      (takeInst.frameReel.curSelectedFrame !== takeInst.getTotalFrames() ? videoStop() : switchMode(CaptureWindow));
     }
   });
 
@@ -309,10 +306,10 @@ function switchMode(NewWindow) {
     videoStop();
     StatusBar.setCurrentFrame(takeInst.getTotalFrames() + 1);
     StatusBar.setMode("Capture");
-    frameReelInst.selectLiveViewButton();
+    takeInst.frameReel.selectLiveViewButton();
 
   } else if (PreviewArea.curWindow === PlaybackWindow) {
-    frameReelInst.selectLiveViewButton(false);
+    takeInst.frameReel.selectLiveViewButton(false);
     StatusBar.setMode("Playback");
   }
 
@@ -444,7 +441,7 @@ function _displayFrame(id) {
     videoPause();
 
     // Preview selected frame ID
-    frameReelInst.selectFrame(id);
+    takeInst.frameReel.selectFrame(id);
     PlaybackCanvas.drawImage(takeInst.capturedFrames[id - 1]);
     StatusBar.setCurrentFrame(id);
   }
@@ -477,7 +474,7 @@ function _videoPlay() {
     // Display each frame and update the UI accordingly
     PlaybackCanvas.drawImage(takeInst.capturedFrames[curPlayFrame]);
     StatusBar.setCurrentFrame(curPlayFrame + 1);
-    frameReelInst.selectFrame(curPlayFrame + 1);
+    takeInst.frameReel.selectFrame(curPlayFrame + 1);
 
     curPlayFrame++;
   }, 1000 / projectInst.frameRate.getFrameRateValue());
