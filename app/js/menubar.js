@@ -1,3 +1,9 @@
+// Main imports
+var SaveDirectory = require("../main/SaveDirectory/SaveDirectory");
+
+// Common imports
+var AudioManager = require("../common/AudioManager/AudioManager");
+
 module.exports = {};
 
 (function () {
@@ -93,7 +99,9 @@ module.exports = {};
         },
         {
           label: "Change capture destination",
-          click: _changeSaveDirectory
+          click: function() {
+            SaveDirectory.openDirChooseDialog();
+          }
         }
       ],
       playback: [
