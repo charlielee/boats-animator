@@ -13,7 +13,7 @@ class Project {
    */
   constructor(title) {
     this.frameRate = new FrameRate(15);
-    this.saveDirectory = new SaveDirectory(SaveDirectory.getDir());
+    this.saveDirectory = new SaveDirectory(SaveDirectory.getLocalStorageDir());
     this.title = title;
     this.takes = [];
   }
@@ -24,7 +24,7 @@ class Project {
    */
   addTake() {
     var takeNumber = this.takes.length + 1;
-    var take = new Take(takeNumber);
+    var take = new Take(takeNumber, this.saveDirectory);
     this.takes.push(take);
     return take;
   }

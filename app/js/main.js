@@ -277,14 +277,7 @@ function deleteFrame(id) {
  */
 function takeFrame() {
   "use strict";
-  // Prevent taking frames without a set output path
-  if (!projectInst.saveDirectory.saveDirLocation) {
-    Notification.error("A save directory must be first set!");
-    return false;
-  }
-
   _captureFrame();
-  return true;
 }
 
 /**
