@@ -1,11 +1,118 @@
-module.exports = {};
 
-(function() {
-  "use strict";
-  const fs                 = require("fs"),
-        mkdirp             = require("../../lib/mkdirp"),
-        Notification       = require("../../ui/Notification/Notification"),
-        SAVE_DIRECTORY_KEY = "ba-save-dir";
+// Library imports
+const fs = require("fs");
+const mkdirp = require("../../lib/mkdirp");
+
+// UI imports
+var Notification = require("../../ui/Notification/Notification");
+
+// Common imports
+var ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
+
+// Class variables
+const SAVE_DIRECTORY_KEY = "ba-save-dir";
+
+var curDirDisplay = document.querySelector("#currentDirectoryName");
+var dirChooseDialog = document.querySelector("#chooseDirectory");
+var btnDirectoryChange = document.querySelector("aside #btn-dir-change");
+
+class SaveDirectory {
+  /**
+   * Constructor.
+   * @param {String} saveDirlocation The path of the folder to save the Project to.
+   */
+  constructor(saveDirlocation) {
+    var self = this;
+    // Set the save directory location
+    this.saveDirLocation = null;
+    this.setSaveDirectoryLocation(saveDirlocation);
+
+    // Listen for the choose save directory dialog being activated
+    dirChooseDialog.addEventListener("change", function () {
+      if (this.value) {
+        self.setSaveDirectoryLocation(this.value);
+      }
+    });
+
+    // Listen for clicking the change default save directory button
+    btnDirectoryChange.addEventListener("click", function() {
+      SaveDirectory.openDirChooseDialog()
+    });
+  }
+
+  /**
+   * Sets the save directory location, or displays the directory dialog if invalid directory.
+   * @param {String} newLocation The location of to save exported frames
+   */
+  setSaveDirectoryLocation(newLocation) {
+    // There is no set save directory or the directory does not exist
+    if (!newLocation) {
+      console.error("No save directory has been set!");
+      SaveDirectory.openDirChooseDialog();
+
+    } else {
+       // Update the new save directory
+      this.saveDirLocation = newLocation;
+      SaveDirectory.setDir(newLocation);
+
+      // Check the new directory is empty
+      SaveDirectory.checkDirHasNoFrames(newLocation, function(hasFrames) {
+        if (hasFrames) {
+          ConfirmDialog.confirmSet({
+            text: "The current save directory already contains captured frames! Please switch save directory or they will be overwritten.",
+            buttons: ["Continue", "Change save directory"]
+          })
+          .then((response) => {
+            if (response) {
+              SaveDirectory.openDirChooseDialog();
+            }
+          });
+        }
+      });
+    }
+  }
+
+  /** Static methods */
+
+  /**
+   * Set the app save directory.
+   * TODO: remove localStorage item when projects are implemented
+   *
+   * @param {String} dir The directory to save.
+   * @returns {void}
+   */
+  static setDir(dir) {
+    // Make the save directory if it doesn't exist
+    SaveDirectory.makeDir(dir);
+    localStorage.setItem(SAVE_DIRECTORY_KEY, dir);
+    SaveDirectory.displaySaveDirectory(dir);
+  }
+
+  /**
+   * Get the app save directory.
+   * TODO: remove localStorage item when projects are implemented
+   *
+   * @returns {!String} The stored directory if available, null otherwise.
+   */
+  static getDir() {
+    let dir = localStorage.getItem(SAVE_DIRECTORY_KEY);
+    return SaveDirectory.checkDir(dir) ? dir : null;
+  }
+
+  /**
+   * Create the app save directory.
+   *
+   * @param {String} dir - The directory to create.
+   * @returns {void}
+   */
+  static makeDir(dir) {
+    mkdirp(dir, function(err) {
+      if (err) {
+        console.error(err);
+        Notification.error(`Failed to create save directory at ${dir}`);
+      }
+    });
+  }
 
   /**
    * Check if the app save directory exists on the file system.
@@ -13,17 +120,18 @@ module.exports = {};
    * @param {String} dir - The directory to check.
    * @returns {Boolean} True if the directory exists, false otherwise.
    */
-  function checkDir(dir) {
+  static checkDir(dir) {
     return fs.existsSync(dir);
   }
 
   /**
    * Check if the app save directory has any frames, to prevent them being overwritten.
-   *
+   * TODO - this method will be unnecessary once Projects are fully implemented.
+   * 
    * @param {String} dir - The directory to check.
    * @callback Returns true if frames found in the selected directory, otherwise false.
    */
-  function checkDirHasNoFrames(dir, cb) {
+  static checkDirHasNoFrames(dir, cb) {
     var files = fs.readdirSync(dir);
 
     // Filter files that are frames
@@ -38,45 +146,25 @@ module.exports = {};
   }
 
   /**
-   * Set the app save directory.
-   *
-   * @param {String} dir The directory to save.
-   * @returns {void}
-   */
-  function setDir(dir) {
-    localStorage.setItem(SAVE_DIRECTORY_KEY, dir);
+  * Display the app save directory in the UI.
+  *
+  * @param {String} dir The directory to display.
+  */
+  static displaySaveDirectory(dir) {
+    "use strict";
+    curDirDisplay.innerHTML = dir;
+    document.title = `Boats Animator (${dir})`;
+    Notification.success(`Current save directory is ${dir}`);
   }
 
+  
   /**
-   * Get the app save directory.
-   *
-   * @returns {!String} The stored directory if available, null otherwise.
+   * Change the app save directory by opening
+   * the system's native directory selection dialog.
    */
-  function getDir() {
-    let dir = localStorage.getItem(SAVE_DIRECTORY_KEY);
-    return checkDir(dir) ? dir : null;
+  static openDirChooseDialog() {
+    document.querySelector("#chooseDirectory").click();
   }
+}
 
-  /**
-   * Create the app save directory.
-   *
-   * @param {String} dir - The directory to create.
-   * @returns {void}
-   */
-  function makeDir(dir) {
-    mkdirp(dir, function(err) {
-      if (err) {
-        console.error(err);
-        Notification.error(`Failed to create save directory at ${dir}`);
-      }
-    });
-  }
-
-
-  // Public exports
-  module.exports.set   = setDir;
-  module.exports.get   = getDir;
-  module.exports.make  = makeDir;
-  module.exports.check = checkDir;
-  module.exports.checkDirHasNoFrames = checkDirHasNoFrames;
-}());
+module.exports = SaveDirectory;

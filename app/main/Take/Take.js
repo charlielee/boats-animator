@@ -82,7 +82,7 @@ class Take {
     
     // Update status bar and frame reel
     StatusBar.setTotalFrames(this.getTotalFrames());
-    frameReelInst.removeFrame(id);
+    this.frameReel.removeFrame(id);
 
     this._updateOnionSkin();
 
@@ -117,7 +117,9 @@ class Take {
     }
   
     // Create an absolute path to the destination location
-    var outputPath = `${SaveDirectory.get()}/${fileName}.png`;
+    // todo outputPath should eventually be ${SaveDirectory.get()}/${this.takeNumber}/${fileName}.png
+    // should auto make /saveDir/takeNo if required
+    var outputPath = `${SaveDirectory.getDir()}/${fileName}.png`;
   
     // Save the frame to disk
     var reader = new FileReader()

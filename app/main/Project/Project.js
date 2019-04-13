@@ -1,5 +1,6 @@
 // Main imports
 var Take = require("../../main/Take/Take");
+var SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
 
 // UI imports
 var FrameRate = require("../../ui/FrameRate/FrameRate");
@@ -12,7 +13,7 @@ class Project {
    */
   constructor(title) {
     this.frameRate = new FrameRate(15);
-    // todo this.saveDirectory = new SaveDirectory("/some/file/location");
+    this.saveDirectory = new SaveDirectory(SaveDirectory.getDir());
     this.title = title;
     this.takes = [];
   }

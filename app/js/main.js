@@ -10,7 +10,6 @@ var streaming = false,
 
   // Main imports
   var Project = require("./main/Project/Project");
-  var SaveDirectory = require("./main/SaveDirectory/SaveDirectory");
 
   // Main instances
   var projectInst = new Project("Untitled Project");
@@ -21,6 +20,9 @@ var streaming = false,
   var PlaybackCanvas = require("./ui/PlaybackCanvas/PlaybackCanvas");
   var PreviewArea = require("./ui/PreviewArea/PreviewArea");
   var StatusBar = require("./ui/StatusBar/StatusBar");
+
+  // Common imports
+  var ConfirmDialog = require("./common/ConfirmDialog/ConfirmDialog");
 
   // Mode switching
   var btnLiveView = document.querySelector("#btn-live-view"),
@@ -51,20 +53,13 @@ var streaming = false,
   cameraSelect = document.querySelector("#camera-select-td select"),
   resolutionSelect = document.querySelector("#resolution-select-td select"),
 
-  // Frame export
-  curDirDisplay = document.querySelector("#currentDirectoryName"),
-
   // Frame reel
   frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs"),
 
   // Node modules
   shortcuts = require("./js/shortcuts"),
   menubar = require("./js/menubar"),
-  swal = require("./lib/sweetalert"),
-
-  // Sidebar
-  dirChooseDialog = document.querySelector("#chooseDirectory"),
-  btnDirectoryChange = document.querySelector("aside #btn-dir-change");
+  swal = require("./lib/sweetalert");
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -102,7 +97,7 @@ function openAbout() {
  */
 win.on("close", function () {
   "use strict";
-  confirmSet({text: "Are you sure you want to exit Boats Animator?"})
+  ConfirmDialog.confirmSet({text: "Are you sure you want to exit Boats Animator?"})
   .then((response) => {
     if (response) {
       closeAnimator();
@@ -118,19 +113,6 @@ function closeAnimator() {
 
 function startup() {
   "use strict";
-  let path = SaveDirectory.get();
-
-  // There is no set save directory or the directory does not exist
-  if (!path) {
-    console.error("No save directory has been set!");
-    SaveDirectory.set(null);
-    _changeSaveDirectory();
-
-    // There is a valid save directory
-  } else {
-    _displaySaveDirectory(path);
-  }
-
   // Set default view
   switchMode(CaptureWindow);
 
@@ -142,22 +124,6 @@ function startup() {
     shortcuts.add("main");
     // Load top menu
     menubar.load();
-
-    // Check the current save directory is clean
-    SaveDirectory.checkDirHasNoFrames(path, function(hasFrames) {
-      if (hasFrames) {
-        confirmSet({
-          title: "Warning",
-          text: "The current save directory already contains captured frames! Please switch save directory or they will be overwritten.",
-          buttons: ["Continue", "Change save directory"]
-        })
-        .then((response) => {
-          if (response) {
-            _changeSaveDirectory();
-          }
-        });
-      }
-    });
   });
 
   // Initialises the preview window
@@ -196,31 +162,6 @@ function startup() {
 
   // Toggle preview looping
   btnLoop.addEventListener("click", _toggleVideoLoop);
-
-  // Change the default save directory
-  btnDirectoryChange.addEventListener("click", _changeSaveDirectory);
-
-  // Choose save directory dialog
-  dirChooseDialog.addEventListener("change", function () {
-    if (this.value) {
-      SaveDirectory.set(this.value);
-      SaveDirectory.make(this.value);
-      _displaySaveDirectory(this.value);
-      SaveDirectory.checkDirHasNoFrames(this.value, function(hasFrames) {
-        if (hasFrames) {
-          confirmSet({
-            text: "The current save directory already contains captured frames! Please switch save directory or they will be overwritten.",
-            buttons: ["Continue", "Change save directory"]
-          })
-          .then((response) => {
-            if (response) {
-              _changeSaveDirectory();
-            }
-          });
-        }
-      });
-    }
-  });
 
   // Play/pause the preview
   btnPlayPause.addEventListener("click", function () {
@@ -337,7 +278,7 @@ function deleteFrame(id) {
 function takeFrame() {
   "use strict";
   // Prevent taking frames without a set output path
-  if (!SaveDirectory.get()) {
+  if (!projectInst.saveDirectory.saveDirLocation) {
     Notification.error("A save directory must be first set!");
     return false;
   }
@@ -354,7 +295,7 @@ function undoFrame() {
   // Make sure there is a frame to delete
   if (takeInst.getTotalFrames() > 0) {
     // Display warning alert to confirm deletion
-    confirmSet({text: "Are you sure you want to delete the last frame captured?"})
+    ConfirmDialog.confirmSet({text: "Are you sure you want to delete the last frame captured?"})
     .then((response) => {
       if (response) {
         deleteFrame(takeInst.getTotalFrames());
@@ -506,57 +447,4 @@ function previewCapturedFrames() {
   _videoPlay();
 }
 
-/**
- * Change the app save directory by opening
- * the system's native directory selection dialog.
- */
-function _changeSaveDirectory() {
-  "use strict";
-  document.querySelector("#chooseDirectory").click();
-}
 
-/**
- * Display the app save directory in the UI.
- *
- * @param {String} dir The directory to display.
- */
-function _displaySaveDirectory(dir) {
-  "use strict";
-  curDirDisplay.innerHTML = dir;
-  document.title = `Boats Animator (${dir})`;
-  Notification.success(`Current save directory is ${dir}`);
-}
-
-/**
- * Creates a dialogue box
- * @param {Object} swalArgs The SweetAlert arguments to use.
- * @returns {Promise} Returns a Promise with the outcome of the dialogue.
- *                    Resolves true if confirm was selected and null if the alert was dismissed.
- */
-function confirmSet(swalArgs) {
-  "use strict";
-  // Set default SweetAlert argument values
-  swalArgs.title = swalArgs.title ? swalArgs.title : "Confirm";
-  swalArgs.text = swalArgs.text ? swalArgs.text : "Are you sure?";
-  swalArgs.icon = swalArgs.icon ? swalArgs.icon : "warning";
-  swalArgs.buttons = swalArgs.buttons ? swalArgs.buttons : true;
-
-  // Pause main shortcuts and menubar items
-  shortcuts.remove("main");
-  shortcuts.add("confirm");
-  menubar.toggleItems();
-
-  return new Promise(function(resolve, reject) {
-    // Create a SweetAlert dialogue with the selected arguments
-    swal(swalArgs)
-    .then((response) => {
-      // Resume main shortcuts and menubar items
-      shortcuts.remove("confirm");
-      shortcuts.add("main");
-      menubar.toggleItems();
-
-      // Resolve the promise
-      resolve(response);
-    });
-  });
-}
