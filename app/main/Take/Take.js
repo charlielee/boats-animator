@@ -1,5 +1,5 @@
 // Main imports
-var SaveDirectory = require("../SaveDirectory/SaveDirectory");
+var SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
 
 // UI imports
 var FrameReel = require("../../ui/FrameReel/FrameReel");
@@ -16,10 +16,13 @@ class Take {
   /**
    * Constructor for a new take
    * @param {Number} takeNumber The id of the take.
+   * @param {SaveDirectory} saveDirectory The project save directory for the take.
    */
-  constructor(takeNumber) {
+  constructor(takeNumber, saveDirectory) {
     // The id of the take
     this.takeNumber = takeNumber;
+    // Project save directory
+    this.saveDirectory = saveDirectory;
     // Array of captured Image elements
     this.capturedFrames = [];
     // Array of the paths of the captured images
@@ -34,6 +37,12 @@ class Take {
    * Captures a frame from the preview feed and adds it to the take.
    */
   captureFrame() {
+    // Prevent taking frames without a set output path
+    if (!this.saveDirectory.saveDirLocation) {
+      Notification.error("A save directory must be first set!");
+      return false;
+    }
+
     var self = this;
 
     // Draw the image on the canvas
@@ -62,6 +71,7 @@ class Take {
 
       self._updateOnionSkin();
       self._exportFrame(id, blob);
+      return true;
     });
   }
 
@@ -115,17 +125,22 @@ class Take {
     } else {
       fileName = `frame_000${id}`;
     }
+
+    // Make the output directory if it does not exist
+    // todo outputDir should eventually be ${this.saveDirectory.saveDirLocation}/${this.takeNumber}
+    var outputDir = this.saveDirectory.saveDirLocation;
+    if (!SaveDirectory.checkDir(outputDir)) {
+      SaveDirectory.makeDir(outputDir);
+    }
   
     // Create an absolute path to the destination location
-    // todo outputPath should eventually be ${SaveDirectory.get()}/${this.takeNumber}/${fileName}.png
-    // should auto make /saveDir/takeNo if required
-    var outputPath = `${SaveDirectory.getDir()}/${fileName}.png`;
+    var outputPath = `${outputDir}/${fileName}.png`;
   
     // Save the frame to disk
     var reader = new FileReader()
     reader.onload = function(){
       // Convert the frame blob to buffer
-      var buffer = new Buffer.from(reader.result)
+      var buffer = new Buffer.from(reader.result);
       file.write(outputPath, buffer);
     }
     reader.readAsArrayBuffer(blob)

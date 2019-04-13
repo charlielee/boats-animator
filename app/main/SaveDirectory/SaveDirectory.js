@@ -41,8 +41,8 @@ class SaveDirectory {
   }
 
   /**
-   * Sets the save directory location, or displays the directory dialog if invalid directory.
-   * @param {String} newLocation The location of to save exported frames
+   * Sets the save directory location, or displays the choose directory dialog if invalid.
+   * @param {String} newLocation The location of to save exported frames.
    */
   setSaveDirectoryLocation(newLocation) {
     // There is no set save directory or the directory does not exist
@@ -51,9 +51,15 @@ class SaveDirectory {
       SaveDirectory.openDirChooseDialog();
 
     } else {
+      // Make the save directory if it doesn't exist
+      if (!SaveDirectory.checkDir(newLocation)) {
+        SaveDirectory.makeDir(newLocation);
+      }
+
        // Update the new save directory
       this.saveDirLocation = newLocation;
-      SaveDirectory.setDir(newLocation);
+      SaveDirectory._setLocalStorageDir(newLocation);
+      SaveDirectory.displaySaveDirectory(newLocation);
 
       // Check the new directory is empty
       SaveDirectory.checkDirHasNoFrames(newLocation, function(hasFrames) {
@@ -75,35 +81,27 @@ class SaveDirectory {
   /** Static methods */
 
   /**
-   * Set the app save directory.
-   * TODO: remove localStorage item when projects are implemented
-   *
-   * @param {String} dir The directory to save.
-   * @returns {void}
+   * Get the app save directory from localStorage.
+   * TODO remove when projects are fully implemented.
+   * @returns {!String} The stored directory if available, null otherwise.
    */
-  static setDir(dir) {
-    // Make the save directory if it doesn't exist
-    SaveDirectory.makeDir(dir);
-    localStorage.setItem(SAVE_DIRECTORY_KEY, dir);
-    SaveDirectory.displaySaveDirectory(dir);
+  static getLocalStorageDir() {
+    return localStorage.getItem(SAVE_DIRECTORY_KEY);
   }
 
   /**
-   * Get the app save directory.
-   * TODO: remove localStorage item when projects are implemented
-   *
-   * @returns {!String} The stored directory if available, null otherwise.
+   * Set the app save directory fromLocalStorage.
+   * TODO remove when projects are fully implemented.
+   * @param {String} dir The directory to save.
    */
-  static getDir() {
-    let dir = localStorage.getItem(SAVE_DIRECTORY_KEY);
-    return SaveDirectory.checkDir(dir) ? dir : null;
+  static _setLocalStorageDir(dir) {
+    localStorage.setItem(SAVE_DIRECTORY_KEY, dir);
   }
 
   /**
    * Create the app save directory.
    *
    * @param {String} dir - The directory to create.
-   * @returns {void}
    */
   static makeDir(dir) {
     mkdirp(dir, function(err) {
@@ -157,7 +155,6 @@ class SaveDirectory {
     Notification.success(`Current save directory is ${dir}`);
   }
 
-  
   /**
    * Change the app save directory by opening
    * the system's native directory selection dialog.
