@@ -76,7 +76,7 @@ module.exports = {};
    */
   function addShortcuts(groupName) {
     // Check the shortcut group hasn't already been added.
-    if (!activeGroups.includes(groupName)) {
+    if (!activeGroups.includes(groupName) && allShortcuts[groupName]) {
       // Iterate through each feature of the shortcut group
       Object.keys(allShortcuts[groupName]).forEach(function(featureName) {
         // Iterate through each feature's array of shortcuts
