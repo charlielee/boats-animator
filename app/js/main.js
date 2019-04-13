@@ -58,8 +58,7 @@ var streaming = false,
 
   // Node modules
   shortcuts = require("./js/shortcuts"),
-  menubar = require("./js/menubar"),
-  swal = require("./lib/sweetalert");
+  menubar = require("./js/menubar");
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -258,6 +257,22 @@ function switchMode(NewWindow) {
 }
 
 /**
+ * Trigger frame capturing.
+ */
+function takeFrame() {
+  "use strict";
+
+  // Stop playback
+  videoStop();
+  switchMode(CaptureWindow);
+
+  // Take a picture
+  if (streaming) {
+    takeInst.captureFrame();
+  }
+}
+
+/**
  * Delete an individual frame.
  *
  * @param {Number} id The frame ID to delete.
@@ -267,17 +282,6 @@ function deleteFrame(id) {
   takeInst.deleteFrame(id);
   switchMode(CaptureWindow);
   console.info(`Total frames captured: ${takeInst.getTotalFrames()}`);
-}
-
-/**
- * Trigger frame capturing.
- * Prevents capturing if a save directory is not set.
- *
- * @returns {Boolean} True if a frame was captured, false otherwise.
- */
-function takeFrame() {
-  "use strict";
-  _captureFrame();
 }
 
 /**
@@ -296,20 +300,6 @@ function undoFrame() {
     });
   } else {
     Notification.error("There is no previous frame to undo!");
-  }
-}
-
-function _captureFrame() {
-  "use strict";
-
-  // Stop playback
-  videoStop();
-
-  switchMode(CaptureWindow);
-
-  // Take a picture
-  if (streaming) {
-    takeInst.captureFrame();
   }
 }
 
@@ -439,5 +429,3 @@ function previewCapturedFrames() {
   isPlaying = true;
   _videoPlay();
 }
-
-
