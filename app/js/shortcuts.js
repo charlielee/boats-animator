@@ -75,8 +75,12 @@ module.exports = {};
    * @returns {void}
    */
   function addShortcuts(groupName) {
+    if (!allShortcuts[groupName]) {
+      throw new Error("Invalid/not yet loaded shortcut group");
+    }
+
     // Check the shortcut group hasn't already been added.
-    if (!activeGroups.includes(groupName) && allShortcuts[groupName]) {
+    if (!activeGroups.includes(groupName)) {
       // Iterate through each feature of the shortcut group
       Object.keys(allShortcuts[groupName]).forEach(function(featureName) {
         // Iterate through each feature's array of shortcuts

@@ -12,8 +12,8 @@ var streaming = false,
   var Project = require("./main/Project/Project");
 
   // Main instances
-  var projectInst = new Project("Untitled Project");
-  var takeInst = projectInst.addTake();
+  var projectInst = null;
+  var takeInst = null;
 
   // UI imports
   var Notification = require("./ui/Notification/Notification");
@@ -112,8 +112,6 @@ function closeAnimator() {
 
 function startup() {
   "use strict";
-  // Set default view
-  switchMode(CaptureWindow);
 
   // Maximise window
   win.maximize();
@@ -123,6 +121,13 @@ function startup() {
     shortcuts.add("main");
     // Load top menu
     menubar.load();
+
+    // Initialise the project
+    projectInst = new Project("Untitled Project");
+    takeInst = projectInst.addTake();
+
+    // Set default view
+    switchMode(CaptureWindow);
   });
 
   // Initialises the preview window
