@@ -253,6 +253,7 @@ td:first-of-type .frame-reel-preview {
 .frame-reel-img {
   background-color: #2B2B2B;
   background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
   height: 50px;
   width: 67px;
