@@ -1,3 +1,9 @@
+// Main imports
+var SaveDirectory = require("../main/SaveDirectory/SaveDirectory");
+
+// Common imports
+var AudioManager = require("../common/AudioManager/AudioManager");
+
 module.exports = {};
 
 (function () {
@@ -83,8 +89,8 @@ module.exports = {};
         {
           label: "Play capture sounds",
           click: function () {
-            playAudio = !playAudio;
-            Notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+            AudioManager.setEnabled(!AudioManager.getEnabled())
+            Notification.info(`Capture sounds ${AudioManager.getEnabled() ? "enabled" : "disabled"}.`);
           },
           type: "checkbox",
           checked: true,
@@ -93,7 +99,9 @@ module.exports = {};
         },
         {
           label: "Change capture destination",
-          click: _changeSaveDirectory
+          click: function() {
+            SaveDirectory.openDirChooseDialog();
+          }
         }
       ],
       playback: [

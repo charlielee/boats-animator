@@ -2,8 +2,11 @@ module.exports = {};
 
 (function () {
   "use strict";
-  var Notification = require("../ui/Notification/Notification"),
-      allShortcuts = {},
+  var AudioManager = require("../common/AudioManager/AudioManager");
+  var file = require("./file");
+  var Notification = require("../ui/Notification/Notification");
+  
+  var allShortcuts = {},
       activeGroups = [],
 
       // All of the features that can be set as keyboard shortcuts.
@@ -15,10 +18,10 @@ module.exports = {};
           },
           undoFrame: undoFrame,
           audioToggle: function() {
-            playAudio = !playAudio;
+            AudioManager.setEnabled(!AudioManager.getEnabled())
             // Toggle checkbox on related menubar item
             menubar.subMenus.capture.items[2].checked = !menubar.subMenus.capture.items[2].checked;
-            Notification.info(`Capture sounds ${playAudio ? "enabled" : "disabled"}.`);
+            Notification.info(`Capture sounds ${AudioManager.getEnabled() ? "enabled" : "disabled"}.`);
           },
           playPause: function() {
             btnPlayPause.click();
@@ -72,6 +75,10 @@ module.exports = {};
    * @returns {void}
    */
   function addShortcuts(groupName) {
+    if (!allShortcuts[groupName]) {
+      throw new Error("Invalid/not yet loaded shortcut group");
+    }
+
     // Check the shortcut group hasn't already been added.
     if (!activeGroups.includes(groupName)) {
       // Iterate through each feature of the shortcut group
