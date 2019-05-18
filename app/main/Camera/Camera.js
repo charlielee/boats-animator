@@ -4,10 +4,10 @@ module.exports = {};
 (function () {
   "use strict";
   // Import modules
-  var cameraResolutions = require("./camera-resolutions");
-  var Notification = require("../ui/Notification/Notification");
-  var PreviewArea = require("../ui/PreviewArea/PreviewArea");
-  var StatusBar = require("../ui/StatusBar/StatusBar");
+  var cameraResolutions = require("./CameraResolutions");
+  var Notification = require("../../ui/Notification/Notification");
+  var PreviewArea = require("../../ui/PreviewArea/PreviewArea");
+  var StatusBar = require("../../ui/StatusBar/StatusBar");
 
   // The current video stream
   let curStream = null;

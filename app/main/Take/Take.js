@@ -9,7 +9,7 @@ var StatusBar = require("../../ui/StatusBar/StatusBar");
 
 // Common imports
 var AudioManager = require("../../common/AudioManager/AudioManager");
-var file = require("../../js/file");
+var File = require("../../common/File/File");
 
 /** Represents a single take (image sequence). */
 class Take {
@@ -80,7 +80,7 @@ class Take {
    * @param {Number} id The id of the frame to delete.
    */
   deleteFrame(id) {
-    file.delete(this.exportedFramesPaths[id - 1], {
+    File.delete(this.exportedFramesPaths[id - 1], {
       success: function () {
         Notification.success("File successfully deleted.");
       }
@@ -141,7 +141,7 @@ class Take {
     reader.onload = function(){
       // Convert the frame blob to buffer
       var buffer = new Buffer.from(reader.result);
-      file.write(outputPath, buffer);
+      File.write(outputPath, buffer);
     }
     reader.readAsArrayBuffer(blob)
   

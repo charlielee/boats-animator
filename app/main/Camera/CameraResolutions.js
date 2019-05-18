@@ -101,7 +101,7 @@ module.exports = {};
             playStream(curTestId);
         } else {
           // Push available resolutions when testing is complete
-          const Camera = require("./camera");
+          const Camera = require("./Camera");
           Camera.list[cameraId].resolutions = supported;
           Camera._updateResoluSelect(supported);
           console.log("Supported resolutions:", supported);

@@ -9,13 +9,16 @@ var streaming = false,
   win = nw.Window.get();
 
   // Main imports
-  var Project = require("./main/Project/Project");
+  const Camera = require("./main/Camera/Camera");
+  const Project = require("./main/Project/Project");
+  const Shortcuts = require("./main/Shortcuts/Shortcuts");
 
   // Main instances
   var projectInst = null;
   var takeInst = null;
 
   // UI imports
+  const menubar = require("./ui/MenuBar/MenuBar");
   var Notification = require("./ui/Notification/Notification");
   var PlaybackCanvas = require("./ui/PlaybackCanvas/PlaybackCanvas");
   var PreviewArea = require("./ui/PreviewArea/PreviewArea");
@@ -28,9 +31,6 @@ var streaming = false,
   var btnLiveView = document.querySelector("#btn-live-view"),
   CaptureWindow = new PreviewArea(document.querySelector("#capture-window")),
   PlaybackWindow = new PreviewArea(document.querySelector("#playback-window")),
-
-  // Camera
-  Camera = require("./js/camera"),
 
   // Capture
   btnCaptureFrame = document.querySelector("#btn-capture-frame"),
@@ -54,11 +54,7 @@ var streaming = false,
   resolutionSelect = document.querySelector("#resolution-select-td select"),
 
   // Frame reel
-  frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs"),
-
-  // Node modules
-  shortcuts = require("./js/shortcuts"),
-  menubar = require("./js/menubar");
+  frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs");
 
 /**
  * Occurs when "Main Menu" is pressed
@@ -117,8 +113,8 @@ function startup() {
   win.maximize();
 
   // Load the keyboard shortcuts
-  shortcuts.get("default", function () {
-    shortcuts.add("main");
+  Shortcuts.get("default", function () {
+    Shortcuts.add("main");
     // Load top menu
     menubar.load();
 
