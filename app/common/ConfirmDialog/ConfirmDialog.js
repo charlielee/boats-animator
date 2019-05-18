@@ -1,6 +1,6 @@
 // Main imports
-var shortcuts = require("../../js/shortcuts");
-var menubar = require("../../js/menubar");
+var shortcuts = require("../../main/Shortcuts/Shortcuts");
+var menubar = require("../../ui/MenuBar/MenuBar");
 
 // Library imports
 var swal = require("../../lib/sweetalert");

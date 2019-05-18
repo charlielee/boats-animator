@@ -2,9 +2,9 @@ module.exports = {};
 
 (function () {
   "use strict";
-  var AudioManager = require("../common/AudioManager/AudioManager");
-  var file = require("./file");
-  var Notification = require("../ui/Notification/Notification");
+  var AudioManager = require("../../common/AudioManager/AudioManager");
+  var file = require("../../common/File/File");
+  var Notification = require("../../ui/Notification/Notification");
   
   var allShortcuts = {},
       activeGroups = [],

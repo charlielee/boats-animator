@@ -1,8 +1,10 @@
 // Main imports
-var SaveDirectory = require("../main/SaveDirectory/SaveDirectory");
+const SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
+const shortcuts = require("../../main/Shortcuts/Shortcuts");
 
 // Common imports
-var AudioManager = require("../common/AudioManager/AudioManager");
+const AudioManager = require("../../common/AudioManager/AudioManager");
+const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
 
 module.exports = {};
 
@@ -45,7 +47,7 @@ module.exports = {};
         {
           label: "Main Menu",
           click: function () {
-            confirmSet({text: "Returning to the menu will cause any unsaved work to be lost!"})
+            ConfirmDialog.confirmSet({text: "Returning to the menu will cause any unsaved work to be lost!"})
             .then((response) => {
               if (response) {
                 openIndex();
@@ -59,7 +61,9 @@ module.exports = {};
         {
           label: "Exit",
           click: function () {
-            confirmSet({text: "Are you sure you want to exit Boats Animator?"})
+            console.log(AudioManager);
+            console.log(ConfirmDialog);
+            ConfirmDialog.confirmSet({text: "Are you sure you want to exit Boats Animator?"})
             .then((response) => {
               if (response) {
                 closeAnimator();
