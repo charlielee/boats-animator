@@ -5,6 +5,11 @@ var SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
 // UI imports
 var FrameRate = require("../../ui/FrameRate/FrameRate");
 
+// Mode switching
+const btnLiveView = document.querySelector("#btn-live-view");
+const CaptureWindow = new PreviewArea(document.querySelector("#capture-window"));
+const PlaybackWindow = new PreviewArea(document.querySelector("#playback-window"));
+
 /** Represents a project (a series of takes) */
 class Project {
   /**
@@ -13,9 +18,17 @@ class Project {
    */
   constructor(title) {
     this.frameRate = new FrameRate(15);
+    this.currentTake = null;
     this.saveDirectory = new SaveDirectory(SaveDirectory.getLocalStorageDir());
     this.title = title;
     this.takes = [];
+  }
+
+  /**
+   * The event listeners for a project
+   */
+  setListeners() {
+
   }
 
   /**
@@ -34,7 +47,8 @@ class Project {
    * @param {Number} takeNumber The number of the take to retrieve.
    */
   getTake(takeNumber) {
-    return this.takes[takeNumber - 1];
+    this.currentTake = this.takes[takeNumber - 1];
+    return this.currentTake;
   }
 }
 
