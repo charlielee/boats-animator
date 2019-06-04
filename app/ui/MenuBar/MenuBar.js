@@ -6,8 +6,6 @@ const shortcuts = require("../../main/Shortcuts/Shortcuts");
 const AudioManager = require("../../common/AudioManager/AudioManager");
 const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
 
-module.exports = {};
-
 (function () {
   "use strict";
   var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
@@ -197,6 +195,7 @@ module.exports = {};
     });
   }
 
+  module.exports = {};
   module.exports.subMenus = subMenus;
   module.exports.load = loadMenu;
   module.exports.toggleItems = toggleItems;

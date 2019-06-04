@@ -13,7 +13,6 @@ class ConfirmDialog {
    *                    Resolves true if confirm was selected and null if the alert was dismissed.
    */
   static confirmSet(swalArgs) {
-    "use strict";
     // Set default SweetAlert argument values
     swalArgs.title = swalArgs.title ? swalArgs.title : "Confirm";
     swalArgs.text = swalArgs.text ? swalArgs.text : "Are you sure?";
