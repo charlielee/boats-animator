@@ -1,4 +1,6 @@
-(function () {
+(function() {
+  "use strict";
+
   // Main imports
   var SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
 
@@ -51,7 +53,7 @@
       PlaybackCanvas.drawImage(preview);
 
       // Convert the frame to a PNG
-      PlaybackCanvas.getBlob(function (blob) {
+      PlaybackCanvas.getBlob(function(blob) {
         // Play a camera sound
         AudioManager.play("audio/camera.wav");
 
@@ -82,7 +84,7 @@
      */
     deleteFrame(id) {
       File.delete(this.exportedFramesPaths[id - 1], {
-        success: function () {
+        success: function() {
           Notification.success("File successfully deleted.");
         }
       });
@@ -139,7 +141,7 @@
 
       // Save the frame to disk
       var reader = new FileReader()
-      reader.onload = function () {
+      reader.onload = function() {
         // Convert the frame blob to buffer
         var buffer = new Buffer.from(reader.result);
         File.write(outputPath, buffer);

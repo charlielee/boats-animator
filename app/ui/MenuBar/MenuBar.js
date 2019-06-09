@@ -1,12 +1,9 @@
-(function () {
+(function() {
   "use strict";
   // Main imports
+  const Features = require("../../main/Features/Features");
   const SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
   const shortcuts = require("../../main/Shortcuts/Shortcuts");
-
-  // Common imports
-  const AudioManager = require("../../common/AudioManager/AudioManager");
-  const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
 
   // UI imports
   const Notification = require("../../ui/Notification/Notification");
@@ -33,7 +30,7 @@
       file: [
         {
           label: "New project...",
-          click: function () {
+          click: function() {
             Notification.info("This feature is not yet available!")
           },
           key: "n",
@@ -41,7 +38,7 @@
         },
         {
           label: "Open project...",
-          click: function () {
+          click: function() {
             Notification.info("This feature is not yet available!")
           },
           key: "o",
@@ -49,13 +46,8 @@
         },
         {
           label: "Main Menu",
-          click: function () {
-            ConfirmDialog.confirmSet({ text: "Returning to the menu will cause any unsaved work to be lost!" })
-              .then((response) => {
-                if (response) {
-                  WindowManager.openIndex();
-                }
-              });
+          click: function() {
+            Features.mainMenu();
           },
           key: "w",
           modifiers: controlKey,
@@ -63,15 +55,8 @@
         { type: "separator" },
         {
           label: "Exit",
-          click: function () {
-            console.log(AudioManager);
-            console.log(ConfirmDialog);
-            ConfirmDialog.confirmSet({ text: "Are you sure you want to exit Boats Animator?" })
-              .then((response) => {
-                if (response) {
-                  WindowManager.closeAnimator();
-                }
-              });
+          click: function() {
+            Features.exitApp();
           },
           key: "q",
           modifiers: controlKey,
@@ -80,8 +65,8 @@
       edit: [
         {
           label: "Delete last frame",
-          click: function () {
-            btnDeleteLastFrame.click();
+          click: function() {
+            Features.undoFrame();
           },
           key: shortcuts.getPrimaryKey("undoFrame"),
           modifiers: shortcuts.getPrimaryModifiers("undoFrame"),
@@ -90,8 +75,8 @@
       capture: [
         {
           label: "Capture frame",
-          click: function () {
-            btnCaptureFrame.click();
+          click: function() {
+            Features.takePicture();
           },
           key: shortcuts.getPrimaryKey("takePicture"),
           modifiers: shortcuts.getPrimaryModifiers("takePicture"),
@@ -99,9 +84,8 @@
         { type: "separator" },
         {
           label: "Play capture sounds",
-          click: function () {
-            AudioManager.setEnabled(!AudioManager.getEnabled())
-            Notification.info(`Capture sounds ${AudioManager.getEnabled() ? "enabled" : "disabled"}.`);
+          click: function() {
+            Features.audioToggle();
           },
           type: "checkbox",
           checked: true,
@@ -110,7 +94,7 @@
         },
         {
           label: "Change capture destination",
-          click: function () {
+          click: function() {
             SaveDirectory.openDirChooseDialog();
           }
         }
@@ -118,8 +102,8 @@
       playback: [
         {
           label: "Loop playback",
-          click: function () {
-            btnLoop.click()
+          click: function() {
+            Features.loopPlayback();
           },
           type: "checkbox",
           checked: false,
@@ -129,16 +113,16 @@
         { type: "separator" },
         {
           label: "Display first frame",
-          click: function () {
-            btnFrameFirst.click();
+          click: function() {
+            Features.firstFrame();
           },
           key: shortcuts.getPrimaryKey("firstFrame"),
           modifiers: shortcuts.getPrimaryModifiers("firstFrame"),
         },
         {
           label: "Display last frame",
-          click: function () {
-            btnFrameLast.click();
+          click: function() {
+            Features.lastFrame();
           },
           key: shortcuts.getPrimaryKey("lastFrame"),
           modifiers: shortcuts.getPrimaryModifiers("lastFrame"),
@@ -147,7 +131,7 @@
       help: [
         {
           label: "Documentation",
-          click: function () {
+          click: function() {
             utils.openURL("http://boatsanimator.readthedocs.io/");
           },
           key: "F1",
@@ -155,23 +139,23 @@
         },
         {
           label: "Give feedback",
-          click: function () {
+          click: function() {
             utils.openURL("https://github.com/charlielee/boats-animator/issues");
           },
         },
         { type: "separator" },
         {
           label: "About Boats Animator",
-          click: function () {
+          click: function() {
             WindowManager.openAbout();
           }
         }
       ]
     };
 
-    Object.keys(subMenus).forEach(function (curSubMenuName) {
+    Object.keys(subMenus).forEach(function(curSubMenuName) {
       // Append items to submenu
-      menuItems[curSubMenuName].forEach(function (menuItem) {
+      menuItems[curSubMenuName].forEach(function(menuItem) {
         subMenus[curSubMenuName].append(new nw.MenuItem(menuItem));
       });
       var subMenuName = curSubMenuName.charAt(0).toUpperCase() + curSubMenuName.slice(1);
@@ -197,9 +181,9 @@
    * Toggles whether the menu items are disabled or not (excluding the file menu).
    */
   function toggleItems() {
-    Object.keys(subMenus).forEach(function (subMenuName) {
-      if (subMenuName != "file") {
-        subMenus[subMenuName].items.forEach(function (menuItem) {
+    Object.keys(subMenus).forEach(function(subMenuName) {
+      if (subMenuName !== "file") {
+        subMenus[subMenuName].items.forEach(function(menuItem) {
           menuItem.enabled = !menuItem.enabled;
         });
       }

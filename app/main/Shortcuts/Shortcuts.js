@@ -1,23 +1,10 @@
 module.exports = {};
 
-(function () {
+(function() {
   "use strict";
-  const AudioManager = require("../../common/AudioManager/AudioManager");
   const file = require("../../common/File/File");
 
   const Features = require("../../main/Features/Features");
-
-  const menubar = require("../../ui/MenuBar/MenuBar");
-  const Notification = require("../../ui/Notification/Notification");
-  
-  const btnCaptureFrame = document.querySelector("#btn-capture-frame");
-  const btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame");
-  const btnLoop = document.querySelector("#btn-loop");
-  const btnPlayPause = document.querySelector("#btn-play-pause");
-  const btnFrameNext = document.querySelector("#btn-frame-next");
-  const btnFramePrevious = document.querySelector("#btn-frame-previous");
-  const btnFrameFirst = document.querySelector("#btn-frame-first");
-  const btnFrameLast = document.querySelector("#btn-frame-last");
   
   var allShortcuts = {},
       activeGroups = [],

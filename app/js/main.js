@@ -1,7 +1,8 @@
 // Main instances
 var projectInst = null;
 
-(function () {
+(function() {
+  "use strict";
   // Main imports
   const Project = require("./main/Project/Project");
   const Shortcuts = require("./main/Shortcuts/Shortcuts");
@@ -14,7 +15,7 @@ var projectInst = null;
   function startup() {
     "use strict";
     // Load the keyboard shortcuts
-    Shortcuts.get("default", function () {
+    Shortcuts.get("default", function() {
       Shortcuts.add("main");
       // Load top menu
       menubar.load();

@@ -1,8 +1,10 @@
-(function () {
+(function() {
+  "use strict";
   const AudioManager = require("../../common/AudioManager/AudioManager");
+  const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
 
   const menubar = require("../../ui/MenuBar/MenuBar");
-  const Notification = require("../../ui/Notification/Notification");
+  const WindowManager = require("../../ui/WindowManager/WindowManager");
 
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");
   const btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame");
@@ -14,6 +16,28 @@
   const btnFrameLast = document.querySelector("#btn-frame-last");
 
   class Features {
+    // File menu
+
+    static mainMenu() {
+      ConfirmDialog.confirmSet({ text: "Returning to the menu will cause any unsaved work to be lost!" })
+              .then((response) => {
+                if (response) {
+                  WindowManager.openIndex();
+                }
+              });
+    }
+
+    static exitApp() {
+      ConfirmDialog.confirmSet({ text: "Are you sure you want to exit Boats Animator?" })
+              .then((response) => {
+                if (response) {
+                  WindowManager.closeAnimator();
+                }
+              });
+    }
+
+    // Main program features
+
     static takePicture() {
       btnCaptureFrame.click();
     }
@@ -24,9 +48,6 @@
 
     static audioToggle() {
       AudioManager.setEnabled(!AudioManager.getEnabled())
-      // Toggle checkbox on related menubar item
-      menubar.subMenus.capture.items[2].checked = !menubar.subMenus.capture.items[2].checked;
-      Notification.info(`Capture sounds ${AudioManager.getEnabled() ? "enabled" : "disabled"}.`);
     }
 
     static playPause() {
@@ -78,4 +99,6 @@
       btnConfirmCancel.click();
     }
   }
-})()
+
+  module.exports = Features;
+})();

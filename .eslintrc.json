@@ -4,8 +4,9 @@
     "node": true,
     "es6": true
   },
+  "extends": "eslint:recommended",
   "rules": {
-    "no-undef": "eslint:recommended",
+    "no-undef": "error",
     "no-unused-vars": ["error", {"varsIgnorePattern": "utils"}],
     "strict": ["error", "function"],
     "eqeqeq": ["error", "always"],
@@ -14,7 +15,7 @@
         "named": "never",
         "asyncArrow": "always"
     }],
-    "valid-jsdoc": ["error", {
+    "valid-jsdoc": ["warn", {
       "prefer": {
         "arg": "param",
         "argument": "param",

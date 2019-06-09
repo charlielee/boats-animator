@@ -1,4 +1,5 @@
-(function () {
+(function() {
+  "use strict";
   // DOM elements
   var statusBarCurFrame = document.querySelector("#current-frame");
   var statusBarFrameNum = document.querySelector("#num-of-frames");
