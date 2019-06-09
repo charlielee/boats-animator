@@ -1,4 +1,5 @@
 (function() {
+  "use strict";
   var preview = document.querySelector("#preview");
   var playback = document.querySelector("#playback");
   var context = playback.getContext("2d");
