@@ -1,4 +1,4 @@
-(function () {
+(function() {
   // UI Imports
   var StatusBar = require("../../ui/StatusBar/StatusBar");
 
@@ -19,7 +19,7 @@
       var self = this;
 
       // Listen for frame rate changes
-      inputChangeFR.addEventListener("input", function (e) {
+      inputChangeFR.addEventListener("input", function(e) {
         if (inputChangeFR.value >= 1 && inputChangeFR.value <= 60) {
           self.frameRateValue = parseInt(this.value, 10);
         } else {
@@ -33,7 +33,7 @@
       });
 
       // Listen for leaving frame rate input
-      inputChangeFR.addEventListener("blur", function () {
+      inputChangeFR.addEventListener("blur", function() {
         inputChangeFR.value = self.frameRateValue;
         // Reset frameRateValue to 15 if invalid
         if (

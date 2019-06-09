@@ -1,4 +1,6 @@
-(function () {
+(function() {
+  "use strict";
+
   // Common imports
   const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
 
@@ -11,9 +13,9 @@
   const FrameRate = require("../../ui/FrameRate/FrameRate");
   const PlaybackCanvas = require("../../ui/PlaybackCanvas/PlaybackCanvas");
   const PreviewArea = require("../../ui/PreviewArea/PreviewArea");
+  const StatusBar = require("../../ui/StatusBar/StatusBar");
 
   // Mode switching
-  const btnLiveView = document.querySelector("#btn-live-view");
   const CaptureWindow = new PreviewArea(document.querySelector("#capture-window"));
   const PlaybackWindow = new PreviewArea(document.querySelector("#playback-window"));
 
@@ -50,7 +52,7 @@
       self.playback = new Playback(self);
 
       // Initialises the preview window
-      preview.addEventListener("canplay", function () {
+      preview.addEventListener("canplay", function() {
         if (!self.streaming) {
           PlaybackCanvas.setDimensions(preview.videoWidth.toString(), preview.videoHeight.toString())
           self.streaming = true;
@@ -58,12 +60,12 @@
       });
 
       // Capture a frame
-      btnCaptureFrame.addEventListener("click", function () {
+      btnCaptureFrame.addEventListener("click", function() {
         self.takeFrame();
       });
 
       // Undo last captured frame
-      btnDeleteLastFrame.addEventListener("click", function () {
+      btnDeleteLastFrame.addEventListener("click", function() {
         self.undoFrame();
       });
     }
@@ -89,6 +91,10 @@
       return this.currentTake;
     }
 
+    getCurrentTake() {
+      return this.currentTake;
+    }
+
     /**
      * Trigger frame capturing.
      */
@@ -98,8 +104,8 @@
       this.setCurrentMode("capture");
 
       // Take a picture
-      if (streaming) {
-        takeInst.captureFrame();
+      if (this.streaming) {
+        this.currentTake.captureFrame();
       }
     }
 
@@ -124,7 +130,7 @@
         ConfirmDialog.confirmSet({ text: "Are you sure you want to delete the last frame captured?" })
           .then((response) => {
             if (response) {
-              deleteFrame(this.currentTake.getTotalFrames());
+              this.deleteFrame(this.currentTake.getTotalFrames());
             }
           });
       } else {
@@ -154,17 +160,17 @@
     }
 
     /**
-   * Toggle between playback and capture windows.
-   *
-   * @param {PreviewArea} NewWindow - The PreviewArea window to switch to.
-   * Possible values are CaptureWindow and PlaybackWindow.
-   */
+     * Toggle between playback and capture windows.
+     *
+     * @param {PreviewArea} NewWindow - The PreviewArea window to switch to.
+     * Possible values are CaptureWindow and PlaybackWindow.
+     */
     _switchMode(NewWindow) {
       var takeInst = this.currentTake;
       NewWindow.display();
 
       if (PreviewArea.curWindow === CaptureWindow) {
-        videoStop();
+        this.playback.videoStop();
         StatusBar.setCurrentFrame(takeInst.getTotalFrames() + 1);
         StatusBar.setCurrentMode("Capture");
         takeInst.frameReel.selectLiveViewButton();

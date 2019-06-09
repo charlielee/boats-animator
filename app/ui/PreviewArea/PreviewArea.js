@@ -1,7 +1,7 @@
 module.exports = {};
 
 /** A class for windows in the preview area. */
-(function () {
+(function() {
   "use strict";
   // Loading Window
   var body = document.body;

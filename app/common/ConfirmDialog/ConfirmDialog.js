@@ -1,4 +1,5 @@
-(function () {
+(function() {
+  "use strict";
   // Main imports
   // var shortcuts = require("../../main/Shortcuts/Shortcuts");
   // var menubar = require("../../ui/MenuBar/MenuBar");
@@ -25,7 +26,7 @@
       // shortcuts.add("confirm");
       // menubar.toggleItems();
 
-      return new Promise(function (resolve, reject) {
+      return new Promise(function(resolve, reject) {
         // Create a SweetAlert dialogue with the selected arguments
         swal(swalArgs)
           .then((response) => {

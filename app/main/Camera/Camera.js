@@ -1,7 +1,7 @@
 module.exports = {};
 
 /** A class for managing camera. */
-(function () {
+(function() {
   "use strict";
   // Import modules
   var cameraResolutions = require("./CameraResolutions");
@@ -45,7 +45,7 @@ module.exports = {};
     /**
      * Gets the resolutions of a camera and update the select element listing them.
      */
-    showResolutions: function () {
+    showResolutions: function() {
       // Display loading window
       PreviewArea.curWindow.showLoading(`Loading ${this.name}`, true);
       // See if resolutions have already been found
@@ -62,7 +62,7 @@ module.exports = {};
      * @param {Integer} index - the position in the camera's array of resolutions to update to.
      * @return A video feed with the upload resolution.
      */
-    updateResolution: function (index) {
+    updateResolution: function(index) {
       this.curResolution = index;
       // Update curResolution in localStorage
       Camera.setStoredCams();
@@ -77,8 +77,8 @@ module.exports = {};
    * @param {HTMLVideoElement} feed - the source element.
    * @param {HTMLVideoElement} output - the target element.
    */
-  Camera.display = function (feed, output) {
-    feed.addEventListener("canplay", function () {
+  Camera.display = function(feed, output) {
+    feed.addEventListener("canplay", function() {
       output.srcObject = feed.srcObject;
     });
   }
@@ -87,7 +87,7 @@ module.exports = {};
    * Get the array index of the user-selected resolution.
    * @return {String} The corresponding key for the equivalent constraint.
    */
-  Camera.getSelectedResolution = function () {
+  Camera.getSelectedResolution = function() {
     return qResoluSelect.options[qResoluSelect.options.selectedIndex].value;
   }
 
@@ -95,7 +95,7 @@ module.exports = {};
    * Get the user-selected Camera.
    * @return {string} The deviceId of the camera the user has selected.
    */
-  Camera.getSelectedCamera = function () {
+  Camera.getSelectedCamera = function() {
     var camId = qCameraSelect.options[qCameraSelect.options.selectedIndex].value;
     return Camera.list[camId];
   }
@@ -132,7 +132,7 @@ module.exports = {};
    * @param {MediaTrackConstraints[]} supported - an array of MediaTrackConstraints defining
    *                                              each resolution supported by the camera.
    * */
-  Camera._updateResoluSelect = function (supported) {
+  Camera._updateResoluSelect = function(supported) {
     qResoluSelect.innerHTML = "";
     supported.forEach(function(res, i) {
       let width = res.video.width.exact,
@@ -169,11 +169,11 @@ module.exports = {};
   /**
    * Get the available cameras and updates the camera list.
    */
-  Camera.enumerateDevices = function () {
+  Camera.enumerateDevices = function() {
     Camera.getStoredCams();
     navigator.mediaDevices.enumerateDevices()
     .then(_findVideoSources)
-    .catch(function (error) {
+    .catch(function(error) {
       console.error(error);
     });
   }

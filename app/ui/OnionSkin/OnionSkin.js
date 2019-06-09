@@ -1,4 +1,5 @@
-(function () {
+(function() {
+  "use strict";
   var onionSkinWindow = document.querySelector("#onion-skinning-frame");
   var onionSkinSlider = document.querySelector("#input-onion-skin-opacity");
 
@@ -7,7 +8,7 @@
     constructor() {
       var onionSkinThis = this;
       // Listens to changes to the onion skin slider
-      onionSkinSlider.addEventListener("input", function (e) {
+      onionSkinSlider.addEventListener("input", function(e) {
         onionSkinThis._setOpacityFromSlider(e);
       });
     }

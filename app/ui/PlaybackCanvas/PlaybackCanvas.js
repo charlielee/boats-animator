@@ -1,4 +1,4 @@
-(function () {
+(function() {
   var preview = document.querySelector("#preview");
   var playback = document.querySelector("#playback");
   var context = playback.getContext("2d");
@@ -19,7 +19,7 @@
      */
     static getBlob(callback) {
       // Convert the frame to a PNG
-      playback.toBlob(function (blob) {
+      playback.toBlob(function(blob) {
         callback(blob);
       }, "image/png");
     }

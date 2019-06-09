@@ -1,4 +1,5 @@
-(function () {
+(function() {
+  "use strict";
   var frameReelArea = document.querySelector("#area-frame-reel");
   var frameReelMsg = document.querySelector("#area-frame-reel > p");
   var frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs");

@@ -1,4 +1,5 @@
-(function () {
+(function() {
+  "use strict";
   // Library imports
   const fs = require("fs");
   const mkdirp = require("../../lib/mkdirp");
@@ -28,14 +29,14 @@
       this.setSaveDirectoryLocation(saveDirlocation);
 
       // Listen for the choose save directory dialog being activated
-      dirChooseDialog.addEventListener("change", function () {
+      dirChooseDialog.addEventListener("change", function() {
         if (this.value) {
           self.setSaveDirectoryLocation(this.value);
         }
       });
 
       // Listen for clicking the change default save directory button
-      btnDirectoryChange.addEventListener("click", function () {
+      btnDirectoryChange.addEventListener("click", function() {
         SaveDirectory.openDirChooseDialog()
       });
     }
@@ -62,7 +63,7 @@
         SaveDirectory.displaySaveDirectory(newLocation);
 
         // Check the new directory is empty
-        SaveDirectory.checkDirHasNoFrames(newLocation, function (hasFrames) {
+        SaveDirectory.checkDirHasNoFrames(newLocation, function(hasFrames) {
           if (hasFrames) {
             ConfirmDialog.confirmSet({
               text: "The current save directory already contains captured frames! Please switch save directory or they will be overwritten.",
@@ -104,7 +105,7 @@
      * @param {String} dir - The directory to create.
      */
     static makeDir(dir) {
-      mkdirp(dir, function (err) {
+      mkdirp(dir, function(err) {
         if (err) {
           console.error(err);
           Notification.error(`Failed to create save directory at ${dir}`);
