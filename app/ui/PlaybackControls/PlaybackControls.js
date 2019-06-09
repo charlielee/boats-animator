@@ -14,7 +14,9 @@
 
 
       // Toggle preview looping
-      btnLoop.addEventListener("click", playback.toggleVideoLoop);
+      btnLoop.addEventListener("click", function() {
+        playback.toggleVideoLoop();
+      });
 
       // Play/pause the preview
       btnPlayPause.addEventListener("click", function() {

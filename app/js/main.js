@@ -1,5 +1,5 @@
 // Main instances
-var projectInst = null;
+// var projectInst = null;
 
 (function() {
   "use strict";
@@ -13,7 +13,6 @@ var projectInst = null;
   const WindowManager = require("./ui/WindowManager/WindowManager");
 
   function startup() {
-    "use strict";
     // Load the keyboard shortcuts
     Shortcuts.get("default", function() {
       Shortcuts.add("main");
@@ -21,16 +20,16 @@ var projectInst = null;
       menubar.load();
 
       // Initialise the project
-      projectInst = new Project("Untitled Project");
-      projectInst.addTake();
+      global.projectInst = new Project("Untitled Project");
+      global.projectInst.addTake();
 
       // UI initialisation
       CaptureOptions.setListeners();
       WindowManager.setListeners();
-      projectInst.setListeners();
+      global.projectInst.setListeners();
 
       // Set default view
-      projectInst.setCurrentMode("capture");
+      global.projectInst.setCurrentMode("capture");
     });
   }
   window.onload = startup;

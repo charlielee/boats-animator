@@ -15,6 +15,8 @@
   const btnFrameFirst = document.querySelector("#btn-frame-first");
   const btnFrameLast = document.querySelector("#btn-frame-last");
 
+  const btnLiveView = document.querySelector("#btn-live-view");
+
   class Features {
     // File menu
 
