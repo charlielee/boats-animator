@@ -6,13 +6,9 @@
   const PlaybackCanvas = require("../../ui/PlaybackCanvas/PlaybackCanvas");
   const PlaybackControls = require("../../ui/PlaybackControls/PlaybackControls");
   const StatusBar = require("../../ui/StatusBar/StatusBar");
-  
-  let curPlay = null;
 
   class Playback {
-    constructor(project) {
-      this.project = project;
-
+    constructor() {
       this.curPlayFrame = 0;
       this.isLooping = false;
       this.isPlaying = false;
@@ -20,7 +16,7 @@
       this.playBackTimeout = null;
 
       // Add the event listeners
-      PlaybackControls.setListeners(this);
+      PlaybackControls.setListeners();
     }
 
     /**
@@ -64,8 +60,8 @@
     videoStop() {
       this.videoPause();
       this.curPlayFrame = 0;
-      if (this.project.currentTake.getTotalFrames() > 0 && this.project.getCurrentMode() === "playback") {
-        this._displayFrame(this.project.currentTake.getTotalFrames());
+      if (global.projectInst.currentTake.getTotalFrames() > 0 && global.projectInst.getCurrentMode() === "playback") {
+        this._displayFrame(global.projectInst.currentTake.getTotalFrames());
       }
       console.info("Playback stopped");
     }
@@ -76,13 +72,13 @@
      * @param {Integer} id - The frame ID to preview.
      */
     _displayFrame(id) {
-      if (this.project.currentTake.getTotalFrames() > 0) {
+      if (global.projectInst.currentTake.getTotalFrames() > 0) {
         // Reset the player
         this.videoPause();
 
         // Preview selected frame ID
-        this.project.currentTake.frameReel.selectFrame(id);
-        PlaybackCanvas.drawImage(this.project.currentTake.capturedFrames[id - 1]);
+        global.projectInst.currentTake.frameReel.selectFrame(id);
+        PlaybackCanvas.drawImage(global.projectInst.currentTake.capturedFrames[id - 1]);
         StatusBar.setCurrentFrame(id);
       }
 
@@ -95,14 +91,14 @@
      */
     previewCapturedFrames() {
       // Display playback window
-      if (this.project.getCurrentMode() === "capture") {
-        this.project.setCurrentMode("playback");
+      if (global.projectInst.getCurrentMode() === "capture") {
+        global.projectInst.setCurrentMode("playback");
         this.curPlayFrame = 0;
       }
 
       // Reset canvas to first frame if playing from start
       if (this.curPlayFrame === 0) {
-        PlaybackCanvas.drawImage(this.project.currentTake.capturedFrames[0]);
+        PlaybackCanvas.drawImage(global.projectInst.currentTake.capturedFrames[0]);
       }
 
       // Update the play/pause button
@@ -113,7 +109,6 @@
       console.info("Playback started");
       this.isPlaying = true;
 
-      curPlay = this;
       Playback._videoPlay();
     }
 
@@ -121,29 +116,29 @@
      * Play captured frames preview video.
      */
     static _videoPlay() {
-      curPlay.playBackTimeout = setTimeout(function() {
-        curPlay.playBackRAF = requestAnimationFrame(Playback._videoPlay);
+      global.projectInst.playback.playBackTimeout = setTimeout(function() {
+        global.projectInst.playback.playBackRAF = requestAnimationFrame(Playback._videoPlay);
 
         // There are no more frames to preview
-        if (curPlay.curPlayFrame >= curPlay.project.currentTake.getTotalFrames()) {
+        if (global.projectInst.playback.curPlayFrame >= global.projectInst.currentTake.getTotalFrames()) {
           // We are not looping, stop the playback
-          if (!curPlay.isLooping) {
-            curPlay.project.setCurrentMode("capture");
+          if (!global.projectInst.playback.isLooping) {
+            global.projectInst.setCurrentMode("capture");
             return;
           }
 
           // Loop the playback
           console.info("Playback looped");
-          curPlay.curPlayFrame = 0;
+          global.projectInst.playback.curPlayFrame = 0;
         }
 
         // Display each frame and update the UI accordingly
-        PlaybackCanvas.drawImage(curPlay.project.currentTake.capturedFrames[curPlay.curPlayFrame]);
-        StatusBar.setCurrentFrame(curPlay.curPlayFrame + 1);
-        curPlay.project.currentTake.frameReel.selectFrame(curPlay.curPlayFrame + 1);
+        PlaybackCanvas.drawImage(global.projectInst.currentTake.capturedFrames[global.projectInst.playback.curPlayFrame]);
+        StatusBar.setCurrentFrame(global.projectInst.playback.curPlayFrame + 1);
+        global.projectInst.currentTake.frameReel.selectFrame(global.projectInst.playback.curPlayFrame + 1);
 
-        curPlay.curPlayFrame++;
-      }, 1000 / curPlay.project.frameRate.getFrameRateValue());
+        global.projectInst.playback.curPlayFrame++;
+      }, 1000 / global.projectInst.frameRate.getFrameRateValue());
     }
   }
 

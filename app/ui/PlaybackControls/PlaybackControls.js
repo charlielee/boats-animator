@@ -9,31 +9,31 @@
   const btnFrameLast = document.querySelector("#btn-frame-last");
 
   class PlaybackControls {
-    static setListeners(playback) {
-      let takeInst = playback.project.getCurrentTake();
+    static setListeners() {
+      let takeInst = global.projectInst.getCurrentTake();
 
 
       // Toggle preview looping
       btnLoop.addEventListener("click", function() {
-        playback.toggleVideoLoop();
+        global.projectInst.playback.toggleVideoLoop();
       });
 
       // Play/pause the preview
       btnPlayPause.addEventListener("click", function() {
         if (takeInst.getTotalFrames() > 0) {
-          if (playback.isPlaying) {
-            playback.videoPause();
+          if (global.projectInst.playback.isPlaying) {
+            global.projectInst.playback.videoPause();
           } else {
-            playback.previewCapturedFrames();
+            global.projectInst.playback.previewCapturedFrames();
           }
-          // (playback.isPlaying ? playback.videoPause : playback.previewCapturedFrames)();
+          // (global.projectInst.playback.isPlaying ? global.projectInst.playback.videoPause : global.projectInst.playback.previewCapturedFrames)();
         }
       });
 
       // Stop the preview
       btnStop.addEventListener("click", function() {
-        if (playback.project.getCurrentMode() === "playback") {
-          playback.videoStop();
+        if (global.projectInst.getCurrentMode() === "playback") {
+          global.projectInst.playback.videoStop();
         }
       });
 
@@ -41,9 +41,9 @@
       btnFrameNext.addEventListener("click", function() {
         if (takeInst.frameReel.curSelectedFrame) {
           if (takeInst.frameReel.curSelectedFrame !== takeInst.getTotalFrames()) {
-            playback._displayFrame(takeInst.frameReel.curSelectedFrame + 1);
+            global.projectInst.playback._displayFrame(takeInst.frameReel.curSelectedFrame + 1);
           } else {
-            playback.project.setCurrentMode("capture");
+            global.projectInst.setCurrentMode("capture");
           }
         }
       });
@@ -51,25 +51,25 @@
       // Preview one frame to the left on framereel
       btnFramePrevious.addEventListener("click", function() {
         if (takeInst.frameReel.curSelectedFrame > 1) {
-          playback._displayFrame(takeInst.frameReel.curSelectedFrame - 1);
-        } else if (playback.project.getCurrentMode() === "capture" && takeInst.getTotalFrames()) {
-          playback.project.setCurrentMode("playback");
-          playback._displayFrame(takeInst.getTotalFrames());
+          global.projectInst.playback._displayFrame(takeInst.frameReel.curSelectedFrame - 1);
+        } else if (global.projectInst.getCurrentMode() === "capture" && takeInst.getTotalFrames()) {
+          global.projectInst.setCurrentMode("playback");
+          global.projectInst.playback._displayFrame(takeInst.getTotalFrames());
         }
       });
 
       // Preview first frame on framereel
       btnFrameFirst.addEventListener("click", function() {
-        if (playback.project.getCurrentMode() === "capture" && takeInst.getTotalFrames()) {
-          playback.project.setCurrentMode("playback");
+        if (global.projectInst.getCurrentMode() === "capture" && takeInst.getTotalFrames()) {
+          global.projectInst.setCurrentMode("playback");
         }
-        playback._displayFrame(1);
+        global.projectInst.playback._displayFrame(1);
       });
 
       // Preview last frame on framereel
       btnFrameLast.addEventListener("click", function() {
         if (takeInst.frameReel.curSelectedFrame) {
-          (takeInst.frameReel.curSelectedFrame !== takeInst.getTotalFrames() ? playback.videoStop() : playback.project.setCurrentMode("capture"));
+          (takeInst.frameReel.curSelectedFrame !== takeInst.getTotalFrames() ? global.projectInst.playback.videoStop() : global.projectInst.setCurrentMode("capture"));
         }
       });
     }
