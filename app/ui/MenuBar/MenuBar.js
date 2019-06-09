@@ -1,13 +1,18 @@
-// Main imports
-const SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
-const shortcuts = require("../../main/Shortcuts/Shortcuts");
-
-// Common imports
-const AudioManager = require("../../common/AudioManager/AudioManager");
-const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
-
 (function () {
   "use strict";
+  // Main imports
+  const SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
+  const shortcuts = require("../../main/Shortcuts/Shortcuts");
+
+  // Common imports
+  const AudioManager = require("../../common/AudioManager/AudioManager");
+  const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
+
+  // UI imports
+  const Notification = require("../../ui/Notification/Notification");
+  const WindowManager = require("../../ui/WindowManager/WindowManager");
+
+
   var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
   // Create top menu and sub-menus
   var menuBar = new nw.Menu({ type: "menubar" });
@@ -45,12 +50,12 @@ const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
         {
           label: "Main Menu",
           click: function () {
-            ConfirmDialog.confirmSet({text: "Returning to the menu will cause any unsaved work to be lost!"})
-            .then((response) => {
-              if (response) {
-                openIndex();
-              }
-            });
+            ConfirmDialog.confirmSet({ text: "Returning to the menu will cause any unsaved work to be lost!" })
+              .then((response) => {
+                if (response) {
+                  WindowManager.openIndex();
+                }
+              });
           },
           key: "w",
           modifiers: controlKey,
@@ -61,12 +66,12 @@ const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
           click: function () {
             console.log(AudioManager);
             console.log(ConfirmDialog);
-            ConfirmDialog.confirmSet({text: "Are you sure you want to exit Boats Animator?"})
-            .then((response) => {
-              if (response) {
-                closeAnimator();
-              }
-            });
+            ConfirmDialog.confirmSet({ text: "Are you sure you want to exit Boats Animator?" })
+              .then((response) => {
+                if (response) {
+                  WindowManager.closeAnimator();
+                }
+              });
           },
           key: "q",
           modifiers: controlKey,
@@ -75,7 +80,9 @@ const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
       edit: [
         {
           label: "Delete last frame",
-          click: undoFrame,
+          click: function () {
+            btnDeleteLastFrame.click();
+          },
           key: shortcuts.getPrimaryKey("undoFrame"),
           modifiers: shortcuts.getPrimaryModifiers("undoFrame"),
         }
@@ -83,7 +90,9 @@ const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
       capture: [
         {
           label: "Capture frame",
-          click: takeFrame,
+          click: function () {
+            btnCaptureFrame.click();
+          },
           key: shortcuts.getPrimaryKey("takePicture"),
           modifiers: shortcuts.getPrimaryModifiers("takePicture"),
         },
@@ -101,7 +110,7 @@ const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
         },
         {
           label: "Change capture destination",
-          click: function() {
+          click: function () {
             SaveDirectory.openDirChooseDialog();
           }
         }
@@ -153,7 +162,9 @@ const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
         { type: "separator" },
         {
           label: "About Boats Animator",
-          click: openAbout
+          click: function () {
+            WindowManager.openAbout();
+          }
         }
       ]
     };
