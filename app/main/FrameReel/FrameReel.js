@@ -9,9 +9,7 @@
   var liveViewFrameNo = document.querySelector("#live-view-frame-no");
 
   class FrameReel {
-    constructor(project) {
-      this.project = project;
-
+    constructor() {
       // The id of the currently selected frame
       this.curSelectedFrame = null;
       // Total number of frames in the frame reel
