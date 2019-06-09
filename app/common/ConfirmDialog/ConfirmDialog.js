@@ -1,7 +1,7 @@
 (function () {
   // Main imports
-  var shortcuts = require("../../main/Shortcuts/Shortcuts");
-  var menubar = require("../../ui/MenuBar/MenuBar");
+  // var shortcuts = require("../../main/Shortcuts/Shortcuts");
+  // var menubar = require("../../ui/MenuBar/MenuBar");
 
   // Library imports
   var swal = require("../../lib/sweetalert");
@@ -21,18 +21,18 @@
       swalArgs.buttons = swalArgs.buttons ? swalArgs.buttons : true;
 
       // Pause main shortcuts and menubar items
-      shortcuts.remove("main");
-      shortcuts.add("confirm");
-      menubar.toggleItems();
+      // shortcuts.remove("main");
+      // shortcuts.add("confirm");
+      // menubar.toggleItems();
 
       return new Promise(function (resolve, reject) {
         // Create a SweetAlert dialogue with the selected arguments
         swal(swalArgs)
           .then((response) => {
             // Resume main shortcuts and menubar items
-            shortcuts.remove("confirm");
-            shortcuts.add("main");
-            menubar.toggleItems();
+            // shortcuts.remove("confirm");
+            // shortcuts.add("main");
+            // menubar.toggleItems();
 
             // Resolve the promise
             resolve(response);

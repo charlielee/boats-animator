@@ -9,6 +9,7 @@ var projectInst = null;
   // UI imports
   const CaptureOptions = require("./ui/CaptureOptions/CaptureOptions");
   const menubar = require("./ui/MenuBar/MenuBar");
+  const WindowManager = require("./ui/WindowManager/WindowManager");
 
   function startup() {
     "use strict";

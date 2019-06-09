@@ -2,9 +2,22 @@ module.exports = {};
 
 (function () {
   "use strict";
-  var AudioManager = require("../../common/AudioManager/AudioManager");
-  var file = require("../../common/File/File");
-  var Notification = require("../../ui/Notification/Notification");
+  const AudioManager = require("../../common/AudioManager/AudioManager");
+  const file = require("../../common/File/File");
+
+  const Features = require("../../main/Features/Features");
+
+  const menubar = require("../../ui/MenuBar/MenuBar");
+  const Notification = require("../../ui/Notification/Notification");
+  
+  const btnCaptureFrame = document.querySelector("#btn-capture-frame");
+  const btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame");
+  const btnLoop = document.querySelector("#btn-loop");
+  const btnPlayPause = document.querySelector("#btn-play-pause");
+  const btnFrameNext = document.querySelector("#btn-frame-next");
+  const btnFramePrevious = document.querySelector("#btn-frame-previous");
+  const btnFrameFirst = document.querySelector("#btn-frame-first");
+  const btnFrameLast = document.querySelector("#btn-frame-last");
   
   var allShortcuts = {},
       activeGroups = [],
@@ -14,57 +27,43 @@ module.exports = {};
         // Features in the main window.
         main: {
           takePicture: function() {
-            btnCaptureFrame.click();
+            Features.takePicture();
           },
           undoFrame: function() {
-            btnDeleteLastFrame.click();
+            Features.undoFrame();
           },
           audioToggle: function() {
-            AudioManager.setEnabled(!AudioManager.getEnabled())
-            // Toggle checkbox on related menubar item
-            menubar.subMenus.capture.items[2].checked = !menubar.subMenus.capture.items[2].checked;
-            Notification.info(`Capture sounds ${AudioManager.getEnabled() ? "enabled" : "disabled"}.`);
+            Features.audioToggle();
           },
           playPause: function() {
-            btnPlayPause.click();
+            Features.playPause();
           },
           loopPlayback: function() {
-            btnLoop.click();
-             // Toggle checkbox on related menubar item
-             menubar.subMenus.playback.items[0].checked = !menubar.subMenus.capture.items[0].checked;
+            Features.loopPlayback();
           },
           liveView: function() {
-            btnLiveView.click();
+            Features.liveView();
           },
           firstFrame: function() {
-            btnFrameFirst.click();
+            Features.firstFrame();
           },
           lastFrame: function() {
-            btnFrameLast.click();
+            Features.lastFrame();
           },
           nextFrame: function() {
-            btnFrameNext.click();
+            Features.nextFrame();
           },
           previousFrame: function() {
-            btnFramePrevious.click();
+            Features.previousFrame();
           }
         },
         // Features in confirm prompts.
         confirm: {
           enter: function() {
-            // Confirm messages
-            var btnConfirmOK = document.querySelector(".swal-button--confirm");
-            var btnConfirmCancel = document.querySelector(".swal-button--cancel");
-
-            if (document.activeElement === btnConfirmOK) {
-              btnConfirmOK.click();
-            } else if (document.activeElement === btnConfirmCancel) {
-              btnConfirmCancel.click();
-            }
+            Features.confirmEnter();
           },
           cancel: function() {
-            var btnConfirmCancel = document.querySelector(".swal-button--cancel");
-            btnConfirmCancel.click();
+            Features.confirmCancel();
           }
         }
       };
