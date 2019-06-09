@@ -1,6 +1,3 @@
-// Main instances
-// var projectInst = null;
-
 (function() {
   "use strict";
   // Main imports
@@ -9,6 +6,7 @@
 
   // UI imports
   const CaptureOptions = require("./ui/CaptureOptions/CaptureOptions");
+  const FrameReelRow = require("./ui/FrameReelRow/FrameReelRow");
   const menubar = require("./ui/MenuBar/MenuBar");
   const WindowManager = require("./ui/WindowManager/WindowManager");
 
@@ -25,6 +23,7 @@
 
       // UI initialisation
       CaptureOptions.setListeners();
+      FrameReelRow.setListeners();
       WindowManager.setListeners();
       global.projectInst.setListeners();
 

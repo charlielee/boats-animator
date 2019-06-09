@@ -6,6 +6,7 @@
 
   // UI imports
   var FrameReel = require("../../main/FrameReel/FrameReel");
+  var Notification = require("../../ui/Notification/Notification");
   var OnionSkin = require("../../ui/OnionSkin/OnionSkin");
   var PlaybackCanvas = require("../../ui/PlaybackCanvas/PlaybackCanvas");
   var StatusBar = require("../../ui/StatusBar/StatusBar");
@@ -13,6 +14,8 @@
   // Common imports
   var AudioManager = require("../../common/AudioManager/AudioManager");
   var File = require("../../common/File/File");
+
+  var preview = document.querySelector("#preview");
 
   /** Represents a single take (image sequence). */
   class Take {
