@@ -16,7 +16,9 @@ module.exports = {};
           takePicture: function() {
             btnCaptureFrame.click();
           },
-          undoFrame: undoFrame,
+          undoFrame: function() {
+            btnDeleteLastFrame.click();
+          },
           audioToggle: function() {
             AudioManager.setEnabled(!AudioManager.getEnabled())
             // Toggle checkbox on related menubar item
@@ -32,7 +34,7 @@ module.exports = {};
              menubar.subMenus.playback.items[0].checked = !menubar.subMenus.capture.items[0].checked;
           },
           liveView: function() {
-            switchToLiveView();
+            btnLiveView.click();
           },
           firstFrame: function() {
             btnFrameFirst.click();
