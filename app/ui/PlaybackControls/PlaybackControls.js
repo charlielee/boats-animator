@@ -50,7 +50,7 @@
       btnFramePrevious.addEventListener("click", function() {
         if (takeInst.frameReel.curSelectedFrame > 1) {
           playback._displayFrame(takeInst.frameReel.curSelectedFrame - 1);
-        } else if (PreviewArea.curWindow === CaptureWindow && takeInst.getTotalFrames()) {
+        } else if (playback.project.getCurrentMode() === "capture" && takeInst.getTotalFrames()) {
           playback.project.setCurrentMode("playback");
           playback._displayFrame(takeInst.getTotalFrames());
         }
@@ -58,7 +58,7 @@
 
       // Preview first frame on framereel
       btnFrameFirst.addEventListener("click", function() {
-        if (PreviewArea.curWindow === CaptureWindow && takeInst.getTotalFrames()) {
+        if (playback.project.getCurrentMode() === "capture" && takeInst.getTotalFrames()) {
           playback.project.setCurrentMode("playback");
         }
         playback._displayFrame(1);
