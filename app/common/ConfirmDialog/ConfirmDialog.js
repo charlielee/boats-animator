@@ -1,8 +1,8 @@
 (function() {
   "use strict";
   // Main imports
-  // var shortcuts = require("../../main/Shortcuts/Shortcuts");
-  // var menubar = require("../../ui/MenuBar/MenuBar");
+  // const shortcuts = require("../../main/Shortcuts/Shortcuts");
+  // const menubar = require("../../ui/MenuBar/MenuBar");
 
   // Library imports
   var swal = require("../../lib/sweetalert");

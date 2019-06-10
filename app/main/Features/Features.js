@@ -22,20 +22,20 @@
 
     static mainMenu() {
       ConfirmDialog.confirmSet({ text: "Returning to the menu will cause any unsaved work to be lost!" })
-              .then((response) => {
-                if (response) {
-                  WindowManager.openIndex();
-                }
-              });
+        .then((response) => {
+          if (response) {
+            WindowManager.openIndex();
+          }
+        });
     }
 
     static exitApp() {
       ConfirmDialog.confirmSet({ text: "Are you sure you want to exit Boats Animator?" })
-              .then((response) => {
-                if (response) {
-                  WindowManager.closeAnimator();
-                }
-              });
+        .then((response) => {
+          if (response) {
+            WindowManager.closeAnimator();
+          }
+        });
     }
 
     // Main program features
