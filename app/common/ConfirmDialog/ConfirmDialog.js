@@ -22,18 +22,18 @@
       swalArgs.buttons = swalArgs.buttons ? swalArgs.buttons : true;
 
       // Pause main shortcuts and menubar items
-      // shortcuts.remove("main");
-      // shortcuts.add("confirm");
-      // menubar.toggleItems();
+      global.AppShortcuts.remove("main");
+      global.AppShortcuts.add("confirm");
+      global.AppMenuBar.toggleItems();
 
       return new Promise(function(resolve, reject) {
         // Create a SweetAlert dialogue with the selected arguments
         swal(swalArgs)
           .then((response) => {
             // Resume main shortcuts and menubar items
-            // shortcuts.remove("confirm");
-            // shortcuts.add("main");
-            // menubar.toggleItems();
+            global.AppShortcuts.remove("confirm");
+            global.AppShortcuts.add("main");
+            global.AppMenuBar.toggleItems();
 
             // Resolve the promise
             resolve(response);
