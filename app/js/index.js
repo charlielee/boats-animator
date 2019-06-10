@@ -1,7 +1,7 @@
 (function() {
   "use strict";
   let win          = nw.Window.get(),
-      newsFeed     = require("./js/newsfeed"),
+      newsFeed     = require("./common/NewsFeed/NewsFeed"),
       qAppVersion  = document.querySelector("#app-version");
 
   // Get the version number from the manifest file
