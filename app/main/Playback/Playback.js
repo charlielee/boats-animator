@@ -34,6 +34,10 @@
         btnLoop.children[0].classList.add("active");
       }
 
+      // Toggle checkbox on related menubar item
+      let loopMenuBarItem = nw.Window.get().menu.items[3].submenu.items[0];
+      loopMenuBarItem.checked = this.isLooping;
+
       console.info(`Loop playback: ${this.isLooping}`);
     }
 

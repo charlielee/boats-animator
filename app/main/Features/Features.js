@@ -3,7 +3,6 @@
   const AudioManager = require("../../common/AudioManager/AudioManager");
   const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
 
-  const menubar = require("../../ui/MenuBar/MenuBar");
   const WindowManager = require("../../ui/WindowManager/WindowManager");
 
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");
@@ -58,8 +57,6 @@
 
     static loopPlayback() {
       btnLoop.click();
-      // Toggle checkbox on related menubar item
-      menubar.subMenus.playback.items[0].checked = !menubar.subMenus.capture.items[0].checked;
     }
 
     static liveView() {

@@ -1,7 +1,6 @@
 (function() {
   "use strict";
   const Notification = require("../../ui/Notification/Notification");
-  const menubar = require("../../ui/MenuBar/MenuBar");
 
   // Whether audio should be played or not
   var audioEnabled = true;
@@ -28,7 +27,8 @@
       audioEnabled = enabled;
 
       // Toggle checkbox on related menubar item
-      menubar.subMenus.capture.items[2].checked = enabled;
+      let audioToggleMenuItem = nw.Window.get().menu.items[2].submenu.items[2];
+      audioToggleMenuItem.checked = enabled;
 
       Notification.info(`Capture sounds ${enabled ? "enabled" : "disabled"}.`);
     }
