@@ -10,7 +10,7 @@
 
   class PlaybackControls {
     static setListeners() {
-      let takeInst = global.projectInst.getCurrentTake();
+      let takeInst = global.projectInst.currentTake;
 
 
       // Toggle preview looping

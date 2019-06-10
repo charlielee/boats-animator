@@ -91,21 +91,22 @@
       return this.currentTake;
     }
 
-    getCurrentTake() {
-      return this.currentTake;
-    }
-
     /**
      * Trigger frame capturing.
      */
     takeFrame() {
+      var self = this;
       // Stop playback
       this.playback.videoStop();
       this.setCurrentMode("capture");
 
       // Take a picture
-      if (this.streaming) {
-        this.currentTake.captureFrame();
+      if (self.streaming) {
+        self.currentTake.captureFrame()
+        .then(function() {
+          // Scroll to the end of the framereel
+          self.currentTake.frameReel.selectLiveViewButton();
+        });
       }
     }
 

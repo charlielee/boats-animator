@@ -43,41 +43,42 @@
      * Captures a frame from the preview feed and adds it to the take.
      */
     captureFrame() {
-      // Prevent taking frames without a set output path
-      if (!this.saveDirectory.saveDirLocation) {
-        Notification.error("A save directory must be first set!");
-        return false;
-      }
-
       var self = this;
+      return new Promise(function(resolve, reject) {
+        // Prevent taking frames without a set output path
+        if (!self.saveDirectory.saveDirLocation) {
+          Notification.error("A save directory must be first set!");
+          reject("A save directory must be first set!");
+        }
 
-      // Draw the image on the canvas
-      PlaybackCanvas.setDimensions(preview.videoWidth, preview.videoHeight);
-      PlaybackCanvas.drawImage(preview);
+        // Draw the image on the canvas
+        PlaybackCanvas.setDimensions(preview.videoWidth, preview.videoHeight);
+        PlaybackCanvas.drawImage(preview);
 
-      // Convert the frame to a PNG
-      PlaybackCanvas.getBlob(function(blob) {
-        // Play a camera sound
-        AudioManager.play("audio/camera.wav");
+        // Convert the frame to a PNG
+        PlaybackCanvas.getBlob(function(blob) {
+          // Play a camera sound
+          AudioManager.play("audio/camera.wav");
 
-        // Create a new image object
-        var frame = new Image();
-        var url = URL.createObjectURL(blob);
-        frame.src = url;
+          // Create a new image object
+          var frame = new Image();
+          var url = URL.createObjectURL(blob);
+          frame.src = url;
 
-        // Store the image data
-        self.capturedFrames.push(frame);
-        var id = self.getTotalFrames();
-        console.info(`Captured frame: ${id}`);
+          // Store the image data
+          self.capturedFrames.push(frame);
+          var id = self.getTotalFrames();
+          console.info(`Captured frame: ${id}`);
 
-        // Update status bar and frame reel
-        StatusBar.setTotalFrames(id);
-        self.frameReel.addFrame(id, self.capturedFrames[id - 1].src);
-        self.frameReel.setFrameThumbnail(id, self.capturedFrames[id - 1].src);
+          // Update status bar and frame reel
+          StatusBar.setTotalFrames(id);
+          self.frameReel.addFrame(id, self.capturedFrames[id - 1].src);
+          self.frameReel.setFrameThumbnail(id, self.capturedFrames[id - 1].src);
 
-        self._updateOnionSkin();
-        self._exportFrame(id, blob);
-        return true;
+          self._updateOnionSkin();
+          self._exportFrame(id, blob);
+          resolve(`Captured frame: ${id}`);
+        });
       });
     }
 

@@ -3,7 +3,7 @@
   // Main imports
   const Features = require("../../main/Features/Features");
   const SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
-  const shortcuts = require("../../main/Shortcuts/Shortcuts");
+  const Shortcuts = require("../../main/Shortcuts/Shortcuts");
 
   // UI imports
   const Notification = require("../../ui/Notification/Notification");
@@ -68,8 +68,8 @@
           click: function() {
             Features.undoFrame();
           },
-          key: shortcuts.getPrimaryKey("undoFrame"),
-          modifiers: shortcuts.getPrimaryModifiers("undoFrame"),
+          key: Shortcuts.getPrimaryKey("undoFrame"),
+          modifiers: Shortcuts.getPrimaryModifiers("undoFrame"),
         }
       ],
       capture: [
@@ -78,8 +78,8 @@
           click: function() {
             Features.takePicture();
           },
-          key: shortcuts.getPrimaryKey("takePicture"),
-          modifiers: shortcuts.getPrimaryModifiers("takePicture"),
+          key: Shortcuts.getPrimaryKey("takePicture"),
+          modifiers: Shortcuts.getPrimaryModifiers("takePicture"),
         },
         { type: "separator" },
         {
@@ -89,8 +89,8 @@
           },
           type: "checkbox",
           checked: true,
-          key: shortcuts.getPrimaryKey("audioToggle"),
-          modifiers: shortcuts.getPrimaryModifiers("audioToggle"),
+          key: Shortcuts.getPrimaryKey("audioToggle"),
+          modifiers: Shortcuts.getPrimaryModifiers("audioToggle"),
         },
         {
           label: "Change capture destination",
@@ -107,8 +107,8 @@
           },
           type: "checkbox",
           checked: false,
-          key: shortcuts.getPrimaryKey("loopPlayback"),
-          modifiers: shortcuts.getPrimaryModifiers("loopPlayback"),
+          key: Shortcuts.getPrimaryKey("loopPlayback"),
+          modifiers: Shortcuts.getPrimaryModifiers("loopPlayback"),
         },
         { type: "separator" },
         {
@@ -116,16 +116,16 @@
           click: function() {
             Features.firstFrame();
           },
-          key: shortcuts.getPrimaryKey("firstFrame"),
-          modifiers: shortcuts.getPrimaryModifiers("firstFrame"),
+          key: Shortcuts.getPrimaryKey("firstFrame"),
+          modifiers: Shortcuts.getPrimaryModifiers("firstFrame"),
         },
         {
           label: "Display last frame",
           click: function() {
             Features.lastFrame();
           },
-          key: shortcuts.getPrimaryKey("lastFrame"),
-          modifiers: shortcuts.getPrimaryModifiers("lastFrame"),
+          key: Shortcuts.getPrimaryKey("lastFrame"),
+          modifiers: Shortcuts.getPrimaryModifiers("lastFrame"),
         }
       ],
       help: [
