@@ -2,20 +2,20 @@
   "use strict";
   // Main imports
   const Project = require("./main/Project/Project");
-  const Shortcuts = require("./main/Shortcuts/Shortcuts");
+  global.AppShortcuts = require("./main/Shortcuts/Shortcuts");
 
   // UI imports
   const CaptureOptions = require("./ui/CaptureOptions/CaptureOptions");
   const FrameReelRow = require("./ui/FrameReelRow/FrameReelRow");
-  const menubar = require("./ui/MenuBar/MenuBar");
+  global.AppMenuBar = require("./ui/MenuBar/MenuBar");
   const WindowManager = require("./ui/WindowManager/WindowManager");
 
   function startup() {
     // Load the keyboard shortcuts
-    Shortcuts.get("default", function() {
-      Shortcuts.add("main");
+    global.AppShortcuts.get("default", function() {
+      global.AppShortcuts.add("main");
       // Load top menu
-      menubar.load();
+      global.AppMenuBar.load();
 
       // Initialise the project
       global.projectInst = new Project("Untitled Project");
