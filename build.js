@@ -71,7 +71,7 @@ function createTemp() {
       console.log(err ? err : "Copy package.json");
 
       fs.mkdir("temp/icons", function(err) {
-        fs.copy("icons/icon.png", "temp/icons/icon.png", function (err) {
+        fs.copy("icons/icon.png", "temp/icons/icon.png", function(err) {
           console.log(err ? err : "Copy icon.png");
         });
 
