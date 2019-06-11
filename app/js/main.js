@@ -1,6 +1,7 @@
 (function() {
   "use strict";
   // Main imports
+  const PreviewOverlay = require("./main/PreviewOverlay/PreviewOverlay");
   const Project = require("./main/Project/Project");
   global.AppShortcuts = require("./main/Shortcuts/Shortcuts");
 
@@ -24,6 +25,7 @@
       // UI initialisation
       CaptureOptions.setListeners();
       FrameReelRow.setListeners();
+      PreviewOverlay.initialise();
       WindowManager.setListeners();
       global.projectInst.setListeners();
 
