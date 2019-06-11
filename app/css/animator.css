@@ -84,7 +84,7 @@
   border-color: #ad0000;
 }
 
-#preview-area * {
+#preview-area > * {
   display: none;
 }
 
