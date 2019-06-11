@@ -25,22 +25,24 @@
 
   <main>
     <section id="main-area">
-      <!-- Preview overlay window -->
-      <div id="preview-overlay-window" class=""></div>
-
-      <!--Capture Window-->
-      <div id="capture-window" class="preview-area-window">
-          <!-- <svg id="hi" viewbox="0 0 133.33333333333331 100" style="width: 100%; height: 100%; position: absolute; z-index: 10;"><rect x="0" y="0" height="33.333333333333336" width="44.444444444444436" stroke-width="1" stroke="#ffffff" stroke-opacity="1" fill="none"></rect><rect x="0" y="33.333333333333336" height="33.333333333333336" width="44.444444444444436" stroke-width="1" stroke="#ffffff" stroke-opacity="1" fill="none"></rect><rect x="0" y="66.66666666666667" height="33.333333333333336" width="44.444444444444436" stroke-width="1" stroke="#ffffff" stroke-opacity="1" fill="none"></rect><rect x="44.444444444444436" y="0" height="33.333333333333336" width="44.444444444444436" stroke-width="1" stroke="#ffffff" stroke-opacity="1" fill="none"></rect><rect x="44.444444444444436" y="33.333333333333336" height="33.333333333333336" width="44.444444444444436" stroke-width="1" stroke="#ffffff" stroke-opacity="1" fill="none"></rect><rect x="44.444444444444436" y="66.66666666666667" height="33.333333333333336" width="44.444444444444436" stroke-width="1" stroke="#ffffff" stroke-opacity="1" fill="none"></rect><rect x="88.88888888888887" y="0" height="33.333333333333336" width="44.444444444444436" stroke-width="1" stroke="#ffffff" stroke-opacity="1" fill="none"></rect><rect x="88.88888888888887" y="33.333333333333336" height="33.333333333333336" width="44.444444444444436" stroke-width="1" stroke="#ffffff" stroke-opacity="1" fill="none"></rect><rect x="88.88888888888887" y="66.66666666666667" height="33.333333333333336" width="44.444444444444436" stroke-width="1" stroke="#ffffff" stroke-opacity="1" fill="none"></rect></svg>        The actual onion skinning frame, injected through JS -->
-        <img id="onion-skinning-frame">
+      <!--Preview area window-->
+      <div id="preview-area">
+        <!--  Onion skinning frame -->
+        <img id="onion-skinning-frame" class="visible-capture">
         <!-- Video preview stream -->
+        <video id="preview" class="visible-capture" autoplay>Video stream not available.</video>
+        <!--The actual playback window -->
+        <canvas id="playback" class="visible-playback"></canvas>
+      </div>
+
+      <!-- <div id="capture-window" class="preview-area-window">
+        <img id="onion-skinning-frame">
         <video id="preview" autoplay>Video stream not available.</video>
       </div>
 
-      <!--Playback Window-->
       <div id="playback-window" class="preview-area-window">
-        <!--The actual playback window -->
         <canvas id="playback"></canvas>
-      </div>
+      </div> -->
 
       <!--Playback controls-->
       <div id="frame-mod-panel" class="flex">

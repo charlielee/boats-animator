@@ -5,8 +5,8 @@ module.exports = {};
   "use strict";
   // Import modules
   var cameraResolutions = require("./CameraResolutions");
+  const Loader = require("../../common/Loader/Loader");
   var Notification = require("../../ui/Notification/Notification");
-  var PreviewArea = require("../../ui/PreviewArea/PreviewArea");
   var StatusBar = require("../../ui/StatusBar/StatusBar");
 
   // The current video stream
@@ -47,7 +47,7 @@ module.exports = {};
      */
     showResolutions: function() {
       // Display loading window
-      PreviewArea.curWindow.showLoading(`Loading ${this.name}`, true);
+      Loader.show(`Loading ${this.name}`, true);
       // See if resolutions have already been found
       if (this.resolutions.length > 0) {
         Camera._updateResoluSelect(this.resolutions);
@@ -162,7 +162,7 @@ module.exports = {};
     } catch (err) {
       Notification.error(`${curCam.name} could not be loaded!`);
     } finally {
-      PreviewArea.curWindow.display();
+      Loader.hide();
     }
   }
 
