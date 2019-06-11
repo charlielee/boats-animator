@@ -70,6 +70,16 @@
   width: 100%;
 }
 
+/* Preview overlay.
+   -------------------------------- */
+#preview-overlay-window {
+  /* height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 3; */
+}
+
 /* ========== VIDEO PREVIEW ============== */
 
 .preview-area-window {

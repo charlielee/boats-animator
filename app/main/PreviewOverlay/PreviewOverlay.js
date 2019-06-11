@@ -1,5 +1,8 @@
 (function() {
   "use strict";
+  const preview = document.querySelector("#preview");
+
+
   /** Class for managing overlays on the preview area */
   class PreviewOverlay {
     /**
@@ -7,7 +10,7 @@
      * @param {*} name 
      * @param {*} settings 
      */
-    constructor(name, method, settings) {
+    constructor(name, method, settings = {}) {
       // The name of the overlay
       this.name = name;
   
@@ -31,10 +34,15 @@
         widthMax: 100
       };
 
+      var self = this;
+
       // Update any non-default settings
       Object.keys(settings).forEach(function(key) {
-        this.settings[key] = settings[key];
+        self.settings[key] = settings[key];
       });
+
+      // Create the svg element
+      this.element = this.method(this.settings.width, this.settings.height, this.settings.color);
 
       // Add the object to the settings overlay
       PreviewOverlay.addToSettingsDialog(this);
@@ -42,6 +50,10 @@
 
     setColor(newColor) {
       this.settings.color = newColor;
+      // Remove from container
+
+      // Readd to container
+      
       this.method(this.settings.currentWidth, this.settings.currentHeight, newColor);
     }
 
@@ -55,9 +67,21 @@
       this.method(newWidth, this.settings.currentHeight, this.settings.color);
     }
 
+    display(visible = true) {
+      //todo let 
+      
 
+    }
 
-
+    /**
+     * Creates the built in grid overlays.
+     */
+    static initialise() {
+      new PreviewOverlay("Grid overlay", PreviewOverlay.makeGridSVG, {
+        defaultHeight: 3,
+        defaultWidth: 3
+      });
+    }
 
     /**
      * Adds a preview overlay object to the overlay settings dialog
@@ -74,22 +98,35 @@
      * @param {*} color 
      */
     static makeGridSVG(width, height, color) {
+      let id = "gridOverlay";
+
       // Get the current aspect ratio of the preview
-      let svgHeader = `<svg viewBox="0 0 ${previewWidth} ${previewHeight}" style="border: 1px solid #000000;">`;
-      let svgContents = "";
-      let svgFooter = "</svg>";
+      let previewAspectWidth = (preview.videoWidth / preview.videoHeight)*100;
+      let previewAspectHeight = 1*100;
+
+      let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("id", id);
+      svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      svg.setAttribute("viewBox", `0 0 ${previewAspectWidth} ${previewAspectHeight}`);
+      svg.setAttribute("style", "width: 100%; height: 100%; position: absolute; z-index: 10;");
 
       // Create a rectangle for each width/height unit
       for (let w = 0; w < width; w++) {
         for (let h = 0; h < height; h++) {
-          svgContents += `
-           <rect x="${(width/w)}" y="2.25" width="8" height="4.5"
-          style="fill:blue;stroke-width:1;fill-opacity:0.1;stroke-opacity:0.9" />
-          `
+          let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+          rect.setAttribute("x", (previewAspectWidth/width)*w);
+          rect.setAttribute("y", (previewAspectHeight/height)*h);
+          rect.setAttribute("height", previewAspectHeight/height);
+          rect.setAttribute("width", previewAspectWidth/width);
+          rect.setAttribute("stroke-width", 1);
+          rect.setAttribute("stroke", color);
+          rect.setAttribute("stroke-opacity", 1);
+          rect.setAttribute("fill", "none");
+          svg.appendChild(rect);
         }
       }
 
-      return svgHeader + svgContents + svgFooter;
+      return svg;
     }
 
     /**
@@ -98,7 +135,8 @@
      * @param {*} height 
      * @param {*} color 
      */
-    static makeAspectRatioSVG(width, height, color) {
+    static makeAspectRatioSVG(id, width, height, color) {
+      // make rectangle of required aspect ratio with massive borders
       /*
       <!DOCTYPE html>
 <html>
@@ -113,8 +151,6 @@
 https://stackoverflow.com/questions/3742479/how-to-cut-a-hole-in-an-svg-rectangle
       */
     }
-
-
   }
 
   module.exports = PreviewOverlay;
