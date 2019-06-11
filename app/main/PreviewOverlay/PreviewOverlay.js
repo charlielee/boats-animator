@@ -1,7 +1,9 @@
 (function() {
   "use strict";
   const preview = document.querySelector("#preview");
+  const previewArea = document.querySelector("#preview-area");
 
+  let overlayList = [];
 
   /** Class for managing overlays on the preview area */
   class PreviewOverlay {
@@ -23,8 +25,6 @@
       // Default overlay settings
       this.settings = {
         color: "#d8d8d8",
-        currentHeight: 1,
-        currentWidth: 1,
         defaultHeight: 1,
         defaultWidth: 1,
         heightMin: 1,
@@ -33,51 +33,61 @@
         widthMin: 1,
         widthMax: 100
       };
-
-      var self = this;
+      this.settings.currentHeight = this.settings.defaultHeight;
+      this.settings.currentWidth = this.settings.defaultWidth;
 
       // Update any non-default settings
+      var self = this;
       Object.keys(settings).forEach(function(key) {
         self.settings[key] = settings[key];
       });
 
       // Create the svg element
-      this.element = this.method(this.settings.width, this.settings.height, this.settings.color);
+      // this.element = this.method(this.settings.width, this.settings.height, this.settings.color);
 
       // Add the object to the settings overlay
       PreviewOverlay.addToSettingsDialog(this);
+
+      // Add to list of overlays
+      overlayList.push(this);
     }
 
-    setColor(newColor) {
+    /**
+     * 
+     * @param {*} newWidth 
+     * @param {*} newHeight 
+     * @param {*} newColor 
+     */
+    draw(newWidth, newHeight, newColor) {
       this.settings.color = newColor;
-      // Remove from container
-
-      // Readd to container
-      
-      this.method(this.settings.currentWidth, this.settings.currentHeight, newColor);
-    }
-
-    setHeight(newHeight) {
       this.settings.currentHeight = newHeight;
-      this.method(this.settings.currentWidth, newHeight, this.settings.color);
-    }
-
-    setWidth(newWidth) {
       this.settings.currentWidth = newWidth;
-      this.method(newWidth, this.settings.currentHeight, this.settings.color);
+
+      // Remove from container if already present
+      console.log(this.element);
+      if (this.element !== undefined) {
+        console.log(this.element.id);
+        let child = document.querySelector(`#${this.element.id}`);
+        console.log(child);
+  
+        let parent = child.parentElement;
+        parent.removeChild(child); 
+      }
+
+      // Add to container
+      previewArea.appendChild(this.method(newWidth, newHeight, newColor));
     }
 
-    display(visible = true) {
-      //todo let 
-      
-
+    toggle() {
+      let el = document.querySelector(`#${this.element.id}`);
+      el.classList.toggle("visible-capture");
     }
 
     /**
      * Creates the built in grid overlays.
      */
     static initialise() {
-      new PreviewOverlay("Grid overlay", PreviewOverlay.makeGridSVG, {
+      let grid = new PreviewOverlay("Grid overlay", PreviewOverlay.makeGridSVG, {
         defaultHeight: 3,
         defaultWidth: 3
       });
@@ -88,6 +98,12 @@
      * @param {*} previewOverlay 
      */
     static addToSettingsDialog(previewOverlay) {
+      // Add an item to settings dialog
+      
+
+      // Add event listeners
+
+
 
     }
 

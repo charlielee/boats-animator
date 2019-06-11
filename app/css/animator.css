@@ -70,16 +70,6 @@
   width: 100%;
 }
 
-/* Preview overlay.
-   -------------------------------- */
-#preview-overlay-window {
-  /* height: 100%;
-  left: 0;
-  top: 0;
-  width: 100%;
-  z-index: 3; */
-}
-
 /* ========== VIDEO PREVIEW ============== */
 
 #preview-area {
@@ -102,19 +92,6 @@
 #preview-area.playback-mode .visible-playback {
   display: block;
 }
-
-/* .preview-area-window {
-  display: none;
-  flex: 1;
-  text-align: center;
-  background-color: black;
-  position: relative;
-  border: 2px solid transparent;
-} */
-
-/* .preview-area-window.active { display: flex; }
-
-#capture-window.active { border-color: #ad0000; } */
 
 #preview,
 #playback {
