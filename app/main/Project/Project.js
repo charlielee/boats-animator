@@ -12,17 +12,13 @@
   // UI imports
   const FrameRate = require("../../ui/FrameRate/FrameRate");
   const PlaybackCanvas = require("../../ui/PlaybackCanvas/PlaybackCanvas");
-  const PreviewArea = require("../../ui/PreviewArea/PreviewArea");
   const StatusBar = require("../../ui/StatusBar/StatusBar");
-
-  // Mode switching
-  const CaptureWindow = new PreviewArea(document.querySelector("#capture-window"));
-  const PlaybackWindow = new PreviewArea(document.querySelector("#playback-window"));
 
   // The various HTML elements we need to configure or control.
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");
   const btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame");
   const preview = document.querySelector("#preview");
+  const previewAreaEl = document.querySelector("#preview-area");
 
   /** Represents a project (a series of takes) */
   class Project {
@@ -33,6 +29,7 @@
     constructor(title) {
       // Initialise the project
       this.frameRate = new FrameRate(15);
+      this.currentMode = null;
       this.currentTake = null;
       this.playback = null;
       this.saveDirectory = new SaveDirectory(SaveDirectory.getLocalStorageDir());
@@ -140,48 +137,43 @@
     }
 
     getCurrentMode() {
-      if (PreviewArea.curWindow === CaptureWindow) {
-        return "capture";
-      } else if (PreviewArea.curWindow === PlaybackWindow) {
-        return "playback";
-      } else {
-        return null;
-      }
+      return this.currentMode;
     }
 
     setCurrentMode(modeName) {
-      switch (modeName) {
-        case "capture":
-          this._switchMode(CaptureWindow);
-          break;
-        case "playback":
-          this._switchMode(PlaybackWindow);
-          break;
-      }
+      this.currentMode = modeName;
+      this._switchMode(modeName);
     }
 
     /**
      * Toggle between playback and capture windows.
      *
-     * @param {PreviewArea} NewWindow - The PreviewArea window to switch to.
      * Possible values are CaptureWindow and PlaybackWindow.
      */
-    _switchMode(NewWindow) {
+    _switchMode(newModeName) {
       var takeInst = this.currentTake;
-      NewWindow.display();
 
-      if (PreviewArea.curWindow === CaptureWindow) {
+      if (newModeName === "capture") {
+        // Update preview area
+        previewAreaEl.classList.toggle("capture-mode", true);
+        previewAreaEl.classList.toggle("playback-mode", false);
+        // Stop playback
         this.playback.videoStop();
+        // Update status bar and frame reel
         StatusBar.setCurrentFrame(takeInst.getTotalFrames() + 1);
         StatusBar.setCurrentMode("Capture");
         takeInst.frameReel.selectLiveViewButton();
 
-      } else if (PreviewArea.curWindow === PlaybackWindow) {
-        takeInst.frameReel.selectLiveViewButton(false);
+      } else if (newModeName === "playback") {
+        // Update preview area
+        previewAreaEl.classList.toggle("capture-mode", false);
+        previewAreaEl.classList.toggle("playback-mode", true);
+        // Update statusbar and frame reel
         StatusBar.setCurrentMode("Playback");
+        takeInst.frameReel.selectLiveViewButton(false);
       }
 
-      console.log(`Switched to: ${NewWindow.el.id}`);
+      console.log(`Switched to: ${newModeName} mode`);
     }
   }
 

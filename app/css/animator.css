@@ -82,18 +82,39 @@
 
 /* ========== VIDEO PREVIEW ============== */
 
-.preview-area-window {
-  display: none;
+#preview-area {
+  display: flex;
   flex: 1;
   text-align: center;
   background-color: black;
   position: relative;
   border: 2px solid transparent;
 }
+#preview-area.capture-mode {
+  border-color: #ad0000;
+}
 
-.preview-area-window.active { display: flex; }
+#preview-area * {
+  display: none;
+}
 
-#capture-window.active { border-color: #ad0000; }
+#preview-area.capture-mode .visible-capture,
+#preview-area.playback-mode .visible-playback {
+  display: block;
+}
+
+/* .preview-area-window {
+  display: none;
+  flex: 1;
+  text-align: center;
+  background-color: black;
+  position: relative;
+  border: 2px solid transparent;
+} */
+
+/* .preview-area-window.active { display: flex; }
+
+#capture-window.active { border-color: #ad0000; } */
 
 #preview,
 #playback {
