@@ -205,20 +205,50 @@
       if (!isNaN(previewAspectHeight) && !isNaN(previewAspectWidth)) {
         svg.setAttribute("viewBox", `0 0 ${previewAspectWidth} ${previewAspectHeight}`);
 
-        // Create a rectangle of the chosen aspect ratio in the container
-        let rectHeight = (height > width ? previewAspectHeight : (height/width)*previewAspectWidth);
-        let rectWidth = (width > height ? previewAspectWidth : (width/height)*previewAspectHeight);
+        // Calculate size of the cropped area
+        let croppedHeight = (height > width ? previewAspectHeight : (height/width)*previewAspectWidth);
+        let croppedWidth = (width > height ? previewAspectWidth : (width/height)*previewAspectHeight);
 
-        let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-        rect.setAttribute("x", (previewAspectWidth-rectWidth)/2);
-        rect.setAttribute("y", (previewAspectHeight-rectHeight)/2);
-        rect.setAttribute("height", rectHeight);
-        rect.setAttribute("width", rectWidth);
-        rect.setAttribute("stroke-width", 1);
-        rect.setAttribute("stroke", color);
-        rect.setAttribute("stroke-opacity", 1);
-        rect.setAttribute("fill", "none");
-        svg.appendChild(rect);
+        // If width > height make top and bottom letterboxes
+        if (width > height) {
+          let letterBoxHeight = (previewAspectHeight - croppedHeight)/2;
+
+          let topRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+          topRect.setAttribute("x", 0);
+          topRect.setAttribute("y", 0);
+          topRect.setAttribute("height", letterBoxHeight);
+          topRect.setAttribute("width", previewAspectWidth);
+          topRect.setAttribute("fill", color);
+          svg.appendChild(topRect);
+
+          let bottomRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+          bottomRect.setAttribute("x", 0);
+          bottomRect.setAttribute("y", previewAspectHeight - letterBoxHeight);
+          bottomRect.setAttribute("height", letterBoxHeight);
+          bottomRect.setAttribute("width", previewAspectWidth);
+          bottomRect.setAttribute("fill", color);
+          svg.appendChild(bottomRect);
+
+        // Make left and right letterboxes if height > width
+        } else {
+          let letterBoxWidth = (previewAspectWidth - croppedWidth)/2;
+
+          let leftRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+          leftRect.setAttribute("x", 0);
+          leftRect.setAttribute("y", 0);
+          leftRect.setAttribute("height", previewAspectHeight);
+          leftRect.setAttribute("width", letterBoxWidth);
+          leftRect.setAttribute("fill", color);
+          svg.appendChild(leftRect);
+
+          let rightRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+          rightRect.setAttribute("x", previewAspectWidth - letterBoxWidth);
+          rightRect.setAttribute("y", 0);
+          rightRect.setAttribute("height", previewAspectHeight);
+          rightRect.setAttribute("width", letterBoxWidth);
+          rightRect.setAttribute("fill", color);
+          svg.appendChild(rightRect);
+        }
       }
 
       return svg;
