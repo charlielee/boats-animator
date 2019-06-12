@@ -16,15 +16,12 @@
     constructor(name, id, method, settings = {}) {
       // The name of the overlay
       this.name = name;
-
+      // The id of the generated SVG
       this.id = id;
-  
       // Whether the overlay is currently visible
       this.visible = false;
-
-      // The method to adjust the overlay (should take an SVG element as a single parameter and return an updated svg)
+      // The method to adjust the overlay (should  return an svg element)
       this.method = method;
-
       // Default overlay settings
       this.settings = {
         color: "#d8d8d8",
@@ -36,11 +33,14 @@
         widthMin: 1,
         widthMax: 100
       };
+
       // Update any non-default settings
       var self = this;
       Object.keys(settings).forEach(function(key) {
         self.settings[key] = settings[key];
       });
+
+      // Initial height and width is the default
       this.settings.currentHeight = this.settings.defaultHeight;
       this.settings.currentWidth = this.settings.defaultWidth;
 
@@ -52,10 +52,10 @@
     }
 
     /**
-     * 
-     * @param {*} newWidth 
-     * @param {*} newHeight 
-     * @param {*} newColor 
+     * Draws an overlay for the current resolution of the preview area.
+     * @param {*} newWidth The width of the overlay.
+     * @param {*} newHeight The height of the overlay.
+     * @param {*} newColor The color of the overlay.
      */
     draw(newWidth = this.settings.currentWidth,
       newHeight =  this.settings.currentHeight,
@@ -64,26 +64,26 @@
       this.settings.currentHeight = newHeight;
       this.settings.currentWidth = newWidth;
 
-      // Remove from container if already present
-      console.log(document.querySelector(`#${this.id}`));
+      // Remove overlay SVG from container if already present
       if (document.querySelector(`#${this.id}`)) {
         let child = document.querySelector(`#${this.id}`);
         previewArea.removeChild(child);
         console.log(`Removed #${this.id}`);
       }
 
-      this.element = this.method(newWidth, newHeight, newColor);
+      // Make a new overlay SVG
+      this.element = this.method(this.id, newWidth, newHeight, newColor);
 
-      // Set previous visibility status
+      // Set visibility of the overlay from previous visibility status
       this.element.classList.toggle("visible-capture", this.visible);
 
       // Add to container
       previewArea.appendChild(this.element);
-      
-
-      return this.element;
     }
 
+    /**
+     * Toggles the visibility of the overlay.
+     */
     toggle() {
       let el = document.querySelector(`#${this.id}`);
       if (el) {
@@ -96,10 +96,17 @@
      * Creates the built in grid overlays.
      */
     static initialise() {
-      let grid = new PreviewOverlay("Grid overlay", "gridOverlay", PreviewOverlay.makeGridSVG, {
+      // Grid
+      new PreviewOverlay("Grid overlay", "gridOverlay", PreviewOverlay.makeGridSVG, {
         defaultHeight: 3,
         defaultWidth: 3
       });
+
+      // // Aspect ratio
+      // new PreviewOverlay("Grid overlay", "gridOverlay", PreviewOverlay.makeAspectRatioSVG, {
+      //   defaultHeight: 1,
+      //   defaultWidth: 2.39
+      // });
     }
 
     /**
@@ -135,13 +142,11 @@
 
     /**
      * Returns a grid SVG of the specified width, height and color
-     * @param {*} width 
+     * @param {*} width The 
      * @param {*} height 
      * @param {*} color 
      */
-    static makeGridSVG(width, height, color) {
-      let id = "gridOverlay";
-
+    static makeGridSVG(id, width, height, color) {
       // Get the current aspect ratio of the preview
       let previewAspectWidth = (preview.videoWidth / preview.videoHeight)*100;
       let previewAspectHeight = 1*100;
