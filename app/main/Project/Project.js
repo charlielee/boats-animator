@@ -11,7 +11,9 @@
 
   // UI imports
   const FrameRate = require("../../ui/FrameRate/FrameRate");
+  const Notification = require("../../ui/Notification/Notification");
   const PlaybackCanvas = require("../../ui/PlaybackCanvas/PlaybackCanvas");
+  const PreviewOverlay = require("../../main/PreviewOverlay/PreviewOverlay");
   const StatusBar = require("../../ui/StatusBar/StatusBar");
 
   // The various HTML elements we need to configure or control.
@@ -49,11 +51,20 @@
       self.playback = new Playback(self);
 
       // Initialises the preview window
+      // todo use second event only?
       preview.addEventListener("canplay", function() {
         if (!self.streaming) {
           PlaybackCanvas.setDimensions(preview.videoWidth.toString(), preview.videoHeight.toString())
           self.streaming = true;
+
+          // Reload preview overlays
+          PreviewOverlay.drawAll();
         }
+      });
+
+      preview.addEventListener("play", function() {
+        // Reload preview overlays
+        PreviewOverlay.drawAll();
       });
 
       // Capture a frame
