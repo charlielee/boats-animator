@@ -101,11 +101,11 @@
         defaultWidth: 3
       });
 
-      // // Aspect ratio
-      // new PreviewOverlay("Grid overlay", "gridOverlay", PreviewOverlay.makeAspectRatioSVG, {
-      //   defaultHeight: 1,
-      //   defaultWidth: 2.39
-      // });
+      // Aspect ratio
+      new PreviewOverlay("Aspect ratio", "aspectRatioMask", PreviewOverlay.makeAspectRatioSVG, {
+        defaultHeight: 1,
+        defaultWidth: 2.39
+      });
     }
 
     /**
@@ -152,10 +152,12 @@
       let previewAspectWidth = (preview.videoWidth / preview.videoHeight)*100;
       let previewAspectHeight = 1*100;
 
+      // Create the SVG container
       let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       svg.setAttribute("id", id);
       svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-      svg.setAttribute("style", "width: 100%; height: 100%; position: absolute; z-index: 10;");
+      svg.setAttribute("style", "z-index: 10;");
+      svg.classList.add("preview-area-item");
 
       // Only create the contents of the svg if a valid aspect ratio
       if (!isNaN(previewAspectHeight) && !isNaN(previewAspectWidth)) {
@@ -188,20 +190,38 @@
      * @param {*} color 
      */
     static makeAspectRatioSVG(id, width, height, color) {
-      // make rectangle of required aspect ratio with massive borders
-      /*
-      <!DOCTYPE html>
-<html>
-<body>
+      // Get the current aspect ratio of the preview
+      let previewAspectWidth = (preview.videoWidth / preview.videoHeight)*100;
+      let previewAspectHeight = 1*100;
 
-<svg width="320" height="180" viewBox="0 0 16 9" style="border: 1px solid #000000;">
-  <rect x="4" y="2.25" width="8" height="4.5"
-  style="fill:blue;stroke-width:1;fill-opacity:0.1;stroke-opacity:0.9" />
-</svg>
-</body>
-</html>
-https://stackoverflow.com/questions/3742479/how-to-cut-a-hole-in-an-svg-rectangle
-      */
+      // Create the SVG container
+      let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("id", id);
+      svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      svg.setAttribute("style", "z-index: 10;");
+      svg.classList.add("preview-area-item");
+
+      // Only create the contents of the svg if a valid aspect ratio
+      if (!isNaN(previewAspectHeight) && !isNaN(previewAspectWidth)) {
+        svg.setAttribute("viewBox", `0 0 ${previewAspectWidth} ${previewAspectHeight}`);
+
+        // Create a rectangle of the chosen aspect ratio in the container
+        let rectHeight = (height > width ? previewAspectHeight : (height/width)*previewAspectWidth);
+        let rectWidth = (width > height ? previewAspectWidth : (width/height)*previewAspectHeight);
+
+        let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        rect.setAttribute("x", (previewAspectWidth-rectWidth)/2);
+        rect.setAttribute("y", (previewAspectHeight-rectHeight)/2);
+        rect.setAttribute("height", rectHeight);
+        rect.setAttribute("width", rectWidth);
+        rect.setAttribute("stroke-width", 1);
+        rect.setAttribute("stroke", color);
+        rect.setAttribute("stroke-opacity", 1);
+        rect.setAttribute("fill", "none");
+        svg.appendChild(rect);
+      }
+
+      return svg;
     }
   }
 
