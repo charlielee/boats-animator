@@ -51,18 +51,9 @@
       self.playback = new Playback(self);
 
       // Initialises the preview window
-      // todo use second event only?
-      preview.addEventListener("canplay", function() {
-        if (!self.streaming) {
-          PlaybackCanvas.setDimensions(preview.videoWidth.toString(), preview.videoHeight.toString())
-          self.streaming = true;
-
-          // Reload preview overlays
-          PreviewOverlay.drawAll();
-        }
-      });
-
       preview.addEventListener("play", function() {
+        PlaybackCanvas.setDimensions(preview.videoWidth.toString(), preview.videoHeight.toString())
+        self.streaming = true;
         // Reload preview overlays
         PreviewOverlay.drawAll();
       });
