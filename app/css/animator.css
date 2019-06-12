@@ -84,13 +84,23 @@
   border-color: #ad0000;
 }
 
-#preview-area > * {
+.preview-area-item {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+#preview-area.capture-mode > :not(.visible-capture),
+#preview-area.playback-mode > :not(.visible-playback) {
   display: none;
 }
 
-#preview-area.capture-mode .visible-capture,
-#preview-area.playback-mode .visible-playback {
-  display: block;
+/* Individual preview area items */
+
+#preview-area-message {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 #preview,

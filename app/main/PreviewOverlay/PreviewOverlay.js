@@ -31,7 +31,7 @@
         heightMax: 20,
         // opacity: 100,
         widthMin: 1,
-        widthMax: 100
+        widthMax: 20
       };
 
       // Update any non-default settings
@@ -68,7 +68,6 @@
       if (document.querySelector(`#${this.id}`)) {
         let child = document.querySelector(`#${this.id}`);
         previewArea.removeChild(child);
-        console.log(`Removed #${this.id}`);
       }
 
       // Make a new overlay SVG
@@ -97,7 +96,7 @@
      */
     static initialise() {
       // Grid
-      new PreviewOverlay("Grid overlay", "gridOverlay", PreviewOverlay.makeGridSVG, {
+      new PreviewOverlay("Grid", "gridOverlay", PreviewOverlay.makeGridSVG, {
         defaultHeight: 3,
         defaultWidth: 3
       });
@@ -113,7 +112,6 @@
      * Redraws all of the created overlays
      */
     static drawAll() {
-      console.log("Draw all activated");
       overlayList.forEach(function(overlay) {
         overlay.draw();
       });
@@ -121,22 +119,25 @@
 
     /**
      * Adds a preview overlay object to the overlay settings dialog
-     * @param {*} previewOverlay 
+     * @param {PreviewOverlay} previewOverlay The preview overlay object to be added.
      */
-    static addToSettingsDialog(previewOverlay) {
-      console.log(previewOverlay);
+    static addToSettingsDialog(prev) {
       // Add an item to settings dialog
       let overlayListItem = document.createElement("li");
-
       overlayListItem.innerHTML = `
-        <span>${previewOverlay.name}</span>
-        <button class="grid-overlay-toggle-button" data-id="${previewOverlay.id}">Toggle</button>
+        <h3>${prev.name}</h3>
+        <p>
+        <button class="grid-overlay-toggle-btn" data-id="${prev.id}">Toggle</button>
+        <input class="grid-overlay-width-btn" type="number" value="${prev.settings.currentWidth}" min="${prev.settings.widthMin}" max="${prev.settings.widthMax}">
+        x
+        <input class="grid-overlay-height-btn" type="number" value="${prev.settings.currentHeight}" min="${prev.settings.heightMin}" max="${prev.settings.heightMax}">
+        </p>
       `;
       overlayListEl.appendChild(overlayListItem);
 
-      // Add event listeners
-      document.querySelector(`.grid-overlay-toggle-button[data-id='${previewOverlay.id}']`).addEventListener("click", function() {
-        previewOverlay.toggle();
+      // Add toggle event listener
+      document.querySelector(`.grid-overlay-toggle-btn[data-id='${prev.id}']`).addEventListener("click", function() {
+        prev.toggle();
       });
     }
 
