@@ -66,7 +66,7 @@ module.exports = {};
       this.curResolution = index;
       // Update curResolution in localStorage
       Camera.setStoredCams();
-      return getCamera(this, this.resolutions[index])
+      return getCamera(this, this.resolutions[index]);
     }
   }
 

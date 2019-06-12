@@ -44,9 +44,6 @@
       this.settings.currentHeight = this.settings.defaultHeight;
       this.settings.currentWidth = this.settings.defaultWidth;
 
-      // Create the svg element
-      // this.element = this.method(this.settings.width, this.settings.height, this.settings.color);
-
       // Add the object to the settings overlay if new
       PreviewOverlay.addToSettingsDialog(this);
 
@@ -60,38 +57,39 @@
      * @param {*} newHeight 
      * @param {*} newColor 
      */
-    draw(newWidth, newHeight, newColor) {
+    draw(newWidth = this.settings.currentWidth,
+      newHeight =  this.settings.currentHeight,
+      newColor = this.settings.color) {
       this.settings.color = newColor;
       this.settings.currentHeight = newHeight;
       this.settings.currentWidth = newWidth;
 
       // Remove from container if already present
-      console.log(this.element);
-      if (this.element !== undefined) {
-        console.log(this.id);
+      console.log(document.querySelector(`#${this.id}`));
+      if (document.querySelector(`#${this.id}`)) {
         let child = document.querySelector(`#${this.id}`);
-        console.log(child);
-  
-        let parent = child.parentElement;
-        parent.removeChild(child); 
+        previewArea.removeChild(child);
+        console.log(`Removed #${this.id}`);
       }
 
       this.element = this.method(newWidth, newHeight, newColor);
 
-      
+      // Set previous visibility status
+      this.element.classList.toggle("visible-capture", this.visible);
 
       // Add to container
       previewArea.appendChild(this.element);
+      
 
       return this.element;
     }
 
     toggle() {
       let el = document.querySelector(`#${this.id}`);
-      if (!el) {
-        el = this.draw(this.settings.currentWidth, this.settings.currentHeight, this.settings.color);
+      if (el) {
+        el.classList.toggle("visible-capture");
+        this.visible = el.classList.contains("visible-capture");
       }
-      el.classList.toggle("visible-capture");
     }
 
     /**
@@ -101,6 +99,16 @@
       let grid = new PreviewOverlay("Grid overlay", "gridOverlay", PreviewOverlay.makeGridSVG, {
         defaultHeight: 3,
         defaultWidth: 3
+      });
+    }
+
+    /**
+     * Redraws all of the created overlays
+     */
+    static drawAll() {
+      console.log("Draw all activated");
+      overlayList.forEach(function(overlay) {
+        overlay.draw();
       });
     }
 
@@ -141,22 +149,26 @@
       let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       svg.setAttribute("id", id);
       svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-      svg.setAttribute("viewBox", `0 0 ${previewAspectWidth} ${previewAspectHeight}`);
       svg.setAttribute("style", "width: 100%; height: 100%; position: absolute; z-index: 10;");
 
-      // Create a rectangle for each width/height unit
-      for (let w = 0; w < width; w++) {
-        for (let h = 0; h < height; h++) {
-          let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-          rect.setAttribute("x", (previewAspectWidth/width)*w);
-          rect.setAttribute("y", (previewAspectHeight/height)*h);
-          rect.setAttribute("height", previewAspectHeight/height);
-          rect.setAttribute("width", previewAspectWidth/width);
-          rect.setAttribute("stroke-width", 1);
-          rect.setAttribute("stroke", color);
-          rect.setAttribute("stroke-opacity", 1);
-          rect.setAttribute("fill", "none");
-          svg.appendChild(rect);
+      // Only create the contents of the svg if a valid aspect ratio
+      if (!isNaN(previewAspectHeight) && !isNaN(previewAspectWidth)) {
+        svg.setAttribute("viewBox", `0 0 ${previewAspectWidth} ${previewAspectHeight}`);
+
+        // Create a rectangle for each width/height unit
+        for (let w = 0; w < width; w++) {
+          for (let h = 0; h < height; h++) {
+            let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+            rect.setAttribute("x", (previewAspectWidth/width)*w);
+            rect.setAttribute("y", (previewAspectHeight/height)*h);
+            rect.setAttribute("height", previewAspectHeight/height);
+            rect.setAttribute("width", previewAspectWidth/width);
+            rect.setAttribute("stroke-width", 1);
+            rect.setAttribute("stroke", color);
+            rect.setAttribute("stroke-opacity", 1);
+            rect.setAttribute("fill", "none");
+            svg.appendChild(rect);
+          }
         }
       }
 
