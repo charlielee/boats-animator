@@ -5,6 +5,7 @@
   const cameraSelect = document.querySelector("#camera-select-td select");
   const resolutionSelect = document.querySelector("#resolution-select-td select");
   const preview = document.querySelector("#preview");
+  const previewAreaMessage = document.querySelector("#preview-area-message");
 
   class CaptureOptions {
     static setListeners() {
@@ -12,6 +13,9 @@
       cameraSelect.addEventListener("change", function() {
         var curCam = Camera.getSelectedCamera();
         curCam.showResolutions();
+
+        // Hide the select camera message
+        previewAreaMessage.classList.remove("visible-capture");
       });
 
       // Reload the camera on changing resolution
