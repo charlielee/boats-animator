@@ -196,8 +196,8 @@
         [[3,3], [2,2], [3,2], [4,4], [4,3]],
         {
           color: "#FFFFFF",
-          defaultHeight: 3,
-          defaultWidth: 3
+          defaultWidth: 3,
+          defaultHeight: 3
         }
       );
 
@@ -206,10 +206,10 @@
         "Aspect ratio",
         "aspectRatioMask",
         PreviewOverlay.makeAspectRatioSVG,
-        [[16,9], [4,3], [2.39,1], [2.35,1], [1,1]],
+        [[2.39,1], [2.35,1], [16,9], [4,3], [3,2], [1,1]],
         {
-          defaultHeight: 9,
-          defaultWidth: 16,
+          defaultWidth: 2.39,
+          defaultHeight: 1,
           visibleModeClasses: ["visible-capture", "visible-playback"]
         }
       );
