@@ -154,3 +154,11 @@ Select this to change the folder Boats Animator exports captured frames to.
 
 !!! warning "Warning"
     Please be aware that Boats Animator will overwrite the existing frames in this directory if it has been used for a project before. This behaviour will be changed in a future version.
+
+### Overlays
+
+#### Grid
+This displays a grid over the preview area in capture mode when the toggle button is selected. When enabled, the grid can be configured via a drop-menu and the opacity slider.
+
+#### Aspect ratio
+This displays a mask of the selected aspect ratio over the preview area when the toggle button is selected. When enabled, the mask can be configured via a drop-menu and the opacity slider.
