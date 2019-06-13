@@ -15,7 +15,7 @@
      * @param {*} name 
      * @param {*} settings 
      */
-    constructor(name, id, method, settings = {}) {
+    constructor(name, id, method, options, settings = {}) {
       // The name of the overlay
       this.name = name;
       // The id of the generated SVG
@@ -46,6 +46,9 @@
       // Initial height and width is the default
       this.settings.currentHeight = this.settings.defaultHeight;
       this.settings.currentWidth = this.settings.defaultWidth;
+
+      // List of options
+      this.options = options;
 
       // Add the object to the settings overlay if new
       PreviewOverlay.addToSettingsDialog(this);
@@ -112,18 +115,30 @@
      */
     static initialise() {
       // Grid
-      new PreviewOverlay("Grid", "gridOverlay", PreviewOverlay.makeGridSVG, {
-        defaultHeight: 3,
-        defaultWidth: 3
-      });
+      new PreviewOverlay(
+        "Grid",
+        "gridOverlay",
+        PreviewOverlay.makeGridSVG,
+        [[3,3], [2,2], [3,2], [4,4], [4,3]],
+        {
+          defaultHeight: 3,
+          defaultWidth: 3
+        }
+      );
 
       // Aspect ratio
-      new PreviewOverlay("Aspect ratio", "aspectRatioMask", PreviewOverlay.makeAspectRatioSVG, {
-        color: "#2B2B2B",
-        defaultHeight: 1,
-        defaultWidth: 2.39,
-        visibleModeClasses: ["visible-capture", "visible-playback"]
-      });
+      new PreviewOverlay(
+        "Aspect ratio",
+        "aspectRatioMask",
+        PreviewOverlay.makeAspectRatioSVG,
+        [[16,9], [4,3], [2.39,1], [2.35,1], [1,1]],
+        {
+          color: "#2B2B2B",
+          defaultHeight: 9,
+          defaultWidth: 16,
+          visibleModeClasses: ["visible-capture", "visible-playback"]
+        }
+      );
     }
 
     /**
@@ -155,10 +170,27 @@
       itemToggleBtn.setAttribute("data-id", prev.id);
       itemToggleBtn.setAttribute("style", "float: right");
       itemToggleBtn.classList.add("grid-overlay-toggle-btn");
-      this.toggleButton = new ToggleButton(itemToggleBtn, function() {
+      new ToggleButton(itemToggleBtn, function() {
         prev.toggle();
       });
       itemTitle.appendChild(itemToggleBtn);
+
+      // Item options list
+      let optionsSelect = document.createElement("select");
+      overlayListItem.appendChild(optionsSelect);
+      prev.options.forEach(function(item, index) {
+        let option = document.createElement("option");
+        option.setAttribute("value", index);
+        option.innerText = `${item[0]}:${item[1]}`;
+        optionsSelect.appendChild(option);
+      });
+
+      // Listen to options being selected
+      optionsSelect.addEventListener("change", function() {
+        let val = optionsSelect.options[optionsSelect.selectedIndex].value;
+        prev.draw(prev.options[val][0], prev.options[val][1]);
+        PreviewOverlay.drawAll();
+      });
     }
 
     /**
