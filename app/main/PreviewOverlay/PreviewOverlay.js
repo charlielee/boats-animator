@@ -32,7 +32,7 @@
         heightMin: 1,
         heightMax: 20,
         visibleModeClasses: ["visible-capture"],
-        // opacity: 100,
+        opacity: 0.75,
         widthMin: 1,
         widthMax: 20
       };
@@ -79,7 +79,7 @@
       }
 
       // Make a new overlay SVG
-      this.element = this.method(this.id, newWidth, newHeight, newColor);
+      this.element = this.method(this.id, newWidth, newHeight, newColor, this.settings.opacity);
 
       // Set visibility of the overlay from previous visibility status
       var self = this;
@@ -118,13 +118,18 @@
       // Add a list item to settings dialog
       let overlayListItem = document.createElement("li");
       overlayListEl.appendChild(overlayListItem);
-      
+  
       // Item title
       let itemTitle = document.createElement("h3");
       // Item toggle button
       let itemToggleBtn = document.createElement("div");
+
+      // Item settings container
+      let itemSettingsContainer = document.createElement("div");
       // Item options list
       let optionsSelect = document.createElement("select");
+      // Item opacity slider
+      let opacitySlider = document.createElement("input");
 
       // Set title
       itemTitle.innerText = `${self.name} `;
@@ -139,12 +144,16 @@
         // Toggle display of the overlay
         let status = self.toggle();
         // Toggle display of the options
-        optionsSelect.classList.toggle("hidden", status);
+        itemSettingsContainer.classList.toggle("hidden", status);
       });
       itemTitle.appendChild(itemToggleBtn);
 
+      // Item settings container
+      overlayListItem.appendChild(itemSettingsContainer);
+      itemSettingsContainer.classList.add("flex");
+
       // Create item options list
-      overlayListItem.appendChild(optionsSelect);
+      itemSettingsContainer.appendChild(optionsSelect);
       self.options.forEach(function(item, index) {
         let option = document.createElement("option");
         option.setAttribute("value", index);
@@ -158,6 +167,21 @@
         // Redraw the overlay with the new value
         self.draw(self.options[val][0], self.options[val][1]);
         PreviewOverlay.drawAll();
+      });
+
+      // Create opacity slider
+      itemSettingsContainer.appendChild(opacitySlider);
+      opacitySlider.style.margin = "0 0 0 0.5em";
+      opacitySlider.setAttribute("type", "range");
+      opacitySlider.setAttribute("min", "0");
+      opacitySlider.setAttribute("max", "1");
+      opacitySlider.setAttribute("step", "0.02");
+      opacitySlider.setAttribute("value", self.settings.opacity);
+
+      // Listen to the slider being updated
+      opacitySlider.addEventListener("input", function(e) {
+        self.settings.opacity = e.target.value;
+        self.draw();
       });
     }
 
@@ -208,7 +232,7 @@
      * @param {*} height 
      * @param {*} color 
      */
-    static makeGridSVG(id, width, height, color) {
+    static makeGridSVG(id, width, height, color, opacity) {
       // Get the current aspect ratio of the preview
       let previewAspectWidth = (preview.videoWidth / preview.videoHeight)*100;
       let previewAspectHeight = 1*100;
@@ -263,7 +287,7 @@
             rect.setAttribute("height", maskAspectHeight/height);
             rect.setAttribute("stroke-width", 0.5);
             rect.setAttribute("stroke", color);
-            rect.setAttribute("stroke-opacity", 1);
+            rect.setAttribute("stroke-opacity", opacity);
             rect.setAttribute("fill", "none");
             innerSVG.appendChild(rect);
           }
@@ -279,7 +303,7 @@
      * @param {*} height 
      * @param {*} color 
      */
-    static makeAspectRatioSVG(id, width, height, color) {
+    static makeAspectRatioSVG(id, width, height, color, opacity) {
       // Get the current aspect ratio of the preview
       let previewAspectWidth = (preview.videoWidth / preview.videoHeight)*100;
       let previewAspectHeight = 1*100;
@@ -318,6 +342,7 @@
         topRect.setAttribute("height", letterBoxHeight);
         topRect.setAttribute("width", previewAspectWidth);
         topRect.setAttribute("fill", color);
+        topRect.setAttribute("fill-opacity", opacity);
         svg.appendChild(topRect);
 
         let bottomRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
@@ -326,6 +351,7 @@
         bottomRect.setAttribute("height", letterBoxHeight);
         bottomRect.setAttribute("width", previewAspectWidth);
         bottomRect.setAttribute("fill", color);
+        bottomRect.setAttribute("fill-opacity", opacity);
         svg.appendChild(bottomRect);
 
         // Make left and right letterboxes if height > width
@@ -337,6 +363,7 @@
         leftRect.setAttribute("height", previewAspectHeight);
         leftRect.setAttribute("width", letterBoxWidth);
         leftRect.setAttribute("fill", color);
+        leftRect.setAttribute("fill-opacity", opacity);
         svg.appendChild(leftRect);
 
         let rightRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
@@ -345,6 +372,7 @@
         rightRect.setAttribute("height", previewAspectHeight);
         rightRect.setAttribute("width", letterBoxWidth);
         rightRect.setAttribute("fill", color);
+        rightRect.setAttribute("fill-opacity", opacity);
         svg.appendChild(rightRect);
       }
 
