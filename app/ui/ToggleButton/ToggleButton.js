@@ -8,7 +8,6 @@
      * @param {*} status The initial state of the button (default: false/off).
      */
     constructor(container, toggleMethod, status = false) {
-      console.log(container);
       // The element to contain the toggle button
       this.container = container;
       // The method to execute on toggleing
