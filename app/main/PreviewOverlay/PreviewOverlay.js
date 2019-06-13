@@ -282,21 +282,49 @@
         innerSVG.setAttribute("height", maskAspectHeight);
         svg.appendChild(innerSVG);
 
-        // Create a rectangle for each width/height unit
-        for (let w = 0; w < width; w++) {
-          for (let h = 0; h < height; h++) {
-            let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-            rect.setAttribute("x", (maskAspectWidth/width)*w);
-            rect.setAttribute("y", (maskAspectHeight/height)*h);
-            rect.setAttribute("width", maskAspectWidth/width);
-            rect.setAttribute("height", maskAspectHeight/height);
-            rect.setAttribute("stroke-width", 0.25);
-            rect.setAttribute("stroke", color);
-            rect.setAttribute("stroke-opacity", opacity);
-            rect.setAttribute("fill", "none");
-            innerSVG.appendChild(rect);
-          }
+
+        /** Vertical lines */
+        for (let w = 1; w < width; w++) {
+          let line = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+          line.setAttribute("x1", (maskAspectWidth/width)*w);
+          line.setAttribute("y1", 0);
+          line.setAttribute("x2", (maskAspectWidth/width)*w);
+          line.setAttribute("y2", maskAspectHeight);
+          line.setAttribute("stroke-width", 0.25);
+          line.setAttribute("stroke", color);
+          line.setAttribute("stroke-opacity", opacity);
+          innerSVG.appendChild(line);
         }
+
+        /** Horizontal lines */
+        for (let h = 1; h < height; h++) {
+          let line = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+          line.setAttribute("x1", 0);
+          line.setAttribute("y1", (maskAspectHeight/height)*h);
+          line.setAttribute("x2", maskAspectWidth);
+          line.setAttribute("y2", (maskAspectHeight/height)*h);
+          line.setAttribute("stroke-width", 0.25);
+          line.setAttribute("stroke", color);
+          line.setAttribute("stroke-opacity", opacity);
+          innerSVG.appendChild(line);
+        }
+      
+
+        // // Create a rectangle for each width/height unit
+        // for (let w = 0; w < width; w++) {
+        //   for (let h = 0; h < height; h++) {
+        //     let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        //     rect.setAttribute("x", (maskAspectWidth/width)*w);
+        //     rect.setAttribute("y", (maskAspectHeight/height)*h);
+        //     rect.setAttribute("width", maskAspectWidth/width);
+        //     rect.setAttribute("height", maskAspectHeight/height);
+        //     rect.setAttribute("stroke-width", 0.25);
+        //     rect.setAttribute("stroke", color);
+        //     rect.setAttribute("stroke-opacity", opacity);
+        //     rect.setAttribute("fill", "none");
+        //     innerSVG.appendChild(rect);
+        //   }
+        // }
       }
 
       return svg;
