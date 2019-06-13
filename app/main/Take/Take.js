@@ -108,6 +108,69 @@
     }
 
     /**
+     * "Confirms" a take by renaming each captured frame to be sequential.
+     * @param {Number} curFrameIndex The index in exportedFramePaths currently being confirmed.
+     */
+    confirmTake(curFrameIndex = 0) {
+      // Return if no captured frames
+      if (this.getTotalFrames() < 1) {
+        return;
+      }
+
+      let outputDir = this.saveDirectory.saveDirLocation;
+
+      // // Loop through and rename each file
+      // this.exportedFramesPaths.forEach(function(oldFramePath, index) {
+
+      // The new fileName
+      let frameNumber = (curFrameIndex+1).toString();
+      let zeros = "0000";
+      let paddedFrameNumber = `${zeros.substring(0,zeros.length-frameNumber.length)}${frameNumber}`;
+      let newFilePath = `${outputDir}/frame_${paddedFrameNumber}.png`;
+
+      // Rename the file
+      let self = this;
+      File.rename(self.exportedFramesPaths[curFrameIndex], newFilePath, function(success) {
+        if (success) {
+          // Rename the next frame in the take
+          curFrameIndex++;
+          if (curFrameIndex < self.getTotalFrames()) {
+            self.confirmTake(curFrameIndex);
+          }
+        } else {
+          Notification.error("Error renaming file with confirm take");
+        }
+      });
+
+    }
+
+    /**
+     * TODO - build on code in issue-85 branch
+     * Imports frames to the take from a given directory.
+     * @param {String} path The folder to import frames from.
+     */
+    importFrames(path) {
+      // todo
+    }
+
+    /**
+     * Loads the take into view.
+     */
+    display() {
+      // todo
+      // Clear and reload frame reel
+      // Reload statusbar
+      // Reload playback
+    }
+
+    /**
+     * The total number of frames in the take.
+     */
+    getTotalFrames() {
+      return this.capturedFrames.length;
+    }
+
+    /**
      * Writes a frame to the disk and stores the path.
      * @param {Integer} id The id of the frame to export
      * @param {Blob} blob The Blob object containing image data to save.
@@ -168,32 +231,6 @@
         // Clear the onion skin window
         this.onionSkin.clear();
       }
-    }
-
-    /**
-     * TODO - build on code in issue-85 branch
-     * Imports frames to the take from a given directory.
-     * @param {String} path The folder to import frames from.
-     */
-    importFrames(path) {
-      // todo
-    }
-
-    /**
-     * Loads the take into view.
-     */
-    display() {
-      // todo
-      // Clear and reload frame reel
-      // Reload statusbar
-      // Reload playback
-    }
-
-    /**
-     * The total number of frames in the take.
-     */
-    getTotalFrames() {
-      return this.capturedFrames.length;
     }
   }
 

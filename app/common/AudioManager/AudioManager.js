@@ -27,7 +27,7 @@
       audioEnabled = enabled;
 
       // Toggle checkbox on related menubar item
-      let audioToggleMenuItem = nw.Window.get().menu.items[2].submenu.items[2];
+      let audioToggleMenuItem = nw.Window.get().menu.items[2].submenu.items[3];
       audioToggleMenuItem.checked = enabled;
 
       Notification.info(`Capture sounds ${enabled ? "enabled" : "disabled"}.`);

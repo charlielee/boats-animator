@@ -47,6 +47,10 @@
       btnDeleteLastFrame.click();
     }
 
+    static confirmTake() {
+      global.projectInst.currentTake.confirmTake();
+    }
+
     static audioToggle() {
       AudioManager.setEnabled(!AudioManager.getEnabled())
     }
