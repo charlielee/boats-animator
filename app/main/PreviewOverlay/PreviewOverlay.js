@@ -4,7 +4,7 @@
   const previewArea = document.querySelector("#preview-area");
   const overlayListEl = document.querySelector("#overlay-list");
 
-  let overlayList = [];
+  let overlayList = {};
 
   /** Class for managing overlays on the preview area */
   class PreviewOverlay {
@@ -24,11 +24,12 @@
       this.method = method;
       // Default overlay settings
       this.settings = {
-        color: "#d8d8d8",
+        color: "#ad0000",
         defaultHeight: 1,
         defaultWidth: 1,
         heightMin: 1,
         heightMax: 20,
+        visibleModeClasses: ["visible-capture"],
         // opacity: 100,
         widthMin: 1,
         widthMax: 20
@@ -48,7 +49,7 @@
       PreviewOverlay.addToSettingsDialog(this);
 
       // Add to list of overlays
-      overlayList.push(this);
+      overlayList[this.id] = this;
     }
 
     /**
@@ -86,8 +87,12 @@
     toggle() {
       let el = document.querySelector(`#${this.id}`);
       if (el) {
-        el.classList.toggle("visible-capture");
-        this.visible = el.classList.contains("visible-capture");
+        // Toggle each mode class for overlay
+        this.settings.visibleModeClasses.forEach(function(modeClass) {
+          el.classList.toggle(modeClass);
+        });
+
+        this.visible = el.classList.contains(this.settings.visibleModeClasses[0]);
       }
     }
 
@@ -103,8 +108,10 @@
 
       // Aspect ratio
       new PreviewOverlay("Aspect ratio", "aspectRatioMask", PreviewOverlay.makeAspectRatioSVG, {
+        color: "#eeeeee",
         defaultHeight: 1,
-        defaultWidth: 2.39
+        defaultWidth: 2.39,
+        visibleModeClasses: ["visible-capture", "visible-playback"]
       });
     }
 
@@ -112,8 +119,8 @@
      * Redraws all of the created overlays
      */
     static drawAll() {
-      overlayList.forEach(function(overlay) {
-        overlay.draw();
+      Object.keys(overlayList).forEach(function(key) {
+        overlayList[key].draw();
       });
     }
 
@@ -171,7 +178,7 @@
             rect.setAttribute("y", (previewAspectHeight/height)*h);
             rect.setAttribute("height", previewAspectHeight/height);
             rect.setAttribute("width", previewAspectWidth/width);
-            rect.setAttribute("stroke-width", 1);
+            rect.setAttribute("stroke-width", 0.5);
             rect.setAttribute("stroke", color);
             rect.setAttribute("stroke-opacity", 1);
             rect.setAttribute("fill", "none");
