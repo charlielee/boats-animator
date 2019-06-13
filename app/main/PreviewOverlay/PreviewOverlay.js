@@ -51,7 +51,7 @@
       this.options = options;
 
       // Add the object to the settings overlay if new
-      PreviewOverlay.addToSettingsDialog(this);
+      this.addToSettingsDialog();
 
       // Add to list of overlays
       overlayList[this.id] = this;
@@ -111,6 +111,50 @@
     }
 
     /**
+     * Adds a preview overlay object to the overlay settings dialog
+     */
+    addToSettingsDialog() {
+      var self = this;
+      // Add a list item to settings dialog
+      let overlayListItem = document.createElement("li");
+      overlayListEl.appendChild(overlayListItem);
+
+      // Item title
+      let itemTitle = document.createElement("h3");
+      itemTitle.innerText = `${self.name} `;
+      overlayListItem.appendChild(itemTitle);
+
+      // Item toggle button
+      let itemToggleBtn = document.createElement("div");
+      itemToggleBtn.id = `${self.id}Btn`;
+      itemToggleBtn.setAttribute("data-id", self.id);
+      itemToggleBtn.setAttribute("style", "float: right");
+      itemToggleBtn.classList.add("grid-overlay-toggle-btn");
+      new ToggleButton(itemToggleBtn, function() {
+        self.toggle();
+      });
+      itemTitle.appendChild(itemToggleBtn);
+
+      // Item options list
+      let optionsSelect = document.createElement("select");
+      overlayListItem.appendChild(optionsSelect);
+      self.options.forEach(function(item, index) {
+        let option = document.createElement("option");
+        option.setAttribute("value", index);
+        option.innerText = `${item[0]}:${item[1]}`;
+        optionsSelect.appendChild(option);
+      });
+
+      // Listen to options being selected
+      optionsSelect.addEventListener("change", function() {
+        let val = optionsSelect.options[optionsSelect.selectedIndex].value;
+        // Redraw the overlay with the new value
+        self.draw(self.options[val][0], self.options[val][1]);
+        PreviewOverlay.drawAll();
+      });
+    }
+
+    /**
      * Creates the built in grid overlays.
      */
     static initialise() {
@@ -147,49 +191,6 @@
     static drawAll() {
       Object.keys(overlayList).forEach(function(key) {
         overlayList[key].draw();
-      });
-    }
-
-    /**
-     * Adds a preview overlay object to the overlay settings dialog
-     * @param {PreviewOverlay} previewOverlay The preview overlay object to be added.
-     */
-    static addToSettingsDialog(prev) {
-      // Add an item to settings dialog
-      let overlayListItem = document.createElement("li");
-      overlayListEl.appendChild(overlayListItem);
-
-      // Item title
-      let itemTitle = document.createElement("h3");
-      itemTitle.innerText = `${prev.name} `;
-      overlayListItem.appendChild(itemTitle);
-
-      // Item toggle button
-      let itemToggleBtn = document.createElement("div");
-      itemToggleBtn.id = `${prev.id}Btn`;
-      itemToggleBtn.setAttribute("data-id", prev.id);
-      itemToggleBtn.setAttribute("style", "float: right");
-      itemToggleBtn.classList.add("grid-overlay-toggle-btn");
-      new ToggleButton(itemToggleBtn, function() {
-        prev.toggle();
-      });
-      itemTitle.appendChild(itemToggleBtn);
-
-      // Item options list
-      let optionsSelect = document.createElement("select");
-      overlayListItem.appendChild(optionsSelect);
-      prev.options.forEach(function(item, index) {
-        let option = document.createElement("option");
-        option.setAttribute("value", index);
-        option.innerText = `${item[0]}:${item[1]}`;
-        optionsSelect.appendChild(option);
-      });
-
-      // Listen to options being selected
-      optionsSelect.addEventListener("change", function() {
-        let val = optionsSelect.options[optionsSelect.selectedIndex].value;
-        prev.draw(prev.options[val][0], prev.options[val][1]);
-        PreviewOverlay.drawAll();
       });
     }
 
