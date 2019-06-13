@@ -1,5 +1,7 @@
 (function() {
   "use strict";
+  const ToggleButton = require("../../ui/ToggleButton/ToggleButton");
+
   const preview = document.querySelector("#preview");
   const previewArea = document.querySelector("#preview-area");
   const overlayListEl = document.querySelector("#overlay-list");
@@ -50,6 +52,8 @@
 
       // Add to list of overlays
       overlayList[this.id] = this;
+
+      PreviewOverlay.drawAll();
     }
 
     /**
@@ -138,21 +142,51 @@
     static addToSettingsDialog(prev) {
       // Add an item to settings dialog
       let overlayListItem = document.createElement("li");
-      overlayListItem.innerHTML = `
-        <h3>${prev.name}</h3>
-        <p>
-        <button class="grid-overlay-toggle-btn" data-id="${prev.id}">Toggle</button>
-        <input class="grid-overlay-width-btn" type="number" value="${prev.settings.currentWidth}" min="${prev.settings.widthMin}" max="${prev.settings.widthMax}">
-        x
-        <input class="grid-overlay-height-btn" type="number" value="${prev.settings.currentHeight}" min="${prev.settings.heightMin}" max="${prev.settings.heightMax}">
-        </p>
-      `;
       overlayListEl.appendChild(overlayListItem);
 
-      // Add toggle event listener
-      document.querySelector(`.grid-overlay-toggle-btn[data-id='${prev.id}']`).addEventListener("click", function() {
+      // Item title
+      let itemTitle = document.createElement("h3");
+      itemTitle.innerText = `${prev.name} `;
+      overlayListItem.appendChild(itemTitle);
+
+      // Item toggle button
+      let itemToggleBtn = document.createElement("span");
+      itemToggleBtn.id = `${prev.id}Btn`;
+      itemToggleBtn.setAttribute("data-id", prev.id);
+      itemToggleBtn.classList.add("grid-overlay-toggle-btn");
+      this.toggleButton = new ToggleButton(itemToggleBtn, function() {
         prev.toggle();
       });
+      overlayListItem.appendChild(itemToggleBtn);
+
+      // Add list item elements to setting listing
+      
+
+      // // Add toggle event listener
+      // let self = this;
+      // document.querySelector(`#${itemToggleBtn.id}`).addEventListener("click", function() {
+      //   prev.toggle();
+      //   self.toggleButton.toggle();
+      // });
+
+
+      // overlayListItem.innerHTML = `
+      //   <h3>${prev.name}</h3>
+      //   <div id="${prev.id}Btn"></div>
+      //   <button class="grid-overlay-toggle-btn" data-id="${prev.id}">Toggle</button>
+      //   <input class="grid-overlay-width-btn" type="number" value="${prev.settings.currentWidth}" min="${prev.settings.widthMin}" max="${prev.settings.widthMax}">
+      //   x
+      //   <input class="grid-overlay-height-btn" type="number" value="${prev.settings.currentHeight}" min="${prev.settings.heightMin}" max="${prev.settings.heightMax}">
+      // `;
+      // overlayListEl.appendChild(overlayListItem);
+
+      // // Add toggle button
+      // this.toggleButton = new ToggleButton(`${this.id}Btn`);
+
+      // // Add toggle event listener
+      // document.querySelector(`.grid-overlay-toggle-btn[data-id='${prev.id}']`).addEventListener("click", function() {
+      //   prev.toggle();
+      // });
     }
 
     /**
@@ -166,11 +200,11 @@
       let previewAspectWidth = (preview.videoWidth / preview.videoHeight)*100;
       let previewAspectHeight = 1*100;
 
-      // If aspect ratio mask is visible use that as the aspect ratio
+      // If aspect ratio mask is visible then use that aspect ratio on the grid
       if (overlayList["aspectRatioMask"] && overlayList["aspectRatioMask"].visible) {
-        let aspectSettings = overlayList["aspectRatioMask"].settings
-        previewAspectHeight = (aspectSettings.currentHeight > aspectSettings.currentWidth ? previewAspectHeight : (aspectSettings.currentHeight/aspectSettings.currentWidth)*previewAspectWidth);
-        previewAspectWidth = (aspectSettings.currentWidth > aspectSettings.currentHeight ? previewAspectWidth : (aspectSettings.currentWidth/aspectSettings.currentHeight)*previewAspectHeight);
+        let aspectSettings = overlayList["aspectRatioMask"].settings;
+        previewAspectHeight = (aspectSettings.currentHeight/aspectSettings.currentWidth)*previewAspectWidth;
+        previewAspectWidth = (aspectSettings.currentWidth/aspectSettings.currentHeight)*previewAspectHeight;
       }
 
       // Create the SVG container
@@ -190,8 +224,8 @@
             let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
             rect.setAttribute("x", (previewAspectWidth/width)*w);
             rect.setAttribute("y", (previewAspectHeight/height)*h);
-            rect.setAttribute("height", previewAspectHeight/height);
             rect.setAttribute("width", previewAspectWidth/width);
+            rect.setAttribute("height", previewAspectHeight/height);
             rect.setAttribute("stroke-width", 0.5);
             rect.setAttribute("stroke", color);
             rect.setAttribute("stroke-opacity", 1);
