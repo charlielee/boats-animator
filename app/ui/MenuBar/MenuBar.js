@@ -81,6 +81,12 @@
           key: Shortcuts.getPrimaryKey("takePicture"),
           modifiers: Shortcuts.getPrimaryModifiers("takePicture"),
         },
+        {
+          label: "Confirm take",
+          click: function() {
+            Features.confirmTake();
+          },
+        },
         { type: "separator" },
         {
           label: "Play capture sounds",

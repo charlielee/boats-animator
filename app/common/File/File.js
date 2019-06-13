@@ -117,15 +117,17 @@ module.exports = {};
    * @returns {void}
    */
   function renameFile(oldName, newName, callback) {
-    callback = update(callback);
+    // callback = update(callback);
 
     fs.rename(oldName, newName, function(err) {
       if (err) {
         console.error(err);
-        callback.error();
+        callback(false);
+        // callback.error();
       } else {
         console.log(`Successfully renamed ${oldName} to ${newName}`);
-        callback.success();
+        callback(true)
+        // callback.success();
       }
     });
   }
