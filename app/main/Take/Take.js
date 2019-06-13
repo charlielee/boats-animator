@@ -136,12 +136,13 @@
           curFrameIndex++;
           if (curFrameIndex < self.getTotalFrames()) {
             self.confirmTake(curFrameIndex);
+          } else {
+            Notification.success("Confirm take successfully completed");
           }
         } else {
           Notification.error("Error renaming file with confirm take");
         }
       });
-
     }
 
     /**
