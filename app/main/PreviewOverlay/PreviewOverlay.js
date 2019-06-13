@@ -118,25 +118,32 @@
       // Add a list item to settings dialog
       let overlayListItem = document.createElement("li");
       overlayListEl.appendChild(overlayListItem);
-
+      
       // Item title
       let itemTitle = document.createElement("h3");
+      // Item toggle button
+      let itemToggleBtn = document.createElement("div");
+      // Item options list
+      let optionsSelect = document.createElement("select");
+
+      // Set title
       itemTitle.innerText = `${self.name} `;
       overlayListItem.appendChild(itemTitle);
 
-      // Item toggle button
-      let itemToggleBtn = document.createElement("div");
+      // Create toggle button
       itemToggleBtn.id = `${self.id}Btn`;
       itemToggleBtn.setAttribute("data-id", self.id);
       itemToggleBtn.setAttribute("style", "float: right");
       itemToggleBtn.classList.add("grid-overlay-toggle-btn");
       new ToggleButton(itemToggleBtn, function() {
-        self.toggle();
+        // Toggle display of the overlay
+        let status = self.toggle();
+        // Toggle display of the options
+        optionsSelect.classList.toggle("hidden", status);
       });
       itemTitle.appendChild(itemToggleBtn);
 
-      // Item options list
-      let optionsSelect = document.createElement("select");
+      // Create item options list
       overlayListItem.appendChild(optionsSelect);
       self.options.forEach(function(item, index) {
         let option = document.createElement("option");
