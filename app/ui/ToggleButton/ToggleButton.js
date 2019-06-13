@@ -32,9 +32,9 @@
     toggle(status = !this.status) {
       this.status = status;
       if (this.status) {
-        this.container.innerHTML = "<i class='fa fa-toggle-on' title='Toggle off' style='cursor: pointer;'></i> On";
+        this.container.innerHTML = "<i class='fa fa-toggle-on' title='Toggle off' style='cursor: pointer; color: #ad0000;'></i>";
       } else {
-        this.container.innerHTML = "<i class='fa fa-toggle-off' title='Toggle on' style='cursor: pointer;'></i> Off";
+        this.container.innerHTML = "<i class='fa fa-toggle-off' title='Toggle on' style='cursor: pointer;'></i>";
       }
 
       // Execute the toggle method

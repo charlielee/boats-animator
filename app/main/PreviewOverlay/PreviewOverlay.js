@@ -150,14 +150,15 @@
       overlayListItem.appendChild(itemTitle);
 
       // Item toggle button
-      let itemToggleBtn = document.createElement("span");
+      let itemToggleBtn = document.createElement("div");
       itemToggleBtn.id = `${prev.id}Btn`;
       itemToggleBtn.setAttribute("data-id", prev.id);
+      itemToggleBtn.setAttribute("style", "float: right");
       itemToggleBtn.classList.add("grid-overlay-toggle-btn");
       this.toggleButton = new ToggleButton(itemToggleBtn, function() {
         prev.toggle();
       });
-      overlayListItem.appendChild(itemToggleBtn);
+      itemTitle.appendChild(itemToggleBtn);
     }
 
     /**
