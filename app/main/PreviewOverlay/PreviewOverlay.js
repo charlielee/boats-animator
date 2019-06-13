@@ -121,6 +121,7 @@
   
       // Item title
       let itemTitle = document.createElement("div");
+      let itemTitleText = document.createElement("div");
       // Item toggle button
       let itemToggleBtn = document.createElement("div");
 
@@ -132,12 +133,16 @@
       let opacitySlider = document.createElement("input");
 
       // Set title
-      itemTitle.innerText = `${self.name} `;
       overlayListItem.appendChild(itemTitle);
+      itemTitle.classList.add("flex");
+  
+      // Set title text
+      itemTitle.appendChild(itemTitleText);
+      itemTitleText.innerText = `${self.name} `;
 
       // Create toggle button
       itemToggleBtn.setAttribute("data-id", self.id);
-      itemToggleBtn.setAttribute("style", "float: right");
+      itemToggleBtn.setAttribute("style", "text-align: right");
       itemToggleBtn.classList.add("grid-overlay-toggle-btn");
       new ToggleButton(itemToggleBtn, function() {
         // Toggle display of the overlay
