@@ -18,6 +18,10 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+.hidden {
+  display: none !important;
+}
+
 body {
   align-items: stretch;
   background-color: #2B2B2B;
