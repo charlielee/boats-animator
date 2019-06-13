@@ -162,7 +162,9 @@
 
     /**
      * Returns a grid SVG of the specified width, height and color
-     * @param {*} width The 
+     * for the current aspect ratio of the preview area.
+     * @param {*} id 
+     * @param {*} width 
      * @param {*} height 
      * @param {*} color 
      */
@@ -176,16 +178,13 @@
       let maskAspectHeight = previewAspectHeight;
       if (overlayList["aspectRatioMask"] && overlayList["aspectRatioMask"].visible) {
         let aspectSettings = overlayList["aspectRatioMask"].settings;
-        maskAspectWidth = (aspectSettings.currentWidth/aspectSettings.currentHeight)*previewAspectHeight;
-        // maskAspectHeight = (aspectSettings.currentHeight/aspectSettings.currentWidth)*previewAspectHeight;
-        console.log("prev", previewAspectWidth, previewAspectHeight);
-        console.log("maskb4", maskAspectWidth, maskAspectHeight);
+        maskAspectWidth = aspectSettings.currentWidth;
+        maskAspectHeight = aspectSettings.currentHeight;
 
         // Normalise the mask aspect ratio to fit the preview aspect ratio
         let scaleFactor = (maskAspectWidth > maskAspectHeight ? previewAspectWidth/maskAspectWidth : previewAspectHeight/maskAspectHeight);
         maskAspectWidth *= scaleFactor;
         maskAspectHeight *= scaleFactor;
-        console.log("maskaf", maskAspectWidth, maskAspectHeight);
       }
 
       // Create the SVG container
