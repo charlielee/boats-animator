@@ -75,7 +75,10 @@
       this.element = this.method(this.id, newWidth, newHeight, newColor);
 
       // Set visibility of the overlay from previous visibility status
-      this.element.classList.toggle("visible-capture", this.visible);
+      var self = this;
+      this.settings.visibleModeClasses.forEach(function(modeClass) {
+        self.element.classList.toggle(modeClass, self.visible);
+      });
 
       // Add to container
       previewArea.appendChild(this.element);
@@ -92,7 +95,11 @@
           el.classList.toggle(modeClass);
         });
 
+        // Update overlay visibility status
         this.visible = el.classList.contains(this.settings.visibleModeClasses[0]);
+
+        // Redraw all overlays on toggle
+        PreviewOverlay.drawAll();
       }
     }
 
@@ -158,6 +165,13 @@
       // Get the current aspect ratio of the preview
       let previewAspectWidth = (preview.videoWidth / preview.videoHeight)*100;
       let previewAspectHeight = 1*100;
+
+      // If aspect ratio mask is visible use that as the aspect ratio
+      if (overlayList["aspectRatioMask"] && overlayList["aspectRatioMask"].visible) {
+        let aspectSettings = overlayList["aspectRatioMask"].settings
+        previewAspectHeight = (aspectSettings.currentHeight > aspectSettings.currentWidth ? previewAspectHeight : (aspectSettings.currentHeight/aspectSettings.currentWidth)*previewAspectWidth);
+        previewAspectWidth = (aspectSettings.currentWidth > aspectSettings.currentHeight ? previewAspectWidth : (aspectSettings.currentWidth/aspectSettings.currentHeight)*previewAspectHeight);
+      }
 
       // Create the SVG container
       let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
