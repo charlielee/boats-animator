@@ -79,7 +79,19 @@
       btnFramePrevious.click();
     }
 
-    // Features in confirm prompts.
+    // Preview overlay features
+
+    static toggleGridOverlay() {
+      let gridOverlayBtn = document.querySelector(".grid-overlay-toggle-btn[data-id='gridOverlay']");
+      gridOverlayBtn.click();
+    }
+
+    static toggleAspectRatioOverlay() {
+      let aspectOverlayBtn = document.querySelector(".grid-overlay-toggle-btn[data-id='aspectRatioMask']");
+      aspectOverlayBtn.click();
+    }
+
+    // Features in confirm prompts
 
     static confirmEnter() {
       // Confirm messages

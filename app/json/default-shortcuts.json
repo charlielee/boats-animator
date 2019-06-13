@@ -9,7 +9,9 @@
     "firstFrame": ["mod+left"],
     "lastFrame": ["mod+right"],
     "nextFrame": ["right", "2"],
-    "previousFrame": ["left", "1"]
+    "previousFrame": ["left", "1"],
+    "toggleGridOverlay": ["4"],
+    "toggleAspectRatioOverlay": ["5"]
   },
   "confirm": {
     "enter": ["enter"],

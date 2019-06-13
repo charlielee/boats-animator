@@ -42,6 +42,12 @@ module.exports = {};
           },
           previousFrame: function() {
             Features.previousFrame();
+          },
+          toggleGridOverlay: function() {
+            Features.toggleGridOverlay();
+          },
+          toggleAspectRatioOverlay: function() {
+            Features.toggleAspectRatioOverlay();
           }
         },
         // Features in confirm prompts.
