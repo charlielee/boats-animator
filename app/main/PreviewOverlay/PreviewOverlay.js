@@ -1,29 +1,35 @@
 (function() {
   "use strict";
+  // UI imports
   const ToggleButton = require("../../ui/ToggleButton/ToggleButton");
 
+  // HTML elements
   const preview = document.querySelector("#preview");
   const previewArea = document.querySelector("#preview-area");
   const overlayListEl = document.querySelector("#overlay-list");
 
+  // List of generated overlays
   let overlayList = {};
 
   /** Class for managing overlays on the preview area */
   class PreviewOverlay {
     /**
-     * Constructs a new preview overlay
-     * @param {*} name 
-     * @param {*} settings 
+     * Constructs a new preview overlay.
+     * @param {String} name The name of the overlay to display next to the sidebar toggle.
+     * @param {String} id The id to give the generated SVG.
+     * @param {Function} method The function to run in order to draw the overlay.
+     * @param {Array} options An array of [width, height] pairs that can be chosen between.
+     * @param {Object} settings The settings object for the preview overlay.
      */
     constructor(name, id, method, options, settings = {}) {
-      // The name of the overlay
       this.name = name;
-      // The id of the generated SVG
       this.id = id;
+      this.method = method;
+      this.options = options;
+
       // Whether the overlay is currently visible
       this.visible = false;
-      // The method to adjust the overlay (should  return an svg element)
-      this.method = method;
+
       // Default overlay settings
       this.settings = {
         color: "#2B2B2B",
@@ -47,27 +53,26 @@
       this.settings.currentHeight = this.settings.defaultHeight;
       this.settings.currentWidth = this.settings.defaultWidth;
 
-      // List of options
-      this.options = options;
-
-      // Add the object to the settings overlay if new
+      // Add the overlay's options to the sidebar
       this.addToSettingsDialog();
 
       // Add to list of overlays
       overlayList[this.id] = this;
 
+      // Redraw all of the existing overlays
       PreviewOverlay.drawAll();
     }
 
     /**
      * Draws an overlay for the current resolution of the preview area.
-     * @param {*} newWidth The width of the overlay.
-     * @param {*} newHeight The height of the overlay.
-     * @param {*} newColor The color of the overlay.
+     * @param {String} newWidth The width of the overlay.
+     * @param {String} newHeight The height of the overlay.
+     * @param {String} newColor The color of the overlay (should be a valid html color).
      */
     draw(newWidth = this.settings.currentWidth,
       newHeight =  this.settings.currentHeight,
       newColor = this.settings.color) {
+      // Update the settings
       this.settings.color = newColor;
       this.settings.currentHeight = newHeight;
       this.settings.currentWidth = newWidth;
@@ -111,7 +116,7 @@
     }
 
     /**
-     * Adds a preview overlay object to the overlay settings dialog
+     * Adds a preview overlay object to the overlay settings dialog.
      */
     addToSettingsDialog() {
       var self = this;
@@ -122,25 +127,21 @@
       // Item title
       let itemTitle = document.createElement("div");
       let itemTitleText = document.createElement("div");
-      // Item toggle button
-      let itemToggleBtn = document.createElement("div");
+      let itemToggleBtn = document.createElement("div"); // Item toggle button
 
       // Item settings container
       let itemSettingsContainer = document.createElement("div");
-      // Item options list
-      let optionsSelect = document.createElement("select");
-      // Item opacity slider
-      let opacitySlider = document.createElement("input");
+      let optionsSelect = document.createElement("select"); // Options list
+      let opacitySlider = document.createElement("input"); // Opacity slider
 
       // Set title
       overlayListItem.appendChild(itemTitle);
       itemTitle.classList.add("flex");
-  
-      // Set title text
       itemTitle.appendChild(itemTitleText);
-      itemTitleText.innerText = `${self.name} `;
+      itemTitleText.innerText = self.name;
 
       // Create toggle button
+      itemTitle.appendChild(itemToggleBtn);
       itemToggleBtn.setAttribute("data-id", self.id);
       itemToggleBtn.setAttribute("style", "text-align: right");
       itemToggleBtn.classList.add("grid-overlay-toggle-btn");
@@ -150,7 +151,6 @@
         // Toggle display of the options
         itemSettingsContainer.classList.toggle("hidden", status);
       });
-      itemTitle.appendChild(itemToggleBtn);
 
       // Item settings container
       overlayListItem.appendChild(itemSettingsContainer);
@@ -232,10 +232,12 @@
     /**
      * Returns a grid SVG of the specified width, height and color
      * for the current aspect ratio of the preview area.
-     * @param {*} id 
-     * @param {*} width 
-     * @param {*} height 
-     * @param {*} color 
+     * @param {String} id The id to give the generated SVG.
+     * @param {Number} width The number of horizontal units of the grid.
+     * @param {Number} height The number of vertical units of the grid.
+     * @param {String} color The html color string to make the grid lines.
+     * @param {Number} opacity The opacity of the grid lines.
+     * @returns {SVGAElement} The generated SVG element.
      */
     static makeGridSVG(id, width, height, color, opacity) {
       // Get the current aspect ratio of the preview
@@ -282,7 +284,6 @@
         innerSVG.setAttribute("height", maskAspectHeight);
         svg.appendChild(innerSVG);
 
-
         /** Vertical lines */
         for (let w = 1; w < width; w++) {
           let line = document.createElementNS("http://www.w3.org/2000/svg", 'line');
@@ -308,33 +309,19 @@
           line.setAttribute("stroke-opacity", opacity);
           innerSVG.appendChild(line);
         }
-      
-
-        // // Create a rectangle for each width/height unit
-        // for (let w = 0; w < width; w++) {
-        //   for (let h = 0; h < height; h++) {
-        //     let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-        //     rect.setAttribute("x", (maskAspectWidth/width)*w);
-        //     rect.setAttribute("y", (maskAspectHeight/height)*h);
-        //     rect.setAttribute("width", maskAspectWidth/width);
-        //     rect.setAttribute("height", maskAspectHeight/height);
-        //     rect.setAttribute("stroke-width", 0.25);
-        //     rect.setAttribute("stroke", color);
-        //     rect.setAttribute("stroke-opacity", opacity);
-        //     rect.setAttribute("fill", "none");
-        //     innerSVG.appendChild(rect);
-        //   }
-        // }
       }
 
       return svg;
     }
 
     /**
-     * Returns an aspect ratio mask SVG of the specified width, height and color
-     * @param {*} width 
-     * @param {*} height 
-     * @param {*} color 
+     * Returns an aspect ratio mask SVG of the specified width, height and color.
+     * @param {String} id The id to give the generated SVG.
+     * @param {Number} width The horizontal length of the aspect ratio.
+     * @param {Number} height The vertical length of the aspect ratio.
+     * @param {String} color The html color string to make the letterboxes.
+     * @param {Number} opacity The opacity of the letterboxes.
+     * @returns {SVGAElement} The generated SVG element.
      */
     static makeAspectRatioSVG(id, width, height, color, opacity) {
       // Get the current aspect ratio of the preview
@@ -362,7 +349,8 @@
           croppedHeight = previewAspectHeight/croppedHeight * croppedHeight;
         }
 
-        // If width > height make top and bottom letterboxes
+        // Calculate the size of the letterboxes
+        let letterBoxWidth = (previewAspectWidth - croppedWidth)/2;
         let letterBoxHeight = (previewAspectHeight - croppedHeight)/2;
 
         let topRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
@@ -382,9 +370,6 @@
         bottomRect.setAttribute("fill", color);
         bottomRect.setAttribute("fill-opacity", opacity);
         svg.appendChild(bottomRect);
-
-        // Make left and right letterboxes if height > width
-        let letterBoxWidth = (previewAspectWidth - croppedWidth)/2;
 
         let leftRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
         leftRect.setAttribute("x", 0);
