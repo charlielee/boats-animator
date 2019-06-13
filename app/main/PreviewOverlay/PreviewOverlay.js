@@ -119,7 +119,7 @@
 
       // Aspect ratio
       new PreviewOverlay("Aspect ratio", "aspectRatioMask", PreviewOverlay.makeAspectRatioSVG, {
-        color: "#eeeeee",
+        color: "#2B2B2B",
         defaultHeight: 1,
         defaultWidth: 2.39,
         visibleModeClasses: ["visible-capture", "visible-playback"]
@@ -158,35 +158,6 @@
         prev.toggle();
       });
       overlayListItem.appendChild(itemToggleBtn);
-
-      // Add list item elements to setting listing
-      
-
-      // // Add toggle event listener
-      // let self = this;
-      // document.querySelector(`#${itemToggleBtn.id}`).addEventListener("click", function() {
-      //   prev.toggle();
-      //   self.toggleButton.toggle();
-      // });
-
-
-      // overlayListItem.innerHTML = `
-      //   <h3>${prev.name}</h3>
-      //   <div id="${prev.id}Btn"></div>
-      //   <button class="grid-overlay-toggle-btn" data-id="${prev.id}">Toggle</button>
-      //   <input class="grid-overlay-width-btn" type="number" value="${prev.settings.currentWidth}" min="${prev.settings.widthMin}" max="${prev.settings.widthMax}">
-      //   x
-      //   <input class="grid-overlay-height-btn" type="number" value="${prev.settings.currentHeight}" min="${prev.settings.heightMin}" max="${prev.settings.heightMax}">
-      // `;
-      // overlayListEl.appendChild(overlayListItem);
-
-      // // Add toggle button
-      // this.toggleButton = new ToggleButton(`${this.id}Btn`);
-
-      // // Add toggle event listener
-      // document.querySelector(`.grid-overlay-toggle-btn[data-id='${prev.id}']`).addEventListener("click", function() {
-      //   prev.toggle();
-      // });
     }
 
     /**
@@ -201,10 +172,20 @@
       let previewAspectHeight = 1*100;
 
       // If aspect ratio mask is visible then use that aspect ratio on the grid
+      let maskAspectWidth = previewAspectWidth;
+      let maskAspectHeight = previewAspectHeight;
       if (overlayList["aspectRatioMask"] && overlayList["aspectRatioMask"].visible) {
         let aspectSettings = overlayList["aspectRatioMask"].settings;
-        previewAspectHeight = (aspectSettings.currentHeight/aspectSettings.currentWidth)*previewAspectWidth;
-        previewAspectWidth = (aspectSettings.currentWidth/aspectSettings.currentHeight)*previewAspectHeight;
+        maskAspectWidth = (aspectSettings.currentWidth/aspectSettings.currentHeight)*previewAspectHeight;
+        // maskAspectHeight = (aspectSettings.currentHeight/aspectSettings.currentWidth)*previewAspectHeight;
+        console.log("prev", previewAspectWidth, previewAspectHeight);
+        console.log("maskb4", maskAspectWidth, maskAspectHeight);
+
+        // Normalise the mask aspect ratio to fit the preview aspect ratio
+        let scaleFactor = (maskAspectWidth > maskAspectHeight ? previewAspectWidth/maskAspectWidth : previewAspectHeight/maskAspectHeight);
+        maskAspectWidth *= scaleFactor;
+        maskAspectHeight *= scaleFactor;
+        console.log("maskaf", maskAspectWidth, maskAspectHeight);
       }
 
       // Create the SVG container
@@ -218,19 +199,28 @@
       if (!isNaN(previewAspectHeight) && !isNaN(previewAspectWidth)) {
         svg.setAttribute("viewBox", `0 0 ${previewAspectWidth} ${previewAspectHeight}`);
 
+        // Make a second svg container the size of the aspect ratio of the mask
+        let innerSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        innerSVG.setAttribute("viewBox", `0 0 ${maskAspectWidth} ${maskAspectHeight}`);
+        innerSVG.setAttribute("x", (previewAspectWidth-maskAspectWidth)/2);
+        innerSVG.setAttribute("y", (previewAspectHeight-maskAspectHeight)/2);
+        innerSVG.setAttribute("width", maskAspectWidth);
+        innerSVG.setAttribute("height", maskAspectHeight);
+        svg.appendChild(innerSVG);
+
         // Create a rectangle for each width/height unit
         for (let w = 0; w < width; w++) {
           for (let h = 0; h < height; h++) {
             let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-            rect.setAttribute("x", (previewAspectWidth/width)*w);
-            rect.setAttribute("y", (previewAspectHeight/height)*h);
-            rect.setAttribute("width", previewAspectWidth/width);
-            rect.setAttribute("height", previewAspectHeight/height);
+            rect.setAttribute("x", (maskAspectWidth/width)*w);
+            rect.setAttribute("y", (maskAspectHeight/height)*h);
+            rect.setAttribute("width", maskAspectWidth/width);
+            rect.setAttribute("height", maskAspectHeight/height);
             rect.setAttribute("stroke-width", 0.5);
             rect.setAttribute("stroke", color);
             rect.setAttribute("stroke-opacity", 1);
             rect.setAttribute("fill", "none");
-            svg.appendChild(rect);
+            innerSVG.appendChild(rect);
           }
         }
       }
