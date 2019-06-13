@@ -120,7 +120,7 @@
       overlayListEl.appendChild(overlayListItem);
   
       // Item title
-      let itemTitle = document.createElement("h3");
+      let itemTitle = document.createElement("div");
       // Item toggle button
       let itemToggleBtn = document.createElement("div");
 
@@ -136,7 +136,6 @@
       overlayListItem.appendChild(itemTitle);
 
       // Create toggle button
-      itemToggleBtn.id = `${self.id}Btn`;
       itemToggleBtn.setAttribute("data-id", self.id);
       itemToggleBtn.setAttribute("style", "float: right");
       itemToggleBtn.classList.add("grid-overlay-toggle-btn");
@@ -196,6 +195,7 @@
         PreviewOverlay.makeGridSVG,
         [[3,3], [2,2], [3,2], [4,4], [4,3]],
         {
+          color: "#FFFFFF",
           defaultHeight: 3,
           defaultWidth: 3
         }
@@ -285,7 +285,7 @@
             rect.setAttribute("y", (maskAspectHeight/height)*h);
             rect.setAttribute("width", maskAspectWidth/width);
             rect.setAttribute("height", maskAspectHeight/height);
-            rect.setAttribute("stroke-width", 0.5);
+            rect.setAttribute("stroke-width", 0.25);
             rect.setAttribute("stroke", color);
             rect.setAttribute("stroke-opacity", opacity);
             rect.setAttribute("fill", "none");
@@ -322,16 +322,12 @@
         // Calculate size of the cropped area
         let croppedHeight = (height > width ? previewAspectHeight : (height/width)*previewAspectWidth);
         let croppedWidth = (width >= height ? previewAspectWidth : (width/height)*previewAspectHeight);
-        console.log("prev", previewAspectWidth, previewAspectHeight);
-        console.log("crop", croppedWidth, croppedHeight);
 
         // Handle cropped width being larger than preview area
         if (croppedHeight > previewAspectHeight) {
           croppedWidth = previewAspectHeight/croppedHeight * croppedWidth;
           croppedHeight = previewAspectHeight/croppedHeight * croppedHeight;
         }
-
-        console.log("crop", croppedWidth, croppedHeight);
 
         // If width > height make top and bottom letterboxes
         let letterBoxHeight = (previewAspectHeight - croppedHeight)/2;

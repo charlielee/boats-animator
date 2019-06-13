@@ -114,6 +114,7 @@ aside {
   border-left: 1px solid #423e3e;
   color: #d3d3d3;
   padding: 0 1em 1em 1em;
+  overflow: hidden;
   position: relative;
   width: 19em;
 }
