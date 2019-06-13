@@ -72,6 +72,7 @@
 
           // Update status bar and frame reel
           StatusBar.setTotalFrames(id);
+          StatusBar.setCurrentFrame(id + 1);
           self.frameReel.addFrame(id, self.capturedFrames[id - 1].src);
           self.frameReel.setFrameThumbnail(id, self.capturedFrames[id - 1].src);
 
