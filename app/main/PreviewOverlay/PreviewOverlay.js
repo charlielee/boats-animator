@@ -26,7 +26,7 @@
       this.method = method;
       // Default overlay settings
       this.settings = {
-        color: "#ad0000",
+        color: "#2B2B2B",
         defaultHeight: 1,
         defaultWidth: 1,
         heightMin: 1,
@@ -177,7 +177,6 @@
         PreviewOverlay.makeAspectRatioSVG,
         [[16,9], [4,3], [2.39,1], [2.35,1], [1,1]],
         {
-          color: "#2B2B2B",
           defaultHeight: 9,
           defaultWidth: 16,
           visibleModeClasses: ["visible-capture", "visible-playback"]
@@ -219,6 +218,12 @@
         let scaleFactor = (maskAspectWidth > maskAspectHeight ? previewAspectWidth/maskAspectWidth : previewAspectHeight/maskAspectHeight);
         maskAspectWidth *= scaleFactor;
         maskAspectHeight *= scaleFactor;
+
+        // Handle cropped width being larger than preview area
+        if (maskAspectHeight > previewAspectHeight) {
+          maskAspectWidth = previewAspectHeight/maskAspectHeight * maskAspectWidth;
+          maskAspectHeight = previewAspectHeight/maskAspectHeight * maskAspectHeight;
+        }
       }
 
       // Create the SVG container
@@ -285,48 +290,55 @@
 
         // Calculate size of the cropped area
         let croppedHeight = (height > width ? previewAspectHeight : (height/width)*previewAspectWidth);
-        let croppedWidth = (width > height ? previewAspectWidth : (width/height)*previewAspectHeight);
+        let croppedWidth = (width >= height ? previewAspectWidth : (width/height)*previewAspectHeight);
+        console.log("prev", previewAspectWidth, previewAspectHeight);
+        console.log("crop", croppedWidth, croppedHeight);
+
+        // Handle cropped width being larger than preview area
+        if (croppedHeight > previewAspectHeight) {
+          croppedWidth = previewAspectHeight/croppedHeight * croppedWidth;
+          croppedHeight = previewAspectHeight/croppedHeight * croppedHeight;
+        }
+
+        console.log("crop", croppedWidth, croppedHeight);
 
         // If width > height make top and bottom letterboxes
-        if (width > height) {
-          let letterBoxHeight = (previewAspectHeight - croppedHeight)/2;
+        let letterBoxHeight = (previewAspectHeight - croppedHeight)/2;
 
-          let topRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-          topRect.setAttribute("x", 0);
-          topRect.setAttribute("y", 0);
-          topRect.setAttribute("height", letterBoxHeight);
-          topRect.setAttribute("width", previewAspectWidth);
-          topRect.setAttribute("fill", color);
-          svg.appendChild(topRect);
+        let topRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        topRect.setAttribute("x", 0);
+        topRect.setAttribute("y", 0);
+        topRect.setAttribute("height", letterBoxHeight);
+        topRect.setAttribute("width", previewAspectWidth);
+        topRect.setAttribute("fill", color);
+        svg.appendChild(topRect);
 
-          let bottomRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-          bottomRect.setAttribute("x", 0);
-          bottomRect.setAttribute("y", previewAspectHeight - letterBoxHeight);
-          bottomRect.setAttribute("height", letterBoxHeight);
-          bottomRect.setAttribute("width", previewAspectWidth);
-          bottomRect.setAttribute("fill", color);
-          svg.appendChild(bottomRect);
+        let bottomRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        bottomRect.setAttribute("x", 0);
+        bottomRect.setAttribute("y", previewAspectHeight - letterBoxHeight);
+        bottomRect.setAttribute("height", letterBoxHeight);
+        bottomRect.setAttribute("width", previewAspectWidth);
+        bottomRect.setAttribute("fill", color);
+        svg.appendChild(bottomRect);
 
         // Make left and right letterboxes if height > width
-        } else {
-          let letterBoxWidth = (previewAspectWidth - croppedWidth)/2;
+        let letterBoxWidth = (previewAspectWidth - croppedWidth)/2;
 
-          let leftRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-          leftRect.setAttribute("x", 0);
-          leftRect.setAttribute("y", 0);
-          leftRect.setAttribute("height", previewAspectHeight);
-          leftRect.setAttribute("width", letterBoxWidth);
-          leftRect.setAttribute("fill", color);
-          svg.appendChild(leftRect);
+        let leftRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        leftRect.setAttribute("x", 0);
+        leftRect.setAttribute("y", 0);
+        leftRect.setAttribute("height", previewAspectHeight);
+        leftRect.setAttribute("width", letterBoxWidth);
+        leftRect.setAttribute("fill", color);
+        svg.appendChild(leftRect);
 
-          let rightRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-          rightRect.setAttribute("x", previewAspectWidth - letterBoxWidth);
-          rightRect.setAttribute("y", 0);
-          rightRect.setAttribute("height", previewAspectHeight);
-          rightRect.setAttribute("width", letterBoxWidth);
-          rightRect.setAttribute("fill", color);
-          svg.appendChild(rightRect);
-        }
+        let rightRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        rightRect.setAttribute("x", previewAspectWidth - letterBoxWidth);
+        rightRect.setAttribute("y", 0);
+        rightRect.setAttribute("height", previewAspectHeight);
+        rightRect.setAttribute("width", letterBoxWidth);
+        rightRect.setAttribute("fill", color);
+        svg.appendChild(rightRect);
       }
 
       return svg;
