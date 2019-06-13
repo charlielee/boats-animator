@@ -19,6 +19,7 @@ The menu bar contains an assortment of options both to do with the current proje
 
 ### Capture menu
 * **Capture frame:** select this to activate the [capture button](#capture-button).
+* **Confirm take** select this to rename all of the capture frame's filenames to be sequential.
 * **Play capture sounds:** this toggles whether a sound plays when a frame is captured.
 * **Change capture destination:** select this to change the folder Boats Animator exports captured frames to.
 
