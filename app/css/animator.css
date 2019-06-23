@@ -12,7 +12,7 @@
   width: 100vw;
   position: fixed;
   left: 20vw;
-  z-index: 5;
+  z-index: 100;
 }
 
 /* Individual notification */
@@ -72,18 +72,36 @@
 
 /* ========== VIDEO PREVIEW ============== */
 
-.preview-area-window {
-  display: none;
+#preview-area {
+  display: flex;
   flex: 1;
   text-align: center;
   background-color: black;
   position: relative;
   border: 2px solid transparent;
 }
+#preview-area.capture-mode {
+  border-color: #ad0000;
+}
 
-.preview-area-window.active { display: flex; }
+.preview-area-item {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
 
-#capture-window.active { border-color: #ad0000; }
+#preview-area.capture-mode > :not(.visible-capture),
+#preview-area.playback-mode > :not(.visible-playback) {
+  display: none;
+}
+
+/* Individual preview area items */
+
+#preview-area-message {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
 
 #preview,
 #playback {
@@ -103,7 +121,7 @@
   position: absolute;
   text-align: center;
   width: 100vw;
-  z-index: 4;
+  z-index: 50;
 }
 #loading-window.active { display: flex; }
 

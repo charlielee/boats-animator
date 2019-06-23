@@ -18,6 +18,10 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+.hidden {
+  display: none !important;
+}
+
 body {
   align-items: stretch;
   background-color: #2B2B2B;
@@ -110,6 +114,7 @@ aside {
   border-left: 1px solid #423e3e;
   color: #d3d3d3;
   padding: 0 1em 1em 1em;
+  overflow: hidden;
   position: relative;
   width: 19em;
 }

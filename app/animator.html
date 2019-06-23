@@ -25,18 +25,18 @@
 
   <main>
     <section id="main-area">
-      <!--Capture Window-->
-      <div id="capture-window" class="preview-area-window">
-        <!--The actual onion skinning frame, injected through JS-->
-        <img id="onion-skinning-frame">
+      <!--Preview area window-->
+      <div id="preview-area">
+        <!-- No source message -->
+        <div id="preview-area-message" class="visible-capture preview-area-item">
+          <h2>Select a camera source to begin!</h2>
+        </div>
+        <!--  Onion skinning frame -->
+        <img id="onion-skinning-frame" class="visible-capture">
         <!-- Video preview stream -->
-        <video id="preview" autoplay>Video stream not available.</video>
-      </div>
-
-      <!--Playback Window-->
-      <div id="playback-window" class="preview-area-window">
+        <video id="preview" class="visible-capture" autoplay>Video stream not available.</video>
         <!--The actual playback window -->
-        <canvas id="playback"></canvas>
+        <canvas id="playback" class="visible-playback"></canvas>
       </div>
 
       <!--Playback controls-->
@@ -111,20 +111,6 @@
 
     <!--Sidebar content-->
     <aside>
-      <!--Project Options, currently disabled because there is no code yet-->
-      <!--
-        <div class="sidebar-item" id="debugging-header">
-            <div class="sidebar-header">
-            <h2><i class="fa fa-file-text fa-fw"></i> Project</h2>
-            </div>
-            <ul>
-            <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">New Project</a></li>
-            <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Open Project</a></li>
-            <li><i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i><a href="#">Project Options</a></li>
-            </ul>
-        </div>
-      -->
-
       <!--Capture Options-->
       <div class="sidebar-item" id="capture-header">
         <div class="sidebar-header">
@@ -161,6 +147,15 @@
             <input id="chooseDirectory" style="display:none;" type="file" nwdirectory />
           </li>
         </ul>
+      </div>
+
+      <!--Preview Overlay-->
+      <div class="sidebar-item" id="overlay-header">
+        <div class="sidebar-header">
+          <h2>
+            <i class="fa fa-th fa-fw"></i> Overlays</h2>
+        </div>
+        <ul id="overlay-list"></ul>
       </div>
     </aside>
   </main>
