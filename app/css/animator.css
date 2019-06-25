@@ -90,6 +90,8 @@
   width: 100%;
 }
 
+/* Mode switching */
+
 #preview-area.capture-mode > :not(.visible-capture),
 #preview-area.playback-mode > :not(.visible-playback),
 #left-controls.capture-mode > :not(.visible-capture),
@@ -211,11 +213,15 @@
 
 #left-controls { flex: 4; }
 
+#frameControlsPlaybackMode {
+  background-color: #2B2B2B;
+}
+
 /* ===  Capture control === */
 
 #capture-control { justify-content: center; }
 
-div#btn-capture-frame { padding: 0.3em; }
+#btn-capture-frame { padding: 0.3em !important; }
 #btn-capture-frame i {
   color: #f9ff23;
   font-size: 1.8em;
