@@ -34,13 +34,7 @@
       this.totalFrames++;
 
       // Update frame numbers
-      let frameReelNos = document.querySelectorAll(`#reel-captured-imgs .frame-reel-no`);
-      frameReelNos.forEach(function(el, index) {
-        el.innerText = index + 1;
-      });
-
-      // Update the last frame number above the live view button
-      liveViewFrameNo.innerText = this.totalFrames + 1;
+      this._updateFrameNos();
 
       // Hide no frames message
       this._showNoFramesMessage(false);
@@ -71,14 +65,8 @@
         this._showNoFramesMessage();
       }
 
-      // Update the last frame number above the live view button
-      liveViewFrameNo.innerText = this.totalFrames + 1;
-
       // Update frame numbers
-      let frameReelNos = document.querySelectorAll(`#reel-captured-imgs .frame-reel-no`);
-      frameReelNos.forEach(function(el, index) {
-        el.innerText = index + 1;
-      });
+      this._updateFrameNos();
     }
 
     /**
@@ -155,6 +143,24 @@
     _scrollToLiveView() {
       // Scroll the frame reel to the end
       frameReelArea.scrollLeft = frameReelArea.scrollWidth;
+    }
+
+    /**
+     * Updates all of the frame numbers.
+     */
+    _updateFrameNos() {
+      // Get all of the frame reel items
+      let frameReelItems = document.querySelectorAll(`#reel-captured-imgs .frame-reel-preview`);
+      frameReelItems.forEach(function(item, index) {
+        item.children[0].id = `no-${index + 1}`;
+        item.children[0].setAttribute("title", `Frame ${index + 1}`);
+        item.children[0].innerText = index + 1;
+        item.children[1].id = `img-${index + 1}`;
+        item.children[1].setAttribute("title", `Frame ${index + 1}`);
+      });
+
+      // Update the last frame number above the live view button
+      liveViewFrameNo.innerText = this.totalFrames + 1;
     }
   }
 
