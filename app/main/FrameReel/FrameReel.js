@@ -33,6 +33,12 @@
     </div></div></td>`);
       this.totalFrames++;
 
+      // Update frame numbers
+      let frameReelNos = document.querySelectorAll(`#reel-captured-imgs .frame-reel-no`);
+      frameReelNos.forEach(function(el, index) {
+        el.innerText = index + 1;
+      });
+
       // Update the last frame number above the live view button
       liveViewFrameNo.innerText = this.totalFrames + 1;
 
@@ -68,8 +74,11 @@
       // Update the last frame number above the live view button
       liveViewFrameNo.innerText = this.totalFrames + 1;
 
-      // todo When delete frame at any position is implemented,
-      // update frame numbers displayed in the reel
+      // Update frame numbers
+      let frameReelNos = document.querySelectorAll(`#reel-captured-imgs .frame-reel-no`);
+      frameReelNos.forEach(function(el, index) {
+        el.innerText = index + 1;
+      });
     }
 
     /**
