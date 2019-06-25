@@ -213,10 +213,6 @@
 
 #left-controls { flex: 4; }
 
-#frameControlsPlaybackMode {
-  background-color: #2B2B2B;
-}
-
 /* ===  Capture control === */
 
 #capture-control { justify-content: center; }

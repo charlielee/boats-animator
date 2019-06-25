@@ -1,7 +1,8 @@
 {
   "main": {
     "takePicture": ["mod+1", "enter"],
-    "undoFrame": ["mod+z", "del", "backspace", "*"],
+    "undoFrame": ["mod+z", "*"],
+    "deleteCurSelectedFrame": ["del", "backspace"],
     "audioToggle": ["mod+m"],
     "playPause": ["space", "0"],
     "loopPlayback": ["8"],
