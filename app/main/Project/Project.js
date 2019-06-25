@@ -127,7 +127,11 @@
      * Delete the current selected frame.
      */
     deleteCurrentSelectedFrame() {
-      this._deleteFrame(this.currentTake.frameReel.curSelectedFrame);
+      if (this.currentTake.frameReel.curSelectedFrame) {
+        this._deleteFrame(this.currentTake.frameReel.curSelectedFrame);
+      } else {
+        this.undoFrame();
+      }
     }
 
     /**

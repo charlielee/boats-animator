@@ -19,6 +19,9 @@ module.exports = {};
           undoFrame: function() {
             Features.undoFrame();
           },
+          deleteCurSelectedFrame: function() {
+            Features.deleteCurSelectedFrame();
+          },
           audioToggle: function() {
             Features.audioToggle();
           },
