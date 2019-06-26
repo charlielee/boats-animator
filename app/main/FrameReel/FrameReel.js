@@ -28,7 +28,7 @@
 
       // Insert the new frame into the reel
       frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-    <div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
+    <div class="frame-reel-no" title="Frame ${id}">${id}</div>
     <div class="frame-reel-img" id="img-${id}" title="Frame ${id}">
     </div></div></td>`);
       this.totalFrames++;
@@ -152,7 +152,6 @@
       // Get all of the frame reel items
       let frameReelItems = document.querySelectorAll(`#reel-captured-imgs .frame-reel-preview`);
       frameReelItems.forEach(function(item, index) {
-        item.children[0].id = `no-${index + 1}`;
         item.children[0].setAttribute("title", `Frame ${index + 1}`);
         item.children[0].innerText = index + 1;
         item.children[1].id = `img-${index + 1}`;
