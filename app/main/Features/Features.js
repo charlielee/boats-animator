@@ -6,6 +6,7 @@
   const WindowManager = require("../../ui/WindowManager/WindowManager");
 
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");
+  const btnDeleteFrame = document.querySelector("#btn-delete-frame");
   const btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame");
   const btnLoop = document.querySelector("#btn-loop");
   const btnPlayPause = document.querySelector("#btn-play-pause");
@@ -45,6 +46,10 @@
 
     static undoFrame() {
       btnDeleteLastFrame.click();
+    }
+
+    static deleteCurSelectedFrame() {
+      btnDeleteFrame.click();
     }
 
     static confirmTake() {

@@ -119,9 +119,6 @@
 
       let outputDir = this.saveDirectory.saveDirLocation;
 
-      // // Loop through and rename each file
-      // this.exportedFramesPaths.forEach(function(oldFramePath, index) {
-
       // The new fileName
       let frameNumber = (curFrameIndex+1).toString();
       let zeros = "0000";

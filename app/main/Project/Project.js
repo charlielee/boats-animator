@@ -1,4 +1,4 @@
-(function() {
+(function () {
   "use strict";
 
   // Common imports
@@ -19,8 +19,10 @@
   // The various HTML elements we need to configure or control.
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");
   const btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame");
+  const btnDeleteFrame = document.querySelector("#btn-delete-frame");
   const preview = document.querySelector("#preview");
   const previewAreaEl = document.querySelector("#preview-area");
+  const frameModLeftControls = document.querySelector("#left-controls");
 
   /** Represents a project (a series of takes) */
   class Project {
@@ -51,7 +53,7 @@
       self.playback = new Playback(self);
 
       // Initialises the preview window
-      preview.addEventListener("play", function() {
+      preview.addEventListener("play", function () {
         PlaybackCanvas.setDimensions(preview.videoWidth.toString(), preview.videoHeight.toString())
         self.streaming = true;
         // Reload preview overlays
@@ -59,13 +61,18 @@
       });
 
       // Capture a frame
-      btnCaptureFrame.addEventListener("click", function() {
+      btnCaptureFrame.addEventListener("click", function () {
         self.takeFrame();
       });
 
       // Undo last captured frame
-      btnDeleteLastFrame.addEventListener("click", function() {
+      btnDeleteLastFrame.addEventListener("click", function () {
         self.undoFrame();
+      });
+
+      // Delete any frame
+      btnDeleteFrame.addEventListener("click", function () {
+        self.deleteCurrentSelectedFrame();
       });
     }
 
@@ -102,10 +109,28 @@
       // Take a picture
       if (self.streaming) {
         self.currentTake.captureFrame()
-        .then(function() {
-          // Scroll to the end of the framereel
-          self.currentTake.frameReel.selectLiveViewButton();
-        });
+          .then(function () {
+            // Scroll to the end of the framereel
+            self.currentTake.frameReel.selectLiveViewButton();
+          });
+      }
+    }
+
+    /**
+     * Delete the previously taken frame.
+     */
+    undoFrame() {
+      this._deleteFrame(this.currentTake.getTotalFrames());
+    }
+
+    /**
+     * Delete the current selected frame.
+     */
+    deleteCurrentSelectedFrame() {
+      if (this.currentTake.frameReel.curSelectedFrame) {
+        this._deleteFrame(this.currentTake.frameReel.curSelectedFrame);
+      } else {
+        this.undoFrame();
       }
     }
 
@@ -114,27 +139,21 @@
      *
      * @param {Number} id The frame ID to delete.
      */
-    deleteFrame(id) {
-      this.currentTake.deleteFrame(id);
-      this.setCurrentMode("capture");
-      console.info(`Total frames captured: ${this.currentTake.getTotalFrames()}`);
-    }
-
-    /**
-     * Delete the previously taken frame.
-     */
-    undoFrame() {
+    _deleteFrame(id) {
       // Make sure there is a frame to delete
       if (this.currentTake.getTotalFrames() > 0) {
         // Display warning alert to confirm deletion
-        ConfirmDialog.confirmSet({ text: "Are you sure you want to delete the last frame captured?" })
+        ConfirmDialog.confirmSet({ text: `Are you sure you want to delete frame ${id}?` })
           .then((response) => {
             if (response) {
-              this.deleteFrame(this.currentTake.getTotalFrames());
+              // Remove the frame from the take
+              this.currentTake.deleteFrame(id);
+              this.setCurrentMode("capture");
+              console.info(`Total frames captured: ${this.currentTake.getTotalFrames()}`);
             }
           });
       } else {
-        Notification.error("There is no previous frame to undo!");
+        Notification.error("There are no captured frames to delete!");
       }
     }
 
@@ -159,6 +178,10 @@
         // Update preview area
         previewAreaEl.classList.toggle("capture-mode", true);
         previewAreaEl.classList.toggle("playback-mode", false);
+        // Update frame management buttons
+        frameModLeftControls.classList.toggle("capture-mode", true);
+        frameModLeftControls.classList.toggle("playback-mode", false);
+
         // Stop playback
         this.playback.videoStop();
         // Update status bar and frame reel
@@ -170,6 +193,10 @@
         // Update preview area
         previewAreaEl.classList.toggle("capture-mode", false);
         previewAreaEl.classList.toggle("playback-mode", true);
+        // Update frame management buttons
+        frameModLeftControls.classList.toggle("capture-mode", false);
+        frameModLeftControls.classList.toggle("playback-mode", true);
+
         // Update statusbar and frame reel
         StatusBar.setCurrentMode("Playback");
         takeInst.frameReel.selectLiveViewButton(false);
