@@ -153,7 +153,7 @@
             }
           });
       } else {
-        Notification.error("There are no captured frames to undo!");
+        Notification.error("There are no captured frames to delete!");
       }
     }
 
