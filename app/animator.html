@@ -42,35 +42,42 @@
       <!--Playback controls-->
       <div id="frame-mod-panel" class="flex">
         <section id="left-controls">
-          <div id="btn-delete-last-frame" title="Undo last frame">
-            <i class="fa fa-undo"></i>
+          <div id="frameControlsCaptureMode" class="visible-capture">
+            <div id="btn-delete-last-frame" title="Undo last frame" class="button">
+              <i class="fa fa-undo"></i>
+            </div>
+          </div>
+          <div id="frameControlsPlaybackMode" class="visible-playback">
+            <div id="btn-delete-frame" title="Delete frame" class="button">
+              <i class="fa fa-trash"></i>
+            </div>
           </div>
         </section>
         <section id="capture-control">
-          <div id="btn-capture-frame" title="Capture Frame">
+          <div id="btn-capture-frame" title="Capture Frame" class="button">
             <i class="fa fa-camera"></i>
           </div>
         </section>
         <section id="playback-controls">
-          <div id="btn-frame-first" title="First frame">
+          <div id="btn-frame-first" title="First frame" class="button">
             <i class="fa fa-fast-backward"></i>
           </div>
-          <div id="btn-frame-previous" title="Previous frame">
+          <div id="btn-frame-previous" title="Previous frame" class="button">
             <i class="fa fa-step-backward"></i>
           </div>
-          <div id="btn-play-pause" title="Playback Frames">
+          <div id="btn-play-pause" title="Playback Frames" class="button">
             <i class="fa fa-play"></i>
           </div>
-          <div id="btn-stop" title="Stop Playback">
+          <div id="btn-stop" title="Stop Playback" class="button">
             <i class="fa fa-stop"></i>
           </div>
-          <div id="btn-frame-next" title="Next frame">
+          <div id="btn-frame-next" title="Next frame" class="button">
             <i class="fa fa-step-forward"></i>
           </div>
-          <div id="btn-frame-last" title="Last frame">
+          <div id="btn-frame-last" title="Last frame" class="button">
             <i class="fa fa-fast-forward"></i>
           </div>
-          <div id="btn-loop" title="Loop Playback">
+          <div id="btn-loop" title="Loop Playback" class="button">
             <i class="fa fa-refresh"></i>
           </div>
         </section>
