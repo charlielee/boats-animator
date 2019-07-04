@@ -32,16 +32,17 @@
      * @param {Number} startFrame The frame to begin rendering from (default: 0 - ie the start).
      */
     static render(exportPath, frameDirectory, frameRate, preset = "medium", startFrame = 0) {
-      let args = `
-      -framerate ${frameRate}
-      -start_number ${startFrame}
-      -i ${frameDirectory}/frame_%04d.png
-      -tune animation
-      -c:v libx264
-      -preset ${preset}
-      -crf 0
-      -vf format=yuv420p ${exportPath}
-      `;
+      let args = [
+        "-framerate", frameRate,
+        "-start_number", startFrame,
+        "-i", `${frameDirectory}/frame_%04d.png`,
+        "-tune", "animation",
+        "-c:v", "libx264",
+        "-preset", preset,
+        "-crf", "0",
+        "-vf", "format=yuv420p",
+        exportPath
+      ];
 
       const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
       const spawn = require('child_process').spawn;
@@ -49,9 +50,6 @@
       ffmpeg.on('exit', function(e) {
         console.log(e);
       });
-    //   `
-    // ffmpeg -framerate 15 -start_number 0 -i frame_%04d.png -tune animation -c:v libx264 -preset ultrafast -crf 0 -vf format=yuv420p output.mp4
-    // `
     }
 
     static displayExportVideoDialog() {
