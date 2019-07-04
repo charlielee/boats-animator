@@ -3,6 +3,7 @@
   // Main imports
   const PreviewOverlay = require("./main/PreviewOverlay/PreviewOverlay");
   const Project = require("./main/Project/Project");
+  const ExportVideo = require("./main/ExportVideo/ExportVideo");
   global.AppShortcuts = require("./main/Shortcuts/Shortcuts");
 
   // UI imports
@@ -31,6 +32,8 @@
 
       // Set default view
       global.projectInst.setCurrentMode("capture");
+
+      ExportVideo.displayExportVideoDialog();
     });
   }
   window.onload = startup;
