@@ -50,6 +50,14 @@
       ffmpeg.on('exit', function(e) {
         console.log(e);
       });
+
+      // todo work out deployment in a cross platform way.
+
+      // todo use list of frame paths rather than -i
+
+      // todo overwrite warning
+
+      // todo error handling
     }
 
     static displayExportVideoDialog() {
