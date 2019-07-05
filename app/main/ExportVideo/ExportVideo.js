@@ -1,67 +1,21 @@
 (function() {
   "use strict";
+  const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+  const ffmpeg = require('fluent-ffmpeg');
+  const path = require("path");
+
   const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
+  const Loader = require("../../common/Loader/Loader");
 
   const DEFAULT_FILE_NAME = "output.mp4";
 
   class ExportVideo {
-    // /**
-    //  * Constructors a new video export.
-    //  * @param {String} exportLocation The directory to export video to.
-    //  * @param {String} exportName The name to give the output video.
-    //  * @param {String} frameLocation The location of the frames to render.
-    //  * @param {Number} frameRate The frame rate to use in the export.
-    //  * @param {String} preset The rendering preset to use (default: medium).
-    //  * @param {Number} startFrame The frame to begin rendering from (default: 0 - ie the start).
-    //  */
-    // constructor(exportLocation, exportName, frameLocation, frameRate, preset = "medium", startFrame = 0) {
-    //   this.exportLocation = exportLocation;
-    //   this.exportName = exportName;
-    //   this.frameLocation = frameLocation;
-    //   this.frameRate = frameRate;
-    //   this.preset = preset;
-    //   this.startFrame = startFrame;
-    // }
-
     /**
-     * Renders a video from the frames in the selected frame location.
-     * @param {String} exportPath The path to export video to.
-     * @param {String} frameDirectory The location of the frames to render.
-     * @param {Number} frameRate The frame rate to use in the export.
-     * @param {String} preset The rendering preset to use (default: medium).
-     * @param {Number} startFrame The frame to begin rendering from (default: 0 - ie the start).
+     * Displays the export video dialog box.
      */
-    static render(exportPath, frameDirectory, frameRate, preset = "medium", startFrame = 0) {
-      let args = [
-        "-framerate", frameRate,
-        "-start_number", startFrame,
-        "-i", `${frameDirectory}/frame_%04d.png`,
-        "-tune", "animation",
-        "-c:v", "libx264",
-        "-preset", preset,
-        "-crf", "0",
-        "-vf", "format=yuv420p",
-        exportPath
-      ];
-
-      const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-      const spawn = require('child_process').spawn;
-      const ffmpeg = spawn(ffmpegPath, args);
-      ffmpeg.on('exit', function(e) {
-        console.log(e);
-      });
-
-      // todo work out deployment in a cross platform way.
-
-      // todo use list of frame paths rather than -i
-
-      // todo overwrite warning
-
-      // todo error handling
-    }
-
     static displayExportVideoDialog() {
       let saveLocation = global.projectInst.saveDirectory.saveDirLocation;
+      let defaultExportPath = path.join(saveLocation, DEFAULT_FILE_NAME);
 
       let dialogContents = document.createElement("div");
 
@@ -94,7 +48,7 @@
       let exportText = document.createElement("div");
       dialogContents.appendChild(exportText);
       exportText.id = "currentVideoExportText";
-      exportText.innerText = `${saveLocation}\\${DEFAULT_FILE_NAME}`;
+      exportText.innerText = defaultExportPath;
 
       // Button
       let exportButton = document.createElement("button");
@@ -104,7 +58,7 @@
         exportLocationInput.click();
       });
 
-      // Line break
+      // Line breaks
       dialogContents.appendChild(document.createElement("br"));
       dialogContents.appendChild(document.createElement("br"));
 
@@ -141,7 +95,7 @@
         text: " ",
         icon: " ",
         content: dialogContents,
-        buttons: [true, "Export video"],
+        buttons: [true, "Export video"]
       })
       .then((response) => {
         // Dialog values
@@ -149,7 +103,7 @@
         let presetValue = presetSelect.value;
 
         // Export video parameters
-        let exportPath = outputPath;
+        let exportPath = (!outputPath ? defaultExportPath : outputPath);
         let frameLocation = saveLocation;
         let frameRate = global.projectInst.frameRate.frameRateValue;
         let preset = presetValue;
@@ -159,6 +113,114 @@
           ExportVideo.render(exportPath, frameLocation, frameRate, preset);
         }
       });
+    }
+
+    /**
+     * Renders a video from the frames in the selected frame location.
+     * @param {String} exportPath The path to export video to.
+     * @param {String} frameDirectory The location of the frames to render.
+     * @param {Number} frameRate The frame rate to use in the export.
+     * @param {String} preset The rendering preset to use (default: medium).
+     * @param {Number} startFrame The frame to begin rendering from (default: 0 - ie the start).
+     */
+    static render(exportPath, frameDirectory, frameRate, preset = "medium", startFrame = 0) {
+      // Use the current platform's ffmpeg path
+      ffmpeg.setFfmpegPath(ffmpegPath);
+
+      // The ffmpeg arguments
+      let args = [
+        `-framerate ${frameRate}`,
+        `-start_number ${startFrame}`,
+        // `-i ${path.join(frameDirectory, "frame_\%04d.png")}`,
+      ];
+
+      // Add the frames
+      global.projectInst.currentTake.exportedFramesPaths.forEach(function(framePath) {
+        // FFmpeg absolute inputs MUST be forward slashes
+        framePath = framePath.replace(/\\/g, "/");
+        console.log(framePath);
+        args.push(`-i '${framePath}'`);
+      });
+
+      // Add the remaining arguments
+      args.push(
+        `-tune animation`,
+        `-c:v libx264`,
+        `-preset ${preset}`,
+        `-crf 0`,
+        `-vf format=yuv420p`
+        // todo might need to manually specify that the input files are of png format
+      );
+
+      // Start rendering
+      let command = ffmpeg()
+        // .addInput(path.join(frameDirectory, "frame_%04d.png"))
+        .format("mp4") // bug fix: https://github.com/fluent-ffmpeg/node-fluent-ffmpeg/issues/802#issuecomment-366469595
+        .outputOptions(args)
+        .on('start', function(cmd) {
+          // Display loading window on start
+          console.log('Started ' + cmd);
+          Loader.show("Rendering video");
+        })
+        .on('error', function(err) {
+          Loader.hide();
+          // Display dialog with errors
+          console.log('An error occurred: ' + err.message);
+          ConfirmDialog.confirmSet({
+            title: "Error",
+            text: `An error occurred trying to export the current project to video. Please try again later.
+            \n ${err.message}
+            `,
+            icon: "error",
+            buttons: {
+              cancel: false,
+              confirm: true,
+            },
+          });
+        })
+        .on('end', function() {
+          Loader.hide();
+          // Display dialog when rendering is complete
+          console.log('Processing finished!');
+          ConfirmDialog.confirmSet({
+            title: "Success",
+            text: `Video was successfully exported to ${exportPath}`,
+            icon: "Success",
+            buttons: {
+              cancel: false,
+              confirm: true,
+            },
+          });
+        })
+        .save(exportPath);
+
+      var ffstream = command.pipe();
+      ffstream.on('data', function(chunk) {
+        console.log('ffmpeg just wrote ' + chunk.length + ' bytes');
+      });
+
+      // handle errors? fails silently
+
+      // todo work out deployment in a cross platform way.
+
+      // todo use list of frame paths rather than -i
+
+      // todo overwrite warning
+
+      // todo error handling
+
+      
+      // const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+      // const spawn = require('child_process').spawn;
+      // const ffmpeg = spawn(ffmpegPath, args);
+
+      // ffmpeg.on('message', function(e) {
+      //   console.log(e);
+      // })
+
+      // ffmpeg.on('exit', function(e) {
+      //   console.log(e);
+      // });
     }
   }
 
