@@ -8,6 +8,11 @@
 
   class Loader {
     static show(message = "", dots = true) {
+      // Pause main shortcuts and menubar items
+      global.AppShortcuts.remove("main");
+      global.AppShortcuts.add("confirm");
+      global.AppMenuBar.toggleItems();
+
       // See which elements should be displayed
       if (!loadingWindow.classList.contains("active")) {
         loadingWindow.classList.add("active");
@@ -30,6 +35,11 @@
     }
 
     static hide() {
+      // Resume main shortcuts and menubar items
+      global.AppShortcuts.remove("confirm");
+      global.AppShortcuts.add("main");
+      global.AppMenuBar.toggleItems();
+
       // Hide loading window
       this.isLoading = false;
       body.style.cursor = "initial"
