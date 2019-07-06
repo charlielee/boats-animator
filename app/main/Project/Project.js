@@ -5,7 +5,6 @@
   const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
 
   // Main imports
-  const ExportVideo = require("../../main/ExportVideo/ExportVideo");
   const Take = require("../../main/Take/Take");
   const Playback = require("../../main/Playback/Playback");
   const SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
@@ -20,7 +19,6 @@
   // The various HTML elements we need to configure or control.
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");
   const btnDeleteLastFrame = document.querySelector("#btn-delete-last-frame");
-  const btnExportVideo = document.querySelector("#btn-export-video");
   const preview = document.querySelector("#preview");
   const previewAreaEl = document.querySelector("#preview-area");
 
@@ -68,11 +66,6 @@
       // Undo last captured frame
       btnDeleteLastFrame.addEventListener("click", function() {
         self.undoFrame();
-      });
-
-      // Export video
-      btnExportVideo.addEventListener("click", function() {
-        ExportVideo.displayExportVideoDialog();
       });
     }
 

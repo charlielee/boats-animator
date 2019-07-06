@@ -9,7 +9,22 @@
 
   const DEFAULT_FILE_NAME = "output.mp4";
 
+  const btnExportVideo = document.querySelector("#btn-export-video");
+  const exportVideoSidebarOption = document.querySelector("#exportVideoSidebarOption");
+
   class ExportVideo {
+    static setListeners() {
+      let self = this;
+
+      // Export video sidebar button
+      btnExportVideo.addEventListener("click", function() {
+        if (self.currentTake.getTotalFrames() > 0) {
+          ExportVideo.displayExportVideoDialog();
+        }
+      });
+      self.toggleSidebarOption(false);
+    }
+
     /**
      * Displays the export video dialog box.
      */
@@ -221,6 +236,10 @@
       // ffmpeg.on('exit', function(e) {
       //   console.log(e);
       // });
+    }
+
+    static toggleSidebarOption(status) {
+      exportVideoSidebarOption.classList.toggle("disabled", status);
     }
   }
 
