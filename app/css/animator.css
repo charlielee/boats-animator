@@ -75,6 +75,13 @@
   word-break: break-word;
 }
 
+body[data-has-frames="false"] #exportVideoSidebarOption *,
+body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
+  color: #000 !important;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
 /* ========== VIDEO PREVIEW ============== */
 
 #preview-area {

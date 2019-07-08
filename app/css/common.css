@@ -127,7 +127,6 @@ aside .sidebar-opt {
 aside a:hover,
 aside .sidebar-opt span:hover {
   text-decoration: underline;
-  /* border-bottom: 1.5px solid #d3d3d3; */
 }
 
 aside input,
@@ -142,13 +141,6 @@ aside ul {
 }
 
 aside li { margin: 1em 0; }
-
-aside .sidebar-opt.disabled *,
-aside .sidebar-opt.disabled *:hover {
-  color: #000 !important;
-  cursor: not-allowed;
-  text-decoration: none;
-}
 
 .sidebar-item { border-bottom: 1px solid #ADADAD; }
 

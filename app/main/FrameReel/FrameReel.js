@@ -1,5 +1,6 @@
 (function() {
   "use strict";
+  let body = document.body;
   var frameReelArea = document.querySelector("#area-frame-reel");
   var frameReelMsg = document.querySelector("#area-frame-reel > p");
   var frameReelRow = document.querySelector("#area-frame-reel #reel-captured-imgs");
@@ -16,6 +17,8 @@
       this.totalFrames = 0;
       // Whether the live view button is selected or not
       this.liveViewButtonSelected = false;
+
+      body.setAttribute("data-has-frames", "false");
     }
 
     /**
@@ -38,6 +41,7 @@
 
       // Hide no frames message
       this._showNoFramesMessage(false);
+      body.setAttribute("data-has-frames", "true");
     }
 
     /**
@@ -63,6 +67,7 @@
       // Show the "No frames captured" message
       if (this.totalFrames === 0) {
         this._showNoFramesMessage();
+        body.setAttribute("data-has-frames", "false");
       }
 
       // Update the last frame number above the live view button

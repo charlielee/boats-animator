@@ -18,7 +18,7 @@
 
       // Export video sidebar button
       btnExportVideo.addEventListener("click", function() {
-        if (self.currentTake.getTotalFrames() > 0) {
+        if (global.projectInst.currentTake.getTotalFrames() > 0) {
           ExportVideo.displayExportVideoDialog();
         }
       });
