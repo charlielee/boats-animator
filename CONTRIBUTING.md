@@ -2,9 +2,9 @@
 Thank you for choosing to help improve Boats Animator!
 
 ## Setup
-1. First fork this repository by pressing ![Fork](https://camo.githubusercontent.com/07b3944af53da32b0cffe98152c45c46431a82f0/687474703a2f2f6938312e73657276696d672e636f6d2f752f6638312f31362f33332f30362f31312f666f726b6d6531322e706e67) at the top of this page.
-2. Clone the fork to your computer using: `git clone https://github.com/YOUR_USERNAME/boats-animator.git` or [GitHub Desktop](https://desktop.github.com/).
-3. Install **version 5 or above** of [Node.js](https://nodejs.org/).
+1. Make sure [Git](https://git-scm.com/) and [Node.js](https://nodejs.org/) are installed on your computer.
+2. Fork this repository by pressing ![Fork](https://camo.githubusercontent.com/07b3944af53da32b0cffe98152c45c46431a82f0/687474703a2f2f6938312e73657276696d672e636f6d2f752f6638312f31362f33332f30362f31312f666f726b6d6531322e706e67) at the top of this page.
+3. Clone the fork to your computer using: `git clone https://github.com/YOUR_USERNAME/boats-animator.git` or [GitHub Desktop](https://desktop.github.com/).
 4. Run `npm install` in the `boats-animator` directory.
 
 ### Running from source code
