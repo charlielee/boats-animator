@@ -1,5 +1,6 @@
 {
   "name": "boats-animator",
+  "project_string": "nwjs",
   "description": "A free, open-source stop motion animation program.",
   "license": "GPL-3.0",
   "main": "app/index.html",
