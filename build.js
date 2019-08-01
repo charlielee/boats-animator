@@ -13,7 +13,8 @@
     ],
     "version": "0.35.4",
     "winIco": "icons/icon.ico",
-    "macIcns": "icons/icon.icns"
+    "macIcns": "icons/icon.icns",
+    "flavor": "normal"
   }
   const packageOptions = {
     "package_name": "%a%-%v%-%p%",
