@@ -1,4 +1,4 @@
-var fs = require("fs.extra");
+var fs = require("fs-extra");
 
 fs.exists("app/lib", function(exists) {
   if (!exists) {
