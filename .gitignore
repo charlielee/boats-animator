@@ -28,3 +28,5 @@ node_modules/
 jsconfig.json
 *.~is
 npm-debug.log
+cache/
+build/
