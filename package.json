@@ -56,8 +56,9 @@
     "sweetalert": "^2.1.2"
   },
   "devDependencies": {
+    "fs-extra": "^8.1.0",
     "nw-dev": "^3.0.1",
-    "nwjs-packager": "^0.2.0"
+    "nwjs-packager": "^0.2.2"
   },
   "scripts": {
     "postinstall": "node install",
