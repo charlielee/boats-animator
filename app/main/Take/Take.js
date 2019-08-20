@@ -37,6 +37,8 @@
       this.frameReel = new FrameReel();
       // The onion skin for the take
       this.onionSkin = new OnionSkin();
+      // Id of the last exported frame
+      this.exportFrameId = 0;
     }
 
     /**
@@ -77,7 +79,7 @@
           self.frameReel.setFrameThumbnail(id, self.capturedFrames[id - 1].src);
 
           self._updateOnionSkin();
-          self._exportFrame(id, blob);
+          self._exportFrame(blob);
           resolve(`Captured frame: ${id}`);
         });
       });
@@ -134,6 +136,8 @@
 
       // Rename all of the files
       Promise.all(promisesList).then(() => {
+        // Reset last export frame id
+        self.exportFrameId = self.getTotalFrames();
         Notification.success("Confirm take successfully completed");
       }).catch((err) => {
         console.error(err);
@@ -169,11 +173,12 @@
 
     /**
      * Writes a frame to the disk and stores the path.
-     * @param {Integer} id The id of the frame to export
      * @param {Blob} blob The Blob object containing image data to save.
      */
-    _exportFrame(id, blob) {
-      var fileName = "";
+    _exportFrame(blob) {
+      this.exportFrameId++;
+      let id = this.exportFrameId;
+      let fileName = "";
 
       // 1K+ frames have been captured
       if (id >= 1000) {
