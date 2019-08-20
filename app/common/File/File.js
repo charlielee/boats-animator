@@ -133,6 +133,25 @@ module.exports = {};
   }
 
   /**
+   * Rename a file on the hard drive.
+   *
+   * @param {String} oldName - Absolute path to the file to the current file.
+   * @param {String} newName - Absolute path to the file to the new file. 
+   */
+  function renameFilePromise(oldName, newName) {
+    return new Promise((resolve, reject) => {
+      fs.rename(oldName, newName, function(err) {
+        if (err) {
+          reject(err);
+        } else {
+          console.log(`Successfully renamed ${oldName} to ${newName}`);
+          resolve();
+        }
+      });
+    });
+  }
+
+  /**
    * Write a file to the hard drive.
    *
    * @param {String} file - Absolute path to the file to be saved.
@@ -162,5 +181,6 @@ module.exports = {};
   module.exports.read = readFile;
   module.exports.write = writeFile;
   module.exports.rename = renameFile;
+  module.exports.renamePromise = renameFilePromise;
   module.exports.delete = deleteFile;
 }());
