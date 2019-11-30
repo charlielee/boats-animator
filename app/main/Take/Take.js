@@ -1,4 +1,4 @@
-(function() {
+(function () {
   "use strict";
 
   // Main imports
@@ -37,6 +37,8 @@
       this.frameReel = new FrameReel();
       // The onion skin for the take
       this.onionSkin = new OnionSkin();
+      // Id of the last exported frame
+      this.exportFrameId = 0;
     }
 
     /**
@@ -44,7 +46,7 @@
      */
     captureFrame() {
       var self = this;
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         // Prevent taking frames without a set output path
         if (!self.saveDirectory.saveDirLocation) {
           Notification.error("A save directory must be first set!");
@@ -56,7 +58,7 @@
         PlaybackCanvas.drawImage(preview);
 
         // Convert the frame to a PNG
-        PlaybackCanvas.getBlob(function(blob) {
+        PlaybackCanvas.getBlob(function (blob) {
           // Play a camera sound
           AudioManager.play("audio/camera.wav");
 
@@ -77,7 +79,7 @@
           self.frameReel.setFrameThumbnail(id, self.capturedFrames[id - 1].src);
 
           self._updateOnionSkin();
-          self._exportFrame(id, blob);
+          self._exportFrame(blob);
           resolve(`Captured frame: ${id}`);
         });
       });
@@ -89,7 +91,7 @@
      */
     deleteFrame(id) {
       File.delete(this.exportedFramesPaths[id - 1], {
-        success: function() {
+        success: function () {
           Notification.success("File successfully deleted.");
         }
       });
@@ -109,9 +111,10 @@
 
     /**
      * "Confirms" a take by renaming each captured frame to be sequential.
-     * @param {Number} curFrameIndex The index in exportedFramePaths currently being confirmed.
      */
-    confirmTake(curFrameIndex = 0) {
+    confirmTake() {
+      let self = this;
+
       // Return if no captured frames
       if (this.getTotalFrames() < 1) {
         return;
@@ -119,29 +122,26 @@
 
       let outputDir = this.saveDirectory.saveDirLocation;
 
-      // // Loop through and rename each file
-      // this.exportedFramesPaths.forEach(function(oldFramePath, index) {
+      let promisesList = [];
 
-      // The new fileName
-      let frameNumber = (curFrameIndex+1).toString();
-      let zeros = "0000";
-      let paddedFrameNumber = `${zeros.substring(0,zeros.length-frameNumber.length)}${frameNumber}`;
-      let newFilePath = `${outputDir}/frame_${paddedFrameNumber}.png`;
+      for (let i = 0; i < self.getTotalFrames(); i++) {
+        // The new fileName
+        let frameNumber = (i+1).toString();
+        let zeros = "0000";
+        let paddedFrameNumber = `${zeros.substring(0, zeros.length - frameNumber.length)}${frameNumber}`;
+        let newFilePath = `${outputDir}/frame_${paddedFrameNumber}.png`;
 
-      // Rename the file
-      let self = this;
-      File.rename(self.exportedFramesPaths[curFrameIndex], newFilePath, function(success) {
-        if (success) {
-          // Rename the next frame in the take
-          curFrameIndex++;
-          if (curFrameIndex < self.getTotalFrames()) {
-            self.confirmTake(curFrameIndex);
-          } else {
-            Notification.success("Confirm take successfully completed");
-          }
-        } else {
-          Notification.error("Error renaming file with confirm take");
-        }
+        promisesList.push(File.renamePromise(self.exportedFramesPaths[i], newFilePath));
+      }
+
+      // Rename all of the files
+      Promise.all(promisesList).then(() => {
+        // Reset last export frame id
+        self.exportFrameId = self.getTotalFrames();
+        Notification.success("Confirm take successfully completed");
+      }).catch((err) => {
+        console.error(err);
+        Notification.error("Error renaming file with confirm take");
       });
     }
 
@@ -173,11 +173,12 @@
 
     /**
      * Writes a frame to the disk and stores the path.
-     * @param {Integer} id The id of the frame to export
      * @param {Blob} blob The Blob object containing image data to save.
      */
-    _exportFrame(id, blob) {
-      var fileName = "";
+    _exportFrame(blob) {
+      this.exportFrameId++;
+      let id = this.exportFrameId;
+      let fileName = "";
 
       // 1K+ frames have been captured
       if (id >= 1000) {
@@ -210,7 +211,7 @@
 
       // Save the frame to disk
       var reader = new FileReader()
-      reader.onload = function() {
+      reader.onload = function () {
         // Convert the frame blob to buffer
         var buffer = new Buffer.from(reader.result);
         File.write(outputPath, buffer);

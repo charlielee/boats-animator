@@ -31,13 +31,13 @@
 
       // Insert the new frame into the reel
       frameReelRow.insertAdjacentHTML("beforeend", `<td><div class="frame-reel-preview">
-    <div class="frame-reel-no" id="no-${id}" title="Frame ${id}">${id}</div>
+    <div class="frame-reel-no" title="Frame ${id}">${id}</div>
     <div class="frame-reel-img" id="img-${id}" title="Frame ${id}">
     </div></div></td>`);
       this.totalFrames++;
 
-      // Update the last frame number above the live view button
-      liveViewFrameNo.innerText = this.totalFrames + 1;
+      // Update frame numbers
+      this._updateFrameNos();
 
       // Hide no frames message
       this._showNoFramesMessage(false);
@@ -70,11 +70,8 @@
         body.setAttribute("data-has-frames", "false");
       }
 
-      // Update the last frame number above the live view button
-      liveViewFrameNo.innerText = this.totalFrames + 1;
-
-      // todo When delete frame at any position is implemented,
-      // update frame numbers displayed in the reel
+      // Update frame numbers
+      this._updateFrameNos();
     }
 
     /**
@@ -151,6 +148,23 @@
     _scrollToLiveView() {
       // Scroll the frame reel to the end
       frameReelArea.scrollLeft = frameReelArea.scrollWidth;
+    }
+
+    /**
+     * Updates all of the frame numbers.
+     */
+    _updateFrameNos() {
+      // Get all of the frame reel items
+      let frameReelItems = document.querySelectorAll(`#reel-captured-imgs .frame-reel-preview`);
+      frameReelItems.forEach(function(item, index) {
+        item.children[0].setAttribute("title", `Frame ${index + 1}`);
+        item.children[0].innerText = index + 1;
+        item.children[1].id = `img-${index + 1}`;
+        item.children[1].setAttribute("title", `Frame ${index + 1}`);
+      });
+
+      // Update the last frame number above the live view button
+      liveViewFrameNo.innerText = this.totalFrames + 1;
     }
   }
 

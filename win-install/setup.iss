@@ -1,8 +1,8 @@
 #define MyAppName "Boats Animator"
-#define MyAppVersion "0.9.0"
+#define MyAppVersion "0.9.2"
 #define MyAppPublisher "Charlie Lee"
 #define MyAppURL "https://github.com/charlielee/boats-animator"
-#define MyAppExeName "BoatsAnimator.exe"
+#define MyAppExeName "boats-animator.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -15,8 +15,8 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 LicenseFile=LICENSE.rtf
-OutputDir=..\bin\Boats-Animator
-OutputBaseFilename=Boats-Animator-{#MyAppVersion}-Setup
+OutputDir=..\build
+OutputBaseFilename=boats-animator-{#MyAppVersion}-setup
 Compression=lzma2/ultra
 SolidCompression=yes
 LZMAUseSeparateProcess=yes
@@ -40,7 +40,7 @@ BeveledLabel={#MyAppName} {#MyAppVersion}
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\bin\Boats-Animator\Boats-Animator-{#MyAppVersion}-win-ia32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\build\boats-animator\win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
