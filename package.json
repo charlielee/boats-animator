@@ -10,14 +10,6 @@
     "java": false,
     "plugin": false
   },
-  "nwjsBuilder": {
-    "productName": "Boats Animator",
-    "productVersion": "0.9.2",
-    "copyright": "© 2019 Charlie Lee",
-    "companyName": "Boats Animator Developers",
-    "fileVersion": "0.9.2.0",
-    "originalFilename": " "
-  },
   "window": {
     "fullscreen": false,
     "resizable": true,
