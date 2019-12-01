@@ -120,28 +120,32 @@
         return;
       }
 
-      let outputDir = this.saveDirectory.saveDirLocation;
+      return new Promise((resolve, reject) => {
+        let outputDir = this.saveDirectory.saveDirLocation;
 
-      let promisesList = [];
-
-      for (let i = 0; i < self.getTotalFrames(); i++) {
-        // The new fileName
-        let frameNumber = (i+1).toString();
-        let zeros = "0000";
-        let paddedFrameNumber = `${zeros.substring(0, zeros.length - frameNumber.length)}${frameNumber}`;
-        let newFilePath = `${outputDir}/frame_${paddedFrameNumber}.png`;
-
-        promisesList.push(File.renamePromise(self.exportedFramesPaths[i], newFilePath));
-      }
-
-      // Rename all of the files
-      Promise.all(promisesList).then(() => {
-        // Reset last export frame id
-        self.exportFrameId = self.getTotalFrames();
-        Notification.success("Confirm take successfully completed");
-      }).catch((err) => {
-        console.error(err);
-        Notification.error("Error renaming file with confirm take");
+        let promisesList = [];
+  
+        for (let i = 0; i < self.getTotalFrames(); i++) {
+          // The new fileName
+          let frameNumber = (i+1).toString();
+          let zeros = "0000";
+          let paddedFrameNumber = `${zeros.substring(0, zeros.length - frameNumber.length)}${frameNumber}`;
+          let newFilePath = `${outputDir}/frame_${paddedFrameNumber}.png`;
+  
+          promisesList.push(File.renamePromise(self.exportedFramesPaths[i], newFilePath));
+        }
+  
+        // Rename all of the files
+        Promise.all(promisesList).then(() => {
+          // Reset last export frame id
+          self.exportFrameId = self.getTotalFrames();
+          Notification.success("Confirm take successfully completed");
+          resolve();
+        }).catch((err) => {
+          console.error(err);
+          Notification.error("Error renaming file with confirm take");
+          reject(err);
+        });
       });
     }
 

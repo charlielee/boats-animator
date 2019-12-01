@@ -123,9 +123,12 @@
         let frameRate = global.projectInst.frameRate.frameRateValue;
         let preset = presetValue;
 
-        // Render the video if "export video selected";
+        // Confirm the take and render the video if "export video" selected
         if (response) {
-          ExportVideo.render(exportPath, frameLocation, frameRate, preset);
+          global.projectInst.currentTake.confirmTake()
+          .then(() => {
+            ExportVideo.render(exportPath, frameLocation, frameRate, preset);
+          })
         }
       });
     }
@@ -142,35 +145,28 @@
       // Use the current platform's ffmpeg path
       ffmpeg.setFfmpegPath(ffmpegPath);
 
+      let framePath = path.join(frameDirectory, "frame_%04d.png");
+      // FFmpeg absolute inputs MUST be forward slashes
+      framePath = framePath.replace(/\\/g, "/");
+      console.log("framePath", framePath);
+
       // The ffmpeg arguments
       let args = [
         `-framerate ${frameRate}`,
         `-start_number ${startFrame}`,
-        // `-i ${path.join(frameDirectory, "frame_\%04d.png")}`,
-      ];
-
-      // Add the frames
-      global.projectInst.currentTake.exportedFramesPaths.forEach(function(framePath) {
-        // FFmpeg absolute inputs MUST be forward slashes
-        framePath = framePath.replace(/\\/g, "/");
-        console.log(framePath);
-        args.push(`-i '${framePath}'`);
-      });
-
-      // Add the remaining arguments
-      args.push(
+        `-i ${framePath}`,
         `-tune animation`,
         `-c:v libx264`,
         `-preset ${preset}`,
         `-crf 0`,
         `-vf format=yuv420p`
+      ];
         // todo might need to manually specify that the input files are of png format
-      );
 
       // Start rendering
       let command = ffmpeg()
-        // .addInput(path.join(frameDirectory, "frame_%04d.png"))
         .format("mp4") // bug fix: https://github.com/fluent-ffmpeg/node-fluent-ffmpeg/issues/802#issuecomment-366469595
+        // .addInput(framePath)
         .outputOptions(args)
         .on('start', function(cmd) {
           // Display loading window on start
