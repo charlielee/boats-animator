@@ -127,10 +127,58 @@
         if (response) {
           global.projectInst.currentTake.confirmTake()
           .then(() => {
-            ExportVideo.render(exportPath, frameLocation, frameRate, preset);
+            ExportVideo.render2(exportPath, frameLocation, frameRate, preset);
+            // ExportVideo.render(exportPath, frameLocation, frameRate, preset);
           })
         }
       });
+    }
+
+    /**
+     * Renders a video from the frames in the selected frame location.
+     * @param {String} exportPath The path to export video to.
+     * @param {String} frameDirectory The location of the frames to render.
+     * @param {Number} frameRate The frame rate to use in the export.
+     * @param {String} preset The rendering preset to use (default: medium).
+     * @param {Number} startFrameNo The frame to begin rendering from (default: 0 - ie the start).
+     */
+    static render2(exportPath, frameDirectory, frameRate, preset = "medium", startFrameNo = 0) {
+      let endFrameNo = global.projectInst.currentTake.getTotalFrames();
+      let framePath = path.join(frameDirectory, "frame_%04d.png");
+
+      // TODO should the default startFrameNo be 0 or 1?
+      // TODO implement ability for user to enter custom ffmpeg arguments
+
+      // The ffmpeg arguments to use
+      let args = [
+        `-framerate`, frameRate,
+        `-start_number`, startFrameNo,
+        `-frames:v`, endFrameNo,
+        `-i`, framePath,
+        `-c:v`, `libx264`,
+        `-preset`, preset,
+        `-crf`, `0`,
+        `-vf`, `format=yuv420p`,
+        exportPath
+      ];
+
+      // Spawn an ffmpeg child process
+      const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+      const spawn = require('child_process').spawn;
+      const ffmpeg = spawn(ffmpegPath, args);
+
+      // Show the status of the process in the modal
+      ffmpeg.stdout.on('data', function(e) {
+        console.log("stdoutdata", e.toString());
+      });
+      ffmpeg.stderr.on('data', function(e) {
+        console.log("stderrdata", e.toString());
+      });
+
+      // Stop loader at this point
+      ffmpeg.on('exit', function(e) {
+        console.log("exit", e);
+      }); 
     }
 
     /**
