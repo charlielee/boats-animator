@@ -151,21 +151,24 @@
 
       // The ffmpeg arguments to use
       let args = [
-        `-framerate`, frameRate,
-        `-start_number`, startFrameNo,
-        `-frames:v`, endFrameNo,
-        `-i`, framePath,
-        `-c:v`, `libx264`,
-        `-preset`, preset,
-        `-crf`, `0`,
-        `-vf`, `format=yuv420p`,
-        exportPath
+        "-y", // Overwrite output file if it already exists
+        "-framerate", frameRate,
+        "-start_number", startFrameNo,
+        "-i", framePath,
+        "-frames:v", endFrameNo,
+        "-c:v", "libx264",
+        "-preset", preset,
+        "-crf", "0",
+        "-vf", "format=yuv420p",
+        exportPath,
+        "-hide_banner", // Hide ffmpeg library info from output
       ];
 
       // Spawn an ffmpeg child process
       const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
       const spawn = require('child_process').spawn;
       const ffmpeg = spawn(ffmpegPath, args);
+      Loader.show("Rendering video");
 
       // Show the status of the process in the modal
       ffmpeg.stdout.on('data', function(e) {
@@ -177,6 +180,7 @@
 
       // Stop loader at this point
       ffmpeg.on('exit', function(e) {
+        Loader.hide();
         console.log("exit", e);
       }); 
     }
