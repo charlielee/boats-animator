@@ -127,10 +127,8 @@
   
         for (let i = 0; i < self.getTotalFrames(); i++) {
           // The new fileName
-          let frameNumber = (i+1).toString();
-          let zeros = "0000";
-          let paddedFrameNumber = `${zeros.substring(0, zeros.length - frameNumber.length)}${frameNumber}`;
-          let newFilePath = `${outputDir}/frame_${paddedFrameNumber}.png`;
+          let fileName = `frame_${Take.getPaddedFrameNumber(i+1)}`;
+          let newFilePath = `${outputDir}/${fileName}.png`;
   
           promisesList.push(File.renamePromise(self.exportedFramesPaths[i], newFilePath));
         }
@@ -187,20 +185,8 @@
       // 1K+ frames have been captured
       if (id >= 1000) {
         fileName = `frame_${id}`;
-      }
-
-      // 100 frames have been captured
-      else if (id >= 100) {
-        fileName = `frame_0${id}`;
-      }
-
-      // 10 frames have been captured
-      else if (id >= 10) {
-        fileName = `frame_00${id}`;
-
-        // Less then 10 frames have been captured
       } else {
-        fileName = `frame_000${id}`;
+        fileName = `frame_${Take.getPaddedFrameNumber(id)}`
       }
 
       // Make the output directory if it does not exist
@@ -237,6 +223,15 @@
         // Clear the onion skin window
         this.onionSkin.clear();
       }
+    }
+
+    /**
+     * Converts a frame number into the padded zero format used in file names.
+     * @param {Integer} frameNumber 
+     */
+    static getPaddedFrameNumber(frameNumber) {
+      let zeros = "0000";
+      return `${zeros.substring(0, zeros.length - frameNumber.toString().length)}${frameNumber}`;
     }
   }
 
