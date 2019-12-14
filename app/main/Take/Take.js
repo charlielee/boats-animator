@@ -126,11 +126,14 @@
         let promisesList = [];
   
         for (let i = 0; i < self.getTotalFrames(); i++) {
-          // The new fileName
-          let fileName = `frame_${Take.getPaddedFrameNumber(i+1)}`;
-          let newFilePath = `${outputDir}/${fileName}.png`;
-  
-          promisesList.push(File.renamePromise(self.exportedFramesPaths[i], newFilePath));
+          let oldFilePath = self.exportedFramesPaths[i];
+
+          let newFileName = `frame_${Take.getPaddedFrameNumber(i+1)}`;
+          let newFilePath = `${outputDir}/${newFileName}.png`;
+
+          // Rename the file to the updated name
+          self.exportedFramesPaths[i] = newFilePath;
+          promisesList.push(File.renamePromise(oldFilePath, newFilePath));
         }
   
         // Rename all of the files
