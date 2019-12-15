@@ -112,7 +112,7 @@
     /**
      * "Confirms" a take by renaming each captured frame to be sequential.
      */
-    confirmTake() {
+    confirmTake(notify = true) {
       let self = this;
 
       // Return if no captured frames
@@ -140,11 +140,15 @@
         Promise.all(promisesList).then(() => {
           // Reset last export frame id
           self.exportFrameId = self.getTotalFrames();
-          Notification.success("Confirm take successfully completed");
+          if (notify) {
+            Notification.success("Confirm take successfully completed");
+          }
           resolve();
         }).catch((err) => {
           console.error(err);
-          Notification.error("Error renaming file with confirm take");
+          if (notify) {
+            Notification.error("Error renaming file with confirm take");
+          }
           reject(err);
         });
       });

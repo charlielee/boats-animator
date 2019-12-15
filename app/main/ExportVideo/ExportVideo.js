@@ -125,7 +125,8 @@
 
         // Confirm the take and render the video if "export video" selected
         if (response) {
-          global.projectInst.currentTake.confirmTake()
+          Loader.show("Confirming take");
+          global.projectInst.currentTake.confirmTake(false)
           .then(() => {
             ExportVideo.render2(exportPath, frameLocation, frameRate, preset);
             // ExportVideo.render(exportPath, frameLocation, frameRate, preset);
