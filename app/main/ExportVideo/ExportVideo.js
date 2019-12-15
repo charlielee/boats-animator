@@ -161,6 +161,7 @@
         "-preset", preset,
         "-crf", "0",
         "-vf", "format=yuv420p",
+        "-loglevel", "error",
         exportPath,
         "-hide_banner", // Hide ffmpeg library info from output
       ];
@@ -180,9 +181,33 @@
       });
 
       // Stop loader at this point
-      ffmpeg.on('exit', function(e) {
+      ffmpeg.on('exit', function(code) {
         Loader.hide();
-        console.log("exit", e);
+
+        // Display success/error dialog
+        if (code === 0) {
+          ConfirmDialog.confirmSet({
+            title: "Success",
+            text: `Video was successfully exported to ${exportPath}`,
+            icon: "success",
+            buttons: {
+              cancel: false,
+              confirm: true,
+            },
+          });
+        } else {
+          ConfirmDialog.confirmSet({
+            title: "Error",
+            text: `An error occurred trying to export the current project to video. Please try again later.
+            \n Exit code ${code}.
+            `,
+            icon: "error",
+            buttons: {
+              cancel: false,
+              confirm: true,
+            },
+          });
+        }
       }); 
     }
 
