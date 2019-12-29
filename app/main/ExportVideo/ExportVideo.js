@@ -161,7 +161,7 @@
         "-preset", preset,
         "-crf", "0",
         "-vf", "format=yuv420p",
-        "-loglevel", "error",
+        "-loglevel", "error", // See https://stackoverflow.com/questions/35169650/
         exportPath,
         "-hide_banner", // Hide ffmpeg library info from output
       ];
@@ -178,6 +178,7 @@
       });
       ffmpeg.stderr.on('data', function(e) {
         console.log("stderrdata", e.toString());
+        // todo show progress better. maybe length of output file?
       });
 
       // Stop loader at this point
@@ -189,6 +190,7 @@
           ConfirmDialog.confirmSet({
             title: "Success",
             text: `Video was successfully exported to ${exportPath}`,
+            content: "", // todo show view button to open the file
             icon: "success",
             buttons: {
               cancel: false,

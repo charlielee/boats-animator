@@ -207,3 +207,6 @@ footer li:not(.no-pipe)::after {
 
 /* Fix blue outline around SweetAlert modals */
 .swal-overlay { outline: none; }
+
+/* Make custom swal content the same colour as default content */
+.swal-content { color: rgba(0,0,0,.64); }
