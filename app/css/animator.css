@@ -82,6 +82,15 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
   text-decoration: none;
 }
 
+#exportStatusDialog {
+  width: 100%;
+  overflow-y: scroll;
+  font-family: monospace;
+  word-break: break-word;
+  height: 200px;
+  text-align: left;
+}
+
 /* ========== VIDEO PREVIEW ============== */
 
 #preview-area {

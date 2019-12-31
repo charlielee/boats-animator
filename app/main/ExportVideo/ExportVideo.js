@@ -1,7 +1,5 @@
 (function() {
   "use strict";
-  const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-  const ffmpeg = require('fluent-ffmpeg');
   const path = require("path");
 
   const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
@@ -128,9 +126,9 @@
           Loader.show("Confirming take");
           global.projectInst.currentTake.confirmTake(false)
           .then(() => {
-            ExportVideo.render2(exportPath, frameLocation, frameRate, preset);
-            // ExportVideo.render(exportPath, frameLocation, frameRate, preset);
-          })
+            Loader.hide();
+            ExportVideo.render(exportPath, frameLocation, frameRate, preset);
+          });
         }
       });
     }
@@ -143,7 +141,7 @@
      * @param {String} preset The rendering preset to use (default: medium).
      * @param {Number} startFrameNo The frame to begin rendering from (default: 0 - ie the start).
      */
-    static render2(exportPath, frameDirectory, frameRate, preset = "medium", startFrameNo = 0) {
+    static render(exportPath, frameDirectory, frameRate, preset = "medium", startFrameNo = 0) {
       let endFrameNo = global.projectInst.currentTake.getTotalFrames();
       let framePath = path.join(frameDirectory, "frame_%04d.png");
 
@@ -161,7 +159,6 @@
         "-preset", preset,
         "-crf", "0",
         "-vf", "format=yuv420p",
-        "-loglevel", "error", // See https://stackoverflow.com/questions/35169650/
         exportPath,
         "-hide_banner", // Hide ffmpeg library info from output
       ];
@@ -170,21 +167,29 @@
       const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
       const spawn = require('child_process').spawn;
       const ffmpeg = spawn(ffmpegPath, args);
-      Loader.show("Rendering video");
+      // Loader.show("Rendering video");
 
-      // Show the status of the process in the modal
-      ffmpeg.stdout.on('data', function(e) {
-        console.log("stdoutdata", e.toString());
+      // Build a modal
+      let exportStatusDialog = document.createElement("div");
+      exportStatusDialog.setAttribute("id", "exportStatusDialog");
+      ConfirmDialog.confirmSet({
+        title: "Exporting video...",
+        text: " ",
+        content: exportStatusDialog,
+        icon: " ",
+        buttons: false,
       });
+
+      // Show the status of the export in the modal
+      // All ffmpeg output goes to stderrdata (see https://stackoverflow.com/questions/35169650/)
       ffmpeg.stderr.on('data', function(e) {
         console.log("stderrdata", e.toString());
-        // todo show progress better. maybe length of output file?
+        exportStatusDialog.innerHTML = `${e.toString()}<hr>${exportStatusDialog.innerHTML}`;
+        exportStatusDialog.scrollTo({ top: 0, behavior: 'smooth' });
       });
 
       // Stop loader at this point
       ffmpeg.on('exit', function(code) {
-        Loader.hide();
-
         // Display success/error dialog
         if (code === 0) {
           let dialogContent = document.createElement("p");
@@ -197,6 +202,7 @@
             nw.Shell.showItemInFolder(exportPath);
           });
           dialogContent.appendChild(videoExportPathLink);
+          dialogContent.appendChild(exportStatusDialog);
 
           ConfirmDialog.confirmSet({
             title: "Success",
