@@ -52,11 +52,11 @@
   "devDependencies": {
     "fs-extra": "^8.1.0",
     "nw-dev": "^3.0.1",
-    "nwjs-packager": "^0.2.3"
+    "nwjs-packager": "^0.3.3"
   },
   "scripts": {
     "postinstall": "node install",
-    "start": "nwp -v 0.35.4-sdk -r .",
+    "start": "nwp -v 0.35.4-sdk -r --files app/**,icons/**,package.json",
     "build": "node build"
   }
 }
