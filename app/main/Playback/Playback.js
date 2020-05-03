@@ -92,17 +92,29 @@
 
     /**
      * Preview the captured frames.
+     * 
+     * param: number - the number to start the playback
      */
-    previewCapturedFrames() {
+    previewCapturedFrames(number) {
+      let startFrame; 
+
+      if (number === 0) {
+        console.log("from beginning");
+        startFrame = 0;
+      } else {
+        console.log("play from number..." + number);
+        startFrame = number; 
+      }
+
       // Display playback window
       if (global.projectInst.getCurrentMode() === "capture") {
         global.projectInst.setCurrentMode("playback");
-        this.curPlayFrame = 0;
+        this.curPlayFrame = startFrame;
       }
 
       // Reset canvas to first frame if playing from start
       if (this.curPlayFrame === 0) {
-        PlaybackCanvas.drawImage(global.projectInst.currentTake.capturedFrames[0]);
+        PlaybackCanvas.drawImage(global.projectInst.currentTake.capturedFrames[startFrame]);
       }
 
       // Update the play/pause button

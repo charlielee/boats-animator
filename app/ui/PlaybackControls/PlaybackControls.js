@@ -7,6 +7,7 @@
   const btnFramePrevious = document.querySelector("#btn-frame-previous");
   const btnFrameFirst = document.querySelector("#btn-frame-first");
   const btnFrameLast = document.querySelector("#btn-frame-last");
+  const btnShortPlay = document.querySelector("#btn-short-play");
 
   class PlaybackControls {
     static setListeners() {
@@ -18,13 +19,25 @@
         global.projectInst.playback.toggleVideoLoop();
       });
 
+      // Short Play Last 5 Frames
+      btnShortPlay.addEventListener("click", function() {
+        let totalFrames = takeInst.getTotalFrames(); 
+        if (takeInst.getTotalFrames() > 0) {
+          if (global.projectInst.playback.isPlaying) {
+            global.projectInst.playback.videoPause();
+          } else {
+            global.projectInst.playback.previewCapturedFrames(totalFrames - 5);
+          }
+        }
+      })
+
       // Play/pause the preview
       btnPlayPause.addEventListener("click", function() {
         if (takeInst.getTotalFrames() > 0) {
           if (global.projectInst.playback.isPlaying) {
             global.projectInst.playback.videoPause();
           } else {
-            global.projectInst.playback.previewCapturedFrames();
+            global.projectInst.playback.previewCapturedFrames(0);
           }
           // (global.projectInst.playback.isPlaying ? global.projectInst.playback.videoPause : global.projectInst.playback.previewCapturedFrames)();
         }
