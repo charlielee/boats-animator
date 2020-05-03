@@ -1,11 +1,8 @@
 (function() {
   "use strict";
-  // Main imports
-  // const shortcuts = require("../../main/Shortcuts/Shortcuts");
-  // const menubar = require("../../ui/MenuBar/MenuBar");
 
   // Library imports
-  var swal = require("../../lib/sweetalert");
+  var swal = require("sweetalert");
 
   class ConfirmDialog {
     /**

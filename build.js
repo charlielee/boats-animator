@@ -9,7 +9,7 @@
     "files": [
       "app/**",
       "icons/**",
-      "package.json"
+      "./package.json"
     ],
     "version": "0.35.4",
     "winIco": "icons/icon.ico",
