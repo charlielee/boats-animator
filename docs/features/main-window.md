@@ -121,6 +121,9 @@ This previews one frame to the right in the [frame reel](#frame-reel) of the cur
 ### Last frame
 This previews the last frame captured.
 
+### Short Play 
+This previews the last 5 frames captured. 
+
 ### Loop playback
 Select this to toggle if playback should continue from the first frame captured when the last frame captured is reached.
 
