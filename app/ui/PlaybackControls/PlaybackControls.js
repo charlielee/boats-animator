@@ -6,6 +6,7 @@
   const btnFrameNext = document.querySelector("#btn-frame-next");
   const btnFramePrevious = document.querySelector("#btn-frame-previous");
   const btnFrameFirst = document.querySelector("#btn-frame-first");
+  const btnShortPlay = document.querySelector("#btn-short-play"); 
   const btnFrameLast = document.querySelector("#btn-frame-last");
 
   class PlaybackControls {
@@ -18,13 +19,22 @@
         global.projectInst.playback.toggleVideoLoop();
       });
 
+      // Short Play 
+      // Currently set to preview last 5 frames of the animation
+      btnShortPlay.addEventListener("click", function() {
+        if (takeInst.getTotalFrames() > 0) {
+          const number = takeInst.getTotalFrames() - 5; 
+          global.projectInst.playback.previewCapturedFrames(number); 
+        }
+      })
+
       // Play/pause the preview
       btnPlayPause.addEventListener("click", function() {
         if (takeInst.getTotalFrames() > 0) {
           if (global.projectInst.playback.isPlaying) {
             global.projectInst.playback.videoPause();
           } else {
-            global.projectInst.playback.previewCapturedFrames();
+            global.projectInst.playback.previewCapturedFrames(0);
           }
           // (global.projectInst.playback.isPlaying ? global.projectInst.playback.videoPause : global.projectInst.playback.previewCapturedFrames)();
         }

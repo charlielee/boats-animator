@@ -92,12 +92,15 @@
 
     /**
      * Preview the captured frames.
+     * 
+     * @param {Integer} number - Frame number that previewing begins
      */
-    previewCapturedFrames() {
+    previewCapturedFrames(number) {
+      console.log("Previewing from frame " + number);  
       // Display playback window
       if (global.projectInst.getCurrentMode() === "capture") {
         global.projectInst.setCurrentMode("playback");
-        this.curPlayFrame = 0;
+        this.curPlayFrame = number;
       }
 
       // Reset canvas to first frame if playing from start
