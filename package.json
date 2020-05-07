@@ -1,6 +1,5 @@
 {
   "name": "boats-animator",
-  "project_string": "nwjs",
   "description": "A free, open-source stop motion animation program.",
   "author": "Charlie Lee",
   "license": "GPL-3.0",
@@ -14,11 +13,11 @@
   "window": {
     "title": "Boats Animator",
     "width": 730,
-    "height": 450,
+    "height": 480,
     "icon": "icons/icon.png",
     "position": "center",
     "min_width": 730,
-    "min_height": 450,
+    "min_height": 480,
     "resizable": true,
     "always_on_top": false,
     "fullscreen": false,
@@ -39,25 +38,24 @@
   },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.18",
-    "fluent-ffmpeg": "^2.1.2",
     "mkdirp": "^0.5.1",
     "mousetrap": "^1.6.2",
     "sweetalert": "^2.1.2"
   },
   "devDependencies": {
     "nw-dev": "^3.0.1",
-    "nwjs-packager": "^1.1.1"
+    "nwjs-packager": "^1.4.4"
   },
   "scripts": {
     "start": "nwp -r",
     "build": "nwp"
   },
   "nwjs-packager": {
-    "nwVersion": "0.45.4",
-    "nwFlavor": "sdk",
+    "nwVersion": "0.35.4",
+    "nwFlavor": "normal",
     "appFriendlyName": "Boats Animator",
-    "appMacIcon": "icons/icon.ico",
-    "appWinIcon": "icons/icon.icns",
+    "appMacIcon": "icons/icon.icns",
+    "appWinIcon": "icons/icon.ico",
     "files": [
       "app/**",
       "icons/**"
@@ -73,6 +71,9 @@
         "zip": true,
         "innoSetup": "win-install/setup.iss"
       }
+    },
+    "infoPlistStrings": {
+      "default": "InfoPlist.strings"
     }
   }
 }

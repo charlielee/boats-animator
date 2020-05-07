@@ -11,15 +11,6 @@
 
 
   var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
-  // Create top menu and sub-menus
-  var menuBar = new nw.Menu({ type: "menubar" });
-  var subMenus = {
-    file: new nw.Menu(),
-    edit: new nw.Menu(),
-    capture: new nw.Menu(),
-    playback: new nw.Menu(),
-    help: new nw.Menu(),
-  };
 
   /**
    * Displays the top menu
@@ -27,7 +18,7 @@
   function loadMenu() {
     // Menu items to add
     var menuItems = {
-      file: [
+      "File": [
         {
           label: "New project...",
           click: function() {
@@ -62,7 +53,7 @@
           modifiers: controlKey,
         }
       ],
-      edit: [
+      "Edit": [
         {
           label: "Delete last frame",
           click: function() {
@@ -72,7 +63,7 @@
           modifiers: Shortcuts.getPrimaryModifiers("undoFrame"),
         }
       ],
-      capture: [
+      "Capture": [
         {
           label: "Capture frame",
           click: function() {
@@ -105,7 +96,7 @@
           }
         }
       ],
-      playback: [
+      "Playback": [
         {
           label: "Loop playback",
           click: function() {
@@ -134,7 +125,7 @@
           modifiers: Shortcuts.getPrimaryModifiers("lastFrame"),
         }
       ],
-      help: [
+      "Help": [
         {
           label: "Documentation",
           click: function() {
@@ -159,45 +150,54 @@
       ]
     };
 
-    Object.keys(subMenus).forEach(function(curSubMenuName) {
-      // Append items to submenu
-      menuItems[curSubMenuName].forEach(function(menuItem) {
-        subMenus[curSubMenuName].append(new nw.MenuItem(menuItem));
+    // Create top menu and sub-menus
+    let menuBar = new nw.Menu({ type: "menubar" });
+
+    // Create Mac menu
+    if (process.platform === "darwin") {
+      menuBar.createMacBuiltin("Boats Animator", {
+        hideEdit: true,
+        hideWindow: true
       });
-      var subMenuName = curSubMenuName.charAt(0).toUpperCase() + curSubMenuName.slice(1);
-      // Append submenu to main menu
+    }
+
+    // Add each sub menu
+    Object.keys(menuItems).forEach(function(subMenuName) {
+      let subMenu = new nw.Menu();
+
+      // Append items to submenu
+      menuItems[subMenuName].map(
+        item => subMenu.append(new nw.MenuItem(item))
+      );
+
+      // Append submenu to top menu
       menuBar.append(new nw.MenuItem({
         label: subMenuName,
-        submenu: subMenus[curSubMenuName]
+        submenu: subMenu
       }));
     });
 
     // Append main menu to Window
     nw.Window.get().menu = menuBar;
-
-    // Create Mac menu
-    if (process.platform === "darwin") {
-      menuBar.createMacBuiltin("Boats Animator", {
-        hideEdit: true
-      });
-    }
   }
 
   /**
    * Toggles whether the menu items are disabled or not (excluding the file menu).
    */
   function toggleItems() {
-    Object.keys(subMenus).forEach(function(subMenuName) {
-      if (subMenuName !== "file") {
-        subMenus[subMenuName].items.forEach(function(menuItem) {
-          menuItem.enabled = !menuItem.enabled;
+    const menu = nw.Window.get().menu;
+    const toggleableMenus = ["Edit", "Capture", "Playback"];
+
+    menu.items.forEach(function(menuItem) {
+      if (toggleableMenus.includes(menuItem.label)) {
+        menuItem.submenu.items.forEach(function(subMenuItem) {
+          subMenuItem.enabled = !subMenuItem.enabled;
         });
       }
     });
   }
 
   module.exports = {};
-  module.exports.subMenus = subMenus;
   module.exports.load = loadMenu;
   module.exports.toggleItems = toggleItems;
 }());
