@@ -69,6 +69,22 @@
       }
       console.info("Playback stopped");
     }
+    
+    /**
+     * Previews the last 5 captured frames. 
+     */
+    shortPlay() {
+      if (global.projectInst.currentTake.getTotalFrames() > 0) {
+        if (!this.isPlaying) {
+          const totalFrames = global.projectInst.currentTake.getTotalFrames()
+          const number = totalFrames - 5; 
+          this.previewCapturedFrames(number);
+        } else {
+          console.log("already playing...");
+        }
+      }
+    }
+
 
     /**
      * Pause playback and view a specific frame in the preview area.

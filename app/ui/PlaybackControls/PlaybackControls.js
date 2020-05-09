@@ -20,16 +20,8 @@
       });
 
       // Short Play 
-      // Currently set to preview last 5 frames of the animation
       btnShortPlay.addEventListener("click", function() {
-        if (takeInst.getTotalFrames() > 0) {
-          if (!global.projectInst.playback.isPlaying) {
-            const number = takeInst.getTotalFrames() - 5; 
-            global.projectInst.playback.previewCapturedFrames(number);
-          } else {
-            console.log("already playing...");
-          }
-        }
+        global.projectInst.playback.shortPlay();
       })
 
       // Play/pause the preview
