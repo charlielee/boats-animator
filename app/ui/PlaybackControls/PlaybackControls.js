@@ -6,6 +6,7 @@
   const btnFrameNext = document.querySelector("#btn-frame-next");
   const btnFramePrevious = document.querySelector("#btn-frame-previous");
   const btnFrameFirst = document.querySelector("#btn-frame-first");
+  const btnShortPlay = document.querySelector("#btn-short-play"); 
   const btnFrameLast = document.querySelector("#btn-frame-last");
 
   class PlaybackControls {
@@ -17,6 +18,11 @@
       btnLoop.addEventListener("click", function() {
         global.projectInst.playback.toggleVideoLoop();
       });
+
+      // Short Play 
+      btnShortPlay.addEventListener("click", function() {
+        global.projectInst.playback.shortPlay();
+      })
 
       // Play/pause the preview
       btnPlayPause.addEventListener("click", function() {

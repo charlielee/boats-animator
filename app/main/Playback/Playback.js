@@ -69,6 +69,22 @@
       }
       console.info("Playback stopped");
     }
+    
+    /**
+     * Previews the last 5 captured frames. 
+     */
+    shortPlay() {
+      if (global.projectInst.currentTake.getTotalFrames() > 0) {
+        if (!this.isPlaying) {
+          const totalFrames = global.projectInst.currentTake.getTotalFrames()
+          const number = totalFrames - 5; 
+          this.previewCapturedFrames(number);
+        } else {
+          console.log("already playing...");
+        }
+      }
+    }
+
 
     /**
      * Pause playback and view a specific frame in the preview area.
@@ -92,12 +108,15 @@
 
     /**
      * Preview the captured frames.
+     * 
+     * @param {Integer} number - Frame number that previewing begins
      */
-    previewCapturedFrames() {
+    previewCapturedFrames(number = 0) {
+      console.log("Previewing from frame " + number);  
       // Display playback window
       if (global.projectInst.getCurrentMode() === "capture") {
         global.projectInst.setCurrentMode("playback");
-        this.curPlayFrame = 0;
+        this.curPlayFrame = number;
       }
 
       // Reset canvas to first frame if playing from start
