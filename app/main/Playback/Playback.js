@@ -103,6 +103,9 @@
         this.curPlayFrame = number;
       }
 
+      // global.projectInst.setCurrentMode("playback");
+      // this.curPlayFrame = number;
+
       // Reset canvas to first frame if playing from start
       if (this.curPlayFrame === 0) {
         PlaybackCanvas.drawImage(global.projectInst.currentTake.capturedFrames[0]);
