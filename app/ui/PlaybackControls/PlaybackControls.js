@@ -38,7 +38,7 @@
           if (global.projectInst.playback.isPlaying) {
             global.projectInst.playback.videoPause();
           } else {
-            global.projectInst.playback.previewCapturedFrames(0);
+            global.projectInst.playback.previewCapturedFrames();
           }
           // (global.projectInst.playback.isPlaying ? global.projectInst.playback.videoPause : global.projectInst.playback.previewCapturedFrames)();
         }
