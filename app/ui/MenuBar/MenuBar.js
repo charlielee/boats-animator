@@ -155,7 +155,6 @@
           label: "About Boats Animator",
           click: function() {
             AboutWindow.show();
-            // WindowManager.openAbout();
           }
         }
       ]
