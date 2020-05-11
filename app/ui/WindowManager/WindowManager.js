@@ -7,9 +7,7 @@
 
   class WindowManager {
     static setListeners() {
-      // Maximise window
-      win.maximize();
-
+      
       /**
        * Confirm prompt when animator is closed.
        */

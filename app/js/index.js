@@ -21,6 +21,7 @@
       height: 715,
       min_width: 590,
       min_height: 500,
+      id: "animatorWindow",
       icon: "icons/icon.png"
     }, function(newWin) {
       win.close();
