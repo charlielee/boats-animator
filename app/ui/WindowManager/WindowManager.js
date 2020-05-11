@@ -7,11 +7,7 @@
 
   class WindowManager {
     static setListeners() {
-      // Maximise window
-
-      // This call seems to bypass the id property in the window.open() options 
-      //win.maximize();
-
+      
       /**
        * Confirm prompt when animator is closed.
        */
