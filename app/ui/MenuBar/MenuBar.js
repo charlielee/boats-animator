@@ -6,6 +6,7 @@
   const Shortcuts = require("../../main/Shortcuts/Shortcuts");
 
   // UI imports
+  const AboutWindow = require("../../ui/AboutWindow/AboutWindow");
   const Notification = require("../../ui/Notification/Notification");
   const WindowManager = require("../../ui/WindowManager/WindowManager");
 
@@ -153,7 +154,7 @@
         {
           label: "About Boats Animator",
           click: function() {
-            WindowManager.openAbout();
+            AboutWindow.show();
           }
         }
       ]

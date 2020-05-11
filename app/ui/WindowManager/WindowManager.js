@@ -39,19 +39,6 @@
       });
     }
 
-    /**
-     * Occurs when "Main Menu" is pressed
-     */
-    static openAbout() {
-      nw.Window.open("app/about.html", {
-        position: "center",
-        width: 650,
-        height: 300,
-        icon: "icons/icon.png",
-        resizable: false,
-      });
-    }
-
     static closeAnimator() {
       win.close(true);
       nw.App.closeAllWindows();

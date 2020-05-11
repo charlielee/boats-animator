@@ -31,7 +31,7 @@ The menu bar contains an assortment of options both to do with the current proje
 ### Help menu
 * **Documentation:** select this to view Boats Animator's [documentation](http://boatsanimator.readthedocs.org/) (the website you are currently on!).
 * **Give feedback:** select this to load the [issues page](https://github.com/charlielee/boats-animator/issues) of Boats Animator's GitHub repository.
-* **About Boats Animator:** select this to load the [about window](about-window).
+* **About Boats Animator:** select this to display useful information about the application.
 
 ## Preview area
 ![Preview area](../img/preview-area.png)

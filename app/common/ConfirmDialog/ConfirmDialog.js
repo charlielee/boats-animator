@@ -30,6 +30,8 @@
         // Create a SweetAlert dialogue with the selected arguments
         swal(swalArgs)
           .then((response) => {
+            swal.stopLoading();
+
             // Resume main shortcuts and menubar items
             global.AppShortcuts.remove("confirm");
             global.AppShortcuts.add("main");
