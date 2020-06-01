@@ -177,7 +177,9 @@
         text: " ",
         content: exportStatusDialog,
         icon: " ",
-        buttons: false,
+        button: false,
+        closeOnClickOutside: false,
+        closeOnEsc: false
       });
 
       // Show the status of the export in the modal
