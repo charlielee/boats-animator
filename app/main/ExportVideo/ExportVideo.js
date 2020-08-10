@@ -30,77 +30,72 @@
       let saveLocation = global.projectInst.saveDirectory.saveDirLocation;
       let defaultExportPath = path.join(saveLocation, DEFAULT_FILE_NAME);
 
+      // Html for the export video dialog
       let dialogContents = document.createElement("div");
+      dialogContents.innerHTML = `
+        <input id="exportLocationInput" type="file" nwsaveas="${DEFAULT_FILE_NAME}" nwworkingdir="${saveLocation}" style="display: none;">
+        <label>Export location:</label>
+        <br>
+        <div id="currentVideoExportText">${defaultExportPath}</div>
+        <button id="exportLocationBtn">Browse</button>
 
-      // Export location file picker
-      let exportLocationInput = document.createElement("input");
-      dialogContents.appendChild(exportLocationInput);
-      exportLocationInput.id = "exportLocationInput";
-      exportLocationInput.setAttribute("type", "file");
-      exportLocationInput.setAttribute("nwsaveas", DEFAULT_FILE_NAME);
-      exportLocationInput.setAttribute("nwworkingdir", saveLocation);
-      exportLocationInput.style.display = "none";
-      // todo make sure output file is only of a video file type
+        <br>
+        <br>
 
-      // Listen for the choose save directory dialog being activated
-      exportLocationInput.addEventListener("change", function() {
-        if (this.value) {
-          exportText.innerText = this.value;
-        }
-      });
+        <label for="presetSelect">FFMPEG quality preset:</label>
+        <br>
+        <select id="presetSelect">
+          <option value="veryfast">Very fast</option>
+          <option value="medium">Medium</option>
+          <option value="veryslow">Very slow</option>
+        </select>
 
-      // Export location label
-      let exportLabel = document.createElement("label");
-      dialogContents.appendChild(exportLabel);
-      exportLabel.innerText = "Export location:";
+        <br>
+        <br>
 
-      // Line break
-      dialogContents.appendChild(document.createElement("br"));
+        <label for="customArgumentsInput">FFMPeg arguments:</label>
+        <br>
+        <textarea id="customArgumentsInput" rows="5" style="width: 100%;"></textarea>
+      `;
 
-      // Export location text
-      let exportText = document.createElement("div");
-      dialogContents.appendChild(exportText);
-      exportText.id = "currentVideoExportText";
-      exportText.innerText = defaultExportPath;
+      // Elements
+      const currentVideoExportText = dialogContents.querySelector("#currentVideoExportText")
+      const exportLocationInput = dialogContents.querySelector("#exportLocationInput");
+      const exportLocationBtn = dialogContents.querySelector("#exportLocationBtn");
+      const presetSelect = dialogContents.querySelector("#presetSelect");
+      const customArgumentsInput = dialogContents.querySelector("#customArgumentsInput");
 
-      // Button
-      let exportButton = document.createElement("button");
-      exportButton.innerText = "Browse";
-      dialogContents.appendChild(exportButton);
-      exportButton.addEventListener("click", function() {
+      // Dialog values
+      let outputPath = exportLocationInput.value ? exportLocationInput.value : defaultExportPath;
+      let presetValue = presetSelect.value;
+
+      // Export video parameters
+      let frameLocation = saveLocation;
+      let frameRate = global.projectInst.frameRate.frameRateValue;
+
+      // Load in default FFMpeg arguments
+      customArgumentsInput.value = ExportVideo.generateFFMpegArguments(outputPath, frameLocation, frameRate, presetValue);
+
+      // Event listeners
+
+      // Activate hidden input field on button click
+      exportLocationBtn.addEventListener("click", function() {
         exportLocationInput.click();
       });
 
-      // Line breaks
-      dialogContents.appendChild(document.createElement("br"));
-      dialogContents.appendChild(document.createElement("br"));
-
-      // FFMpeg preset label
-      let presetLabel = document.createElement("label");
-      dialogContents.appendChild(presetLabel);
-      presetLabel.setAttribute("for", "presetSelect");
-      presetLabel.innerText = "FFMPEG quality preset:";
-
-      // Line break
-      dialogContents.appendChild(document.createElement("br"));
-
-      // FFMpeg preset picker
-      let presetSelect = document.createElement("select");
-      dialogContents.appendChild(presetSelect);
-      presetSelect.id = "presetSelect";
-      let presets = ["ultrafast","superfast","veryfast","faster","fast","medium","slow","slower","veryslow"];
-
-      // Create an "option" element for each preset
-      presets.forEach(function(presetValue) {
-        let presetOption = document.createElement("option");
-        presetOption.innerText = presetValue;
-        presetOption.setAttribute("value", presetValue);
-        presetSelect.appendChild(presetOption);
-
-        // Default select medium
-        if (presetValue === "medium") {
-          presetOption.setAttribute("selected", "selected");
+      // Listen for the choose save directory dialog being changed
+      exportLocationInput.addEventListener("change", function() {
+        if (this.value) {
+          currentVideoExportText.innerText = this.value;
+          outputPath = this.value;
+          customArgumentsInput.value = ExportVideo.generateFFMpegArguments(outputPath, frameLocation, frameRate, presetValue);
         }
+      });
+
+      // Listen to the preset value dialog being changed
+      presetSelect.addEventListener("change", function () {
+        presetValue = this.value;
+        customArgumentsInput.value = ExportVideo.generateFFMpegArguments(outputPath, frameLocation, frameRate, presetValue);
       });
 
       ConfirmDialog.confirmSet({
@@ -111,23 +106,13 @@
         buttons: [true, "Export video"]
       })
       .then((response) => {
-        // Dialog values
-        let outputPath = exportLocationInput.value;
-        let presetValue = presetSelect.value;
-
-        // Export video parameters
-        let exportPath = (!outputPath ? defaultExportPath : outputPath);
-        let frameLocation = saveLocation;
-        let frameRate = global.projectInst.frameRate.frameRateValue;
-        let preset = presetValue;
-
         // Confirm the take and render the video if "export video" selected
         if (response) {
           Loader.show("Confirming take");
           global.projectInst.currentTake.confirmTake(false)
           .then(() => {
             Loader.hide();
-            ExportVideo.render(exportPath, frameLocation, frameRate, preset);
+            ExportVideo.render(customArgumentsInput.value.split(" "), outputPath);
           });
         }
       });
@@ -135,39 +120,14 @@
 
     /**
      * Renders a video from the frames in the selected frame location.
-     * @param {String} exportPath The path to export video to.
-     * @param {String} frameDirectory The location of the frames to render.
-     * @param {Number} frameRate The frame rate to use in the export.
-     * @param {String} preset The rendering preset to use (default: medium).
-     * @param {Number} startFrameNo The frame to begin rendering from (default: 0 - ie the start).
+     * @param {Array} ffmpegArguments An array of ffmpeg arguments to use.
+     * @param {String} exportPath The path to export video to
      */
-    static render(exportPath, frameDirectory, frameRate, preset = "medium", startFrameNo = 0) {
-      let endFrameNo = global.projectInst.currentTake.getTotalFrames();
-      let framePath = path.join(frameDirectory, "frame_%04d.png");
-
-      // TODO should the default startFrameNo be 0 or 1?
-      // TODO implement ability for user to enter custom ffmpeg arguments
-
-      // The ffmpeg arguments to use
-      let args = [
-        "-y", // Overwrite output file if it already exists
-        "-framerate", frameRate,
-        "-start_number", startFrameNo,
-        "-i", framePath,
-        "-frames:v", endFrameNo,
-        "-c:v", "libx264",
-        "-preset", preset,
-        "-crf", "0",
-        "-vf", "format=yuv420p",
-        exportPath,
-        "-hide_banner", // Hide ffmpeg library info from output
-      ];
-
+    static render(ffmpegArguments, exportPath) {
       // Spawn an ffmpeg child process
       const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
       const spawn = require('child_process').spawn;
-      const ffmpeg = spawn(ffmpegPath, args);
-      // Loader.show("Rendering video");
+      const ffmpeg = spawn(ffmpegPath, ffmpegArguments);
 
       // Build a modal
       let exportStatusDialog = document.createElement("div");
@@ -191,7 +151,7 @@
       });
 
       // Stop loader at this point
-      ffmpeg.on('exit', function(code) {
+      ffmpeg.on('exit', function (code) {
         // Display success/error dialog
         if (code === 0) {
           let dialogContent = document.createElement("p");
@@ -217,6 +177,7 @@
             },
           });
         } else {
+          // todo display whatever the error is
           ConfirmDialog.confirmSet({
             title: "Error",
             text: `An error occurred trying to export the current project to video. Please try again later.
@@ -238,6 +199,36 @@
      */
     static toggleSidebarOption(status) {
       exportVideoSidebarOption.classList.toggle("disabled", status);
+    }
+
+    /**
+     * Generates an array of FFMpeg arguments
+     * @param {String} exportPath The path to export video to.
+     * @param {String} frameDirectory The location of the frames to render.
+     * @param {Number} frameRate The frame rate to use in the export.
+     * @param {String} preset The rendering preset to use (default: medium).
+     * @param {Number} startFrameNo The frame to begin rendering from (default: 0 - ie the start).
+     */
+    static generateFFMpegArguments(exportPath, frameDirectory, frameRate, preset = "medium", startFrameNo = 0) {
+      let endFrameNo = global.projectInst.currentTake.getTotalFrames();
+      let framePath = path.join(frameDirectory, "frame_%04d.png");
+
+      // TODO should the default startFrameNo be 0 or 1?
+
+      // The ffmpeg arguments to use
+      return [
+        "-y", // Overwrite output file if it already exists
+        "-framerate", frameRate,
+        "-start_number", startFrameNo,
+        "-i", framePath,
+        "-frames:v", endFrameNo,
+        "-c:v", "libx264",
+        "-preset", preset,
+        "-crf", "0",
+        "-vf", "format=yuv420p",
+        exportPath,
+        "-hide_banner", // Hide ffmpeg library info from output
+      ].join(" ");
     }
   }
 
