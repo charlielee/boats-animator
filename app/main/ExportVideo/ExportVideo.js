@@ -116,6 +116,9 @@
           });
         }
       });
+
+      // Auto-click the export location button upon load to prompt user to select an export location
+      exportLocationInput.click();
     }
 
     /**
