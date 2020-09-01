@@ -45,9 +45,9 @@
         <label for="presetSelect">FFmpeg quality preset:</label>
         <br>
         <select id="presetSelect">
-          <option value="veryfast">Very fast</option>
-          <option value="medium">Medium</option>
           <option value="veryslow">Very slow</option>
+          <option value="medium">Medium</option>
+          <option value="veryfast">Very fast</option>
         </select>
 
         <br>
@@ -224,7 +224,7 @@
         "-frames:v", endFrameNo,
         "-c:v", "libx264",
         "-preset", preset,
-        "-crf", "0",
+        "-crf", "17",
         "-vf", "format=yuv420p",
         exportPath,
         "-hide_banner", // Hide FFmpeg library info from output
