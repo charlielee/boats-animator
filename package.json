@@ -1,7 +1,7 @@
 {
   "name": "boats-animator",
-  "project_string": "nwjs",
   "description": "A free, open-source stop motion animation program.",
+  "author": "Charlie Lee",
   "license": "GPL-3.0",
   "main": "app/index.html",
   "nodejs": true,
@@ -10,36 +10,22 @@
     "java": false,
     "plugin": false
   },
-  "nwjsBuilder": {
-    "productName": "Boats Animator",
-    "productVersion": "0.9.2",
-    "copyright": "© 2019 Charlie Lee",
-    "companyName": "Boats Animator Developers",
-    "fileVersion": "0.9.2.0",
-    "originalFilename": " "
-  },
   "window": {
-    "fullscreen": false,
+    "title": "Boats Animator",
+    "width": 730,
+    "height": 480,
+    "icon": "icons/icon.png",
+    "position": "center",
+    "min_width": 730,
+    "min_height": 480,
     "resizable": true,
     "always_on_top": false,
-    "nodejs": true,
-    "frame": true,
-    "title": "Boats Animator",
-    "kiosk": false,
-    "kiosk_emulation": false,
-    "exe_icon": "icons/icon.png",
-    "width": 730,
-    "min_width": 730,
-    "min_height": 450,
-    "as_desktop": false,
-    "visible": true,
-    "show": true,
-    "position": "center",
+    "fullscreen": false,
     "show_in_taskbar": true,
-    "height": 450,
-    "mac_icon": "icons/icon.png",
-    "transparent": false,
-    "icon": "icons/icon.png"
+    "frame": true,
+    "show": true,
+    "kiosk": false,
+    "transparent": false
   },
   "version": "0.9.2",
   "repository": {
@@ -51,18 +37,43 @@
     "npm": "^3.7.3"
   },
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.18",
     "mkdirp": "^0.5.1",
     "mousetrap": "^1.6.2",
     "sweetalert": "^2.1.2"
   },
   "devDependencies": {
-    "fs-extra": "^8.1.0",
     "nw-dev": "^3.0.1",
-    "nwjs-packager": "^0.2.3"
+    "nwjs-packager": "^1.4.4"
   },
   "scripts": {
-    "postinstall": "node install",
-    "start": "nwp -v 0.35.4-sdk -r .",
-    "build": "node build"
+    "start": "nwp -r",
+    "build": "nwp"
+  },
+  "nwjs-packager": {
+    "nwVersion": "0.35.4",
+    "nwFlavor": "normal",
+    "appFriendlyName": "Boats Animator",
+    "appMacIcon": "icons/icon.icns",
+    "appWinIcon": "icons/icon.ico",
+    "files": [
+      "app/**",
+      "icons/**"
+    ],
+    "builds": {
+      "linux": {
+        "tar.gz": true
+      },
+      "osx": {
+        "zip": true
+      },
+      "windows": {
+        "zip": true,
+        "innoSetup": "win-install/setup.iss"
+      }
+    },
+    "infoPlistStrings": {
+      "default": "InfoPlist.strings"
+    }
   }
 }

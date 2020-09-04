@@ -70,6 +70,27 @@
   width: 100%;
 }
 
+#currentVideoExportText {
+  font-family: monospace;
+  word-break: break-word;
+}
+
+body[data-has-frames="false"] #exportVideoSidebarOption *,
+body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
+  color: #000 !important;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+#exportStatusDialog {
+  width: 100%;
+  overflow-y: scroll;
+  font-family: monospace;
+  word-break: break-word;
+  height: 200px;
+  text-align: left;
+}
+
 /* ========== VIDEO PREVIEW ============== */
 
 #preview-area {

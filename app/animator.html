@@ -151,10 +151,14 @@
           <li>Captured frames will be exported to:
             <p id="currentDirectoryName" class="italics">No directory selected</p>
           </li>
-          <li>
+          <li class="sidebar-opt">
             <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
-            <span class="sidebar-opt" id="btn-dir-change">Change directory</span>
+            <span id="btn-dir-change">Change directory</span>
             <input id="chooseDirectory" style="display:none;" type="file" nwdirectory />
+          </li>
+          <li id="exportVideoSidebarOption" class="sidebar-opt">
+            <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
+            <span id="btn-export-video">Export video</span>
           </li>
         </ul>
       </div>
@@ -187,8 +191,8 @@
 
   <script id="dev-reload-script"></script>
   <script src="common/Utils/Utils.js"></script>
-  <script src="lib/mousetrap.js"></script>
-  <script src="lib/mousetrap-pause.js"></script>
+  <script src="../node_modules/mousetrap/mousetrap.js"></script>
+  <script src="../node_modules/mousetrap/plugins/pause/mousetrap-pause.js"></script>
   <script src="js/main.js"></script>
 </body>
 

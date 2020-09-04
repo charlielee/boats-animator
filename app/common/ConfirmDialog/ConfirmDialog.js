@@ -1,11 +1,8 @@
 (function() {
   "use strict";
-  // Main imports
-  // const shortcuts = require("../../main/Shortcuts/Shortcuts");
-  // const menubar = require("../../ui/MenuBar/MenuBar");
 
   // Library imports
-  var swal = require("../../lib/sweetalert");
+  var swal = require("sweetalert");
 
   class ConfirmDialog {
     /**
@@ -19,7 +16,10 @@
       swalArgs.title = swalArgs.title ? swalArgs.title : "Confirm";
       swalArgs.text = swalArgs.text ? swalArgs.text : "Are you sure?";
       swalArgs.icon = swalArgs.icon ? swalArgs.icon : "warning";
-      swalArgs.buttons = swalArgs.buttons ? swalArgs.buttons : true;
+
+      if (!("button" in swalArgs)) {
+        swalArgs.buttons = swalArgs.buttons ? swalArgs.buttons : true;
+      }
 
       // Pause main shortcuts and menubar items
       global.AppShortcuts.remove("main");

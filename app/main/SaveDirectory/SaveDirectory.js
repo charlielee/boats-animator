@@ -2,7 +2,7 @@
   "use strict";
   // Library imports
   const fs = require("fs");
-  const mkdirp = require("../../lib/mkdirp");
+  const mkdirp = require("mkdirp");
 
   // UI imports
   var Notification = require("../../ui/Notification/Notification");

@@ -125,8 +125,8 @@ aside .sidebar-opt {
   cursor: pointer;
 }
 aside a:hover,
-aside .sidebar-opt:hover {
-  border-bottom: 1.5px solid #d3d3d3;
+aside .sidebar-opt span:hover {
+  text-decoration: underline;
 }
 
 aside input,
@@ -207,3 +207,6 @@ footer li:not(.no-pipe)::after {
 
 /* Fix blue outline around SweetAlert modals */
 .swal-overlay { outline: none; }
+
+/* Make custom swal content the same colour as default content */
+.swal-content { color: rgba(0,0,0,.64); }
