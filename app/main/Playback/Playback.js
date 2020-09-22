@@ -78,6 +78,10 @@
         if (!this.isPlaying) {
           const totalFrames = global.projectInst.currentTake.getTotalFrames()
           const number = totalFrames - 5; 
+          if (totalFrames <= 5) {
+            this.previewCapturedFrames(); 
+            return 
+          }
           this.previewCapturedFrames(number);
         } else {
           console.log("already playing...");
