@@ -43,7 +43,6 @@
     "sweetalert": "^2.1.2"
   },
   "devDependencies": {
-    "nw-dev": "^3.0.1",
     "nwjs-packager": "^1.4.4"
   },
   "scripts": {
