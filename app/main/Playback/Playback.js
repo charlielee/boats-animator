@@ -115,8 +115,7 @@
      * 
      * @param {Integer} number - Frame number that previewing begins
      */
-    previewCapturedFrames(number = 0) {
-      console.log("Previewing from frame " + number);  
+    previewCapturedFrames(number = 0) {  
       // Display playback window
       if (global.projectInst.getCurrentMode() === "capture") {
         global.projectInst.setCurrentMode("playback");
