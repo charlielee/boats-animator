@@ -16,7 +16,7 @@ AppPublisherURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 LicenseFile=LICENSE.rtf
 OutputDir=..\build
-OutputBaseFilename=boats-animator-{#MyAppVersion}-setup
+OutputBaseFilename=boats-animator-{#MyAppVersion}-win-x64-setup
 Compression=lzma2/ultra
 SolidCompression=yes
 LZMAUseSeparateProcess=yes
@@ -40,7 +40,7 @@ BeveledLabel={#MyAppName} {#MyAppVersion}
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\build\boats-animator\win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\build\boats-animator-{#MyAppVersion}-win-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

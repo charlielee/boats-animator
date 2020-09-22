@@ -67,7 +67,7 @@
       "osx": {
         "zip": true
       },
-      "windows": {
+      "win": {
         "zip": true,
         "innoSetup": "win-install/setup.iss"
       }
