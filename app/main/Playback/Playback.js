@@ -78,6 +78,10 @@
         if (!this.isPlaying) {
           const totalFrames = global.projectInst.currentTake.getTotalFrames()
           const number = totalFrames - 5; 
+          if (totalFrames <= 5) {
+            this.previewCapturedFrames(); 
+            return 
+          }
           this.previewCapturedFrames(number);
         } else {
           console.log("already playing...");
@@ -111,8 +115,7 @@
      * 
      * @param {Integer} number - Frame number that previewing begins
      */
-    previewCapturedFrames(number = 0) {
-      console.log("Previewing from frame " + number);  
+    previewCapturedFrames(number = 0) {  
       // Display playback window
       if (global.projectInst.getCurrentMode() === "capture") {
         global.projectInst.setCurrentMode("playback");
