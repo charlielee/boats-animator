@@ -46,7 +46,7 @@
         <br>
         <select id="presetSelect">
           <option value="veryslow">Very slow</option>
-          <option value="medium">Medium</option>
+          <option value="medium" selected>Medium</option>
           <option value="veryfast">Very fast</option>
         </select>
 
@@ -210,8 +210,10 @@
      * @param {Number} startFrameNo The frame to begin rendering from (default: 0 - ie the start).
      */
     static generateFfmpegArguments(exportPath, frameDirectory, frameRate, preset = "medium", startFrameNo = 0) {
-      let endFrameNo = global.projectInst.currentTake.getTotalFrames();
-      let framePath = path.join(frameDirectory, "frame_%04d.png");
+      let currentTake = global.projectInst.currentTake;
+      let endFrameNo = currentTake.getTotalFrames();
+      let frameFileName = currentTake.buildFileName("%05d");
+      let framePath = path.join(frameDirectory, frameFileName);
 
       // TODO should the default startFrameNo be 0 or 1?
 

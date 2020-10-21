@@ -39,6 +39,11 @@
       this.onionSkin = new OnionSkin();
       // Id of the last exported frame
       this.exportFrameId = 0;
+      // Create a unique id for the take based on the current unix time
+      // Used when generating the file names
+      this.uniqueId = Math.floor(new Date().getTime() / 1000);
+
+      console.log(`Created take ${this.takeNumber} with id ${this.uniqueId}`);
     }
 
     /**
@@ -128,8 +133,8 @@
         for (let i = 0; i < self.getTotalFrames(); i++) {
           let oldFilePath = self.exportedFramesPaths[i];
 
-          let newFileName = `frame_${Take.getPaddedFrameNumber(i+1)}`;
-          let newFilePath = `${outputDir}/${newFileName}.png`;
+          let newFileName = this.buildFileName(Take.getPaddedFrameNumber(i+1));
+          let newFilePath = `${outputDir}/${newFileName}`;
 
           // Rename the file to the updated name
           self.exportedFramesPaths[i] = newFilePath;
@@ -187,14 +192,7 @@
     _exportFrame(blob) {
       this.exportFrameId++;
       let id = this.exportFrameId;
-      let fileName = "";
-
-      // 1K+ frames have been captured
-      if (id >= 1000) {
-        fileName = `frame_${id}`;
-      } else {
-        fileName = `frame_${Take.getPaddedFrameNumber(id)}`
-      }
+      let fileName = this.buildFileName(Take.getPaddedFrameNumber(id));
 
       // Make the output directory if it does not exist
       // todo outputDir should eventually be ${this.saveDirectory.saveDirLocation}/${this.takeNumber}
@@ -204,7 +202,7 @@
       }
 
       // Create an absolute path to the destination location
-      var outputPath = `${outputDir}/${fileName}.png`;
+      var outputPath = `${outputDir}/${fileName}`;
 
       // Save the frame to disk
       var reader = new FileReader()
@@ -213,7 +211,7 @@
         var buffer = new Buffer.from(reader.result);
         File.write(outputPath, buffer);
       }
-      reader.readAsArrayBuffer(blob)
+      reader.readAsArrayBuffer(blob);
 
       // Store the location of the exported frame
       this.exportedFramesPaths.push(outputPath);
@@ -233,11 +231,20 @@
     }
 
     /**
+     * Makes the file name for a frame with a given id
+     * @param {String} frameId The id of the frame (or some clever wildcard thing)
+     */
+    buildFileName(frameId) {
+      return `ba_${this.uniqueId}_frame_${frameId}.png`;
+    }
+
+    /**
      * Converts a frame number into the padded zero format used in file names.
      * @param {Integer} frameNumber 
      */
     static getPaddedFrameNumber(frameNumber) {
-      let zeros = "0000";
+      // Note the massive assumption that no one will capture more than 99999 frames has been made
+      let zeros = "00000";
       return `${zeros.substring(0, zeros.length - frameNumber.toString().length)}${frameNumber}`;
     }
   }

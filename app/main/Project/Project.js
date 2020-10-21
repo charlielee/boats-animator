@@ -31,7 +31,6 @@
      * @param {String} title The project's title
      */
     constructor(title) {
-      // Initialise the project
       this.frameRate = new FrameRate(15);
       this.currentMode = null;
       this.currentTake = null;
@@ -42,6 +41,8 @@
       this.streaming = false;
       this.title = title;
       this.takes = [];
+
+      console.log(`Created new project: ${this.title}`);
     }
 
     /**

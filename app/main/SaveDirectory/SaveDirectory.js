@@ -61,21 +61,6 @@
         this.saveDirLocation = newLocation;
         SaveDirectory._setLocalStorageDir(newLocation);
         SaveDirectory.displaySaveDirectory(newLocation);
-
-        // Check the new directory is empty
-        SaveDirectory.checkDirHasNoFrames(newLocation, function(hasFrames) {
-          if (hasFrames) {
-            ConfirmDialog.confirmSet({
-              text: "The current save directory already contains captured frames! Please switch save directory or they will be overwritten.",
-              buttons: ["Continue", "Change save directory"]
-            })
-            .then((response) => {
-              if (response) {
-                SaveDirectory.openDirChooseDialog();
-              }
-            });
-          }
-        });
       }
     }
 
@@ -121,27 +106,6 @@
      */
     static checkDir(dir) {
       return fs.existsSync(dir);
-    }
-
-    /**
-     * Check if the app save directory has any frames, to prevent them being overwritten.
-     * TODO - this method will be unnecessary once Projects are fully implemented.
-     * 
-     * @param {String} dir - The directory to check.
-     * @callback Returns true if frames found in the selected directory, otherwise false.
-     */
-    static checkDirHasNoFrames(dir, cb) {
-      var files = fs.readdirSync(dir);
-
-      // Filter files that are frames
-      var regex = /\b(frame)(.)+(.png)\b/i;
-      var filteredFiles = files.filter((fileName) => { return regex.test(fileName) });
-
-      if (filteredFiles.length > 0) {
-        cb(true);
-      } else {
-        cb(false);
-      }
     }
 
     /**
