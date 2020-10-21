@@ -10,9 +10,10 @@ pages:
 - "Getting started":
   - Setup: getting-started/setup.md
 - "Features":
-  - "Main window": features/main-window.md
-  - "Launcher window": features/launcher-window.md
+  - "Export video": features/export-video.md
   - "Keyboard shortcuts": features/keyboard-shortcuts.md
+  - "Launcher window": features/launcher-window.md
+  - "Main window": features/main-window.md
 theme: readthedocs
 extra_css: [css/custom.css]
 markdown_extensions:
