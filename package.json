@@ -43,7 +43,7 @@
     "sweetalert": "^2.1.2"
   },
   "devDependencies": {
-    "nwjs-packager": "^1.4.6"
+    "nwjs-packager": "^1.4.10"
   },
   "scripts": {
     "start": "nwp -r",
