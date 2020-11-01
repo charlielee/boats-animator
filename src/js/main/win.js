@@ -51,7 +51,7 @@
       this.currentWindow = new BrowserWindow({
         backgroundColor: '#171717',
         width: 730,
-        height: 530,
+        height: 540,
         webPreferences: {
           nodeIntegration: true
         }
