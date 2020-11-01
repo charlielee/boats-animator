@@ -1,11 +1,12 @@
 (function() {
   "use strict";
-  let win          = nw.Window.get(),
-      newsFeed     = require("./common/NewsFeed/NewsFeed"),
-      qAppVersion  = document.querySelector("#app-version");
+
+  const newsFeed = require("./js/launcher/NewsFeed");
+  const qAppVersion = document.querySelector("#app-version");
+  const { ipcRenderer } = require('electron');
 
   // Get the version number from the manifest file
-  qAppVersion.innerHTML = nw.App.manifest.version;
+  qAppVersion.innerHTML =  require('../package').version;
 
   // Display the latest news
   newsFeed.load("http://charlielee.uk/feed/boats-animator.json");
@@ -15,17 +16,7 @@
    * @returns {void}
    */
   function openAnimator() {
-    nw.Window.open("app/animator.html", {
-      position: "center",
-      width: 1050,
-      height: 715,
-      min_width: 590,
-      min_height: 500,
-      id: "animatorWindow",
-      icon: "icons/icon.png"
-    }, function(newWin) {
-      win.close();
-    });
+    ipcRenderer.send('win:switch-window', 'animator');
   }
 
   // Open the animator

@@ -1,19 +1,14 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron');
+const win = new (require('./js/main/Win'));
 
-function createWindow () {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
+app.whenReady().then(() => {
+  win.loadLauncher();
+});
 
-  win.loadFile('src/launcher.html')
-  win.webContents.openDevTools()
-}
-
-app.whenReady().then(createWindow)
+// Handle window switching
+ipcMain.on('win:switch-window', (e, winName) => {
+  win.switchWindow(winName);
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -23,6 +18,6 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
+    win.loadLauncher();
   }
 })
