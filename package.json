@@ -3,38 +3,15 @@
   "description": "A free, open-source stop motion animation program.",
   "author": "Charlie Lee",
   "license": "GPL-3.0",
-  "main": "app/index.html",
-  "nodejs": true,
-  "webkit": {
-    "page-cache": false,
-    "java": false,
-    "plugin": false
-  },
-  "window": {
-    "title": "Boats Animator",
-    "width": 730,
-    "height": 480,
-    "icon": "icons/icon.png",
-    "position": "center",
-    "min_width": 730,
-    "min_height": 480,
-    "resizable": true,
-    "always_on_top": false,
-    "fullscreen": false,
-    "show_in_taskbar": true,
-    "frame": true,
-    "show": true,
-    "kiosk": false,
-    "transparent": false
-  },
+  "main": "src/main.js",
   "version": "0.10.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/charlielee/boats-animator.git"
   },
-  "chromium-args": "--mixed-context",
-  "engines": {
-    "npm": "^3.7.3"
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
   },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.18",
@@ -43,36 +20,7 @@
     "sweetalert": "^2.1.2"
   },
   "devDependencies": {
-    "nwjs-packager": "^1.4.10"
-  },
-  "scripts": {
-    "start": "nwp -r",
-    "build": "nwp"
-  },
-  "nwjs-packager": {
-    "nwVersion": "0.35.4",
-    "nwFlavor": "normal",
-    "appFriendlyName": "Boats Animator",
-    "appMacIcon": "icons/icon.icns",
-    "appWinIcon": "icons/icon.ico",
-    "files": [
-      "app/**",
-      "icons/**"
-    ],
-    "builds": {
-      "linux": {
-        "tar.gz": true
-      },
-      "osx": {
-        "zip": true
-      },
-      "win": {
-        "zip": true,
-        "innoSetup": "win-install/setup.iss"
-      }
-    },
-    "infoPlistStrings": {
-      "default": "InfoPlist.strings"
-    }
+    "electron": "10.1.5",
+    "electron-builder": "^22.9.1"
   }
 }

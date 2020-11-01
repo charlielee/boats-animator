@@ -29,4 +29,4 @@ jsconfig.json
 *.~is
 npm-debug.log
 cache/
-build/
+dist/
