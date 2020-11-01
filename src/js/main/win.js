@@ -33,7 +33,7 @@
      */
     loadAnimator() {
       this.currentWindow = new BrowserWindow({
-        backgroundColor: '#171717',
+        backgroundColor: '#2B2B2B',
         width: 1050,
         height: 715,
         webPreferences: {
@@ -49,7 +49,7 @@
      */
     loadLauncher() {
       this.currentWindow = new BrowserWindow({
-        backgroundColor: '#171717',
+        backgroundColor: '#2B2B2B',
         width: 730,
         height: 540,
         webPreferences: {
