@@ -33,29 +33,30 @@
         backgroundColor: '#2B2B2B',
         width: 1050,
         height: 715,
+        show: false,
         webPreferences: {
           nodeIntegration: true
         }
       };
-
-      // Load last dimensions of the window
-      Object.assign(options, settings.get("windows.animator.winBounds"));
-
       let animatorWin = new BrowserWindow(options);
       animatorWin.loadFile('src/animator.html');
 
-      // Maximise the window if set
-      if (settings.get("windows.animator.isMaximized")) {
+      // Load last dimensions of the window
+      if (settings.get('windows.animator.isMaximized')) {
         animatorWin.maximize();
+      } else {
+        Object.assign(options, settings.get('windows.animator.winBounds'));
       }
+
+      animatorWin.once('ready-to-show', () => {
+        animatorWin.show();
+      });
 
       // Store window dimensions on close
       animatorWin.on('close', () => {
-        settings.set("windows.animator.isMaximized", animatorWin.isMaximized());
-        settings.set("windows.animator.winBounds", animatorWin.getBounds());
+        settings.set('windows.animator.isMaximized', animatorWin.isMaximized());
+        settings.set('windows.animator.winBounds', animatorWin.getBounds());
       });
-
-      return animatorWin;
     }
 
     /**
@@ -66,12 +67,16 @@
         backgroundColor: '#2B2B2B',
         width: 730,
         height: 540,
+        show: false,
         webPreferences: {
           nodeIntegration: true
         }
       });
       launcherWin.loadFile('src/launcher.html');
-      return launcherWin;
+
+      launcherWin.once('ready-to-show', () => {
+        launcherWin.show();
+      });
     }
   }
 
