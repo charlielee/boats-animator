@@ -38,14 +38,18 @@
           nodeIntegration: true
         }
       };
+
+      // Load last dimensions of the window
+      if (!settings.get('windows.animator.isMaximized')) {
+        Object.assign(options, settings.get('windows.animator.winBounds'));
+      }
+
       let animatorWin = new BrowserWindow(options);
       animatorWin.loadFile('src/animator.html');
 
-      // Load last dimensions of the window
-      if (settings.get('windows.animator.isMaximized')) {
+      // Restore maximization status
+      if (!settings.get('windows.animator.isMaximized')) {
         animatorWin.maximize();
-      } else {
-        Object.assign(options, settings.get('windows.animator.winBounds'));
       }
 
       animatorWin.once('ready-to-show', () => {
