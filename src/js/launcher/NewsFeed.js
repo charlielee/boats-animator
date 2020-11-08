@@ -2,6 +2,7 @@ module.exports = {};
 
 (function() {
   "use strict";
+  const { shell } = require('electron');
   let qNewsContainer = document.querySelector(".container-news"),
       loadingDots    = document.querySelector(".loading-dots");
   qNewsContainer.addEventListener("click", openNews);
@@ -14,7 +15,7 @@ module.exports = {};
    */
   function openNews(e) {
     if (e.target.classList.contains("post-link")) {
-      utils.openURL(e.target.dataset.url);
+      shell.openExternal(e.target.dataset.url);
     }
   }
 
