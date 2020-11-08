@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-const win = new (require('./js/main/Win'));
+const win = new (require('./js/main/win'));
 
 app.whenReady().then(() => {
   win.loadLauncher();
