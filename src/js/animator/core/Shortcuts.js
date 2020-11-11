@@ -2,9 +2,9 @@ module.exports = {};
 
 (function() {
   "use strict";
-  const file = require("../../common/File/File");
+  const file = require("./File");
 
-  const Features = require("../../main/Features/Features");
+  const Features = require("./Features");
   
   var allShortcuts = {},
       activeGroups = [],

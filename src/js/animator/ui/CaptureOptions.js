@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  const Camera = require("../../main/Camera/Camera");
+  const Camera = require("../core/Camera");
 
   const cameraSelect = document.querySelector("#camera-select-td select");
   const resolutionSelect = document.querySelector("#resolution-select-td select");

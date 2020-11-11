@@ -1,16 +1,16 @@
 (function() {
   "use strict";
   // Main imports
-  const ExportVideo = require("./main/ExportVideo/ExportVideo");
-  const PreviewOverlay = require("./main/PreviewOverlay/PreviewOverlay");
-  const Project = require("./main/Project/Project");
-  global.AppShortcuts = require("./main/Shortcuts/Shortcuts");
+  const ExportVideo = require("./js/animator/core/ExportVideo");
+  const PreviewOverlay = require("./js/animator/core/PreviewOverlay");
+  const Project = require("./js/animator/projects/Project");
+  global.AppShortcuts = require("./js/animator/core/Shortcuts");
 
   // UI imports
-  const CaptureOptions = require("./ui/CaptureOptions/CaptureOptions");
-  const FrameReelRow = require("./ui/FrameReelRow/FrameReelRow");
-  global.AppMenuBar = require("./ui/MenuBar/MenuBar");
-  const WindowManager = require("./ui/WindowManager/WindowManager");
+  const CaptureOptions = require("./js/ui/CaptureOptions");
+  const FrameReelRow = require("./js/ui/FrameReelRow");
+  global.AppMenuBar = require("./js/ui/MenuBar");
+  const WindowManager = require("./js/ui/WindowManager");
 
   function startup() {
     // Load the keyboard shortcuts

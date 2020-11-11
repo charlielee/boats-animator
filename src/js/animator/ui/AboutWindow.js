@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
+  const ConfirmDialog = require("./ConfirmDialog");
 
   class AboutWindow {
     static show() {

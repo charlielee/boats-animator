@@ -2,19 +2,19 @@
   "use strict";
 
   // Common imports
-  const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
+  const ConfirmDialog = require("../ui/ConfirmDialog");
 
   // Main imports
-  const Take = require("../../main/Take/Take");
-  const Playback = require("../../main/Playback/Playback");
-  const SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
+  const Take = require("./Take");
+  const Playback = require("../core/Playback");
+  const SaveDirectory = require("../core/SaveDirectory");
 
   // UI imports
-  const FrameRate = require("../../ui/FrameRate/FrameRate");
-  const Notification = require("../../ui/Notification/Notification");
-  const PlaybackCanvas = require("../../ui/PlaybackCanvas/PlaybackCanvas");
-  const PreviewOverlay = require("../../main/PreviewOverlay/PreviewOverlay");
-  const StatusBar = require("../../ui/StatusBar/StatusBar");
+  const FrameRate = require("../ui/FrameRate");
+  const Notification = require("../ui/Notification");
+  const PlaybackCanvas = require("../ui/PlaybackCanvas");
+  const PreviewOverlay = require("../core/PreviewOverlay");
+  const StatusBar = require("../ui/StatusBar");
 
   // The various HTML elements we need to configure or control.
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");

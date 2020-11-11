@@ -5,10 +5,10 @@
   const mkdirp = require("mkdirp");
 
   // UI imports
-  var Notification = require("../../ui/Notification/Notification");
+  var Notification = require("../ui/Notification");
 
   // Common imports
-  const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
+  const ConfirmDialog = require("../ui/ConfirmDialog");
 
   // Class variables
   const SAVE_DIRECTORY_KEY = "ba-save-dir";

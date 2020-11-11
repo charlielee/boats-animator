@@ -5,9 +5,9 @@ module.exports = {};
   "use strict";
   // Import modules
   var cameraResolutions = require("./CameraResolutions");
-  const Loader = require("../../common/Loader/Loader");
-  var Notification = require("../../ui/Notification/Notification");
-  var StatusBar = require("../../ui/StatusBar/StatusBar");
+  const Loader = require("./Loader");
+  var Notification = require("../ui/Notification");
+  var StatusBar = require("../ui/StatusBar");
 
   // The current video stream
   let curStream = null;

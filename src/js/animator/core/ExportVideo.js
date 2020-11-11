@@ -2,8 +2,8 @@
   "use strict";
   const path = require("path");
 
-  const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
-  const Loader = require("../../common/Loader/Loader");
+  const ConfirmDialog = require("../ui/ConfirmDialog");
+  const Loader = require("./Loader");
 
   const DEFAULT_FILE_NAME = "output.mp4";
 

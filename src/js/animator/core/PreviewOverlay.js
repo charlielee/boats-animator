@@ -1,7 +1,7 @@
 (function() {
   "use strict";
   // UI imports
-  const ToggleButton = require("../../ui/ToggleButton/ToggleButton");
+  const ToggleButton = require("../ui/ToggleButton");
 
   // HTML elements
   const preview = document.querySelector("#preview");

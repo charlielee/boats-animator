@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  const Notification = require("../../ui/Notification/Notification");
+  const Notification = require("../ui/Notification");
 
   // Whether audio should be played or not
   var audioEnabled = true;

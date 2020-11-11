@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
+  const ConfirmDialog = require("./ConfirmDialog");
 
   // NW.js window
   const win = nw.Window.get();

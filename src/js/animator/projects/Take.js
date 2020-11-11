@@ -2,18 +2,18 @@
   "use strict";
 
   // Main imports
-  var SaveDirectory = require("../../main/SaveDirectory/SaveDirectory");
+  var SaveDirectory = require("../core/SaveDirectory");
 
   // UI imports
-  var FrameReel = require("../../main/FrameReel/FrameReel");
-  var Notification = require("../../ui/Notification/Notification");
-  var OnionSkin = require("../../ui/OnionSkin/OnionSkin");
-  var PlaybackCanvas = require("../../ui/PlaybackCanvas/PlaybackCanvas");
-  var StatusBar = require("../../ui/StatusBar/StatusBar");
+  var FrameReel = require("../core/FrameReel");
+  var Notification = require("../ui/Notification");
+  var OnionSkin = require("../ui/OnionSkin");
+  var PlaybackCanvas = require("../ui/PlaybackCanvas");
+  var StatusBar = require("../ui/StatusBar");
 
   // Common imports
-  var AudioManager = require("../../common/AudioManager/AudioManager");
-  var File = require("../../common/File/File");
+  var AudioManager = require("../core/AudioManager");
+  var File = require("../core/File");
 
   var preview = document.querySelector("#preview");
 

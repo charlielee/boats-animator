@@ -3,9 +3,9 @@
   const btnLoop = document.querySelector("#btn-loop");
   const btnPlayPause = document.querySelector("#btn-play-pause");
 
-  const PlaybackCanvas = require("../../ui/PlaybackCanvas/PlaybackCanvas");
-  const PlaybackControls = require("../../ui/PlaybackControls/PlaybackControls");
-  const StatusBar = require("../../ui/StatusBar/StatusBar");
+  const PlaybackCanvas = require("../ui/PlaybackCanvas");
+  const PlaybackControls = require("../ui/PlaybackControls");
+  const StatusBar = require("../ui/StatusBar");
 
   class Playback {
     constructor() {

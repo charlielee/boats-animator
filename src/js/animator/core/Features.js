@@ -1,9 +1,9 @@
 (function() {
   "use strict";
-  const AudioManager = require("../../common/AudioManager/AudioManager");
-  const ConfirmDialog = require("../../common/ConfirmDialog/ConfirmDialog");
+  const AudioManager = require("./AudioManager");
+  const ConfirmDialog = require("../ui/ConfirmDialog");
 
-  const WindowManager = require("../../ui/WindowManager/WindowManager");
+  const WindowManager = require("../ui/WindowManager");
 
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");
   const btnDeleteFrame = document.querySelector("#btn-delete-frame");

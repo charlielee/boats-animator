@@ -1,6 +1,6 @@
 (function() {
   // UI Imports
-  var StatusBar = require("../../ui/StatusBar/StatusBar");
+  var StatusBar = require("./StatusBar");
 
   var inputChangeFR = document.querySelector("#input-fr-change");
 
