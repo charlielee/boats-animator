@@ -1,5 +1,7 @@
 (function() {
   "use strict";
+  const { shell } = require('electron');
+
   // Main imports
   const Features = require("../core/Features");
   const SaveDirectory = require("../core/SaveDirectory");
@@ -128,7 +130,7 @@
         {
           label: "Documentation",
           click: function() {
-            utils.openURL("http://boatsanimator.readthedocs.io/");
+            shell.openExternal("https://boatsanimator.readthedocs.io/");
           },
           key: "F1",
           modifiers: "",
@@ -136,7 +138,7 @@
         {
           label: "Give feedback",
           click: function() {
-            utils.openURL("https://github.com/charlielee/boats-animator/issues");
+            shell.openExternal("https://github.com/charlielee/boats-animator/issues");
           },
         },
         { type: "separator" },

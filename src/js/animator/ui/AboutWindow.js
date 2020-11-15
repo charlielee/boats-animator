@@ -1,5 +1,6 @@
 (function() {
   "use strict";
+  const { shell } = require('electron');
   const ConfirmDialog = require("./ConfirmDialog");
 
   class AboutWindow {
@@ -32,13 +33,13 @@
       .then((response) => {
         switch(response) {
           case "license":
-            utils.openURL('https://github.com/charlielee/boats-animator/blob/master/LICENSE');
+            shell.openExternal('https://github.com/charlielee/boats-animator/blob/master/LICENSE');
             break;
           case "credits":
-            utils.openURL('https://github.com/charlielee/boats-animator/graphs/contributors');
+            shell.openExternal('https://github.com/charlielee/boats-animator/graphs/contributors');
             break;
           case "website":
-            utils.openURL('https://www.charlielee.uk/boats-animator');
+            shell.openExternal('https://www.charlielee.uk/boats-animator');
             break;
         }
       });
