@@ -7,10 +7,9 @@
   global.AppShortcuts = require("./js/animator/core/Shortcuts");
 
   // UI imports
-  const CaptureOptions = require("./js/ui/CaptureOptions");
-  const FrameReelRow = require("./js/ui/FrameReelRow");
-  global.AppMenuBar = require("./js/ui/MenuBar");
-  const WindowManager = require("./js/ui/WindowManager");
+  const CaptureOptions = require("./js/animator/ui/CaptureOptions");
+  const FrameReelRow = require("./js/animator/ui/FrameReelRow");
+  global.AppMenuBar = require("./js/animator/ui/MenuBar");
 
   function startup() {
     // Load the keyboard shortcuts
@@ -28,7 +27,6 @@
       ExportVideo.setListeners();
       FrameReelRow.setListeners();
       PreviewOverlay.initialise();
-      WindowManager.setListeners();
       global.projectInst.setListeners();
 
       // Set default view

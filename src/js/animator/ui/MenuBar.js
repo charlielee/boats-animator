@@ -1,15 +1,13 @@
 (function() {
   "use strict";
   // Main imports
-  const Features = require("./core/Features");
-  const SaveDirectory = require("./core/SaveDirectory");
-  const Shortcuts = require("./core/Shortcuts");
+  const Features = require("../core/Features");
+  const SaveDirectory = require("../core/SaveDirectory");
+  const Shortcuts = require("../core/Shortcuts");
 
   // UI imports
   const AboutWindow = require("./AboutWindow");
   const Notification = require("./Notification");
-  const WindowManager = require("./WindowManager");
-
 
   var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
 

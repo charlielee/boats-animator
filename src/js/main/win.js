@@ -1,5 +1,5 @@
 (function () {
-  const { BrowserWindow } = require('electron');
+  const { BrowserWindow, dialog } = require('electron');
   const settings = new (require('./settings'));
 
   /**
@@ -56,10 +56,22 @@
         animatorWin.show();
       });
 
-      // Store window dimensions on close
-      animatorWin.on('close', () => {
-        settings.set('windows.animator.isMaximized', animatorWin.isMaximized());
-        settings.set('windows.animator.winBounds', animatorWin.getBounds());
+      animatorWin.on('close', (e) => {
+        let choice = dialog.showMessageBoxSync(animatorWin,
+          {
+            type: 'question',
+            buttons: ['OK', 'Cancel'],
+            title: 'Boats Animator',
+            message: 'Are you sure you want to exit Boats Animator?'
+         });
+
+        if (choice === 1){
+          e.preventDefault();
+        } else {
+          // Store window dimensions on close
+          settings.set('windows.animator.isMaximized', animatorWin.isMaximized());
+          settings.set('windows.animator.winBounds', animatorWin.getBounds());
+        }
       });
     }
 

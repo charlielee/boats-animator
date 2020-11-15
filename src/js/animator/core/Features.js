@@ -1,9 +1,8 @@
 (function() {
   "use strict";
+  const { ipcRenderer } = require('electron');
   const AudioManager = require("./AudioManager");
   const ConfirmDialog = require("../ui/ConfirmDialog");
-
-  const WindowManager = require("../ui/WindowManager");
 
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");
   const btnDeleteFrame = document.querySelector("#btn-delete-frame");
@@ -18,24 +17,14 @@
   const btnLiveView = document.querySelector("#btn-live-view");
 
   class Features {
-    // File menu
+    // Window management
 
     static mainMenu() {
-      ConfirmDialog.confirmSet({ text: "Returning to the menu will cause any unsaved work to be lost!" })
-        .then((response) => {
-          if (response) {
-            WindowManager.openIndex();
-          }
-        });
+      ipcRenderer.send('win:switch-window', 'launcher');
     }
 
     static exitApp() {
-      ConfirmDialog.confirmSet({ text: "Are you sure you want to exit Boats Animator?" })
-        .then((response) => {
-          if (response) {
-            WindowManager.closeAnimator();
-          }
-        });
+      ipcRenderer.send('win:close-window');
     }
 
     // Main program features

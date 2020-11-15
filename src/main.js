@@ -10,6 +10,11 @@ ipcMain.on('win:switch-window', (e, winName) => {
   win.switchWindow(winName);
 });
 
+// Close current window
+ipcMain.on('win:close-window', (e) => {
+  BrowserWindow.getFocusedWindow().close();
+});
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
