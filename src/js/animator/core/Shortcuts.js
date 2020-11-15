@@ -126,7 +126,7 @@ module.exports = {};
   function getShortcuts(location, callback) {
     // Location is a parameter to allow for custom shortcuts in the future.
     if (location === "default") {
-      location = "./app/json/default-shortcuts.json";
+      location = "./src/json/default-shortcuts.json";
     }
     file.read(location, {
       success: function(data) {
