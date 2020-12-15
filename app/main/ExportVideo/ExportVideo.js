@@ -222,13 +222,13 @@
         "-y", // Overwrite output file if it already exists
         "-framerate", frameRate,
         "-start_number", startFrameNo,
-        "-i", framePath,
+        "-i", `'${framePath}'`,
         "-frames:v", endFrameNo,
         "-c:v", "libx264",
         "-preset", preset,
         "-crf", "17",
         "-vf", "format=yuv420p",
-        exportPath,
+        `'${exportPath}'`,
         "-hide_banner", // Hide FFmpeg library info from output
       ].join(" ");
     }
