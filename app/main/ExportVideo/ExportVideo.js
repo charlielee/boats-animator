@@ -113,10 +113,12 @@
           .then(() => {
             Loader.hide();
 
-            // The render method expects an array so switch input into array
-            // with regex to handle arguments in quotes
+            // The render method expects an array so convert input from string into array
+            // Regexes are to handle arguments in quotes
             // https://stackoverflow.com/a/56119602
             let argumentsArray = customArgumentsInput.value.match(/[^\s"']+|"([^"]*)"/gmi);
+            argumentsArray = argumentsArray.map((arg) => arg.replace(/"|'/g, ""));
+
             ExportVideo.render(argumentsArray, outputPath);
           });
         }
