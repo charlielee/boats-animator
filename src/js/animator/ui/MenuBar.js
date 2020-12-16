@@ -25,24 +25,21 @@
           click: function() {
             Notification.info("This feature is not yet available!")
           },
-          key: "n",
-          modifiers: controlKey,
+          accelerator: "CommandOrControl+n"
         },
         {
           label: "Open project...",
           click: function() {
             Notification.info("This feature is not yet available!")
           },
-          key: "o",
-          modifiers: controlKey,
+          accelerator: "CommandOrControl+o"
         },
         {
           label: "Main Menu",
           click: function() {
             Features.mainMenu();
           },
-          key: "w",
-          modifiers: controlKey,
+          accelerator: "CommandOrControl+w"
         },
         { type: "separator" },
         {
@@ -50,8 +47,7 @@
           click: function() {
             Features.exitApp();
           },
-          key: "q",
-          modifiers: controlKey,
+          accelerator: "CommandOrControl+q"
         }
       ],
       "Edit": [
@@ -60,8 +56,7 @@
           click: function() {
             Features.undoFrame();
           },
-          key: Shortcuts.getPrimaryKey("undoFrame"),
-          modifiers: Shortcuts.getPrimaryModifiers("undoFrame"),
+          accelerator: `${Shortcuts.getPrimaryModifiers("undoFrame")}+${Shortcuts.getPrimaryKey("undoFrame")}`
         }
       ],
       "Capture": [
@@ -70,14 +65,13 @@
           click: function() {
             Features.takePicture();
           },
-          key: Shortcuts.getPrimaryKey("takePicture"),
-          modifiers: Shortcuts.getPrimaryModifiers("takePicture"),
+          accelerator: `${Shortcuts.getPrimaryModifiers("takePicture")}+${Shortcuts.getPrimaryKey("takePicture")}`
         },
         {
           label: "Confirm take",
           click: function() {
             Features.confirmTake();
-          },
+          }
         },
         { type: "separator" },
         {
@@ -87,8 +81,7 @@
           },
           type: "checkbox",
           checked: true,
-          key: Shortcuts.getPrimaryKey("audioToggle"),
-          modifiers: Shortcuts.getPrimaryModifiers("audioToggle"),
+          accelerator: `${Shortcuts.getPrimaryModifiers("audioToggle")}+${Shortcuts.getPrimaryKey("audioToggle")}`
         },
         {
           label: "Change capture destination",
@@ -105,8 +98,7 @@
           },
           type: "checkbox",
           checked: false,
-          key: Shortcuts.getPrimaryKey("loopPlayback"),
-          modifiers: Shortcuts.getPrimaryModifiers("loopPlayback"),
+          accelerator: `${Shortcuts.getPrimaryModifiers("loopPlayback")}+${Shortcuts.getPrimaryKey("loopPlayback")}`
         },
         { type: "separator" },
         {
@@ -114,16 +106,14 @@
           click: function() {
             Features.firstFrame();
           },
-          key: Shortcuts.getPrimaryKey("firstFrame"),
-          modifiers: Shortcuts.getPrimaryModifiers("firstFrame"),
+          accelerator: `${Shortcuts.getPrimaryModifiers("firstFrame")}+${Shortcuts.getPrimaryKey("firstFrame")}`
         },
         {
           label: "Display last frame",
           click: function() {
             Features.lastFrame();
           },
-          key: Shortcuts.getPrimaryKey("lastFrame"),
-          modifiers: Shortcuts.getPrimaryModifiers("lastFrame"),
+          accelerator: `${Shortcuts.getPrimaryModifiers("lastFrame")}+${Shortcuts.getPrimaryKey("lastFrame")}`
         }
       ],
       "Help": [
@@ -132,14 +122,13 @@
           click: function() {
             shell.openExternal("https://boatsanimator.readthedocs.io/");
           },
-          key: "F1",
-          modifiers: "",
+          accelerator: "F1"
         },
         {
           label: "Give feedback",
           click: function() {
             shell.openExternal("https://github.com/charlielee/boats-animator/issues");
-          },
+          }
         },
         { type: "separator" },
         {
@@ -154,13 +143,13 @@
     // Create top menu and sub-menus
     let menuBar = new nw.Menu({ type: "menubar" });
 
-    // Create Mac menu
-    if (process.platform === "darwin") {
-      menuBar.createMacBuiltin("Boats Animator", {
-        hideEdit: true,
-        hideWindow: true
-      });
-    }
+    // // Create Mac menu
+    // if (process.platform === "darwin") {
+    //   menuBar.createMacBuiltin("Boats Animator", {
+    //     hideEdit: true,
+    //     hideWindow: true
+    //   });
+    // }
 
     // Add each sub menu
     Object.keys(menuItems).forEach(function(subMenuName) {
