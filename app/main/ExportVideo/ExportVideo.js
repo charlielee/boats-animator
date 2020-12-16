@@ -112,7 +112,12 @@
           global.projectInst.currentTake.confirmTake(false)
           .then(() => {
             Loader.hide();
-            ExportVideo.render(customArgumentsInput.value.split(" "), outputPath);
+
+            // The render method expects an array so switch input into array
+            // with regex to handle arguments in quotes
+            // https://stackoverflow.com/a/56119602
+            let argumentsArray = customArgumentsInput.value.match(/[^\s"']+|"([^"]*)"/gmi);
+            ExportVideo.render(argumentsArray, outputPath);
           });
         }
       });
@@ -222,13 +227,13 @@
         "-y", // Overwrite output file if it already exists
         "-framerate", frameRate,
         "-start_number", startFrameNo,
-        "-i", `'${framePath}'`,
+        "-i", `\"${framePath}\"`,
         "-frames:v", endFrameNo,
         "-c:v", "libx264",
         "-preset", preset,
         "-crf", "17",
         "-vf", "format=yuv420p",
-        `'${exportPath}'`,
+        `\"${exportPath}\"`,
         "-hide_banner", // Hide FFmpeg library info from output
       ].join(" ");
     }
