@@ -35,6 +35,7 @@
         height: 715,
         show: false,
         webPreferences: {
+          enableRemoteModule: true,
           nodeIntegration: true
         }
       };
