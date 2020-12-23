@@ -206,7 +206,7 @@
    * Toggles whether the menu items are disabled or not (excluding the file menu).
    */
   function toggleItems() {
-    const menu = nw.Window.get().menu;
+    const menu = Menu.getApplicationMenu()
     const toggleableMenus = ["Edit", "Capture", "Playback"];
 
     menu.items.forEach(function(menuItem) {
