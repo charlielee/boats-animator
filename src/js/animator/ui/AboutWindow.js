@@ -2,11 +2,13 @@
   "use strict";
   const { shell } = require('electron');
   const ConfirmDialog = require("./ConfirmDialog");
+  const appVersion = require('../../../../package').version;
+
 
   class AboutWindow {
     static show() {
       ConfirmDialog.confirmSet({
-        title: `Boats Animator ${nw.App.manifest.version}`,
+        title: `Boats Animator ${appVersion}`,
         icon: "info",
         text: `
         Boats Animator is a free, open-source stop motion animation program.\n
