@@ -1,8 +1,11 @@
 (function() {
   "use strict";
   const { ipcRenderer } = require('electron');
+  const AboutWindow = require("../ui/AboutWindow");
   const AudioManager = require("./AudioManager");
   const ConfirmDialog = require("../ui/ConfirmDialog");
+  const Notification = require("../ui/Notification");
+  const SaveDirectory = require(".//SaveDirectory");
 
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");
   const btnDeleteFrame = document.querySelector("#btn-delete-frame");
@@ -16,6 +19,9 @@
 
   const btnLiveView = document.querySelector("#btn-live-view");
 
+  /**
+   * Common way of executing app functions. Used for keyboard shortcuts and the menubar
+   */
   class Features {
     // Window management
 
@@ -25,6 +31,24 @@
 
     static exitApp() {
       ipcRenderer.send('win:close-window');
+    }
+
+    static aboutWindow() {
+      AboutWindow.show();
+    }
+
+    // Projects
+
+    static newProject() {
+      Notification.info("This feature is not yet available!");
+    }
+
+    static openProject() {
+      Notification.info("This feature is not yet available!");
+    }
+
+    static openDirChooseDialog() {
+      SaveDirectory.openDirChooseDialog();
     }
 
     // Main program features

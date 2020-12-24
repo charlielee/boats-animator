@@ -2,9 +2,9 @@ module.exports = {};
 
 (function() {
   "use strict";
-  const file = require("./File");
+  const file = require("../animator/core/File");
 
-  const Features = require("./Features");
+  const Features = require("../animator/core/Features");
   
   var allShortcuts = {},
       activeGroups = [],

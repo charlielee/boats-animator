@@ -1,11 +1,17 @@
 (function () {
   const { BrowserWindow, dialog } = require('electron');
   const settings = new (require('./settings'));
+  const MenuBar = require('./MenuBar');
 
   /**
    * Class for managing app windows
    */
   class Win {
+    constructor() {
+      this.menuBar = new MenuBar();
+      this.menuBar.load();
+    }
+
     /**
      * Switches the current window of the app.
      * @param {String} winName The name of the window to switch to
@@ -53,10 +59,12 @@
         animatorWin.maximize();
       }
 
+      // Delay opening the window
       animatorWin.once('ready-to-show', () => {
         animatorWin.show();
       });
 
+      // Display warning prompt when closing the window
       animatorWin.on('close', (e) => {
         let choice = dialog.showMessageBoxSync(animatorWin,
           {
@@ -73,6 +81,11 @@
           settings.set('windows.animator.isMaximized', animatorWin.isMaximized());
           settings.set('windows.animator.winBounds', animatorWin.getBounds());
         }
+      });
+
+      // Notify the renderer process when menu bar items are clicked
+      this.menuBar.eventEmitter.on("menubar:click", function (menuItemName) {
+        animatorWin.webContents.send('menubar:click', menuItemName);
       });
     }
 
