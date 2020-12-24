@@ -1,5 +1,6 @@
 (function() {
   "use strict";
+  const { ipcRenderer } = require("electron");
 
   // Library imports
   var swal = require("sweetalert");
@@ -24,7 +25,7 @@
       // Pause main shortcuts and menubar items
       global.AppShortcuts.remove("main");
       global.AppShortcuts.add("confirm");
-      global.AppMenuBar.toggleItems();
+      ipcRenderer.send('menubar:toggle-items', false);
 
       return new Promise(function(resolve, reject) {
         // Create a SweetAlert dialogue with the selected arguments
@@ -35,7 +36,7 @@
             // Resume main shortcuts and menubar items
             global.AppShortcuts.remove("confirm");
             global.AppShortcuts.add("main");
-            global.AppMenuBar.toggleItems();
+            ipcRenderer.send('menubar:toggle-items', true);
 
             // Resolve the promise
             resolve(response);

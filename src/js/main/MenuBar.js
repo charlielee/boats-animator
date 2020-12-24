@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  const { Menu, MenuItem, shell } = require("electron");
+  const { Menu, shell } = require("electron");
   const events = require("events");
 
   // Main imports
@@ -11,6 +11,7 @@
   class MenuBar {
     constructor() {
       this.eventEmitter = new events.EventEmitter();
+      this.animatorItemsEnabled = true;
     }
 
     /**
@@ -27,21 +28,21 @@
             {
               label: "New project...",
               click: function () {
-                self.sendClickEvent("newProject")
+                self._sendClickEvent("newProject");
               },
               accelerator: "CommandOrControl+n"
             },
             {
               label: "Open project...",
               click: function () {
-                self.sendClickEvent("openProject")
+                self._sendClickEvent("openProject");
               },
               accelerator: "CommandOrControl+o"
             },
             {
               label: "Main Menu",
               click: function () {
-                self.sendClickEvent("mainMenu")
+                self._sendClickEvent("mainMenu");
               },
               accelerator: "CommandOrControl+w"
             },
@@ -49,7 +50,7 @@
             {
               label: "Exit",
               click: function () {
-                self.sendClickEvent("exitApp")
+                self._sendClickEvent("exitApp");
               },
               accelerator: "CommandOrControl+q"
             }
@@ -61,7 +62,7 @@
             {
               label: "Delete last frame",
               click: function () {
-                self.sendClickEvent("undoFrame")
+                self._sendClickEvent("undoFrame");
               },
               // accelerator: `${Shortcuts.getPrimaryModifiers("undoFrame")}+${Shortcuts.getPrimaryKey("undoFrame")}`
             }
@@ -73,21 +74,21 @@
             {
               label: "Capture frame",
               click: function () {
-                self.sendClickEvent("takePicture")
+                self._sendClickEvent("takePicture");
               },
               // accelerator: `${Shortcuts.getPrimaryModifiers("takePicture")}+${Shortcuts.getPrimaryKey("takePicture")}`
             },
             {
               label: "Confirm take",
               click: function () {
-                self.sendClickEvent("confirmTake")
+                self._sendClickEvent("confirmTake");
               },
             },
             { type: "separator" },
             {
               label: "Play capture sounds",
               click: function () {
-                self.sendClickEvent("audioToggle")
+                self._sendClickEvent("audioToggle");
               },
               type: "checkbox",
               checked: true,
@@ -96,7 +97,7 @@
             {
               label: "Change capture destination",
               click: function () {
-                self.sendClickEvent("openDirChooseDialog")
+                self._sendClickEvent("openDirChooseDialog");
               }
             }
           ]
@@ -107,7 +108,7 @@
             {
               label: "Loop playback",
               click: function () {
-                self.sendClickEvent("loopPlayback")
+                self._sendClickEvent("loopPlayback");
               },
               type: "checkbox",
               checked: false,
@@ -117,14 +118,14 @@
             {
               label: "Display first frame",
               click: function () {
-                self.sendClickEvent("firstFrame")
+                self._sendClickEvent("firstFrame");
               },
               // accelerator: `${Shortcuts.getPrimaryModifiers("firstFrame")}+${Shortcuts.getPrimaryKey("firstFrame")}`
             },
             {
               label: "Display last frame",
               click: function () {
-                self.sendClickEvent("lastFrame")
+                self._sendClickEvent("lastFrame");
               },
               // accelerator: `${Shortcuts.getPrimaryModifiers("lastFrame")}+${Shortcuts.getPrimaryKey("lastFrame")}`
             }
@@ -164,7 +165,7 @@
             {
               label: "About Boats Animator",
               click: function () {
-                self.sendClickEvent("aboutWindow")
+                self._sendClickEvent("aboutWindow");
               }
             }
           ]
@@ -178,15 +179,19 @@
 
     /**
      * Toggles whether the menu items specific to the animator window are disabled or not.
+     * @param {Boolean} forceState The boolean value to set the checkbox to
      */
-    toggleAnimatorItems() {
-      const menu = Menu.getApplicationMenu();
+    toggleAnimatorItems(forceState = null) {
+      let self = this;
+      let menu = Menu.getApplicationMenu();
       const toggleableMenus = ["Edit", "Capture", "Playback"];
+
+      self.animatorItemsEnabled = (forceState === null ? !self.animatorItemsEnabled : forceState);
 
       menu.items.forEach(function(menuItem) {
         if (toggleableMenus.includes(menuItem.label)) {
           menuItem.submenu.items.forEach(function(subMenuItem) {
-            subMenuItem.enabled = !subMenuItem.enabled;
+            subMenuItem.enabled = self.animatorItemsEnabled;
           });
         }
       });
@@ -213,7 +218,7 @@
      * Emit an event when a menubar item is clicked
      * @param {String} menuItemName The name of the menu bar item that was clicked
      */
-    sendClickEvent(menuItemName) {
+    _sendClickEvent(menuItemName) {
       this.eventEmitter.emit("menubar:click", menuItemName);
     }
   }

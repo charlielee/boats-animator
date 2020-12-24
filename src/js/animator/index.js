@@ -12,7 +12,6 @@
   // UI imports
   const CaptureOptions = require("./js/animator/ui/CaptureOptions");
   const FrameReelRow = require("./js/animator/ui/FrameReelRow");
-  // global.AppMenuBar = require("./js/animator/ui/MenuBar");
 
   function startup() {
     // Load the keyboard shortcuts

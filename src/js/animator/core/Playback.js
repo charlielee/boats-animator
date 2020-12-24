@@ -1,5 +1,7 @@
 (function() {
   "use strict";
+  const { ipcRenderer } = require("electron");
+
   const btnLoop = document.querySelector("#btn-loop");
   const btnPlayPause = document.querySelector("#btn-play-pause");
 
@@ -35,8 +37,7 @@
       }
 
       // Toggle checkbox on related menubar item
-      let loopMenuBarItem = nw.Window.get().menu.items[3].submenu.items[0];
-      loopMenuBarItem.checked = this.isLooping;
+      ipcRenderer.send('menubar:toggle-checkbox', 'loopPlayback', this.isLooping);
 
       console.info(`Loop playback: ${this.isLooping}`);
     }

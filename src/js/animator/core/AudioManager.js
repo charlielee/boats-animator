@@ -1,7 +1,8 @@
 (function() {
   "use strict";
+  const { ipcRenderer } = require("electron");
+
   const Notification = require("../ui/Notification");
-  const MenuBar = require("../../main/MenuBar");
 
   // Whether audio should be played or not
   var audioEnabled = true;
@@ -28,7 +29,7 @@
       audioEnabled = enabled;
 
       // Toggle checkbox on related menubar item
-      MenuBar.toggleCheckbox("captureSounds", enabled);
+      ipcRenderer.send('menubar:toggle-checkbox', 'captureSounds', enabled);
 
       Notification.info(`Capture sounds ${enabled ? "enabled" : "disabled"}.`);
     }

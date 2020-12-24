@@ -1,5 +1,7 @@
 (function() {
   "use strict";
+  const { ipcRenderer } = require("electron");
+
   // Loading Window
   const body = document.body;
   const loadingWindow = document.querySelector("#loading-window");
@@ -11,7 +13,7 @@
       // Pause main shortcuts and menubar items
       global.AppShortcuts.remove("main");
       global.AppShortcuts.add("confirm");
-      global.AppMenuBar.toggleItems();
+      ipcRenderer.send('menubar:toggle-items', false);
 
       // See which elements should be displayed
       if (!loadingWindow.classList.contains("active")) {
@@ -38,7 +40,7 @@
       // Resume main shortcuts and menubar items
       global.AppShortcuts.remove("confirm");
       global.AppShortcuts.add("main");
-      global.AppMenuBar.toggleItems();
+      ipcRenderer.send('menubar:toggle-items', true);
 
       // Hide loading window
       this.isLoading = false;

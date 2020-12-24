@@ -52,7 +52,6 @@
         height: 715,
         show: true,
         webPreferences: {
-          enableRemoteModule: true,
           nodeIntegration: true
         }
       };
@@ -64,6 +63,9 @@
 
       let animatorWin = new BrowserWindow(options);
       animatorWin.loadFile('src/animator.html');
+
+      animatorWin.setMenuBarVisibility(true);
+      this.menuBar.toggleAnimatorItems(true);
 
       // Restore maximization status
       if (!settings.get('windows.animator.isMaximized')) {
@@ -94,7 +96,12 @@
           nodeIntegration: true
         }
       });
+
       launcherWin.loadFile('src/launcher.html');
+
+      // Hides the menubar (Windows/Linux only) and disables menu items
+      launcherWin.setMenuBarVisibility(false);
+      this.menuBar.toggleAnimatorItems(false);
     }
 
     /**
