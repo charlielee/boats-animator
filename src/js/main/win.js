@@ -10,6 +10,11 @@
     constructor() {
       this.menuBar = new MenuBar();
       this.menuBar.load();
+
+      // Notify the renderer process when menu bar items are clicked
+      this.menuBar.eventEmitter.on("menubar:click", function (menuItemName) {
+        BrowserWindow.getFocusedWindow().webContents.send('menubar:click', menuItemName);
+      });
     }
 
     /**
@@ -20,26 +25,32 @@
       const originalWindow = BrowserWindow.getFocusedWindow();
 
       switch (winName) {
-        case 'animator':
+        case 'animator': {
           this.loadAnimator();
+          originalWindow.destroy();
           break;
-        case 'launcher':
-          this.loadLauncher();
+        }
+        case 'launcher': {
+          if (this.confirmCloseAnimator(originalWindow)) {
+            this.loadLauncher();
+            originalWindow.destroy();
+          }
           break;
+        }
       }
-
-      originalWindow.close();
     }
 
     /**
      * Loads the animator window
      */
     loadAnimator() {
+      let self = this;
       let options = {
+        title: "Boats Animator",
         backgroundColor: '#2B2B2B',
         width: 1050,
         height: 715,
-        show: false,
+        show: true,
         webPreferences: {
           enableRemoteModule: true,
           nodeIntegration: true
@@ -59,33 +70,13 @@
         animatorWin.maximize();
       }
 
-      // Delay opening the window
-      animatorWin.once('ready-to-show', () => {
-        animatorWin.show();
-      });
-
       // Display warning prompt when closing the window
       animatorWin.on('close', (e) => {
-        let choice = dialog.showMessageBoxSync(animatorWin,
-          {
-            type: 'question',
-            buttons: ['OK', 'Cancel'],
-            title: 'Boats Animator',
-            message: 'Are you sure you want to exit Boats Animator?'
-         });
+        let confirmClose = self.confirmCloseAnimator(animatorWin);
 
-        if (choice === 1){
+        if (!confirmClose) {
           e.preventDefault();
-        } else {
-          // Store window dimensions on close
-          settings.set('windows.animator.isMaximized', animatorWin.isMaximized());
-          settings.set('windows.animator.winBounds', animatorWin.getBounds());
         }
-      });
-
-      // Notify the renderer process when menu bar items are clicked
-      this.menuBar.eventEmitter.on("menubar:click", function (menuItemName) {
-        animatorWin.webContents.send('menubar:click', menuItemName);
       });
     }
 
@@ -94,19 +85,40 @@
      */
     loadLauncher() {
       let launcherWin = new BrowserWindow({
+        title: "Boats Animator",
         backgroundColor: '#2B2B2B',
         width: 730,
         height: 540,
-        show: false,
+        show: true,
         webPreferences: {
           nodeIntegration: true
         }
       });
       launcherWin.loadFile('src/launcher.html');
+    }
 
-      launcherWin.once('ready-to-show', () => {
-        launcherWin.show();
-      });
+    /**
+     * Display confirm prompt when closing the window
+     * @param {BrowserWindow} animatorWin The Animator window
+     */
+    confirmCloseAnimator(animatorWin) {
+      let choice = dialog.showMessageBoxSync(animatorWin,
+        {
+          type: 'question',
+          buttons: ['OK', 'Cancel'],
+          title: 'Boats Animator',
+          message: 'Are you sure you want to exit Boats Animator?'
+        });
+
+      if (choice === 0){
+        // Store window dimensions on close
+        settings.set('windows.animator.isMaximized', animatorWin.isMaximized());
+        settings.set('windows.animator.winBounds', animatorWin.getBounds());
+
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
