@@ -12,7 +12,7 @@
       this.menuBar.load();
 
       // Notify the renderer process when menu bar items are clicked
-      this.menuBar.eventEmitter.on("menubar:click", function (menuItemName) {
+      this.menuBar.eventEmitter.on("menubar:click", (menuItemName) => {
         BrowserWindow.getFocusedWindow().webContents.send('menubar:click', menuItemName);
       });
     }
@@ -110,7 +110,7 @@
           message: 'Are you sure you want to exit Boats Animator?'
         });
 
-      if (choice === 0){
+      if (choice === 0) {
         // Store window dimensions on close
         settings.set('windows.animator.isMaximized', animatorWin.isMaximized());
         settings.set('windows.animator.winBounds', animatorWin.getBounds());
