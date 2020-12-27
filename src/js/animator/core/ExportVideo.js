@@ -27,6 +27,7 @@
      * Displays the export video dialog box.
      */
     static displayExportVideoDialog() {
+      // TODO use projectInst.saveDirPath and IPC calls like export frame dir
       let saveLocation = global.projectInst.saveDirectory.saveDirLocation;
       let defaultExportPath = path.join(saveLocation, DEFAULT_FILE_NAME);
 

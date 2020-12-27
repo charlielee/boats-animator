@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const settings = new (require('./js/main/settings'));
 const win = new (require('./js/main/win'));
 
 // App events
@@ -29,6 +30,21 @@ ipcMain.on('menubar:toggle-items', (e, newState) => {
 // Toggle menu item checkbox
 ipcMain.on('menubar:toggle-checkbox', (e, itemName, newState) => {
   win.menuBar.toggleCheckbox(itemName, newState);
+});
+
+// Get the value of a setting with a given name
+ipcMain.handle('settings:get', async (e, settingName) => {
+  return settings.get(settingName);
+});
+
+// Open select export frame dir dialog
+ipcMain.handle('settings:show-export-frame-dir-dialog', async (e) => {
+  return await settings.showExportFrameDirDialog();
+});
+
+// Open select export video dir dialog
+ipcMain.handle('settings:show-export-video-dir-dialog', (e) => {
+  // TODO
 });
 
 // Handle window switching

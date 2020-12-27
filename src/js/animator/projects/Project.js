@@ -1,5 +1,6 @@
 (function () {
   "use strict";
+  const { ipcRenderer } = require("electron");
 
   // Common imports
   const ConfirmDialog = require("../ui/ConfirmDialog");
@@ -7,7 +8,6 @@
   // Main imports
   const Take = require("./Take");
   const Playback = require("../core/Playback");
-  const SaveDirectory = require("../core/SaveDirectory");
 
   // UI imports
   const FrameRate = require("../ui/FrameRate");
@@ -24,6 +24,9 @@
   const previewAreaEl = document.querySelector("#preview-area");
   const frameModLeftControls = document.querySelector("#left-controls");
 
+  const btnDirectoryChange = document.querySelector("#btn-dir-change");
+  const curDirDisplay = document.querySelector("#currentDirectoryName");
+
   /** Represents a project (a series of takes) */
   class Project {
     /**
@@ -35,7 +38,7 @@
       this.currentMode = null;
       this.currentTake = null;
       this.playback = null;
-      this.saveDirectory = new SaveDirectory(SaveDirectory.getLocalStorageDir());
+      this.saveDirPath = null;
       // Indicates whether or not we're currently streaming
       // video from the camera. Obviously, we start at false.
       this.streaming = false;
@@ -75,6 +78,11 @@
       btnDeleteFrame.addEventListener("click", function () {
         self.deleteCurrentSelectedFrame();
       });
+
+      // Change export frame directory
+      btnDirectoryChange.addEventListener("click", async () => {
+        self.showExportFrameDirDialog()
+      });
     }
 
     /**
@@ -82,8 +90,8 @@
      * Returns the new Take.
      */
     addTake() {
-      var takeNumber = this.takes.length + 1;
-      var take = new Take(takeNumber, this.saveDirectory);
+      let takeNumber = this.takes.length + 1;
+      let take = new Take(takeNumber, this.saveDirPath);
       this.takes.push(take);
       this.currentTake = this.takes[takeNumber - 1];
       return take;
@@ -113,6 +121,9 @@
           .then(function () {
             // Scroll to the end of the framereel
             self.currentTake.frameReel.selectLiveViewButton();
+          })
+          .catch(function (err) {
+            Notification.error(err);
           });
       }
     }
@@ -132,6 +143,36 @@
         this._deleteFrame(this.currentTake.frameReel.curSelectedFrame);
       } else {
         this.undoFrame();
+      }
+    }
+
+    /**
+     * Checks the export frame directory exists and prompt to select one if not.
+     */
+    async checkExportFrameDir() {
+      let exportFrameDir = await ipcRenderer.invoke('settings:get', 'projectDefaults.exportFrameDir');
+
+      // There is no set save directory or the directory does not exist
+      if (!exportFrameDir) {
+        this.showExportFrameDirDialog();
+      } else {
+        this.saveDirPath = exportFrameDir;
+        this.currentTake.saveDirPath = exportFrameDir;
+        curDirDisplay.innerHTML = exportFrameDir;
+      }
+    }
+
+    /**
+     * Opens the choose export frame directory dialog.
+     */
+    async showExportFrameDirDialog() {
+      let newDir = await ipcRenderer.invoke('settings:show-export-frame-dir-dialog');
+      console.log(`Export frame dir changed to: ${newDir}`);
+
+      if (newDir) {
+        this.saveDirPath = newDir;
+        this.currentTake.saveDirPath = newDir;
+        curDirDisplay.innerHTML = newDir;
       }
     }
 

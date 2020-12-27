@@ -3,6 +3,7 @@ module.exports = {};
 (function() {
   "use strict";
   const fs = require("fs");
+  const mkdirp = require("mkdirp");
 
   /**
    * Update the callback object to add missing repsonse methods.
@@ -152,6 +153,24 @@ module.exports = {};
   }
 
   /**
+   * Create a directory if it doesn't exist.
+   * @param {String} dirPath The directory to create
+   * @returns {String} Returns the dir if it exists or has been created.
+   */
+  function makeDirIfNotExists(dirPath) {
+    try {
+      if (!fs.statSync(dirPath, {throwIfNoEntry: false})) {
+        mkdirp.sync(dirPath);
+      }
+    } catch (err) {
+      // console.error(err);
+      return false;
+    }
+
+    return dirPath;
+  }
+
+  /**
    * Write a file to the hard drive.
    *
    * @param {String} file - Absolute path to the file to be saved.
@@ -183,4 +202,5 @@ module.exports = {};
   module.exports.rename = renameFile;
   module.exports.renamePromise = renameFilePromise;
   module.exports.delete = deleteFile;
+  module.exports.makeDirIfNotExists = makeDirIfNotExists;
 }());

@@ -5,7 +5,6 @@
   const AudioManager = require("./AudioManager");
   const ConfirmDialog = require("../ui/ConfirmDialog");
   const Notification = require("../ui/Notification");
-  const SaveDirectory = require(".//SaveDirectory");
 
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");
   const btnDeleteFrame = document.querySelector("#btn-delete-frame");
@@ -16,6 +15,8 @@
   const btnFramePrevious = document.querySelector("#btn-frame-previous");
   const btnFrameFirst = document.querySelector("#btn-frame-first");
   const btnFrameLast = document.querySelector("#btn-frame-last");
+
+  const btnDirectoryChange = document.querySelector("#btn-dir-change");
 
   const btnLiveView = document.querySelector("#btn-live-view");
 
@@ -48,7 +49,7 @@
     }
 
     static openDirChooseDialog() {
-      SaveDirectory.openDirChooseDialog();
+      btnDirectoryChange.click();
     }
 
     // Main program features

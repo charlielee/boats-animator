@@ -35,6 +35,7 @@
       FrameReelRow.setListeners();
       PreviewOverlay.initialise();
       global.projectInst.setListeners();
+      global.projectInst.checkExportFrameDir();
 
       // Set default view
       global.projectInst.setCurrentMode("capture");

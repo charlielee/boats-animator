@@ -1,9 +1,6 @@
 (function () {
   "use strict";
 
-  // Main imports
-  var SaveDirectory = require("../core/SaveDirectory");
-
   // UI imports
   var FrameReel = require("../core/FrameReel");
   var Notification = require("../ui/Notification");
@@ -22,13 +19,13 @@
     /**
      * Constructor for a new take
      * @param {Number} takeNumber The id of the take.
-     * @param {SaveDirectory} saveDirectory The project save directory for the take.
+     * @param {String} saveDirPath The project save directory for the take.
      */
-    constructor(takeNumber, saveDirectory) {
+    constructor(takeNumber, saveDirPath) {
       // The id of the take
       this.takeNumber = takeNumber;
       // Project save directory
-      this.saveDirectory = saveDirectory;
+      this.saveDirPath = saveDirPath;
       // Array of captured Image elements
       this.capturedFrames = [];
       // Array of the paths of the captured images
@@ -53,9 +50,13 @@
       var self = this;
       return new Promise(function (resolve, reject) {
         // Prevent taking frames without a set output path
-        if (!self.saveDirectory.saveDirLocation) {
-          Notification.error("A save directory must be first set!");
-          reject("A save directory must be first set!");
+        if (!self.saveDirPath) {
+          return reject("A save directory must be first set!");
+        }
+
+        // Prevent taking frames if the output path is invalid
+        if (!File.makeDirIfNotExists(self.saveDirPath)) {
+          return reject(`Unable to capture frame as failed to create save directory at ${self.saveDirPath}`);
         }
 
         // Draw the image on the canvas
@@ -126,7 +127,7 @@
       }
 
       return new Promise((resolve, reject) => {
-        let outputDir = this.saveDirectory.saveDirLocation;
+        let outputDir = this.saveDirPath;
 
         let promisesList = [];
   
@@ -195,11 +196,8 @@
       let fileName = this.buildFileName(Take.getPaddedFrameNumber(id));
 
       // Make the output directory if it does not exist
-      // todo outputDir should eventually be ${this.saveDirectory.saveDirLocation}/${this.takeNumber}
-      var outputDir = this.saveDirectory.saveDirLocation;
-      if (!SaveDirectory.checkDir(outputDir)) {
-        SaveDirectory.makeDir(outputDir);
-      }
+      // todo outputDir should eventually be ${this.saveDirPath}/${this.takeNumber}
+      let outputDir = this.saveDirPath;
 
       // Create an absolute path to the destination location
       var outputPath = `${outputDir}/${fileName}`;
