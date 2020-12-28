@@ -17,9 +17,6 @@
             properties: {
               'exportFrameDir': {
                 type: 'string'
-              },
-              'exportVideoDir': {
-                type: 'string'
               }
             }
           },
@@ -110,13 +107,26 @@
       }
     }
 
-    showExportVideoDirDialog() {
-      // TODO
-      const options = {
-        title: "Select a directory to save the exported video file",
-        // defaultPath: 
-        properties: ["openDirectory", "createDirectory"]
-      };
+    /**
+     * Opens the export video file path dialog.
+     * @param {String} curFilePath The initial file path to display in the dialog
+     * @returns {String} The selected file path, the previous file path is used if the dialog is "cancelled"
+     */
+    async showExportVideoFilePathDialog(curFilePath) {
+      let win = BrowserWindow.getFocusedWindow();
+
+      let result = await dialog.showSaveDialog(win, {
+        title: "Select the location to save the exported video file",
+        defaultPath: curFilePath,
+        properties: ["createDirectory", "showOverwriteConfirmation"]
+      });
+
+      if (!result.canceled && result.filePath) {
+        return result.filePath;
+      } else {
+        // Return the current export dir if a new one isn't set
+        return curFilePath;
+      }
     }
   }
 

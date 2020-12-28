@@ -1,5 +1,6 @@
 (function() {
   "use strict";
+  const { ipcRenderer, shell } = require("electron");
   const path = require("path");
 
   const ConfirmDialog = require("../ui/ConfirmDialog");
@@ -26,18 +27,17 @@
     /**
      * Displays the export video dialog box.
      */
-    static displayExportVideoDialog() {
-      // TODO use projectInst.saveDirPath and IPC calls like export frame dir
-      let saveLocation = global.projectInst.saveDirectory.saveDirLocation;
-      let defaultExportPath = path.join(saveLocation, DEFAULT_FILE_NAME);
+    static async displayExportVideoDialog() {
+      // File path to export the video to
+      let exportFrameDir = await ipcRenderer.invoke("settings:get", "projectDefaults.exportFrameDir");
+      let outputPath = `${exportFrameDir}/${DEFAULT_FILE_NAME}`;
 
       // Html for the export video dialog
       let dialogContents = document.createElement("div");
       dialogContents.innerHTML = `
-        <input id="exportLocationInput" type="file" nwsaveas="${DEFAULT_FILE_NAME}" nwworkingdir="${saveLocation}" style="display: none;">
         <label>Export location:</label>
         <br>
-        <div id="currentVideoExportText">${defaultExportPath}</div>
+        <div id="currentVideoExportText">${outputPath}</div>
         <button id="exportLocationBtn">Browse</button>
 
         <br>
@@ -61,42 +61,32 @@
 
       // Elements
       const currentVideoExportText = dialogContents.querySelector("#currentVideoExportText")
-      const exportLocationInput = dialogContents.querySelector("#exportLocationInput");
       const exportLocationBtn = dialogContents.querySelector("#exportLocationBtn");
       const presetSelect = dialogContents.querySelector("#presetSelect");
       const customArgumentsInput = dialogContents.querySelector("#customArgumentsInput");
 
       // Dialog values
-      let outputPath = exportLocationInput.value ? exportLocationInput.value : defaultExportPath;
       let presetValue = presetSelect.value;
 
       // Export video parameters
-      let frameLocation = saveLocation;
       let frameRate = global.projectInst.frameRate.frameRateValue;
 
       // Load in default FFmpeg arguments
-      customArgumentsInput.value = ExportVideo.generateFfmpegArguments(outputPath, frameLocation, frameRate, presetValue);
+      customArgumentsInput.value = ExportVideo.generateFfmpegArguments(outputPath, exportFrameDir, frameRate, presetValue);
 
       // Event listeners
 
-      // Activate hidden input field on button click
-      exportLocationBtn.addEventListener("click", function() {
-        exportLocationInput.click();
-      });
-
-      // Listen for the choose save directory dialog being changed
-      exportLocationInput.addEventListener("change", function() {
-        if (this.value) {
-          currentVideoExportText.innerText = this.value;
-          outputPath = this.value;
-          customArgumentsInput.value = ExportVideo.generateFfmpegArguments(outputPath, frameLocation, frameRate, presetValue);
-        }
+      // Activate choose export video file path dialog on button click
+      exportLocationBtn.addEventListener("click", async () => {
+        outputPath = await ipcRenderer.invoke("settings:show-export-video-file-path-dialog", outputPath);
+        currentVideoExportText.innerText = outputPath;
+        customArgumentsInput.value = ExportVideo.generateFfmpegArguments(outputPath, exportFrameDir, frameRate, presetValue);
       });
 
       // Listen to the preset value dialog being changed
       presetSelect.addEventListener("change", function () {
         presetValue = this.value;
-        customArgumentsInput.value = ExportVideo.generateFfmpegArguments(outputPath, frameLocation, frameRate, presetValue);
+        customArgumentsInput.value = ExportVideo.generateFfmpegArguments(outputPath, exportFrameDir, frameRate, presetValue);
       });
 
       ConfirmDialog.confirmSet({
@@ -119,7 +109,7 @@
       });
 
       // Auto-click the export location button upon load to prompt user to select an export location
-      exportLocationInput.click();
+      exportLocationBtn.click();
     }
 
     /**
@@ -168,7 +158,7 @@
 
           // Handle clicking said link
           exportCompleteDialog.querySelector("#videoExportPathLink").addEventListener("click", () => {
-            nw.Shell.showItemInFolder(exportPath);
+            shell.showItemInFolder(exportPath);
           });
         } else {
           // Display whatever the error is

@@ -39,12 +39,12 @@ ipcMain.handle('settings:get', async (e, settingName) => {
 
 // Open select export frame dir dialog
 ipcMain.handle('settings:show-export-frame-dir-dialog', async (e) => {
-  return await settings.showExportFrameDirDialog();
+  return settings.showExportFrameDirDialog();
 });
 
-// Open select export video dir dialog
-ipcMain.handle('settings:show-export-video-dir-dialog', (e) => {
-  // TODO
+// Open select export video file path dialog
+ipcMain.handle('settings:show-export-video-file-path-dialog', async (e, curFilePath) => {
+  return settings.showExportVideoFilePathDialog(curFilePath);
 });
 
 // Handle window switching
