@@ -94,6 +94,8 @@
 
       let result = await dialog.showOpenDialog(win, {
         title: "Select a directory to save captured frames",
+        // Title for macOS
+        message: "Select a directory to save captured frames",
         defaultPath: curDir,
         properties: ["openDirectory", "createDirectory"]
       });
@@ -117,6 +119,8 @@
 
       let result = await dialog.showSaveDialog(win, {
         title: "Select the location to save the exported video file",
+        // Title for macOS
+        message: "Select the location to save the exported video file",
         defaultPath: curFilePath,
         properties: ["createDirectory", "showOverwriteConfirmation"]
       });
