@@ -1,7 +1,6 @@
 (function() {
   "use strict";
   const { ipcRenderer } = require('electron');
-  const AboutWindow = require("../ui/AboutWindow");
   const AudioManager = require("./AudioManager");
   const ConfirmDialog = require("../ui/ConfirmDialog");
   const Notification = require("../../common/Notification");
@@ -28,10 +27,6 @@
 
     static mainMenu() {
       ipcRenderer.send('win:switch-window', 'launcher');
-    }
-
-    static aboutWindow() {
-      AboutWindow.show();
     }
 
     // Projects

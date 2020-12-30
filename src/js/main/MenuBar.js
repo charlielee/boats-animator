@@ -200,9 +200,15 @@
             },
             { type: "separator" },
             {
-              label: "About Boats Animator",
+              label: "View license",
               click: function () {
-                self._sendClickEvent("aboutWindow");
+                shell.openExternal("https://github.com/charlielee/boats-animator/blob/master/LICENSE");
+              }
+            },
+            {
+              label: "Official Website",
+              click: function () {
+                shell.openExternal("https://www.charlielee.uk/boats-animator");
               }
             }
           ]
