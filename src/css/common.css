@@ -264,3 +264,20 @@ footer li:not(.no-pipe)::after {
 
   font-size: 0.95em;
 }
+
+/* 9. Highlight message
+   -------------------------------- */
+
+.highlight {
+  background-color: #d9d9d9;
+  color: #2B2B2B;
+  border-radius: 0.25em;
+  margin: 1em 0;
+  overflow: hidden;
+  padding: 0 1em;
+  width: 100%;
+}
+
+.highlight-body {
+  margin: 1em 0;
+}
