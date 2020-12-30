@@ -6,7 +6,7 @@
   // Main imports
   // const Shortcuts = require("../common/Shortcuts");
 
-  // var controlKey = (process.platform === "darwin" ? "command" : "ctrl");
+  const isMac = (process.platform === "darwin");
 
   class MenuBar {
     constructor() {
@@ -22,9 +22,35 @@
 
       // Menu items to add
       let menuItems = [
+        // App Menu (macOS only)
+        ...(isMac ? [{
+          label: "Boats Animator",
+          submenu: [
+            {
+              label: "About Boats Animator",
+              role: "about"
+            },
+            { type: "separator" },
+            { role: "services" },
+            { type: "separator" },
+            {
+              label: "Hide Boats Animator",
+              role: "hide"
+            },
+            { role: "hideothers" },
+            { role: "unhide" },
+            { type: "separator" },
+            {
+              label: "Quit Boats Animator",
+              role: "quit"
+            }
+          ]
+        }] : []),
+        // File
         {
           label: "File",
           submenu: [
+            // New project
             {
               label: "New project...",
               click: function () {
@@ -32,6 +58,7 @@
               },
               accelerator: "CommandOrControl+n"
             },
+            // Open project
             {
               label: "Open project...",
               click: function () {
@@ -39,6 +66,7 @@
               },
               accelerator: "CommandOrControl+o"
             },
+            // Return to main menu
             {
               label: "Main Menu",
               click: function () {
@@ -46,16 +74,17 @@
               },
               accelerator: "CommandOrControl+w"
             },
-            { type: "separator" },
-            {
-              label: "Exit",
-              click: function () {
-                self._sendClickEvent("exitApp");
-              },
-              accelerator: "CommandOrControl+q"
-            }
+            // Quit app (Windows/Linux)
+            ...(!isMac ? [
+              { type: "separator" },
+              {
+                label: "Exit",
+                role: "quit"
+              }
+            ] : [])
           ]
         },
+        // Edit
         {
           label: "Edit",
           submenu: [
@@ -68,6 +97,7 @@
             }
           ]
         },
+        // Capture
         {
           label: "Capture",
           submenu: [
@@ -102,6 +132,7 @@
             }
           ]
         },
+        // Playback
         {
           label: "Playback",
           submenu: [
@@ -131,6 +162,7 @@
             }
           ]
         },
+        // View
         {
           label: "View",
           submenu: [
@@ -145,6 +177,7 @@
             { role: "togglefullscreen" }
           ]
         },
+        // Help
         {
           label: "Help",
           submenu: [

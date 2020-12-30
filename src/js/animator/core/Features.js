@@ -30,10 +30,6 @@
       ipcRenderer.send('win:switch-window', 'launcher');
     }
 
-    static exitApp() {
-      ipcRenderer.send('win:close-window');
-    }
-
     static aboutWindow() {
       AboutWindow.show();
     }
