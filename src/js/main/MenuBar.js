@@ -79,7 +79,8 @@
               { type: "separator" },
               {
                 label: "Exit",
-                role: "quit"
+                role: "quit",
+                accelerator: "CommandOrControl+q"
               }
             ] : [])
           ]
