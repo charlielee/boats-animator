@@ -1,5 +1,7 @@
 (function() {
   "use strict";
+  const { ipcRenderer } = require("electron");
+
   const Camera = require("../core/Camera");
 
   const cameraSelect = document.querySelector("#camera-select-td select");
@@ -29,6 +31,25 @@
       navigator.mediaDevices.addEventListener("devicechange", function(e) {
         Camera.enumerateDevices();
       });
+    }
+
+    /**
+     * Check the app has camera access and display a message if not
+     * @returns {Boolean} True if access has been granted, false if not
+     */
+    static async checkForCameraAccess() {
+      let currentStatus = await ipcRenderer.invoke("settings:check-for-camera-access");
+
+      if (!currentStatus) {
+        previewAreaMessage.innerHTML = `
+        <h2>
+          You have denied camera access to this application.
+          <br>
+          Please enable access in System Preferences and restart Boats Animator.
+        </h2>`;
+      }
+
+      return currentStatus;
     }
   }
 

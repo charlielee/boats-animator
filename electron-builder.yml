@@ -22,11 +22,12 @@ dmg:
       y: 150
 
 mac:
+  icon: icons/icon.icns
   target: dmg
-  category: public.app-category.tools
+  category: public.app-category.photography
 
 win:
-  icon: "icons/icon.ico"
+  icon: icons/icon.ico
   target: nsis
 
 linux:

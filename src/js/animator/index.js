@@ -7,7 +7,7 @@
   const Features = require("./js/animator/core/Features");
   const PreviewOverlay = require("./js/animator/core/PreviewOverlay");
   const Project = require("./js/animator/projects/Project");
-  global.AppShortcuts = require("./js/common/Shortcuts");
+  global.AppShortcuts = require("./js/animator/core/Shortcuts");
 
   // UI imports
   const CaptureOptions = require("./js/animator/ui/CaptureOptions");
@@ -30,7 +30,12 @@
       });
 
       // UI initialisation
-      CaptureOptions.setListeners();
+      CaptureOptions.checkForCameraAccess()
+      .then((accessStatus) => {
+        if (accessStatus) {
+          CaptureOptions.setListeners();
+        }
+      })
       ExportVideo.setListeners();
       FrameReelRow.setListeners();
       PreviewOverlay.initialise();

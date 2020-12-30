@@ -32,6 +32,11 @@ ipcMain.on('menubar:toggle-checkbox', (e, itemName, newState) => {
   win.menuBar.toggleCheckbox(itemName, newState);
 });
 
+// Check camera access has been granted by the OS
+ipcMain.handle('settings:check-for-camera-access', async (e) => {
+  return settings.checkForCameraAccess();
+});
+
 // Get the value of a setting with a given name
 ipcMain.handle('settings:get', async (e, settingName) => {
   return settings.get(settingName);

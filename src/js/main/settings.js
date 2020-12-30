@@ -1,7 +1,6 @@
 (function () {
-  const { BrowserWindow, dialog } = require('electron');
+  const { BrowserWindow, dialog, systemPreferences } = require('electron');
   const Store = require('electron-store');
-  // const appVersion =  require('../../package').version;
 
   /**
    * Managing app global settings
@@ -81,6 +80,22 @@
      */
     set(key, value) {
       this.store.set(key, value);
+    }
+
+    /**
+     * Displays the system dialog requesting camera access if the app doesn't already have it
+     * (mostly applicable to macOS)
+     * @returns {Boolean} Returns true if access is granted, false if it is denied
+     */
+    async checkForCameraAccess() {
+      let currentStatus = systemPreferences.getMediaAccessStatus("camera");
+
+      if (currentStatus === "granted") {
+        return true;
+      } else {
+        let requestAccess = await systemPreferences.askForMediaAccess("camera");
+        return requestAccess;
+      }
     }
 
     /**

@@ -2,9 +2,9 @@ module.exports = {};
 
 (function() {
   "use strict";
-  const file = require("../animator/core/File");
+  const file = require("./File");
 
-  const Features = require("../animator/core/Features");
+  const Features = require("./Features");
   
   var allShortcuts = {},
       activeGroups = [],
@@ -126,7 +126,7 @@ module.exports = {};
   function getShortcuts(location, callback) {
     // Location is a parameter to allow for custom shortcuts in the future.
     if (location === "default") {
-      location = "./src/json/default-shortcuts.json";
+      location = `${__dirname}/../../../json/default-shortcuts.json`;
     }
     file.read(location, {
       success: function(data) {
