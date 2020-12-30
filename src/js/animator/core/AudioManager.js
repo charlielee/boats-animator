@@ -2,7 +2,7 @@
   "use strict";
   const { ipcRenderer } = require("electron");
 
-  const Notification = require("../ui/Notification");
+  const Notification = require("../../common/Notification");
 
   // Whether audio should be played or not
   var audioEnabled = true;

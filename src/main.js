@@ -32,6 +32,11 @@ ipcMain.on('menubar:toggle-checkbox', (e, itemName, newState) => {
   win.menuBar.toggleCheckbox(itemName, newState);
 });
 
+// Returns if the app is packaged or not (indicates production or development mode)
+ipcMain.handle('app:is-packaged', async (e) => {
+  return app.isPackaged;
+});
+
 // Check camera access has been granted by the OS
 ipcMain.handle('settings:check-for-camera-access', async (e) => {
   return settings.checkForCameraAccess();

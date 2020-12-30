@@ -6,58 +6,6 @@
   flex-direction: column;
 }
 
-/* ========== Notification bar ============== */
-
-#notification-container {
-  width: 100vw;
-  position: fixed;
-  left: 20vw;
-  z-index: 100;
-}
-
-/* Individual notification */
-.notification {
-  display: flex;
-  margin-top: -2.75em;
-  width: 50%;
-  min-height: 2.75em;
-
-  background-color: #2b2b2b;
-  color: #fff;
-  transition: margin-top 0.3s ease-out,
-              opacity 0.3s ease;
-}
-
-/* Notification type label */
-.notify-type {
-  width: 4.5em;
-  margin-right: 0.5em;
-  padding: 0.2em;
-
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-
-  text-transform: capitalize;
-  font-size: 0.9em;
-}
-
-/* Notification states */
-.notification.visible { margin-top: 0; }
-.notification.hiding { opacity: 0; }
-.notification.success .notify-type { background-color: #2d9e2d; }
-.notification.info .notify-type { background-color: #3a3ae1; }
-.notification.error .notify-type { background-color: #ad0000; }
-
-/* Notification message */
-.notification .msg {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 0.95em;
-}
-
 /* ========== SIDEBAR ============== */
 
 #currentDirectoryName {

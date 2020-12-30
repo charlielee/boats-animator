@@ -4,7 +4,7 @@
   const AboutWindow = require("../ui/AboutWindow");
   const AudioManager = require("./AudioManager");
   const ConfirmDialog = require("../ui/ConfirmDialog");
-  const Notification = require("../ui/Notification");
+  const Notification = require("../../common/Notification");
 
   const btnCaptureFrame = document.querySelector("#btn-capture-frame");
   const btnDeleteFrame = document.querySelector("#btn-delete-frame");

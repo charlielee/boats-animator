@@ -3,7 +3,7 @@
 
   // UI imports
   var FrameReel = require("../core/FrameReel");
-  var Notification = require("../ui/Notification");
+  var Notification = require("../../common/Notification");
   var OnionSkin = require("../ui/OnionSkin");
   var PlaybackCanvas = require("../ui/PlaybackCanvas");
   var StatusBar = require("../ui/StatusBar");

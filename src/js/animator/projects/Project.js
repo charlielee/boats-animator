@@ -11,7 +11,7 @@
 
   // UI imports
   const FrameRate = require("../ui/FrameRate");
-  const Notification = require("../ui/Notification");
+  const Notification = require("../../common/Notification");
   const PlaybackCanvas = require("../ui/PlaybackCanvas");
   const PreviewOverlay = require("../core/PreviewOverlay");
   const StatusBar = require("../ui/StatusBar");

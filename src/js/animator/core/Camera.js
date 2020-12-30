@@ -6,7 +6,7 @@ module.exports = {};
   // Import modules
   var cameraResolutions = require("./CameraResolutions");
   const Loader = require("./Loader");
-  var Notification = require("../ui/Notification");
+  var Notification = require("../../common/Notification");
   var StatusBar = require("../ui/StatusBar");
 
   // The current video stream
