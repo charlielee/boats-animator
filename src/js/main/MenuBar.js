@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  const { Menu, shell } = require("electron");
+  const { app, Menu, shell } = require("electron");
   const events = require("events");
 
   // Main imports
@@ -167,8 +167,11 @@
         {
           label: "View",
           submenu: [
-            { role: "reload" },
-            { role: "forceReload" },
+            // Only show reload options in development mode
+            ...(!app.isPackaged ? [
+              { role: "reload" },
+              { role: "forceReload" }
+            ] : []),
             { role: "toggleDevTools" },
             { type: "separator" },
             { role: "resetZoom" },
