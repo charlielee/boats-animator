@@ -79,7 +79,9 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 #preview,
 #playback {
   flex: 1;
+  height: 100%;
   object-fit: contain;
+  position: absolute;
   width: 100%;
 }
 
