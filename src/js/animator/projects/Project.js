@@ -156,9 +156,7 @@
       if (!exportFrameDir) {
         this.showExportFrameDirDialog();
       } else {
-        this.saveDirPath = exportFrameDir;
-        this.currentTake.saveDirPath = exportFrameDir;
-        curDirDisplay.innerHTML = exportFrameDir;
+        this._updateExportFrameDirText(exportFrameDir);
       }
     }
 
@@ -170,10 +168,21 @@
       console.log(`Export frame dir changed to: ${newDir}`);
 
       if (newDir) {
-        this.saveDirPath = newDir;
-        this.currentTake.saveDirPath = newDir;
-        curDirDisplay.innerHTML = newDir;
+        this._updateExportFrameDirText(newDir);
       }
+    }
+
+    /**
+     * Updates the save directory displayed the the UI
+     * @param {String} newDir The new directory
+     */
+    _updateExportFrameDirText(newDir) {
+      this.saveDirPath = newDir;
+      this.currentTake.saveDirPath = newDir;
+      curDirDisplay.innerHTML = newDir;
+
+      // The title of the window
+      document.title = `Boats Animator (${newDir})`;
     }
 
     /**
