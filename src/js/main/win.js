@@ -46,14 +46,16 @@
     loadAnimator() {
       let self = this;
       let options = {
-        title: "Boats Animator",
         backgroundColor: '#2B2B2B',
-        width: 1050,
         height: 715,
+        minHeight: 400,
+        minWidth: 640,
         show: true,
+        title: "Boats Animator",
         webPreferences: {
           nodeIntegration: true
-        }
+        },
+        width: 1050
       };
 
       // Load last dimensions of the window
@@ -87,14 +89,16 @@
      */
     loadLauncher() {
       let launcherWin = new BrowserWindow({
-        title: "Boats Animator",
         backgroundColor: '#2B2B2B',
-        width: 730,
         height: 540,
+        minHeight: 400,
+        minWidth: 640,
         show: true,
+        title: "Boats Animator",
         webPreferences: {
           nodeIntegration: true
-        }
+        },
+        width: 730
       });
 
       launcherWin.loadFile('src/launcher.html');
