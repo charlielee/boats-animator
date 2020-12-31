@@ -70,7 +70,7 @@
       this.menuBar.toggleAnimatorItems(true);
 
       // Restore maximization status
-      if (!settings.get('windows.animator.isMaximized')) {
+      if (settings.get('windows.animator.isMaximized')) {
         animatorWin.maximize();
       }
 
