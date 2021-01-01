@@ -1,10 +1,12 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const settings = new (require('./js/main/settings'));
+const shortcutStore = new (require('./js/main/ShortcutStore'));
 const win = new (require('./js/main/win'));
 
 // App events
 
 app.whenReady().then(() => {
+  // win.menuBar.setShortcuts();
   win.loadLauncher();
 });
 
@@ -60,6 +62,10 @@ ipcMain.handle('settings:show-export-frame-dir-dialog', async (e) => {
 // Open select export video file path dialog
 ipcMain.handle('settings:show-export-video-file-path-dialog', async (e, curFilePath) => {
   return settings.showExportVideoFilePathDialog(curFilePath);
+});
+
+ipcMain.handle('shortcut-store:get-all', async (e) => {
+  return shortcutStore.getAll();
 });
 
 // Handle window switching

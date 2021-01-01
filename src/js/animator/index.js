@@ -15,6 +15,11 @@
 
   function startup() {
     // Load the keyboard shortcuts
+    ipcRenderer.invoke("shortcut-store:get-all")
+    .then((shortcuts) => {
+      console.log(shortcuts);
+    });
+
     global.AppShortcuts.get("default", function() {
       global.AppShortcuts.add("main");
 
