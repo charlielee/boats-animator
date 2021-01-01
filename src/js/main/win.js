@@ -1,5 +1,5 @@
 (function () {
-  const { BrowserWindow, dialog } = require('electron');
+  const { BrowserWindow, dialog, screen } = require('electron');
   const settings = new (require('./settings'));
   const MenuBar = require('./MenuBar');
 
@@ -59,9 +59,7 @@
       };
 
       // Load last dimensions of the window
-      if (!settings.get('windows.animator.isMaximized')) {
-        Object.assign(options, settings.get('windows.animator.winBounds'));
-      }
+      Object.assign(options, self.restoreAnimatorWindowSize());
 
       let animatorWin = new BrowserWindow(options);
       animatorWin.loadFile('src/animator.html');
@@ -124,11 +122,35 @@
       if (choice === 0) {
         // Store window dimensions on close
         settings.set('windows.animator.isMaximized', animatorWin.isMaximized());
-        settings.set('windows.animator.winBounds', animatorWin.getBounds());
+        settings.set('windows.animator.winBounds', animatorWin.getNormalBounds());
 
         return true;
       } else {
         return false;
+      }
+    }
+
+    /**
+     * Returns the previous the size of the animator window if it will fit on screen
+     * @returns {Rectangle|Object} Returns a "rectangle" object with the previous x, y, width and height bounds
+     *                             or a blank object.
+     */
+    restoreAnimatorWindowSize() {
+      // Size of the current display
+      let displayWorkAreaSize = screen.getPrimaryDisplay().workAreaSize;
+
+      // Previous dimensions of the animator window
+      let appBounds = Object.assign({}, settings.get('windows.animator.winBounds'));
+
+      // Check the window will fit in the x and y dimensions
+      // +10 is to allow for a small amount of leeway
+      let doesXFit = (displayWorkAreaSize["width"] + 10 >= appBounds["x"] + appBounds["width"]);
+      let doesYFit = (displayWorkAreaSize["height"] + 10 >= appBounds["y"] + appBounds["height"]);
+
+      if (doesXFit && doesYFit) {
+        return appBounds;
+      } else {
+        return {};
       }
     }
   }
