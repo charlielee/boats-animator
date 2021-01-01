@@ -3,8 +3,7 @@
   const { app, Menu, shell } = require("electron");
   const events = require("events");
 
-  // Main imports
-  // const Shortcuts = require("../common/Shortcuts");
+  const shortcutStore = new (require('./ShortcutStore'));
 
   const isMac = (process.platform === "darwin");
 
@@ -94,7 +93,8 @@
               click: function () {
                 self._sendClickEvent("undoFrame");
               },
-              // accelerator: `${Shortcuts.getPrimaryModifiers("undoFrame")}+${Shortcuts.getPrimaryKey("undoFrame")}`
+              accelerator: self._getAccelerator("animator.undoFrame"),
+              registerAccelerator: false
             }
           ]
         },
@@ -107,13 +107,14 @@
               click: function () {
                 self._sendClickEvent("takePicture");
               },
-              // accelerator: `${Shortcuts.getPrimaryModifiers("takePicture")}+${Shortcuts.getPrimaryKey("takePicture")}`
+              accelerator: self._getAccelerator("animator.takePicture"),
+              registerAccelerator: false
             },
             {
               label: "Confirm take",
               click: function () {
                 self._sendClickEvent("confirmTake");
-              },
+              }
             },
             { type: "separator" },
             {
@@ -123,7 +124,8 @@
               },
               type: "checkbox",
               checked: true,
-              // accelerator: `${Shortcuts.getPrimaryModifiers("audioToggle")}+${Shortcuts.getPrimaryKey("audioToggle")}`
+              accelerator: self._getAccelerator("animator.audioToggle"),
+              registerAccelerator: false
             },
             {
               label: "Change capture destination",
@@ -144,7 +146,8 @@
               },
               type: "checkbox",
               checked: false,
-              // accelerator: `${Shortcuts.getPrimaryModifiers("loopPlayback")}+${Shortcuts.getPrimaryKey("loopPlayback")}`
+              accelerator: self._getAccelerator("animator.loopPlayback"),
+              registerAccelerator: false
             },
             { type: "separator" },
             {
@@ -152,14 +155,16 @@
               click: function () {
                 self._sendClickEvent("firstFrame");
               },
-              // accelerator: `${Shortcuts.getPrimaryModifiers("firstFrame")}+${Shortcuts.getPrimaryKey("firstFrame")}`
+              accelerator: self._getAccelerator("animator.firstFrame"),
+              registerAccelerator: false
             },
             {
               label: "Display last frame",
               click: function () {
                 self._sendClickEvent("lastFrame");
               },
-              // accelerator: `${Shortcuts.getPrimaryModifiers("lastFrame")}+${Shortcuts.getPrimaryKey("lastFrame")}`
+              accelerator: self._getAccelerator("animator.lastFrame"),
+              registerAccelerator: false
             }
           ]
         },
@@ -247,13 +252,28 @@
      */
     toggleCheckbox(itemName, state) {
       const menu = Menu.getApplicationMenu();
+      // Handle mac having an extra appName menu item
+      const macOffset = (isMac ? 1 : 0);
+
       const checkboxItems = {
-        captureSounds: menu.items[2].submenu.items[3],
-        loopPlayback: menu.items[3].submenu.items[0]
+        captureSounds: menu.items[2+macOffset].submenu.items[3],
+        loopPlayback: menu.items[3+macOffset].submenu.items[0]
       };
 
       if (Object.keys(checkboxItems).includes(itemName)) {
         checkboxItems[itemName].checked = state;
+      }
+    }
+
+    /**
+     * Gets the primary shortcut of a given feature to display on the menubar
+     * @param {String} key The name of the shortcut to fetch
+     */
+    _getAccelerator(key) {
+      let shortcuts = shortcutStore.get(key);
+      if (shortcuts.length > 0) {
+        // Electron uses "CommandOrControl" instead of "mod"
+        return shortcuts[0].replace("mod", "CommandOrControl");
       }
     }
 

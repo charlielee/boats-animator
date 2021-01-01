@@ -6,7 +6,6 @@ const win = new (require('./js/main/win'));
 // App events
 
 app.whenReady().then(() => {
-  // win.menuBar.setShortcuts();
   win.loadLauncher();
 });
 

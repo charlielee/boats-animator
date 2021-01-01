@@ -62,6 +62,14 @@
     }
 
     /**
+     * Return an array of shortcuts for a given feature
+     * @param {String} key The name of the shortcut to fetch
+     */
+    get(key) {
+      return this.store.get(key);
+    }
+
+    /**
      * Load object containing the app shortcuts
      */
     getAll() {
