@@ -194,7 +194,7 @@
       // Make sure there is a frame to delete
       if (this.currentTake.getTotalFrames() > 0) {
         // Display warning alert to confirm deletion
-        ConfirmDialog.confirmSet({ text: `Are you sure you want to delete frame ${id}?` })
+        ipcRenderer.invoke("settings:show-confirm-dialog", `Are you sure you want to delete frame ${id}?`)
           .then((response) => {
             if (response) {
               // Remove the frame from the take

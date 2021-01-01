@@ -99,6 +99,23 @@
     }
 
     /**
+     * Loads a generic confirm dialog box
+     * @param {String} message The text to display in the dialog box
+     * @returns {Boolean} Returns true if OK is pressed, false if cancelled
+     */
+    showConfirmDialog(message) {
+      let win = BrowserWindow.getFocusedWindow();
+      let choice = dialog.showMessageBoxSync(win,
+        {
+          buttons: ['OK', 'Cancel'],
+          title: 'Boats Animator',
+          message: message
+        });
+
+      return choice === 0;
+    }
+
+    /**
      * Opens the export frame directory dialog.
      * @returns {String} The selected dir path, or the previous dir if the dialog is "cancelled"
      *                   "null" is return if this fallback fails
