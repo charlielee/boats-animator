@@ -2,9 +2,9 @@
   "use strict";
   class ToggleButton {
     /**
-     * 
+     * Defines a toggle button element
      * @param {element} container The container of the button.
-     * @param {*} toggleMethod 
+     * @param {*} toggleMethod The element to excute on toggling
      * @param {*} status The initial state of the button (default: false/off).
      */
     constructor(container, toggleMethod, status = false) {

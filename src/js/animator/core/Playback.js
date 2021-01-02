@@ -70,18 +70,18 @@
       }
       console.info("Playback stopped");
     }
-    
+
     /**
-     * Previews the last 5 captured frames. 
+     * Previews the last 5 captured frames.
      */
     shortPlay() {
       if (global.projectInst.currentTake.getTotalFrames() > 0) {
         if (!this.isPlaying) {
           const totalFrames = global.projectInst.currentTake.getTotalFrames()
-          const number = totalFrames - 5; 
+          const number = totalFrames - 5;
           if (totalFrames <= 5) {
-            this.previewCapturedFrames(); 
-            return 
+            this.previewCapturedFrames();
+            return;
           }
           this.previewCapturedFrames(number);
         } else {
@@ -113,10 +113,10 @@
 
     /**
      * Preview the captured frames.
-     * 
+     *
      * @param {Integer} number - Frame number that previewing begins
      */
-    previewCapturedFrames(number = 0) {  
+    previewCapturedFrames(number = 0) {
       // Display playback window
       if (global.projectInst.getCurrentMode() === "capture") {
         global.projectInst.setCurrentMode("playback");

@@ -137,7 +137,7 @@ module.exports = {};
    * Rename a file on the hard drive.
    *
    * @param {String} oldName - Absolute path to the file to the current file.
-   * @param {String} newName - Absolute path to the file to the new file. 
+   * @param {String} newName - Absolute path to the file to the new file.
    */
   function renameFilePromise(oldName, newName) {
     return new Promise((resolve, reject) => {

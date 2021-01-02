@@ -123,7 +123,7 @@
       // Add a list item to settings dialog
       let overlayListItem = document.createElement("li");
       overlayListEl.appendChild(overlayListItem);
-  
+
       // Item title
       let itemTitle = document.createElement("div");
       let itemTitleText = document.createElement("div");

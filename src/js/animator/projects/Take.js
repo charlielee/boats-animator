@@ -130,7 +130,7 @@
         let outputDir = this.saveDirPath;
 
         let promisesList = [];
-  
+
         for (let i = 0; i < self.getTotalFrames(); i++) {
           let oldFilePath = self.exportedFramesPaths[i];
 
@@ -141,7 +141,7 @@
           self.exportedFramesPaths[i] = newFilePath;
           promisesList.push(File.renamePromise(oldFilePath, newFilePath));
         }
-  
+
         // Rename all of the files
         Promise.all(promisesList).then(() => {
           // Reset last export frame id
@@ -238,7 +238,7 @@
 
     /**
      * Converts a frame number into the padded zero format used in file names.
-     * @param {Integer} frameNumber 
+     * @param {Integer} frameNumber The id of the frame to pad
      */
     static getPaddedFrameNumber(frameNumber) {
       // Note the massive assumption that no one will capture more than 99999 frames has been made
