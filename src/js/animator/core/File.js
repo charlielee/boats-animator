@@ -159,15 +159,14 @@ module.exports = {};
    */
   function makeDirIfNotExists(dirPath) {
     try {
-      if (!fs.statSync(dirPath, {throwIfNoEntry: false})) {
+      if (!fs.existsSync(dirPath)) {
         mkdirp.sync(dirPath);
       }
+      return dirPath;
     } catch (err) {
-      // console.error(err);
+      console.error(err);
       return false;
     }
-
-    return dirPath;
   }
 
   /**

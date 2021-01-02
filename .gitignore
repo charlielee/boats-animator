@@ -27,6 +27,7 @@ node_modules/
 .vscode/
 jsconfig.json
 *.~is
+debug.log
 npm-debug.log
 cache/
 dist/
