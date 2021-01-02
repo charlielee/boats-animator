@@ -1,6 +1,8 @@
 (function() {
   "use strict";
   const { ipcRenderer } = require("electron");
+  const Shortcuts = require("../core/Shortcuts");
+
 
   // Library imports
   var swal = require("sweetalert");
@@ -23,8 +25,7 @@
       }
 
       // Pause main shortcuts and menubar items
-      global.AppShortcuts.remove("main");
-      global.AppShortcuts.add("confirm");
+      Shortcuts.pause();
       ipcRenderer.send('menubar:toggle-items', false);
 
       return new Promise(function(resolve, reject) {
@@ -34,8 +35,7 @@
             swal.stopLoading();
 
             // Resume main shortcuts and menubar items
-            global.AppShortcuts.remove("confirm");
-            global.AppShortcuts.add("main");
+            Shortcuts.unpause();
             ipcRenderer.send('menubar:toggle-items', true);
 
             // Resolve the promise

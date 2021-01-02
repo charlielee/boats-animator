@@ -7,49 +7,41 @@
   const Features = require("./js/animator/core/Features");
   const PreviewOverlay = require("./js/animator/core/PreviewOverlay");
   const Project = require("./js/animator/projects/Project");
-  global.AppShortcuts = require("./js/animator/core/Shortcuts");
+  const Shortcuts = require("./js/animator/core/Shortcuts");
 
   // UI imports
   const CaptureOptions = require("./js/animator/ui/CaptureOptions");
   const FrameReelRow = require("./js/animator/ui/FrameReelRow");
 
   function startup() {
-    // Load the keyboard shortcuts
-    ipcRenderer.invoke("shortcut-store:get-all")
-    .then((shortcuts) => {
-      console.log(shortcuts);
+    Shortcuts.load();
+
+    // Initialise the project
+    global.projectInst = new Project("Untitled Project");
+    global.projectInst.addTake();
+
+    // Handle menu bar items being clicked in the main thread
+    ipcRenderer.on("menubar:click", (e, menuItemName) => {
+      // Get the feature with the matching string name
+      console.log(`Selected feature ${menuItemName}`);
+      Features[menuItemName]();
     });
 
-    global.AppShortcuts.get("default", function() {
-      global.AppShortcuts.add("main");
+    // UI initialisation
+    CaptureOptions.checkForCameraAccess()
+    .then((accessStatus) => {
+      if (accessStatus) {
+        CaptureOptions.setListeners();
+      }
+    })
+    ExportVideo.setListeners();
+    FrameReelRow.setListeners();
+    PreviewOverlay.initialise();
+    global.projectInst.setListeners();
+    global.projectInst.checkExportFrameDir();
 
-      // Initialise the project
-      global.projectInst = new Project("Untitled Project");
-      global.projectInst.addTake();
-
-      // Handle menu bar items being clicked in the main thread
-      ipcRenderer.on("menubar:click", (e, menuItemName) => {
-        // Get the feature with the matching string name
-        console.log(`Selected feature ${menuItemName}`);
-        Features[menuItemName]();
-      });
-
-      // UI initialisation
-      CaptureOptions.checkForCameraAccess()
-      .then((accessStatus) => {
-        if (accessStatus) {
-          CaptureOptions.setListeners();
-        }
-      })
-      ExportVideo.setListeners();
-      FrameReelRow.setListeners();
-      PreviewOverlay.initialise();
-      global.projectInst.setListeners();
-      global.projectInst.checkExportFrameDir();
-
-      // Set default view
-      global.projectInst.setCurrentMode("capture");
-    });
+    // Set default view
+    global.projectInst.setCurrentMode("capture");
   }
   window.onload = startup;
 })();

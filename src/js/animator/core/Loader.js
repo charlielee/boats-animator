@@ -1,6 +1,7 @@
 (function() {
   "use strict";
   const { ipcRenderer } = require("electron");
+  const Shortcuts = require("./Shortcuts");
 
   // Loading Window
   const body = document.body;
@@ -11,8 +12,7 @@
   class Loader {
     static show(message = "", dots = true) {
       // Pause main shortcuts and menubar items
-      global.AppShortcuts.remove("main");
-      global.AppShortcuts.add("confirm");
+      Shortcuts.pause();
       ipcRenderer.send('menubar:toggle-items', false);
 
       // See which elements should be displayed
@@ -38,8 +38,7 @@
 
     static hide() {
       // Resume main shortcuts and menubar items
-      global.AppShortcuts.remove("confirm");
-      global.AppShortcuts.add("main");
+      Shortcuts.unpause();
       ipcRenderer.send('menubar:toggle-items', true);
 
       // Hide loading window
