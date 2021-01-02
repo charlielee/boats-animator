@@ -286,7 +286,7 @@
 
         /** Vertical lines */
         for (let w = 1; w < width; w++) {
-          let line = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+          let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
           line.setAttribute("x1", (maskAspectWidth/width)*w);
           line.setAttribute("y1", 0);
           line.setAttribute("x2", (maskAspectWidth/width)*w);
@@ -299,7 +299,7 @@
 
         /** Horizontal lines */
         for (let h = 1; h < height; h++) {
-          let line = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+          let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
           line.setAttribute("x1", 0);
           line.setAttribute("y1", (maskAspectHeight/height)*h);
           line.setAttribute("x2", maskAspectWidth);
@@ -353,7 +353,7 @@
         let letterBoxWidth = (previewAspectWidth - croppedWidth)/2;
         let letterBoxHeight = (previewAspectHeight - croppedHeight)/2;
 
-        let topRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        let topRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
         topRect.setAttribute("x", 0);
         topRect.setAttribute("y", 0);
         topRect.setAttribute("height", letterBoxHeight);
@@ -362,7 +362,7 @@
         topRect.setAttribute("fill-opacity", opacity);
         svg.appendChild(topRect);
 
-        let bottomRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        let bottomRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
         bottomRect.setAttribute("x", 0);
         bottomRect.setAttribute("y", previewAspectHeight - letterBoxHeight);
         bottomRect.setAttribute("height", letterBoxHeight);
@@ -371,7 +371,7 @@
         bottomRect.setAttribute("fill-opacity", opacity);
         svg.appendChild(bottomRect);
 
-        let leftRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        let leftRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
         leftRect.setAttribute("x", 0);
         leftRect.setAttribute("y", 0);
         leftRect.setAttribute("height", previewAspectHeight);
@@ -380,7 +380,7 @@
         leftRect.setAttribute("fill-opacity", opacity);
         svg.appendChild(leftRect);
 
-        let rightRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        let rightRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
         rightRect.setAttribute("x", previewAspectWidth - letterBoxWidth);
         rightRect.setAttribute("y", 0);
         rightRect.setAttribute("height", previewAspectHeight);

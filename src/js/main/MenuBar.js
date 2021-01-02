@@ -3,7 +3,7 @@
   const { app, Menu, shell } = require("electron");
   const events = require("events");
 
-  const shortcutStore = new (require('./ShortcutStore'));
+  const shortcutStore = new (require("./ShortcutStore"));
 
   const isMac = (process.platform === "darwin");
 

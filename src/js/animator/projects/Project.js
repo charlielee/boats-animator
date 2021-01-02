@@ -150,7 +150,7 @@
      * Checks the export frame directory exists and prompt to select one if not.
      */
     async checkExportFrameDir() {
-      let exportFrameDir = await ipcRenderer.invoke('settings:get', 'projectDefaults.exportFrameDir');
+      let exportFrameDir = await ipcRenderer.invoke("settings:get", "projectDefaults.exportFrameDir");
 
       // There is no set save directory or the directory does not exist
       if (!exportFrameDir) {
@@ -164,7 +164,7 @@
      * Opens the choose export frame directory dialog.
      */
     async showExportFrameDirDialog() {
-      let newDir = await ipcRenderer.invoke('settings:show-export-frame-dir-dialog');
+      let newDir = await ipcRenderer.invoke("settings:show-export-frame-dir-dialog");
       console.log(`Export frame dir changed to: ${newDir}`);
 
       if (newDir) {

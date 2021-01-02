@@ -29,7 +29,7 @@
       audioEnabled = enabled;
 
       // Toggle checkbox on related menubar item
-      ipcRenderer.send('menubar:toggle-checkbox', 'audioToggle', enabled);
+      ipcRenderer.send("menubar:toggle-checkbox", "audioToggle", enabled);
 
       Notification.info(`Capture sounds ${enabled ? "enabled" : "disabled"}.`);
     }

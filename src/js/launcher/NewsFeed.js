@@ -2,7 +2,7 @@ module.exports = {};
 
 (function() {
   "use strict";
-  const { shell } = require('electron');
+  const { shell } = require("electron");
   let qNewsContainer = document.querySelector(".container-news"),
       loadingDots    = document.querySelector(".loading-dots");
   qNewsContainer.addEventListener("click", openNews);

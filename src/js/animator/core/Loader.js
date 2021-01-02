@@ -13,7 +13,7 @@
     static show(message = "", dots = true) {
       // Pause main shortcuts and menubar items
       Shortcuts.pause();
-      ipcRenderer.send('menubar:toggle-items', false);
+      ipcRenderer.send("menubar:toggle-items", false);
 
       // See which elements should be displayed
       if (!loadingWindow.classList.contains("active")) {
@@ -39,7 +39,7 @@
     static hide() {
       // Resume main shortcuts and menubar items
       Shortcuts.unpause();
-      ipcRenderer.send('menubar:toggle-items', true);
+      ipcRenderer.send("menubar:toggle-items", true);
 
       // Hide loading window
       this.isLoading = false;

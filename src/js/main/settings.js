@@ -1,6 +1,6 @@
 (function () {
-  const { BrowserWindow, dialog, systemPreferences } = require('electron');
-  const Store = require('electron-store');
+  const { BrowserWindow, dialog, systemPreferences } = require("electron");
+  const Store = require("electron-store");
 
   /**
    * Managing app global settings
@@ -8,46 +8,46 @@
   class Settings {
     constructor() {
       this.store = new Store({
-        name: 'settings',
+        name: "settings",
         schema: {
           // Default project settings
-          'projectDefaults': {
-            type: 'object',
+          "projectDefaults": {
+            type: "object",
             properties: {
-              'exportFrameDir': {
-                type: 'string'
+              "exportFrameDir": {
+                type: "string"
               }
             }
           },
 
           // App windows
-          'windows': {
-            type: 'object',
+          "windows": {
+            type: "object",
             properties: {
               // Animator window
-              'animator': {
-                type: 'object',
+              "animator": {
+                type: "object",
                 properties: {
                   // Last maximize status of the window
-                  'isMaximized': {
-                    type: 'boolean',
+                  "isMaximized": {
+                    type: "boolean",
                     default: false
                   },
                   // Last dimensions of the window
-                  'winBounds': {
-                    type: 'object',
+                  "winBounds": {
+                    type: "object",
                     properties: {
-                      'x': {
-                        type: 'number'
+                      "x": {
+                        type: "number"
                       },
-                      'y': {
-                        type: 'number'
+                      "y": {
+                        type: "number"
                       },
-                      'width': {
-                        type: 'number'
+                      "width": {
+                        type: "number"
                       },
-                      'height': {
-                        type: 'number'
+                      "height": {
+                        type: "number"
                       }
                     }
                   }
@@ -56,12 +56,6 @@
             }
           }
         }
-        // },
-        // migrations: {
-        //   '0.10.0': store => {
-        //     store.set('version', appVersion);
-        //   }
-        // }
       });
     }
 
@@ -107,8 +101,8 @@
       let win = BrowserWindow.getFocusedWindow();
       let choice = dialog.showMessageBoxSync(win,
         {
-          buttons: ['OK', 'Cancel'],
-          title: 'Boats Animator',
+          buttons: ["OK", "Cancel"],
+          title: "Boats Animator",
           message: message
         });
 

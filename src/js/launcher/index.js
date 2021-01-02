@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  const { ipcRenderer } = require('electron');
+  const { ipcRenderer } = require("electron");
 
   const newsFeed = require("./js/launcher/NewsFeed");
   const Notification = require("./js/common/Notification");
@@ -11,7 +11,7 @@
   const qAppVersion = document.querySelector("#app-version");
 
   // Get the version number from the manifest file
-  qAppVersion.innerHTML = require('../package').version;
+  qAppVersion.innerHTML = require("../package").version;
 
   checkDevelopmentMode();
 
@@ -20,7 +20,7 @@
 
   // Open the animator when new project is pressed
   newProjectBtn.addEventListener("click", () => {
-    ipcRenderer.send('win:switch-window', 'animator');
+    ipcRenderer.send("win:switch-window", "animator");
   });
 
   // Display error notification when "Open Project is selected"
@@ -32,7 +32,7 @@
    * Displays a message if the app is in development mode
    */
   async function checkDevelopmentMode() {
-    let isPackaged = await ipcRenderer.invoke('app:is-packaged');
+    let isPackaged = await ipcRenderer.invoke("app:is-packaged");
 
     if (!isPackaged) {
       // On macOS display additional warning about VS Code not working

@@ -1,7 +1,7 @@
 (function () {
-  const { BrowserWindow, dialog, screen } = require('electron');
-  const settings = new (require('./settings'));
-  const MenuBar = require('./MenuBar');
+  const { BrowserWindow, dialog, screen } = require("electron");
+  const settings = new (require("./settings"));
+  const MenuBar = require("./MenuBar");
 
   /**
    * Class for managing app windows
@@ -13,7 +13,7 @@
 
       // Notify the renderer process when menu bar items are clicked
       this.menuBar.eventEmitter.on("menubar:click", (menuItemName) => {
-        BrowserWindow.getFocusedWindow().webContents.send('menubar:click', menuItemName);
+        BrowserWindow.getFocusedWindow().webContents.send("menubar:click", menuItemName);
       });
     }
 
@@ -25,12 +25,12 @@
       const originalWindow = BrowserWindow.getFocusedWindow();
 
       switch (winName) {
-        case 'animator': {
+        case "animator": {
           this.loadAnimator();
           originalWindow.destroy();
           break;
         }
-        case 'launcher': {
+        case "launcher": {
           if (this.confirmCloseAnimator(originalWindow)) {
             this.loadLauncher();
             originalWindow.destroy();
@@ -46,7 +46,7 @@
     loadAnimator() {
       let self = this;
       let options = {
-        backgroundColor: '#2B2B2B',
+        backgroundColor: "#2B2B2B",
         height: 715,
         minHeight: 400,
         minWidth: 640,
@@ -62,18 +62,18 @@
       Object.assign(options, self.restoreAnimatorWindowSize());
 
       let animatorWin = new BrowserWindow(options);
-      animatorWin.loadFile('src/animator.html');
+      animatorWin.loadFile("src/animator.html");
 
       animatorWin.setMenuBarVisibility(true);
       this.menuBar.toggleAnimatorItems(true);
 
       // Restore maximization status
-      if (settings.get('windows.animator.isMaximized')) {
+      if (settings.get("windows.animator.isMaximized")) {
         animatorWin.maximize();
       }
 
       // Display warning prompt when closing the window
-      animatorWin.on('close', (e) => {
+      animatorWin.on("close", (e) => {
         let confirmClose = self.confirmCloseAnimator(animatorWin);
 
         if (!confirmClose) {
@@ -87,7 +87,7 @@
      */
     loadLauncher() {
       let launcherWin = new BrowserWindow({
-        backgroundColor: '#2B2B2B',
+        backgroundColor: "#2B2B2B",
         height: 540,
         minHeight: 400,
         minWidth: 640,
@@ -99,7 +99,7 @@
         width: 730
       });
 
-      launcherWin.loadFile('src/launcher.html');
+      launcherWin.loadFile("src/launcher.html");
 
       // Hides the menubar (Windows/Linux only) and disables menu items
       launcherWin.setMenuBarVisibility(false);
@@ -113,16 +113,16 @@
     confirmCloseAnimator(animatorWin) {
       let choice = dialog.showMessageBoxSync(animatorWin,
         {
-          type: 'question',
-          buttons: ['OK', 'Cancel'],
-          title: 'Boats Animator',
-          message: 'Are you sure you want to exit Boats Animator?'
+          type: "question",
+          buttons: ["OK", "Cancel"],
+          title: "Boats Animator",
+          message: "Are you sure you want to exit Boats Animator?"
         });
 
       if (choice === 0) {
         // Store window dimensions on close
-        settings.set('windows.animator.isMaximized', animatorWin.isMaximized());
-        settings.set('windows.animator.winBounds', animatorWin.getNormalBounds());
+        settings.set("windows.animator.isMaximized", animatorWin.isMaximized());
+        settings.set("windows.animator.winBounds", animatorWin.getNormalBounds());
 
         return true;
       } else {
@@ -140,7 +140,7 @@
       let displayWorkAreaSize = screen.getPrimaryDisplay().workAreaSize;
 
       // Previous dimensions of the animator window
-      let appBounds = Object.assign({}, settings.get('windows.animator.winBounds'));
+      let appBounds = Object.assign({}, settings.get("windows.animator.winBounds"));
 
       // Check the window will fit in the x and y dimensions
       // +10 is to allow for a small amount of leeway

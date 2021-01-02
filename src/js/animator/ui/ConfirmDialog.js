@@ -26,7 +26,7 @@
 
       // Pause main shortcuts and menubar items
       Shortcuts.pause();
-      ipcRenderer.send('menubar:toggle-items', false);
+      ipcRenderer.send("menubar:toggle-items", false);
 
       return new Promise(function(resolve, reject) {
         // Create a SweetAlert dialogue with the selected arguments
@@ -36,7 +36,7 @@
 
             // Resume main shortcuts and menubar items
             Shortcuts.unpause();
-            ipcRenderer.send('menubar:toggle-items', true);
+            ipcRenderer.send("menubar:toggle-items", true);
 
             // Resolve the promise
             resolve(response);

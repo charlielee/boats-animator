@@ -119,8 +119,8 @@
      */
     static render(ffmpegArguments, exportPath) {
       // Spawn an FFmpeg child process
-      const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-      const spawn = require('child_process').spawn;
+      const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+      const spawn = require("child_process").spawn;
       const ffmpeg = spawn(ffmpegPath, ffmpegArguments);
 
       // Build a modal
@@ -138,20 +138,20 @@
 
       // Show the status of the export in the modal
       // All ffmpeg output goes to stderrdata (see https://stackoverflow.com/questions/35169650/)
-      ffmpeg.stderr.on('data', function(e) {
+      ffmpeg.stderr.on("data", function(e) {
         console.log("stderrdata", e.toString());
         exportStatusDialog.innerHTML = `${e.toString()}<hr>${exportStatusDialog.innerHTML}`;
-        exportStatusDialog.scrollTo({ top: 0, behavior: 'smooth' });
+        exportStatusDialog.scrollTo({ top: 0, behavior: "smooth" });
       });
 
       // Stop loader at this point
-      ffmpeg.on('exit', function (code) {
+      ffmpeg.on("exit", function (code) {
         let exportCompleteDialog = document.createElement("div");
 
         // Display success/error dialog
         if (code === 0) {
           // Add link to the exported video file
-          exportCompleteDialog.insertAdjacentHTML('beforeend', `
+          exportCompleteDialog.insertAdjacentHTML("beforeend", `
             <p>Video was successfully exported to:</p>
             <p><a id="videoExportPathLink" href="#">${exportPath}</a></p>
           `);
@@ -162,7 +162,7 @@
           });
         } else {
           // Display whatever the error is
-          exportCompleteDialog.insertAdjacentHTML('beforeend', `
+          exportCompleteDialog.insertAdjacentHTML("beforeend", `
             <p>An error occurred trying to export the current project to video. Please try again later.</p>
             <p>Exit code ${code}.</p>
           `);

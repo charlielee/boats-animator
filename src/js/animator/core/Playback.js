@@ -37,7 +37,7 @@
       }
 
       // Toggle checkbox on related menubar item
-      ipcRenderer.send('menubar:toggle-checkbox', 'loopPlayback', this.isLooping);
+      ipcRenderer.send("menubar:toggle-checkbox", "loopPlayback", this.isLooping);
 
       console.info(`Loop playback: ${this.isLooping}`);
     }
