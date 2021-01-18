@@ -118,8 +118,9 @@
      * @param {String} exportPath The path to export video to
      */
     static render(ffmpegArguments, exportPath) {
-      // Spawn an FFmpeg child process
-      const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+      // Spawn an FFmpeg child process, the replace is needed as per:
+      // https://github.com/kribblo/node-ffmpeg-installer#wrong-path-under-electron-with-asar-enabled
+      const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path.replace("app.asar", "app.asar.unpacked");
       const spawn = require("child_process").spawn;
       const ffmpeg = spawn(ffmpegPath, ffmpegArguments);
 
