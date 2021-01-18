@@ -11,6 +11,24 @@ files:
   - src/
   - node_modules/
 
+# Linux
+
+linux:
+  category: Photography
+  target:
+    - AppImage
+    - deb
+    - tar.gz
+
+# macOS
+
+mac:
+  category: public.app-category.photography
+  icon: icons/icon.icns
+  target:
+  - dmg
+  - zip
+
 dmg:
   contents:
     - type: link
@@ -21,16 +39,18 @@ dmg:
       x: 130
       y: 150
 
-mac:
-  icon: icons/icon.icns
-  target: dmg
-  category: public.app-category.photography
+# Windows
 
 win:
   icon: icons/icon.ico
-  target: nsis
-
-linux:
   target:
-    - deb
-    - AppImage
+  - nsis
+  - zip
+
+nsis:
+  createDesktopShortcut: false
+  installerSidebar: assets/setupbanner.bmp
+  license: assets/LICENSE.rtf
+  oneClick: false
+  uninstallDisplayName: Boats Animator
+  uninstallerSidebar: assets/setupbanner.bmp
