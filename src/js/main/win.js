@@ -8,11 +8,19 @@
    */
   class Win {
     constructor() {
+      let self = this;
+
       this.menuBar = new MenuBar();
       this.menuBar.load();
 
       // Notify the renderer process when menu bar items are clicked
       this.menuBar.eventEmitter.on("menubar:click", (menuItemName) => {
+        // Open the launcher if the app is open but there are no windows open
+        // (this situation is only possible on macOS)
+        if (BrowserWindow.getAllWindows().length === 0) {
+          self.loadLauncher();
+        }
+
         BrowserWindow.getFocusedWindow().webContents.send("menubar:click", menuItemName);
       });
     }
