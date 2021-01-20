@@ -15,6 +15,7 @@ files:
 
 linux:
   category: Photography
+  icon: icons/icon.icns
   target:
     - AppImage
     - deb

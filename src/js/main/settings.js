@@ -82,7 +82,13 @@
      * @returns {Boolean} Returns true if access is granted, false if it is denied
      */
     async checkForCameraAccess() {
-      let currentStatus = systemPreferences.getMediaAccessStatus("camera");
+      // Only check media access on macOS and Windows (not supported by Linux)
+      let currentStatus;
+      if (process.platform === "darwin" || process.platform === "win32") {
+        currentStatus = systemPreferences.getMediaAccessStatus("camera");
+      } else {
+        currentStatus = "granted";
+      }
 
       if (currentStatus === "granted") {
         return true;

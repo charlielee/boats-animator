@@ -1,7 +1,11 @@
 {
   "name": "boats-animator",
   "description": "A free, open-source stop motion animation program.",
-  "author": "Charlie Lee",
+  "author": {
+    "name" : "Charlie Lee",
+    "email" : "contact@charlielee.uk",
+    "url" : "https://www.charlielee.uk"
+  },
   "license": "GPL-3.0",
   "main": "src/main.js",
   "version": "0.10.0",
