@@ -15,9 +15,14 @@ files:
 
 linux:
   category: Photography
+  synopsis: A free, open-source stop motion animation program
+  description: >
+    Boats Animator is a free, open-source stop motion animation program.
+    Its intuitive interface caters to animators of all levels and offers
+    many powerful features including: instant playback, onion skinning,
+    1080p capture and HD video export.
   icon: icons/icon.icns
   target:
-    - AppImage
     - deb
     - tar.gz
 
@@ -27,8 +32,8 @@ mac:
   category: public.app-category.photography
   icon: icons/icon.icns
   target:
-  - dmg
-  - zip
+    - dmg
+    - zip
 
 dmg:
   contents:
@@ -45,8 +50,8 @@ dmg:
 win:
   icon: icons/icon.ico
   target:
-  - nsis
-  - zip
+    - nsis
+    - zip
 
 nsis:
   createDesktopShortcut: false

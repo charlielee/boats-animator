@@ -6,9 +6,14 @@
     "email" : "contact@charlielee.uk",
     "url" : "https://www.charlielee.uk"
   },
+  "homepage": "https://www.charlielee.uk/boats-animator",
   "license": "GPL-3.0",
   "main": "src/main.js",
-  "version": "0.10.0",
+  "version": "0.11.0",
+  "bugs": {
+    "email": "contact@charlielee.uk",
+    "url": "https://github.com/charlielee/boats-animator/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/charlielee/boats-animator.git"
