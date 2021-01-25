@@ -53,6 +53,7 @@ win:
     - zip
 
 nsis:
+  allowToChangeInstallationDirectory: true
   createDesktopShortcut: false
   installerSidebar: assets/setupbanner.bmp
   license: assets/LICENSE.rtf
