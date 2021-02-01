@@ -24,6 +24,7 @@ linux:
   icon: icons/icon.icns
   target:
     - deb
+    - tar.gz
 
 # macOS
 
