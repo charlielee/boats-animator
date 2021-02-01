@@ -24,7 +24,6 @@ linux:
   icon: icons/icon.icns
   target:
     - deb
-    - tar.gz
 
 # macOS
 
@@ -53,7 +52,6 @@ win:
     - zip
 
 nsis:
-  allowToChangeInstallationDirectory: true
   createDesktopShortcut: false
   installerSidebar: assets/setupbanner.bmp
   license: assets/LICENSE.rtf
