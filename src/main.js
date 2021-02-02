@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
-const settings = new (require("./js/main/settings"));
+const settings = new (require("./js/main/Settings"));
 const shortcutStore = new (require("./js/main/ShortcutStore"));
-const win = new (require("./js/main/win"));
+const win = new (require("./js/main/Win"));
 
 // App events
 

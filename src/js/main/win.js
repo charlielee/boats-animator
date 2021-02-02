@@ -1,6 +1,6 @@
 (function () {
   const { BrowserWindow, dialog, screen } = require("electron");
-  const settings = new (require("./settings"));
+  const settings = new (require("./Settings"));
   const MenuBar = require("./MenuBar");
 
   /**
