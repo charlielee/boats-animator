@@ -54,8 +54,9 @@ win:
 
 nsis:
   createDesktopShortcut: false
-  installerSidebar: assets/setupbanner.bmp
-  license: assets/LICENSE.rtf
+  include: build/installer.nsh
+  installerSidebar: build/setupbanner.bmp
+  license: build/LICENSE.rtf
   oneClick: false
   uninstallDisplayName: Boats Animator
-  uninstallerSidebar: assets/setupbanner.bmp
+  uninstallerSidebar: build/setupbanner.bmp
