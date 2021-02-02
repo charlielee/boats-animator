@@ -51,7 +51,7 @@
           submenu: [
             // New project
             {
-              label: "New project...",
+              label: "New Project...",
               click: function () {
                 self._sendClickEvent("newProject");
               },
@@ -59,7 +59,7 @@
             },
             // Open project
             {
-              label: "Open project...",
+              label: "Open Project...",
               click: function () {
                 self._sendClickEvent("openProject");
               },
@@ -89,7 +89,7 @@
           label: "Edit",
           submenu: [
             {
-              label: "Delete last frame",
+              label: "Delete Last Frame",
               click: function () {
                 self._sendClickEvent("undoFrame");
               },
@@ -103,7 +103,7 @@
           label: "Capture",
           submenu: [
             {
-              label: "Capture frame",
+              label: "Capture Frame",
               click: function () {
                 self._sendClickEvent("takePicture");
               },
@@ -111,14 +111,14 @@
               registerAccelerator: false
             },
             {
-              label: "Confirm take",
+              label: "Confirm Take",
               click: function () {
                 self._sendClickEvent("confirmTake");
               }
             },
             { type: "separator" },
             {
-              label: "Play capture sounds",
+              label: "Play Capture Sounds",
               click: function () {
                 self._sendClickEvent("audioToggle");
               },
@@ -128,7 +128,7 @@
               registerAccelerator: false
             },
             {
-              label: "Change capture destination",
+              label: "Change Capture Destination",
               click: function () {
                 self._sendClickEvent("openDirChooseDialog");
               }
@@ -140,7 +140,7 @@
           label: "Playback",
           submenu: [
             {
-              label: "Loop playback",
+              label: "Loop Playback",
               click: function () {
                 self._sendClickEvent("loopPlayback");
               },
@@ -151,7 +151,7 @@
             },
             { type: "separator" },
             {
-              label: "Display first frame",
+              label: "Display First Frame",
               click: function () {
                 self._sendClickEvent("firstFrame");
               },
@@ -159,7 +159,7 @@
               registerAccelerator: false
             },
             {
-              label: "Display last frame",
+              label: "Display Last Frame",
               click: function () {
                 self._sendClickEvent("lastFrame");
               },
@@ -198,14 +198,14 @@
               accelerator: "F1"
             },
             {
-              label: "Give feedback",
+              label: "Give Feedback",
               click: function () {
                 shell.openExternal("https://github.com/charlielee/boats-animator/issues");
               }
             },
             { type: "separator" },
             {
-              label: "View license",
+              label: "View License",
               click: function () {
                 shell.openExternal("https://github.com/charlielee/boats-animator/blob/master/LICENSE");
               }
