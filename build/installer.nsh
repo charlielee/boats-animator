@@ -17,10 +17,14 @@ Function UninstallInnoVersion
     Goto Done
   ${EndIf}
 
-  # Run the uninstaller silently
+  # Run the uninstaller silently if prompt accepted
   DetailPrint "Removing previous Inno Setup installation"
-
-  ExecWait '"$R0" /SILENT'
+  MessageBox MB_OKCANCEL "A previous version of Boats Animator was detected. The installer will now proceed to uninstall it." IDOK true IDCANCEL false
+  true:
+    ExecWait '$R0 /SILENT'
+    Goto Done
+  false:
+    Abort
 
   Done:
 FunctionEnd
