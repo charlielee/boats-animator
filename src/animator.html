@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <title>Boats Animator</title>
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/animator.css">
+</head>
+
+<body>
+  <!-- Notification Bar -->
+  <section id="notification-container"></section>
+
+  <!--Loading Window-->
+  <div id="loading-window">
+    <h3 id="loading-window-message"></h3>
+    <div id="loading-window-dots">
+      <span class="dot one">.</span><span class="dot two">.</span><span class="dot three">.</span>
+    </div>
+  </div>
+
+  <main>
+    <section id="main-area">
+      <!--Preview area window-->
+      <div id="preview-area">
+        <!-- No source message -->
+        <div id="preview-area-message" class="visible-capture preview-area-item">
+          <h2>Select a camera source to begin!</h2>
+        </div>
+        <!--  Onion skinning frame -->
+        <img id="onion-skinning-frame" class="visible-capture">
+        <!-- Video preview stream -->
+        <video id="preview" class="visible-capture" autoplay>Video stream not available.</video>
+        <!--The actual playback window -->
+        <canvas id="playback" class="visible-playback"></canvas>
+      </div>
+
+      <!--Playback controls-->
+      <div id="frame-mod-panel" class="flex">
+        <section id="left-controls">
+          <div id="frameControlsCaptureMode" class="visible-capture">
+            <div id="btn-delete-last-frame" title="Undo last frame" class="button">
+              <i class="fa fa-undo"></i>
+            </div>
+            <div id="btn-short-play" title="Short Play" class="button">
+              <i class="fa fa-play-circle"></i>
+            </div>
+          </div>
+          <div id="frameControlsPlaybackMode" class="visible-playback">
+            <div id="btn-delete-frame" title="Delete frame" class="button">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </section>
+        <section id="capture-control">
+          <div id="btn-capture-frame" title="Capture Frame" class="button">
+            <i class="fa fa-camera"></i>
+          </div>
+        </section>
+        <section id="playback-controls">
+          <div id="btn-frame-first" title="First frame" class="button">
+            <i class="fa fa-fast-backward"></i>
+          </div>
+          <div id="btn-frame-previous" title="Previous frame" class="button">
+            <i class="fa fa-step-backward"></i>
+          </div>
+          <div id="btn-play-pause" title="Playback Frames" class="button">
+            <i class="fa fa-play"></i>
+          </div>
+          <div id="btn-stop" title="Stop Playback" class="button">
+            <i class="fa fa-stop"></i>
+          </div>
+          <div id="btn-frame-next" title="Next frame" class="button">
+            <i class="fa fa-step-forward"></i>
+          </div>
+          <div id="btn-frame-last" title="Last frame" class="button">
+            <i class="fa fa-fast-forward"></i>
+          </div>
+          <div id="btn-loop" title="Loop Playback" class="button">
+            <i class="fa fa-refresh"></i>
+          </div>
+        </section>
+      </div>
+
+      <!--Frame-reel container-->
+      <div id="area-frame-reel">
+        <p>No frames captured</p>
+        <table class="hidden">
+          <tr id="reel-captured-imgs">
+            <!--This is where the frame is added through JS -->
+          </tr>
+          <tr>
+            <td class="frame-reel-preview">
+              <div class="frame-reel-no" id="live-view-frame-no"></div>
+              <div id="btn-live-view" title="Live Preview">
+                <i class="fa fa-video-camera"></i>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="control-panel" class="flex">
+        <section id="preview-options">
+          <!--This area will contain features like grid and aspect ratio mask toggle-->
+        </section>
+        <section id="onion-skin-opacity-options">
+          <input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="-100" max="100" value="0" title="0%" step="2">
+          <div id="slider-background-middle"></div>
+        </section>
+        <section id="frame-rate-options">
+          <input id="input-fr-change" type="number" value="15" min="1" max="60" title="Framerate">
+          <label for="input-fr-change"> FPS</label>
+        </section>
+      </div>
+    </section>
+
+    <!--Sidebar content-->
+    <aside>
+      <!--Capture Options-->
+      <div class="sidebar-item" id="capture-header">
+        <div class="sidebar-header">
+          <h2><i class="fa fa-camera fa-fw"></i> Capture</h2>
+        </div>
+        <ul id="capture-options">
+          <!-- Camera selection -->
+          <li id="camera-select-td">
+            <label>Camera source:</label>
+            <select>
+            </select>
+          </li>
+          <!-- Resolution selection -->
+          <li id="resolution-select-td">
+            <label>Image resolution:</label>
+            <select id="form-resolution-select"></select>
+          </li>
+        </ul>
+      </div>
+
+      <!--Export Options-->
+      <div class="sidebar-item" id="export-header">
+        <div class="sidebar-header">
+          <h2>
+            <i class="fa fa-download fa-fw"></i> Export</h2>
+        </div>
+        <ul>
+          <li>Captured frames will be exported to:
+            <p id="currentDirectoryName" class="italics">No directory selected</p>
+          </li>
+          <li class="sidebar-opt">
+            <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
+            <span id="btn-dir-change">Change directory</span>
+          </li>
+          <li id="exportVideoSidebarOption" class="sidebar-opt">
+            <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
+            <span id="btn-export-video">Export video</span>
+          </li>
+        </ul>
+      </div>
+
+      <!--Preview Overlay-->
+      <div class="sidebar-item" id="overlay-header">
+        <div class="sidebar-header">
+          <h2>
+            <i class="fa fa-th fa-fw"></i> Overlays</h2>
+        </div>
+        <ul id="overlay-list"></ul>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <ul>
+      <li>Frame
+        <span id="current-frame">0</span> of
+        <span id="num-of-frames">0</span>
+      </li>
+      <li id="current-frame-rate">
+        <span></span> FPS
+      </li>
+      <li id="current-resolution">No camera selected</li>
+      <li class="no-pipe" id="current-mode">
+        <span></span> mode</li>
+    </ul>
+  </footer>
+
+  <script src="../node_modules/mousetrap/mousetrap.js"></script>
+  <script src="../node_modules/mousetrap/plugins/pause/mousetrap-pause.js"></script>
+  <script src="js/animator/index.js"></script>
+</body>
+
+</html>

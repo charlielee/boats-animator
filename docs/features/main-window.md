@@ -147,8 +147,8 @@ This previews one frame to the right in the [frame reel](#frame-reel) of the cur
 
 This previews the last frame captured.
 
-### Short Play 
-This previews the last 5 frames captured. 
+### Short Play
+This previews the last 5 frames captured.
 
 ### Loop playback
 

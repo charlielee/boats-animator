@@ -1,0 +1,62 @@
+appId: uk.charlielee.boats-animator
+productName: Boats Animator
+asar: true
+
+directories:
+  buildResources: dist-assets/
+  output: dist/
+
+files:
+  - package.json
+  - src/
+  - node_modules/
+
+# Linux
+
+linux:
+  category: Photography
+  synopsis: A free, open-source stop motion animation program
+  description: >
+    Boats Animator is a free, open-source stop motion animation program.
+    Its intuitive interface caters to animators of all levels and offers
+    many powerful features including: instant playback, onion skinning,
+    1080p capture and HD video export.
+  icon: icons/icon.icns
+  target:
+    - deb
+    - tar.gz
+
+# macOS
+
+mac:
+  category: public.app-category.photography
+  icon: icons/icon.icns
+  target:
+    - dmg
+
+dmg:
+  contents:
+    - type: link
+      path: /Applications
+      x: 410
+      y: 150
+    - type: file
+      x: 130
+      y: 150
+
+# Windows
+
+win:
+  icon: icons/icon.ico
+  target:
+    - nsis
+    - zip
+
+nsis:
+  createDesktopShortcut: false
+  include: build/installer.nsh
+  installerSidebar: build/setupbanner.bmp
+  license: build/LICENSE.rtf
+  oneClick: false
+  uninstallDisplayName: Boats Animator
+  uninstallerSidebar: build/setupbanner.bmp

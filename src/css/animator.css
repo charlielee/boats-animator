@@ -1,0 +1,354 @@
+/* Main area
+   -------------------------------- */
+
+#main-area {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== SIDEBAR ============== */
+
+#currentDirectoryName {
+  margin: 0.2em 0 1em 0;
+  font-family: monospace;
+  word-break: break-word;
+}
+
+#capture-options select {
+  width: 100%;
+}
+
+#currentVideoExportText {
+  font-family: monospace;
+  word-break: break-word;
+}
+
+body[data-has-frames="false"] #exportVideoSidebarOption *,
+body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
+  color: #000 !important;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+#exportStatusDialog {
+  width: 100%;
+  overflow-y: scroll;
+  font-family: monospace;
+  word-break: break-word;
+  height: 200px;
+  text-align: left;
+}
+
+/* ========== VIDEO PREVIEW ============== */
+
+#preview-area {
+  display: flex;
+  flex: 1;
+  text-align: center;
+  background-color: black;
+  position: relative;
+  border: 2px solid transparent;
+}
+#preview-area.capture-mode {
+  border-color: #ad0000;
+}
+
+.preview-area-item {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+/* Mode switching */
+
+#preview-area.capture-mode > :not(.visible-capture),
+#preview-area.playback-mode > :not(.visible-playback),
+#left-controls.capture-mode > :not(.visible-capture),
+#left-controls.playback-mode > :not(.visible-playback) {
+  display: none;
+}
+
+/* Individual preview area items */
+
+#preview-area-message {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+#preview,
+#playback {
+  flex: 1;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  width: 100%;
+}
+
+
+/**== Loading Window ==*/
+#loading-window {
+  background-color: rgba(23, 23, 23, 0.5);
+  display: none;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  position: absolute;
+  text-align: center;
+  width: 100vw;
+  z-index: 50;
+}
+#loading-window.active { display: flex; }
+
+#loading-window-message.hidden,
+#loading-window-dots.hidden {
+  opacity: 0;
+}
+
+#loading-window-message {
+  text-align: center;
+}
+
+/** Loading animation */
+#loading-window-dots {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.dot {
+  display: inline;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+  position: relative;
+  font-size: 3.5em;
+  opacity: 0;
+  animation: showHideDot 2.5s ease-in-out infinite;
+}
+
+.dot.one { animation-delay: 0.2s; }
+.dot.two { animation-delay: 0.4s; }
+.dot.three { animation-delay: 0.6s; }
+
+@keyframes showHideDot {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  60% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/*========== ONION SKINNING ==============*/
+
+#onion-skinning-frame {
+  height: 100%;
+  left: 0;
+  object-fit: contain;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+#onion-skinning-frame:not([src]){ display:none; }
+
+/* Frame mod panel.
+   -------------------------------- */
+
+#frame-mod-panel {
+  background-color: #171717;
+  border-bottom: 1px solid #423e3e;
+  padding: 0 1em;
+  width: 100%;
+}
+
+#frame-mod-panel > * {
+  align-items: center;
+  display: flex;
+}
+
+/* Buttons within the frame mod panel */
+#frame-mod-panel .button {
+  font-size: 1.3em;
+  display: inline-block;
+  min-width: 1.5em;
+  padding: 0.5em 0;
+  text-align: center;
+}
+#frame-mod-panel .button:hover {
+  background-color: #2b2b2b;
+}
+
+/* ===  Left controls === */
+
+#left-controls { flex: 4; }
+
+/* ===  Capture control === */
+
+#capture-control { justify-content: center; }
+
+#btn-capture-frame { padding: 0.3em !important; }
+#btn-capture-frame i {
+  color: #f9ff23;
+  font-size: 1.8em;
+}
+
+#btn-capture-frame i:hover { color: #f3f76e; }
+
+/* ===  Playback controls === */
+
+#playback-controls {
+  justify-content: flex-end;
+  flex: 4;
+}
+
+#btn-loop i.active { color: #ad0000; }
+
+/* ========== FRAME REEL ============== */
+
+/* Frame reel area */
+#area-frame-reel {
+  background-color: #171717;
+  height: 6.2em;
+  overflow-x: scroll;
+}
+
+#area-frame-reel table {
+  border-spacing: 0 !important;
+}
+
+#area-frame-reel tr {
+  display: inline-block;
+  vertical-align: top;
+}
+
+#area-frame-reel tr:nth-child(2) { display: table-cell; }
+
+#area-frame-reel > p {
+  font-size: 1.4em;
+  text-align: center;
+}
+
+#area-frame-reel > p.hidden,
+#area-frame-reel > table.hidden { display: none; }
+
+/* Image container */
+td:first-of-type .frame-reel-preview {
+  padding-left: 0.25em;
+}
+.frame-reel-preview {
+  position: relative;
+  padding-right: 0.25em;
+}
+
+/* Preview image */
+.frame-reel-img {
+  background-color: #2B2B2B;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 50px;
+  width: 67px;
+}
+.frame-reel-img:hover { opacity: 0.8; }
+.frame-reel-img.selected { outline: 1px solid #d9d9d9; }
+
+.frame-reel-no {
+  padding: 0.25em 0.25em 0.25em 0;
+  font-size: 0.75em;
+}
+
+#btn-live-view {
+  width: 67px;
+  height: 50px;
+  background-color: #171717;
+  color: #D9D9D9;
+  text-align: center;
+  font-size: 2.5em;
+}
+#btn-live-view:hover { color: #ad0000; }
+
+#btn-live-view.selected {
+  color: #ad0000;
+  outline: 1px solid #d9d9d9;
+}
+
+#btn-live-view i { padding-top: 0.2em; }
+
+
+/* Control panel
+   -------------------------------- */
+
+#control-panel {
+  display: flex;
+  padding: 0.5em 0;
+  white-space: nowrap;
+  width: 100%;
+}
+
+/* === Preview options === */
+
+#btn-grid-toggle {
+  position: relative;
+  display: inline-block;
+  padding: 0 1em;
+}
+
+#btn-grid-toggle i { font-size: 1.7em; }
+
+/* === Onion skin opacity options === */
+
+#onion-skin-opacity-options { text-align: center; }
+
+#slider-background-middle {
+  position: relative;
+  height: 1.9em;
+  width: 0.09em;
+  background-color: white;
+  margin: -1.24em auto 0 auto;
+  z-index: -1;
+}
+
+#input-onion-skin-opacity {
+  width: 15em;
+  -webkit-appearance: none;
+}
+
+#input-onion-skin-opacity:focus { outline: none; }
+
+#input-onion-skin-opacity::-webkit-slider-runnable-track {
+  height: 2px;
+  background-color: #D9D9D9;
+}
+
+#input-onion-skin-opacity::-webkit-slider-thumb {
+  height: 1.7em;
+  width: 1.7em;
+  border-radius: 50%;
+  background-color: #ad0000;
+  -webkit-appearance: none;
+  margin-top: -9.5px;
+}
+#input-onion-skin-opacity::-webkit-slider-thumb:hover {
+  background-color: #ef0000;
+}
+
+#input-onion-skin-opacity:focus::-webkit-slider-runnable-track { background-color: #D9D9D9; }
+
+/* === Frame rate options === */
+
+#frame-rate-options {
+  display: inline-block;
+  padding-right: 1em;
+  text-align: right;
+}
+
+#input-fr-change {
+  width: 4em;
+}
+
+/* Status bar
+   -------------------------------- */
+
+#current-mode span { text-transform: capitalize; }

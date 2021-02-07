@@ -1,7 +1,0 @@
-NSLocationUsageDescription = "(this app's developers need to add an NSLocationUsageDescription key to an InfoPlist.strings file)";
-NSCameraUsageDescription = "This will allow the frames of your animation to be captured.";
-CFBundleName = "Boats Animator";
-CFBundleDisplayName = "Boats Animator";
-NSHumanReadableCopyright = "© 2020 Charlie Lee";
-NSBluetoothPeripheralUsageDescription = "(this app's developers need to add an NSBluetoothPeripheralUsageDescription key to an InfoPlist.strings file)";
-NSMicrophoneUsageDescription = "(this app's developers need to add an NSMicrophoneUsageDescription key to an InfoPlist.strings file)";

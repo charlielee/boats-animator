@@ -1,0 +1,285 @@
+/*!
+  Style sheet of styles common across all windows of the program.
+*/
+
+/* 0. Directory
+   --------------------------------
+   1. Global
+   2. Links
+   3. Main area
+   4. Sidebar
+   5. Footer
+   6. Scrollbars
+   7. Alerts
+   8. Notification bar
+*/
+
+/* 1. Global
+   -------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+.hidden {
+  display: none !important;
+}
+
+body {
+  align-items: stretch;
+  background-color: #2B2B2B;
+  color: #D9D9D9;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 0.9em;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  -webkit-user-select: none;
+}
+
+img { -webkit-user-drag: none; }
+
+input[type="number"], input[type="text"], select {
+  background-color: #d9d9d9;
+  border: 1px solid #171717;
+  color: #171717;
+  padding: 5px;
+}
+
+/* Container for a row of buttons */
+.btn-group { display: flex; }
+.btn-group button {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  margin-right: 1em;
+}
+.btn-group button:last-of-type { margin-right: 0; }
+.btn-group span { flex: 1; }
+
+/* Denotes an element as a flexbox and sets its children to "flex: 1" */
+.flex { display: flex; }
+.flex > * { flex: 1; }
+
+/* 2. Links
+   -------------------------------- */
+
+a {
+  color: #D9D9D9;
+  cursor: pointer;
+  text-decoration: underline;
+  -webkit-user-drag: none;
+}
+a:active { text-decoration: none; }
+
+/* 3. Main area
+   -------------------------------- */
+
+main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+main > section {
+  flex: 1;
+  overflow: hidden;
+}
+
+main h1 {
+  font-size: 1.8em;
+  margin: 0.5em 0;
+}
+
+main h2 {
+  font-size: 1.3em;
+}
+
+.content {
+  background-color: #171717;
+  margin: 0;
+  padding: 0 1em;
+  width: 100%;
+}
+
+.content p {
+  margin: 0 0 4em 0;
+}
+
+/* 4. Sidebar
+   -------------------------------- */
+
+aside {
+  background-color: #2B2B2B;
+  border-left: 1px solid #423e3e;
+  color: #d3d3d3;
+  padding: 0 1em 1em 1em;
+  overflow: auto;
+  position: relative;
+  width: 19em;
+}
+
+aside a,
+aside .sidebar-opt {
+  color: #d3d3d3;
+  cursor: pointer;
+}
+aside a:hover,
+aside .sidebar-opt span:hover {
+  text-decoration: underline;
+}
+
+aside input,
+aside label {
+  vertical-align: middle;
+}
+
+aside ul {
+  line-height: 1.4;
+  list-style: none;
+  padding-left: 0.3em;
+}
+
+aside li { margin: 1em 0; }
+
+.sidebar-item { border-bottom: 1px solid #ADADAD; }
+
+.sidebar-link-dot { margin-right: 6px; }
+
+.sidebar-header i {
+  font-size: 0.9em;
+  margin-right: 0.4em;
+}
+
+/* 5. Footer
+   -------------------------------- */
+
+footer {
+  background-color: #d9d9d9;
+  color: #2B2B2B;
+  flex: initial;
+  width: 100%;
+}
+
+footer a { color: #2B2B2B; }
+footer a:hover, footer a:active { text-decoration: underline; }
+
+footer ul {
+  list-style: none;
+  margin: 0.5em 0;
+  padding: 0 1em;
+}
+
+footer li { display: inline-block; }
+
+footer li:not(.no-pipe)::after {
+  color: #b5b5b5;
+  content: "|";
+  margin: 0 0.5em 0 0.8em;
+}
+
+/* 6. Scrollbars
+   -------------------------------- */
+
+::-webkit-scrollbar              {
+  background-color: rgba(9, 9, 9, 0.1);
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb        {
+  background-color: #423e3e;
+  border-radius: 5px;
+  border: 1px solid #171717;
+}
+
+::-webkit-scrollbar-thumb:hover { background-color: #5C5858; }
+
+::-webkit-scrollbar-thumb:active { background-color: #827E7E; }
+
+/* 7. Alerts
+   -------------------------------- */
+
+/* Fix blue outline around SweetAlert modals */
+.swal-overlay { outline: none; }
+
+/* Make custom swal content the same colour as default content */
+.swal-content { color: rgba(0,0,0,.64); }
+
+/* 8. Notification bar
+   -------------------------------- */
+
+#notification-container {
+  width: 100vw;
+  position: fixed;
+  left: 20vw;
+  z-index: 100;
+}
+
+/* Individual notification */
+.notification {
+  display: flex;
+  margin-top: -2.75em;
+  width: 50%;
+  min-height: 2.75em;
+
+  background-color: #2b2b2b;
+  color: #fff;
+  transition: margin-top 0.3s ease-out,
+              opacity 0.3s ease;
+}
+
+/* Notification type label */
+.notify-type {
+  width: 4.5em;
+  margin-right: 0.5em;
+  padding: 0.2em;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  text-transform: capitalize;
+  font-size: 0.9em;
+}
+
+/* Notification states */
+.notification.visible { margin-top: 0; }
+.notification.hiding { opacity: 0; }
+.notification.success .notify-type { background-color: #2d9e2d; }
+.notification.info .notify-type { background-color: #3a3ae1; }
+.notification.error .notify-type { background-color: #ad0000; }
+
+/* Notification message */
+.notification .msg {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 0.95em;
+}
+
+/* 9. Highlight message
+   -------------------------------- */
+
+.highlight {
+  background-color: #d9d9d9;
+  color: #2B2B2B;
+  border-radius: 0.25em;
+  margin: 1em 0;
+  overflow: hidden;
+  padding: 0 1em;
+  width: 100%;
+}
+
+.highlight-body {
+  margin: 1em 0;
+}
