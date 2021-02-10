@@ -2,7 +2,7 @@
 
 ## Boats Animator
 
-A free open-source, stop motion animation program.
+A free, open-source stop motion animation program.
 
 Copyright © 2021 Charlie Lee
 
