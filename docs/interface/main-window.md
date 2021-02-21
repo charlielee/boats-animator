@@ -20,25 +20,25 @@ The preview area shows a live feed of the selected camera in **capture mode** an
 
 ![Animation toolbar](../img/animation-toolbar.png)
 
-The animation toolbar contains options for controlling your animation.
+The animation toolbar contains options for manipulating your animation.
 
 ### Left controls
 
-The left options shown change depending on whether you are in **capture mode** or **playback mode**.
+The left controls shown change depending on whether you are in **capture mode** or **playback mode**.
 
 #### Capture mode
 
 ![Capture mode left controls](../img/left-controls-capture.png)
 
-**Undo last frame:** this will remove the last frame of your animation and delete it permanently from the hard-drive. After selecting this a confirm dialogue with "Are you sure you want to delete frame X?" is displayed.
+**Undo last frame:** this will remove the last frame of your animation and delete it permanently from the hard-drive. A dialog box with "Are you sure you want to delete frame X?" is displayed before deletion occurs.
 
-**Short play:** this will playback the last 6 frames of your animation.
+**Short play:** this will playback the last 5 frames of your animation.
 
 #### Playback mode
 
 ![Playback mode left controls](../img/left-controls-playback.png)
 
-**Delete selected frame:** this will remove the currently selected farme of your animation and delete in permanently from the hard-drive. After selecting this a confirm dialogue with "Are you sure you want to delete frame X?" is displayed.
+**Delete selected frame:** this will remove the currently selected frame of your animation and delete it permanently from the hard-drive. A dialog box with "Are you sure you want to delete frame X?" is displayed before deletion occurs.
 
 ### Capture button
 
@@ -52,17 +52,17 @@ Select this button to capture a new frame from the live-feed that is visible in 
 
 These buttons affect the playback of captured frames in the [preview area](#preview-area).
 
-**First frame:** this previews the first frame captured.
+**First frame:** this displays the first frame captured.
 
-**Previous frame:** this previews one frame to the left in the [frame reel](#frame-reel) of the current frame being displayed.
+**Previous frame:** this displays one frame before the current frame being displayed.
 
-**Playback/pause frames** this will begin playback will begin from the first frame captured or resume from the current frame being previewed if in **playback mode**. If playback has already started this button will pause it.
+**Playback/pause frames:** this will begin playback from the first frame captured or resume it from the current frame being displayed if in **playback mode**. If playback has already started this button will pause it.
 
-**Stop playback:** Select this to stop playback and jump to the last frame captured.
+**Stop playback:** this will stop playback and jump to the last frame captured.
 
-**Next frame:** this previews one frame to the right in the [frame reel](#frame-reel) of the current frame being displayed.
+**Next frame:**  this displays one frame after the current frame being displayed.
 
-**Last frame:** this previews the last frame captured.
+**Last frame:** this displays the last frame captured.
 
 **Loop playback:** this toggles if playback should continue from the first frame captured when the last frame captured is reached.
 
@@ -70,7 +70,7 @@ These buttons affect the playback of captured frames in the [preview area](#prev
 
 ![Frame reel](../img/frame-reel.png)
 
-The frame reel area displays thumbnails of all of the frames that have been captured. To preview a particular frame in the preview area simply select it from the frame reel. The current frame being previewed will have a white outline around it in the frame reel and playback will begin from this frame.
+The frame reel area displays thumbnails of all of the frames that have been captured. To display a particular frame in the [preview area](#preview-area) simply select it from the frame reel. The current frame being previewed will have a white outline around it in the frame reel and playback will begin from this frame.
 
 **Live-view button:** on the far right of the frame reel is the live-view button. After previewing captured frames, select this to return to **capture mode**. In capture mode this button has a white outline around it.
 
@@ -96,7 +96,7 @@ The status bar contains useful information about the current project. See [Statu
 
 ![Sidebar](../img/sidebar.png)
 
-The sidebar contains options that are generally not changed very often during animating.
+The sidebar contains options that are not changed very often during animating.
 
 ### Capture
 
@@ -106,9 +106,7 @@ This is used to select the device to capture frames with. The list will automati
 
 #### Image resolution
 
-This is used to select the resolution to capture frames at. The list is updated when the **camera source** is changed, to only show resolutions that are supported by the given device.
-
-If you select a resolution, switch to a different device, and switch back again, the last resolution selected will be remembered.
+This is used to select the resolution to capture frames at. This list will only show resolutions that are supported by the current **camera source**. The last resolution selected will be remembered when you restart Boats Animator.
 
 ### Export
 
@@ -118,8 +116,7 @@ Select this to change the folder Boats Animator exports captured frames to.
 
 #### Export video
 
-Select this to render the captured frames as a video file. See [Export Video](/features/export-video) for further information. You must capture at least one frame for this option to be available.
-
+Select this to render the captured frames as a video file. You must capture at least one frame for this option to be available. See [Export Video](/features/export-video) for further information.
 ### Overlays
 
 Overlays are visuals that display over the [preview area](#preview-area). They are for reference only and will not show on capture frames or exported videos.
@@ -132,4 +129,4 @@ This displays a grid over the preview area in **capture mode**. The grid is comm
 
 #### Aspect ratio mask
 
-This displays a mask of the selected aspect ratio over the preview area.
+This displays a mask over the preview area with the selected aspect ratio.

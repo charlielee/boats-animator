@@ -2,10 +2,10 @@
 
 ![Menu bar](../img/menu-bar.png)
 
-The menu bar contains an assortment of options both to do with the current project and the program in general. The menu bar is located in the [Main Window](/interface/main-window)
+The menu bar contains an assortment of options both to do with the current project and the program in general. The menu bar is located in the [Main Window](/interface/main-window).
 
 !!! note "Note for macOS users"
-    The menu bar will show some additional items to those listed here. These are automatically added by macOS.
+    The menu bar will show some additional items to those listed here. These features are part of macOS rather than Boats Animator.
 
 ### File menu
 
@@ -19,7 +19,7 @@ The menu bar contains an assortment of options both to do with the current proje
 
 ### Edit menu
 
-**Delete Last Frame:** this will remove the last frame of your animation and delete it permanently from the hard-drive. After selecting this a confirm dialogue with "Are you sure you want to delete frame X?" is displayed.
+**Delete Last Frame:** this will remove the last frame of your animation and delete it permanently from the hard-drive. A dialog box with "Are you sure you want to delete frame X?" is displayed before deletion occurs.
 
 ### Capture menu
 
@@ -33,11 +33,11 @@ The menu bar contains an assortment of options both to do with the current proje
 
 ### Playback menu
 
-**Loop Playback:** toggle if playback should continue from the first frame captured when the last frame captured is reached.
+**Loop Playback:** this toggles if playback should continue from the first frame captured when the last frame captured is reached.
 
-**Display First Frame:** this previews the first frame captured.
+**Display First Frame:** this displays the first frame captured.
 
-**Display Last Frame:** this previews the last frame captured.
+**Display Last Frame:** this displays the last frame captured.
 
 ### View menu
 

@@ -2,7 +2,7 @@
 
 ![Status bar](../img/status-bar.png)
 
-The status bar contains useful information about the current project. The status bar is located in the [Main Window](/interface/main-window)
+The status bar contains useful information about the current project. The status bar is located in the [Main Window](/interface/main-window).
 
 ## Current frame
 
@@ -20,7 +20,7 @@ This is the frame rate that will be used to playback frames. The playback frame 
 
 `0000x0000` or `No camera selected`
 
-This is the current capture resolution that has been selected. `No camera selected` is displayed when a capture device is yet to be selected in the sidebar.
+This is the current capture resolution. `No camera selected` is displayed when a capture device is yet to be selected in the sidebar.
 
 ## Current mode
 
@@ -34,4 +34,4 @@ This is when a live-feed of the selected camera is displayed in the preview area
 
 ### Playback mode
 
-This is when a captured frame is displayed in the preview area. Preview mode can be accessed either by selecting a captured frame from the frame-reel or by selecting the play button.
+This is when a captured frame is displayed in the preview area. Playback mode can be accessed either by selecting a captured frame from the frame-reel or by selecting the play button.

@@ -1,6 +1,6 @@
 # Export Video
 
-Captured frames can be rendered as a video file via the FFmpeg library. To render a video file, select the "Export video" option from the sidebar of the [main window](main-window.md). You must capture at least one frame for this option to be available.
+Captured frames can be rendered as a video file via the FFmpeg library. To render a video file, select the "Export video" option from the sidebar of the [main window](/interface/main-window). You must capture at least one frame for this option to be available.
 
 ## Selecting a file location
 
