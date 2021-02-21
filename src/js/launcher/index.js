@@ -16,7 +16,7 @@
   checkDevelopmentMode();
 
   // Display the latest news
-  newsFeed.load("http://charlielee.uk/feed/boats-animator.json");
+  newsFeed.load("https://www.charlielee.uk/feed/boats-animator.json");
 
   // Open the animator when new project is pressed
   newProjectBtn.addEventListener("click", () => {
