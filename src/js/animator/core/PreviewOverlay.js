@@ -211,7 +211,7 @@
         "Aspect ratio",
         "aspectRatioMask",
         PreviewOverlay.makeAspectRatioSVG,
-        [[2.39,1], [2.35,1], [16,9], [4,3], [3,2], [1,1]],
+        [[2.39,1], [2.35,1], [16,9], [4,3], [3,2], [1,1], [9, 16]],
         {
           defaultWidth: 2.39,
           defaultHeight: 1,
