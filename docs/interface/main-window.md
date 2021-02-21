@@ -1,0 +1,135 @@
+# Main Window
+
+![Main window](../img/ba-0-11-0-screenshot-1.png)
+
+The main window is where you will spend most of your time with Boats Animator.
+
+## Menu bar
+
+![Menu bar](../img/menu-bar.png)
+
+The menu bar contains an assortment of options both to do with the current project and the program in general. See [Menu Bar](/features/menu-bar) for further information.
+
+## Preview area
+
+![Preview area](../img/preview-area.png)
+
+The preview area shows a live feed of the selected camera in **capture mode** and is where frames are played back in **playback mode**. In capture mode a red border is displayed around the preview area.
+
+## Animation toolbar
+
+![Animation toolbar](../img/animation-toolbar.png)
+
+The animation toolbar contains options for controlling your animation.
+
+### Left controls
+
+The left options shown change depending on whether you are in **capture mode** or **playback mode**.
+
+#### Capture mode
+
+![Capture mode left controls](../img/left-controls-capture.png)
+
+**Undo last frame:** this will remove the last frame of your animation and delete it permanently from the hard-drive. After selecting this a confirm dialogue with "Are you sure you want to delete frame X?" is displayed.
+
+**Short play:** this will playback the last 6 frames of your animation.
+
+#### Playback mode
+
+![Playback mode left controls](../img/left-controls-playback.png)
+
+**Delete selected frame:** this will remove the currently selected farme of your animation and delete in permanently from the hard-drive. After selecting this a confirm dialogue with "Are you sure you want to delete frame X?" is displayed.
+
+### Capture button
+
+![Capture button](../img/capture-button.png)
+
+Select this button to capture a new frame from the live-feed that is visible in **capture mode**.
+
+### Playback controls
+
+![Playback controls](../img/playback-controls.png)
+
+These buttons affect the playback of captured frames in the [preview area](#preview-area).
+
+**First frame:** this previews the first frame captured.
+
+**Previous frame:** this previews one frame to the left in the [frame reel](#frame-reel) of the current frame being displayed.
+
+**Playback/pause frames** this will begin playback will begin from the first frame captured or resume from the current frame being previewed if in **playback mode**. If playback has already started this button will pause it.
+
+**Stop playback:** Select this to stop playback and jump to the last frame captured.
+
+**Next frame:** this previews one frame to the right in the [frame reel](#frame-reel) of the current frame being displayed.
+
+**Last frame:** this previews the last frame captured.
+
+**Loop playback:** this toggles if playback should continue from the first frame captured when the last frame captured is reached.
+
+## Frame reel
+
+![Frame reel](../img/frame-reel.png)
+
+The frame reel area displays thumbnails of all of the frames that have been captured. To preview a particular frame in the preview area simply select it from the frame reel. The current frame being previewed will have a white outline around it in the frame reel and playback will begin from this frame.
+
+**Live-view button:** on the far right of the frame reel is the live-view button. After previewing captured frames, select this to return to **capture mode**. In capture mode this button has a white outline around it.
+
+## Onion skinning slider
+
+![Onion skinning slider](../img/onion-skinning-slider.png)
+
+This is used to set the amount of [onion skinning](https://en.wikipedia.org/wiki/Onion_skinning) that is displayed in the preview area in **capture mode**. Move the slider to the right of center to increase the opacity of the last frame captured. At present, moving the slider to the left will have the same effect. To turn off onion skinning move the slider back to the center.
+
+## Frame rate adjuster
+
+![Frame rate adjuster](../img/frame-rate-adjuster.png)
+
+This is used to set the number of frames per second to be displayed during playback. Whole numbers between 1 and 60 are accepted.
+
+## Status bar
+
+![Status bar](../img/status-bar.png)
+
+The status bar contains useful information about the current project. See [Status Bar](/features/status-bar) for further information.
+
+## Sidebar
+
+![Sidebar](../img/sidebar.png)
+
+The sidebar contains options that are generally not changed very often during animating.
+
+### Capture
+
+#### Camera source
+
+This is used to select the device to capture frames with. The list will automatically update if a device is plugged in or unplugged.
+
+#### Image resolution
+
+This is used to select the resolution to capture frames at. The list is updated when the **camera source** is changed, to only show resolutions that are supported by the given device.
+
+If you select a resolution, switch to a different device, and switch back again, the last resolution selected will be remembered.
+
+### Export
+
+#### Change directory
+
+Select this to change the folder Boats Animator exports captured frames to.
+
+#### Export video
+
+Select this to render the captured frames as a video file. See [Export Video](/features/export-video) for further information. You must capture at least one frame for this option to be available.
+
+### Overlays
+
+Overlays are visuals that display over the [preview area](#preview-area). They are for reference only and will not show on capture frames or exported videos.
+
+Use the relevant toggle button to enable an overlay, and then you can adjust it via a drop-menu and opacity slider.
+
+#### Grid overlay
+
+This displays a grid over the preview area in **capture mode**. The grid is commonly used to help follow the [rule of thirds](https://en.wikipedia.org/wiki/Rule_of_thirds).
+
+#### Aspect ratio mask
+
+This displays a mask of the selected aspect ratio over the preview area.

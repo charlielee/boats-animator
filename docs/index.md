@@ -7,4 +7,4 @@ If you come across a mistake with this documentation please consider [editing it
 * **Official homepage:** <https://www.charlielee.uk/boats-animator>
 * **GitHub repository:** <https://github.com/charlielee/boats-animator>
 
-![Main window](img/main-window.png)
+![Main window](img/ba-0-11-0-screenshot-1.png)

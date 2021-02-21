@@ -6,11 +6,15 @@ nav:
 - Introduction:
   - System Requirements: introduction/system-requirements.md
   - License: introduction/license.md
+- Interface:
+  - Launcher Window: interface/launcher-window.md
+  - Main Window: interface/main-window.md
 - Features:
   - Export Video: features/export-video.md
   - Keyboard Shortcuts: features/keyboard-shortcuts.md
-  - Launcher Window: features/launcher-window.md
-  - Main Window: features/main-window.md
+  - Menu Bar: features/menu-bar.md
+  - Status Bar: features/status-bar.md
+
 theme: readthedocs
 extra_css: [css/custom.css]
 markdown_extensions:
