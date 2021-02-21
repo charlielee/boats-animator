@@ -14,6 +14,7 @@ files:
 # Linux
 
 linux:
+  artifactName: ${name}-${version}-linux.${ext}
   category: Photography
   synopsis: A free, open-source stop motion animation program
   description: >
@@ -29,6 +30,7 @@ linux:
 # macOS
 
 mac:
+  artifactName: ${name}-${version}-macos.${ext}
   category: public.app-category.photography
   icon: icons/icon.icns
   target:
@@ -47,12 +49,14 @@ dmg:
 # Windows
 
 win:
+  artifactName: ${name}-${version}-win.${ext}
   icon: icons/icon.ico
   target:
     - nsis
     - zip
 
 nsis:
+  artifactName: ${name}-${version}-win-setup.${ext}
   createDesktopShortcut: false
   include: build/installer.nsh
   installerSidebar: build/setupbanner.bmp
