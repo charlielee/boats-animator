@@ -7,7 +7,6 @@ There are numerous keyboard shortcuts available in Boats Animator; here is a com
 
 | Action | Primary | Alternative |
 |-|-|-|
-| **Main shortcuts** | | |
 | Capture frame | **`Ctrl 1`** | **`Enter`** |
 | Undo last frame | **`Ctrl Z`** | **`*`** |
 | Delete current selected frame | **`Delete`** | **`Backspace`** |
@@ -21,13 +20,9 @@ There are numerous keyboard shortcuts available in Boats Animator; here is a com
 | Display next frame | **`Right`** | **`2`** |
 | Toggle grid overlay | **`4`** | |
 | Toggle aspect ratio mask | **`5`** | |
-| | | |
-| **Confirm prompts** | | |
-| Select confirm button | **`Enter`** | |
-| Cancel confirm prompt | **`Esc`** | **`/`** |
 
-## Shortcuts on a number keypad
+## Shortcuts on a numeric keypad
 
-Boats Animator's shortcuts have been chosen so that the most common can be accessed using a number keypad:
+Boats Animator's shortcuts have been chosen so that the most common can be accessed using a numeric keypad:
 
-![Keypad shortcuts](../img/keypad-shortcuts-min.png)
+![Keypad shortcuts](../img/keypad-shortcuts.png)
