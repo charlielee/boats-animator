@@ -6,5 +6,6 @@ If you come across a mistake with this documentation please consider [editing it
 
 * **Official homepage and downloads:** <https://www.charlielee.uk/boats-animator>
 * **GitHub repository:** <https://github.com/charlielee/boats-animator>
+* **Discord server:** <http://discord.boatsanimator.com>
 
 ![Main window](img/ba-0-11-0-screenshot-1.png)
