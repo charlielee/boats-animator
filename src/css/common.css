@@ -32,7 +32,7 @@ body {
   flex-direction: column;
   flex-wrap: nowrap;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 0.9em;
+  font-size: 0.8em;
   height: 100vh;
   margin: 0;
   overflow: hidden;
@@ -49,6 +49,20 @@ input[type="number"], input[type="text"], select {
   padding: 5px;
 }
 
+label {
+  display: inline-block;
+  margin-bottom: 0.4em;
+}
+
+.btn {
+  flex-direction: column;
+  padding: 0.25em 1px;
+}
+
+.btn small {
+  margin-top: 0.5em;
+}
+
 /* Container for a row of buttons */
 .btn-group { display: flex; }
 .btn-group button {
@@ -60,9 +74,103 @@ input[type="number"], input[type="text"], select {
 .btn-group button:last-of-type { margin-right: 0; }
 .btn-group span { flex: 1; }
 
+.cursor-ew-resize {
+  cursor: ew-resize !important;
+}
+
 /* Denotes an element as a flexbox and sets its children to "flex: 1" */
 .flex { display: flex; }
 .flex > * { flex: 1; }
+
+/** Table **/
+.table {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+}
+.table thead {
+  font-size: 0.9em;
+}
+.table tbody {
+  font-family: monospace;
+}
+.table td, .table th {
+  padding: 0.25em 0.5em;
+  white-space: nowrap;
+  width: 1px;
+}
+.table thead tr {
+  background-color: rgba(23, 23, 23 , 0.8);
+}
+.table tbody tr:nth-child(odd) {
+  background-color: rgba(23, 23, 23 , 0.5);
+}
+.table tbody tr:nth-child(even) {
+  background-color: rgba(23, 23, 23 , 0.8);
+}
+.table i {
+  font-size: 0.8em;
+}
+
+/** Tabs **/
+.tabs {
+  background-color: #171717;
+  border-bottom: 1px solid #ADADAD;
+  display: flex;
+  margin: 0;
+  padding: 0.3em 0.3em 0 0.3em;
+  width: 100%;
+}
+.tabs a {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 5px 5px 0 0;
+  display: flex;
+  font-size: 0.8em;
+  margin-bottom: -1px;
+  padding: 0.75em;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tabs a:hover, .tabs a:active {
+  background-color: #2B2B2B;
+  border: 1px solid #ADADAD;
+}
+.tabs a.active {
+  border: 1px solid #ADADAD;
+  border-bottom: 1px solid #2B2B2B;
+  text-decoration: underline;
+}
+.tabs a.active {
+  background-color: #2B2B2B;
+  color: #ADADAD;
+}
+.tabs li.active a:hover {
+  text-decoration: none;
+}
+
+/** Tabs content **/
+.tabs-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.tabs-content {
+  display: flex;
+  flex: 1;
+  min-width: 100%;
+  overflow: hidden;
+  width: 1px;
+}
+.tab-pane {
+  display: none;
+  flex: 1;
+  overflow: auto;
+}
+.tab-pane.active {
+  display: block;
+}
 
 /* 2. Links
    -------------------------------- */
@@ -116,10 +224,10 @@ aside {
   background-color: #2B2B2B;
   border-left: 1px solid #423e3e;
   color: #d3d3d3;
-  padding: 0 1em 1em 1em;
+  padding: 0;
   overflow: auto;
   position: relative;
-  width: 19em;
+  width: 25em;
 }
 
 aside a,
@@ -138,14 +246,18 @@ aside label {
 }
 
 aside ul {
-  line-height: 1.4;
+  line-height: 1.0;
   list-style: none;
   padding-left: 0.3em;
 }
 
-aside li { margin: 1em 0; }
+aside li { margin: 0.5em 0; }
 
-.sidebar-item { border-bottom: 1px solid #ADADAD; }
+.sidebar-item {
+  border-bottom: 1px solid #ADADAD;
+  margin: 0 1em;
+  overflow: auto;
+}
 
 .sidebar-link-dot { margin-right: 6px; }
 
