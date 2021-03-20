@@ -25,8 +25,8 @@
 
 body {
   align-items: stretch;
-  background-color: #2B2B2B;
-  color: #D9D9D9;
+  background-color: var(--ba-dark-mid);
+  color: var(--ba-light);
   cursor: default;
   display: flex;
   flex-direction: column;
@@ -43,9 +43,9 @@ body {
 img { -webkit-user-drag: none; }
 
 input[type="number"], input[type="text"], select {
-  background-color: #d9d9d9;
-  border: 1px solid #171717;
-  color: #171717;
+  background-color: var(--ba-light);
+  border: 1px solid var(--ba-dark);
+  color: var(--ba-dark);
   padding: 5px;
 }
 
@@ -100,13 +100,13 @@ label {
   width: 1px;
 }
 .table thead tr {
-  background-color: rgba(23, 23, 23 , 0.8);
+  background-color: var(--ba-dark-80);
 }
 .table tbody tr:nth-child(odd) {
-  background-color: rgba(23, 23, 23 , 0.5);
+  background-color: var(--ba-dark-50);
 }
 .table tbody tr:nth-child(even) {
-  background-color: rgba(23, 23, 23 , 0.8);
+  background-color: var(--ba-dark-80);
 }
 .table i {
   font-size: 0.8em;
@@ -114,8 +114,8 @@ label {
 
 /** Tabs **/
 .tabs {
-  background-color: #171717;
-  border-bottom: 1px solid #ADADAD;
+  background-color: var(--ba-dark);
+  border-bottom: 1px solid var(--ba-light-mid);
   display: flex;
   margin: 0;
   padding: 0.3em 0.3em 0 0.3em;
@@ -134,17 +134,17 @@ label {
   white-space: nowrap;
 }
 .tabs a:hover, .tabs a:active {
-  background-color: #2B2B2B;
-  border: 1px solid #ADADAD;
+  background-color: var(--ba-dark-mid);
+  border: 1px solid var(--ba-light-mid);
 }
 .tabs a.active {
-  border: 1px solid #ADADAD;
-  border-bottom: 1px solid #2B2B2B;
+  border: 1px solid var(--ba-light-mid);
+  border-bottom: 1px solid var(--ba-dark-mid);
   text-decoration: underline;
 }
 .tabs a.active {
-  background-color: #2B2B2B;
-  color: #ADADAD;
+  background-color: var(--ba-dark-mid);
+  color: var(--ba-light-mid);
 }
 .tabs li.active a:hover {
   text-decoration: none;
@@ -176,7 +176,7 @@ label {
    -------------------------------- */
 
 a {
-  color: #D9D9D9;
+  color: var(--ba-light);
   cursor: pointer;
   text-decoration: underline;
   -webkit-user-drag: none;
@@ -207,7 +207,7 @@ main h2 {
 }
 
 .content {
-  background-color: #171717;
+  background-color: var(--ba-dark);
   margin: 0;
   padding: 0 1em;
   width: 100%;
@@ -221,9 +221,9 @@ main h2 {
    -------------------------------- */
 
 aside {
-  background-color: #2B2B2B;
-  border-left: 1px solid #423e3e;
-  color: #d3d3d3;
+  background-color: var(--ba-dark-mid);
+  border-left: 1px solid var(--ba-border);
+  color: var(--ba-light);
   padding: 0;
   overflow: auto;
   position: relative;
@@ -232,7 +232,7 @@ aside {
 
 aside a,
 aside .sidebar-opt {
-  color: #d3d3d3;
+  color: var(--ba-light);
   cursor: pointer;
 }
 aside a:hover,
@@ -254,7 +254,7 @@ aside ul {
 aside li { margin: 0.5em 0; }
 
 .sidebar-item {
-  border-bottom: 1px solid #ADADAD;
+  border-bottom: 1px solid var(--ba-light-mid);
   margin: 0 1em;
   overflow: auto;
 }
@@ -270,13 +270,13 @@ aside li { margin: 0.5em 0; }
    -------------------------------- */
 
 footer {
-  background-color: #d9d9d9;
-  color: #2B2B2B;
+  background-color: var(--ba-light);
+  color: var(--ba-dark-mid);
   flex: initial;
   width: 100%;
 }
 
-footer a { color: #2B2B2B; }
+footer a { color: var(--ba-dark-mid); }
 footer a:hover, footer a:active { text-decoration: underline; }
 
 footer ul {
@@ -288,7 +288,7 @@ footer ul {
 footer li { display: inline-block; }
 
 footer li:not(.no-pipe)::after {
-  color: #b5b5b5;
+  color: var(--ba-light-mid);
   content: "|";
   margin: 0 0.5em 0 0.8em;
 }
@@ -297,7 +297,7 @@ footer li:not(.no-pipe)::after {
    -------------------------------- */
 
 ::-webkit-scrollbar              {
-  background-color: rgba(9, 9, 9, 0.1);
+  background-color: var(--ba-dark-20);
   width: 12px;
   height: 12px;
 }
@@ -308,14 +308,14 @@ footer li:not(.no-pipe)::after {
 }
 
 ::-webkit-scrollbar-thumb        {
-  background-color: #423e3e;
+  background-color: var(--ba-border);
   border-radius: 5px;
-  border: 1px solid #171717;
+  border: 1px solid var(--ba-dark);
 }
 
-::-webkit-scrollbar-thumb:hover { background-color: #5C5858; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--ba-border-hover); }
 
-::-webkit-scrollbar-thumb:active { background-color: #827E7E; }
+::-webkit-scrollbar-thumb:active { background-color: var(--ba-border-active); }
 
 /* 7. Alerts
    -------------------------------- */
@@ -323,8 +323,7 @@ footer li:not(.no-pipe)::after {
 /* Fix blue outline around SweetAlert modals */
 .swal-overlay { outline: none; }
 
-/* Make custom swal content the same colour as default content */
-.swal-content { color: rgba(0,0,0,.64); }
+.swal-content { color: var(--ba-dark-mid); }
 
 /* 8. Notification bar
    -------------------------------- */
@@ -343,8 +342,8 @@ footer li:not(.no-pipe)::after {
   width: 50%;
   min-height: 2.75em;
 
-  background-color: #2b2b2b;
-  color: #fff;
+  background-color: var(--ba-dark-mid);
+  color: var(--ba-white);
   transition: margin-top 0.3s ease-out,
               opacity 0.3s ease;
 }
@@ -366,9 +365,9 @@ footer li:not(.no-pipe)::after {
 /* Notification states */
 .notification.visible { margin-top: 0; }
 .notification.hiding { opacity: 0; }
-.notification.success .notify-type { background-color: #2d9e2d; }
-.notification.info .notify-type { background-color: #3a3ae1; }
-.notification.error .notify-type { background-color: #ad0000; }
+.notification.success .notify-type { background-color: var(--ba-green); }
+.notification.info .notify-type { background-color: var(--ba-blue); }
+.notification.error .notify-type { background-color: var(--ba-red); }
 
 /* Notification message */
 .notification .msg {
@@ -383,8 +382,8 @@ footer li:not(.no-pipe)::after {
    -------------------------------- */
 
 .highlight {
-  background-color: #d9d9d9;
-  color: #2B2B2B;
+  background-color: var(--ba-light);
+  color: var(--ba-dark-mid);
   border-radius: 0.25em;
   margin: 1em 0;
   overflow: hidden;

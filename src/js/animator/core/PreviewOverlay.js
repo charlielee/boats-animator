@@ -32,7 +32,7 @@
 
       // Default overlay settings
       this.settings = {
-        color: "#2B2B2B",
+        color: "var(--ba-dark-mid)",
         defaultHeight: 1,
         defaultWidth: 1,
         heightMin: 1,
@@ -200,7 +200,7 @@
         PreviewOverlay.makeGridSVG,
         [[3,3], [2,2], [3,2], [4,4], [4,3]],
         {
-          color: "#FFFFFF",
+          color: "var(--ba-white)",
           defaultWidth: 3,
           defaultHeight: 3
         }

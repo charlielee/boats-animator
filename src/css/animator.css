@@ -37,7 +37,7 @@
 
 body[data-has-frames="false"] #exportVideoSidebarOption *,
 body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
-  color: #000 !important;
+  color: var(--ba-black) !important;
   cursor: not-allowed;
   text-decoration: none;
 }
@@ -57,12 +57,12 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
   display: flex;
   flex: 1;
   text-align: center;
-  background-color: black;
+  background-color: var(--ba-black);
   position: relative;
   border: 2px solid transparent;
 }
 #preview-area.capture-mode {
-  border-color: #ad0000;
+  border-color: var(--ba-red);
 }
 
 .preview-area-item {
@@ -100,7 +100,7 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 
 /**== Loading Window ==*/
 #loading-window {
-  background-color: rgba(23, 23, 23, 0.5);
+  background-color: var(--ba-dark-50);
   display: none;
   flex-direction: column;
   height: 100vh;
@@ -169,8 +169,8 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
    -------------------------------- */
 
 #frame-mod-panel {
-  background-color: #171717;
-  border-bottom: 1px solid #423e3e;
+  background-color: var(--ba-dark);
+  border-bottom: 1px solid var(--ba-border);
   padding: 0 1em;
   width: 100%;
 }
@@ -189,7 +189,7 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
   text-align: center;
 }
 #frame-mod-panel .button:hover {
-  background-color: #2b2b2b;
+  background-color: var(--ba-dark-mid);
 }
 
 /* ===  Left controls === */
@@ -202,11 +202,11 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 
 #btn-capture-frame { padding: 0.3em !important; }
 #btn-capture-frame i {
-  color: #f9ff23;
+  color: var(--ba-yellow);
   font-size: 1.8em;
 }
 
-#btn-capture-frame i:hover { color: #f3f76e; }
+#btn-capture-frame i:hover { color: var(--ba-yellow-hover); }
 
 /* ===  Playback controls === */
 
@@ -215,13 +215,13 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
   flex: 4;
 }
 
-#btn-loop i.active { color: #ad0000; }
+#btn-loop i.active { color: var(--ba-red); }
 
 /* ========== FRAME REEL ============== */
 
 /* Frame reel area */
 #area-frame-reel {
-  background-color: #171717;
+  background-color: var(--ba-dark);
   height: 6.2em;
   overflow-x: scroll;
 }
@@ -256,7 +256,7 @@ td:first-of-type .frame-reel-preview {
 
 /* Preview image */
 .frame-reel-img {
-  background-color: #2B2B2B;
+  background-color: var(--ba-dark-mid);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -264,7 +264,7 @@ td:first-of-type .frame-reel-preview {
   width: 67px;
 }
 .frame-reel-img:hover { opacity: 0.8; }
-.frame-reel-img.selected { outline: 1px solid #d9d9d9; }
+.frame-reel-img.selected { outline: 1px solid var(--ba-light); }
 
 .frame-reel-no {
   padding: 0.25em 0.25em 0.25em 0;
@@ -274,16 +274,16 @@ td:first-of-type .frame-reel-preview {
 #btn-live-view {
   width: 67px;
   height: 50px;
-  background-color: #171717;
-  color: #D9D9D9;
+  background-color: var(--ba-dark);
+  color: var(--ba-light);
   text-align: center;
   font-size: 2.5em;
 }
-#btn-live-view:hover { color: #ad0000; }
+#btn-live-view:hover { color: var(--ba-red); }
 
 #btn-live-view.selected {
-  color: #ad0000;
-  outline: 1px solid #d9d9d9;
+  color: var(--ba-red);
+  outline: 1px solid var(--ba-light);
 }
 
 #btn-live-view i { padding-top: 0.2em; }
@@ -331,22 +331,22 @@ td:first-of-type .frame-reel-preview {
 
 #input-onion-skin-opacity::-webkit-slider-runnable-track {
   height: 2px;
-  background-color: #D9D9D9;
+  background-color: var(--ba-light);
 }
 
 #input-onion-skin-opacity::-webkit-slider-thumb {
   height: 1.7em;
   width: 1.7em;
   border-radius: 50%;
-  background-color: #ad0000;
+  background-color: var(--ba-red);
   -webkit-appearance: none;
   margin-top: -9.5px;
 }
 #input-onion-skin-opacity::-webkit-slider-thumb:hover {
-  background-color: #ef0000;
+  background-color: var(--ba-red-hover);
 }
 
-#input-onion-skin-opacity:focus::-webkit-slider-runnable-track { background-color: #D9D9D9; }
+#input-onion-skin-opacity:focus::-webkit-slider-runnable-track { background-color: var(--ba-light); }
 
 /* === Frame rate options === */
 

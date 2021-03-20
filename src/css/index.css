@@ -10,15 +10,15 @@
   width: 100%;
   padding: 1em 0;
   list-style-type: none;
-  border-bottom: 1px solid #ADADAD;
+  border-bottom: 1px solid var(--ba-light-mid);
   position: relative;
 }
 
 #projects-container li:first-of-type { padding-top: 0; }
 #projects-container li:last-of-type { margin-bottom: 1em; }
 
-#projects-container a { color: #d3d3d3; }
-#projects-container a:hover { border-bottom: 1.5px solid #d3d3d3; }
+#projects-container a { color: var(--ba-light); }
+#projects-container a:hover { border-bottom: 1.5px solid var(--ba-light); }
 
 .content button i { font-size: 4em; }
 
@@ -56,18 +56,18 @@
 
 .post,
 .container-news h3  {
-  color: #fff;
+  color: var(--ba-white);
   padding-right: 1em;
 }
 .post { margin-bottom: 1.5em; }
 
 .post-link {
-  color: #fff;
+  color: var(--ba-white);
   text-decoration: none;
 }
 .post-link:hover {
-  color: #fff;
-  border-bottom: 1px solid #fff;
+  color: var(--ba-white);
+  border-bottom: 1px solid var(--ba-white);
 }
 
 .post-title {
@@ -75,12 +75,12 @@
   margin-bottom: -0.4em;
   font-size: 1.2em;
   font-weight: 500;
-  color: #fff;
+  color: var(--ba-white);
 }
 .post-date {
   margin: 0.5em 0 1em 0;
   font-size: 0.85em;
-  color: #d3d3d3;
+  color: var(--ba-light);
 }
 .post-content p:first-of-type { margin: 0; }
 .post-content p { margin-top: 0; }
