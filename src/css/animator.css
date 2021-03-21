@@ -21,8 +21,12 @@
 }
 
 #currentDirectoryName {
-  margin: 0.2em 0 1em 0;
+  background-color: var(--ba-dark);
+  border: 1px solid var(--ba-border-active);
   font-family: monospace;
+  font-size: 1.25em;
+  margin: 0.5em 0;
+  padding: 0.5em;
   word-break: break-word;
 }
 

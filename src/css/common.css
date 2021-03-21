@@ -23,6 +23,10 @@
   display: none !important;
 }
 
+html {
+  font-size: 0.8em;
+}
+
 body {
   align-items: stretch;
   background-color: var(--ba-dark-mid);
@@ -32,8 +36,8 @@ body {
   flex-direction: column;
   flex-wrap: nowrap;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 0.8em;
   height: 100vh;
+  line-height: 1.4;
   margin: 0;
   overflow: hidden;
   padding: 0;
@@ -43,15 +47,15 @@ body {
 img { -webkit-user-drag: none; }
 
 input[type="number"], input[type="text"], select {
-  background-color: var(--ba-light);
-  border: 1px solid var(--ba-dark);
-  color: var(--ba-dark);
+  background-color: var(--ba-border);
+  border: 1px solid var(--ba-border-active);
+  color: var(--ba-light);
   padding: 5px;
 }
 
 label {
   display: inline-block;
-  margin-bottom: 0.4em;
+  margin-bottom: 0.5em;
 }
 
 .btn {
@@ -203,7 +207,8 @@ main h1 {
 }
 
 main h2 {
-  font-size: 1.3em;
+  font-size: 1.4em;
+  margin: 1rem 0;
 }
 
 .content {
@@ -246,15 +251,14 @@ aside label {
 }
 
 aside ul {
-  line-height: 1.0;
   list-style: none;
   padding-left: 0.3em;
 }
 
-aside li { margin: 0.5em 0; }
+aside li { margin: 1em 0; }
 
 .sidebar-item {
-  border-bottom: 1px solid var(--ba-light-mid);
+  border-bottom: 1px solid var(--ba-border);
   margin: 0 1em;
   overflow: auto;
 }
