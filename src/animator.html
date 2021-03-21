@@ -121,55 +121,82 @@
 
     <!--Sidebar content-->
     <aside>
-      <!--Capture Options-->
-      <div class="sidebar-item" id="capture-header">
-        <div class="sidebar-header">
-          <h2><i class="fa fa-camera fa-fw"></i> Capture</h2>
+      <div class="tabs-container">
+        <div class="tabs">
+          <a href="#captureTab" class="active" data-toggle="tab">Capture</a>
+          <a href="#overlaysTab" data-toggle="tab">Overlays</a>
+          <a href="#exportTab" data-toggle="tab">Export</a>
         </div>
-        <ul id="capture-options">
-          <!-- Camera selection -->
-          <li id="camera-select-td">
-            <label>Camera Source</label>
-            <select>
-            </select>
-          </li>
-          <!-- Resolution selection -->
-          <li id="resolution-select-td">
-            <label>Image Resolution</label>
-            <select id="form-resolution-select"></select>
-          </li>
-        </ul>
-      </div>
 
-      <!--Export Options-->
-      <div class="sidebar-item" id="export-header">
-        <div class="sidebar-header">
-          <h2>
-            <i class="fa fa-download fa-fw"></i> Export</h2>
-        </div>
-        <ul>
-          <li>
-            Captured frames will be exported to:
-            <div id="currentDirectoryName">No directory selected</div>
-          </li>
-          <li class="sidebar-opt">
-            <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
-            <span id="btn-dir-change">Change Directory</span>
-          </li>
-          <li id="exportVideoSidebarOption" class="sidebar-opt">
-            <i class="fa fa-sort-asc fa-rotate-90 sidebar-link-dot"></i>
-            <span id="btn-export-video">Export Video</span>
-          </li>
-        </ul>
-      </div>
+        <div class="tabs-content">
+          <!--Capture Options-->
+          <div id="captureTab" class="tab-pane active">
+            <h2 class="sidebar-header">
+              <i class="fa fa-camera fa-fw"></i>
+              Capture
+            </h2>
 
-      <!--Preview Overlay-->
-      <div class="sidebar-item" id="overlay-header">
-        <div class="sidebar-header">
-          <h2>
-            <i class="fa fa-adjust fa-fw"></i> Overlays</h2>
+            <div class="sidebar-item" id="capture-header">
+              <ul id="capture-options">
+                <!-- Camera selection -->
+                <li id="camera-select-td">
+                  <label>Camera Source</label>
+                  <select>
+                  </select>
+                </li>
+                <!-- Resolution selection -->
+                <li id="resolution-select-td">
+                  <label>Image Resolution</label>
+                  <select id="form-resolution-select"></select>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!--Preview Overlays-->
+          <div id="overlaysTab" class="tab-pane">
+            <h2 class="sidebar-header">
+              <i class="fa fa-adjust fa-fw"></i>
+              Overlays
+            </h2>
+
+            <div class="sidebar-item" id="overlay-header">
+              <ul id="overlay-list"></ul>
+            </div>
+          </div>
+
+           <!--Export Options-->
+           <div id="exportTab" class="tab-pane">
+              <h2 class="sidebar-header">
+                <i class="fa fa-download fa-fw"></i>
+                Export
+              </h2>
+
+              <div class="sidebar-item" id="export-header">
+                <ul>
+                  <li>
+                    Captured frames will be exported to:
+                    <div id="currentDirectoryName">No directory selected</div>
+                  </li>
+                  <li class="sidebar-opt">
+                    <button id="btn-dir-change">Browse</button>
+                  </li>
+                  <li>
+                    Render current take as a video file:
+                  </li>
+                  <li id="exportVideoSidebarOption" class="sidebar-opt">
+                    <button id="btn-export-video">Export Video</button>
+                  </li>
+                  <li>
+                    Renumber captured frame files:
+                  </li>
+                  <li class="sidebar-opt">
+                    <button id="btn-confirm-take">Confirm Take</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
         </div>
-        <ul id="overlay-list"></ul>
       </div>
     </aside>
   </main>

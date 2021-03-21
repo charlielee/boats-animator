@@ -50,6 +50,7 @@ input[type="number"], input[type="text"], select {
   background-color: var(--ba-border);
   border: 1px solid var(--ba-border-active);
   color: var(--ba-light);
+  margin-bottom: 1rem;
   padding: 0.25rem;
 }
 
@@ -119,7 +120,7 @@ label {
 /** Tabs **/
 .tabs {
   background-color: var(--ba-dark);
-  border-bottom: 1px solid var(--ba-light-mid);
+  border-bottom: 1px solid var(--ba-light);
   display: flex;
   margin: 0;
   padding: 0.3rem 0.3rem 0 0.3rem;
@@ -129,28 +130,28 @@ label {
   align-items: center;
   border: 1px solid transparent;
   border-radius: 5px 5px 0 0;
+  color: var(--ba-light-mid);
   display: flex;
   font-size: 0.8rem;
   margin-bottom: -1px;
-  padding: 0.75rem;
+  padding: 0.5rem 0.75rem;
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
 }
 .tabs a:hover, .tabs a:active {
-  background-color: var(--ba-dark-mid);
+  background-color: var(--ba-dark);
   border: 1px solid var(--ba-light-mid);
 }
 .tabs a.active {
-  border: 1px solid var(--ba-light-mid);
+  border: 1px solid var(--ba-light);
   border-bottom: 1px solid var(--ba-dark-mid);
-  text-decoration: underline;
 }
 .tabs a.active {
   background-color: var(--ba-dark-mid);
-  color: var(--ba-light-mid);
+  color: var(--ba-light);
 }
-.tabs li.active a:hover {
+.tabs a.active:hover {
   text-decoration: none;
 }
 
@@ -238,8 +239,7 @@ aside {
 
 aside a,
 aside .sidebar-opt {
-  color: var(--ba-light);
-  cursor: pointer;
+  margin-bottom: 1rem;
 }
 aside a:hover,
 aside .sidebar-opt span:hover {
@@ -256,7 +256,7 @@ aside ul {
   padding: 0;
 }
 
-aside li { margin: 1rem 0; }
+aside li { margin: 0.25rem 0; }
 
 .sidebar-item {
   border-bottom: 1px solid var(--ba-border);
@@ -266,6 +266,9 @@ aside li { margin: 1rem 0; }
 
 .sidebar-link-dot { margin-right: 6px; }
 
+.sidebar-header {
+  margin: 1rem 1rem 0 1rem;
+}
 .sidebar-header i {
   font-size: 1.3rem;
   margin-right: 0.2rem;
@@ -394,6 +397,10 @@ footer li:not(.no-pipe)::after {
   overflow: hidden;
   padding: 0 1rem;
   width: 100%;
+}
+
+.highlight h2 {
+  color: var(--ba-dark-mid);
 }
 
 .highlight-body {

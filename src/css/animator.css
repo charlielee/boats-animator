@@ -37,9 +37,7 @@
 
 body[data-has-frames="false"] #exportVideoSidebarOption *,
 body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
-  color: var(--ba-black) !important;
   cursor: not-allowed;
-  text-decoration: none;
 }
 
 #exportStatusDialog {
@@ -360,6 +358,7 @@ td:first-of-type .frame-reel-preview {
 }
 
 #input-fr-change {
+  margin: 0;
   width: 3.5rem;
 }
 

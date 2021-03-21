@@ -25,6 +25,7 @@
   const frameModLeftControls = document.querySelector("#left-controls");
 
   const btnDirectoryChange = document.querySelector("#btn-dir-change");
+  const btnConfirmTake = document.querySelector("#btn-confirm-take");
   const curDirDisplay = document.querySelector("#currentDirectoryName");
 
   /** Represents a project (a series of takes) */
@@ -82,6 +83,11 @@
       // Change export frame directory
       btnDirectoryChange.addEventListener("click", async () => {
         self.showExportFrameDirDialog()
+      });
+
+      // Confirm take
+      btnConfirmTake.addEventListener("click", function () {
+        self.currentTake.confirmTake();
       });
     }
 
