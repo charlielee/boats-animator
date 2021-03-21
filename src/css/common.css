@@ -24,7 +24,7 @@
 }
 
 html {
-  font-size: 0.8em;
+  font-size: 0.85em;
 }
 
 body {
@@ -50,21 +50,21 @@ input[type="number"], input[type="text"], select {
   background-color: var(--ba-border);
   border: 1px solid var(--ba-border-active);
   color: var(--ba-light);
-  padding: 5px;
+  padding: 0.25rem;
 }
 
 label {
   display: inline-block;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.25rem;
 }
 
 .btn {
   flex-direction: column;
-  padding: 0.25em 1px;
+  padding: 0.25rem 1px;
 }
 
 .btn small {
-  margin-top: 0.5em;
+  margin-top: 0.5rem;
 }
 
 /* Container for a row of buttons */
@@ -73,7 +73,7 @@ label {
   align-items: center;
   display: flex;
   flex: 1;
-  margin-right: 1em;
+  margin-right: 1rem;
 }
 .btn-group button:last-of-type { margin-right: 0; }
 .btn-group span { flex: 1; }
@@ -93,13 +93,13 @@ label {
   width: 100%;
 }
 .table thead {
-  font-size: 0.9em;
+  font-size: 0.9rem;
 }
 .table tbody {
   font-family: monospace;
 }
 .table td, .table th {
-  padding: 0.25em 0.5em;
+  padding: 0.25rem 0.5rem;
   white-space: nowrap;
   width: 1px;
 }
@@ -113,7 +113,7 @@ label {
   background-color: var(--ba-dark-80);
 }
 .table i {
-  font-size: 0.8em;
+  font-size: 0.8rem;
 }
 
 /** Tabs **/
@@ -122,7 +122,7 @@ label {
   border-bottom: 1px solid var(--ba-light-mid);
   display: flex;
   margin: 0;
-  padding: 0.3em 0.3em 0 0.3em;
+  padding: 0.3rem 0.3rem 0 0.3rem;
   width: 100%;
 }
 .tabs a {
@@ -130,9 +130,9 @@ label {
   border: 1px solid transparent;
   border-radius: 5px 5px 0 0;
   display: flex;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   margin-bottom: -1px;
-  padding: 0.75em;
+  padding: 0.75rem;
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
@@ -202,24 +202,24 @@ main > section {
 }
 
 main h1 {
-  font-size: 1.8em;
-  margin: 0.5em 0;
+  font-size: 1.8rem;
+  margin: 0.5rem 0;
 }
 
 main h2 {
-  font-size: 1.4em;
+  font-size: 1.4rem;
   margin: 1rem 0;
 }
 
 .content {
   background-color: var(--ba-dark);
   margin: 0;
-  padding: 0 1em;
+  padding: 0 1rem;
   width: 100%;
 }
 
 .content p {
-  margin: 0 0 4em 0;
+  margin: 0 0 4rem 0;
 }
 
 /* 4. Sidebar
@@ -232,7 +232,7 @@ aside {
   padding: 0;
   overflow: auto;
   position: relative;
-  width: 25em;
+  width: 22rem;
 }
 
 aside a,
@@ -252,22 +252,22 @@ aside label {
 
 aside ul {
   list-style: none;
-  padding-left: 0.3em;
+  padding: 0;
 }
 
-aside li { margin: 1em 0; }
+aside li { margin: 1rem 0; }
 
 .sidebar-item {
   border-bottom: 1px solid var(--ba-border);
-  margin: 0 1em;
+  margin: 0 1rem;
   overflow: auto;
 }
 
 .sidebar-link-dot { margin-right: 6px; }
 
 .sidebar-header i {
-  font-size: 0.9em;
-  margin-right: 0.4em;
+  font-size: 1.3rem;
+  margin-right: 0.2rem;
 }
 
 /* 5. Footer
@@ -285,8 +285,8 @@ footer a:hover, footer a:active { text-decoration: underline; }
 
 footer ul {
   list-style: none;
-  margin: 0.5em 0;
-  padding: 0 1em;
+  margin: 0.5rem 0;
+  padding: 0 1rem;
 }
 
 footer li { display: inline-block; }
@@ -294,7 +294,7 @@ footer li { display: inline-block; }
 footer li:not(.no-pipe)::after {
   color: var(--ba-light-mid);
   content: "|";
-  margin: 0 0.5em 0 0.8em;
+  margin: 0 0.5rem 0 0.8rem;
 }
 
 /* 6. Scrollbars
@@ -302,8 +302,8 @@ footer li:not(.no-pipe)::after {
 
 ::-webkit-scrollbar              {
   background-color: var(--ba-dark-20);
-  width: 12px;
-  height: 12px;
+  width: 0.9rem;
+  height: 0.9rem;
 }
 
 ::-webkit-scrollbar-track,
@@ -342,9 +342,9 @@ footer li:not(.no-pipe)::after {
 /* Individual notification */
 .notification {
   display: flex;
-  margin-top: -2.75em;
+  margin-top: -2.75rem;
   width: 50%;
-  min-height: 2.75em;
+  min-height: 2.75rem;
 
   background-color: var(--ba-dark-mid);
   color: var(--ba-white);
@@ -354,16 +354,16 @@ footer li:not(.no-pipe)::after {
 
 /* Notification type label */
 .notify-type {
-  width: 4.5em;
-  margin-right: 0.5em;
-  padding: 0.2em;
+  width: 4.5rem;
+  margin-right: 0.5rem;
+  padding: 0.2rem;
 
   display: inline-flex;
   justify-content: center;
   align-items: center;
 
   text-transform: capitalize;
-  font-size: 0.9em;
+  font-size: 0.9rem;
 }
 
 /* Notification states */
@@ -379,7 +379,7 @@ footer li:not(.no-pipe)::after {
   justify-content: center;
   align-items: center;
 
-  font-size: 0.95em;
+  font-size: 0.95rem;
 }
 
 /* 9. Highlight message
@@ -388,13 +388,13 @@ footer li:not(.no-pipe)::after {
 .highlight {
   background-color: var(--ba-light);
   color: var(--ba-dark-mid);
-  border-radius: 0.25em;
-  margin: 1em 0;
+  border-radius: 0.25rem;
+  margin: 1rem 0;
   overflow: hidden;
-  padding: 0 1em;
+  padding: 0 1rem;
   width: 100%;
 }
 
 .highlight-body {
-  margin: 1em 0;
+  margin: 1rem 0;
 }

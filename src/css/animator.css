@@ -21,12 +21,8 @@
 }
 
 #currentDirectoryName {
-  background-color: var(--ba-dark);
-  border: 1px solid var(--ba-border-active);
   font-family: monospace;
-  font-size: 1.25em;
-  margin: 0.5em 0;
-  padding: 0.5em;
+  margin: 0.25rem 0;
   word-break: break-word;
 }
 
@@ -135,10 +131,10 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 
 .dot {
   display: inline;
-  margin-left: 0.2em;
-  margin-right: 0.2em;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
   position: relative;
-  font-size: 3.5em;
+  font-size: 3.5rem;
   opacity: 0;
   animation: showHideDot 2.5s ease-in-out infinite;
 }
@@ -175,7 +171,7 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 #frame-mod-panel {
   background-color: var(--ba-dark);
   border-bottom: 1px solid var(--ba-border);
-  padding: 0 1em;
+  padding: 0 1rem;
   width: 100%;
 }
 
@@ -186,10 +182,10 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 
 /* Buttons within the frame mod panel */
 #frame-mod-panel .button {
-  font-size: 1.3em;
+  font-size: 1.3rem;
   display: inline-block;
-  min-width: 1.5em;
-  padding: 0.5em 0;
+  min-width: 1.5rem;
+  padding: 0.5rem;
   text-align: center;
 }
 #frame-mod-panel .button:hover {
@@ -204,10 +200,9 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 
 #capture-control { justify-content: center; }
 
-#btn-capture-frame { padding: 0.3em !important; }
 #btn-capture-frame i {
   color: var(--ba-yellow);
-  font-size: 1.8em;
+  font-size: 1.8rem;
 }
 
 #btn-capture-frame i:hover { color: var(--ba-yellow-hover); }
@@ -226,7 +221,7 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 /* Frame reel area */
 #area-frame-reel {
   background-color: var(--ba-dark);
-  height: 6.2em;
+  height: 7rem;
   overflow-x: scroll;
 }
 
@@ -242,7 +237,7 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 #area-frame-reel tr:nth-child(2) { display: table-cell; }
 
 #area-frame-reel > p {
-  font-size: 1.4em;
+  font-size: 1.4rem;
   text-align: center;
 }
 
@@ -251,11 +246,11 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 
 /* Image container */
 td:first-of-type .frame-reel-preview {
-  padding-left: 0.25em;
+  padding-left: 0.25rem;
 }
 .frame-reel-preview {
   position: relative;
-  padding-right: 0.25em;
+  padding-right: 0.25rem;
 }
 
 /* Preview image */
@@ -271,8 +266,8 @@ td:first-of-type .frame-reel-preview {
 .frame-reel-img.selected { outline: 1px solid var(--ba-light); }
 
 .frame-reel-no {
-  padding: 0.25em 0.25em 0.25em 0;
-  font-size: 0.75em;
+  padding: 0.25rem 0.25rem 0.25rem 0;
+  font-size: 0.75rem;
 }
 
 #btn-live-view {
@@ -281,7 +276,7 @@ td:first-of-type .frame-reel-preview {
   background-color: var(--ba-dark);
   color: var(--ba-light);
   text-align: center;
-  font-size: 2.5em;
+  font-size: 2.5rem;
 }
 #btn-live-view:hover { color: var(--ba-red); }
 
@@ -290,7 +285,7 @@ td:first-of-type .frame-reel-preview {
   outline: 1px solid var(--ba-light);
 }
 
-#btn-live-view i { padding-top: 0.2em; }
+#btn-live-view i { padding-top: 0.2rem; }
 
 
 /* Control panel
@@ -298,7 +293,7 @@ td:first-of-type .frame-reel-preview {
 
 #control-panel {
   display: flex;
-  padding: 0.5em 0;
+  padding: 0.5rem 0;
   white-space: nowrap;
   width: 100%;
 }
@@ -308,10 +303,10 @@ td:first-of-type .frame-reel-preview {
 #btn-grid-toggle {
   position: relative;
   display: inline-block;
-  padding: 0 1em;
+  padding: 0 1rem;
 }
 
-#btn-grid-toggle i { font-size: 1.7em; }
+#btn-grid-toggle i { font-size: 1.7rem; }
 
 /* === Onion skin opacity options === */
 
@@ -319,15 +314,15 @@ td:first-of-type .frame-reel-preview {
 
 #slider-background-middle {
   position: relative;
-  height: 1.9em;
-  width: 0.09em;
+  height: 1.9rem;
+  width: 0.09rem;
   background-color: white;
-  margin: -1.24em auto 0 auto;
+  margin: -1.24rem auto 0 auto;
   z-index: -1;
 }
 
 #input-onion-skin-opacity {
-  width: 15em;
+  width: 15rem;
   -webkit-appearance: none;
 }
 
@@ -339,8 +334,8 @@ td:first-of-type .frame-reel-preview {
 }
 
 #input-onion-skin-opacity::-webkit-slider-thumb {
-  height: 1.7em;
-  width: 1.7em;
+  height: 1.7rem;
+  width: 1.7rem;
   border-radius: 50%;
   background-color: var(--ba-red);
   -webkit-appearance: none;
@@ -356,12 +351,12 @@ td:first-of-type .frame-reel-preview {
 
 #frame-rate-options {
   display: inline-block;
-  padding-right: 1em;
+  padding-right: 1rem;
   text-align: right;
 }
 
 #input-fr-change {
-  width: 4em;
+  width: 3.5rem;
 }
 
 /* Status bar
