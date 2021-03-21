@@ -207,6 +207,7 @@ main h1 {
 }
 
 main h2 {
+  color: var(--ba-white);
   font-size: 1.4rem;
   margin: 1rem 0;
 }

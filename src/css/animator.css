@@ -181,14 +181,14 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 }
 
 /* Buttons within the frame mod panel */
-#frame-mod-panel .button {
+.button {
   font-size: 1.3rem;
   display: inline-block;
-  min-width: 1.5rem;
-  padding: 0.5rem;
+  min-width: 2rem;
+  padding: 0.75rem 0;
   text-align: center;
 }
-#frame-mod-panel .button:hover {
+.button:hover {
   background-color: var(--ba-dark-mid);
 }
 
@@ -200,9 +200,13 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 
 #capture-control { justify-content: center; }
 
+#btn-capture-frame {
+  padding: 0.375rem 0.25rem;
+}
+
 #btn-capture-frame i {
   color: var(--ba-yellow);
-  font-size: 1.8rem;
+  font-size: 2.6rem;
 }
 
 #btn-capture-frame i:hover { color: var(--ba-yellow-hover); }
