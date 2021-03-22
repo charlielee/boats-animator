@@ -36,7 +36,7 @@
      * @param {String} winName The name of the window to switch to
      */
     switchWindow(winName) {
-      const originalWindow = BrowserWindow.getFocusedWindow();
+      const originalWindow = (BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]);
 
       switch (winName) {
         case "animator": {
