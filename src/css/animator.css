@@ -179,14 +179,14 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 }
 
 /* Buttons within the frame mod panel */
-.button {
+.frame-mod-button {
   font-size: 1.3rem;
   display: inline-block;
   min-width: 2rem;
   padding: 0.75rem 0;
   text-align: center;
 }
-.button:hover {
+.frame-mod-button:hover {
   background-color: var(--ba-dark-mid);
 }
 

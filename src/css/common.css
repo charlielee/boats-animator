@@ -60,8 +60,19 @@ label {
 }
 
 .btn {
+  appearance: none;
+  background-color: var(--ba-light);
+  border: 1px solid var(--ba-border-active);
+  border-radius: 2.5px;
+  color: var(--ba-dark);
   flex-direction: column;
-  padding: 0.25rem 1px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: inherit;
+  padding: 0.25rem 0.5rem;
+}
+.btn:hover {
+  background-color: var(--ba-light-mid);
 }
 
 .btn small {
