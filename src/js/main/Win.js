@@ -17,8 +17,12 @@
       this.menuBar.eventEmitter.on("menubar:click", (menuItemName) => {
         let currentWindow = (BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]);
 
-        // Open the launcher if the app is open but there are no windows open
-        // (this situation is only possible on macOS)
+        // Ensure current window is visible
+        if (currentWindow && !currentWindow.isVisible()) {
+          currentWindow.restore();
+        }
+
+        // Open the launcher if the app is open but there are no windows open (only possible on macOS)
         if (!currentWindow) {
           self.loadLauncher();
         }
@@ -88,6 +92,23 @@
 
         if (!confirmClose) {
           e.preventDefault();
+        }
+      });
+
+      // Disable menu items on minimise
+      let reenableMenuItemsAfterMinimize = false;
+      animatorWin.on("minimize", () => {
+        if (this.menuBar.animatorItemsEnabled) {
+          this.menuBar.toggleAnimatorItems(false);
+          reenableMenuItemsAfterMinimize = true;
+        }
+      });
+
+      // Enable menu items on restore
+      animatorWin.on("restore", () => {
+        if (reenableMenuItemsAfterMinimize) {
+          this.menuBar.toggleAnimatorItems(true);
+          reenableMenuItemsAfterMinimize = false;
         }
       });
     }

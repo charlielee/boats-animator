@@ -200,6 +200,10 @@
             { role: "togglefullscreen" }
           ]
         },
+        // Window (macOS only)
+        ...(isMac ? [{
+          role: "windowMenu"
+        }] : []),
         // Help
         {
           label: "Help",
