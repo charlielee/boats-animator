@@ -90,9 +90,9 @@
           submenu: [
             {
               label: "Delete Last Frame",
-              click: function (_menuItem, _browserWindow, e) {
+              click: function (_menuItem, browserWindow, e) {
                 // Workaround for `registerAccelerator: false` not working on macOS
-                if (!e.triggeredByAccelerator || !_browserWindow) {
+                if (!e.triggeredByAccelerator || !browserWindow) {
                   self._sendClickEvent("undoFrame");
                 }
               },
@@ -108,8 +108,8 @@
           submenu: [
             {
               label: "Capture Frame",
-              click: function (_menuItem, _browserWindow, e) {
-                if (!e.triggeredByAccelerator || !_browserWindow) {
+              click: function (_menuItem, browserWindow, e) {
+                if (!e.triggeredByAccelerator || !browserWindow) {
                   self._sendClickEvent("takePicture");
                 }
               },
@@ -125,8 +125,8 @@
             { type: "separator" },
             {
               label: "Play Capture Sounds",
-              click: function (_menuItem, _browserWindow, e) {
-                if (!e.triggeredByAccelerator || !_browserWindow) {
+              click: function (_menuItem, browserWindow, e) {
+                if (!e.triggeredByAccelerator || !browserWindow) {
                   self._sendClickEvent("audioToggle");
                 }
               },
@@ -149,8 +149,8 @@
           submenu: [
             {
               label: "Loop Playback",
-              click: function (_menuItem, _browserWindow, e) {
-                if (!e.triggeredByAccelerator || !_browserWindow) {
+              click: function (_menuItem, browserWindow, e) {
+                if (!e.triggeredByAccelerator || !browserWindow) {
                   self._sendClickEvent("loopPlayback");
                 }
               },
@@ -162,8 +162,8 @@
             { type: "separator" },
             {
               label: "Display First Frame",
-              click: function (_menuItem, _browserWindow, e) {
-                if (!e.triggeredByAccelerator || !_browserWindow) {
+              click: function (_menuItem, browserWindow, e) {
+                if (!e.triggeredByAccelerator || !browserWindow) {
                   self._sendClickEvent("firstFrame");
                 }
               },
@@ -172,8 +172,8 @@
             },
             {
               label: "Display Last Frame",
-              click: function (_menuItem, _browserWindow, e) {
-                if (!e.triggeredByAccelerator || !_browserWindow) {
+              click: function (_menuItem, browserWindow, e) {
+                if (!e.triggeredByAccelerator || !browserWindow) {
                   self._sendClickEvent("lastFrame");
                 }
               },
