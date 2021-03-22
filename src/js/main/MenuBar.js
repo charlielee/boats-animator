@@ -90,9 +90,13 @@
           submenu: [
             {
               label: "Delete Last Frame",
-              click: function () {
-                self._sendClickEvent("undoFrame");
+              click: function (_menuItem, _browserWindow, e) {
+                // Workaround for `registerAccelerator: false` not working on macOS
+                if (!e.triggeredByAccelerator) {
+                  self._sendClickEvent("undoFrame");
+                }
               },
+              // Show keyboard shortcut but disable as handled by Mousetrap
               accelerator: self._getAccelerator("animator.undoFrame"),
               registerAccelerator: false
             }
@@ -104,8 +108,10 @@
           submenu: [
             {
               label: "Capture Frame",
-              click: function () {
-                self._sendClickEvent("takePicture");
+              click: function (_menuItem, _browserWindow, e) {
+                if (!e.triggeredByAccelerator) {
+                  self._sendClickEvent("takePicture");
+                }
               },
               accelerator: self._getAccelerator("animator.takePicture"),
               registerAccelerator: false
@@ -119,8 +125,10 @@
             { type: "separator" },
             {
               label: "Play Capture Sounds",
-              click: function () {
-                self._sendClickEvent("audioToggle");
+              click: function (_menuItem, _browserWindow, e) {
+                if (!e.triggeredByAccelerator) {
+                  self._sendClickEvent("audioToggle");
+                }
               },
               type: "checkbox",
               checked: true,
@@ -141,8 +149,10 @@
           submenu: [
             {
               label: "Loop Playback",
-              click: function () {
-                self._sendClickEvent("loopPlayback");
+              click: function (_menuItem, _browserWindow, e) {
+                if (!e.triggeredByAccelerator) {
+                  self._sendClickEvent("loopPlayback");
+                }
               },
               type: "checkbox",
               checked: false,
@@ -152,16 +162,20 @@
             { type: "separator" },
             {
               label: "Display First Frame",
-              click: function () {
-                self._sendClickEvent("firstFrame");
+              click: function (_menuItem, _browserWindow, e) {
+                if (!e.triggeredByAccelerator) {
+                  self._sendClickEvent("firstFrame");
+                }
               },
               accelerator: self._getAccelerator("animator.firstFrame"),
               registerAccelerator: false
             },
             {
               label: "Display Last Frame",
-              click: function () {
-                self._sendClickEvent("lastFrame");
+              click: function (_menuItem, _browserWindow, e) {
+                if (!e.triggeredByAccelerator) {
+                  self._sendClickEvent("lastFrame");
+                }
               },
               accelerator: self._getAccelerator("animator.lastFrame"),
               registerAccelerator: false
