@@ -24,7 +24,7 @@
 }
 
 html {
-  font-size: 0.85em;
+  font-size: 0.825em;
 }
 
 body {
@@ -123,7 +123,7 @@ label {
   border-bottom: 1px solid var(--ba-light);
   display: flex;
   margin: 0;
-  padding: 0.3rem 0.3rem 0 0.3rem;
+  padding: 0.33rem 0.25rem 0 0.25rem;
   width: 100%;
 }
 .tabs a {
@@ -134,7 +134,7 @@ label {
   display: flex;
   font-size: 0.8rem;
   margin-bottom: -1px;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0.5rem;
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
