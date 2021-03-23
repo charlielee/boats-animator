@@ -168,7 +168,7 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 
 #frame-mod-panel {
   background-color: var(--ba-dark);
-  border-bottom: 1px solid var(--ba-border);
+  border-bottom: 0.0625rem solid var(--ba-border);
   padding: 0 1rem;
   width: 100%;
 }
@@ -265,7 +265,7 @@ td:first-of-type .frame-reel-preview {
   width: 67px;
 }
 .frame-reel-img:hover { opacity: 0.8; }
-.frame-reel-img.selected { outline: 1px solid var(--ba-light); }
+.frame-reel-img.selected { outline: 0.0625rem solid var(--ba-light); }
 
 .frame-reel-no {
   padding: 0.25rem 0.25rem 0.25rem 0;
@@ -284,7 +284,7 @@ td:first-of-type .frame-reel-preview {
 
 #btn-live-view.selected {
   color: var(--ba-red);
-  outline: 1px solid var(--ba-light);
+  outline: 0.0625rem solid var(--ba-light);
 }
 
 #btn-live-view i { padding-top: 0.2rem; }

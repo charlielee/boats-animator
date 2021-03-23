@@ -10,7 +10,7 @@
   width: 100%;
   padding: 1rem 0;
   list-style-type: none;
-  border-bottom: 1px solid var(--ba-light-mid);
+  border-bottom: 0.0625rem solid var(--ba-light-mid);
   position: relative;
 }
 
