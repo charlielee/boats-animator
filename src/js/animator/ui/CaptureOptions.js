@@ -4,8 +4,8 @@
 
   const Camera = require("../core/Camera");
 
-  const cameraSelect = document.querySelector("#camera-select-td select");
-  const resolutionSelect = document.querySelector("#resolution-select-td select");
+  const cameraSelect = document.querySelector("#camera-source-select");
+  const resolutionSelect = document.querySelector("#camera-resolution-select");
   const preview = document.querySelector("#preview");
   const previewAreaMessage = document.querySelector("#preview-area-message");
 

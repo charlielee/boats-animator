@@ -13,8 +13,8 @@ module.exports = {};
   let curStream = null;
 
   // Get the DOM selectors needed
-  let qResoluSelect   = document.querySelector("#form-resolution-select"),
-      qCameraSelect   = document.querySelector("#camera-select-td select"),
+  let qResoluSelect   = document.querySelector("#camera-resolution-select"),
+      qCameraSelect   = document.querySelector("#camera-source-select"),
       videoCapture    = document.createElement("video");
 
   /** Class variables */
