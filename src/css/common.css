@@ -72,7 +72,10 @@ label {
   padding: 0.25rem 0.5rem;
 }
 .btn:hover {
-  background-color: var(--ba-light-mid);
+  background-color: var(--ba-light-hover);
+}
+.btn:active {
+  background-color: var(--ba-light-active);
 }
 
 .btn small {
