@@ -4,6 +4,8 @@
   --ba-border-active: #827e7e;
 
   --ba-dark: #171717;
+  --ba-dark-hover: var(--ba-dark-mid);
+  --ba-dark-active: #313131;
   --ba-dark-20: rgba(23,23,23,0.2);
   --ba-dark-50: rgba(23,23,23,0.5);
   --ba-dark-80: rgba(23,23,23,0.8);
