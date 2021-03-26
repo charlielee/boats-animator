@@ -349,23 +349,24 @@ footer li:not(.no-pipe)::after {
    -------------------------------- */
 
 #notification-container {
-  width: 100vw;
-  position: fixed;
-  left: 20vw;
+  height: 0;
+  width: 100%;
   z-index: 100;
 }
 
 /* Individual notification */
 .notification {
-  display: flex;
-  margin-top: -2.75rem;
-  width: 50%;
-  min-height: 2.75rem;
-
   background-color: var(--ba-dark-mid);
+  border: 0.0625rem solid var(--ba-border);
+  border-style: none solid solid solid;
   color: var(--ba-white);
+  display: flex;
+  margin: -2.75rem auto 0 auto;
+  max-width: 90%;
+  min-height: 2.75rem;
   transition: margin-top 0.3s ease-out,
               opacity 0.3s ease;
+  width: 40rem;
 }
 
 /* Notification type label */
