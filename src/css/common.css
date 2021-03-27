@@ -50,6 +50,7 @@ input[type="number"], input[type="text"], select {
   background-color: var(--ba-border);
   border: 0.0625rem solid var(--ba-border-active);
   color: var(--ba-light);
+  height: 2rem;
   margin-bottom: 1rem;
   padding: 0.25rem;
 }
@@ -418,4 +419,51 @@ footer li:not(.no-pipe)::after {
 
 .highlight-body {
   margin: 1rem 0;
+}
+
+/* 10. Custom range inputs
+   -------------------------------- */
+
+.range-container {
+  align-items: center;
+  display: flex;
+  height: 2rem;
+}
+
+/* Reset appearance */
+.range-container input[type='range'],
+.range-container input[type='range']::-webkit-slider-runnable-track,
+.range-container input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+/* Main element */
+.range-container input[type='range'] {
+  background-color: var(--ba-border-active);
+  border-radius: 0.25rem;
+  margin: 0;
+  width: 100%;
+}
+.range-container input[type='range']:focus {
+  outline: none;
+}
+
+/* Slider horizontal line */
+.range-container input[type='range']::-webkit-slider-runnable-track {
+  height: 0.5rem;
+}
+
+/* Draggable */
+.range-container input[type='range']::-webkit-slider-thumb {
+  background-color: var(--ba-red);
+  border-radius: 50%;
+  height: 1.25rem;
+  margin-top: -0.375rem;
+  width: 1.25rem;
+}
+.range-container input[type='range']::-webkit-slider-thumb:hover {
+  background-color: var(--ba-red-hover);
+}
+.range-container input[type='range']::-webkit-slider-thumb:active {
+  background-color: var(--ba-red-active);
 }

@@ -132,6 +132,7 @@
       // Item settings container
       let itemSettingsContainer = document.createElement("div");
       let optionsSelect = document.createElement("select"); // Options list
+      let opacitySliderContainer = document.createElement("div");
       let opacitySlider = document.createElement("input"); // Opacity slider
 
       // Set title
@@ -174,13 +175,16 @@
       });
 
       // Create opacity slider
-      itemSettingsContainer.appendChild(opacitySlider);
+      opacitySliderContainer.classList.add("range-container");
       opacitySlider.style.margin = "0 0 0 0.5em";
       opacitySlider.setAttribute("type", "range");
       opacitySlider.setAttribute("min", "0");
       opacitySlider.setAttribute("max", "1");
       opacitySlider.setAttribute("step", "0.02");
       opacitySlider.setAttribute("value", self.settings.opacity);
+
+      itemSettingsContainer.appendChild(opacitySliderContainer);
+      opacitySliderContainer.appendChild(opacitySlider);
 
       // Listen to the slider being updated
       opacitySlider.addEventListener("input", function(e) {

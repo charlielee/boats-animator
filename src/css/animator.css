@@ -328,44 +328,35 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 
 /* === Onion skin opacity options === */
 
-#onion-skin-opacity-options { text-align: center; }
-
-#slider-background-middle {
+#onion-skin-opacity-options {
+  display: flex;
+  justify-content: center;
   position: relative;
-  height: 1.9rem;
-  width: 0.09rem;
-  background-color: white;
-  margin: -1.24rem auto 0 auto;
+}
+
+/* Center line */
+#slider-background-middle {
+  position: absolute;
+  height: 2rem;
+  width: 0.125rem;
+  background-color: var(--ba-light);
+  margin-left: -0.0625rem;
+  left: 50%;
+  top: 0;
   z-index: -1;
 }
 
-#input-onion-skin-opacity {
+
+#onionSkinOpacityRangeContainer {
   width: 15rem;
-  -webkit-appearance: none;
 }
-
-#input-onion-skin-opacity:focus { outline: none; }
-
-#input-onion-skin-opacity::-webkit-slider-runnable-track {
-  height: 0.125rem;
-  background-color: var(--ba-light);
-}
-
-#input-onion-skin-opacity::-webkit-slider-thumb {
-  height: 1.7rem;
-  width: 1.7rem;
-  border-radius: 50%;
-  background-color: var(--ba-red);
-  -webkit-appearance: none;
-  margin-top: -9.5px;
-}
-#input-onion-skin-opacity::-webkit-slider-thumb:hover {
-  background-color: var(--ba-red-hover);
-}
-
-#input-onion-skin-opacity:focus::-webkit-slider-runnable-track { background-color: var(--ba-light); }
 
 /* === Frame rate options === */
+
+/* Currently used */
+#preview-options {
+  padding-left: 1rem;
+}
 
 #frame-rate-options {
   display: inline-block;
