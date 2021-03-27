@@ -16,12 +16,15 @@
   --ba-light-active: #f5f5f5;
   --ba-light-mid: #adadad;
 
+  --ba-lightred: #c54c4c;
+  --ba-lightred-hover: #cd6666;
+  --ba-lightred-active: #bd3232;
+
   --ba-black: #000;
-  --ba-blue: #3a3ae1;
+  --ba-blue: #5AB7D4;
   --ba-green: #2d9e2d;
-  --ba-red: #b01307;
-  --ba-red-hover: #eb190A;
-  --ba-red-active: #f63528;
+  --ba-lightyellow: #F6F2CB;
+  --ba-red: #bd3232;
   --ba-white: #fff;
   --ba-yellow: #f9ff23;
   --ba-yellow-hover: #f3f76e;

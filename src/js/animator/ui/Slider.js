@@ -7,24 +7,32 @@
   class Slider {
     static initialise() {
       document.querySelectorAll("input[type=range").forEach((el) => {
-        Slider.setDualColorRange(el, "var(--ba-red)");
+        Slider.setDualColorRange(el, "var(--ba-lightred)");
+
+        // Hoverover
+        el.addEventListener("mouseover", () => {
+          Slider.setDualColorRange(el, "var(--ba-lightred-hover)");
+        });
 
         // Drag start
         el.addEventListener("pointerdown", () => {
-          Slider.setDualColorRange(el, "var(--ba-red-hover)");
+          Slider.setDualColorRange(el, "var(--ba-lightred-active)");
         });
 
         // Drag in progress
         el.addEventListener("input", () => {
-          Slider.setDualColorRange(el, "var(--ba-red-hover)");
+          Slider.setDualColorRange(el, "var(--ba-lightred-active)");
         });
 
         // Drag finish
         el.addEventListener("pointerup", () => {
-          Slider.setDualColorRange(el, "var(--ba-red)");
+          Slider.setDualColorRange(el, "var(--ba-lightred)");
+        });
+        el.addEventListener("pointerleave", () => {
+          Slider.setDualColorRange(el, "var(--ba-lightred)");
         });
         el.addEventListener("touchend", () => {
-          Slider.setDualColorRange(el, "var(--ba-red)");
+          Slider.setDualColorRange(el, "var(--ba-lightred)");
         });
       });
     }

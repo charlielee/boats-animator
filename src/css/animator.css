@@ -208,6 +208,7 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
 #btn-capture-frame i {
   color: var(--ba-yellow);
   font-size: 2.6rem;
+  padding: 0 0.5rem;
 }
 
 #btn-capture-frame i:hover { color: var(--ba-yellow-hover); }
