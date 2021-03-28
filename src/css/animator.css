@@ -347,9 +347,19 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
   z-index: -1;
 }
 
-
 #onionSkinOpacityRangeContainer {
   width: 15rem;
+}
+
+#onionSkinOpacityRangeContainer input[type='range']::-webkit-slider-thumb {
+  background-image: url("../img/adjust.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1rem 1rem;
+  border-radius: 50%;
+  height: 1.5rem;
+  margin-top: -0.5rem;
+  width: 1.5rem;
 }
 
 /* === Frame rate options === */
