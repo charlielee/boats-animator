@@ -19,13 +19,13 @@
      */
     setOpacity(amount) {
       onionSkinWindow.style.opacity = Math.abs(amount / 100);
-      onionSkinSlider.setAttribute("title", `${amount}%`);
+      onionSkinSlider.setAttribute("title", `Onion Skin ${amount}%`);
 
       // Make it easier to switch off onion skinning
       if (amount >= -6 && amount <= 6) {
         onionSkinWindow.style.opacity = 0;
         onionSkinSlider.value = 0;
-        onionSkinSlider.setAttribute("title", "0%");
+        onionSkinSlider.setAttribute("title", "Onion Skin 0%");
       }
     }
 

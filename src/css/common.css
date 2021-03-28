@@ -300,6 +300,7 @@ footer {
   background-color: var(--ba-light);
   color: var(--ba-dark-mid);
   flex: initial;
+  font-size: 0.95rem;
   width: 100%;
 }
 
