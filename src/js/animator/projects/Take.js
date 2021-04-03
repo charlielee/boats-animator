@@ -118,46 +118,54 @@
     /**
      * "Confirms" a take by renaming each captured frame to be sequential.
      */
-    confirmTake(notify = true) {
+    async confirmTake(notify = true) {
       let self = this;
+      let outputDir = this.saveDirPath;
+      let promisesList = [];
 
       // Return if no captured frames
       if (this.getTotalFrames() < 1) {
         return;
       }
 
-      return new Promise((resolve, reject) => {
-        let outputDir = this.saveDirPath;
-
-        let promisesList = [];
-
+      try {
+        // Give all of the files a temporary name
+        // (required because async renaming could cause naming conflicts otherwise)
         for (let i = 0; i < self.getTotalFrames(); i++) {
           let oldFilePath = self.exportedFramesPaths[i];
+          let newFilePath = oldFilePath.replace(/\.png$/,".tmp.png");
 
+          promisesList.push(File.renamePromise(oldFilePath, newFilePath));
+          self.exportedFramesPaths[i] = newFilePath;
+        }
+        await Promise.all(promisesList);
+
+        // Give the files their new name
+        promisesList = [];
+        for (let i = 0; i < self.getTotalFrames(); i++) {
+          let oldFilePath = self.exportedFramesPaths[i];
           let newFileName = this.buildFileName(Take.getPaddedFrameNumber(i+1));
           let newFilePath = `${outputDir}/${newFileName}`;
 
-          // Rename the file to the updated name
-          self.exportedFramesPaths[i] = newFilePath;
           promisesList.push(File.renamePromise(oldFilePath, newFilePath));
+          self.exportedFramesPaths[i] = newFilePath;
         }
+        await Promise.all(promisesList);
 
-        // Rename all of the files
-        Promise.all(promisesList).then(() => {
-          // Reset last export frame id
-          self.exportFrameId = self.getTotalFrames();
-          if (notify) {
-            Notification.success("Confirm take successfully completed");
-          }
-          resolve();
-        }).catch((err) => {
-          console.error(err);
-          if (notify) {
-            Notification.error("Error renaming file with confirm take");
-          }
-          reject(err);
-        });
-      });
+        // Reset last export frame id
+        self.exportFrameId = self.getTotalFrames();
+
+        if (notify) {
+          Notification.success("Confirm take successfully completed");
+        }
+        return;
+
+      } catch (err) {
+        if (notify) {
+          Notification.error("Error renaming file with confirm take");
+        }
+        return err;
+      }
     }
 
     /**
