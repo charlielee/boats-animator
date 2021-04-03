@@ -84,6 +84,12 @@ label {
 .btn:active {
   background-color: var(--ba-light-active);
 }
+.btn:focus {
+  box-shadow: none;
+  border: 0.0625rem solid var(--ba-lightyellow);
+  border-radius: 0.25rem;
+  outline: none;
+}
 
 .btn small {
   margin-top: 0.5rem;
