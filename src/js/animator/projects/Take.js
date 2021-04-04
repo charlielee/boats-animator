@@ -2,17 +2,18 @@
   "use strict";
 
   // UI imports
-  var FrameReel = require("../core/FrameReel");
-  var Notification = require("../../common/Notification");
-  var OnionSkin = require("../ui/OnionSkin");
-  var PlaybackCanvas = require("../ui/PlaybackCanvas");
-  var StatusBar = require("../ui/StatusBar");
+  const FrameReel = require("../core/FrameReel");
+  const Loader = require("../core/Loader");
+  const Notification = require("../../common/Notification");
+  const OnionSkin = require("../ui/OnionSkin");
+  const PlaybackCanvas = require("../ui/PlaybackCanvas");
+  const StatusBar = require("../ui/StatusBar");
 
   // Common imports
-  var AudioManager = require("../core/AudioManager");
-  var File = require("../core/File");
+  const AudioManager = require("../core/AudioManager");
+  const File = require("../core/File");
 
-  var preview = document.querySelector("#preview");
+  const preview = document.querySelector("#preview");
 
   /** Represents a single take (image sequence). */
   class Take {
@@ -117,18 +118,23 @@
 
     /**
      * "Confirms" a take by renaming each captured frame to be sequential.
+     * @param {Boolean} notify Display a notification when the process completes/fails
+     * @returns {Boolean} Returns true if confirm is successful, false if there is an error
      */
     async confirmTake(notify = true) {
       let self = this;
       let outputDir = this.saveDirPath;
       let promisesList = [];
+      let response = null;
 
       // Return if no captured frames
       if (this.getTotalFrames() < 1) {
-        return;
+        return true;
       }
 
       try {
+        Loader.show("Confirming take");
+
         // Give all of the files a temporary name
         // (required because async renaming could cause naming conflicts otherwise)
         for (let i = 0; i < self.getTotalFrames(); i++) {
@@ -158,13 +164,17 @@
         if (notify) {
           Notification.success("Confirm take successfully completed");
         }
-        return;
+        response = true;
 
       } catch (err) {
         if (notify) {
           Notification.error("Error renaming file with confirm take");
         }
-        return err;
+        response = false;
+
+      } finally {
+        Loader.hide();
+        return response;
       }
     }
 
