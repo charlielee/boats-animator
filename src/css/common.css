@@ -481,3 +481,30 @@ footer li:not(.no-pipe)::after {
 .range-container input[type='range']::-webkit-slider-thumb:active {
   background-color: var(--ba-lightred-active);
 }
+
+/* 11. Switch buttons
+   -------------------------------- */
+
+.switch-container {
+  display: flex;
+  justify-content: space-between;
+}
+.switch-container label {
+  flex: 1;
+}
+
+.switch-btn {
+  appearance: none;
+  background-image: url("../img/toggle-off.svg");
+  background-position: right;
+  background-repeat: no-repeat;
+  height: 1.5rem;
+  margin: 0;
+  width: 2rem;
+}
+.switch-btn:checked {
+  background-image: url("../img/toggle-on.svg");
+}
+.switch-btn:focus {
+  outline: none;
+}

@@ -124,38 +124,43 @@
       let overlayListItem = document.createElement("li");
       overlayListEl.appendChild(overlayListItem);
 
-      // Item title
-      let itemTitle = document.createElement("div");
-      let itemTitleText = document.createElement("div");
-      let itemToggleBtn = document.createElement("div"); // Item toggle button
-
       // Item settings container
       let itemSettingsContainer = document.createElement("div");
       let optionsSelect = document.createElement("select"); // Options list
       let opacitySliderContainer = document.createElement("div");
       let opacitySlider = document.createElement("input"); // Opacity slider
 
-      // Set title
-      overlayListItem.appendChild(itemTitle);
-      itemTitle.classList.add("flex");
-      itemTitle.appendChild(itemTitleText);
-      itemTitleText.innerText = self.name;
+      // General overlay switch:
+      // <div class="switch-container">
+      //   <label for="example">Example</label>
+      //   <input type="checkbox" id="example" class="switch-btn">
+      // </div>
 
-      // Create toggle button
-      itemTitle.appendChild(itemToggleBtn);
-      itemToggleBtn.setAttribute("data-id", self.id);
-      itemToggleBtn.setAttribute("style", "text-align: right");
-      itemToggleBtn.classList.add("grid-overlay-toggle-btn");
-      new ToggleButton(itemToggleBtn, function() {
+      let switchContainer = document.createElement("div");
+      switchContainer.classList.add("switch-container");
+      overlayListItem.appendChild(switchContainer);
+
+      let switchLabel = document.createElement("label");
+      switchLabel.setAttribute("for", `${self.id}-switch`);
+      switchLabel.innerText = self.name;
+      switchContainer.appendChild(switchLabel);
+
+      let switchCheckbox = document.createElement("input");
+      switchCheckbox.classList.add("switch-btn");
+      switchCheckbox.setAttribute("type", "checkbox");
+      switchCheckbox.setAttribute("id", `${self.id}-switch`);
+      switchContainer.appendChild(switchCheckbox);
+
+      switchCheckbox.addEventListener("change", function (e) {
         // Toggle display of the overlay
         let status = self.toggle();
         // Toggle display of the options
         itemSettingsContainer.classList.toggle("hidden", status);
       });
 
-      // Item settings container
+      // Item settings container (default on load)
       overlayListItem.appendChild(itemSettingsContainer);
-      itemSettingsContainer.classList.add("flex");
+      itemSettingsContainer.classList.add("flex", "hidden");
 
       // Create item options list
       itemSettingsContainer.appendChild(optionsSelect);
