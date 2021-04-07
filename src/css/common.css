@@ -498,6 +498,7 @@ footer li:not(.no-pipe)::after {
   background-image: url("../img/toggle-off.svg");
   background-position: right;
   background-repeat: no-repeat;
+  cursor: pointer;
   height: 1.5rem;
   margin: 0;
   width: 2rem;
