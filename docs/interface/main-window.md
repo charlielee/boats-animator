@@ -130,3 +130,10 @@ This displays a grid over the preview area in **capture mode**. The grid is comm
 #### Aspect ratio mask
 
 This displays a mask over the preview area with the selected aspect ratio.
+### Auto-Take
+
+This feature is used to synchronize taking images with a DSLR whose video output is connected via a capture card. The connected DSLR must have "Image Review" or equivalent setting enabled. If Auto-Take is enabled, it will wait for a black frame (indicating the DSLR is taking a photo), and then capture the next visible frame, which corresponds to the actual photo taken by the DSLR. The quality of this image is often significantly better than the live preview, and corresponds exactly to the full-quality image saved on the DSLR's memory card.
+
+#### Brightness Threshold
+
+This value determines the brightness threshold (0 - 255) between a black frame (DSLR is taking a photo) and visible frame. Note that sufficiently dark scenes are indistinguishable from the black frames a DSLR outputs while taking a photo, so pictures may be erroneously captured as the brightness level floats around the threshold value.

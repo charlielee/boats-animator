@@ -36,6 +36,8 @@
         <video id="preview" class="visible-capture" autoplay>Video stream not available.</video>
         <!--The actual playback window -->
         <canvas id="playback" class="visible-playback"></canvas>
+        <!-- Hidden preview canvas used for reading pixels of live image -->
+        <canvas id="hidden-preview" class="hidden"></canvas>
       </div>
 
       <!--Playback controls-->
@@ -168,6 +170,16 @@
             <i class="fa fa-th fa-fw"></i> Overlays</h2>
         </div>
         <ul id="overlay-list"></ul>
+      </div>
+
+      <!--AutoTake-->
+      <div class="sidebar-item" id="auto-take-header">
+        <div class="sidebar-header">
+          <h2>
+            <i class="fa fa-eye fa-fw"></i>Auto-Take</h2>
+        </div>
+        <ul id="auto-take-list">
+        </ul>
       </div>
     </aside>
   </main>
