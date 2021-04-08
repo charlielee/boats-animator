@@ -5,6 +5,21 @@ const win = new (require("./js/main/Win"));
 
 // App events
 
+// Ensure only one instance of the application is open
+const hasInstanceLock = app.requestSingleInstanceLock();
+if (!hasInstanceLock) {
+  app.quit();
+}
+
+// Someone tried to run a second instance, we should focus our window.
+app.on("second-instance", (e, commandLine, workingDirectory) => {
+  let curWindow = BrowserWindow.getAllWindows()[0];
+  if (curWindow) {
+    curWindow.restore();
+    curWindow.focus();
+  }
+});
+
 app.whenReady().then(() => {
   win.loadLauncher();
 });
