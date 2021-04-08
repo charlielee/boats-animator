@@ -312,16 +312,6 @@ body[data-has-frames="false"] #btn-confirm-take:focus {
   width: 100%;
 }
 
-/* === Preview options === */
-
-#btn-grid-toggle {
-  position: relative;
-  display: inline-block;
-  padding: 0 1rem;
-}
-
-#btn-grid-toggle i { font-size: 1.7rem; }
-
 /* === Onion skin opacity options === */
 
 #onion-skin-opacity-options {
