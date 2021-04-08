@@ -57,8 +57,8 @@
       btnDeleteFrame.click();
     }
 
-    static confirmTake() {
-      global.projectInst.currentTake.confirmTake();
+    static conformTake() {
+      global.projectInst.currentTake.conformTake();
     }
 
     static audioToggle() {

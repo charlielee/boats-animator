@@ -34,13 +34,13 @@
 
 /* Options that do nothing when no frames are captured */
 body[data-has-frames="false"] #btn-export-video,
-body[data-has-frames="false"] #btn-confirm-take {
+body[data-has-frames="false"] #btn-conform-take {
   background-color: var(--ba-light-mid);
   color: var(--ba-dark-active);
   cursor: not-allowed;
 }
 body[data-has-frames="false"] #btn-export-video:focus,
-body[data-has-frames="false"] #btn-confirm-take:focus {
+body[data-has-frames="false"] #btn-conform-take:focus {
   border: 0.0625rem solid var(--ba-border-active);
 }
 

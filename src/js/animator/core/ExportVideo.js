@@ -95,11 +95,11 @@
         buttons: [true, "Export video"]
       })
       .then(async (response) => {
-        // Confirm the take and render the video if "export video" selected
+        // Conform the take and render the video if "export video" selected
         if (response) {
-          let isTakeConfirmed = await global.projectInst.currentTake.confirmTake(false);
+          let isTakeConformed = await global.projectInst.currentTake.conformTake(false);
 
-          if (isTakeConfirmed) {
+          if (isTakeConformed) {
             // The render method expects an array so convert input from string into array
             // Regexes are to handle arguments in quotes
             // https://stackoverflow.com/a/56119602
@@ -108,7 +108,7 @@
 
             ExportVideo.render(argumentsArray, outputPath);
           } else {
-            Notification.error("Unable to export video due to an error renaming files with confirm take.");
+            Notification.error("Unable to export video due to an error renaming files with conform take.");
           }
         }
       });

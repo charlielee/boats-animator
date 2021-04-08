@@ -25,7 +25,7 @@
   const frameModLeftControls = document.querySelector("#left-controls");
 
   const btnDirectoryChange = document.querySelector("#btn-dir-change");
-  const btnConfirmTake = document.querySelector("#btn-confirm-take");
+  const btnConformTake = document.querySelector("#btn-conform-take");
   const curDirDisplay = document.querySelector("#currentDirectoryName");
 
   /** Represents a project (a series of takes) */
@@ -85,9 +85,9 @@
         self.showExportFrameDirDialog()
       });
 
-      // Confirm take
-      btnConfirmTake.addEventListener("click", function () {
-        self.currentTake.confirmTake();
+      // Conform take
+      btnConformTake.addEventListener("click", function () {
+        self.currentTake.conformTake();
       });
     }
 
