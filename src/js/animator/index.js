@@ -13,6 +13,8 @@
   // UI imports
   const CaptureOptions = require("./js/animator/ui/CaptureOptions");
   const FrameReelRow = require("./js/animator/ui/FrameReelRow");
+  const Tabs = require("./js/animator/ui/Tabs");
+  const Slider = require("./js/animator/ui/Slider");
 
   function startup() {
     Shortcuts.load();
@@ -37,8 +39,10 @@
     })
     ExportVideo.setListeners();
     FrameReelRow.setListeners();
+    Tabs.setListeners();
     PreviewOverlay.initialise();
     AutoCapture.initialise();
+    Slider.initialise();
     global.projectInst.setListeners();
     global.projectInst.checkExportFrameDir();
 

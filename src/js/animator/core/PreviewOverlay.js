@@ -32,7 +32,7 @@
 
       // Default overlay settings
       this.settings = {
-        color: "#2B2B2B",
+        color: "var(--ba-dark-mid)",
         defaultHeight: 1,
         defaultWidth: 1,
         heightMin: 1,
@@ -124,37 +124,43 @@
       let overlayListItem = document.createElement("li");
       overlayListEl.appendChild(overlayListItem);
 
-      // Item title
-      let itemTitle = document.createElement("div");
-      let itemTitleText = document.createElement("div");
-      let itemToggleBtn = document.createElement("div"); // Item toggle button
-
       // Item settings container
       let itemSettingsContainer = document.createElement("div");
       let optionsSelect = document.createElement("select"); // Options list
+      let opacitySliderContainer = document.createElement("div");
       let opacitySlider = document.createElement("input"); // Opacity slider
 
-      // Set title
-      overlayListItem.appendChild(itemTitle);
-      itemTitle.classList.add("flex");
-      itemTitle.appendChild(itemTitleText);
-      itemTitleText.innerText = self.name;
+      // General overlay switch:
+      // <div class="switch-container">
+      //   <label for="example">Example</label>
+      //   <input type="checkbox" id="example" class="switch-btn">
+      // </div>
 
-      // Create toggle button
-      itemTitle.appendChild(itemToggleBtn);
-      itemToggleBtn.setAttribute("data-id", self.id);
-      itemToggleBtn.setAttribute("style", "text-align: right");
-      itemToggleBtn.classList.add("grid-overlay-toggle-btn");
-      new ToggleButton(itemToggleBtn, function() {
+      let switchContainer = document.createElement("div");
+      switchContainer.classList.add("switch-container");
+      overlayListItem.appendChild(switchContainer);
+
+      let switchLabel = document.createElement("label");
+      switchLabel.setAttribute("for", `${self.id}-switch`);
+      switchLabel.innerText = self.name;
+      switchContainer.appendChild(switchLabel);
+
+      let switchCheckbox = document.createElement("input");
+      switchCheckbox.classList.add("switch-btn");
+      switchCheckbox.setAttribute("type", "checkbox");
+      switchCheckbox.setAttribute("id", `${self.id}-switch`);
+      switchContainer.appendChild(switchCheckbox);
+
+      switchCheckbox.addEventListener("change", function (e) {
         // Toggle display of the overlay
         let status = self.toggle();
         // Toggle display of the options
         itemSettingsContainer.classList.toggle("hidden", status);
       });
 
-      // Item settings container
+      // Item settings container (default on load)
       overlayListItem.appendChild(itemSettingsContainer);
-      itemSettingsContainer.classList.add("flex");
+      itemSettingsContainer.classList.add("flex", "hidden");
 
       // Create item options list
       itemSettingsContainer.appendChild(optionsSelect);
@@ -174,13 +180,16 @@
       });
 
       // Create opacity slider
-      itemSettingsContainer.appendChild(opacitySlider);
+      opacitySliderContainer.classList.add("range-container");
       opacitySlider.style.margin = "0 0 0 0.5em";
       opacitySlider.setAttribute("type", "range");
       opacitySlider.setAttribute("min", "0");
       opacitySlider.setAttribute("max", "1");
       opacitySlider.setAttribute("step", "0.02");
       opacitySlider.setAttribute("value", self.settings.opacity);
+
+      itemSettingsContainer.appendChild(opacitySliderContainer);
+      opacitySliderContainer.appendChild(opacitySlider);
 
       // Listen to the slider being updated
       opacitySlider.addEventListener("input", function(e) {
@@ -200,7 +209,7 @@
         PreviewOverlay.makeGridSVG,
         [[3,3], [2,2], [3,2], [4,4], [4,3]],
         {
-          color: "#FFFFFF",
+          color: "var(--ba-white)",
           defaultWidth: 3,
           defaultHeight: 3
         }
@@ -208,7 +217,7 @@
 
       // Aspect ratio
       new PreviewOverlay(
-        "Aspect ratio",
+        "Aspect Ratio",
         "aspectRatioMask",
         PreviewOverlay.makeAspectRatioSVG,
         [[2.39,1], [2.35,1], [16,9], [4,3], [3,2], [1,1], [9, 16]],

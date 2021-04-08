@@ -96,12 +96,12 @@
     // Preview overlay features
 
     static toggleGridOverlay() {
-      let gridOverlayBtn = document.querySelector(".grid-overlay-toggle-btn[data-id='gridOverlay']");
+      let gridOverlayBtn = document.querySelector(".switch-btn[data-id='gridOverlay']");
       gridOverlayBtn.click();
     }
 
     static toggleAspectRatioOverlay() {
-      let aspectOverlayBtn = document.querySelector(".grid-overlay-toggle-btn[data-id='aspectRatioMask']");
+      let aspectOverlayBtn = document.querySelector(".switch-btn[data-id='aspectRatioMask']");
       aspectOverlayBtn.click();
     }
 

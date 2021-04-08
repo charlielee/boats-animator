@@ -60,7 +60,7 @@
     loadAnimator() {
       let self = this;
       let options = {
-        backgroundColor: "#2B2B2B",
+        backgroundColor: "#2b2b2b",
         height: 715,
         minHeight: 400,
         minWidth: 640,
@@ -118,7 +118,7 @@
      */
     loadLauncher() {
       let launcherWin = new BrowserWindow({
-        backgroundColor: "#2B2B2B",
+        backgroundColor: "#2b2b2b",
         height: 540,
         minHeight: 400,
         minWidth: 640,

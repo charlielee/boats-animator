@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>Boats Animator</title>
   <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/_variables.css">
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/index.css">
 </head>
@@ -24,11 +25,11 @@
         <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 3</a></li>
       </ul>-->
       <div class="btn-group">
-        <button id="new-project">
+        <button id="new-project" class="btn">
           <i class="fa fa-file-o"></i><span>New Project</span>
         </button>
 
-        <button id="load-project">
+        <button id="load-project" class="btn">
           <i class="fa fa-folder-o"></i><span>Load Project</span>
         </button>
       </div>
@@ -38,11 +39,12 @@
 
     <!-- News feed -->
     <aside>
-      <div class="sidebar-item">
-        <div class="sidebar-header">
-          <h2><i class="fa fa-newspaper-o"></i>Recent News</h2>
-        </div>
+      <h2 class="sidebar-header">
+        <i class="fa fa-newspaper-o"></i>
+        Recent News
+      </h2>
 
+      <div class="sidebar-item">
         <ul>
           <li>
             <div class="container-news">
