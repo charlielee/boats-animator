@@ -1,7 +1,6 @@
 (function() {
   "use strict";
   // Imports
-  const ToggleButton = require("../ui/ToggleButton");
   const Features = require("./Features");
 
   // HTML elements
@@ -23,7 +22,7 @@
      */
     static initialise() {
       AutoCapture.autoCaptureDaemon = null;  // Timer Interval for detecting brightness change
-      AutoCapture.enabled = true; // Is AutoCapture is enabled?
+      AutoCapture.enabled = false; // Is AutoCapture is enabled?
       AutoCapture.isDark = false; // Is the current video frame dark (brightness below threshold)?
       AutoCapture.brightnessThreshold = 1.2;  // Brightness Threshold
 
@@ -31,27 +30,32 @@
       let autoCaptureItem = document.createElement("li");
       autoCaptureList.appendChild(autoCaptureItem);
 
-      // Item title
-      let itemTitle = document.createElement("div");
-      let itemTitleText = document.createElement("div");
-
-      let itemToggleBtn = document.createElement("div"); // Item toggle button
-
       let itemSettingsContainer = document.createElement("div");
       let brightnessThresholdInput = document.createElement("input"); // Brightness Threshold input
       let brightnessThresholdText = document.createElement("div");
 
-      // Set title
-      autoCaptureItem.appendChild(itemTitle);
-      itemTitle.classList.add("flex");
-      itemTitle.appendChild(itemTitleText);
-      itemTitleText.innerText = "Auto-Capture";
+      // Toggle switch:
+      // <div class="switch-container">
+      //   <label for="example">Example</label>
+      //   <input type="checkbox" id="example" class="switch-btn">
+      // </div>
 
-      // Add toggle button
-      itemTitle.appendChild(itemToggleBtn);
-      itemToggleBtn.setAttribute("style", "text-align: right");
-      itemToggleBtn.classList.add("auto-capture-toggle-btn");
-      new ToggleButton(itemToggleBtn, function() {
+      let switchContainer = document.createElement("div");
+      switchContainer.classList.add("switch-container");
+      autoCaptureItem.appendChild(switchContainer);
+
+      let switchLabel = document.createElement("label");
+      switchLabel.setAttribute("for", `auto-capture-toggle-switch`);
+      switchLabel.innerText = "Auto-Capture";
+      switchContainer.appendChild(switchLabel);
+
+      let switchCheckbox = document.createElement("input");
+      switchCheckbox.classList.add("switch-btn");
+      switchCheckbox.setAttribute("type", "checkbox");
+      switchCheckbox.setAttribute("id", `auto-capture-toggle-switch`);
+      switchContainer.appendChild(switchCheckbox);
+
+      switchCheckbox.addEventListener("change", function (e) {
         if (AutoCapture.enabled) {
           clearInterval(AutoCapture.autoCaptureDaemon);
           AutoCapture.autoCaptureDaemon = null;
@@ -66,7 +70,7 @@
 
       // Create item settings container to hold configurable inputs
       autoCaptureItem.appendChild(itemSettingsContainer);
-      itemSettingsContainer.classList.add("flex");
+      itemSettingsContainer.classList.add("flex", "hidden");
       itemSettingsContainer.setAttribute("style", "align-items: center");
 
       // Create brightness threshold text label and input

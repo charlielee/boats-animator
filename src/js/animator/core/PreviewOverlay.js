@@ -1,8 +1,5 @@
 (function() {
   "use strict";
-  // UI imports
-  const ToggleButton = require("../ui/ToggleButton");
-
   // HTML elements
   const preview = document.querySelector("#preview");
   const previewArea = document.querySelector("#preview-area");
@@ -158,7 +155,7 @@
         itemSettingsContainer.classList.toggle("hidden", status);
       });
 
-      // Item settings container (default on load)
+      // Item settings container (default hidden on load)
       overlayListItem.appendChild(itemSettingsContainer);
       itemSettingsContainer.classList.add("flex", "hidden");
 
