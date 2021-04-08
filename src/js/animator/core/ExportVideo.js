@@ -4,7 +4,7 @@
   const path = require("path");
 
   const ConfirmDialog = require("../ui/ConfirmDialog");
-  const Loader = require("./Loader");
+  const Notification = require("../../common/Notification");
 
   const DEFAULT_FILE_NAME = "output.mp4";
 
@@ -94,14 +94,12 @@
         content: dialogContents,
         buttons: [true, "Export video"]
       })
-      .then((response) => {
+      .then(async (response) => {
         // Confirm the take and render the video if "export video" selected
         if (response) {
-          Loader.show("Confirming take");
-          global.projectInst.currentTake.confirmTake(false)
-          .then(() => {
-            Loader.hide();
+          let isTakeConfirmed = await global.projectInst.currentTake.confirmTake(false);
 
+          if (isTakeConfirmed) {
             // The render method expects an array so convert input from string into array
             // Regexes are to handle arguments in quotes
             // https://stackoverflow.com/a/56119602
@@ -109,7 +107,9 @@
             argumentsArray = argumentsArray.map((arg) => arg.replace(/"|'/g, ""));
 
             ExportVideo.render(argumentsArray, outputPath);
-          });
+          } else {
+            Notification.error("Unable to export video due to an error renaming files with confirm take.");
+          }
         }
       });
 

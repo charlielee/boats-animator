@@ -37,6 +37,8 @@
         <video id="preview" class="visible-capture" autoplay>Video stream not available.</video>
         <!--The actual playback window -->
         <canvas id="playback" class="visible-playback"></canvas>
+        <!-- Hidden preview canvas used for reading pixels of live image -->
+        <canvas id="hidden-preview" class="hidden"></canvas>
       </div>
 
       <!--Playback controls-->
@@ -204,6 +206,16 @@
               </div>
             </div>
         </div>
+      </div>
+
+      <!--AutoCapture-->
+      <div class="sidebar-item" id="auto-capture-header">
+        <div class="sidebar-header">
+          <h2>
+            <i class="fa fa-eye fa-fw"></i>Auto-Capture</h2>
+        </div>
+        <ul id="auto-capture-list">
+        </ul>
       </div>
     </aside>
   </main>

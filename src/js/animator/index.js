@@ -8,6 +8,7 @@
   const PreviewOverlay = require("./js/animator/core/PreviewOverlay");
   const Project = require("./js/animator/projects/Project");
   const Shortcuts = require("./js/animator/core/Shortcuts");
+  const AutoCapture = require("./js/animator/core/AutoCapture");
 
   // UI imports
   const CaptureOptions = require("./js/animator/ui/CaptureOptions");
@@ -40,6 +41,7 @@
     FrameReelRow.setListeners();
     Tabs.setListeners();
     PreviewOverlay.initialise();
+    AutoCapture.initialise();
     Slider.initialise();
     global.projectInst.setListeners();
     global.projectInst.checkExportFrameDir();
