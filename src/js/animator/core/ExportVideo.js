@@ -9,7 +9,6 @@
   const DEFAULT_FILE_NAME = "output.mp4";
 
   const btnExportVideo = document.querySelector("#btn-export-video");
-  const exportVideoSidebarOption = document.querySelector("#exportVideoSidebarOption");
 
   class ExportVideo {
     static setListeners() {
@@ -21,7 +20,6 @@
           ExportVideo.displayExportVideoDialog();
         }
       });
-      self.toggleSidebarOption(false);
     }
 
     /**
@@ -190,14 +188,6 @@
           },
         });
       });
-    }
-
-    /**
-     * Sets whether the "export video" sidebar item can be selected or not.
-     * @param {Boolean} status Set to true to hide the item.
-     */
-    static toggleSidebarOption(status) {
-      exportVideoSidebarOption.classList.toggle("disabled", status);
     }
 
     /**

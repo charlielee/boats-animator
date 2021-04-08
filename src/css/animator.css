@@ -35,11 +35,6 @@
   word-break: break-word;
 }
 
-body[data-has-frames="false"] #exportVideoSidebarOption *,
-body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
-  cursor: not-allowed;
-}
-
 #exportStatusDialog {
   width: 100%;
   overflow-y: scroll;
@@ -47,6 +42,18 @@ body[data-has-frames="false"] #exportVideoSidebarOption *:hover {
   word-break: break-word;
   height: 15rem;
   text-align: left;
+}
+
+/* Options that do nothing when no frames are captured */
+body[data-has-frames="false"] #btn-export-video,
+body[data-has-frames="false"] #btn-confirm-take {
+  background-color: var(--ba-light-mid);
+  color: var(--ba-dark-active);
+  cursor: not-allowed;
+}
+body[data-has-frames="false"] #btn-export-video:focus,
+body[data-has-frames="false"] #btn-confirm-take:focus {
+  border: 0.0625rem solid var(--ba-border-active);
 }
 
 /* ========== VIDEO PREVIEW ============== */
