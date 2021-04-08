@@ -117,11 +117,11 @@
     }
 
     /**
-     * "Confirms" a take by renaming each captured frame to be sequential.
+     * "Conforms" a take by renaming each captured frame to be sequential.
      * @param {Boolean} notify Display a notification when the process completes/fails
-     * @returns {Boolean} Returns true if confirm is successful, false if there is an error
+     * @returns {Boolean} Returns true if conform is successful, false if there is an error
      */
-    async confirmTake(notify = true) {
+    async conformTake(notify = true) {
       let self = this;
       let outputDir = this.saveDirPath;
       let promisesList = [];
@@ -133,7 +133,7 @@
       }
 
       try {
-        Loader.show("Confirming take");
+        Loader.show("Conforming take");
 
         // Give all of the files a temporary name
         // (required because async renaming could cause naming conflicts otherwise)
@@ -162,13 +162,13 @@
         self.exportFrameId = self.getTotalFrames();
 
         if (notify) {
-          Notification.success("Confirm take successfully completed");
+          Notification.success("Conform take successfully completed");
         }
         response = true;
 
       } catch (err) {
         if (notify) {
-          Notification.error("Error renaming file with confirm take");
+          Notification.error("Error renaming file with conform take");
         }
         response = false;
 

@@ -117,9 +117,9 @@
               registerAccelerator: false
             },
             {
-              label: "Confirm Take",
+              label: "Conform Take",
               click: function () {
-                self._sendClickEvent("confirmTake");
+                self._sendClickEvent("conformTake");
               }
             },
             { type: "separator" },

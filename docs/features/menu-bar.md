@@ -25,7 +25,7 @@ The menu bar contains an assortment of options both to do with the current proje
 
 **Capture Frame:** select this button to capture a new frame from the live-feed that is visible in capture mode.
 
-**Confirm Take:** select this to rename all of the captured frames file names to be sequential.
+**Conform Take:** select this to rename all of the captured frames file names to be sequential.
 
 **Play Capture Sounds:** this toggles whether a sound plays when a frame is captured.
 
