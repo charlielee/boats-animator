@@ -150,7 +150,7 @@ label {
   border-bottom: 0.0625rem solid var(--ba-light);
   display: flex;
   margin: 0;
-  padding: 0.375rem 0.1875rem 0 0.1875rem;
+  padding: 0.375rem 0.4375rem 0 0.4375rem;
   width: 100%;
 }
 .tabs a {

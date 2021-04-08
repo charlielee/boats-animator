@@ -8,18 +8,6 @@
 
 /* ========== SIDEBAR ============== */
 
-#animatorSidebar {
-  border: 0;
-  display: flex;
-  /** Sidebar will use whatever the width of the tabs is **/
-  width: auto;
-  max-width: 50vw;
-}
-
-#animatorSidebar.hidden {
-  display: none;
-}
-
 #currentDirectoryName {
   font-family: monospace;
   margin: 0.25rem 0;
