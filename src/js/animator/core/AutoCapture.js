@@ -7,9 +7,7 @@
   // HTML elements
   const preview = document.querySelector("#preview");
   const hiddenPreview = document.querySelector("#hidden-preview");
-  const autoTakeList = document.querySelector("#auto-take-list");
-
-  var autoTakeDaemon = null;
+  const autoCaptureList = document.querySelector("#auto-capture-list");
 
   /**
    * Class for automatically taking picture after detecting the connected DSLR video stream has taken a photo.
@@ -18,20 +16,20 @@
    * previewed on the video output for around 1-2 seconds before switching back to the live view. This transition
    * can be detected, so the high-quality image preview can be captured off the video stream.
    */
-  class AutoTake {
+  class AutoCapture {
 
     /**
-     * Initializes the AutoTake sidebar menu, and class variables.
+     * Initializes the AutoCapture sidebar menu, and class variables.
      */
     static initialise() {
-      AutoTake.autoTakeDaemon = null;  // Timer Interval for detecting brightness change
-      AutoTake.enabled = true; // Is AutoTake is enabled?
-      AutoTake.isDark = false; // Is the current video frame dark (brightness below threshold)?
-      AutoTake.brightnessThreshold = 1.2;  // Brightness Threshold
+      AutoCapture.autoCaptureDaemon = null;  // Timer Interval for detecting brightness change
+      AutoCapture.enabled = true; // Is AutoCapture is enabled?
+      AutoCapture.isDark = false; // Is the current video frame dark (brightness below threshold)?
+      AutoCapture.brightnessThreshold = 1.2;  // Brightness Threshold
 
       // Add a list item to settings dialog
-      let autoTakeItem = document.createElement("li");
-      autoTakeList.appendChild(autoTakeItem);
+      let autoCaptureItem = document.createElement("li");
+      autoCaptureList.appendChild(autoCaptureItem);
 
       // Item title
       let itemTitle = document.createElement("div");
@@ -44,31 +42,30 @@
       let brightnessThresholdText = document.createElement("div");
 
       // Set title
-      autoTakeItem.appendChild(itemTitle);
+      autoCaptureItem.appendChild(itemTitle);
       itemTitle.classList.add("flex");
       itemTitle.appendChild(itemTitleText);
-      itemTitleText.innerText = "Auto-Take";
+      itemTitleText.innerText = "Auto-Capture";
 
       // Add toggle button
       itemTitle.appendChild(itemToggleBtn);
       itemToggleBtn.setAttribute("style", "text-align: right");
-      itemToggleBtn.classList.add("auto-take-toggle-btn");
+      itemToggleBtn.classList.add("auto-capture-toggle-btn");
       new ToggleButton(itemToggleBtn, function() {
-        if (AutoTake.enabled) {
-          clearInterval(AutoTake.autoTakeDaemon);
-          AutoTake.autoTakeDaemon = null;
-          AutoTake.enabled = false;
-        }
-        else {
+        if (AutoCapture.enabled) {
+          clearInterval(AutoCapture.autoCaptureDaemon);
+          AutoCapture.autoCaptureDaemon = null;
+          AutoCapture.enabled = false;
+        } else {
           // Start daemon to check webcam brightness 30 times per second. TODO: Make the interval time configurable
-          AutoTake.autoTakeDaemon = setInterval(AutoTake.checkBrightnessThreshold, 1000 / 30); // 30 FPS
-          AutoTake.enabled = true;
+          AutoCapture.autoCaptureDaemon = setInterval(AutoCapture.checkBrightnessThreshold, 1000 / 30); // 30 FPS
+          AutoCapture.enabled = true;
         }
         itemSettingsContainer.classList.toggle("hidden");
       });
 
       // Create item settings container to hold configurable inputs
-      autoTakeItem.appendChild(itemSettingsContainer);
+      autoCaptureItem.appendChild(itemSettingsContainer);
       itemSettingsContainer.classList.add("flex");
       itemSettingsContainer.setAttribute("style", "align-items: center");
 
@@ -90,36 +87,36 @@
         let val = e.target.value;
         // Limit value to range [0-255]
         if (val > 255) {
-          val == 255;
-        }
-        else if (val < 0) {
+          val = 255;
+        } else if (val < 0) {
           val = 0;
         }
-        AutoTake.brightnessThreshold = val;
+        e.target.value = val;  // Set input back to corrected value.
+        AutoCapture.brightnessThreshold = val;
       });
     }
 
     static checkBrightnessThreshold() {
-      var w = preview.videoWidth;
-      var h = preview.videoHeight;
+      let w = preview.videoWidth;
+      let h = preview.videoHeight;
 
-      if (w == 0 || h == 0) {
+      if (w === 0 || h === 0) {
         return;  // Return if video stream not setup
       }
 
       hiddenPreview.width = w;
       hiddenPreview.height = h;
-      var context = hiddenPreview.getContext('2d');
+      let context = hiddenPreview.getContext('2d');
 
       context.drawImage(preview, 0, 0, w, h);
 
-      var imgData = context.getImageData(0, 0, w, h)
-      var data = imgData.data;
-      var r, g, b, a, avg;
-      var colorSum = 0;
-      var totalPixels = 0;
+      let imgData = context.getImageData(0, 0, w, h)
+      let data = imgData.data;
+      let r, g, b, a, avg;
+      let colorSum = 0;
+      let totalPixels = 0;
 
-      for (var x = 0, len = data.length; x < len; x += 4) {
+      for (let x = 0, len = data.length; x < len; x += 4) {
         r = data[x];
         g = data[x+1];
         b = data[x+2];
@@ -132,19 +129,18 @@
         }
       }
 
-      var brightness = colorSum / totalPixels;
+      let brightness = colorSum / totalPixels;
 
-      if (brightness > AutoTake.brightnessThreshold) {
-        if (AutoTake.isDark) {  // Take picture if live image transitions from dark to light.
+      if (brightness > AutoCapture.brightnessThreshold) {
+        if (AutoCapture.isDark) {  // Take picture if live image transitions from dark to light.
           Features.takePicture();
         }
-        AutoTake.isDark = false;
-      }
-      else {
-        AutoTake.isDark = true;
+        AutoCapture.isDark = false;
+      } else {
+        AutoCapture.isDark = true;
       }
     }
   }
 
-  module.exports = AutoTake;
+  module.exports = AutoCapture;
 })();
