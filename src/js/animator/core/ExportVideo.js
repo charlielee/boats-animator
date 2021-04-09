@@ -4,6 +4,7 @@
   const path = require("path");
 
   const ConfirmDialog = require("../ui/ConfirmDialog");
+  const Camera = require("./Camera");
   const Notification = require("../../common/Notification");
 
   const DEFAULT_FILE_NAME = "output.mp4";
@@ -71,6 +72,9 @@
 
       // Load in default FFmpeg arguments
       customArgumentsInput.value = ExportVideo.generateFfmpegArguments(outputPath, exportFrameDir, frameRate, presetValue);
+
+      // Set blank camera
+      Camera.setBlankCamera();
 
       // Event listeners
 
