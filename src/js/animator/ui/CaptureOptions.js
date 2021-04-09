@@ -3,6 +3,7 @@
   const { ipcRenderer } = require("electron");
 
   const Camera = require("../core/Camera");
+  const Notification = require("../../common/Notification");
 
   const cameraSelect = document.querySelector("#camera-source-select");
   const resolutionSelect = document.querySelector("#camera-resolution-select");
@@ -14,6 +15,7 @@
       // Get the resolutions for a camera upon changing it
       cameraSelect.addEventListener("change", function (e) {
         if (e.target.value === "#") {
+          Notification.info(`${Camera.successCam.name} has been disconnected`);
           Camera.setBlankCamera();
         } else {
           let curCam = Camera.getSelectedCamera();
