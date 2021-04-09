@@ -91,6 +91,9 @@
 
       // Add to container
       previewArea.appendChild(this.element);
+
+      // Hide element if not streaming
+      this.element.classList.toggle("hidden", !global.projectInst.streaming);
     }
 
     /**

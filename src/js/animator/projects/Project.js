@@ -53,7 +53,7 @@
      * The event listeners for a project
      */
     setListeners() {
-      var self = this;
+      let self = this;
 
       self.playback = new Playback(self);
 
@@ -61,6 +61,15 @@
       preview.addEventListener("play", function () {
         PlaybackCanvas.setDimensions(preview.videoWidth.toString(), preview.videoHeight.toString())
         self.streaming = true;
+
+        // Reload preview overlays
+        PreviewOverlay.drawAll();
+      });
+
+      // Detect preview ending
+      preview.addEventListener("suspend", function () {
+        self.streaming = false;
+
         // Reload preview overlays
         PreviewOverlay.drawAll();
       });
@@ -117,12 +126,11 @@
      */
     takeFrame() {
       var self = this;
-      // Stop playback
-      this.playback.videoStop();
-      this.setCurrentMode("capture");
 
       // Take a picture
       if (self.streaming) {
+        self.setCurrentMode("capture");
+
         self.currentTake.captureFrame()
           .then(function () {
             // Scroll to the end of the framereel
