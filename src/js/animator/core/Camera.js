@@ -92,6 +92,9 @@ module.exports = {};
 
     // Set select element styling
     qCameraSelect.classList.add("input-border-danger");
+
+    // Update status bar
+    StatusBar.setResolution("No camera selected");
   };
 
   /**
