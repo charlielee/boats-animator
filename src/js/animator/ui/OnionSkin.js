@@ -45,6 +45,14 @@
     }
 
     /**
+     * Hide/show the onion skin window
+     * @param {Boolean} status Set to true to show the window
+     */
+    setVisibility(status = true) {
+      onionSkinWindow.classList.toggle("hidden", !status);
+    }
+
+    /**
      * Sets opacity of the onion skin window when the slider is moved.
      * @param {Object} e - Event object from addEventListener.
      */

@@ -64,6 +64,9 @@
 
         // Reload preview overlays
         PreviewOverlay.drawAll();
+
+        // Enable onion skin
+        self.currentTake.onionSkin.setVisibility(true);
       });
 
       // Detect preview ending
@@ -72,6 +75,9 @@
 
         // Reload preview overlays
         PreviewOverlay.drawAll();
+
+        // Disable onion skin
+        self.currentTake.onionSkin.setVisibility(false);
       });
 
       // Capture a frame
