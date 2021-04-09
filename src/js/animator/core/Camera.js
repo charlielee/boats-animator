@@ -13,6 +13,7 @@ module.exports = {};
   let curStream = null;
 
   // Get the DOM selectors needed
+  const previewAreaMessage = document.querySelector("#preview-area-message");
   let qResoluSelect   = document.querySelector("#camera-resolution-select"),
       qCameraSelect   = document.querySelector("#camera-source-select"),
       videoCapture    = document.createElement("video");
@@ -71,6 +72,30 @@ module.exports = {};
   }
 
   /** Static methods */
+
+  Camera.setBlankCamera = function () {
+    // Stop the previous camera from streaming
+    if (curStream) {
+      let curTrack = curStream.getVideoTracks()[0];
+      curTrack.stop();
+    }
+
+    Camera.successCam = {};
+    // Switch to "no camera selected"
+    qCameraSelect.value = "#";
+    // Reset resolution select
+    qResoluSelect.innerHTML = "";
+
+    // Set preview area message
+    previewAreaMessage.classList.add("visible-capture");
+    previewAreaMessage.innerHTML = `<h2>Select a camera source to begin!</h2>`;
+
+    // Set select element styling
+    qCameraSelect.classList.add("input-border-danger");
+
+    // Update status bar
+    StatusBar.setResolution("No camera selected");
+  };
 
   /**
    * Displays the stream from a video onto another video element.
@@ -161,6 +186,7 @@ module.exports = {};
       Camera.display(feed, document.querySelector("#preview"));
     } catch (err) {
       Notification.error(`${curCam.name} could not be loaded!`);
+      Camera.setBlankCamera();
     } finally {
       Loader.hide();
     }
@@ -184,16 +210,11 @@ module.exports = {};
    * @param {Array} sources - @todo.
    */
   function _findVideoSources(sources) {
-    // If no camera has been selected yet add "no camera selected option"
-    if (qCameraSelect.length == 0) {
-      const option = window.document.createElement("option");
-      option.text = "No camera selected";
-      option.setAttribute("disabled", true);
-      option.setAttribute("style", "display: none;");
-      option.setAttribute("value", "#");
-      qCameraSelect.appendChild(option);
-      qCameraSelect.value = "#";
-    }
+    // Add blank camera option
+    const option = window.document.createElement("option");
+    option.text = "No camera selected";
+    option.value = "#";
+    qCameraSelect.appendChild(option);
 
     // Remove all camera select options except "No camera selected"
     var num = qCameraSelect.options.length;
@@ -208,6 +229,7 @@ module.exports = {};
 
     // Filter out all non-video streams
     sources = sources.filter(source => source.kind === "videoinput");
+
     // Add any new devices that have been connected and check for the currently connected camera
     sources.forEach(function(source, i) {
       // Get the proper camera name
@@ -234,18 +256,14 @@ module.exports = {};
       // Check if device is the current camera
       if (source.deviceId === Camera.successCam.id) {
         isCurCamStillConnected = true;
+        qCameraSelect.value = Camera.successCam.id;
       }
     });
 
     // Switch to "no camera selected" if current success camera is no longer connected
     if (Object.keys(Camera.successCam).length > 0 && !isCurCamStillConnected) {
       Notification.info(`${Camera.successCam.name} has been removed`);
-      Camera.successCam = {};
-
-      // Switch to "no camera selected"
-      qCameraSelect.value = "#";
-      // Reset resolution select
-      qResoluSelect.innerHTML = "";
+      Camera.setBlankCamera();
     }
   }
 

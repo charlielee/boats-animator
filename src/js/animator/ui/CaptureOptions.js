@@ -3,6 +3,7 @@
   const { ipcRenderer } = require("electron");
 
   const Camera = require("../core/Camera");
+  const Notification = require("../../common/Notification");
 
   const cameraSelect = document.querySelector("#camera-source-select");
   const resolutionSelect = document.querySelector("#camera-resolution-select");
@@ -11,19 +12,29 @@
 
   class CaptureOptions {
     static setListeners() {
-      // Get the resolutions for a camera upon changing it
-      cameraSelect.addEventListener("change", function() {
-        var curCam = Camera.getSelectedCamera();
-        curCam.showResolutions();
+      // Set the blank camera on load
+      Camera.setBlankCamera();
 
-        // Hide the select camera message
-        previewAreaMessage.classList.remove("visible-capture");
+      // Get the resolutions for a camera upon changing it
+      cameraSelect.addEventListener("change", function (e) {
+        if (e.target.value === "#") {
+          Notification.info(`${Camera.successCam.name} has been disconnected`);
+          Camera.setBlankCamera();
+        } else {
+          let curCam = Camera.getSelectedCamera();
+          curCam.showResolutions();
+
+          // Hide the select camera message
+          previewAreaMessage.classList.remove("visible-capture");
+          // Set select element styling
+          cameraSelect.classList.remove("input-border-danger");
+        }
       });
 
       // Reload the camera on changing resolution
       resolutionSelect.addEventListener("change", function() {
-        var curCam = Camera.getSelectedCamera();
-        var feed = curCam.updateResolution(Camera.getSelectedResolution());
+        let curCam = Camera.getSelectedCamera();
+        let feed = curCam.updateResolution(Camera.getSelectedResolution());
         Camera.display(feed, preview);
       });
 
