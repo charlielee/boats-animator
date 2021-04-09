@@ -79,6 +79,7 @@ body[data-has-frames="false"] #btn-conform-take:focus {
   align-items: center;
   display: flex;
   justify-content: center;
+  z-index: 1;
 }
 
 #preview,

@@ -12,18 +12,22 @@
   class CaptureOptions {
     static setListeners() {
       // Get the resolutions for a camera upon changing it
-      cameraSelect.addEventListener("change", function() {
-        var curCam = Camera.getSelectedCamera();
-        curCam.showResolutions();
+      cameraSelect.addEventListener("change", function (e) {
+        if (e.target.value === "#") {
+          Camera.setBlankCamera();
+        } else {
+          let curCam = Camera.getSelectedCamera();
+          curCam.showResolutions();
 
-        // Hide the select camera message
-        previewAreaMessage.classList.remove("visible-capture");
+          // Hide the select camera message
+          previewAreaMessage.classList.remove("visible-capture");
+        }
       });
 
       // Reload the camera on changing resolution
       resolutionSelect.addEventListener("change", function() {
-        var curCam = Camera.getSelectedCamera();
-        var feed = curCam.updateResolution(Camera.getSelectedResolution());
+        let curCam = Camera.getSelectedCamera();
+        let feed = curCam.updateResolution(Camera.getSelectedResolution());
         Camera.display(feed, preview);
       });
 
