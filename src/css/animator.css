@@ -36,6 +36,7 @@
 body[data-has-frames="false"] #btn-export-video,
 body[data-has-frames="false"] #btn-conform-take {
   background-color: var(--ba-light-mid);
+  box-shadow: none;
   color: var(--ba-dark-active);
   cursor: not-allowed;
 }

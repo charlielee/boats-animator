@@ -89,6 +89,9 @@ module.exports = {};
     // Set preview area message
     previewAreaMessage.classList.add("visible-capture");
     previewAreaMessage.innerHTML = `<h2>Select a camera source to begin!</h2>`;
+
+    // Set select element styling
+    qCameraSelect.classList.add("input-border-danger");
   };
 
   /**

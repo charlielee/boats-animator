@@ -12,6 +12,9 @@
 
   class CaptureOptions {
     static setListeners() {
+      // Set the blank camera on load
+      Camera.setBlankCamera();
+
       // Get the resolutions for a camera upon changing it
       cameraSelect.addEventListener("change", function (e) {
         if (e.target.value === "#") {
@@ -23,6 +26,8 @@
 
           // Hide the select camera message
           previewAreaMessage.classList.remove("visible-capture");
+          // Set select element styling
+          cameraSelect.classList.remove("input-border-danger");
         }
       });
 
