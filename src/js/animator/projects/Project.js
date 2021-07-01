@@ -92,7 +92,6 @@
       // Capture a frame
       btnCaptureFrame.addEventListener("click", function () { 
         for (let i = 1; i <= self.numberOfFramesToCapture; i++) {
-          console.log('Taking ', i, ' frame...');
           self.takeFrame();
         }
       });
