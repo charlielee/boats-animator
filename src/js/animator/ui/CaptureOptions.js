@@ -10,6 +10,8 @@
   const preview = document.querySelector("#preview");
   const previewAreaMessage = document.querySelector("#preview-area-message");
 
+  const numberOfFramesSelect = document.querySelector('#number-of-frames-select'); 
+
   class CaptureOptions {
     static setListeners() {
       // Set the blank camera on load
@@ -37,6 +39,11 @@
         let feed = curCam.updateResolution(Camera.getSelectedResolution());
         Camera.display(feed, preview);
       });
+
+      numberOfFramesSelect.addEventListener("change", function() {
+        const value = numberOfFramesSelect.value; 
+        
+      })
 
       // Refresh camera list when device changes are detected
       navigator.mediaDevices.addEventListener("devicechange", function(e) {
