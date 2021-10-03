@@ -8,7 +8,10 @@ const config: Configuration = {
     extensions: [".tsx", ".ts", ".js"],
   },
   devtool: "source-map",
-  entry: path.resolve(rootPath, "src/main", "main.ts"),
+  entry: {
+    main: path.resolve(rootPath, "src/main", "main.ts"),
+    preload: path.resolve(rootPath, "src/preload", "preload.ts"),
+  },
   target: "electron-main",
   module: {
     rules: [

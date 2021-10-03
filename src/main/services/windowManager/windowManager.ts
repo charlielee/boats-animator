@@ -16,7 +16,7 @@ const DEFAULT_OPTIONS: BrowserWindowConstructorOptions = {
   webPreferences: {
     contextIsolation: true,
     nodeIntegration: false,
-    // preload: path.join(__dirname, "../../preload.js"),
+    preload: path.join(__dirname, "preload.js"),
   },
   width: 730,
 };

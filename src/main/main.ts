@@ -1,5 +1,5 @@
 import { app } from "electron";
-import WindowManager from "./windowManager/windowManager";
+import WindowManager from "./services/windowManager/windowManager";
 
 app.whenReady().then(() => {
   const windowManager = new WindowManager(app);
