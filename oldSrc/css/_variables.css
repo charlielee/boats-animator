@@ -1,0 +1,31 @@
+:root {
+  --ba-border: #423e3e;
+  --ba-border-hover: #5c5858;
+  --ba-border-active: #827e7e;
+
+  --ba-dark: #171717;
+  --ba-dark-hover: var(--ba-dark-mid);
+  --ba-dark-active: #313131;
+  --ba-dark-20: rgba(23,23,23,0.2);
+  --ba-dark-50: rgba(23,23,23,0.5);
+  --ba-dark-80: rgba(23,23,23,0.8);
+  --ba-dark-mid: #2b2b2b;
+
+  --ba-light: #d3d3d3;
+  --ba-light-hover: #e9e9e9;
+  --ba-light-active: #f5f5f5;
+  --ba-light-mid: #adadad;
+
+  --ba-lightred: #c54c4c;
+  --ba-lightred-hover: #cd6666;
+  --ba-lightred-active: #bd3232;
+
+  --ba-black: #000;
+  --ba-blue: #5ab7d4;
+  --ba-green: #2d9e2d;
+  --ba-lightyellow: #f6f2cb;
+  --ba-red: #bd3232;
+  --ba-white: #fff;
+  --ba-yellow: #f9ff23;
+  --ba-yellow-hover: #f3f76e;
+}

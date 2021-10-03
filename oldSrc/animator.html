@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <title>Boats Animator</title>
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/_variables.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/animator.css">
+</head>
+
+<body>
+  <!-- Notification Bar -->
+  <section id="notification-container"></section>
+
+  <!--Loading Window-->
+  <div id="loading-window">
+    <h3 id="loading-window-message"></h3>
+    <div id="loading-window-dots">
+      <span class="dot one">.</span><span class="dot two">.</span><span class="dot three">.</span>
+    </div>
+  </div>
+
+  <main>
+    <section id="main-area">
+      <!--Preview area window-->
+      <div id="preview-area">
+        <!-- No source message -->
+        <div id="preview-area-message" class="visible-capture preview-area-item">
+          <h2></h2>
+        </div>
+        <!--  Onion skinning frame -->
+        <img id="onion-skinning-frame" class="visible-capture">
+        <!-- Video preview stream -->
+        <video id="preview" class="visible-capture" autoplay>Video stream not available.</video>
+        <!--The actual playback window -->
+        <canvas id="playback" class="visible-playback"></canvas>
+        <!-- Hidden preview canvas used for reading pixels of live image -->
+        <canvas id="hidden-preview" class="hidden"></canvas>
+      </div>
+
+      <!--Playback controls-->
+      <div id="frame-mod-panel" class="flex">
+        <section id="left-controls">
+          <div id="frameControlsCaptureMode" class="visible-capture">
+            <div id="btn-delete-last-frame" title="Undo Last Frame" class="frame-mod-button">
+              <i class="fa fa-undo"></i>
+            </div>
+            <div id="btn-short-play" title="Short Play" class="frame-mod-button">
+              <i class="fa fa-play-circle"></i>
+            </div>
+          </div>
+          <div id="frameControlsPlaybackMode" class="visible-playback">
+            <div id="btn-delete-frame" title="Delete Frame" class="frame-mod-button">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </section>
+        <section id="capture-control">
+          <div id="btn-capture-frame" title="Capture Frame" class="frame-mod-button">
+            <i class="fa fa-camera"></i>
+          </div>
+        </section>
+        <section id="playback-controls">
+          <div id="btn-frame-first" title="First Frame" class="frame-mod-button">
+            <i class="fa fa-fast-backward"></i>
+          </div>
+          <div id="btn-frame-previous" title="Previous Frame" class="frame-mod-button">
+            <i class="fa fa-step-backward"></i>
+          </div>
+          <div id="btn-play-pause" title="Playback Frames" class="frame-mod-button">
+            <i class="fa fa-play"></i>
+          </div>
+          <div id="btn-stop" title="Stop Playback" class="frame-mod-button">
+            <i class="fa fa-stop"></i>
+          </div>
+          <div id="btn-frame-next" title="Next Frame" class="frame-mod-button">
+            <i class="fa fa-step-forward"></i>
+          </div>
+          <div id="btn-frame-last" title="Last Frame" class="frame-mod-button">
+            <i class="fa fa-fast-forward"></i>
+          </div>
+          <div id="btn-loop" title="Loop Playback" class="frame-mod-button">
+            <i class="fa fa-refresh"></i>
+          </div>
+        </section>
+      </div>
+
+      <!--Frame-reel container-->
+      <div id="area-frame-reel">
+        <p>No frames captured</p>
+        <table class="hidden">
+          <tr id="reel-captured-imgs">
+            <!--This is where the frame is added through JS -->
+          </tr>
+          <tr>
+            <td class="frame-reel-preview">
+              <div class="frame-reel-no" id="live-view-frame-no"></div>
+              <div id="btn-live-view" title="Live Preview">
+                <i class="fa fa-video-camera"></i>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="control-panel" class="flex">
+        <section id="preview-options">
+          <!--This area will contain features like grid and aspect ratio mask toggle-->
+        </section>
+        <section id="onion-skin-opacity-options">
+          <div id="onionSkinOpacityRangeContainer" class="range-container">
+            <input id="input-onion-skin-opacity" type="range" name="onionSkinAmount" min="-100" max="100" value="0" title="Onion Skin 0%" step="2">
+          </div>
+          <div id="slider-background-middle"></div>
+        </section>
+        <section id="frame-rate-options">
+          <input id="input-fr-change" type="number" value="15" min="1" max="60" title="Frame Rate">
+          <label for="input-fr-change"> FPS</label>
+        </section>
+      </div>
+    </section>
+
+    <!--Sidebar content-->
+    <aside>
+      <div class="tabs-container">
+        <div class="tabs">
+          <a href="#captureTab" class="active" data-toggle="tab">Capture</a>
+          <a href="#guidesTab" data-toggle="tab">Guides</a>
+          <a href="#exportTab" data-toggle="tab">Export</a>
+        </div>
+
+        <div class="tabs-content">
+          <!--Capture Options-->
+          <div id="captureTab" class="tab-pane active">
+            <h2 class="sidebar-header">
+              <i class="fa fa-camera fa-fw"></i>
+              Capture
+            </h2>
+
+            <div class="sidebar-item">
+              <ul id="capture-options">
+                <!-- Camera selection -->
+                <li>
+                  <label for="camera-source-select">Camera Source</label>
+                  <select id="camera-source-select">
+                  </select>
+                </li>
+                <!-- Resolution selection -->
+                <li>
+                  <label for="camera-resolution-select">Image Resolution</label>
+                  <select id="camera-resolution-select"></select>
+                </li>
+                <!-- Frames to Capture -->
+                <li>
+                  <label for="number-of-frames-select">Number of Frames to Capture</label>
+                  <select id="number-of-frames-select">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                  </select>
+              </li>
+              </ul>
+            </div>
+
+            <!--AutoCapture-->
+            <h2 class="sidebar-header">
+              <i class="fa fa-eye fa-fw"></i>
+              Auto-Capture
+            </h2>
+
+            <div class="sidebar-item" id="auto-capture-header">
+              <ul id="auto-capture-list">
+              </ul>
+            </div>
+          </div>
+
+          <!--Guides-->
+          <div id="guidesTab" class="tab-pane">
+            <h2 class="sidebar-header">
+              <i class="fa fa-th fa-fw"></i>
+              Guides
+            </h2>
+
+            <div class="sidebar-item">
+              <ul id="overlay-list"></ul>
+            </div>
+          </div>
+
+           <!--Export Options-->
+           <div id="exportTab" class="tab-pane">
+              <h2 class="sidebar-header">
+                <i class="fa fa-download fa-fw"></i>
+                Export
+              </h2>
+
+              <div class="sidebar-item">
+                <ul>
+                  <li>
+                    Captured frames will be exported to:
+                    <div id="currentDirectoryName">No directory selected</div>
+                  </li>
+                  <li class="sidebar-opt">
+                    <button id="btn-dir-change" class="btn">Browse…</button>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="sidebar-item">
+                <ul>
+                  <li>
+                    Render current take as a video file:
+                  </li>
+                  <li class="sidebar-opt">
+                    <button id="btn-export-video" class="btn">Export Video…</button>
+                  </li>
+                  <li>
+                    Rename frame files to be sequential:
+                  </li>
+                  <li class="sidebar-opt">
+                    <button id="btn-conform-take" class="btn">Conform Take</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <ul>
+      <li>Frame
+        <span id="current-frame">0</span> of
+        <span id="num-of-frames">0</span>
+      </li>
+      <li id="current-frame-rate">
+        <span></span> FPS
+      </li>
+      <li id="current-resolution"></li>
+      <li class="no-pipe" id="current-mode">
+        <span></span> mode</li>
+    </ul>
+  </footer>
+
+  <script src="../node_modules/mousetrap/mousetrap.js"></script>
+  <script src="../node_modules/mousetrap/plugins/pause/mousetrap-pause.js"></script>
+  <script src="js/animator/index.js"></script>
+</body>
+
+</html>

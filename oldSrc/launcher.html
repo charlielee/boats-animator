@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Boats Animator</title>
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/_variables.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+  <!-- Notification Bar -->
+  <section id="notification-container"></section>
+
+  <main>
+    <section class="content">
+      <h2>Projects</h2>
+      <!--Recent projects example, disabled as will be dynamically injected.
+      <ul id="projects-container">
+        <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 1</a></li>
+        <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 2</a></li>
+        <li><i class="fa fa-folder-open-o"></i> <a href="#">Recent Project 3</a></li>
+      </ul>-->
+      <div class="btn-group">
+        <button id="new-project" class="btn">
+          <i class="fa fa-file-o"></i><span>New Project</span>
+        </button>
+
+        <button id="load-project" class="btn">
+          <i class="fa fa-folder-o"></i><span>Load Project</span>
+        </button>
+      </div>
+
+      <div id="launcher-message" class="highlight"></div>
+    </section>
+
+    <!-- News feed -->
+    <aside>
+      <h2 class="sidebar-header">
+        <i class="fa fa-newspaper-o"></i>
+        Recent News
+      </h2>
+
+      <div class="sidebar-item">
+        <ul>
+          <li>
+            <div class="container-news">
+              <div class="loading-dots">
+                <span class="dot one">.</span><span class="dot two">.</span><span class="dot three">.</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <ul>
+      <li class="no-pipe">Version <span id="app-version"></span></li>
+    </ul>
+  </footer>
+
+  <script src="js/launcher/index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+/* ========== Projects Area ============= */
+
+#projects-container {
+  margin: 0;
+  padding: 0;
+}
+
+#projects-container li {
+  margin: 0;
+  width: 100%;
+  padding: 1rem 0;
+  list-style-type: none;
+  border-bottom: 0.0625rem solid var(--ba-light-mid);
+  position: relative;
+}
+
+#projects-container li:first-of-type { padding-top: 0; }
+#projects-container li:last-of-type { margin-bottom: 1rem; }
+
+#projects-container a { color: var(--ba-light); }
+
+.content button i { font-size: 4rem; }
+
+/* ========== Recent News ============ */
+.loading-dots {
+  text-align: center;
+  z-index: 5;
+}
+
+.dot {
+  display: inline;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+  position: relative;
+  font-size: 3.5rem;
+  opacity: 0;
+  animation: showHideDot 2.5s ease-in-out infinite;
+}
+
+.one { animation-delay: 0.2s; }
+.two { animation-delay: 0.4s; }
+.three { animation-delay: 0.6s; }
+
+@keyframes showHideDot {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  60% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+.container-news {
+  margin-top: -0.8rem;
+}
+
+.post,
+.container-news h3  {
+  color: var(--ba-white);
+  padding-right: 1rem;
+}
+.post { margin-bottom: 1.5rem; }
+
+.post-link {
+  color: var(--ba-white);
+  text-decoration: none;
+}
+.post-link:hover {
+  /* color: var(--ba-white); */
+}
+
+.post-title {
+  margin: 0;
+  margin-bottom: -0.4rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--ba-white);
+}
+.post-date {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 0.85rem;
+  color: var(--ba-light);
+}
+.post-content p:first-of-type { margin: 0; }
+.post-content p { margin-top: 0; }

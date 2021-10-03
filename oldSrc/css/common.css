@@ -1,0 +1,517 @@
+/*!
+  Style sheet of styles common across all windows of the program.
+*/
+
+/* 0. Directory
+   --------------------------------
+   1. Global
+   2. Links
+   3. Main area
+   4. Sidebar
+   5. Footer
+   6. Scrollbars
+   7. Alerts
+   8. Notification bar
+*/
+
+/* 1. Global
+   -------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+.hidden {
+  display: none !important;
+}
+
+html {
+  font-size: 0.825em;
+}
+
+body {
+  align-items: stretch;
+  background-color: var(--ba-dark-mid);
+  color: var(--ba-light);
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  height: 100vh;
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  -webkit-user-select: none;
+}
+
+img { -webkit-user-drag: none; }
+
+input[type="number"], input[type="text"], select {
+  background-color: var(--ba-border);
+  border: 0.0625rem solid var(--ba-border-active);
+  color: var(--ba-light);
+  height: 2rem;
+  margin-bottom: 1rem;
+  padding: 0.25rem;
+}
+input[type="number"]:focus, input[type="text"]:focus, select:focus {
+  border: 0.0625rem solid var(--ba-lightyellow);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0.0625rem 0.0625rem var(--ba-lightyellow);
+  outline: none;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}
+
+/* Display danger outline around element */
+.input-border-danger {
+  border: 0.0625rem solid var(--ba-lightred);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0.0625rem 0.0625rem var(--ba-lightred);
+}
+
+.btn {
+  appearance: none;
+  background-color: var(--ba-light);
+  border: 0.0625rem solid var(--ba-border-active);
+  border-radius: 0.25rem;
+  color: var(--ba-dark);
+  flex-direction: column;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: inherit;
+  padding: 0.25rem 0.5rem;
+}
+.btn:hover {
+  background-color: var(--ba-light-hover);
+}
+.btn:active {
+  background-color: var(--ba-light-active);
+}
+.btn:focus {
+  box-shadow: 0 0 0.0625rem 0.0625rem var(--ba-lightyellow);
+  border: 0.0625rem solid var(--ba-lightyellow);
+  border-radius: 0.25rem;
+  outline: none;
+}
+
+.btn small {
+  margin-top: 0.5rem;
+}
+
+/* Container for a row of buttons */
+.btn-group { display: flex; }
+.btn-group button {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  margin-right: 1rem;
+}
+.btn-group button:last-of-type { margin-right: 0; }
+.btn-group span { flex: 1; }
+
+.cursor-ew-resize {
+  cursor: ew-resize !important;
+}
+
+/* Denotes an element as a flexbox and sets its children to "flex: 1" */
+.flex { display: flex; }
+.flex > * { flex: 1; }
+
+/** Table **/
+.table {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+}
+.table thead {
+  font-size: 0.9rem;
+}
+.table tbody {
+  font-family: monospace;
+}
+.table td, .table th {
+  padding: 0.25rem 0.5rem;
+  white-space: nowrap;
+  width: 0.0625rem;
+}
+.table thead tr {
+  background-color: var(--ba-dark-80);
+}
+.table tbody tr:nth-child(odd) {
+  background-color: var(--ba-dark-50);
+}
+.table tbody tr:nth-child(even) {
+  background-color: var(--ba-dark-80);
+}
+.table i {
+  font-size: 0.8rem;
+}
+
+/** Tabs **/
+.tabs {
+  background-color: var(--ba-dark);
+  border-bottom: 0.0625rem solid var(--ba-light);
+  display: flex;
+  margin: 0;
+  padding: 0.375rem 0.4375rem 0 0.4375rem;
+  width: 100%;
+}
+.tabs a {
+  align-items: center;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.5rem 0.5rem 0 0;
+  color: var(--ba-light-mid);
+  display: flex;
+  font-size: 0.8rem;
+  margin-bottom: -0.0625rem;
+  padding: 0.5rem 0.5rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tabs a:hover, .tabs a:active {
+  background-color: var(--ba-dark);
+  border: 0.0625rem solid var(--ba-light-mid);
+}
+.tabs a.active {
+  border: 0.0625rem solid var(--ba-light);
+  border-bottom: 0.0625rem solid var(--ba-dark-mid);
+}
+.tabs a.active {
+  background-color: var(--ba-dark-mid);
+  color: var(--ba-light);
+}
+.tabs a.active:hover {
+  text-decoration: none;
+}
+
+/** Tabs content **/
+.tabs-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.tabs-content {
+  display: flex;
+  flex: 1;
+  min-width: 100%;
+  overflow: hidden;
+  width: 0.0625rem;
+}
+.tab-pane {
+  display: none;
+  flex: 1;
+  overflow: auto;
+}
+.tab-pane.active {
+  display: block;
+}
+
+/* 2. Links
+   -------------------------------- */
+
+a {
+  color: var(--ba-light);
+  cursor: pointer;
+  text-decoration: underline;
+  -webkit-user-drag: none;
+}
+a:active { text-decoration: none; }
+
+/* 3. Main area
+   -------------------------------- */
+
+main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+main > section {
+  flex: 1;
+  overflow: hidden;
+}
+
+main h1 {
+  font-size: 1.8rem;
+  margin: 0.5rem 0;
+}
+
+main h2 {
+  color: var(--ba-white);
+  font-size: 1.4rem;
+  margin: 1rem 0;
+}
+
+.content {
+  background-color: var(--ba-dark);
+  margin: 0;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.content p {
+  margin: 0 0 4rem 0;
+}
+
+/* 4. Sidebar
+   -------------------------------- */
+
+aside {
+  background-color: var(--ba-dark-mid);
+  border-left: 0.0625rem solid var(--ba-border);
+  color: var(--ba-light);
+  padding: 0;
+  overflow: auto;
+  position: relative;
+  width: 22rem;
+}
+
+aside a,
+aside .sidebar-opt {
+  margin-bottom: 1rem;
+}
+aside a:hover,
+aside .sidebar-opt span:hover {
+  text-decoration: underline;
+}
+
+aside input,
+aside label {
+  vertical-align: middle;
+}
+
+aside ul {
+  list-style: none;
+  padding: 0;
+}
+
+aside li { margin: 0.25rem 0; }
+
+.sidebar-item {
+  border-bottom: 0.0625rem solid var(--ba-border);
+  margin: 0 1rem;
+}
+
+.sidebar-header {
+  margin: 1rem 1rem 0 1rem;
+}
+.sidebar-header i {
+  font-size: 1.3rem;
+  margin-right: 0.2rem;
+}
+
+/* 5. Footer
+   -------------------------------- */
+
+footer {
+  background-color: var(--ba-light);
+  color: var(--ba-dark-mid);
+  flex: initial;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+footer a { color: var(--ba-dark-mid); }
+footer a:hover, footer a:active { text-decoration: underline; }
+
+footer ul {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0 1rem;
+}
+
+footer li { display: inline-block; }
+
+footer li:not(.no-pipe)::after {
+  color: var(--ba-light-mid);
+  content: "|";
+  margin: 0 0.5rem 0 0.8rem;
+}
+
+/* 6. Scrollbars
+   -------------------------------- */
+
+::-webkit-scrollbar              {
+  background-color: var(--ba-dark-20);
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb        {
+  background-color: var(--ba-border);
+  border-radius: 0.5rem;
+  border: 0.0625rem solid var(--ba-dark);
+}
+
+::-webkit-scrollbar-thumb:hover { background-color: var(--ba-border-hover); }
+
+::-webkit-scrollbar-thumb:active { background-color: var(--ba-border-active); }
+
+/* 7. Alerts
+   -------------------------------- */
+
+/* Fix blue outline around SweetAlert modals */
+.swal-overlay { outline: none; }
+
+.swal-content { color: var(--ba-dark-mid); }
+
+/* 8. Notification bar
+   -------------------------------- */
+
+#notification-container {
+  height: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+/* Individual notification */
+.notification {
+  background-color: var(--ba-dark-mid);
+  border: 0.0625rem solid var(--ba-border);
+  border-style: none solid solid solid;
+  color: var(--ba-white);
+  display: flex;
+  margin: -2.75rem auto 0 auto;
+  max-width: 90%;
+  min-height: 2.75rem;
+  transition: margin-top 0.3s ease-out,
+              opacity 0.3s ease;
+  width: 40rem;
+}
+
+/* Notification type label */
+.notify-type {
+  width: 4.5rem;
+  margin-right: 0.5rem;
+  padding: 0.2rem;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  text-transform: capitalize;
+  font-size: 0.9rem;
+}
+
+/* Notification states */
+.notification.visible { margin-top: 0; }
+.notification.hiding { opacity: 0; }
+.notification.success .notify-type { background-color: var(--ba-green); }
+.notification.info .notify-type { background-color: var(--ba-blue); }
+.notification.error .notify-type { background-color: var(--ba-red); }
+
+/* Notification message */
+.notification .msg {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 0.95rem;
+}
+
+/* 9. Highlight message
+   -------------------------------- */
+
+.highlight {
+  background-color: var(--ba-light);
+  color: var(--ba-dark-mid);
+  border-radius: 0.25rem;
+  margin: 1rem 0;
+  overflow: hidden;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.highlight h2 {
+  color: var(--ba-dark-mid);
+}
+
+.highlight-body {
+  margin: 1rem 0;
+}
+
+/* 10. Custom range inputs
+   -------------------------------- */
+
+.range-container {
+  align-items: center;
+  display: flex;
+  height: 2rem;
+}
+
+/* Reset appearance */
+.range-container input[type='range'],
+.range-container input[type='range']::-webkit-slider-runnable-track,
+.range-container input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+/* Main element */
+.range-container input[type='range'] {
+  background-color: var(--ba-border-active);
+  border-radius: 0.25rem;
+  margin: 0;
+  width: 100%;
+}
+.range-container input[type='range']:focus {
+  outline: none;
+}
+
+/* Slider horizontal line */
+.range-container input[type='range']::-webkit-slider-runnable-track {
+  height: 0.5rem;
+}
+
+/* Draggable */
+.range-container input[type='range']::-webkit-slider-thumb {
+  background-color: var(--ba-lightred);
+  border-radius: 0.5rem;
+  height: 1.5rem;
+  margin-top: -0.5rem;
+  width: 0.5rem;
+}
+.range-container input[type='range']::-webkit-slider-thumb:hover {
+  background-color: var(--ba-lightred-hover);
+}
+.range-container input[type='range']:active::-webkit-slider-thumb,
+.range-container input[type='range']::-webkit-slider-thumb:active {
+  background-color: var(--ba-lightred-active);
+}
+
+/* 11. Switch buttons
+   -------------------------------- */
+
+.switch-container {
+  display: flex;
+  justify-content: space-between;
+}
+.switch-container label {
+  flex: 1;
+}
+
+.switch-btn {
+  appearance: none;
+  background-image: url("../img/toggle-off.svg");
+  background-position: right;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  height: 1.5rem;
+  margin: 0;
+  width: 2rem;
+}
+.switch-btn:checked {
+  background-image: url("../img/toggle-on.svg");
+}
+.switch-btn:focus {
+  outline: none;
+}
