@@ -1,5 +1,5 @@
+import HtmlWebpackPlugin from "html-webpack-plugin";
 import * as path from "path";
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const rootPath = path.resolve(__dirname, "..");
 
@@ -9,7 +9,7 @@ const config = {
     mainFields: ["main", "module", "browser"],
   },
   entry: path.resolve(rootPath, "src/renderer", "index.tsx"),
-  target: "electron-renderer",
+  target: "web",
   devtool: "source-map",
   module: {
     rules: [
@@ -39,8 +39,9 @@ const config = {
     path: path.resolve(rootPath, "dist/renderer"),
     filename: "js/[name].js",
     publicPath: "./",
+    globalObject: "this",
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [new HtmlWebpackPlugin({ title: "Boats Animator" })],
 };
 
 export default config;

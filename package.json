@@ -30,7 +30,7 @@
     "build:electron": "webpack --config webpack/electron.webpack.ts --mode=production",
     "build:react": "webpack --config webpack/react.webpack.ts --mode=production",
     "package": "npm-run-all build package:dist",
-    "package:dist": "electron-builder --dir"
+    "package:dist": "electron-builder"
   },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.18",
