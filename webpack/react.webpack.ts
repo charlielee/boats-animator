@@ -14,6 +14,11 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.css$/i,
+        exclude: /node_modules/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
         test: /\.(js|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
