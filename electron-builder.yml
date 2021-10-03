@@ -57,9 +57,9 @@ win:
 nsis:
   artifactName: ${name}-${version}-win-setup.${ext}
   createDesktopShortcut: false
-  include: static/installer.nsh
-  installerSidebar: static/setupbanner.bmp
-  license: static/LICENSE.rtf
+  include: static/build/installer.nsh
+  installerSidebar: static/build/setupbanner.bmp
+  license: static/build/LICENSE.rtf
   oneClick: false
   uninstallDisplayName: Boats Animator
-  uninstallerSidebar: static/setupbanner.bmp
+  uninstallerSidebar: static/build/setupbanner.bmp

@@ -41,7 +41,12 @@ const config = {
     publicPath: "./",
     globalObject: "this",
   },
-  plugins: [new HtmlWebpackPlugin({ title: "Boats Animator" })],
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "Boats Animator",
+      template: "static/index.html",
+    }),
+  ],
 };
 
 export default config;
