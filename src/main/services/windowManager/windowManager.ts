@@ -28,7 +28,7 @@ class WindowManager {
 
   constructor(app: App) {
     this.app = app;
-    this.browserWindow = new BrowserWindow(DEFAULT_OPTIONS);
+    this.browserWindow = WindowManager.createBrowserWindow();
     this.displayCloseConfirmation = false;
   }
 
@@ -36,6 +36,10 @@ class WindowManager {
    * Loads a window with the HTML page where React is built.
    */
   load() {
+    if (this.browserWindow.isDestroyed()) {
+      this.browserWindow = WindowManager.createBrowserWindow();
+    }
+
     this.browserWindow.loadURL(
       this.app.isPackaged
         ? `file://${path.join(__dirname, "renderer/index.html")}`
@@ -93,8 +97,8 @@ class WindowManager {
     }
   }
 
-  static hasBrowserWindows() {
-    return BrowserWindow.getAllWindows().length > 0;
+  private static createBrowserWindow() {
+    return new BrowserWindow(DEFAULT_OPTIONS);
   }
 }
 
