@@ -1,19 +1,17 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MemoryRouter, Route } from "react-router-dom";
+import Animator from "../../../pages/Animator/Animator";
+import Launcher from "../../../pages/Launcher/Launcher";
 
 const App = (): JSX.Element => {
   library.add(fas);
 
   return (
-    <>
-      <h1>
-        Hello Boats Animator World!{" "}
-        <FontAwesomeIcon icon="coffee"></FontAwesomeIcon>
-      </h1>
-
-      <p>Your current platform is {window.preload.platform}.</p>
-    </>
+    <MemoryRouter>
+      <Route exact path="/" component={Launcher} />
+      <Route exact path="/animator" component={Animator} />
+    </MemoryRouter>
   );
 };
 
