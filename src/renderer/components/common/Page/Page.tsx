@@ -1,4 +1,5 @@
 import { ReactFragment } from "react";
+import "./Page.css";
 
 interface PageProps {
   children: ReactFragment;
