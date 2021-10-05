@@ -1,5 +1,15 @@
-import { contextBridge } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
+import { APP_WINDOW_CHANGE_PAGE } from "../common/IpcChannelNames";
+import { PreloadApi } from "../common/PreloadApi";
 
-contextBridge.exposeInMainWorld("preload", {
+// This file controls access to the Electron and Node methods required by the renderer process
+// https://www.electronjs.org/docs/tutorial/context-isolation
+const api: PreloadApi = {
   platform: process.platform,
-});
+  ipc: {
+    [APP_WINDOW_CHANGE_PAGE]: (pathname: string) =>
+      ipcRenderer.invoke(APP_WINDOW_CHANGE_PAGE, pathname),
+  },
+};
+
+contextBridge.exposeInMainWorld("preload", api);
