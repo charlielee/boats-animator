@@ -1,4 +1,4 @@
-import { PreloadApi } from "./main/preload";
+import { PreloadApi } from "./common/PreloadApi";
 
 // Required to allow importing images with webpack in typescript
 declare module "*.png";
