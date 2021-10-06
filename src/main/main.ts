@@ -1,11 +1,9 @@
 import { app, ipcMain } from "electron";
 import { APP_WINDOW_CHANGE_PAGE } from "../common/IpcChannelNames";
-import AppWindow, {
-  DEFAULT_WINDOW_OPTIONS,
-} from "./services/appWindow/AppWindow";
+import AppWindow from "./services/appWindow/AppWindow";
 
 app.whenReady().then(() => {
-  const appWindow = new AppWindow(DEFAULT_WINDOW_OPTIONS, false);
+  let appWindow = AppWindow.create();
   appWindow.loadLauncher();
 
   // Someone tried to run a second instance, we should focus our window.
@@ -17,7 +15,12 @@ app.whenReady().then(() => {
     }
   });
 
-  app.on("activate", () => appWindow.loadLauncher());
+  app.on("activate", () => {
+    if (appWindow.isDestroyed()) {
+      appWindow = AppWindow.create();
+    }
+    appWindow.loadLauncher();
+  });
 
   ipcMain.handle(APP_WINDOW_CHANGE_PAGE, (e, pathname) =>
     appWindow.changePage(pathname)

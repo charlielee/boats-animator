@@ -82,6 +82,10 @@ class AppWindow extends BrowserWindow {
 
     return choice === 0;
   }
+
+  static create() {
+    return new AppWindow(DEFAULT_WINDOW_OPTIONS, false);
+  }
 }
 
 export default AppWindow;
