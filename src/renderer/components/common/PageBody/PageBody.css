@@ -1,0 +1,5 @@
+.page-body {
+  background-color: var(--ba-dark);
+  display: flex;
+  flex: 1;
+}

@@ -1,0 +1,12 @@
+.page-footer {
+  background-color: var(--ba-light);
+  color: var(--ba-dark-mid);
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.page-footer__list {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0 1rem;
+}

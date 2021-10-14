@@ -1,5 +1,8 @@
 .page {
   animation: 0.25s ease-in-out 0s 1 page__fade-in;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 @keyframes page__fade-in {
