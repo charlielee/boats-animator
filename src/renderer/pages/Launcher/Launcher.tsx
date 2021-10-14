@@ -26,8 +26,7 @@ const Launcher = (): JSX.Element => (
     </PageBody>
 
     <PageFooter>
-      <PageFooterItem value="Frame 1 of 1" />
-      <PageFooterItem value="Charlie Lee" />
+      <PageFooterItem value={`Version ${window.preload.appVersion}`} />
     </PageFooter>
   </Page>
 );
