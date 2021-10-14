@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import Button from "../../components/common/Button/Button";
+import { ButtonStyle } from "../../components/common/Button/ButtonStyle";
 import Content from "../../components/common/Content/Content";
 import ContentBlock from "../../components/common/ContentBlock/ContentBlock";
 import Page from "../../components/common/Page/Page";
@@ -14,6 +16,23 @@ const Launcher = (): JSX.Element => (
       <Content>
         <ContentBlock>
           <h2>Welcome!</h2>
+
+          <Button
+            title="New Project"
+            style={ButtonStyle.LARGE_ICON}
+            icon="file"
+          >
+            New Project
+          </Button>
+
+          <Button
+            title="Open Project"
+            style={ButtonStyle.LARGE_ICON}
+            icon="folder"
+          >
+            Open Project
+          </Button>
+
           <Link to="/animator">New Project</Link>
         </ContentBlock>
       </Content>
