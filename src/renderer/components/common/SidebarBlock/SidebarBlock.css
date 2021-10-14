@@ -1,0 +1,9 @@
+.sidebar-block {
+  border-bottom: 0.0625rem solid var(--ba-border);
+  margin: 0 1rem;
+}
+
+.sidebar-block__title-icon {
+  font-size: 1.3rem;
+  margin-right: 0.5rem;
+}

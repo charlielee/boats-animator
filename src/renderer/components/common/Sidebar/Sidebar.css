@@ -2,7 +2,6 @@
   background-color: var(--ba-dark-mid);
   border-left: 0.0625rem solid var(--ba-border);
   color: var(--ba-light);
-  padding: 0;
   overflow: auto;
   position: relative;
   width: 22rem;

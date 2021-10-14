@@ -1,20 +1,27 @@
 import { Link } from "react-router-dom";
 import Content from "../../components/common/Content/Content";
+import ContentBlock from "../../components/common/ContentBlock/ContentBlock";
 import Page from "../../components/common/Page/Page";
 import PageBody from "../../components/common/PageBody/PageBody";
 import PageFooter from "../../components/common/PageFooter/PageFooter";
 import PageFooterItem from "../../components/common/PageFooterItem/PageFooterItem";
 import Sidebar from "../../components/common/Sidebar/Sidebar";
+import SidebarBlock from "../../components/common/SidebarBlock/SidebarBlock";
 
 const Launcher = (): JSX.Element => (
   <Page>
     <PageBody>
       <Content>
-        <Link to="/animator">New Project</Link>
+        <ContentBlock>
+          <h2>Welcome!</h2>
+          <Link to="/animator">New Project</Link>
+        </ContentBlock>
       </Content>
 
       <Sidebar>
-        <h2>Sidebar</h2>
+        <SidebarBlock title="News" titleIcon="newspaper">
+          <p>Hello!</p>
+        </SidebarBlock>
       </Sidebar>
     </PageBody>
 
