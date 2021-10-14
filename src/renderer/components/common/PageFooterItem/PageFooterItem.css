@@ -5,5 +5,5 @@
 .page-footer-item:not(:last-of-type)::after {
   color: var(--ba-light-mid);
   content: "|";
-  margin: 0 0.5rem 0 0.8rem;
+  margin: 0 var(--margin-sm);
 }

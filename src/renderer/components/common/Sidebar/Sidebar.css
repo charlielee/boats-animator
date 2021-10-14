@@ -1,6 +1,6 @@
 .sidebar {
   background-color: var(--ba-dark-mid);
-  border-left: 0.0625rem solid var(--ba-border);
+  border-left: var(--border-md) solid var(--ba-border);
   color: var(--ba-light);
   overflow: auto;
   position: relative;

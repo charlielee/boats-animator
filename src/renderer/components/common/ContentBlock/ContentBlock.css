@@ -1,4 +1,4 @@
 .content-block {
-  padding: 0 1rem;
+  padding: 0 var(--margin-md);
   width: 100%;
 }

@@ -7,6 +7,6 @@
 
 .page-footer__list {
   list-style: none;
-  margin: 0.5rem 0;
-  padding: 0 1rem;
+  margin: var(--margin-sm) 0;
+  padding: 0 var(--margin-md);
 }

@@ -1,0 +1,20 @@
+:root {
+  --width-1: 0.0625rem;
+  /* 0.125rem  */
+  --width-2: calc(var(--width-1) * 2);
+  /* 0.25rem  */
+  --width-4: calc(var(--width-1) * 4);
+  /* 0.375rem */
+  --width-6: calc(var(--width-1) * 6);
+  /* 0.5rem  */
+  --width-8: calc(var(--width-1) * 8);
+  /* 1rem  */
+  --width-16: calc(var(--width-1) * 16);
+
+  --border-md: var(--width-1);
+  --border-lg: var(--width-2);
+
+  --margin-xs: var(--width-4);
+  --margin-sm: var(--width-8);
+  --margin-md: var(--width-16);
+}
