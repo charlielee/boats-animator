@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Button from "../../components/common/Button/Button";
 import { ButtonStyle } from "../../components/common/Button/ButtonStyle";
+import ButtonGroup from "../../components/common/ButtonGroup/ButtonGroup";
 import Content from "../../components/common/Content/Content";
 import ContentBlock from "../../components/common/ContentBlock/ContentBlock";
 import Page from "../../components/common/Page/Page";
@@ -14,32 +15,43 @@ const Launcher = (): JSX.Element => (
   <Page>
     <PageBody>
       <Content>
-        <ContentBlock>
-          <h2>Welcome!</h2>
+        <ContentBlock title="Projects">
+          <ButtonGroup>
+            <Button
+              title="New Project"
+              icon="file"
+              style={ButtonStyle.LARGE_ICON}
+            />
 
-          <Button
-            title="New Project"
-            style={ButtonStyle.LARGE_ICON}
-            icon="file"
-          >
-            New Project
-          </Button>
-
-          <Button
-            title="Open Project"
-            style={ButtonStyle.LARGE_ICON}
-            icon="folder"
-          >
-            Open Project
-          </Button>
+            <Button
+              title="Open Project"
+              style={ButtonStyle.LARGE_ICON}
+              icon="folder"
+            />
+          </ButtonGroup>
 
           <Link to="/animator">New Project</Link>
         </ContentBlock>
       </Content>
 
       <Sidebar>
-        <SidebarBlock title="News" titleIcon="newspaper">
+        <SidebarBlock title="Recent News" titleIcon="newspaper" flex>
           <p>Hello!</p>
+        </SidebarBlock>
+
+        <SidebarBlock title="Connect" titleIcon="share">
+          <ButtonGroup>
+            <Button
+              title="Official Website"
+              icon="globe"
+              style={ButtonStyle.LARGE_ICON}
+            />
+            <Button
+              title="Discord Server"
+              icon={["fab", "discord"]}
+              style={ButtonStyle.LARGE_ICON}
+            />
+          </ButtonGroup>
         </SidebarBlock>
       </Sidebar>
     </PageBody>

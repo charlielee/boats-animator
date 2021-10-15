@@ -1,4 +1,8 @@
 .content-block {
-  padding: 0 var(--margin-md);
+  padding: 0 var(--margin-100) var(--margin-100) var(--margin-100);
   width: 100%;
+}
+
+.content-block--flex {
+  flex: 1;
 }

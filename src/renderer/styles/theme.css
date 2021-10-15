@@ -29,7 +29,7 @@ img {
 h2 {
   color: var(--ba-white);
   font-size: 1.4rem;
-  margin: var(--margin-md) 0;
+  margin: var(--margin-100) 0;
 }
 
 #root {

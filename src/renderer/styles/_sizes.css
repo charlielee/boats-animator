@@ -11,10 +11,10 @@
   /* 1rem  */
   --width-16: calc(var(--width-1) * 16);
 
-  --border-md: var(--width-1);
-  --border-lg: var(--width-2);
+  --border-1: var(--width-1);
+  --border-2: var(--width-2);
 
-  --margin-xs: var(--width-4);
-  --margin-sm: var(--width-8);
-  --margin-md: var(--width-16);
+  --margin-025: var(--width-4);
+  --margin-050: var(--width-8);
+  --margin-100: var(--width-16);
 }

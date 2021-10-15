@@ -1,14 +1,15 @@
 .button {
   appearance: none;
   background-color: var(--ba-light);
-  border: var(--border-md) solid var(--ba-border-active);
-  border-radius: var(--margin-xs);
+  border: var(--border-1) solid var(--ba-border-active);
+  border-radius: var(--margin-025);
   color: var(--ba-dark);
+  flex: 1;
   flex-direction: column;
   font-family: inherit;
   font-size: 0.95rem;
   line-height: inherit;
-  padding: var(--margin-xs) var(--margin-sm);
+  padding: var(--margin-050);
 }
 
 .button:hover {
@@ -20,16 +21,20 @@
 }
 
 .button:focus {
-  box-shadow: 0 0 var(--border-md) var(--border-md) var(--ba-lightyellow);
-  border: var(--border-md) solid var(--ba-lightyellow);
-  border-radius: var(--margin-xs);
+  box-shadow: 0 0 var(--border-1) var(--border-1) var(--ba-lightyellow);
+  border: var(--border-1) solid var(--ba-lightyellow);
+  border-radius: var(--margin-025);
   outline: none;
 }
 
-.button__icon--large {
-  font-size: 4rem;
+.button__icon-container {
+  width: 100%;
 }
 
-/* .button__children {
-  margin-left: var(--margin-sm);
-} */
+.button__icon {
+  margin-bottom: var(--margin-025);
+}
+
+.button__label {
+  width: 100%;
+}
