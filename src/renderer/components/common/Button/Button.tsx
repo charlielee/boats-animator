@@ -8,6 +8,7 @@ interface ButtonProps {
   icon?: IconProp;
   label?: string;
   style?: ButtonStyle;
+  onClick?(): void;
 }
 
 const Button = ({
@@ -15,9 +16,10 @@ const Button = ({
   icon,
   label = title,
   style = ButtonStyle.DEFAULT,
+  onClick,
 }: ButtonProps): JSX.Element => {
   return (
-    <button className="button" title={title}>
+    <button className="button" title={title} onClick={onClick}>
       {icon !== undefined && (
         <div className="button__icon-container">
           <FontAwesomeIcon

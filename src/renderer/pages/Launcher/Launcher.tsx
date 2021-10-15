@@ -45,11 +45,13 @@ const Launcher = (): JSX.Element => (
               title="Official Website"
               icon="globe"
               style={ButtonStyle.LARGE_ICON}
+              onClick={window.preload.openExternal.website}
             />
             <Button
               title="Discord Server"
               icon={["fab", "discord"]}
               style={ButtonStyle.LARGE_ICON}
+              onClick={window.preload.openExternal.discord}
             />
           </ButtonGroup>
         </SidebarBlock>
