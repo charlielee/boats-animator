@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { PageRoute } from "../../../common/PageRoute";
 import Button from "../../components/common/Button/Button";
 import { ButtonStyle } from "../../components/common/Button/ButtonStyle";
 import ButtonGroup from "../../components/common/ButtonGroup/ButtonGroup";
@@ -11,57 +11,59 @@ import PageFooterItem from "../../components/common/PageFooterItem/PageFooterIte
 import Sidebar from "../../components/common/Sidebar/Sidebar";
 import SidebarBlock from "../../components/common/SidebarBlock/SidebarBlock";
 
-const Launcher = (): JSX.Element => (
-  <Page>
-    <PageBody>
-      <Content>
-        <ContentBlock title="Projects">
-          <ButtonGroup>
-            <Button
-              title="New Project"
-              icon="file"
-              style={ButtonStyle.LARGE_ICON}
-            />
+const Launcher = (): JSX.Element => {
+  return (
+    <Page>
+      <PageBody>
+        <Content>
+          <ContentBlock title="Projects">
+            <ButtonGroup>
+              <Button
+                title="New Project"
+                icon="file"
+                style={ButtonStyle.LARGE_ICON}
+                onClick={PageRoute.ANIMATOR}
+              />
 
-            <Button
-              title="Open Project"
-              style={ButtonStyle.LARGE_ICON}
-              icon="folder"
-            />
-          </ButtonGroup>
+              <Button
+                title="Open Project"
+                style={ButtonStyle.LARGE_ICON}
+                icon="folder"
+                onClick={() => console.log("todo")}
+              />
+            </ButtonGroup>
+          </ContentBlock>
+        </Content>
 
-          <Link to="/animator">New Project</Link>
-        </ContentBlock>
-      </Content>
+        <Sidebar>
+          <SidebarBlock title="Recent News" titleIcon="newspaper" flex>
+            <p>Hello!</p>
+          </SidebarBlock>
 
-      <Sidebar>
-        <SidebarBlock title="Recent News" titleIcon="newspaper" flex>
-          <p>Hello!</p>
-        </SidebarBlock>
+          <SidebarBlock title="Connect" titleIcon="share">
+            <ButtonGroup>
+              <Button
+                title="Official Website"
+                icon="globe"
+                style={ButtonStyle.LARGE_ICON}
+                onClick={window.preload.openExternal.website}
+              />
+              <Button
+                title="Discord Server"
+                icon={["fab", "discord"]}
+                style={ButtonStyle.LARGE_ICON}
+                onClick={window.preload.openExternal.discord}
+              />
+            </ButtonGroup>
+          </SidebarBlock>
+        </Sidebar>
+      </PageBody>
 
-        <SidebarBlock title="Connect" titleIcon="share">
-          <ButtonGroup>
-            <Button
-              title="Official Website"
-              icon="globe"
-              style={ButtonStyle.LARGE_ICON}
-              onClick={window.preload.openExternal.website}
-            />
-            <Button
-              title="Discord Server"
-              icon={["fab", "discord"]}
-              style={ButtonStyle.LARGE_ICON}
-              onClick={window.preload.openExternal.discord}
-            />
-          </ButtonGroup>
-        </SidebarBlock>
-      </Sidebar>
-    </PageBody>
-
-    <PageFooter>
-      <PageFooterItem value={`Version ${window.preload.appVersion}`} />
-    </PageFooter>
-  </Page>
-);
+      <PageFooter>
+        <PageFooterItem value={`Version ${window.preload.appVersion}`} />
+      </PageFooter>
+    </Page>
+  );
+};
 
 export default Launcher;

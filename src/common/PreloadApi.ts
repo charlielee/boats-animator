@@ -1,10 +1,10 @@
-import { APP_WINDOW_CHANGE_PAGE } from "./IpcChannelNames";
+import { IpcChannel } from "./IpcChannel";
 
 export interface PreloadApi {
   platform: string;
   appVersion: string;
   ipc: {
-    [APP_WINDOW_CHANGE_PAGE]: (pathname: string) => Promise<void>;
+    [IpcChannel.APP_WINDOW_CHANGE_PAGE]: (pathname: string) => Promise<void>;
   };
   openExternal: {
     discord: () => Promise<void>;

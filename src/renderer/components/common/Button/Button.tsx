@@ -1,5 +1,7 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useHistory } from "react-router";
+import { PageRoute } from "../../../../common/PageRoute";
 import "./Button.css";
 import { ButtonStyle } from "./ButtonStyle";
 
@@ -8,7 +10,7 @@ interface ButtonProps {
   icon?: IconProp;
   label?: string;
   style?: ButtonStyle;
-  onClick?(): void;
+  onClick: Function | PageRoute;
 }
 
 const Button = ({
@@ -18,8 +20,14 @@ const Button = ({
   style = ButtonStyle.DEFAULT,
   onClick,
 }: ButtonProps): JSX.Element => {
+  const history = useHistory();
+
+  const handleClick = () => {
+    typeof onClick === "string" ? history.push(onClick) : onClick();
+  };
+
   return (
-    <button className="button" title={title} onClick={onClick}>
+    <button className="button" title={title} onClick={handleClick}>
       {icon !== undefined && (
         <div className="button__icon-container">
           <FontAwesomeIcon
