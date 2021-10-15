@@ -1,10 +1,24 @@
 .sidebar-block {
   border-bottom: var(--border-1) solid var(--ba-border);
+  overflow: auto;
   padding: 0 var(--margin-100) var(--margin-100) var(--margin-100);
+  position: relative;
+}
+
+.sidebar-block:last-of-type {
+  border-bottom: none;
 }
 
 .sidebar-block--flex {
   flex: 1;
+}
+
+.sidebar-block__title {
+  background-color: var(--ba-dark-mid);
+  margin: 0;
+  position: sticky;
+  padding: var(--margin-100) 0;
+  top: 0;
 }
 
 .sidebar-block__title-icon {

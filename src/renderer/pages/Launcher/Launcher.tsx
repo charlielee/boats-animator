@@ -10,6 +10,7 @@ import PageFooter from "../../components/common/PageFooter/PageFooter";
 import PageFooterItem from "../../components/common/PageFooterItem/PageFooterItem";
 import Sidebar from "../../components/common/Sidebar/Sidebar";
 import SidebarBlock from "../../components/common/SidebarBlock/SidebarBlock";
+import NewsFeed from "../../components/launcher/NewsFeed/NewsFeed";
 
 const Launcher = (): JSX.Element => {
   return (
@@ -37,7 +38,7 @@ const Launcher = (): JSX.Element => {
 
         <Sidebar>
           <SidebarBlock title="Recent News" titleIcon="newspaper" flex>
-            <p>Hello!</p>
+            <NewsFeed />
           </SidebarBlock>
 
           <SidebarBlock title="Connect" titleIcon="share">

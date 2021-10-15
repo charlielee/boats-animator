@@ -1,3 +1,4 @@
+import { NewsResponsePost } from "../renderer/services/news/NewsResponse";
 import { IpcChannel } from "./IpcChannel";
 
 export interface PreloadApi {
@@ -8,6 +9,7 @@ export interface PreloadApi {
   };
   openExternal: {
     discord: () => Promise<void>;
+    newsPost: (post: NewsResponsePost) => Promise<void>;
     website: () => Promise<void>;
   };
 }
