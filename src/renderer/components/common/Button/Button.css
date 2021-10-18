@@ -31,9 +31,10 @@
   width: 100%;
 }
 
-.button__icon {
+/* // TODO */
+/* .button__icon {
   margin-bottom: var(--margin-025);
-}
+} */
 
 .button__label {
   width: 100%;

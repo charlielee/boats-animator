@@ -1,13 +1,13 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory } from "react-router";
 import { PageRoute } from "../../../../common/PageRoute";
+import Icon from "../Icon/Icon";
+import IconName from "../Icon/IconName";
 import "./Button.css";
 import { ButtonStyle } from "./ButtonStyle";
 
 interface ButtonProps {
   title: string;
-  icon?: IconProp;
+  icon?: IconName;
   label?: string;
   style?: ButtonStyle;
   onClick: Function | PageRoute;
@@ -30,10 +30,9 @@ const Button = ({
     <button className="button" title={title} onClick={handleClick}>
       {icon !== undefined && (
         <div className="button__icon-container">
-          <FontAwesomeIcon
-            className="button__icon"
-            icon={icon}
-            size={style == ButtonStyle.LARGE_ICON ? "4x" : "1x"}
+          <Icon
+            name={icon}
+            size={style === ButtonStyle.LARGE_ICON ? "4em" : "1em"}
           />
         </div>
       )}

@@ -4,6 +4,7 @@ import { ButtonStyle } from "../../components/common/Button/ButtonStyle";
 import ButtonGroup from "../../components/common/ButtonGroup/ButtonGroup";
 import Content from "../../components/common/Content/Content";
 import ContentBlock from "../../components/common/ContentBlock/ContentBlock";
+import IconName from "../../components/common/Icon/IconName";
 import Page from "../../components/common/Page/Page";
 import PageBody from "../../components/common/PageBody/PageBody";
 import PageFooter from "../../components/common/PageFooter/PageFooter";
@@ -21,7 +22,7 @@ const Launcher = (): JSX.Element => {
             <ButtonGroup>
               <Button
                 title="New Project"
-                icon="file"
+                icon={IconName.FILE}
                 style={ButtonStyle.LARGE_ICON}
                 onClick={PageRoute.ANIMATOR}
               />
@@ -29,7 +30,7 @@ const Launcher = (): JSX.Element => {
               <Button
                 title="Open Project"
                 style={ButtonStyle.LARGE_ICON}
-                icon="folder"
+                icon={IconName.FOLDER}
                 onClick={() => console.log("todo")}
               />
             </ButtonGroup>
@@ -37,21 +38,21 @@ const Launcher = (): JSX.Element => {
         </Content>
 
         <Sidebar>
-          <SidebarBlock title="Recent News" titleIcon="newspaper" flex>
+          <SidebarBlock title="Recent News" titleIcon={IconName.NEWS} flex>
             <NewsFeed />
           </SidebarBlock>
 
-          <SidebarBlock title="Connect" titleIcon="share">
+          <SidebarBlock title="Connect" titleIcon={IconName.CONNECT}>
             <ButtonGroup>
               <Button
                 title="Official Website"
-                icon="globe"
+                icon={IconName.WEBSITE}
                 style={ButtonStyle.LARGE_ICON}
                 onClick={window.preload.openExternal.website}
               />
               <Button
                 title="Discord Server"
-                icon={["fab", "discord"]}
+                icon={IconName.DISCORD}
                 style={ButtonStyle.LARGE_ICON}
                 onClick={window.preload.openExternal.discord}
               />

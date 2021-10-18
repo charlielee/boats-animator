@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Content from "../../components/common/Content/Content";
 import ContentBlock from "../../components/common/ContentBlock/ContentBlock";
@@ -11,10 +10,7 @@ const Animator = (): JSX.Element => {
       <PageBody>
         <Content>
           <ContentBlock>
-            <h1>
-              Hello Boats Animator World!{" "}
-              <FontAwesomeIcon icon="coffee"></FontAwesomeIcon>
-            </h1>
+            <h1>Hello Boats Animator World!</h1>
 
             <p>Your current platform is {window.preload.platform}.</p>
 
