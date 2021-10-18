@@ -1,0 +1,41 @@
+.button {
+  appearance: none;
+  background-color: var(--ba-light);
+  border: var(--border-1) solid var(--ba-border-active);
+  border-radius: var(--margin-025);
+  color: var(--ba-dark);
+  flex: 1;
+  flex-direction: column;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: inherit;
+  padding: var(--margin-050);
+}
+
+.button:hover {
+  background-color: var(--ba-light-hover);
+}
+
+.button:active {
+  background-color: var(--ba-light-active);
+}
+
+.button:focus {
+  box-shadow: 0 0 var(--border-1) var(--border-1) var(--ba-lightyellow);
+  border: var(--border-1) solid var(--ba-lightyellow);
+  border-radius: var(--margin-025);
+  outline: none;
+}
+
+.button__icon-container {
+  width: 100%;
+}
+
+/* // TODO */
+/* .button__icon {
+  margin-bottom: var(--margin-025);
+} */
+
+.button__label {
+  width: 100%;
+}

@@ -5,9 +5,10 @@ import {
   dialog,
 } from "electron";
 import * as path from "path";
+import { PageRoute } from "../../../common/PageRoute";
 
 export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
-  backgroundColor: "#2b2b2b",
+  backgroundColor: "#171717",
   height: 715,
   minHeight: 400,
   minWidth: 640,
@@ -53,13 +54,13 @@ class AppWindow extends BrowserWindow {
     this.focus();
   }
 
-  changePage(pathname: string) {
+  changePage(pathname: PageRoute) {
     switch (pathname) {
-      case "/": {
+      case PageRoute.LAUNCHER: {
         this.displayCloseConfirmation = false;
         break;
       }
-      case "/animator": {
+      case PageRoute.ANIMATOR: {
         this.displayCloseConfirmation = true;
         break;
       }

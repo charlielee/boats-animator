@@ -1,8 +1,8 @@
-import { ReactFragment } from "react";
+import { ReactNode } from "react";
 import "./Page.css";
 
 interface PageProps {
-  children: ReactFragment;
+  children: ReactNode;
 }
 
 const Page = ({ children }: PageProps): JSX.Element => {

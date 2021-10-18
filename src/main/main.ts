@@ -1,5 +1,5 @@
 import { app, ipcMain } from "electron";
-import { APP_WINDOW_CHANGE_PAGE } from "../common/IpcChannelNames";
+import { IpcChannel } from "../common/IpcChannel";
 import AppWindow from "./services/appWindow/AppWindow";
 
 app.whenReady().then(() => {
@@ -22,7 +22,9 @@ app.whenReady().then(() => {
     appWindow.loadLauncher();
   });
 
-  ipcMain.handle(APP_WINDOW_CHANGE_PAGE, (e, pathname) =>
+  ipcMain.handle(IpcChannel.APP_VERSION, () => app.getVersion());
+
+  ipcMain.handle(IpcChannel.APP_WINDOW_CHANGE_PAGE, (e, pathname) =>
     appWindow.changePage(pathname)
   );
 });

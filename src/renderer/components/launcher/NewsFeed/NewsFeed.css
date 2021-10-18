@@ -1,0 +1,17 @@
+.news-feed h3 {
+  margin-bottom: 0;
+}
+
+.news-feed h3:first-of-type {
+  margin-top: 0;
+}
+
+.news-feed__error {
+  margin-top: 0;
+}
+
+.news-feed__date {
+  color: var(--ba-light-mid);
+  font-size: 0.9rem;
+  margin-top: 0;
+}

@@ -1,0 +1,9 @@
+.sidebar {
+  background-color: var(--ba-dark-mid);
+  border-left: var(--border-1) solid var(--ba-border);
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  position: relative;
+  width: 22rem;
+}

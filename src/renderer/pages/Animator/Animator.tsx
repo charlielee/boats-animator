@@ -1,18 +1,23 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import Content from "../../components/common/Content/Content";
+import ContentBlock from "../../components/common/ContentBlock/ContentBlock";
 import Page from "../../components/common/Page/Page";
+import PageBody from "../../components/common/PageBody/PageBody";
 
 const Animator = (): JSX.Element => {
   return (
     <Page>
-      <h1>
-        Hello Boats Animator World!{" "}
-        <FontAwesomeIcon icon="coffee"></FontAwesomeIcon>
-      </h1>
+      <PageBody>
+        <Content>
+          <ContentBlock>
+            <h1>Hello Boats Animator World!</h1>
 
-      <p>Your current platform is {window.preload.platform}.</p>
+            <p>Your current platform is {window.preload.platform}.</p>
 
-      <Link to="/">Go to launcher</Link>
+            <Link to="/">Go to launcher</Link>
+          </ContentBlock>
+        </Content>
+      </PageBody>
     </Page>
   );
 };

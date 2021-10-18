@@ -1,0 +1,9 @@
+.page-footer-item {
+  display: inline-block;
+}
+
+.page-footer-item:not(:last-of-type)::after {
+  color: var(--ba-light-mid);
+  content: "|";
+  margin: 0 var(--margin-050);
+}
