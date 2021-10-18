@@ -1,3 +1,4 @@
+import { IconBaseProps } from "react-icons";
 import {
   IoDocumentOutline,
   IoFolderOutline,
@@ -10,28 +11,32 @@ import IconName from "./IconName";
 
 interface IconProps {
   name: IconName;
+  className?: string;
   size?: string;
 }
 
-const Icon = ({ name, size = "1em" }: IconProps) => {
-  const commonProps = {
-    size,
-  };
-
+const getIconByName = (name: IconName, props: IconBaseProps) => {
   switch (name) {
     case IconName.CONNECT:
-      return <IoShareOutline {...commonProps} />;
+      return <IoShareOutline {...props} />;
     case IconName.DISCORD:
-      return <IoLogoDiscord {...commonProps} />;
+      return <IoLogoDiscord {...props} />;
     case IconName.FILE:
-      return <IoDocumentOutline {...commonProps} />;
+      return <IoDocumentOutline {...props} />;
     case IconName.FOLDER:
-      return <IoFolderOutline {...commonProps} />;
+      return <IoFolderOutline {...props} />;
     case IconName.NEWS:
-      return <IoNewspaperOutline {...commonProps} />;
+      return <IoNewspaperOutline {...props} />;
     case IconName.WEBSITE:
-      return <IoGlobeOutline {...commonProps} />;
+      return <IoGlobeOutline {...props} />;
   }
+};
+
+const Icon = ({ name, className, size = "1em" }: IconProps) => {
+  return getIconByName(name, {
+    className,
+    size,
+  });
 };
 
 export default Icon;

@@ -37,10 +37,16 @@ img {
   -webkit-user-drag: none;
 }
 
+h2,
+h3 {
+  align-items: center;
+  display: flex;
+  margin: var(--margin-100) 0;
+}
+
 h2 {
   color: var(--ba-white);
   font-size: 1.4rem;
-  margin: var(--margin-100) 0;
 }
 
 h3 {

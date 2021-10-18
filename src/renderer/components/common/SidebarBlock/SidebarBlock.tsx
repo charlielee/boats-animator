@@ -22,7 +22,7 @@ const SidebarBlock = ({
       className={classNames("sidebar-block", { "sidebar-block--flex": flex })}
     >
       <h2 className="sidebar-block__title">
-        <Icon name={titleIcon} />
+        <Icon name={titleIcon} className="sidebar-block__title-icon" />
         {title}
       </h2>
       {children}

@@ -21,8 +21,6 @@
   top: 0;
 }
 
-/* TODO */
-/* .sidebar-block__title-icon {
-  font-size: 1.3rem;
+.sidebar-block__title-icon {
   margin-right: var(--margin-050);
-} */
+}
