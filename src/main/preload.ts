@@ -7,7 +7,7 @@ import { NewsResponsePost } from "../renderer/services/news/NewsResponse";
 // https://www.electronjs.org/docs/tutorial/context-isolation
 const api: PreloadApi = {
   platform: process.platform,
-  appVersion: process.env.npm_package_version || "?",
+  appVersion: () => ipcRenderer.invoke(IpcChannel.APP_VERSION),
   ipc: {
     [IpcChannel.APP_WINDOW_CHANGE_PAGE]: (pathname: string) =>
       ipcRenderer.invoke(IpcChannel.APP_WINDOW_CHANGE_PAGE, pathname),

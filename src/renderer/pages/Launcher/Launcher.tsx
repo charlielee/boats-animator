@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { PageRoute } from "../../../common/PageRoute";
 import Button from "../../components/common/Button/Button";
 import { ButtonStyle } from "../../components/common/Button/ButtonStyle";
@@ -14,6 +15,15 @@ import SidebarBlock from "../../components/common/SidebarBlock/SidebarBlock";
 import NewsFeed from "../../components/launcher/NewsFeed/NewsFeed";
 
 const Launcher = (): JSX.Element => {
+  const [appVersion, setAppVersion] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const version = await window.preload.appVersion();
+      setAppVersion(version);
+    })();
+  }, []);
+
   return (
     <Page>
       <PageBody>
@@ -62,7 +72,7 @@ const Launcher = (): JSX.Element => {
       </PageBody>
 
       <PageFooter>
-        <PageFooterItem value={`Version ${window.preload.appVersion}`} />
+        <PageFooterItem value={`Version ${appVersion}`} />
       </PageFooter>
     </Page>
   );

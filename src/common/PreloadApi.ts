@@ -3,7 +3,7 @@ import { IpcChannel } from "./IpcChannel";
 
 export interface PreloadApi {
   platform: string;
-  appVersion: string;
+  appVersion: () => Promise<string>;
   ipc: {
     [IpcChannel.APP_WINDOW_CHANGE_PAGE]: (pathname: string) => Promise<void>;
   };

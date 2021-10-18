@@ -22,6 +22,8 @@ app.whenReady().then(() => {
     appWindow.loadLauncher();
   });
 
+  ipcMain.handle(IpcChannel.APP_VERSION, () => app.getVersion());
+
   ipcMain.handle(IpcChannel.APP_WINDOW_CHANGE_PAGE, (e, pathname) =>
     appWindow.changePage(pathname)
   );
