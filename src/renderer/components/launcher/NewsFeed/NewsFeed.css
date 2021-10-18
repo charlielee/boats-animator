@@ -1,3 +1,7 @@
 .news-feed h3:first-of-type {
   margin-top: 0;
 }
+
+.news-feed__error {
+  margin-top: 0;
+}
