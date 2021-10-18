@@ -1,9 +1,10 @@
 const enum IconName {
+  ADD,
   CONNECT,
   DISCORD,
-  FILE,
   FOLDER,
   NEWS,
+  PROJECTS,
   WEBSITE,
 }
 

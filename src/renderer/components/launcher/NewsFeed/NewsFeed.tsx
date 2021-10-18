@@ -42,7 +42,13 @@ const NewsFeed = (): JSX.Element => {
                 {post.title}
               </a>
             </h3>
-            <p>{post.date}</p>
+            <p className="news-feed__date">
+              {post.date.toLocaleString([], {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </p>
 
             <div dangerouslySetInnerHTML={{ __html: post.excerpt }}></div>
           </div>

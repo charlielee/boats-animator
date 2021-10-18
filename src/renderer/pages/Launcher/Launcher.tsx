@@ -18,11 +18,11 @@ const Launcher = (): JSX.Element => {
     <Page>
       <PageBody>
         <Content>
-          <ContentBlock title="Projects">
+          <ContentBlock title="Projects" titleIcon={IconName.PROJECTS}>
             <ButtonGroup>
               <Button
                 title="New Project"
-                icon={IconName.FILE}
+                icon={IconName.ADD}
                 style={ButtonStyle.LARGE_ICON}
                 onClick={PageRoute.ANIMATOR}
               />

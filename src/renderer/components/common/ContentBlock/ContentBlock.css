@@ -6,3 +6,7 @@
 .content-block--flex {
   flex: 1;
 }
+
+.content-block__title-icon {
+  margin-right: var(--margin-050);
+}
