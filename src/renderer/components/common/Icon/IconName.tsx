@@ -9,6 +9,8 @@ const enum IconName {
   GUIDES,
   NEWS,
   PROJECTS,
+  TOGGLE_ON,
+  TOGGLE_OFF,
   WEBSITE,
 }
 

@@ -1,0 +1,3 @@
+.icon--mirrored {
+  transform: scale(-1, 1);
+}

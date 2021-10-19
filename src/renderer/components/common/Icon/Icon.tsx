@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { IconBaseProps } from "react-icons";
 import {
   IoAddCircleOutline,
@@ -11,7 +12,9 @@ import {
   IoNewspaperOutline,
   IoShareOutline,
   IoTimer,
+  IoToggle,
 } from "react-icons/io5";
+import "./Icon.css";
 import IconName from "./IconName";
 
 interface IconProps {
@@ -43,6 +46,15 @@ const getIconByName = (name: IconName, props: IconBaseProps) => {
       return <IoNewspaperOutline {...props} />;
     case IconName.PROJECTS:
       return <IoFileTrayStackedOutline {...props} />;
+    case IconName.TOGGLE_OFF:
+      return (
+        <IoToggle
+          {...props}
+          className={classNames(props.className, "icon--mirrored")}
+        />
+      );
+    case IconName.TOGGLE_ON:
+      return <IoToggle {...props} style={{ color: "var(--ba-lightred)" }} />;
     case IconName.WEBSITE:
       return <IoGlobeOutline {...props} />;
     // default:
@@ -52,7 +64,7 @@ const getIconByName = (name: IconName, props: IconBaseProps) => {
 
 const Icon = ({ name, className, size = "1em" }: IconProps) => {
   return getIconByName(name, {
-    className,
+    className: classNames("icon", className),
     size,
   });
 };
