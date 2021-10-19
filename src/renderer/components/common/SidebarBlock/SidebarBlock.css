@@ -3,6 +3,7 @@
   overflow: auto;
   padding: 0 var(--margin-100) var(--margin-100) var(--margin-100);
   position: relative;
+  width: 100%;
 }
 
 .sidebar-block:last-of-type {
