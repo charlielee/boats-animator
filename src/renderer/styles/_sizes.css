@@ -6,6 +6,8 @@
   --width-4: calc(var(--width-1) * 4);
   /* 0.375rem */
   --width-6: calc(var(--width-1) * 6);
+  /* 0.4375rem */
+  --width-7: calc(var(--width-1) * 7);
   /* 0.5rem  */
   --width-8: calc(var(--width-1) * 8);
   /* 1rem  */
