@@ -69,6 +69,22 @@ class AppWindow extends BrowserWindow {
     }
   }
 
+  async openDirDialog(currentDir: string | undefined, title: string) {
+    const result = await dialog.showOpenDialog(this, {
+      title,
+      // Title for macOS
+      message: title,
+      defaultPath: currentDir,
+      properties: ["openDirectory", "createDirectory"],
+    });
+
+    if (!result.canceled && result.filePaths[0]) {
+      return result.filePaths[0];
+    } else {
+      return currentDir;
+    }
+  }
+
   /**
    * Displays a confirm prompt to close the application
    * @returns {Boolean} Returns true if the user wants the application to be closed

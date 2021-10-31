@@ -23,8 +23,6 @@ const Animator = (): JSX.Element => {
             <p>Your current platform is {window.preload.platform}.</p>
 
             <Link to="/">Go to launcher</Link>
-
-            <ExportDirectory />
           </ContentBlock>
         </Content>
 
@@ -53,7 +51,7 @@ const Animator = (): JSX.Element => {
 
               <Tab>
                 <SidebarBlock title="Export" titleIcon={IconName.EXPORT}>
-                  Export
+                  <ExportDirectory />
                 </SidebarBlock>
               </Tab>,
             ]}

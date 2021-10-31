@@ -1,26 +1,23 @@
 interface Settings {
-  exportFrameDir: string;
+  exportFrameDir: string | undefined;
 }
 
-export interface SettingsAction {
+interface SettingsAction {
   type: SettingsActionType;
   payload?: {
     settings?: Settings;
   };
 }
 
-// Actions
 export enum SettingsActionType {
   GET = "settings/GET",
   EDIT = "settings/EDIT",
 }
 
-// Initial state
 const initialState: Settings = {
-  exportFrameDir: "beans",
+  exportFrameDir: undefined,
 };
 
-// Reducer
 const settingsReducer = (
   state = initialState,
   action: SettingsAction
@@ -35,7 +32,6 @@ const settingsReducer = (
   }
 };
 
-// Action Creators
 export const getSettings = (): SettingsAction => {
   return { type: SettingsActionType.GET };
 };

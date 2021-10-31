@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { IpcChannel } from "../../../common/IpcApi";
 import { PageRoute } from "../../../common/PageRoute";
 import Button from "../../components/common/Button/Button";
 import { ButtonStyle } from "../../components/common/Button/ButtonStyle";
@@ -19,7 +20,7 @@ const Launcher = (): JSX.Element => {
 
   useEffect(() => {
     (async () => {
-      const version = await window.preload.appVersion();
+      const version = await window.preload.ipc[IpcChannel.APP_VERSION]();
       setAppVersion(version);
     })();
   }, []);
