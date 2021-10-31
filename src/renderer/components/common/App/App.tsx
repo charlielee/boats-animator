@@ -1,19 +1,10 @@
-import { useEffect } from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
-import { PageRoute, pathnameToPageRoute } from "../../../../common/PageRoute";
+import { Route, Switch } from "react-router-dom";
+import { PageRoute } from "../../../../common/PageRoute";
 import Animator from "../../../pages/Animator/Animator";
 import Launcher from "../../../pages/Launcher/Launcher";
 import AppUnloader from "../AppUnloader/AppUnloader";
 
 const App = (): JSX.Element => {
-  // Tell the main process when the app changes page
-  const location = useLocation();
-  useEffect(() => {
-    window.preload.ipc.APP_WINDOW_CHANGE_PAGE(
-      pathnameToPageRoute(location.pathname)
-    );
-  }, [location]);
-
   return (
     <>
       <AppUnloader />

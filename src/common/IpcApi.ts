@@ -1,10 +1,8 @@
 import { SettingsState } from "../renderer/redux/bundles/settings";
-import { PageRoute } from "./PageRoute";
 import { WindowSize } from "./WindowSize";
 
 export const enum IpcChannel {
   APP_VERSION = "APP_VERSION",
-  APP_WINDOW_CHANGE_PAGE = "APP_WINDOW_CHANGE_PAGE",
   APP_WINDOW_GET_SIZE = "APP_WINDOW_GET_SIZE",
   SETTINGS_OPEN_CONFIRM_PROMPT = "SETTINGS_OPEN_CONFIRM_PROMPT",
   SETTINGS_OPEN_DIR_DIALOG = "SETTINGS_OPEN_DIR_DIALOG",
@@ -13,7 +11,6 @@ export const enum IpcChannel {
 
 interface IpcApi {
   [IpcChannel.APP_VERSION]: () => Promise<string>;
-  [IpcChannel.APP_WINDOW_CHANGE_PAGE]: (pathname: PageRoute) => void;
   [IpcChannel.APP_WINDOW_GET_SIZE]: () => Promise<WindowSize>;
   [IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT]: (
     message: string

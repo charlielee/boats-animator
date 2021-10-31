@@ -11,9 +11,6 @@ const api: PreloadApi = {
   ipc: {
     [IpcChannel.APP_VERSION]: () => ipcRenderer.invoke(IpcChannel.APP_VERSION),
 
-    [IpcChannel.APP_WINDOW_CHANGE_PAGE]: (pathname: string) =>
-      ipcRenderer.invoke(IpcChannel.APP_WINDOW_CHANGE_PAGE, pathname),
-
     [IpcChannel.APP_WINDOW_GET_SIZE]: () =>
       ipcRenderer.invoke(IpcChannel.APP_WINDOW_GET_SIZE),
 

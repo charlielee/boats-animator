@@ -5,7 +5,6 @@ import {
   dialog,
 } from "electron";
 import * as path from "path";
-import { PageRoute } from "../../../common/PageRoute";
 
 export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
   backgroundColor: "#171717",
@@ -23,14 +22,8 @@ export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
 };
 
 class AppWindow extends BrowserWindow {
-  displayCloseConfirmation: boolean;
-
-  constructor(
-    browserWindowOptions: BrowserWindowConstructorOptions,
-    displayCloseConfirmation: boolean
-  ) {
+  constructor(browserWindowOptions: BrowserWindowConstructorOptions) {
     super(browserWindowOptions);
-    this.displayCloseConfirmation = displayCloseConfirmation;
   }
 
   loadLauncher() {
@@ -46,21 +39,6 @@ class AppWindow extends BrowserWindow {
   restoreAndFocus() {
     this.restore();
     this.focus();
-  }
-
-  changePage(pathname: PageRoute) {
-    switch (pathname) {
-      case PageRoute.LAUNCHER: {
-        this.displayCloseConfirmation = false;
-        break;
-      }
-      case PageRoute.ANIMATOR: {
-        this.displayCloseConfirmation = true;
-        break;
-      }
-      default:
-        throw `Unknown pathname ${pathname}`;
-    }
   }
 
   async openConfirmPrompt(message: string) {
@@ -91,7 +69,7 @@ class AppWindow extends BrowserWindow {
   }
 
   static create() {
-    return new AppWindow(DEFAULT_WINDOW_OPTIONS, false);
+    return new AppWindow(DEFAULT_WINDOW_OPTIONS);
   }
 }
 

@@ -1,6 +1,5 @@
 import { app, ipcMain } from "electron";
 import IpcApi, { IpcChannel } from "../../../common/IpcApi";
-import { PageRoute } from "../../../common/PageRoute";
 import { SettingsState } from "../../../renderer/redux/bundles/settings";
 import AppWindow from "../appWindow/AppWindow";
 
@@ -8,9 +7,6 @@ class IpcMainHandler implements IpcApi {
   constructor(private appWindow: AppWindow) {}
 
   [IpcChannel.APP_VERSION] = async () => app.getVersion() || "";
-
-  [IpcChannel.APP_WINDOW_CHANGE_PAGE] = (pathname: PageRoute) =>
-    this.appWindow.changePage(pathname);
 
   [IpcChannel.APP_WINDOW_GET_SIZE] = async () => ({
     isMaximized: false,
@@ -34,10 +30,6 @@ export const addIpcMainHandlers = (appWindow: AppWindow) => {
   const ipcHandler = new IpcMainHandler(appWindow);
 
   ipcMain.handle(IpcChannel.APP_VERSION, (e) => ipcHandler.APP_VERSION());
-
-  ipcMain.handle(IpcChannel.APP_WINDOW_CHANGE_PAGE, (e, pathname) =>
-    ipcHandler.APP_WINDOW_CHANGE_PAGE(pathname)
-  );
 
   ipcMain.handle(IpcChannel.APP_WINDOW_GET_SIZE, (e) =>
     ipcHandler.APP_WINDOW_GET_SIZE()
