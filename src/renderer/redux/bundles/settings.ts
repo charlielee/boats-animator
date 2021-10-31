@@ -1,11 +1,11 @@
-interface Settings {
+export interface SettingsState {
   exportFrameDir: string | undefined;
 }
 
-interface SettingsAction {
+export interface SettingsAction {
   type: SettingsActionType;
   payload?: {
-    settings?: Settings;
+    settings?: SettingsState;
   };
 }
 
@@ -14,14 +14,14 @@ export enum SettingsActionType {
   EDIT = "settings/EDIT",
 }
 
-const initialState: Settings = {
+const initialState: SettingsState = {
   exportFrameDir: undefined,
 };
 
 const settingsReducer = (
   state = initialState,
   action: SettingsAction
-): Settings => {
+): SettingsState => {
   switch (action.type) {
     case SettingsActionType.GET:
       return state;
@@ -36,7 +36,7 @@ export const getSettings = (): SettingsAction => {
   return { type: SettingsActionType.GET };
 };
 
-export const editSettings = (settings: Settings): SettingsAction => {
+export const editSettings = (settings: SettingsState): SettingsAction => {
   return { type: SettingsActionType.EDIT, payload: { settings } };
 };
 

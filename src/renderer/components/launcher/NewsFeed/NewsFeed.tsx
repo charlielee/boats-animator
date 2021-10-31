@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchRecent } from "../../../services/news/News";
+import { fetchRecent } from "../../../services/news/NewsApi";
 import NewsDownloadError from "../../../services/news/NewsDownloadError";
 import { NewsResponsePost } from "../../../services/news/NewsResponse";
 import "./NewsFeed.css";

@@ -1,28 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { IpcChannel } from "../../../../common/IpcApi";
-import { editSettings } from "../../../redux/bundles/settings";
 import { RootState } from "../../../redux/store";
+import { changeFrameDir } from "../../../services/settings/SettingsApi";
 import Button from "../../common/Button/Button";
 import "./ExportDirectory.css";
 
 const ExportDirectory = () => {
   const settings = useSelector((state: RootState) => state.settings);
   const dispatch = useDispatch();
-
-  const updateFrameDir = () => {
-    (async () => {
-      const newDirectory = await window.preload.ipc[
-        IpcChannel.SETTINGS_OPEN_DIR_DIALOG
-      ](settings.exportFrameDir, "Select a directory to save captured frames");
-
-      dispatch(
-        editSettings({
-          ...settings,
-          exportFrameDir: newDirectory,
-        })
-      );
-    })();
-  };
 
   return (
     <div>
@@ -34,7 +18,10 @@ const ExportDirectory = () => {
         </span>
       </p>
 
-      <Button title="Browse..." onClick={updateFrameDir} />
+      <Button
+        title="Browse..."
+        onClick={() => changeFrameDir(settings, dispatch)}
+      />
     </div>
   );
 };
