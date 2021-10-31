@@ -1,5 +1,18 @@
 export interface SettingsState {
-  exportFrameDir: string | undefined;
+  projectDefaults: {
+    exportFrameDir: string | undefined;
+  };
+  windows: {
+    animator: {
+      isMaximized: boolean;
+      winBounds?: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+      };
+    };
+  };
 }
 
 export interface SettingsAction {
@@ -15,7 +28,15 @@ export enum SettingsActionType {
 }
 
 const initialState: SettingsState = {
-  exportFrameDir: undefined,
+  projectDefaults: {
+    exportFrameDir: undefined,
+  },
+  windows: {
+    animator: {
+      isMaximized: false,
+      winBounds: undefined,
+    },
+  },
 };
 
 const settingsReducer = (
