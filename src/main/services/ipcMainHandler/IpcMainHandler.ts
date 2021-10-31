@@ -12,6 +12,12 @@ class IpcMainHandler implements IpcApi {
   [IpcChannel.APP_WINDOW_CHANGE_PAGE] = (pathname: PageRoute) =>
     this.appWindow.changePage(pathname);
 
+  [IpcChannel.APP_WINDOW_GET_SIZE] = async () => ({
+    isMaximized: false,
+    // TODO
+    winBounds: undefined,
+  });
+
   [IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT] = (message: string) =>
     this.appWindow.openConfirmPrompt(message);
 
@@ -31,6 +37,10 @@ export const addIpcMainHandlers = (appWindow: AppWindow) => {
 
   ipcMain.handle(IpcChannel.APP_WINDOW_CHANGE_PAGE, (e, pathname) =>
     ipcHandler.APP_WINDOW_CHANGE_PAGE(pathname)
+  );
+
+  ipcMain.handle(IpcChannel.APP_WINDOW_GET_SIZE, (e) =>
+    ipcHandler.APP_WINDOW_GET_SIZE()
   );
 
   ipcMain.handle(IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT, (e, message) =>

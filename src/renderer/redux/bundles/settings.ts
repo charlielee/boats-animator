@@ -1,17 +1,11 @@
+import { WindowSize } from "../../../common/WindowSize";
+
 export interface SettingsState {
   projectDefaults: {
     exportFrameDir: string | undefined;
   };
   windows: {
-    animator: {
-      isMaximized: boolean;
-      winBounds?: {
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-      };
-    };
+    animator: WindowSize;
   };
 }
 
