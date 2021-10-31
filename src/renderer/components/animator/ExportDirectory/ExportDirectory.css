@@ -1,0 +1,8 @@
+.export-directory__text {
+  margin-top: 0;
+}
+
+.export-directory__name {
+  font-family: monospace;
+  word-break: break-word;
+}

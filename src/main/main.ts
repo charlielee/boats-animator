@@ -1,10 +1,12 @@
-import { app, ipcMain } from "electron";
-import { IpcChannel } from "../common/IpcChannel";
+import { app } from "electron";
 import AppWindow from "./services/appWindow/AppWindow";
+import { addIpcMainHandlers } from "./services/ipcMainHandler/IpcMainHandler";
 
 app.whenReady().then(() => {
   let appWindow = AppWindow.create();
   appWindow.loadLauncher();
+
+  addIpcMainHandlers(appWindow);
 
   // Someone tried to run a second instance, we should focus our window.
   app.on("second-instance", () => appWindow.restoreAndFocus());
@@ -21,12 +23,6 @@ app.whenReady().then(() => {
     }
     appWindow.loadLauncher();
   });
-
-  ipcMain.handle(IpcChannel.APP_VERSION, () => app.getVersion());
-
-  ipcMain.handle(IpcChannel.APP_WINDOW_CHANGE_PAGE, (e, pathname) =>
-    appWindow.changePage(pathname)
-  );
 });
 
 // Ensure only one instance of the application is open

@@ -1,12 +1,9 @@
 import { NewsResponsePost } from "../renderer/services/news/NewsResponse";
-import { IpcChannel } from "./IpcChannel";
+import { IpcApi } from "./IpcApi";
 
 export interface PreloadApi {
   platform: string;
-  appVersion: () => Promise<string>;
-  ipc: {
-    [IpcChannel.APP_WINDOW_CHANGE_PAGE]: (pathname: string) => Promise<void>;
-  };
+  ipc: IpcApi;
   openExternal: {
     discord: () => Promise<void>;
     newsPost: (post: NewsResponsePost) => Promise<void>;

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ExportDirectory from "../../components/animator/ExportDirectory/ExportDirectory";
 import Content from "../../components/common/Content/Content";
 import ContentBlock from "../../components/common/ContentBlock/ContentBlock";
 import IconName from "../../components/common/Icon/IconName";
@@ -50,7 +51,7 @@ const Animator = (): JSX.Element => {
 
               <Tab>
                 <SidebarBlock title="Export" titleIcon={IconName.EXPORT}>
-                  Export
+                  <ExportDirectory />
                 </SidebarBlock>
               </Tab>,
             ]}

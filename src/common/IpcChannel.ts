@@ -1,4 +1,0 @@
-export const enum IpcChannel {
-  APP_VERSION = "APP_VERSION",
-  APP_WINDOW_CHANGE_PAGE = "APP_WINDOW_CHANGE_PAGE",
-}
