@@ -4,7 +4,7 @@ import { changeFrameDir } from "../../../services/settings/SettingsApi";
 import Button from "../../common/Button/Button";
 import "./ExportDirectory.css";
 
-const ExportDirectory = () => {
+const ExportDirectory = (): JSX.Element => {
   const settings = useSelector((state: RootState) => state.settings);
   const dispatch = useDispatch();
 

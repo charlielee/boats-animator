@@ -1,6 +1,7 @@
 import { app, ipcMain } from "electron";
-import { IpcApi, IpcChannel } from "../../../common/IpcApi";
+import IpcApi, { IpcChannel } from "../../../common/IpcApi";
 import { PageRoute } from "../../../common/PageRoute";
+import { SettingsState } from "../../../renderer/redux/bundles/settings";
 import AppWindow from "../appWindow/AppWindow";
 
 class IpcMainHandler implements IpcApi {
@@ -11,10 +12,16 @@ class IpcMainHandler implements IpcApi {
   [IpcChannel.APP_WINDOW_CHANGE_PAGE] = (pathname: PageRoute) =>
     this.appWindow.changePage(pathname);
 
+  [IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT] = (message: string) =>
+    this.appWindow.openConfirmPrompt(message);
+
   [IpcChannel.SETTINGS_OPEN_DIR_DIALOG] = (
     currentDir: string | undefined,
     title: string
   ) => this.appWindow.openDirDialog(currentDir, title);
+
+  [IpcChannel.SETTINGS_SAVE] = (settings: SettingsState) =>
+    console.log("TODO:", settings);
 }
 
 export const addIpcMainHandlers = (appWindow: AppWindow) => {
@@ -26,7 +33,15 @@ export const addIpcMainHandlers = (appWindow: AppWindow) => {
     ipcHandler.APP_WINDOW_CHANGE_PAGE(pathname)
   );
 
+  ipcMain.handle(IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT, (e, message) =>
+    ipcHandler.SETTINGS_OPEN_CONFIRM_PROMPT(message)
+  );
+
   ipcMain.handle(IpcChannel.SETTINGS_OPEN_DIR_DIALOG, (e, currentDir, title) =>
     ipcHandler.SETTINGS_OPEN_DIR_DIALOG(currentDir, title)
+  );
+
+  ipcMain.handle(IpcChannel.SETTINGS_SAVE, (e, settings) =>
+    ipcHandler.SETTINGS_SAVE(settings)
   );
 };

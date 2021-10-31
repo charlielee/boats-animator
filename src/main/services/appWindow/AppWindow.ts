@@ -41,12 +41,6 @@ class AppWindow extends BrowserWindow {
     );
 
     this.once("ready-to-show", this.show);
-
-    this.on("close", (e) => {
-      if (this.displayCloseConfirmation && !this.showConfirmClosePrompt()) {
-        e.preventDefault();
-      }
-    });
   }
 
   restoreAndFocus() {
@@ -69,6 +63,17 @@ class AppWindow extends BrowserWindow {
     }
   }
 
+  async openConfirmPrompt(message: string) {
+    const choice = await dialog.showMessageBox(this, {
+      type: "question",
+      buttons: ["OK", "Cancel"],
+      title: "Boats Animator",
+      message: message,
+    });
+
+    return choice.response === 0;
+  }
+
   async openDirDialog(currentDir: string | undefined, title: string) {
     const result = await dialog.showOpenDialog(this, {
       title,
@@ -83,21 +88,6 @@ class AppWindow extends BrowserWindow {
     } else {
       return currentDir;
     }
-  }
-
-  /**
-   * Displays a confirm prompt to close the application
-   * @returns {Boolean} Returns true if the user wants the application to be closed
-   */
-  private showConfirmClosePrompt() {
-    let choice = dialog.showMessageBoxSync(this, {
-      type: "question",
-      buttons: ["OK", "Cancel"],
-      title: "Boats Animator",
-      message: "Are you sure you want to exit Boats Animator?",
-    });
-
-    return choice === 0;
   }
 
   static create() {

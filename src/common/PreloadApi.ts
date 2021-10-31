@@ -1,5 +1,5 @@
 import { NewsResponsePost } from "../renderer/services/news/NewsResponse";
-import { IpcApi } from "./IpcApi";
+import IpcApi from "./IpcApi";
 
 export interface PreloadApi {
   platform: string;
