@@ -20,3 +20,10 @@ export const changeWorkingDirectory = async (
     })
   );
 };
+
+export const loadPreferences = async (
+  dispatch: Dispatch<UserPreferencesAction>
+) => {
+  const savedPreferences = await window.preload.ipc.GET_USER_PREFERENCES();
+  dispatch(editUserPreferences(savedPreferences));
+};

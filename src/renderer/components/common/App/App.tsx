@@ -2,11 +2,13 @@ import { Route, Switch } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import Animator from "../../../pages/Animator/Animator";
 import Launcher from "../../../pages/Launcher/Launcher";
+import AppLoad from "../AppLoad/AppLoad";
 import AppUnloader from "../AppUnloader/AppUnloader";
 
 const App = (): JSX.Element => {
   return (
     <>
+      <AppLoad />
       <AppUnloader />
 
       <Switch>
