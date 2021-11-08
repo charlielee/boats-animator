@@ -11,9 +11,6 @@ const api: PreloadApi = {
   ipc: {
     [IpcChannel.APP_VERSION]: () => ipcRenderer.invoke(IpcChannel.APP_VERSION),
 
-    [IpcChannel.APP_WINDOW_GET_SIZE]: () =>
-      ipcRenderer.invoke(IpcChannel.APP_WINDOW_GET_SIZE),
-
     [IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT]: (message: string) =>
       ipcRenderer.invoke(IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT, message),
 
