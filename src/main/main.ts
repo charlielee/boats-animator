@@ -1,11 +1,13 @@
 import { app } from "electron";
-import AppWindow from "./services/appWindow/AppWindow";
+import AppWindow, {
+  DEFAULT_WINDOW_OPTIONS,
+} from "./services/appWindow/AppWindow";
 import SettingsFileStore from "./services/fileStore/SettingsFileStore";
 import { addIpcMainHandlers } from "./services/ipcMainHandler/IpcMainHandler";
 
 app.whenReady().then(() => {
   const settingsFileStore = new SettingsFileStore();
-  let appWindow = AppWindow.create();
+  let appWindow = new AppWindow(DEFAULT_WINDOW_OPTIONS, settingsFileStore);
   appWindow.loadLauncher();
 
   addIpcMainHandlers(appWindow, settingsFileStore);
@@ -21,7 +23,7 @@ app.whenReady().then(() => {
 
   app.on("activate", () => {
     if (appWindow.isDestroyed()) {
-      appWindow = AppWindow.create();
+      appWindow = new AppWindow(DEFAULT_WINDOW_OPTIONS, settingsFileStore);
     }
     appWindow.loadLauncher();
   });

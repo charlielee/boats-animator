@@ -15,6 +15,10 @@ class FileStore<OptionsType> {
   // located in your Boats Animator appData directory
   // private migrationsWithLogging:
 
+  public get(): OptionsType {
+    return this.store.store;
+  }
+
   public save(options: OptionsType) {
     this.store.set(options);
   }

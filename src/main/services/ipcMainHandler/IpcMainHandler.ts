@@ -12,6 +12,9 @@ class IpcMainHandler implements IpcApi {
 
   [IpcChannel.APP_VERSION] = async () => app.getVersion() || "";
 
+  [IpcChannel.GET_USER_PREFERENCES] = async () =>
+    this.settingsFileStore.get().userPreferences;
+
   [IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT] = (message: string) =>
     this.appWindow.openConfirmPrompt(message);
 
@@ -33,6 +36,10 @@ export const addIpcMainHandlers = (
   const ipcHandler = new IpcMainHandler(appWindow, settingsFileStore);
 
   ipcMain.handle(IpcChannel.APP_VERSION, (e) => ipcHandler.APP_VERSION());
+
+  ipcMain.handle(IpcChannel.GET_USER_PREFERENCES, (e) =>
+    ipcHandler.GET_USER_PREFERENCES()
+  );
 
   ipcMain.handle(IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT, (e, message) =>
     ipcHandler.SETTINGS_OPEN_CONFIRM_PROMPT(message)
