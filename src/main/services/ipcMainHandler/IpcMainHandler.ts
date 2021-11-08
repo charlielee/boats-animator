@@ -1,6 +1,6 @@
 import { app, ipcMain } from "electron";
 import IpcApi, { IpcChannel } from "../../../common/IpcApi";
-import { SettingsState } from "../../../renderer/redux/bundles/settings";
+import { UserPreferencesState } from "../../../renderer/redux/bundles/userPreferences";
 import AppWindow from "../appWindow/AppWindow";
 
 class IpcMainHandler implements IpcApi {
@@ -22,8 +22,8 @@ class IpcMainHandler implements IpcApi {
     title: string
   ) => this.appWindow.openDirDialog(currentDir, title);
 
-  [IpcChannel.SETTINGS_SAVE] = (settings: SettingsState) =>
-    console.log("TODO:", settings);
+  [IpcChannel.SETTINGS_SAVE] = (userPreferences: UserPreferencesState) =>
+    console.log("TODO:", userPreferences);
 }
 
 export const addIpcMainHandlers = (appWindow: AppWindow) => {
@@ -43,7 +43,7 @@ export const addIpcMainHandlers = (appWindow: AppWindow) => {
     ipcHandler.SETTINGS_OPEN_DIR_DIALOG(currentDir, title)
   );
 
-  ipcMain.handle(IpcChannel.SETTINGS_SAVE, (e, settings) =>
-    ipcHandler.SETTINGS_SAVE(settings)
+  ipcMain.handle(IpcChannel.SETTINGS_SAVE, (e, userPreferences) =>
+    ipcHandler.SETTINGS_SAVE(userPreferences)
   );
 };

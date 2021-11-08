@@ -3,7 +3,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 
 const AppUnloader = (): JSX.Element => {
-  const settings = useSelector((state: RootState) => state.settings);
+  const userPreferences = useSelector(
+    (state: RootState) => state.userPreferences
+  );
 
   const cleanupAndClose = (e: BeforeUnloadEvent) => {
     // This is a quirk of Chrome to prevent the window from closing
@@ -16,7 +18,7 @@ const AppUnloader = (): JSX.Element => {
         );
 
       if (confirmClose) {
-        window.preload.ipc.SETTINGS_SAVE(settings);
+        window.preload.ipc.SETTINGS_SAVE(userPreferences);
         window.removeEventListener("beforeunload", cleanupAndClose);
         window.close();
       }

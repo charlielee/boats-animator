@@ -1,4 +1,4 @@
-import { SettingsState } from "../renderer/redux/bundles/settings";
+import { UserPreferencesState } from "../renderer/redux/bundles/userPreferences";
 import { WindowSize } from "./WindowSize";
 
 export const enum IpcChannel {
@@ -19,7 +19,7 @@ interface IpcApi {
     currentDir: string | undefined,
     title: string
   ) => Promise<string | undefined>;
-  [IpcChannel.SETTINGS_SAVE]: (settings: SettingsState) => void;
+  [IpcChannel.SETTINGS_SAVE]: (userPreferences: UserPreferencesState) => void;
 }
 
 export default IpcApi;

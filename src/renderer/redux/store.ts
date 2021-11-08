@@ -1,10 +1,10 @@
 import { combineReducers, createStore } from "redux";
-import settingsReducer from "./bundles/settings";
+import userPreferencesReducer from "./bundles/userPreferences";
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 const rootReducer = combineReducers({
-  settings: settingsReducer,
+  userPreferences: userPreferencesReducer,
 });
 
 const store = createStore(rootReducer);
