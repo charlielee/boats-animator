@@ -5,22 +5,18 @@ import {
   UserPreferencesState,
 } from "../../redux/bundles/userPreferences";
 
-export const changeExportFrameDir = async (
+export const changeWorkingDirectory = async (
   userPreferences: UserPreferencesState,
   dispatch: Dispatch<UserPreferencesAction>
 ) => {
-  const newDirectory = await window.preload.ipc.SETTINGS_OPEN_DIR_DIALOG(
-    userPreferences.projectDefaults.exportFrameDir,
+  const workingDirectory = await window.preload.ipc.SETTINGS_OPEN_DIR_DIALOG(
+    userPreferences.workingDirectory,
     "Select a directory to save captured frames"
   );
 
   dispatch(
     editUserPreferences({
-      ...userPreferences,
-      projectDefaults: {
-        ...userPreferences.projectDefaults,
-        exportFrameDir: newDirectory,
-      },
+      workingDirectory,
     })
   );
 };

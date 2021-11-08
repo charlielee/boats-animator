@@ -1,12 +1,5 @@
-import { WindowSize } from "../../../common/WindowSize";
-
 export interface UserPreferencesState {
-  projectDefaults: {
-    exportFrameDir: string | undefined;
-  };
-  windows: {
-    animator: WindowSize;
-  };
+  workingDirectory: string | undefined;
 }
 
 export interface UserPreferencesAction {
@@ -22,15 +15,7 @@ export enum UserPreferencesActionType {
 }
 
 const initialState: UserPreferencesState = {
-  projectDefaults: {
-    exportFrameDir: undefined,
-  },
-  windows: {
-    animator: {
-      isMaximized: false,
-      winBounds: undefined,
-    },
-  },
+  workingDirectory: undefined,
 };
 
 const userPreferencesReducer = (
