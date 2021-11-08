@@ -1,14 +1,14 @@
 import Conf from "conf/dist/source";
-import Store from "electron-store";
 import { WindowSize } from "../../../common/WindowSize";
 import { UserPreferencesState } from "../../../renderer/redux/bundles/userPreferences";
+import FileStore from "./FileStore";
 
 interface SettingsFileOptions {
   appWindowSize: WindowSize;
   userPreferences: UserPreferencesState;
 }
 
-const initialState: SettingsFileOptions = {
+const defaults: SettingsFileOptions = {
   appWindowSize: {
     isMaximized: false,
     winBounds: undefined,
@@ -18,8 +18,6 @@ const initialState: SettingsFileOptions = {
   },
 };
 
-// To test migrations delete the "__internal__" block from the settings.json file
-// located in your Boats Animator appData directory
 const migrations = {
   "1.0.0-alpha": (store: Conf<SettingsFileOptions>) => {
     console.log("Migrating settings file to 1.0.0-alpha");
@@ -27,22 +25,14 @@ const migrations = {
   },
 };
 
-class SettingsFile {
-  private store: Store<SettingsFileOptions>;
-
+class SettingsFileStore extends FileStore<SettingsFileOptions> {
   constructor() {
-    this.store = new Store<SettingsFileOptions>({
+    super({
       name: "settings",
-      defaults: initialState,
-      migrations: migrations,
+      defaults,
+      migrations,
     });
-  }
-
-  save(windowSize: WindowSize, userPreferences: UserPreferencesState) {
-    console.log("TODO:");
-    console.log(windowSize);
-    console.log(userPreferences);
   }
 }
 
-export default SettingsFile;
+export default SettingsFileStore;

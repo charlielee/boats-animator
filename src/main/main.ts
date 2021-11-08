@@ -1,14 +1,14 @@
 import { app } from "electron";
 import AppWindow from "./services/appWindow/AppWindow";
+import SettingsFileStore from "./services/fileStore/SettingsFileStore";
 import { addIpcMainHandlers } from "./services/ipcMainHandler/IpcMainHandler";
-import SettingsFile from "./services/settingsFile/settingsFile";
 
 app.whenReady().then(() => {
-  const settingsFile = new SettingsFile();
+  const settingsFileStore = new SettingsFileStore();
   let appWindow = AppWindow.create();
   appWindow.loadLauncher();
 
-  addIpcMainHandlers(appWindow, settingsFile);
+  addIpcMainHandlers(appWindow, settingsFileStore);
 
   // Someone tried to run a second instance, we should focus our window.
   app.on("second-instance", () => appWindow.restoreAndFocus());

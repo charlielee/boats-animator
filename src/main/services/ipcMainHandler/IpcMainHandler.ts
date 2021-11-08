@@ -2,12 +2,12 @@ import { app, ipcMain } from "electron";
 import IpcApi, { IpcChannel } from "../../../common/IpcApi";
 import { UserPreferencesState } from "../../../renderer/redux/bundles/userPreferences";
 import AppWindow from "../appWindow/AppWindow";
-import SettingsFile from "../settingsFile/settingsFile";
+import SettingsFileStore from "../fileStore/SettingsFileStore";
 
 class IpcMainHandler implements IpcApi {
   constructor(
     private appWindow: AppWindow,
-    private settingsFile: SettingsFile
+    private settingsFileStore: SettingsFileStore
   ) {}
 
   [IpcChannel.APP_VERSION] = async () => app.getVersion() || "";
@@ -21,16 +21,16 @@ class IpcMainHandler implements IpcApi {
   ) => this.appWindow.openDirDialog(currentDir, title);
 
   [IpcChannel.SETTINGS_SAVE] = (userPreferences: UserPreferencesState) => {
-    const windowSize = this.appWindow.getWindowSize();
-    this.settingsFile.save(windowSize, userPreferences);
+    const appWindowSize = this.appWindow.getWindowSize();
+    this.settingsFileStore.save({ appWindowSize, userPreferences });
   };
 }
 
 export const addIpcMainHandlers = (
   appWindow: AppWindow,
-  settingsFile: SettingsFile
+  settingsFileStore: SettingsFileStore
 ) => {
-  const ipcHandler = new IpcMainHandler(appWindow, settingsFile);
+  const ipcHandler = new IpcMainHandler(appWindow, settingsFileStore);
 
   ipcMain.handle(IpcChannel.APP_VERSION, (e) => ipcHandler.APP_VERSION());
 
