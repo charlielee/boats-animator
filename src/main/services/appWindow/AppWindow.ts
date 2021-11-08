@@ -5,6 +5,7 @@ import {
   dialog,
 } from "electron";
 import * as path from "path";
+import { WindowSize } from "../../../common/WindowSize";
 
 export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
   backgroundColor: "#171717",
@@ -39,6 +40,13 @@ class AppWindow extends BrowserWindow {
   restoreAndFocus() {
     this.restore();
     this.focus();
+  }
+
+  getWindowSize(): WindowSize {
+    return {
+      isMaximized: this.isMaximized(),
+      winBounds: this.getNormalBounds(),
+    };
   }
 
   async openConfirmPrompt(message: string) {
