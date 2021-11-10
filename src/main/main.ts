@@ -1,9 +1,11 @@
-import { app } from "electron";
+import { app, nativeTheme } from "electron";
 import AppWindow, {
   DEFAULT_WINDOW_OPTIONS,
 } from "./services/appWindow/AppWindow";
 import SettingsFileStore from "./services/fileStore/SettingsFileStore";
 import { addIpcMainHandlers } from "./services/ipcMainHandler/IpcMainHandler";
+
+nativeTheme.themeSource = "dark";
 
 app.whenReady().then(() => {
   const settingsFileStore = new SettingsFileStore();
