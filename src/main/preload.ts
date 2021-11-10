@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer, shell } from "electron";
 import { IpcChannel } from "../common/IpcApi";
 import { PreloadApi } from "../common/PreloadApi";
-import { SettingsState } from "../renderer/redux/bundles/settings";
+import { UserPreferences } from "../common/UserPreferences";
 import { NewsResponsePost } from "../renderer/services/news/NewsResponse";
 
 // This file controls access to the Electron and Node methods required by the renderer process
@@ -11,8 +11,8 @@ const api: PreloadApi = {
   ipc: {
     [IpcChannel.APP_VERSION]: () => ipcRenderer.invoke(IpcChannel.APP_VERSION),
 
-    [IpcChannel.APP_WINDOW_GET_SIZE]: () =>
-      ipcRenderer.invoke(IpcChannel.APP_WINDOW_GET_SIZE),
+    [IpcChannel.GET_USER_PREFERENCES]: () =>
+      ipcRenderer.invoke(IpcChannel.GET_USER_PREFERENCES),
 
     [IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT]: (message: string) =>
       ipcRenderer.invoke(IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT, message),
@@ -27,8 +27,8 @@ const api: PreloadApi = {
         title
       ),
 
-    [IpcChannel.SETTINGS_SAVE]: (settings: SettingsState) =>
-      ipcRenderer.invoke(IpcChannel.SETTINGS_SAVE, settings),
+    [IpcChannel.SETTINGS_SAVE]: (userPreferences: UserPreferences) =>
+      ipcRenderer.invoke(IpcChannel.SETTINGS_SAVE, userPreferences),
   },
   openExternal: {
     discord: () => shell.openExternal("http://discord.boatsanimator.com"),

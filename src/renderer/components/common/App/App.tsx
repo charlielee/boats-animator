@@ -1,12 +1,23 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import Animator from "../../../pages/Animator/Animator";
 import Launcher from "../../../pages/Launcher/Launcher";
+import { loadPreferences } from "../../../services/userPreferences/UserPreferencesApi";
+import AppLoad from "../AppLoad/AppLoad";
 import AppUnloader from "../AppUnloader/AppUnloader";
 
 const App = (): JSX.Element => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    loadPreferences(dispatch);
+  }, []);
+
   return (
     <>
+      <AppLoad />
       <AppUnloader />
 
       <Switch>

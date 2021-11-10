@@ -3,8 +3,12 @@ import {
   BrowserWindow,
   BrowserWindowConstructorOptions,
   dialog,
+  Rectangle,
+  screen,
 } from "electron";
 import * as path from "path";
+import { WindowSize } from "../../../common/WindowSize";
+import SettingsFileStore from "../fileStore/SettingsFileStore";
 
 export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
   backgroundColor: "#171717",
@@ -22,8 +26,16 @@ export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
 };
 
 class AppWindow extends BrowserWindow {
-  constructor(browserWindowOptions: BrowserWindowConstructorOptions) {
-    super(browserWindowOptions);
+  constructor(
+    browserWindowOptions: BrowserWindowConstructorOptions,
+    private settingsFileStore: SettingsFileStore
+  ) {
+    super(
+      Object.assign(
+        browserWindowOptions,
+        AppWindow.getPreviousWinBounds(settingsFileStore)
+      )
+    );
   }
 
   loadLauncher() {
@@ -33,7 +45,14 @@ class AppWindow extends BrowserWindow {
         : "http://localhost:4000"
     );
 
-    this.once("ready-to-show", this.show);
+    this.once("ready-to-show", () => {
+      if (this.settingsFileStore.get().appWindowSize.isMaximized) {
+        this.maximize();
+        this.focus();
+      } else {
+        this.show();
+      }
+    });
   }
 
   restoreAndFocus() {
@@ -68,8 +87,33 @@ class AppWindow extends BrowserWindow {
     }
   }
 
-  static create() {
-    return new AppWindow(DEFAULT_WINDOW_OPTIONS);
+  public getWindowSize(): WindowSize {
+    return {
+      isMaximized: this.isMaximized(),
+      winBounds: this.getNormalBounds(),
+    };
+  }
+
+  private static getPreviousWinBounds(
+    settingsFileStore: SettingsFileStore
+  ): Rectangle | {} {
+    const currentDisplaySize = screen.getPrimaryDisplay().workAreaSize;
+    const { winBounds } = settingsFileStore.get().appWindowSize;
+
+    // Check the window will fit in the x and y dimensions
+    // +10 is to allow for a small amount of leeway
+    const doesXFit =
+      winBounds &&
+      currentDisplaySize.width + 10 >= winBounds.x + winBounds.width;
+    const doesYFit =
+      winBounds &&
+      currentDisplaySize.height + 10 >= winBounds.y + winBounds.height;
+
+    if (doesXFit && doesYFit) {
+      return winBounds;
+    } else {
+      return {};
+    }
   }
 }
 

@@ -1,9 +1,8 @@
-import { SettingsState } from "../renderer/redux/bundles/settings";
-import { WindowSize } from "./WindowSize";
+import { UserPreferences } from "./UserPreferences";
 
 export const enum IpcChannel {
   APP_VERSION = "APP_VERSION",
-  APP_WINDOW_GET_SIZE = "APP_WINDOW_GET_SIZE",
+  GET_USER_PREFERENCES = "GET_USER_PREFERENCES",
   SETTINGS_OPEN_CONFIRM_PROMPT = "SETTINGS_OPEN_CONFIRM_PROMPT",
   SETTINGS_OPEN_DIR_DIALOG = "SETTINGS_OPEN_DIR_DIALOG",
   SETTINGS_SAVE = "SETTINGS_SAVE",
@@ -11,7 +10,7 @@ export const enum IpcChannel {
 
 interface IpcApi {
   [IpcChannel.APP_VERSION]: () => Promise<string>;
-  [IpcChannel.APP_WINDOW_GET_SIZE]: () => Promise<WindowSize>;
+  [IpcChannel.GET_USER_PREFERENCES]: () => Promise<UserPreferences>;
   [IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT]: (
     message: string
   ) => Promise<boolean>;
@@ -19,7 +18,7 @@ interface IpcApi {
     currentDir: string | undefined,
     title: string
   ) => Promise<string | undefined>;
-  [IpcChannel.SETTINGS_SAVE]: (settings: SettingsState) => void;
+  [IpcChannel.SETTINGS_SAVE]: (userPreferences: UserPreferences) => void;
 }
 
 export default IpcApi;

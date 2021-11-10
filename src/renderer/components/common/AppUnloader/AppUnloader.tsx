@@ -1,11 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 
 const AppUnloader = (): JSX.Element => {
-  const settings = useSelector((state: RootState) => state.settings);
+  const userPreferences = useSelector(
+    (state: RootState) => state.userPreferences
+  );
+  const [ready, setReady] = useState(false);
 
-  const cleanupAndClose = (e: BeforeUnloadEvent) => {
+  const openClosePrompt = (e: BeforeUnloadEvent) => {
     // This is a quirk of Chrome to prevent the window from closing
     e.returnValue = false;
 
@@ -16,20 +19,30 @@ const AppUnloader = (): JSX.Element => {
         );
 
       if (confirmClose) {
-        window.preload.ipc.SETTINGS_SAVE(settings);
-        window.removeEventListener("beforeunload", cleanupAndClose);
-        window.close();
+        window.removeEventListener("beforeunload", openClosePrompt);
+        setReady(true);
       }
     })();
   };
 
+  const cleanupAndClose = () => {
+    window.preload.ipc.SETTINGS_SAVE(userPreferences);
+    window.close();
+  };
+
   useEffect(() => {
-    window.addEventListener("beforeunload", cleanupAndClose);
+    window.addEventListener("beforeunload", openClosePrompt);
 
     return () => {
-      window.removeEventListener("beforeunload", cleanupAndClose);
+      window.removeEventListener("beforeunload", openClosePrompt);
     };
   }, []);
+
+  useEffect(() => {
+    if (ready) {
+      cleanupAndClose();
+    }
+  }, [ready]);
 
   return <></>;
 };

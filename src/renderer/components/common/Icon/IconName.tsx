@@ -3,6 +3,7 @@ const enum IconName {
   CONNECT,
   CAPTURE,
   CAPTURE_AUTO,
+  CIRCLE,
   DISCORD,
   EXPORT,
   FOLDER,

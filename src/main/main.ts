@@ -1,12 +1,18 @@
-import { app } from "electron";
-import AppWindow from "./services/appWindow/AppWindow";
+import { app, nativeTheme } from "electron";
+import AppWindow, {
+  DEFAULT_WINDOW_OPTIONS,
+} from "./services/appWindow/AppWindow";
+import SettingsFileStore from "./services/fileStore/SettingsFileStore";
 import { addIpcMainHandlers } from "./services/ipcMainHandler/IpcMainHandler";
 
+nativeTheme.themeSource = "dark";
+
 app.whenReady().then(() => {
-  let appWindow = AppWindow.create();
+  const settingsFileStore = new SettingsFileStore();
+  let appWindow = new AppWindow(DEFAULT_WINDOW_OPTIONS, settingsFileStore);
   appWindow.loadLauncher();
 
-  addIpcMainHandlers(appWindow);
+  addIpcMainHandlers(appWindow, settingsFileStore);
 
   // Someone tried to run a second instance, we should focus our window.
   app.on("second-instance", () => appWindow.restoreAndFocus());
@@ -19,7 +25,7 @@ app.whenReady().then(() => {
 
   app.on("activate", () => {
     if (appWindow.isDestroyed()) {
-      appWindow = AppWindow.create();
+      appWindow = new AppWindow(DEFAULT_WINDOW_OPTIONS, settingsFileStore);
     }
     appWindow.loadLauncher();
   });

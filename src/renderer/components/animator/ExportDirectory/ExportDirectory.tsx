@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { changeExportFrameDir } from "../../../services/settings/SettingsApi";
+import { changeWorkingDirectory } from "../../../services/userPreferences/UserPreferencesApi";
 import Button from "../../common/Button/Button";
 import "./ExportDirectory.css";
 
 const ExportDirectory = (): JSX.Element => {
-  const settings = useSelector((state: RootState) => state.settings);
+  const { workingDirectory } = useSelector(
+    (state: RootState) => state.userPreferences
+  );
   const dispatch = useDispatch();
 
   return (
@@ -14,13 +16,13 @@ const ExportDirectory = (): JSX.Element => {
         Captured frames will be exported to:
         <br />
         <span className="export-directory__name">
-          {settings.projectDefaults.exportFrameDir || "No directory selected"}
+          {workingDirectory || "No directory selected"}
         </span>
       </p>
 
       <Button
         title="Browse..."
-        onClick={() => changeExportFrameDir(settings, dispatch)}
+        onClick={() => changeWorkingDirectory(dispatch, workingDirectory)}
       />
     </div>
   );
