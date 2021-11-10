@@ -1,16 +1,13 @@
 import { Dispatch } from "react";
-import {
-  editUserPreferences,
-  UserPreferencesAction,
-  UserPreferencesState,
-} from "../../redux/bundles/userPreferences";
+import { UserPreferencesAction } from "../../redux/userPreferences/actions";
+import { editUserPreferences } from "../../redux/userPreferences/reducer";
 
 export const changeWorkingDirectory = async (
-  userPreferences: UserPreferencesState,
-  dispatch: Dispatch<UserPreferencesAction>
+  dispatch: Dispatch<UserPreferencesAction>,
+  currentDirectory?: string
 ) => {
   const workingDirectory = await window.preload.ipc.SETTINGS_OPEN_DIR_DIALOG(
-    userPreferences.workingDirectory,
+    currentDirectory,
     "Select a directory to save captured frames"
   );
 

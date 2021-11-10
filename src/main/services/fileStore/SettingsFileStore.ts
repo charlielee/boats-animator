@@ -1,11 +1,11 @@
 import Conf from "conf/dist/source";
+import { UserPreferences } from "../../../common/UserPreferences";
 import { WindowSize } from "../../../common/WindowSize";
-import { UserPreferencesState } from "../../../renderer/redux/bundles/userPreferences";
 import FileStore from "./FileStore";
 
 interface SettingsFileOptions {
   appWindowSize: WindowSize;
-  userPreferences: UserPreferencesState;
+  userPreferences: UserPreferences;
 }
 
 const defaults: SettingsFileOptions = {

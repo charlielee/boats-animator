@@ -5,7 +5,7 @@ import Button from "../../common/Button/Button";
 import "./ExportDirectory.css";
 
 const ExportDirectory = (): JSX.Element => {
-  const userPreferences = useSelector(
+  const { workingDirectory } = useSelector(
     (state: RootState) => state.userPreferences
   );
   const dispatch = useDispatch();
@@ -16,13 +16,13 @@ const ExportDirectory = (): JSX.Element => {
         Captured frames will be exported to:
         <br />
         <span className="export-directory__name">
-          {userPreferences.workingDirectory || "No directory selected"}
+          {workingDirectory || "No directory selected"}
         </span>
       </p>
 
       <Button
         title="Browse..."
-        onClick={() => changeWorkingDirectory(userPreferences, dispatch)}
+        onClick={() => changeWorkingDirectory(dispatch, workingDirectory)}
       />
     </div>
   );

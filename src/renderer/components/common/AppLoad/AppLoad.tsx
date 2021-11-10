@@ -1,15 +1,27 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { loadPreferences } from "../../../services/userPreferences/UserPreferencesApi";
+import classNames from "classnames";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import Icon from "../Icon/Icon";
+import IconName from "../Icon/IconName";
+import "./AppLoad.css";
 
 const AppLoad = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const { loadingMessage } = useSelector((state: RootState) => state.app);
 
-  useEffect(() => {
-    loadPreferences(dispatch);
-  }, []);
-
-  return <></>;
+  return (
+    <div
+      className={classNames("app-load", { "app-load--show": loadingMessage })}
+    >
+      <div className="app-load__content">
+        <h2>{loadingMessage}</h2>
+        <div className="app-load__dots">
+          <Icon name={IconName.CIRCLE} className="app-load__dot" />
+          <Icon name={IconName.CIRCLE} className="app-load__dot" />
+          <Icon name={IconName.CIRCLE} className="app-load__dot" />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default AppLoad;

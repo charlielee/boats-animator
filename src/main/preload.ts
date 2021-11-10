@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer, shell } from "electron";
 import { IpcChannel } from "../common/IpcApi";
 import { PreloadApi } from "../common/PreloadApi";
-import { UserPreferencesState } from "../renderer/redux/bundles/userPreferences";
+import { UserPreferences } from "../common/UserPreferences";
 import { NewsResponsePost } from "../renderer/services/news/NewsResponse";
 
 // This file controls access to the Electron and Node methods required by the renderer process
@@ -27,7 +27,7 @@ const api: PreloadApi = {
         title
       ),
 
-    [IpcChannel.SETTINGS_SAVE]: (userPreferences: UserPreferencesState) =>
+    [IpcChannel.SETTINGS_SAVE]: (userPreferences: UserPreferences) =>
       ipcRenderer.invoke(IpcChannel.SETTINGS_SAVE, userPreferences),
   },
   openExternal: {

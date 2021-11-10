@@ -1,6 +1,6 @@
 import { app, ipcMain } from "electron";
 import IpcApi, { IpcChannel } from "../../../common/IpcApi";
-import { UserPreferencesState } from "../../../renderer/redux/bundles/userPreferences";
+import { UserPreferences } from "../../../common/UserPreferences";
 import AppWindow from "../appWindow/AppWindow";
 import SettingsFileStore from "../fileStore/SettingsFileStore";
 
@@ -23,7 +23,7 @@ class IpcMainHandler implements IpcApi {
     title: string
   ) => this.appWindow.openDirDialog(currentDir, title);
 
-  [IpcChannel.SETTINGS_SAVE] = (userPreferences: UserPreferencesState) => {
+  [IpcChannel.SETTINGS_SAVE] = (userPreferences: UserPreferences) => {
     const appWindowSize = this.appWindow.getWindowSize();
     this.settingsFileStore.save({ appWindowSize, userPreferences });
   };

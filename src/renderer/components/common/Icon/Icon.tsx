@@ -4,6 +4,7 @@ import {
   IoAddCircleOutline,
   IoCamera,
   IoDownload,
+  IoEllipse,
   IoFileTrayStackedOutline,
   IoFolderOutline,
   IoGlobeOutline,
@@ -32,6 +33,8 @@ const getIconByName = (name: IconName, props: IconBaseProps) => {
       return <IoCamera {...props} />;
     case IconName.CAPTURE_AUTO:
       return <IoTimer {...props} />;
+    case IconName.CIRCLE:
+      return <IoEllipse {...props} />;
     case IconName.CONNECT:
       return <IoShareOutline {...props} />;
     case IconName.DISCORD:

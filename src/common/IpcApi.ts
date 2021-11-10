@@ -1,4 +1,4 @@
-import { UserPreferencesState } from "../renderer/redux/bundles/userPreferences";
+import { UserPreferences } from "./UserPreferences";
 
 export const enum IpcChannel {
   APP_VERSION = "APP_VERSION",
@@ -10,7 +10,7 @@ export const enum IpcChannel {
 
 interface IpcApi {
   [IpcChannel.APP_VERSION]: () => Promise<string>;
-  [IpcChannel.GET_USER_PREFERENCES]: () => Promise<UserPreferencesState>;
+  [IpcChannel.GET_USER_PREFERENCES]: () => Promise<UserPreferences>;
   [IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT]: (
     message: string
   ) => Promise<boolean>;
@@ -18,7 +18,7 @@ interface IpcApi {
     currentDir: string | undefined,
     title: string
   ) => Promise<string | undefined>;
-  [IpcChannel.SETTINGS_SAVE]: (userPreferences: UserPreferencesState) => void;
+  [IpcChannel.SETTINGS_SAVE]: (userPreferences: UserPreferences) => void;
 }
 
 export default IpcApi;
