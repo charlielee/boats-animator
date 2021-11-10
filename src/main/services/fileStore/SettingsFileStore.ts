@@ -20,7 +20,6 @@ const defaults: SettingsFileOptions = {
 
 const migrations = {
   "1.0.0-alpha": (store: Conf<SettingsFileOptions>) => {
-    console.log("Migrating settings file to 1.0.0-alpha");
     store.clear();
   },
 };
@@ -29,6 +28,7 @@ class SettingsFileStore extends FileStore<SettingsFileOptions> {
   constructor() {
     super({
       name: "settings",
+      clearInvalidConfig: true,
       defaults,
       migrations,
     });
