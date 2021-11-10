@@ -1,5 +1,7 @@
 # Boats Animator
 
+[![Documentation Status](https://readthedocs.org/projects/boatsanimator/badge/?version=stable)](https://boatsanimator.readthedocs.io/en/stable/?badge=stable)
+
 A free stop motion animation program created using Electron for Windows, macOS and Linux.
 
   * **Official homepage:** <https://www.charlielee.uk/boats-animator>
