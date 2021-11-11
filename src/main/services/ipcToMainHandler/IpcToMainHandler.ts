@@ -5,7 +5,7 @@ import { UserPreferences } from "../../../common/UserPreferences";
 import AppWindow from "../appWindow/AppWindow";
 import SettingsFileStore from "../fileStore/SettingsFileStore";
 
-class IpcMainHandler implements IpcToMainApi {
+class IpcToMainHandler implements IpcToMainApi {
   constructor(
     private appWindow: AppWindow,
     private settingsFileStore: SettingsFileStore
@@ -27,11 +27,11 @@ class IpcMainHandler implements IpcToMainApi {
   };
 }
 
-export const addIpcMainHandlers = (
+export const addIpcToMainHandlers = (
   appWindow: AppWindow,
   settingsFileStore: SettingsFileStore
 ) => {
-  const ipcHandler = new IpcMainHandler(appWindow, settingsFileStore);
+  const ipcHandler = new IpcToMainHandler(appWindow, settingsFileStore);
 
   ipcMain.handle(IpcChannel.APP_VERSION, (e) => ipcHandler.appVersion());
 

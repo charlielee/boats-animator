@@ -27,6 +27,10 @@ const api: PreloadApi = {
     settingsSave: (userPreferences: UserPreferences) =>
       ipcRenderer.invoke(IpcChannel.SETTINGS_SAVE, userPreferences),
   },
+  ipcToRenderer: {
+    onCloseButtonClick: (callback: () => void) =>
+      ipcRenderer.on(IpcChannel.ON_CLOSE_BUTTON_CLICK, callback),
+  },
   openExternal: {
     discord: () => shell.openExternal("http://discord.boatsanimator.com"),
     newsPost: (post: NewsResponsePost) => shell.openExternal(post.url),

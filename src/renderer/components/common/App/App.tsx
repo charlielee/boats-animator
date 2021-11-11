@@ -5,8 +5,8 @@ import { PageRoute } from "../../../../common/PageRoute";
 import Animator from "../../../pages/Animator/Animator";
 import Launcher from "../../../pages/Launcher/Launcher";
 import { loadPreferences } from "../../../services/userPreferences/UserPreferencesApi";
+import AppListeners from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
-import AppUnloader from "../AppUnloader/AppUnloader";
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -17,8 +17,8 @@ const App = (): JSX.Element => {
 
   return (
     <>
+      <AppListeners />
       <AppLoad />
-      <AppUnloader />
 
       <Switch>
         <Route exact path={PageRoute.LAUNCHER} component={Launcher} />
