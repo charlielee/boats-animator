@@ -1,9 +1,9 @@
+import IpcToMainApi from "../common/ipc/IpcToMainApi";
 import { NewsResponsePost } from "../renderer/services/news/NewsResponse";
-import IpcApi from "./IpcApi";
 
 export interface PreloadApi {
   platform: string;
-  ipc: IpcApi;
+  ipcToMain: IpcToMainApi;
   openExternal: {
     discord: () => Promise<void>;
     newsPost: (post: NewsResponsePost) => Promise<void>;

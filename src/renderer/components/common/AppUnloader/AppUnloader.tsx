@@ -14,7 +14,7 @@ const AppUnloader = (): JSX.Element => {
 
     (async () => {
       const confirmClose =
-        await window.preload.ipc.SETTINGS_OPEN_CONFIRM_PROMPT(
+        await window.preload.ipcToMain.settingsOpenConfirmPrompt(
           "Are you sure you want to exit Boats Animator?"
         );
 
@@ -26,7 +26,7 @@ const AppUnloader = (): JSX.Element => {
   };
 
   const cleanupAndClose = () => {
-    window.preload.ipc.SETTINGS_SAVE(userPreferences);
+    window.preload.ipcToMain.settingsSave(userPreferences);
     window.close();
   };
 

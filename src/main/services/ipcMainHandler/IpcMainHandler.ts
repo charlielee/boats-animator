@@ -1,29 +1,27 @@
 import { app, ipcMain } from "electron";
-import IpcApi, { IpcChannel } from "../../../common/IpcApi";
+import IpcChannel from "../../../common/ipc/IpcChannel";
+import IpcToMainApi from "../../../common/ipc/IpcToMainApi";
 import { UserPreferences } from "../../../common/UserPreferences";
 import AppWindow from "../appWindow/AppWindow";
 import SettingsFileStore from "../fileStore/SettingsFileStore";
 
-class IpcMainHandler implements IpcApi {
+class IpcMainHandler implements IpcToMainApi {
   constructor(
     private appWindow: AppWindow,
     private settingsFileStore: SettingsFileStore
   ) {}
 
-  [IpcChannel.APP_VERSION] = async () => app.getVersion() || "";
+  appVersion = async () => app.getVersion() || "";
 
-  [IpcChannel.GET_USER_PREFERENCES] = async () =>
-    this.settingsFileStore.get().userPreferences;
+  getUserPreferences = async () => this.settingsFileStore.get().userPreferences;
 
-  [IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT] = (message: string) =>
+  settingsOpenConfirmPrompt = (message: string) =>
     this.appWindow.openConfirmPrompt(message);
 
-  [IpcChannel.SETTINGS_OPEN_DIR_DIALOG] = (
-    currentDir: string | undefined,
-    title: string
-  ) => this.appWindow.openDirDialog(currentDir, title);
+  settingsOpenDirDialog = (currentDir: string | undefined, title: string) =>
+    this.appWindow.openDirDialog(currentDir, title);
 
-  [IpcChannel.SETTINGS_SAVE] = (userPreferences: UserPreferences) => {
+  settingsSave = (userPreferences: UserPreferences) => {
     const appWindowSize = this.appWindow.getWindowSize();
     this.settingsFileStore.save({ appWindowSize, userPreferences });
   };
@@ -35,21 +33,21 @@ export const addIpcMainHandlers = (
 ) => {
   const ipcHandler = new IpcMainHandler(appWindow, settingsFileStore);
 
-  ipcMain.handle(IpcChannel.APP_VERSION, (e) => ipcHandler.APP_VERSION());
+  ipcMain.handle(IpcChannel.APP_VERSION, (e) => ipcHandler.appVersion());
 
   ipcMain.handle(IpcChannel.GET_USER_PREFERENCES, (e) =>
-    ipcHandler.GET_USER_PREFERENCES()
+    ipcHandler.getUserPreferences()
   );
 
   ipcMain.handle(IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT, (e, message) =>
-    ipcHandler.SETTINGS_OPEN_CONFIRM_PROMPT(message)
+    ipcHandler.settingsOpenConfirmPrompt(message)
   );
 
   ipcMain.handle(IpcChannel.SETTINGS_OPEN_DIR_DIALOG, (e, currentDir, title) =>
-    ipcHandler.SETTINGS_OPEN_DIR_DIALOG(currentDir, title)
+    ipcHandler.settingsOpenDirDialog(currentDir, title)
   );
 
   ipcMain.handle(IpcChannel.SETTINGS_SAVE, (e, userPreferences) =>
-    ipcHandler.SETTINGS_SAVE(userPreferences)
+    ipcHandler.settingsSave(userPreferences)
   );
 };
