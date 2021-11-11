@@ -22,10 +22,10 @@ class IpcToMainHandler implements IpcToMainApi {
     this.appWindow.close();
   };
 
-  settingsOpenConfirmPrompt = (message: string) =>
+  openConfirmPrompt = (message: string) =>
     this.appWindow.openConfirmPrompt(message);
 
-  settingsOpenDirDialog = (currentDir: string | undefined, title: string) =>
+  openDirDialog = (currentDir: string | undefined, title: string) =>
     this.appWindow.openDirDialog(currentDir, title);
 }
 
@@ -45,11 +45,11 @@ export const addIpcToMainHandlers = (
     ipcHandler.saveSettingsAndClose(userPreferences)
   );
 
-  ipcMain.handle(IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT, (e, message) =>
-    ipcHandler.settingsOpenConfirmPrompt(message)
+  ipcMain.handle(IpcChannel.OPEN_CONFIRM_PROMPT, (e, message) =>
+    ipcHandler.openConfirmPrompt(message)
   );
 
-  ipcMain.handle(IpcChannel.SETTINGS_OPEN_DIR_DIALOG, (e, currentDir, title) =>
-    ipcHandler.settingsOpenDirDialog(currentDir, title)
+  ipcMain.handle(IpcChannel.OPEN_DIR_DIALOG, (e, currentDir, title) =>
+    ipcHandler.openDirDialog(currentDir, title)
   );
 };

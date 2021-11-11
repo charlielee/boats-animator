@@ -6,7 +6,7 @@ export const changeWorkingDirectory = async (
   dispatch: Dispatch<UserPreferencesAction>,
   currentDirectory?: string
 ) => {
-  const workingDirectory = await window.preload.ipcToMain.settingsOpenDirDialog(
+  const workingDirectory = await window.preload.ipcToMain.openDirDialog(
     currentDirectory,
     "Select a directory to save captured frames"
   );

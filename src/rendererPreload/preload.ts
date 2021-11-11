@@ -17,15 +17,11 @@ const api: PreloadApi = {
     saveSettingsAndClose: (userPreferences: UserPreferences) =>
       ipcRenderer.invoke(IpcChannel.SAVE_SETTINGS_AND_CLOSE, userPreferences),
 
-    settingsOpenConfirmPrompt: (message: string) =>
-      ipcRenderer.invoke(IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT, message),
+    openConfirmPrompt: (message: string) =>
+      ipcRenderer.invoke(IpcChannel.OPEN_CONFIRM_PROMPT, message),
 
-    settingsOpenDirDialog: (currentDir: string | undefined, title: string) =>
-      ipcRenderer.invoke(
-        IpcChannel.SETTINGS_OPEN_DIR_DIALOG,
-        currentDir,
-        title
-      ),
+    openDirDialog: (currentDir: string | undefined, title: string) =>
+      ipcRenderer.invoke(IpcChannel.OPEN_DIR_DIALOG, currentDir, title),
   },
   ipcToRenderer: {
     onCloseButtonClick: (callback: () => void) =>
