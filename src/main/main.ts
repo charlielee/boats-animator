@@ -3,7 +3,7 @@ import AppWindow, {
   DEFAULT_WINDOW_OPTIONS,
 } from "./services/appWindow/AppWindow";
 import SettingsFileStore from "./services/fileStore/SettingsFileStore";
-import { addIpcMainHandlers } from "./services/ipcMainHandler/IpcMainHandler";
+import { addIpcToMainHandlers } from "./services/ipcToMainHandler/IpcToMainHandler";
 
 nativeTheme.themeSource = "dark";
 
@@ -12,7 +12,7 @@ app.whenReady().then(() => {
   let appWindow = new AppWindow(DEFAULT_WINDOW_OPTIONS, settingsFileStore);
   appWindow.loadLauncher();
 
-  addIpcMainHandlers(appWindow, settingsFileStore);
+  addIpcToMainHandlers(appWindow, settingsFileStore);
 
   // Someone tried to run a second instance, we should focus our window.
   app.on("second-instance", () => appWindow.restoreAndFocus());

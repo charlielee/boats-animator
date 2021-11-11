@@ -19,7 +19,7 @@ const Launcher = (): JSX.Element => {
 
   useEffect(() => {
     (async () => {
-      const version = await window.preload.ipc.APP_VERSION();
+      const version = await window.preload.ipcToMain.appVersion();
       setAppVersion(version);
     })();
   }, []);

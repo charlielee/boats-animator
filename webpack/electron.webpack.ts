@@ -10,7 +10,7 @@ const config: Configuration = {
   devtool: "source-map",
   entry: {
     main: path.resolve(rootPath, "src/main", "main.ts"),
-    preload: path.resolve(rootPath, "src/main", "preload.ts"),
+    preload: path.resolve(rootPath, "src/rendererPreload", "preload.ts"),
   },
   target: "electron-main",
   module: {
