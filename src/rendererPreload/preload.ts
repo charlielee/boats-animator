@@ -14,6 +14,9 @@ const api: PreloadApi = {
     getUserPreferences: () =>
       ipcRenderer.invoke(IpcChannel.GET_USER_PREFERENCES),
 
+    saveSettingsAndClose: (userPreferences: UserPreferences) =>
+      ipcRenderer.invoke(IpcChannel.SAVE_SETTINGS_AND_CLOSE, userPreferences),
+
     settingsOpenConfirmPrompt: (message: string) =>
       ipcRenderer.invoke(IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT, message),
 
@@ -23,9 +26,6 @@ const api: PreloadApi = {
         currentDir,
         title
       ),
-
-    settingsSave: (userPreferences: UserPreferences) =>
-      ipcRenderer.invoke(IpcChannel.SETTINGS_SAVE, userPreferences),
   },
   ipcToRenderer: {
     onCloseButtonClick: (callback: () => void) =>

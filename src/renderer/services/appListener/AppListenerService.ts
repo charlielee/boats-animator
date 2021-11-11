@@ -8,7 +8,6 @@ export const handleOnCloseButtonClick = async (
   );
 
   if (confirmClose) {
-    await window.preload.ipcToMain.settingsSave(userPreferences);
-    window.close();
+    await window.preload.ipcToMain.saveSettingsAndClose(userPreferences);
   }
 };

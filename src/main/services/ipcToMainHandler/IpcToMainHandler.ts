@@ -15,16 +15,18 @@ class IpcToMainHandler implements IpcToMainApi {
 
   getUserPreferences = async () => this.settingsFileStore.get().userPreferences;
 
+  saveSettingsAndClose = (userPreferences: UserPreferences) => {
+    const appWindowSize = this.appWindow.getWindowSize();
+    this.settingsFileStore.save({ appWindowSize, userPreferences });
+    this.appWindow.confirmBeforeClose = false;
+    this.appWindow.close();
+  };
+
   settingsOpenConfirmPrompt = (message: string) =>
     this.appWindow.openConfirmPrompt(message);
 
   settingsOpenDirDialog = (currentDir: string | undefined, title: string) =>
     this.appWindow.openDirDialog(currentDir, title);
-
-  settingsSave = (userPreferences: UserPreferences) => {
-    const appWindowSize = this.appWindow.getWindowSize();
-    this.settingsFileStore.save({ appWindowSize, userPreferences });
-  };
 }
 
 export const addIpcToMainHandlers = (
@@ -39,15 +41,15 @@ export const addIpcToMainHandlers = (
     ipcHandler.getUserPreferences()
   );
 
+  ipcMain.handle(IpcChannel.SAVE_SETTINGS_AND_CLOSE, (e, userPreferences) =>
+    ipcHandler.saveSettingsAndClose(userPreferences)
+  );
+
   ipcMain.handle(IpcChannel.SETTINGS_OPEN_CONFIRM_PROMPT, (e, message) =>
     ipcHandler.settingsOpenConfirmPrompt(message)
   );
 
   ipcMain.handle(IpcChannel.SETTINGS_OPEN_DIR_DIALOG, (e, currentDir, title) =>
     ipcHandler.settingsOpenDirDialog(currentDir, title)
-  );
-
-  ipcMain.handle(IpcChannel.SETTINGS_SAVE, (e, userPreferences) =>
-    ipcHandler.settingsSave(userPreferences)
   );
 };

@@ -7,6 +7,7 @@ import {
   screen,
 } from "electron";
 import * as path from "path";
+import IpcChannel from "../../../common/ipc/IpcChannel";
 import { WindowSize } from "../../../common/WindowSize";
 import SettingsFileStore from "../fileStore/SettingsFileStore";
 
@@ -26,6 +27,8 @@ export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
 };
 
 class AppWindow extends BrowserWindow {
+  public confirmBeforeClose: boolean;
+
   constructor(
     browserWindowOptions: BrowserWindowConstructorOptions,
     private settingsFileStore: SettingsFileStore
@@ -36,6 +39,8 @@ class AppWindow extends BrowserWindow {
         AppWindow.getPreviousWinBounds(settingsFileStore)
       )
     );
+
+    this.confirmBeforeClose = true;
   }
 
   loadLauncher() {
@@ -51,6 +56,13 @@ class AppWindow extends BrowserWindow {
         this.focus();
       } else {
         this.show();
+      }
+    });
+
+    this.on("close", (e) => {
+      if (this.confirmBeforeClose) {
+        e.preventDefault();
+        this.webContents.send(IpcChannel.ON_CLOSE_BUTTON_CLICK);
       }
     });
   }
