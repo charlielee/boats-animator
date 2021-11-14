@@ -7,6 +7,7 @@ import Launcher from "../../../pages/Launcher/Launcher";
 import { loadPreferences } from "../../../services/userPreferences/UserPreferencesApi";
 import AppListeners from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
+import Modal from "../Modal/Modal";
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const App = (): JSX.Element => {
     <>
       <AppListeners />
       <AppLoad />
+      <Modal />
 
       <Switch>
         <Route exact path={PageRoute.LAUNCHER} component={Launcher} />
