@@ -1,6 +1,6 @@
 .modal-header {
   border-bottom: var(--border-1) solid var(--ba-border);
-  height: var(--height-400);
+  /* height: var(--height-500); */
   margin: 0;
   padding: var(--margin-100);
 }

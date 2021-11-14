@@ -13,7 +13,7 @@
   /* 1rem  */
   --width-16: calc(var(--width-1) * 16);
 
-  --height-400: calc(var(--width-1) * 64);
+  --height-500: calc(var(--width-1) * 80);
 
   --border-1: var(--width-1);
   --border-2: var(--width-2);

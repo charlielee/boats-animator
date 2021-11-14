@@ -4,7 +4,7 @@ import { Redirect, Route } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import { loadPreferences } from "../../../services/userPreferences/UserPreferencesApi";
 import Animator from "../../animator/Animator/Animator";
-import StartupModal from "../../modals/StartupModal/StartupModal";
+import StartupModal from "../../projectsModals/StartupModal/StartupModal";
 import AppListeners from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
 
