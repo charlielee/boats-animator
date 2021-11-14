@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
-import ExportDirectory from "../../components/animator/ExportDirectory/ExportDirectory";
-import Content from "../../components/common/Content/Content";
-import ContentBlock from "../../components/common/ContentBlock/ContentBlock";
-import IconName from "../../components/common/Icon/IconName";
-import Page from "../../components/common/Page/Page";
-import PageBody from "../../components/common/PageBody/PageBody";
-import PageFooter from "../../components/common/PageFooter/PageFooter";
-import PageFooterItem from "../../components/common/PageFooterItem/PageFooterItem";
-import Sidebar from "../../components/common/Sidebar/Sidebar";
-import SidebarBlock from "../../components/common/SidebarBlock/SidebarBlock";
-import Tab from "../../components/common/Tab/Tab";
-import TabGroup from "../../components/common/TabGroup/TabGroup";
+import Content from "../../common/Content/Content";
+import ContentBlock from "../../common/ContentBlock/ContentBlock";
+import IconName from "../../common/Icon/IconName";
+import Page from "../../common/Page/Page";
+import PageBody from "../../common/PageBody/PageBody";
+import PageFooter from "../../common/PageFooter/PageFooter";
+import PageFooterItem from "../../common/PageFooterItem/PageFooterItem";
+import Sidebar from "../../common/Sidebar/Sidebar";
+import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
+import Tab from "../../common/Tab/Tab";
+import TabGroup from "../../common/TabGroup/TabGroup";
+import ExportDirectory from "../ExportDirectory/ExportDirectory";
 
 const Animator = (): JSX.Element => {
   return (

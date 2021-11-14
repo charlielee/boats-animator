@@ -1,29 +1,14 @@
-import classNames from "classnames";
-import { useSelector } from "react-redux";
-import Launcher from "../../../pages/Launcher/Launcher";
-import { RootState } from "../../../redux/store";
+import { ReactNode } from "react";
 import "./Modal.css";
-import ModalName from "./ModalName";
 
-const Modal = (): JSX.Element => {
-  const { currentModal } = useSelector((state: RootState) => state.app);
+interface ModalProps {
+  children: ReactNode;
+}
 
-  const getModalContent = (modalName?: ModalName) => {
-    switch (modalName) {
-      case ModalName.STARTUP:
-        return <Launcher />;
-      default:
-        return <></>;
-    }
-  };
-
+const Modal = ({ children }: ModalProps): JSX.Element => {
   return (
-    <div
-      className={classNames("modal", {
-        "modal--show": currentModal !== undefined,
-      })}
-    >
-      <div className="modal__content">{getModalContent(currentModal)}</div>
+    <div className="modal">
+      <div className="modal__content">{children}</div>
     </div>
   );
 };

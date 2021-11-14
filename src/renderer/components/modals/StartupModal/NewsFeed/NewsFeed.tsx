@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { fetchRecent } from "../../../services/news/NewsApi";
-import NewsDownloadError from "../../../services/news/NewsDownloadError";
-import { NewsResponsePost } from "../../../services/news/NewsResponse";
+import { fetchRecent } from "../../../../services/news/NewsApi";
+import NewsDownloadError from "../../../../services/news/NewsDownloadError";
+import { NewsResponsePost } from "../../../../services/news/NewsResponse";
 import "./NewsFeed.css";
-
-interface NewsFeedProps {}
 
 const NewsFeed = (): JSX.Element => {
   const [newPosts, setNewsPosts] = useState<NewsResponsePost[]>([]);
