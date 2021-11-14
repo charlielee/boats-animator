@@ -7,13 +7,12 @@ import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
 import Modal from "../../common/Modal/Modal";
-import Page from "../../common/Page/Page";
-import PageBody from "../../common/PageBody/PageBody";
-import PageFooter from "../../common/PageFooter/PageFooter";
-import PageFooterItem from "../../common/PageFooterItem/PageFooterItem";
+import ModalBody from "../../common/ModalBody/ModalBody";
+import ModalFooter from "../../common/ModalFooter/ModalFooter";
+import ModalHeader from "../../common/ModalHeader/ModalHeader";
 import Sidebar from "../../common/Sidebar/Sidebar";
 import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
-import NewsFeed from "./NewsFeed/NewsFeed";
+import NewsFeed from "../NewsFeed/NewsFeed";
 
 const StartupModal = (): JSX.Element => {
   const [appVersion, setAppVersion] = useState("");
@@ -27,56 +26,53 @@ const StartupModal = (): JSX.Element => {
 
   return (
     <Modal>
-      <Page>
-        <PageBody>
-          <Content>
-            <ContentBlock title="Projects" titleIcon={IconName.PROJECTS}>
-              <ButtonGroup>
-                <Button
-                  title="New Project"
-                  icon={IconName.ADD}
-                  style={ButtonStyle.LARGE_ICON}
-                  onClick={PageRoute.ANIMATOR}
-                />
+      <ModalHeader title="Projects" />
+      <ModalBody>
+        <Content>
+          <ContentBlock>
+            <ButtonGroup>
+              <Button
+                title="New Project"
+                icon={IconName.ADD}
+                style={ButtonStyle.LARGE_ICON}
+                onClick={PageRoute.ANIMATOR}
+              />
 
-                <Button
-                  title="Open Project"
-                  style={ButtonStyle.LARGE_ICON}
-                  icon={IconName.FOLDER}
-                  onClick={() => console.log("todo")}
-                />
-              </ButtonGroup>
-            </ContentBlock>
-          </Content>
+              <Button
+                title="Open Project"
+                style={ButtonStyle.LARGE_ICON}
+                icon={IconName.FOLDER}
+                onClick={() => console.log("todo")}
+              />
+            </ButtonGroup>
+          </ContentBlock>
+        </Content>
 
-          <Sidebar>
-            <SidebarBlock title="Recent News" titleIcon={IconName.NEWS} flex>
-              <NewsFeed />
-            </SidebarBlock>
+        <Sidebar>
+          <SidebarBlock title="Recent News" titleIcon={IconName.NEWS} flex>
+            <NewsFeed />
+          </SidebarBlock>
 
-            <SidebarBlock title="Connect" titleIcon={IconName.CONNECT}>
-              <ButtonGroup>
-                <Button
-                  title="Official Website"
-                  icon={IconName.WEBSITE}
-                  style={ButtonStyle.LARGE_ICON}
-                  onClick={window.preload.openExternal.website}
-                />
-                <Button
-                  title="Discord Server"
-                  icon={IconName.DISCORD}
-                  style={ButtonStyle.LARGE_ICON}
-                  onClick={window.preload.openExternal.discord}
-                />
-              </ButtonGroup>
-            </SidebarBlock>
-          </Sidebar>
-        </PageBody>
+          <SidebarBlock title="Connect" titleIcon={IconName.CONNECT}>
+            <ButtonGroup>
+              <Button
+                title="Official Website"
+                icon={IconName.WEBSITE}
+                style={ButtonStyle.LARGE_ICON}
+                onClick={window.preload.openExternal.website}
+              />
+              <Button
+                title="Discord Server"
+                icon={IconName.DISCORD}
+                style={ButtonStyle.LARGE_ICON}
+                onClick={window.preload.openExternal.discord}
+              />
+            </ButtonGroup>
+          </SidebarBlock>
+        </Sidebar>
+      </ModalBody>
 
-        <PageFooter>
-          <PageFooterItem value={`Version ${appVersion}`} />
-        </PageFooter>
-      </Page>
+      <ModalFooter>Hi</ModalFooter>
     </Modal>
   );
 };

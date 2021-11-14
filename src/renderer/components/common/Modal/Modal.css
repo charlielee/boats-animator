@@ -12,8 +12,11 @@
 .modal__content {
   background-color: var(--ba-dark-mid);
   border: var(--border-1) solid var(--ba-border);
+  border-radius: var(--margin-050);
+  display: flex;
+  flex-direction: column;
   height: 90%;
   max-height: 500px;
   max-width: 800px;
-  width: 900%;
+  width: 90%;
 }
