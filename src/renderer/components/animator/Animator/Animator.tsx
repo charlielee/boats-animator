@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { PageRoute } from "../../../../common/PageRoute";
+import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
@@ -10,6 +12,10 @@ import Sidebar from "../../common/Sidebar/Sidebar";
 import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Tab from "../../common/Tab/Tab";
 import TabGroup from "../../common/TabGroup/TabGroup";
+import Toolbar from "../../common/Toolbar/Toolbar";
+import ToolbarItem, {
+  ToolbarItemAlign,
+} from "../../common/ToolbarItem/ToolbarItem";
 import ExportDirectory from "../ExportDirectory/ExportDirectory";
 
 const Animator = (): JSX.Element => {
@@ -17,6 +23,20 @@ const Animator = (): JSX.Element => {
     <Page>
       <PageBody>
         <Content>
+          <Toolbar borderBottom>
+            <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
+              <Button
+                title="Shot 001 Take 01"
+                onClick={PageRoute.STARTUP_MODAL}
+              />
+            </ToolbarItem>
+            <ToolbarItem align={ToolbarItemAlign.CENTER}>
+              Frame 1 of 0
+            </ToolbarItem>
+            <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
+              15 FPS
+            </ToolbarItem>
+          </Toolbar>
           <ContentBlock>
             <h1>Hello Boats Animator World!</h1>
 

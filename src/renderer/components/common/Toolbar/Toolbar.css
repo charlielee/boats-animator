@@ -1,0 +1,12 @@
+.toolbar {
+  align-items: center;
+  display: flex;
+  height: var(--height-500);
+  justify-content: space-between;
+  margin: 0;
+  padding: var(--margin-100);
+}
+
+.toolbar--border-bottom {
+  border-bottom: var(--border-1) solid var(--ba-border);
+}

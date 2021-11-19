@@ -1,0 +1,11 @@
+.toolbar-item--stretch {
+  flex: 1;
+}
+
+.toolbar-item--center {
+  text-align: center;
+}
+
+.toolbar-item--right {
+  text-align: right;
+}

@@ -12,6 +12,7 @@ import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import Sidebar from "../../common/Sidebar/Sidebar";
 import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
+import Toolbar from "../../common/Toolbar/Toolbar";
 import NewsFeed from "../NewsFeed/NewsFeed";
 
 const StartupModal = (): JSX.Element => {
@@ -45,19 +46,21 @@ const StartupModal = (): JSX.Element => {
       </ModalBody>
 
       <ModalFooter>
-        <ButtonGroup>
-          <Button
-            title="New Project"
-            icon={IconName.ADD}
-            onClick={PageRoute.ANIMATOR}
-          />
+        <Toolbar>
+          <ButtonGroup>
+            <Button
+              title="New Project"
+              icon={IconName.ADD}
+              onClick={PageRoute.ANIMATOR}
+            />
 
-          <Button
-            title="Open Project"
-            icon={IconName.FOLDER}
-            onClick={() => console.log("todo")}
-          />
-        </ButtonGroup>
+            <Button
+              title="Open Project"
+              icon={IconName.FOLDER}
+              onClick={() => console.log("todo")}
+            />
+          </ButtonGroup>
+        </Toolbar>
       </ModalFooter>
     </Modal>
   );

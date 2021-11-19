@@ -1,8 +1,8 @@
 .modal-footer {
   border-top: var(--border-1) solid var(--ba-border);
-  display: flex;
+  /* display: flex;
   height: var(--height-500);
   justify-content: space-between;
   margin: 0;
-  padding: var(--margin-100);
+  padding: var(--margin-100); */
 }
