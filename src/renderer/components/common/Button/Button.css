@@ -44,10 +44,13 @@
   background-color: var(--ba-blue);
 }
 
-.button--style-icon-only .button__icon-container {
-  margin-right: 0;
+.button--color-transparent {
+  background-color: transparent;
+  color: var(--ba-light);
 }
-
-.button--style-icon-only .button__label {
-  display: none;
+.button--color-transparent:hover {
+  background-color: var(--ba-dark-hover);
+}
+.button--color-transparent:active {
+  background-color: var(--ba-dark-active);
 }

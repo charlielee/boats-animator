@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import Button from "../../common/Button/Button";
+import { ButtonColor } from "../../common/Button/ButtonColor";
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
@@ -28,6 +29,7 @@ const Animator = (): JSX.Element => {
                 title="Shot 001 Take 01"
                 icon={IconName.CIRCLE_UP}
                 onClick={PageRoute.STARTUP_MODAL}
+                color={ButtonColor.TRANSPARENT}
               />
             </ToolbarItem>
             <ToolbarItem align={ToolbarItemAlign.CENTER}>

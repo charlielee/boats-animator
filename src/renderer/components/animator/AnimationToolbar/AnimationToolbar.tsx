@@ -1,7 +1,6 @@
-import Button from "../../common/Button/Button";
-import { ButtonStyle } from "../../common/Button/ButtonStyle";
 import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import IconName from "../../common/Icon/IconName";
+import IconButton from "../../common/IconButton/IconButton";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, {
   ToolbarItemAlign,
@@ -12,30 +11,27 @@ const AnimationToolbar = (): JSX.Element => {
     <Toolbar borderTop borderBottom>
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <ButtonGroup>
-          <Button
+          <IconButton
             title="Undo Last Frame"
             icon={IconName.UNDO}
-            style={ButtonStyle.ICON_ONLY}
             onClick={() => undefined}
           />
         </ButtonGroup>
       </ToolbarItem>
 
       <ToolbarItem align={ToolbarItemAlign.CENTER}>
-        <Button
+        <IconButton
           title="Capture Frame"
           icon={IconName.CAPTURE}
-          style={ButtonStyle.ICON_ONLY}
           onClick={() => undefined}
         />
       </ToolbarItem>
 
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
         <ButtonGroup>
-          <Button
+          <IconButton
             title="Undo Last Frame"
             icon={IconName.UNDO}
-            style={ButtonStyle.ICON_ONLY}
             onClick={() => undefined}
           />
         </ButtonGroup>
