@@ -30,8 +30,43 @@ const AnimationToolbar = (): JSX.Element => {
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
         <ButtonGroup>
           <IconButton
-            title="Undo Last Frame"
-            icon={IconName.UNDO}
+            title="First Frame"
+            icon={IconName.PLAY_FIRST}
+            onClick={() => undefined}
+          />
+          <IconButton
+            title="Previous Frame"
+            icon={IconName.PLAY_PREVIOUS}
+            onClick={() => undefined}
+          />
+          <IconButton
+            title="Playback Frames"
+            icon={IconName.PLAY}
+            onClick={() => undefined}
+          />
+          <IconButton
+            title="Stop Playback"
+            icon={IconName.PLAY_STOP}
+            onClick={() => undefined}
+          />
+          <IconButton
+            title="Next Frame"
+            icon={IconName.PLAY_NEXT}
+            onClick={() => undefined}
+          />
+          <IconButton
+            title="Last Frame"
+            icon={IconName.PLAY_LAST}
+            onClick={() => undefined}
+          />
+          <IconButton
+            title="Loop Playback"
+            icon={IconName.PLAY_LOOP}
+            onClick={() => undefined}
+          />
+          <IconButton
+            title="Loop Playback"
+            icon={IconName.PLAY_SHORT_OFF}
             onClick={() => undefined}
           />
         </ButtonGroup>

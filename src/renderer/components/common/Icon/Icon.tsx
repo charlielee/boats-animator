@@ -12,8 +12,16 @@ import {
   IoGrid,
   IoLogoDiscord,
   IoNewspaperOutline,
+  IoPauseOutline,
+  IoPlayBackOutline,
+  IoPlayForwardOutline,
+  IoPlayOutline,
+  IoPlaySkipBackOutline,
+  IoPlaySkipForwardOutline,
   IoRefreshOutline,
   IoShareOutline,
+  IoStopOutline,
+  IoSyncOutline,
   IoTimer,
   IoToggle,
 } from "react-icons/io5";
@@ -51,6 +59,26 @@ const getIconByName = (name: IconName, props: IconBaseProps) => {
       return <IoGrid {...props} />;
     case IconName.NEWS:
       return <IoNewspaperOutline {...props} />;
+    case IconName.PLAY_FIRST:
+      return <IoPlaySkipBackOutline {...props} />;
+    case IconName.PLAY_PREVIOUS:
+      return <IoPlayBackOutline {...props} />;
+    case IconName.PLAY:
+      return <IoPlayOutline {...props} />;
+    case IconName.PLAY_PAUSE:
+      return <IoPauseOutline {...props} />;
+    case IconName.PLAY_STOP:
+      return <IoStopOutline {...props} />;
+    case IconName.PLAY_NEXT:
+      return <IoPlayForwardOutline {...props} />;
+    case IconName.PLAY_LAST:
+      return <IoPlaySkipForwardOutline {...props} />;
+    case IconName.PLAY_LOOP:
+      return <IoSyncOutline {...props} />;
+    case IconName.PLAY_SHORT_OFF:
+      return <IoFileTrayStackedOutline {...props} />;
+    case IconName.PLAY_SHORT_ON:
+      return <IoFileTrayStackedOutline {...props} />;
     case IconName.PROJECTS:
       return <IoFileTrayStackedOutline {...props} />;
     case IconName.TOGGLE_OFF:
