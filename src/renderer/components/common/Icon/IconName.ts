@@ -1,0 +1,20 @@
+const enum IconName {
+  ADD = "ADD",
+  CONNECT = "CONNECT",
+  CAPTURE = "CAPTURE",
+  CAPTURE_AUTO = "CAPTURE_AUTO",
+  CIRCLE = "CIRCLE",
+  CIRCLE_UP = "CIRCLE_UP",
+  DISCORD = "DISCORD",
+  EXPORT = "EXPORT",
+  FOLDER = "FOLDER",
+  GUIDES = "GUIDES",
+  NEWS = "NEWS",
+  PROJECTS = "PROJECTS",
+  TOGGLE_ON = "TOGGLE_ON",
+  TOGGLE_OFF = "TOGGLE_OFF",
+  UNDO = "UNDO",
+  WEBSITE = "WEBSITE",
+}
+
+export default IconName;

@@ -7,6 +7,10 @@
   padding: var(--margin-100);
 }
 
+.toolbar--border-top {
+  border-top: var(--border-1) solid var(--ba-border);
+}
+
 .toolbar--border-bottom {
   border-bottom: var(--border-1) solid var(--ba-border);
 }

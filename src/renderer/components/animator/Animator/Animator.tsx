@@ -14,6 +14,7 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, {
   ToolbarItemAlign,
 } from "../../common/ToolbarItem/ToolbarItem";
+import AnimationToolbar from "../AnimationToolbar/AnimationToolbar";
 import ExportDirectory from "../ExportDirectory/ExportDirectory";
 
 const Animator = (): JSX.Element => {
@@ -25,6 +26,7 @@ const Animator = (): JSX.Element => {
             <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
               <Button
                 title="Shot 001 Take 01"
+                icon={IconName.CIRCLE_UP}
                 onClick={PageRoute.STARTUP_MODAL}
               />
             </ToolbarItem>
@@ -35,13 +37,16 @@ const Animator = (): JSX.Element => {
               15 FPS
             </ToolbarItem>
           </Toolbar>
-          <ContentBlock>
+
+          <ContentBlock flex>
             <h1>Hello Boats Animator World!</h1>
 
             <p>Your current platform is {window.preload.platform}.</p>
 
             <Link to="/">Go to launcher</Link>
           </ContentBlock>
+
+          <AnimationToolbar />
         </Content>
 
         <Sidebar>

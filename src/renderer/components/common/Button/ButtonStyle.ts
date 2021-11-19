@@ -1,5 +1,6 @@
 export const enum ButtonStyle {
   DEFAULT = "DEFAULT",
-  LARGE_ICON = "LARGE_ICON",
-  TRANSPARENT = "TRANSPARENT",
+  ICON_ONLY = "ICON_ONLY",
+  // LARGE_ICON = "LARGE_ICON",
+  // TRANSPARENT = "TRANSPARENT",
 }

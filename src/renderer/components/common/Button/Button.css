@@ -6,7 +6,6 @@
   border-radius: var(--margin-025);
   display: flex;
   color: var(--ba-dark);
-  flex: 1;
   font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
@@ -30,16 +29,25 @@
   outline: none;
 }
 
-.button--color-primary {
-  background-color: var(--ba-blue);
-}
-
 .button__icon-container {
   display: flex;
   align-items: center;
+  font-size: 1.25rem;
   margin-right: var(--margin-050);
 }
 
 .button__label {
   white-space: nowrap;
+}
+
+.button--color-primary {
+  background-color: var(--ba-blue);
+}
+
+.button--style-icon-only .button__icon-container {
+  margin-right: 0;
+}
+
+.button--style-icon-only .button__label {
+  display: none;
 }

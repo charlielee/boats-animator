@@ -33,6 +33,7 @@ const Button = ({
   return (
     <button
       className={classNames("button", {
+        "button--style-icon-only": style === ButtonStyle.ICON_ONLY,
         "button--color-primary": color === ButtonColor.PRIMARY,
       })}
       title={title}
@@ -40,10 +41,7 @@ const Button = ({
     >
       {icon !== undefined && (
         <div className="button__icon-container">
-          <Icon
-            name={icon}
-            size={style === ButtonStyle.LARGE_ICON ? "4em" : "1em"}
-          />
+          <Icon name={icon} />
         </div>
       )}
 

@@ -3,6 +3,7 @@ import { IconBaseProps } from "react-icons";
 import {
   IoAddCircleOutline,
   IoCamera,
+  IoCaretUpCircleOutline,
   IoDownload,
   IoEllipse,
   IoFileTrayStackedOutline,
@@ -11,6 +12,7 @@ import {
   IoGrid,
   IoLogoDiscord,
   IoNewspaperOutline,
+  IoRefreshOutline,
   IoShareOutline,
   IoTimer,
   IoToggle,
@@ -35,6 +37,8 @@ const getIconByName = (name: IconName, props: IconBaseProps) => {
       return <IoTimer {...props} />;
     case IconName.CIRCLE:
       return <IoEllipse {...props} />;
+    case IconName.CIRCLE_UP:
+      return <IoCaretUpCircleOutline {...props} />;
     case IconName.CONNECT:
       return <IoShareOutline {...props} />;
     case IconName.DISCORD:
@@ -58,6 +62,13 @@ const getIconByName = (name: IconName, props: IconBaseProps) => {
       );
     case IconName.TOGGLE_ON:
       return <IoToggle {...props} style={{ color: "var(--ba-lightred)" }} />;
+    case IconName.UNDO:
+      return (
+        <IoRefreshOutline
+          {...props}
+          className={classNames(props.className, "icon--mirror-and-rotate-90")}
+        />
+      );
     case IconName.WEBSITE:
       return <IoGlobeOutline {...props} />;
     // default:
