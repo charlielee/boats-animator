@@ -18,5 +18,6 @@
   height: calc(100vh - var(--height-500));
   max-height: calc(var(--height-500) * 8);
   max-width: calc(var(--height-500) * 12);
+  overflow: hidden;
   width: calc(100vw - var(--height-500));
 }

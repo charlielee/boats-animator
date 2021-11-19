@@ -8,7 +8,11 @@ import IconName from "../../common/Icon/IconName";
 import Modal from "../../common/Modal/Modal";
 import ModalBody from "../../common/ModalBody/ModalBody";
 import ModalFooter from "../../common/ModalFooter/ModalFooter";
-import ModalHeader from "../../common/ModalHeader/ModalHeader";
+import Page from "../../common/Page/Page";
+import PageBody from "../../common/PageBody/PageBody";
+import Sidebar from "../../common/Sidebar/Sidebar";
+import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
+import NewsFeed from "../NewsFeed/NewsFeed";
 
 const StartupModal = (): JSX.Element => {
   const [appVersion, setAppVersion] = useState("");
@@ -22,11 +26,22 @@ const StartupModal = (): JSX.Element => {
 
   return (
     <Modal>
-      <ModalHeader title="Projects" />
       <ModalBody>
-        <Content>
-          <ContentBlock>Hi</ContentBlock>
-        </Content>
+        <Page>
+          <PageBody>
+            <Content>
+              <ContentBlock title="Projects" titleIcon={IconName.PROJECTS}>
+                Hi
+              </ContentBlock>
+            </Content>
+
+            <Sidebar>
+              <SidebarBlock title="Connect" titleIcon={IconName.CONNECT}>
+                <NewsFeed />
+              </SidebarBlock>
+            </Sidebar>
+          </PageBody>
+        </Page>
       </ModalBody>
 
       <ModalFooter>
