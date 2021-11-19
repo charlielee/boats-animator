@@ -6,8 +6,6 @@ import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
-import PageFooter from "../../common/PageFooter/PageFooter";
-import PageFooterItem from "../../common/PageFooterItem/PageFooterItem";
 import Sidebar from "../../common/Sidebar/Sidebar";
 import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Tab from "../../common/Tab/Tab";
@@ -78,13 +76,6 @@ const Animator = (): JSX.Element => {
           />
         </Sidebar>
       </PageBody>
-
-      <PageFooter>
-        <PageFooterItem value={"Frame 1 of 0"}></PageFooterItem>
-        <PageFooterItem value={"15 FPS"}></PageFooterItem>
-        <PageFooterItem value={"No camera selected"}></PageFooterItem>
-        <PageFooterItem value={"Capture mode"}></PageFooterItem>
-      </PageFooter>
     </Page>
   );
 };
