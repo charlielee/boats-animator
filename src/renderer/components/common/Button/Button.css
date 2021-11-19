@@ -7,11 +7,11 @@
   display: flex;
   color: var(--ba-dark);
   flex: 1;
-  /* flex-direction: column; */
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  font-weight: 500;
   line-height: inherit;
-  padding: var(--margin-050);
+  padding: var(--margin-050) var(--margin-100);
 }
 
 .button:hover {
@@ -29,20 +29,16 @@
   outline: none;
 }
 
-.button--style-default {
-  /* display: flex; */
+.button--color-primary {
+  background-color: var(--ba-blue);
 }
 
 .button__icon-container {
   display: flex;
   align-items: center;
   margin-right: var(--margin-050);
-  /* width: 100%; */
-  /* display: inline; */
 }
 
 .button__label {
-  /* width: 100%; */
-  /* display: inline; */
   white-space: nowrap;
 }

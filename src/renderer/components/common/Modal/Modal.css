@@ -15,8 +15,8 @@
   border-radius: var(--margin-050);
   display: flex;
   flex-direction: column;
-  height: 90%;
-  max-height: 500px;
-  max-width: 800px;
-  width: 90%;
+  height: calc(100vh - var(--height-500));
+  max-height: calc(var(--height-500) * 8);
+  max-width: calc(var(--height-500) * 12);
+  width: calc(100vw - var(--height-500));
 }

@@ -1,12 +1,15 @@
+import classNames from "classnames";
 import { useHistory } from "react-router";
 import { PageRoute } from "../../../../common/PageRoute";
 import Icon from "../Icon/Icon";
 import IconName from "../Icon/IconName";
 import "./Button.css";
+import { ButtonColor } from "./ButtonColor";
 import { ButtonStyle } from "./ButtonStyle";
 
 interface ButtonProps {
   title: string;
+  color?: ButtonColor;
   icon?: IconName;
   label?: string;
   style?: ButtonStyle;
@@ -15,6 +18,7 @@ interface ButtonProps {
 
 const Button = ({
   title,
+  color,
   icon,
   label = title,
   style = ButtonStyle.DEFAULT,
@@ -27,7 +31,13 @@ const Button = ({
   };
 
   return (
-    <button className="button" title={title} onClick={handleClick}>
+    <button
+      className={classNames("button", {
+        "button--color-primary": color === ButtonColor.PRIMARY,
+      })}
+      title={title}
+      onClick={handleClick}
+    >
       {icon !== undefined && (
         <div className="button__icon-container">
           <Icon
