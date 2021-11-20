@@ -9,7 +9,7 @@ interface TimelineTrackProps {
 
 const TimelineTrack = ({ track }: TimelineTrackProps): JSX.Element => {
   return (
-    <tr className="timeline-track">
+    <div className="timeline-track">
       <TimelineTrackLabel trackType={track.trackType} />
 
       {track.trackItems.length === 0 ? (
@@ -17,7 +17,7 @@ const TimelineTrack = ({ track }: TimelineTrackProps): JSX.Element => {
       ) : (
         <>TODO</>
       )}
-    </tr>
+    </div>
   );
 };
 

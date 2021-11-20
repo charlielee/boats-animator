@@ -1,4 +1,5 @@
 import { TrackType } from "../../../../../common/Project";
+import "./TimelineTrackNoItems.css";
 
 interface TimelineTrackNoItemsProps {
   trackType: TrackType;
@@ -8,13 +9,13 @@ const TimelineTrackNoItems = ({
   trackType,
 }: TimelineTrackNoItemsProps): JSX.Element => {
   return (
-    <td className="timeline-track-no-items">
-      <h2>
+    <div className="timeline-track-no-items">
+      <p>
         {trackType === TrackType.FRAME
           ? "No frames captured."
           : "No audio imported."}
-      </h2>
-    </td>
+      </p>
+    </div>
   );
 };
 

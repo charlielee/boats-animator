@@ -1,10 +1,8 @@
 .timeline-track-label {
   align-items: center;
+  border-right: var(--border-1) solid var(--ba-border);
+  color: var(--ba-light-mid);
+  display: flex;
   height: 100%;
   padding: var(--margin-100);
-  width: var(--height-300);
-}
-
-.timeline-track-label__icon-container {
-  height: 100%;
 }

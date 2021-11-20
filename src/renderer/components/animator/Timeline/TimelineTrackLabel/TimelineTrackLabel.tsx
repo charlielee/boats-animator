@@ -11,13 +11,14 @@ const TimelineTrackLabel = ({
   trackType,
 }: TimelineTrackLabelProps): JSX.Element => {
   return (
-    <th className="timeline-track-label">
-      <div className="timeline-track-label__icon-container">
-        {trackType === TrackType.FRAME && (
-          <Icon name={IconName.FRAMES} size="1.5rem" />
-        )}
-      </div>
-    </th>
+    <div
+      className="timeline-track-label"
+      title={trackType === TrackType.FRAME ? "Frame Track" : "Audio Track"}
+    >
+      {trackType === TrackType.FRAME && (
+        <Icon name={IconName.FRAMES} size="1.5rem" />
+      )}
+    </div>
   );
 };
 
