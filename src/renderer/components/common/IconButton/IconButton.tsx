@@ -1,19 +1,9 @@
 import classNames from "classnames";
-import { PageRoute } from "../../../../common/PageRoute";
-import Button from "../Button/Button";
+import Button, { ButtonProps } from "../Button/Button";
 import { ButtonColor } from "../Button/ButtonColor";
-import IconName from "../Icon/IconName";
 import "./IconButton.css";
 
-interface IconButtonProps {
-  title: string;
-  className?: string;
-  color?: ButtonColor;
-  icon?: IconName;
-  onClick: Function | PageRoute;
-}
-
-const IconButton = (props: IconButtonProps): JSX.Element => {
+const IconButton = (props: ButtonProps): JSX.Element => {
   return (
     <Button
       {...props}

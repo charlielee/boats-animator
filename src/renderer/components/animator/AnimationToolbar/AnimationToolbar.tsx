@@ -1,3 +1,4 @@
+import { useState } from "react";
 import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
@@ -5,8 +6,12 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, {
   ToolbarItemAlign,
 } from "../../common/ToolbarItem/ToolbarItem";
+import "./AnimationToolbar.css";
 
 const AnimationToolbar = (): JSX.Element => {
+  const [loopPlayback, setLoopPlayback] = useState(false);
+  const [shortPlay, setShortPlay] = useState(false);
+
   return (
     <Toolbar borderTop borderBottom>
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
@@ -23,6 +28,7 @@ const AnimationToolbar = (): JSX.Element => {
         <IconButton
           title="Capture Frame"
           icon={IconName.CAPTURE}
+          className="animation-toolbar__capture-button"
           onClick={() => undefined}
         />
       </ToolbarItem>
@@ -57,16 +63,19 @@ const AnimationToolbar = (): JSX.Element => {
           title="Last Frame"
           icon={IconName.PLAY_LAST}
           onClick={() => undefined}
+          className="animation-toolbar__play-last-button"
         />
         <IconButton
-          title="Loop Playback"
+          title={`${loopPlayback ? "Disable" : "Enable"} Loop Playback`}
           icon={IconName.PLAY_LOOP}
-          onClick={() => undefined}
+          onClick={() => setLoopPlayback((prevState) => !prevState)}
+          active={loopPlayback}
         />
         <IconButton
-          title="Loop Playback"
-          icon={IconName.PLAY_SHORT_OFF}
-          onClick={() => undefined}
+          title={`${shortPlay ? "Disable" : "Enable"} Short Play`}
+          icon={IconName.PLAY_SHORT}
+          onClick={() => setShortPlay((prevState) => !prevState)}
+          active={shortPlay}
         />
       </ToolbarItem>
     </Toolbar>

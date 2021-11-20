@@ -6,8 +6,9 @@ import IconName from "../Icon/IconName";
 import "./Button.css";
 import { ButtonColor } from "./ButtonColor";
 
-interface ButtonProps {
+export interface ButtonProps {
   title: string;
+  active?: boolean;
   className?: string;
   color?: ButtonColor;
   icon?: IconName;
@@ -17,6 +18,7 @@ interface ButtonProps {
 
 const Button = ({
   title,
+  active = false,
   className,
   color,
   icon,
@@ -40,7 +42,7 @@ const Button = ({
     >
       {icon !== undefined && (
         <div className="button__icon-container">
-          <Icon name={icon} />
+          <Icon name={icon} active={active} />
         </div>
       )}
 

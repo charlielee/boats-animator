@@ -1,3 +1,7 @@
+.icon--active {
+  color: var(--ba-lightred);
+}
+
 .icon--mirrored {
   transform: scale(-1, 1);
 }

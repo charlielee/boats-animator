@@ -4,6 +4,7 @@ import {
   IoAddCircleOutline,
   IoCamera,
   IoCaretUpCircleOutline,
+  IoCodeWorkingOutline,
   IoDownload,
   IoEllipse,
   IoFileTrayStackedOutline,
@@ -30,11 +31,16 @@ import IconName from "./IconName";
 
 interface IconProps {
   name: IconName;
+  active?: boolean;
   className?: string;
   size?: string;
 }
 
-const getIconByName = (name: IconName, props: IconBaseProps) => {
+const getIconByName = (
+  name: IconName,
+  active: boolean,
+  props: IconBaseProps
+) => {
   // See possible icons at https://react-icons.github.io/react-icons/icons?name=io5
   switch (name) {
     case IconName.ADD:
@@ -75,21 +81,17 @@ const getIconByName = (name: IconName, props: IconBaseProps) => {
       return <IoPlaySkipForwardOutline {...props} />;
     case IconName.PLAY_LOOP:
       return <IoSyncOutline {...props} />;
-    case IconName.PLAY_SHORT_OFF:
-      return <IoFileTrayStackedOutline {...props} />;
-    case IconName.PLAY_SHORT_ON:
-      return <IoFileTrayStackedOutline {...props} />;
+    case IconName.PLAY_SHORT:
+      return <IoCodeWorkingOutline {...props} />;
     case IconName.PROJECTS:
       return <IoFileTrayStackedOutline {...props} />;
-    case IconName.TOGGLE_OFF:
+    case IconName.TOGGLE:
       return (
         <IoToggle
           {...props}
-          className={classNames(props.className, "icon--mirrored")}
+          className={classNames(props.className, { "icon--mirrored": !active })}
         />
       );
-    case IconName.TOGGLE_ON:
-      return <IoToggle {...props} style={{ color: "var(--ba-lightred)" }} />;
     case IconName.UNDO:
       return (
         <IoRefreshOutline
@@ -104,9 +106,9 @@ const getIconByName = (name: IconName, props: IconBaseProps) => {
   }
 };
 
-const Icon = ({ name, className, size = "1em" }: IconProps) => {
-  return getIconByName(name, {
-    className: classNames("icon", className),
+const Icon = ({ name, active = false, className, size = "1em" }: IconProps) => {
+  return getIconByName(name, active, {
+    className: classNames("icon", className, { "icon--active": active }),
     size,
   });
 };
