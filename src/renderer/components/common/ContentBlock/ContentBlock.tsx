@@ -5,6 +5,7 @@ import IconName from "../Icon/IconName";
 import "./ContentBlock.css";
 
 interface ContentBlockProps {
+  className?: string;
   title?: string;
   titleIcon?: IconName;
   flex?: boolean;
@@ -12,6 +13,7 @@ interface ContentBlockProps {
 }
 
 const ContentBlock = ({
+  className,
   title,
   titleIcon,
   flex,
@@ -19,7 +21,9 @@ const ContentBlock = ({
 }: ContentBlockProps): JSX.Element => {
   return (
     <div
-      className={classNames("content-block", { "content-block--flex": flex })}
+      className={classNames("content-block", className, {
+        "content-block--flex": flex,
+      })}
     >
       {title !== undefined && (
         <h2>

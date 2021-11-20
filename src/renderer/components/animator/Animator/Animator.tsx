@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import Content from "../../common/Content/Content";
-import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
@@ -10,6 +8,7 @@ import Tab from "../../common/Tab/Tab";
 import TabGroup from "../../common/TabGroup/TabGroup";
 import AnimationToolbar from "../AnimationToolbar/AnimationToolbar";
 import ExportDirectory from "../ExportDirectory/ExportDirectory";
+import PreviewArea from "../PreviewArea/PreviewArea";
 import StatusToolbar from "../StatusToolbar/StatusToolbar";
 
 const Animator = (): JSX.Element => {
@@ -19,13 +18,7 @@ const Animator = (): JSX.Element => {
         <Content>
           <StatusToolbar />
 
-          <ContentBlock flex>
-            <h1>Hello Boats Animator World!</h1>
-
-            <p>Your current platform is {window.preload.platform}.</p>
-
-            <Link to="/">Go to launcher</Link>
-          </ContentBlock>
+          <PreviewArea active />
 
           <AnimationToolbar />
         </Content>
