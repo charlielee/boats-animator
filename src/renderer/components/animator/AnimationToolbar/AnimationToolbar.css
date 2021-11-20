@@ -1,5 +1,5 @@
-.animation-toolbar__capture-button {
-  color: var(--ba-blue);
+.animation-toolbar {
+  padding: var(--margin-100) var(--margin-050);
 }
 
 .animation-toolbar__capture-button .button__icon-container {

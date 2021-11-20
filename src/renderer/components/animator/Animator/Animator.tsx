@@ -1,3 +1,4 @@
+import { TrackType } from "../../../../common/Project";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
 import Page from "../../common/Page/Page";
@@ -10,6 +11,7 @@ import AnimationToolbar from "../AnimationToolbar/AnimationToolbar";
 import ExportDirectory from "../ExportDirectory/ExportDirectory";
 import PreviewArea from "../PreviewArea/PreviewArea";
 import StatusToolbar from "../StatusToolbar/StatusToolbar";
+import Timeline from "../Timeline/Timeline";
 
 const Animator = (): JSX.Element => {
   return (
@@ -21,6 +23,10 @@ const Animator = (): JSX.Element => {
           <PreviewArea active />
 
           <AnimationToolbar />
+
+          <Timeline
+            tracks={[{ id: "1", trackType: TrackType.FRAME, trackItems: [] }]}
+          />
         </Content>
 
         <Sidebar>

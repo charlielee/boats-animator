@@ -14,17 +14,17 @@ interface Take {
   frameTrack: Track;
 }
 
-interface Track {
+export interface Track {
   id: string;
   trackType: TrackType;
-  trackItems: TrackItem;
+  trackItems: TrackItem[];
 }
 
-enum TrackType {
+export enum TrackType {
   FRAME = "FRAME",
 }
 
-interface TrackItem {
+export interface TrackItem {
   id: string;
   lengthInFrames: number;
   trackFiles: TrackFile[];

@@ -6,16 +6,18 @@ interface ToolbarProps {
   children: ReactNode;
   borderTop?: boolean;
   borderBottom?: boolean;
+  className?: string;
 }
 
 const Toolbar = ({
   children,
   borderTop,
   borderBottom,
+  className,
 }: ToolbarProps): JSX.Element => {
   return (
     <div
-      className={classNames("toolbar", {
+      className={classNames("toolbar", className, {
         "toolbar--border-top": borderTop,
         "toolbar--border-bottom": borderBottom,
       })}

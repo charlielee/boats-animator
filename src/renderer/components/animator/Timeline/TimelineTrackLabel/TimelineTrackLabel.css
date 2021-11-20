@@ -1,0 +1,10 @@
+.timeline-track-label {
+  align-items: center;
+  height: 100%;
+  padding: var(--margin-100);
+  width: var(--height-300);
+}
+
+.timeline-track-label__icon-container {
+  height: 100%;
+}

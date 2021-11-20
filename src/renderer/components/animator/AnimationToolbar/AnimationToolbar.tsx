@@ -13,7 +13,7 @@ const AnimationToolbar = (): JSX.Element => {
   const [shortPlay, setShortPlay] = useState(false);
 
   return (
-    <Toolbar borderTop borderBottom>
+    <Toolbar borderTop borderBottom className="animation-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <ButtonGroup>
           <IconButton

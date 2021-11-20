@@ -55,6 +55,10 @@ h3 {
   font-size: 1.2rem;
 }
 
+table {
+  border-spacing: 0;
+}
+
 #root {
   height: 100%;
 }

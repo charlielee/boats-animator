@@ -7,6 +7,7 @@ const enum IconName {
   CIRCLE_UP = "CIRCLE_UP",
   DISCORD = "DISCORD",
   EXPORT = "EXPORT",
+  FRAMES = "FRAMES",
   FOLDER = "FOLDER",
   GUIDES = "GUIDES",
   NEWS = "NEWS",

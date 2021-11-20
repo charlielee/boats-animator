@@ -15,6 +15,7 @@
 
   --height-300: calc(var(--width-1) * 48);
   --height-500: calc(var(--width-1) * 80);
+  --height-1000: calc(var(--width-1) * 160);
 
   --border-1: var(--width-1);
   --border-2: var(--width-2);

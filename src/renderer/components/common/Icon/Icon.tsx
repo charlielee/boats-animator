@@ -11,6 +11,7 @@ import {
   IoFolderOutline,
   IoGlobeOutline,
   IoGrid,
+  IoImages,
   IoLogoDiscord,
   IoNewspaperOutline,
   IoPauseOutline,
@@ -59,6 +60,8 @@ const getIconByName = (
       return <IoLogoDiscord {...props} />;
     case IconName.EXPORT:
       return <IoDownload {...props} />;
+    case IconName.FRAMES:
+      return <IoImages {...props} />;
     case IconName.FOLDER:
       return <IoFolderOutline {...props} />;
     case IconName.GUIDES:
