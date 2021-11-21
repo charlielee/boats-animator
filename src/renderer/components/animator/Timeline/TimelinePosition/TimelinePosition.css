@@ -1,5 +1,6 @@
 .timeline-position {
   background-color: var(--ba-dark-mid-hover);
+  color: var(--ba-light-mid);
   display: flex;
   font-size: 0.75rem;
   height: var(--height-200);
