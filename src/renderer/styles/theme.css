@@ -64,7 +64,7 @@ table {
 }
 
 ::-webkit-scrollbar {
-  background-color: var(--ba-dark-20);
+  background-color: var(--ba-dark-mid-hover);
   width: 0.9rem;
   height: 0.9rem;
 }

@@ -1,5 +1,5 @@
 .timeline-track {
   align-items: center;
   display: flex;
-  height: var(--height-1000);
+  height: var(--height-800);
 }

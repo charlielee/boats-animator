@@ -1,7 +1,7 @@
 .toolbar {
   align-items: center;
   display: flex;
-  height: var(--height-500);
+  height: var(--height-400);
   justify-content: space-between;
   margin: 0;
   padding: var(--margin-100);

@@ -9,7 +9,7 @@
   font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
-  height: var(--height-300);
+  height: var(--height-200);
   line-height: inherit;
   padding: var(--margin-050) var(--margin-100);
 }

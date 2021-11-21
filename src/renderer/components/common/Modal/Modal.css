@@ -15,9 +15,9 @@
   border-radius: var(--margin-050);
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--height-500));
-  max-height: calc(var(--height-500) * 8);
-  max-width: calc(var(--height-500) * 12);
+  height: calc(100vh - var(--height-400));
+  max-height: calc(var(--height-400) * 8);
+  max-width: calc(var(--height-400) * 12);
   overflow: hidden;
-  width: calc(100vw - var(--height-500));
+  width: calc(100vw - var(--height-400));
 }
