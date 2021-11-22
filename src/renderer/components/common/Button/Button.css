@@ -1,15 +1,17 @@
 .button {
+  align-items: center;
   appearance: none;
   background-color: var(--ba-light);
   border: var(--border-1) solid var(--ba-border-active);
   border-radius: var(--margin-025);
+  display: flex;
   color: var(--ba-dark);
-  flex: 1;
-  flex-direction: column;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  font-weight: 500;
+  height: var(--height-200);
   line-height: inherit;
-  padding: var(--margin-050);
+  padding: var(--margin-050) var(--margin-100);
 }
 
 .button:hover {
@@ -28,9 +30,27 @@
 }
 
 .button__icon-container {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  margin-right: var(--margin-050);
 }
 
 .button__label {
-  width: 100%;
+  white-space: nowrap;
+}
+
+.button--color-primary {
+  background-color: var(--ba-blue);
+}
+
+.button--color-transparent {
+  background-color: transparent;
+  color: var(--ba-light);
+}
+.button--color-transparent:hover {
+  background-color: var(--ba-dark-hover);
+}
+.button--color-transparent:active {
+  background-color: var(--ba-dark-active);
 }

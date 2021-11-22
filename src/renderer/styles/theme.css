@@ -8,7 +8,7 @@
 }
 
 html {
-  font-size: 0.825em;
+  font-size: 0.85em;
 }
 
 body {
@@ -55,12 +55,16 @@ h3 {
   font-size: 1.2rem;
 }
 
+table {
+  border-spacing: 0;
+}
+
 #root {
   height: 100%;
 }
 
 ::-webkit-scrollbar {
-  background-color: var(--ba-dark-20);
+  background-color: var(--ba-dark-mid-hover);
   width: 0.9rem;
   height: 0.9rem;
 }

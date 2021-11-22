@@ -1,3 +1,11 @@
+.icon--active {
+  color: var(--ba-lightred);
+}
+
 .icon--mirrored {
   transform: scale(-1, 1);
+}
+
+.icon--mirror-and-rotate-90 {
+  transform: scale(-1, 1) rotate(90deg);
 }

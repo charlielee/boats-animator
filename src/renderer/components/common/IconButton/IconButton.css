@@ -1,0 +1,13 @@
+.icon-button {
+  border: var(--border-1) solid transparent;
+  padding: var(--margin-050);
+}
+
+.icon-button .button__icon-container {
+  font-size: 1.5rem;
+  margin-right: 0;
+}
+
+.icon-button .button__label {
+  display: none;
+}

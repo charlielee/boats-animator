@@ -1,0 +1,7 @@
+.timeline-track-no-items {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  height: 100%;
+  padding: var(--margin-100);
+}

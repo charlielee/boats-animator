@@ -1,0 +1,16 @@
+.timeline-position {
+  background-color: var(--ba-dark-mid-hover);
+  color: var(--ba-light-mid);
+  display: flex;
+  font-size: 0.75rem;
+  height: var(--height-200);
+  line-height: 1.2;
+  overflow: hidden;
+  padding-left: calc(var(--width-16) * 5 + var(--border-1));
+  width: 100%;
+}
+
+.timeline-position__marker {
+  min-width: calc(var(--width-16) * 8);
+  width: calc(var(--width-16) * 8);
+}

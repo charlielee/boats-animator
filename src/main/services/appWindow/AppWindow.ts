@@ -12,6 +12,7 @@ import { WindowSize } from "../../../common/WindowSize";
 import SettingsFileStore from "../fileStore/SettingsFileStore";
 
 export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
+  autoHideMenuBar: true,
   backgroundColor: "#171717",
   height: 715,
   minHeight: 400,

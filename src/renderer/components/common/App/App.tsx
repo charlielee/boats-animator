@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
-import Animator from "../../../pages/Animator/Animator";
-import Launcher from "../../../pages/Launcher/Launcher";
 import { loadPreferences } from "../../../services/userPreferences/UserPreferencesApi";
+import Animator from "../../animator/Animator/Animator";
+import StartupModal from "../../projectsModals/StartupModal/StartupModal";
 import AppListeners from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
 
@@ -20,10 +20,12 @@ const App = (): JSX.Element => {
       <AppListeners />
       <AppLoad />
 
-      <Switch>
-        <Route exact path={PageRoute.LAUNCHER} component={Launcher} />
-        <Route exact path={PageRoute.ANIMATOR} component={Animator} />
-      </Switch>
+      <Route exact path="/">
+        <Redirect to={PageRoute.STARTUP_MODAL} />
+      </Route>
+
+      <Route exact path={PageRoute.STARTUP_MODAL} component={StartupModal} />
+      <Route path={PageRoute.ANIMATOR} component={Animator} />
     </>
   );
 };

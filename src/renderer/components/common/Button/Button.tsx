@@ -1,23 +1,28 @@
+import classNames from "classnames";
 import { useHistory } from "react-router";
 import { PageRoute } from "../../../../common/PageRoute";
 import Icon from "../Icon/Icon";
 import IconName from "../Icon/IconName";
 import "./Button.css";
-import { ButtonStyle } from "./ButtonStyle";
+import { ButtonColor } from "./ButtonColor";
 
-interface ButtonProps {
+export interface ButtonProps {
   title: string;
+  active?: boolean;
+  className?: string;
+  color?: ButtonColor;
   icon?: IconName;
   label?: string;
-  style?: ButtonStyle;
   onClick: Function | PageRoute;
 }
 
 const Button = ({
   title,
+  active = false,
+  className,
+  color,
   icon,
   label = title,
-  style = ButtonStyle.DEFAULT,
   onClick,
 }: ButtonProps): JSX.Element => {
   const history = useHistory();
@@ -27,13 +32,17 @@ const Button = ({
   };
 
   return (
-    <button className="button" title={title} onClick={handleClick}>
+    <button
+      className={classNames("button", className, {
+        "button--color-primary": color === ButtonColor.PRIMARY,
+        "button--color-transparent": color === ButtonColor.TRANSPARENT,
+      })}
+      title={title}
+      onClick={handleClick}
+    >
       {icon !== undefined && (
         <div className="button__icon-container">
-          <Icon
-            name={icon}
-            size={style === ButtonStyle.LARGE_ICON ? "4em" : "1em"}
-          />
+          <Icon name={icon} active={active} />
         </div>
       )}
 
