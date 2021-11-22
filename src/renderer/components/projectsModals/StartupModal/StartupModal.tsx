@@ -46,7 +46,7 @@ const StartupModal = (): JSX.Element => {
       </ModalBody>
 
       <ModalFooter>
-        <Toolbar>
+        <Toolbar borderTop>
           <ButtonGroup>
             <Button
               title="New Project"

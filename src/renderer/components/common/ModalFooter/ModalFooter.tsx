@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import "./ModalFooter.css";
 
 interface ModalFooterProps {
   children: ReactNode;
