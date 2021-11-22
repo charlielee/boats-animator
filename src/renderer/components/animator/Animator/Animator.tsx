@@ -20,7 +20,7 @@ const Animator = (): JSX.Element => {
         <Content>
           <StatusToolbar />
 
-          <PreviewArea active />
+          <PreviewArea />
 
           <AnimationToolbar />
 
