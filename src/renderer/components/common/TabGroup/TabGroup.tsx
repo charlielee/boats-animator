@@ -22,7 +22,7 @@ const TabGroup = ({ titles, tabs }: TabGroupProps): JSX.Element => {
             onClick={() => setActiveIndex(index)}
             key={title}
           >
-            {title}
+            <div className="tab-group__nav-item-text">{title}</div>
           </a>
         ))}
       </div>

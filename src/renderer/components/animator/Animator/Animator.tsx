@@ -31,7 +31,7 @@ const Animator = (): JSX.Element => {
 
         <Sidebar>
           <TabGroup
-            titles={["Capture", "Guides", "Export"]}
+            titles={["Capture", "Guides", "X-Sheet", "Media"]}
             tabs={[
               <Tab>
                 <SidebarBlock title="Capture" titleIcon={IconName.CAPTURE}>
@@ -49,6 +49,12 @@ const Animator = (): JSX.Element => {
               <Tab>
                 <SidebarBlock title="Guides" titleIcon={IconName.GUIDES}>
                   Guides
+                </SidebarBlock>
+              </Tab>,
+
+              <Tab>
+                <SidebarBlock title="X-Sheet" titleIcon={IconName.GUIDES}>
+                  X-Sheet
                 </SidebarBlock>
               </Tab>,
 
