@@ -19,7 +19,9 @@
   flex: 1;
   font-size: 0.8rem;
   justify-content: center;
+  letter-spacing: 0.04rem;
   padding: 0 calc(var(--margin-100) + var(--border-1));
+  position: relative;
   text-transform: uppercase;
 }
 
@@ -37,10 +39,13 @@
   border-left: var(--border-1) solid var(--ba-light-mid);
   border-right: var(--border-1) solid var(--ba-light-mid);
   color: var(--ba-white);
+  font-weight: bold;
+  letter-spacing: 0;
   padding: 0 var(--margin-100) var(--border-1) var(--margin-100);
 }
 
 .tab-group__nav-item-text {
+  position: absolute;
 }
 
 .tab-group__panes {
