@@ -18,8 +18,7 @@ class IpcToMainHandler implements IpcToMainApi {
   saveSettingsAndClose = (userPreferences: UserPreferences) => {
     const appWindowSize = this.appWindow.getWindowSize();
     this.settingsFileStore.save({ appWindowSize, userPreferences });
-    this.appWindow.confirmBeforeClose = false;
-    this.appWindow.close();
+    this.appWindow.destroy();
   };
 
   openConfirmPrompt = (message: string) =>

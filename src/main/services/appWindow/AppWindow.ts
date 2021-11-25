@@ -28,8 +28,6 @@ export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
 };
 
 class AppWindow extends BrowserWindow {
-  public confirmBeforeClose: boolean;
-
   constructor(
     browserWindowOptions: BrowserWindowConstructorOptions,
     private settingsFileStore: SettingsFileStore
@@ -40,8 +38,6 @@ class AppWindow extends BrowserWindow {
         AppWindow.getPreviousWinBounds(settingsFileStore)
       )
     );
-
-    this.confirmBeforeClose = true;
   }
 
   loadLauncher() {
@@ -61,10 +57,8 @@ class AppWindow extends BrowserWindow {
     });
 
     this.on("close", (e) => {
-      if (this.confirmBeforeClose) {
-        e.preventDefault();
-        this.webContents.send(IpcChannel.ON_CLOSE_BUTTON_CLICK);
-      }
+      e.preventDefault();
+      this.webContents.send(IpcChannel.ON_CLOSE_BUTTON_CLICK);
     });
   }
 
