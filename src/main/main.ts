@@ -12,7 +12,7 @@ app.whenReady().then(() => {
   let appWindow = new AppWindow(DEFAULT_WINDOW_OPTIONS, settingsFileStore);
   appWindow.loadLauncher();
 
-  addIpcToMainHandlers(appWindow, settingsFileStore);
+  addIpcToMainHandlers(settingsFileStore);
 
   // Someone tried to run a second instance, we should focus our window.
   app.on("second-instance", () => appWindow.restoreAndFocus());

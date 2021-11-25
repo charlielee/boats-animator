@@ -1,4 +1,4 @@
-import { PreloadApi } from "../rendererPreload/PreloadApi";
+import { PreloadApi } from "../rendererPreload/preload";
 
 // Enables access to preload.ts methods via window.preload
 declare global {
