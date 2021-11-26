@@ -30,7 +30,7 @@ export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
 class AppWindow extends BrowserWindow {
   constructor(
     browserWindowOptions: BrowserWindowConstructorOptions,
-    private settingsFileStore: SettingsFileStore
+    settingsFileStore: SettingsFileStore
   ) {
     super(
       Object.assign(
@@ -40,7 +40,7 @@ class AppWindow extends BrowserWindow {
     );
   }
 
-  loadLauncher() {
+  loadLauncher(settingsFileStore: SettingsFileStore) {
     this.loadURL(
       app.isPackaged
         ? `file://${path.join(__dirname, "renderer/index.html")}`
@@ -48,7 +48,7 @@ class AppWindow extends BrowserWindow {
     );
 
     this.once("ready-to-show", () => {
-      if (this.settingsFileStore.get().appWindowSize.isMaximized) {
+      if (settingsFileStore.get().appWindowSize.isMaximized) {
         this.maximize();
         this.focus();
       } else {

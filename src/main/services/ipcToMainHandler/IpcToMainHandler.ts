@@ -1,8 +1,6 @@
 import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from "electron";
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import Ipc from "../../../common/ipc/IpcHandler";
-import { UserPreferences } from "../../../common/UserPreferences";
-import { WindowSize } from "../../../common/WindowSize";
 import { getWindowSize } from "../../windowUtils";
 import AppWindow from "../appWindow/AppWindow";
 import SettingsFileStore from "../fileStore/SettingsFileStore";
@@ -20,7 +18,7 @@ class IpcToMainHandler {
 
   saveSettingsAndClose = async (
     e: IpcMainInvokeEvent,
-    win: BrowserWindow,
+    win: AppWindow,
     ...args: Ipc.SaveSettingsAndClose.Args
   ): Ipc.SaveSettingsAndClose.Response => {
     const [userPreferences] = args;
@@ -34,26 +32,22 @@ class IpcToMainHandler {
 
   openConfirmPrompt = (
     e: IpcMainInvokeEvent,
-    win: BrowserWindow,
+    win: AppWindow,
     args: Ipc.OpenConfirmPrompt.Args
-  ): Ipc.OpenConfirmPrompt.Response => win.openConfirmPrompt(message);
+  ): Ipc.OpenConfirmPrompt.Response => win.openConfirmPrompt(args[0]);
 
   openDirDialog = (
     e: IpcMainInvokeEvent,
-    win: BrowserWindow,
+    win: AppWindow,
     args: Ipc.OpenDirDialog.Args
-  ): Ipc.OpenDirDialog.Response => win.openDirDialog(currentDir, title);
+  ): Ipc.OpenDirDialog.Response => win.openDirDialog(args[0], args[1]);
 
   static handleIfWindow = (
     channel: IpcChannel,
-    listener: (
-      event: IpcMainInvokeEvent,
-      win: BrowserWindow,
-      ...args: any[]
-    ) => any
+    listener: (event: IpcMainInvokeEvent, win: AppWindow, ...args: any[]) => any
   ) => {
     ipcMain.handle(channel, (event: IpcMainInvokeEvent, ...args: any[]) => {
-      const win = BrowserWindow.fromWebContents(event.sender);
+      const win = BrowserWindow.fromWebContents(event.sender) as AppWindow;
       return win ? listener(event, win, ...args) : undefined;
     });
   };

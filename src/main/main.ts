@@ -10,7 +10,7 @@ nativeTheme.themeSource = "dark";
 app.whenReady().then(() => {
   const settingsFileStore = new SettingsFileStore();
   let appWindow = new AppWindow(DEFAULT_WINDOW_OPTIONS, settingsFileStore);
-  appWindow.loadLauncher();
+  appWindow.loadLauncher(settingsFileStore);
 
   addIpcToMainHandlers(settingsFileStore);
 
@@ -27,7 +27,7 @@ app.whenReady().then(() => {
     if (appWindow.isDestroyed()) {
       appWindow = new AppWindow(DEFAULT_WINDOW_OPTIONS, settingsFileStore);
     }
-    appWindow.loadLauncher();
+    appWindow.loadLauncher(settingsFileStore);
   });
 });
 
