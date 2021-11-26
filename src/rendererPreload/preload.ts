@@ -16,19 +16,19 @@ const api = {
       ipcRenderer.invoke(IpcChannel.GET_USER_PREFERENCES),
 
     saveSettingsAndClose: (
-      ...args: Ipc.SaveSettingsAndClose.Args
+      payload: Ipc.SaveSettingsAndClose.Payload
     ): Ipc.SaveSettingsAndClose.Response =>
-      ipcRenderer.invoke(IpcChannel.SAVE_SETTINGS_AND_CLOSE, ...args),
+      ipcRenderer.invoke(IpcChannel.SAVE_SETTINGS_AND_CLOSE, payload),
 
     openConfirmPrompt: (
-      ...args: Ipc.OpenConfirmPrompt.Args
+      payload: Ipc.OpenConfirmPrompt.Payload
     ): Ipc.OpenConfirmPrompt.Response =>
-      ipcRenderer.invoke(IpcChannel.OPEN_CONFIRM_PROMPT, ...args),
+      ipcRenderer.invoke(IpcChannel.OPEN_CONFIRM_PROMPT, payload),
 
     openDirDialog: (
-      ...args: Ipc.OpenDirDialog.Args
+      payload: Ipc.OpenDirDialog.Payload
     ): Ipc.OpenDirDialog.Response =>
-      ipcRenderer.invoke(IpcChannel.OPEN_DIR_DIALOG, ...args),
+      ipcRenderer.invoke(IpcChannel.OPEN_DIR_DIALOG, payload),
   },
   ipcToRenderer: {
     onCloseButtonClick: (callback: () => void) =>

@@ -78,19 +78,19 @@ class AppWindow extends BrowserWindow {
     return choice.response === 0;
   }
 
-  async openDirDialog(currentDir: string | undefined, title: string) {
+  async openDirDialog(workingDirectory: string | undefined, title: string) {
     const result = await dialog.showOpenDialog(this, {
       title,
       // Title for macOS
       message: title,
-      defaultPath: currentDir,
+      defaultPath: workingDirectory,
       properties: ["openDirectory", "createDirectory"],
     });
 
     if (!result.canceled && result.filePaths[0]) {
       return result.filePaths[0];
     } else {
-      return currentDir;
+      return workingDirectory;
     }
   }
 
