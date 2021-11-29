@@ -4,16 +4,16 @@ import { editUserPreferences } from "../../redux/userPreferences/reducer";
 
 export const changeWorkingDirectory = async (
   dispatch: Dispatch<UserPreferencesAction>,
-  currentDirectory?: string
+  workingDirectory?: string
 ) => {
-  const workingDirectory = await window.preload.ipcToMain.openDirDialog(
-    currentDirectory,
-    "Select a directory to save captured frames"
-  );
+  const newDirectory = await window.preload.ipcToMain.openDirDialog({
+    workingDirectory,
+    title: "Select a directory to save captured frames",
+  });
 
   dispatch(
     editUserPreferences({
-      workingDirectory,
+      workingDirectory: newDirectory,
     })
   );
 };

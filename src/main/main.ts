@@ -1,21 +1,22 @@
 import { app, nativeTheme } from "electron";
-import AppWindow, {
-  DEFAULT_WINDOW_OPTIONS,
-} from "./services/appWindow/AppWindow";
-import SettingsFileStore from "./services/fileStore/SettingsFileStore";
 import { addIpcToMainHandlers } from "./services/ipcToMainHandler/IpcToMainHandler";
+import {
+  createAppWindow,
+  hasWindows,
+  loadApp,
+  restoreAndFocus,
+} from "./services/windowUtils.ts/windowUtils";
 
 nativeTheme.themeSource = "dark";
 
 app.whenReady().then(() => {
-  const settingsFileStore = new SettingsFileStore();
-  let appWindow = new AppWindow(DEFAULT_WINDOW_OPTIONS, settingsFileStore);
-  appWindow.loadLauncher();
+  let appWindow = createAppWindow();
+  loadApp(appWindow);
 
-  addIpcToMainHandlers(appWindow, settingsFileStore);
+  addIpcToMainHandlers();
 
   // Someone tried to run a second instance, we should focus our window.
-  app.on("second-instance", () => appWindow.restoreAndFocus());
+  app.on("second-instance", () => restoreAndFocus(appWindow));
 
   app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
@@ -24,10 +25,10 @@ app.whenReady().then(() => {
   });
 
   app.on("activate", () => {
-    if (appWindow.isDestroyed()) {
-      appWindow = new AppWindow(DEFAULT_WINDOW_OPTIONS, settingsFileStore);
+    if (!hasWindows()) {
+      appWindow = createAppWindow();
+      loadApp(appWindow);
     }
-    appWindow.loadLauncher();
   });
 });
 

@@ -1,55 +1,85 @@
-import { app, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from "electron";
 import IpcChannel from "../../../common/ipc/IpcChannel";
-import IpcToMainApi from "../../../common/ipc/IpcToMainApi";
-import { UserPreferences } from "../../../common/UserPreferences";
-import AppWindow from "../appWindow/AppWindow";
-import SettingsFileStore from "../fileStore/SettingsFileStore";
+import Ipc from "../../../common/ipc/IpcHandler";
+import {
+  getWindowSize,
+  openConfirmPrompt,
+  openDirDialog,
+} from "../windowUtils.ts/windowUtils";
+import { settingsFileStore } from "../fileStore/SettingsFileStore";
 
-class IpcToMainHandler implements IpcToMainApi {
-  constructor(
-    private appWindow: AppWindow,
-    private settingsFileStore: SettingsFileStore
-  ) {}
+class IpcToMainHandler {
+  constructor() {}
 
-  appVersion = async () => app.getVersion() || "";
+  appVersion = async (e: IpcMainInvokeEvent): Ipc.AppVersion.Response =>
+    app.getVersion();
 
-  getUserPreferences = async () => this.settingsFileStore.get().userPreferences;
+  getUserPreferences = async (
+    e: IpcMainInvokeEvent
+  ): Ipc.GetUserPreferences.Response => settingsFileStore.get().userPreferences;
 
-  saveSettingsAndClose = (userPreferences: UserPreferences) => {
-    const appWindowSize = this.appWindow.getWindowSize();
-    this.settingsFileStore.save({ appWindowSize, userPreferences });
-    this.appWindow.confirmBeforeClose = false;
-    this.appWindow.close();
+  saveSettingsAndClose = async (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.SaveSettingsAndClose.Payload
+  ): Ipc.SaveSettingsAndClose.Response => {
+    settingsFileStore.save({
+      appWindowSize: getWindowSize(win),
+      userPreferences: payload.userPreferences,
+    });
+    win.destroy();
   };
 
-  openConfirmPrompt = (message: string) =>
-    this.appWindow.openConfirmPrompt(message);
+  openConfirmPrompt = (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.OpenConfirmPrompt.Payload
+  ): Ipc.OpenConfirmPrompt.Response => openConfirmPrompt(win, payload.message);
 
-  openDirDialog = (currentDir: string | undefined, title: string) =>
-    this.appWindow.openDirDialog(currentDir, title);
+  openDirDialog = (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.OpenDirDialog.Payload
+  ): Ipc.OpenDirDialog.Response =>
+    openDirDialog(win, payload.workingDirectory, payload.title);
+
+  static handleIfWindow = (
+    channel: IpcChannel,
+    listener: (
+      event: IpcMainInvokeEvent,
+      win: BrowserWindow,
+      payload: any
+    ) => any
+  ) => {
+    ipcMain.handle(channel, (event: IpcMainInvokeEvent, payload: any) => {
+      const win = BrowserWindow.fromWebContents(event.sender);
+      return win ? listener(event, win, payload) : undefined;
+    });
+  };
 }
 
-export const addIpcToMainHandlers = (
-  appWindow: AppWindow,
-  settingsFileStore: SettingsFileStore
-) => {
-  const ipcHandler = new IpcToMainHandler(appWindow, settingsFileStore);
+export const addIpcToMainHandlers = () => {
+  const ipcHandler = new IpcToMainHandler();
 
-  ipcMain.handle(IpcChannel.APP_VERSION, (e) => ipcHandler.appVersion());
+  ipcMain.handle(IpcChannel.APP_VERSION, ipcHandler.appVersion);
 
-  ipcMain.handle(IpcChannel.GET_USER_PREFERENCES, (e) =>
-    ipcHandler.getUserPreferences()
+  ipcMain.handle(
+    IpcChannel.GET_USER_PREFERENCES,
+    ipcHandler.getUserPreferences
   );
 
-  ipcMain.handle(IpcChannel.SAVE_SETTINGS_AND_CLOSE, (e, userPreferences) =>
-    ipcHandler.saveSettingsAndClose(userPreferences)
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.SAVE_SETTINGS_AND_CLOSE,
+    ipcHandler.saveSettingsAndClose
   );
 
-  ipcMain.handle(IpcChannel.OPEN_CONFIRM_PROMPT, (e, message) =>
-    ipcHandler.openConfirmPrompt(message)
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.OPEN_CONFIRM_PROMPT,
+    ipcHandler.openConfirmPrompt
   );
 
-  ipcMain.handle(IpcChannel.OPEN_DIR_DIALOG, (e, currentDir, title) =>
-    ipcHandler.openDirDialog(currentDir, title)
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.OPEN_DIR_DIALOG,
+    ipcHandler.openDirDialog
   );
 };

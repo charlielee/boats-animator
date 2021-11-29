@@ -35,4 +35,6 @@ class SettingsFileStore extends FileStore<SettingsFileOptions> {
   }
 }
 
+export const settingsFileStore = new SettingsFileStore();
+
 export default SettingsFileStore;
