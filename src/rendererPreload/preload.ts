@@ -1,8 +1,8 @@
 import { contextBridge, ipcRenderer, shell } from "electron";
 import IpcChannel from "../common/ipc/IpcChannel";
 import Ipc from "../common/ipc/IpcHandler";
-import { UserPreferences } from "../common/UserPreferences";
 import { NewsResponsePost } from "../renderer/services/news/NewsResponse";
+import { setListener } from "./ipcRendererUtils";
 
 // This file controls access to the Electron and Node methods required by the renderer process
 // https://www.electronjs.org/docs/tutorial/context-isolation
@@ -31,8 +31,9 @@ const api = {
       ipcRenderer.invoke(IpcChannel.OPEN_DIR_DIALOG, payload),
   },
   ipcToRenderer: {
-    onCloseButtonClick: (callback: () => void) =>
-      ipcRenderer.on(IpcChannel.ON_CLOSE_BUTTON_CLICK, callback),
+    onCloseButtonClick: (
+      callback: (payload: Ipc.OnCloseButtonClick.Payload) => void
+    ) => setListener(IpcChannel.ON_CLOSE_BUTTON_CLICK, callback),
   },
   openExternal: {
     discord: () => shell.openExternal("http://discord.boatsanimator.com"),

@@ -9,10 +9,10 @@ const AppListeners = (): JSX.Element => {
   );
 
   useEffect(() => {
-    window.preload.ipcToRenderer.onCloseButtonClick(() =>
+    return window.preload.ipcToRenderer.onCloseButtonClick(() =>
       handleOnCloseButtonClick(userPreferences)
     );
-  }, []);
+  }, [userPreferences]);
   return <></>;
 };
 
