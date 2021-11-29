@@ -27,7 +27,6 @@ namespace Ipc {
 
   export namespace OpenConfirmPrompt {
     export type Channel = "OPEN_CONFIRM_PROMPT";
-    // TODO use payload object instead of array
     export type Payload = { message: string };
     export type Response = Promise<boolean>;
   }
