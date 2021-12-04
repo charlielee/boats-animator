@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { TrackType } from "../../../../common/Project";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
 import InputNumber from "../../common/Input/InputNumber/InputNumber";
+import InputRange from "../../common/Input/InputRange/InputRange";
 import InputSelect from "../../common/Input/InputSelect/InputSelect";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
@@ -17,6 +19,7 @@ import StatusToolbar from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
 
 const Animator = (): JSX.Element => {
+  const [range, setRange] = useState(6);
   return (
     <Page>
       <PageBody>
@@ -51,6 +54,9 @@ const Animator = (): JSX.Element => {
 
                   <InputLabel>Example Number</InputLabel>
                   <InputNumber onChange={(newValue) => console.log(newValue)} />
+
+                  <InputLabel>Example Range</InputLabel>
+                  <InputRange onChange={setRange} value={range} />
                 </SidebarBlock>
 
                 <SidebarBlock
