@@ -2,6 +2,7 @@ import { useState } from "react";
 import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
+import InputRange from "../../common/Input/InputRange/InputRange";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, {
   ToolbarItemAlign,
@@ -9,6 +10,7 @@ import ToolbarItem, {
 import "./AnimationToolbar.css";
 
 const AnimationToolbar = (): JSX.Element => {
+  const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
   const [shortPlay, setShortPlay] = useState(false);
 
@@ -20,6 +22,15 @@ const AnimationToolbar = (): JSX.Element => {
             title="Undo Last Frame"
             icon={IconName.UNDO}
             onClick={() => undefined}
+          />
+          <InputRange
+            id="animation-toolbar__onion-skin-range"
+            title={`Onion Skin ${onionSkinAmount}%`}
+            onChange={setOnionSkinAmount}
+            min={-100}
+            max={100}
+            step={2}
+            value={onionSkinAmount}
           />
         </ButtonGroup>
       </ToolbarItem>
