@@ -2,6 +2,7 @@ import { TrackType } from "../../../../common/Project";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
+import InputNumber from "../../common/Input/InputNumber/InputNumber";
 import InputSelect from "../../common/Input/InputSelect/InputSelect";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
@@ -47,6 +48,9 @@ const Animator = (): JSX.Element => {
                       console.log(newValue);
                     }}
                   />
+
+                  <InputLabel>Example Number</InputLabel>
+                  <InputNumber onChange={(newValue) => console.log(newValue)} />
                 </SidebarBlock>
 
                 <SidebarBlock

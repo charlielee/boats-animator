@@ -1,24 +1,22 @@
-import "./InputSelect.css";
-
 interface InputSelectProps {
   options: Record<string, string>;
   onChange(newValue: string): void;
-  selectedValue?: string;
+  value?: string;
 }
 
 const InputSelect = ({
   options,
   onChange,
-  selectedValue,
+  value,
 }: InputSelectProps): JSX.Element => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
     onChange(event.target.value);
 
   return (
-    <select value={selectedValue} onChange={handleChange}>
-      {Object.entries(options).map(([key, value], i) => (
-        <option value={value} key={key}>
-          {key}
+    <select value={value} onChange={handleChange}>
+      {Object.entries(options).map(([k, v]) => (
+        <option value={v} key={k}>
+          {k}
         </option>
       ))}
     </select>
