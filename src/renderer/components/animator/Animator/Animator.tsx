@@ -19,7 +19,7 @@ import StatusToolbar from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
 
 const Animator = (): JSX.Element => {
-  const [range, setRange] = useState(6);
+  const [range, setRange] = useState(10);
   return (
     <Page>
       <PageBody>
@@ -53,10 +53,20 @@ const Animator = (): JSX.Element => {
                   />
 
                   <InputLabel>Example Number</InputLabel>
-                  <InputNumber onChange={(newValue) => console.log(newValue)} />
+                  <InputNumber
+                    min={1}
+                    max={100}
+                    onChange={(newValue) => console.log(newValue)}
+                  />
 
                   <InputLabel>Example Range</InputLabel>
-                  <InputRange onChange={setRange} value={range} />
+                  <InputRange
+                    onChange={setRange}
+                    min={0}
+                    max={100}
+                    step={10}
+                    value={range}
+                  />
                 </SidebarBlock>
 
                 <SidebarBlock

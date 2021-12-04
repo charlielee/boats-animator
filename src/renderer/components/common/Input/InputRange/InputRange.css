@@ -31,8 +31,8 @@
 .input-range__container input[type="range"]::-webkit-slider-thumb {
   background-color: var(--ba-lightred);
   border-radius: 0.5rem;
-  height: 1.5rem;
-  margin-top: -0.5rem;
+  height: 2rem;
+  margin-top: -0.75rem;
   width: 0.5rem;
 }
 .input-range__container input[type="range"]::-webkit-slider-thumb:hover {
