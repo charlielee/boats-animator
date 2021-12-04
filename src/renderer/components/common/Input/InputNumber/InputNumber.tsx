@@ -2,6 +2,7 @@ interface InputNumberProps {
   id?: string;
   min: number;
   max: number;
+
   value?: number;
   onChange(newValue: number): void;
 }

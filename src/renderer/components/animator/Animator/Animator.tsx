@@ -6,6 +6,7 @@ import InputCheckbox from "../../common/Input/InputCheckbox/InputCheckbox";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
 import InputNumber from "../../common/Input/InputNumber/InputNumber";
+import InputNumberAndRange from "../../common/Input/InputNumberAndRange/InputNumberAndRange";
 import InputRange from "../../common/Input/InputRange/InputRange";
 import InputSelect from "../../common/Input/InputSelect/InputSelect";
 import InputSwitch from "../../common/Input/InputSwitch/InputSwitch";
@@ -25,6 +26,7 @@ const Animator = (): JSX.Element => {
   const [range, setRange] = useState(10);
   const [check, setCheck] = useState(false);
   const [checkSwitch, setCheckSwitch] = useState(false);
+  const [numberAndRange, setNumberAndRange] = useState(2);
 
   return (
     <Page>
@@ -101,14 +103,29 @@ const Animator = (): JSX.Element => {
                   </InputGroup>
 
                   <InputGroup row>
+                    <InputLabel inputId="example-switch">
+                      Example Switch
+                    </InputLabel>
                     <InputSwitch
                       id="example-switch"
                       checked={checkSwitch}
                       onChange={setCheckSwitch}
                     />
-                    <InputLabel inputId="example-switch">
-                      Example Switch
+                  </InputGroup>
+
+                  <InputGroup>
+                    <InputLabel inputId="example-number-and-range">
+                      Example Number And Range
                     </InputLabel>
+
+                    <InputNumberAndRange
+                      id="example-number-and-range"
+                      min={0}
+                      max={10}
+                      step={1}
+                      value={numberAndRange}
+                      onChange={setNumberAndRange}
+                    />
                   </InputGroup>
                 </SidebarBlock>
 

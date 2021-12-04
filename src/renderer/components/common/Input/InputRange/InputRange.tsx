@@ -1,10 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./InputRange.css";
 
-enum InputRangeColor {
-  DEFAULT = "var(--ba-lightred)",
-  HOVER = "var(--ba-lightred-hover)",
-  ACTIVE = "var(--ba-lightred-active)",
+enum InputRangeSliderState {
+  DEFAULT = "DEFAULT",
+  HOVER = "HOVER",
+  ACTIVE = "ACTIVE",
 }
 
 interface InputRangeProps {
@@ -24,21 +24,35 @@ const InputRange = ({
   value,
   onChange,
 }: InputRangeProps): JSX.Element => {
+  const [slider, setSlider] = useState<InputRangeSliderState>(
+    InputRangeSliderState.DEFAULT
+  );
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setLeftColor(InputRangeColor.DEFAULT);
-  }, []);
+    setLeftColor(slider);
+  }, [value, slider]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLeftColor(InputRangeColor.ACTIVE);
+    setSlider(InputRangeSliderState.ACTIVE);
     onChange(parseInt(event.target.value, 10));
   };
 
-  const setLeftColor = (color: InputRangeColor) => {
+  const setLeftColor = (sliderState: InputRangeSliderState) => {
     if (!inputRef.current) {
       return;
     }
+
+    const color = () => {
+      switch (sliderState) {
+        case InputRangeSliderState.DEFAULT:
+          return "var(--ba-lightred)";
+        case InputRangeSliderState.HOVER:
+          return "var(--ba-lightred-hover)";
+        case InputRangeSliderState.ACTIVE:
+          return "var(--ba-lightred-active)";
+      }
+    };
 
     const range = max - min;
     const positionFromStart = parseInt(inputRef.current.value, 10) - min;
@@ -46,8 +60,8 @@ const InputRange = ({
 
     inputRef.current.style.backgroundImage = `linear-gradient(
       to right,
-      ${color} 0%,
-      ${color} ${percentage}%,
+      ${color()} 0%,
+      ${color()} ${percentage}%,
       var(--ba-border-active) ${percentage}%,
       var(--ba-border-active) 100%
     )`;
@@ -60,11 +74,11 @@ const InputRange = ({
         ref={inputRef}
         type="range"
         onChange={handleChange}
-        onMouseOver={() => setLeftColor(InputRangeColor.HOVER)}
-        onPointerDown={() => setLeftColor(InputRangeColor.ACTIVE)}
-        onPointerUp={() => setLeftColor(InputRangeColor.DEFAULT)}
-        onPointerLeave={() => setLeftColor(InputRangeColor.DEFAULT)}
-        onTouchEnd={() => setLeftColor(InputRangeColor.DEFAULT)}
+        onMouseOver={() => setSlider(InputRangeSliderState.HOVER)}
+        onPointerDown={() => setSlider(InputRangeSliderState.ACTIVE)}
+        onPointerUp={() => setSlider(InputRangeSliderState.DEFAULT)}
+        onPointerLeave={() => setSlider(InputRangeSliderState.DEFAULT)}
+        onTouchEnd={() => setSlider(InputRangeSliderState.DEFAULT)}
         min={min}
         max={max}
         step={step}

@@ -18,7 +18,8 @@
   --ba-light-mid: #adadad;
 
   --ba-lightred: #c54c4c;
-  --ba-lightred-hover: #cd6666;
+  /* --ba-lightred-hover: #cd6666; */
+  --ba-lightred-hover: #993936;
   --ba-lightred-active: #bd3232;
 
   --ba-black: #000;
