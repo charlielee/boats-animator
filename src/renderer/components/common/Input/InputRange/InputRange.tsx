@@ -9,6 +9,7 @@ enum InputRangeSliderState {
 
 interface InputRangeProps {
   id?: string;
+  title?: string;
   min: number;
   max: number;
   step: number;
@@ -18,6 +19,7 @@ interface InputRangeProps {
 
 const InputRange = ({
   id,
+  title,
   min,
   max,
   step,
@@ -73,6 +75,7 @@ const InputRange = ({
         id={id}
         ref={inputRef}
         type="range"
+        title={title}
         onChange={handleChange}
         onMouseOver={() => setSlider(InputRangeSliderState.HOVER)}
         onPointerDown={() => setSlider(InputRangeSliderState.ACTIVE)}
