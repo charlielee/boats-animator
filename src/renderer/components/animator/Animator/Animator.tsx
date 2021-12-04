@@ -2,6 +2,8 @@ import { useState } from "react";
 import { TrackType } from "../../../../common/Project";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
+import InputCheckbox from "../../common/Input/InputCheckbox/InputCheckbox";
+import InputGroup from "../../common/Input/InputGroup/InputGroup";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
 import InputNumber from "../../common/Input/InputNumber/InputNumber";
 import InputRange from "../../common/Input/InputRange/InputRange";
@@ -41,39 +43,57 @@ const Animator = (): JSX.Element => {
             tabs={[
               <Tab>
                 <SidebarBlock title="Capture" titleIcon={IconName.CAPTURE}>
-                  <InputLabel inputId="example-select">
-                    Example Select
-                  </InputLabel>
-                  <InputSelect
-                    id="example-select"
-                    options={{
-                      "1": "1",
-                      "2": "2",
-                    }}
-                    onChange={(newValue) => {
-                      console.log(newValue);
-                    }}
-                  />
+                  <InputGroup>
+                    <InputLabel inputId="example-select">
+                      Example Select
+                    </InputLabel>
+                    <InputSelect
+                      id="example-select"
+                      options={{
+                        "1": "1",
+                        "2": "2",
+                      }}
+                      onChange={(newValue) => {
+                        console.log(newValue);
+                      }}
+                    />
+                  </InputGroup>
 
-                  <InputLabel inputId="example-number">
-                    Example Number
-                  </InputLabel>
-                  <InputNumber
-                    id="example-number"
-                    min={1}
-                    max={100}
-                    onChange={(newValue) => console.log(newValue)}
-                  />
+                  <InputGroup>
+                    <InputLabel inputId="example-number">
+                      Example Number
+                    </InputLabel>
+                    <InputNumber
+                      id="example-number"
+                      min={1}
+                      max={100}
+                      onChange={(newValue) => console.log(newValue)}
+                    />
+                  </InputGroup>
 
-                  <InputLabel inputId="example-range">Example Range</InputLabel>
-                  <InputRange
-                    id="example-range"
-                    onChange={setRange}
-                    min={0}
-                    max={100}
-                    step={10}
-                    value={range}
-                  />
+                  <InputGroup>
+                    <InputLabel inputId="example-range">
+                      Example Range
+                    </InputLabel>
+                    <InputRange
+                      id="example-range"
+                      onChange={setRange}
+                      min={0}
+                      max={100}
+                      step={10}
+                      value={range}
+                    />
+                  </InputGroup>
+
+                  <InputGroup row>
+                    <InputCheckbox
+                      id="example-checkbox"
+                      onChange={(newValue) => console.log(newValue)}
+                    />
+                    <InputLabel inputId="example-checkbox">
+                      Example Checkbox
+                    </InputLabel>
+                  </InputGroup>
                 </SidebarBlock>
 
                 <SidebarBlock

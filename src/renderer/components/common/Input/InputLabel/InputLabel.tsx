@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import "./InputLabel.css";
 
 interface InputLabelProps {
   inputId: string;
@@ -6,7 +7,11 @@ interface InputLabelProps {
 }
 
 const InputLabel = ({ inputId, children }: InputLabelProps): JSX.Element => {
-  return <label htmlFor={inputId}>{children}</label>;
+  return (
+    <label className="input-label" htmlFor={inputId}>
+      {children}
+    </label>
+  );
 };
 
 export default InputLabel;
