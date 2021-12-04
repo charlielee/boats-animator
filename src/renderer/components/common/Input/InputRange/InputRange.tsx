@@ -8,19 +8,21 @@ enum InputRangeColor {
 }
 
 interface InputRangeProps {
-  onChange(newValue: number): void;
+  id?: string;
   min: number;
   max: number;
   step: number;
   value: number;
+  onChange(newValue: number): void;
 }
 
 const InputRange = ({
-  onChange,
+  id,
   min,
   max,
   step,
   value,
+  onChange,
 }: InputRangeProps): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,6 +56,7 @@ const InputRange = ({
   return (
     <div className="input-range__container">
       <input
+        id={id}
         ref={inputRef}
         type="range"
         onChange={handleChange}

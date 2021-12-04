@@ -1,10 +1,12 @@
 interface InputSelectProps {
+  id?: string;
   options: Record<string, string>;
   onChange(newValue: string): void;
   value?: string;
 }
 
 const InputSelect = ({
+  id,
   options,
   onChange,
   value,
@@ -13,7 +15,7 @@ const InputSelect = ({
     onChange(event.target.value);
 
   return (
-    <select value={value} onChange={handleChange}>
+    <select id={id} value={value} onChange={handleChange}>
       {Object.entries(options).map(([k, v]) => (
         <option value={v} key={k}>
           {k}

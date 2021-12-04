@@ -41,8 +41,11 @@ const Animator = (): JSX.Element => {
             tabs={[
               <Tab>
                 <SidebarBlock title="Capture" titleIcon={IconName.CAPTURE}>
-                  <InputLabel>Example Select</InputLabel>
+                  <InputLabel inputId="example-select">
+                    Example Select
+                  </InputLabel>
                   <InputSelect
+                    id="example-select"
                     options={{
                       "1": "1",
                       "2": "2",
@@ -52,15 +55,19 @@ const Animator = (): JSX.Element => {
                     }}
                   />
 
-                  <InputLabel>Example Number</InputLabel>
+                  <InputLabel inputId="example-number">
+                    Example Number
+                  </InputLabel>
                   <InputNumber
+                    id="example-number"
                     min={1}
                     max={100}
                     onChange={(newValue) => console.log(newValue)}
                   />
 
-                  <InputLabel>Example Range</InputLabel>
+                  <InputLabel inputId="example-range">Example Range</InputLabel>
                   <InputRange
+                    id="example-range"
                     onChange={setRange}
                     min={0}
                     max={100}
