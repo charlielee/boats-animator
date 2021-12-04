@@ -3,7 +3,7 @@ import "./InputCheckbox.css";
 
 interface InputCheckboxProps {
   id?: string;
-  checked?: boolean;
+  checked: boolean;
   className?: string;
   onChange(newValue: boolean): void;
 }

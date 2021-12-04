@@ -8,6 +8,7 @@ import InputLabel from "../../common/Input/InputLabel/InputLabel";
 import InputNumber from "../../common/Input/InputNumber/InputNumber";
 import InputRange from "../../common/Input/InputRange/InputRange";
 import InputSelect from "../../common/Input/InputSelect/InputSelect";
+import InputSwitch from "../../common/Input/InputSwitch/InputSwitch";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import Sidebar from "../../common/Sidebar/Sidebar";
@@ -22,6 +23,9 @@ import Timeline from "../Timeline/Timeline";
 
 const Animator = (): JSX.Element => {
   const [range, setRange] = useState(10);
+  const [check, setCheck] = useState(false);
+  const [checkSwitch, setCheckSwitch] = useState(false);
+
   return (
     <Page>
       <PageBody>
@@ -88,10 +92,22 @@ const Animator = (): JSX.Element => {
                   <InputGroup row>
                     <InputCheckbox
                       id="example-checkbox"
-                      onChange={(newValue) => console.log(newValue)}
+                      checked={check}
+                      onChange={setCheck}
                     />
                     <InputLabel inputId="example-checkbox">
                       Example Checkbox
+                    </InputLabel>
+                  </InputGroup>
+
+                  <InputGroup row>
+                    <InputSwitch
+                      id="example-switch"
+                      checked={checkSwitch}
+                      onChange={setCheckSwitch}
+                    />
+                    <InputLabel inputId="example-switch">
+                      Example Switch
                     </InputLabel>
                   </InputGroup>
                 </SidebarBlock>

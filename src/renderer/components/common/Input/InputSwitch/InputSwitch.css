@@ -1,0 +1,13 @@
+.input-switch {
+  height: 1.4rem;
+}
+
+.input-switch__icon {
+  font-size: 2rem;
+  position: relative;
+  top: -0.25rem;
+}
+
+.input-switch__checkbox {
+  display: none;
+}
