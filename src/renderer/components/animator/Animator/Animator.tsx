@@ -1,6 +1,8 @@
 import { TrackType } from "../../../../common/Project";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
+import InputLabel from "../../common/Input/InputLabel/InputLabel";
+import InputSelect from "../../common/Input/InputSelect/InputSelect";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import Sidebar from "../../common/Sidebar/Sidebar";
@@ -35,7 +37,16 @@ const Animator = (): JSX.Element => {
             tabs={[
               <Tab>
                 <SidebarBlock title="Capture" titleIcon={IconName.CAPTURE}>
-                  Capture
+                  <InputLabel>Example Select</InputLabel>
+                  <InputSelect
+                    options={{
+                      "1": "1",
+                      "2": "2",
+                    }}
+                    onChange={(newValue) => {
+                      console.log(newValue);
+                    }}
+                  />
                 </SidebarBlock>
 
                 <SidebarBlock

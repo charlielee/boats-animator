@@ -55,6 +55,32 @@ h3 {
   font-size: 1.2rem;
 }
 
+input[type="number"],
+input[type="text"],
+select {
+  background-color: var(--ba-border);
+  border: var(--border-1) solid var(--ba-border-active);
+  color: var(--ba-light);
+  height: var(--height-200);
+  margin-bottom: var(--margin-100);
+  padding: var(--margin-025);
+  width: 100%;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+  border: var(--border-1) solid var(--ba-lightyellow);
+  border-radius: var(--margin-025);
+  box-shadow: 0 0 var(--border-1) var(--border-1) var(--ba-lightyellow);
+  outline: none;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: var(--margin-025);
+}
+
 table {
   border-spacing: 0;
 }
