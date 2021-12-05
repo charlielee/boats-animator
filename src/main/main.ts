@@ -1,5 +1,7 @@
 import { app, nativeTheme } from "electron";
+import * as os from "os";
 import { addIpcToMainHandlers } from "./services/ipcToMainHandler/IpcToMainHandler";
+import logger from "./services/logger/Logger";
 import {
   createAppWindow,
   hasWindows,
@@ -9,7 +11,16 @@ import {
 
 nativeTheme.themeSource = "dark";
 
+logger.initialize();
+
 app.whenReady().then(() => {
+  logger.info("app.ready", {
+    appVersion: app.getVersion(),
+    osType: os.type(),
+    osRelease: os.release(),
+    osPlatform: os.platform(),
+  });
+
   let appWindow = createAppWindow();
   loadApp(appWindow);
 
@@ -25,6 +36,8 @@ app.whenReady().then(() => {
   });
 
   app.on("activate", () => {
+    logger.info("app.activate");
+
     if (!hasWindows()) {
       appWindow = createAppWindow();
       loadApp(appWindow);

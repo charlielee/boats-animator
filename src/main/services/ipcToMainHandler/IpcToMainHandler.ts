@@ -1,12 +1,13 @@
 import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from "electron";
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import Ipc from "../../../common/ipc/IpcHandler";
+import { settingsFileStore } from "../fileStore/SettingsFileStore";
+import logger, { ProcessName } from "../logger/Logger";
 import {
   getWindowSize,
   openConfirmPrompt,
   openDirDialog,
 } from "../windowUtils.ts/windowUtils";
-import { settingsFileStore } from "../fileStore/SettingsFileStore";
 
 class IpcToMainHandler {
   constructor() {}
@@ -17,6 +18,20 @@ class IpcToMainHandler {
   getUserPreferences = async (
     e: IpcMainInvokeEvent
   ): Ipc.GetUserPreferences.Response => settingsFileStore.get().userPreferences;
+
+  logRenderer = async (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.LogRenderer.Payload
+  ): Ipc.LogRenderer.Response => {
+    logger.log(
+      payload.logLevel,
+      payload.loggingCode,
+      payload.message,
+      true,
+      ProcessName.RENDERER
+    );
+  };
 
   saveSettingsAndClose = async (
     e: IpcMainInvokeEvent,
@@ -52,6 +67,9 @@ class IpcToMainHandler {
     ) => any
   ) => {
     ipcMain.handle(channel, (event: IpcMainInvokeEvent, payload: any) => {
+      if (channel !== IpcChannel.LOG_RENDERER) {
+        logger.info(`ipcToMainHandler.${channel}`);
+      }
       const win = BrowserWindow.fromWebContents(event.sender);
       return win ? listener(event, win, payload) : undefined;
     });
@@ -61,11 +79,19 @@ class IpcToMainHandler {
 export const addIpcToMainHandlers = () => {
   const ipcHandler = new IpcToMainHandler();
 
-  ipcMain.handle(IpcChannel.APP_VERSION, ipcHandler.appVersion);
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.APP_VERSION,
+    ipcHandler.appVersion
+  );
 
-  ipcMain.handle(
+  IpcToMainHandler.handleIfWindow(
     IpcChannel.GET_USER_PREFERENCES,
     ipcHandler.getUserPreferences
+  );
+
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.LOG_RENDERER,
+    ipcHandler.logRenderer
   );
 
   IpcToMainHandler.handleIfWindow(

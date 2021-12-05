@@ -10,6 +10,7 @@ import * as path from "path";
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import { WindowSize } from "../../../common/WindowSize";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
+import logger from "../logger/Logger";
 
 const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
   autoHideMenuBar: true,
@@ -34,6 +35,8 @@ export const createAppWindow = () =>
   });
 
 export const loadApp = (win: BrowserWindow) => {
+  logger.info("windowUtils.loadApp");
+
   win.loadURL(
     app.isPackaged
       ? `file://${path.join(__dirname, "renderer/index.html")}`
@@ -41,6 +44,8 @@ export const loadApp = (win: BrowserWindow) => {
   );
 
   win.once("ready-to-show", () => {
+    logger.info("windowUtils.readyToShow");
+
     if (settingsFileStore.get().appWindowSize.isMaximized) {
       win.maximize();
       win.focus();
@@ -50,6 +55,7 @@ export const loadApp = (win: BrowserWindow) => {
   });
 
   win.on("close", (e) => {
+    logger.info("windowUtils.closePrevented");
     e.preventDefault();
     win.webContents.send(IpcChannel.ON_CLOSE_BUTTON_CLICK);
   });
@@ -64,6 +70,8 @@ export const openConfirmPrompt = async (
   win: BrowserWindow,
   message: string
 ) => {
+  logger.info("windowUtils.openConfirmPrompt", message);
+
   const choice = await dialog.showMessageBox(win, {
     type: "question",
     buttons: ["OK", "Cancel"],
@@ -79,6 +87,8 @@ export const openDirDialog = async (
   workingDirectory: string | undefined,
   title: string
 ) => {
+  logger.info("windowUtils.openDirDialog", title);
+
   const result = await dialog.showOpenDialog(win, {
     title,
     // Title for macOS
@@ -100,6 +110,8 @@ export const getWindowSize = (win: BrowserWindow): WindowSize => ({
 });
 
 const getPreviousWinBounds = (): Rectangle | {} => {
+  logger.info("windowUtils.getPreviousWinBounds");
+
   const currentDisplaySize = screen.getPrimaryDisplay().workAreaSize;
   const { winBounds } = settingsFileStore.get().appWindowSize;
 
