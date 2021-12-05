@@ -1,5 +1,5 @@
 import { app, nativeTheme } from "electron";
-import LogLevel from "../common/LogLevel";
+import * as os from "os";
 import { addIpcToMainHandlers } from "./services/ipcToMainHandler/IpcToMainHandler";
 import logger from "./services/logger/Logger";
 import {
@@ -14,7 +14,12 @@ nativeTheme.themeSource = "dark";
 logger.initialize();
 
 app.whenReady().then(() => {
-  logger.log(LogLevel.INFO, "app.ready");
+  logger.info("app.ready", {
+    appVersion: app.getVersion(),
+    osType: os.type(),
+    osRelease: os.release(),
+    osPlatform: os.platform(),
+  });
 
   let appWindow = createAppWindow();
   loadApp(appWindow);
@@ -31,7 +36,7 @@ app.whenReady().then(() => {
   });
 
   app.on("activate", () => {
-    logger.log(LogLevel.INFO, "app.activate");
+    logger.info("app.activate");
 
     if (!hasWindows()) {
       appWindow = createAppWindow();
