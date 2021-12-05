@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { loadAndSetDeviceList } from "../../../redux/app/thunks";
+import { fetchAndSetDeviceList } from "../../../redux/app/thunks";
 import { RootState } from "../../../redux/store";
 import { loadSavedPreferences } from "../../../redux/userPreferences/thunks";
 import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
@@ -20,9 +20,9 @@ const AppListeners = (): JSX.Element => {
     dispatch(loadSavedPreferences());
 
     // Get the available cameras
-    dispatch(loadAndSetDeviceList());
+    dispatch(fetchAndSetDeviceList());
     onDeviceChange(() => {
-      dispatch(loadAndSetDeviceList());
+      dispatch(fetchAndSetDeviceList());
     });
   }, []);
 
