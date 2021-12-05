@@ -1,4 +1,6 @@
 import classNames from "classnames";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 import "./PreviewArea.css";
 
 interface PreviewAreaProps {
@@ -6,12 +8,15 @@ interface PreviewAreaProps {
 }
 
 const PreviewArea = ({ active }: PreviewAreaProps): JSX.Element => {
+  const { currentDevice } = useSelector((state: RootState) => state.app);
   return (
     <div
       className={classNames("preview-area", { "preview-area--active": active })}
     >
       <h2 className="preview-area__no-source-message">
-        Select a Camera Source to begin!
+        {currentDevice
+          ? `Selected device ${currentDevice?.deviceId}`
+          : "Select a Camera Source to begin!"}
       </h2>
     </div>
   );

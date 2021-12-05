@@ -1,8 +1,8 @@
 interface InputSelectProps {
   id?: string;
   options: Record<string, string>;
+  value: string | undefined;
   onChange(newValue: string): void;
-  value?: string;
 }
 
 const InputSelect = ({
