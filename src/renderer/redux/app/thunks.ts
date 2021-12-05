@@ -35,12 +35,12 @@ export const changeDevice = (deviceId?: string) => {
     dispatch: ThunkDispatch<RootState, void, Action>,
     getState: () => RootState
   ) => {
-    const { currentDevice, deviceList } = getState().app;
+    const { deviceList } = getState().app;
 
     return (async () => {
-      // Stop the current device
+      // TODO Stop the current device
 
-      // Start the new device
+      // TODO Start the new device
       const newDevice = deviceList.find(
         (device) => device.deviceId === deviceId
       );
