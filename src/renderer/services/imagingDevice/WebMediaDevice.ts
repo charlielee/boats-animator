@@ -1,7 +1,7 @@
 import { ImagingDevice } from "./ImagingDevice";
 
 class WebMediaDevice implements ImagingDevice {
-  constructor(public id: string, public name: string) {}
+  constructor(public deviceId: string, public name: string) {}
 
   static async listDevices(): Promise<WebMediaDevice[]> {
     const devices = await navigator.mediaDevices.enumerateDevices();
@@ -9,7 +9,7 @@ class WebMediaDevice implements ImagingDevice {
     return devices
       .filter((device) => device.kind === "videoinput")
       .map((device) => ({
-        id: device.deviceId,
+        deviceId: device.deviceId,
         name: device.label.split("(")[0],
       }));
   }

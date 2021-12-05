@@ -1,4 +1,5 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { changeDevice } from "../../../redux/app/thunks";
 import { RootState } from "../../../redux/store";
 import IconName from "../../common/Icon/IconName";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
@@ -8,7 +9,15 @@ import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Tab from "../../common/Tab/Tab";
 
 const CaptureTab = (): JSX.Element => {
+  const dispatch = useDispatch();
   const { deviceList } = useSelector((state: RootState) => state.app);
+
+  const buildCameraSourceOptions = () => ({
+    "No camera selected": "",
+    ...Object.fromEntries(
+      deviceList.map((device) => [device.name, device.deviceId])
+    ),
+  });
 
   return (
     <Tab>
@@ -17,12 +26,10 @@ const CaptureTab = (): JSX.Element => {
           <InputLabel inputId="camera-source-select">Camera Source</InputLabel>
           <InputSelect
             id="camera-source-select"
-            options={Object.fromEntries(
-              deviceList.map((device) => [device.name, device.id])
-            )}
-            onChange={(newValue) => {
-              console.log(newValue);
-            }}
+            options={buildCameraSourceOptions()}
+            onChange={(newValue) =>
+              dispatch(changeDevice(newValue === "" ? undefined : newValue))
+            }
           />
         </InputGroup>
       </SidebarBlock>

@@ -1,9 +1,10 @@
-import { Dispatch } from "redux";
-import { UserPreferencesAction } from "./actions";
+import { Action } from "redux";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../store";
 import { editUserPreferences } from "./reducer";
 
 export const changeWorkingDirectory = (workingDirectory?: string) => {
-  return (dispatch: Dispatch<UserPreferencesAction>) => {
+  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
     return (async () => {
       const newDirectory = await window.preload.ipcToMain.openDirDialog({
         workingDirectory,
@@ -20,7 +21,7 @@ export const changeWorkingDirectory = (workingDirectory?: string) => {
 };
 
 export const loadSavedPreferences = () => {
-  return (dispatch: Dispatch<UserPreferencesAction>) => {
+  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
     return (async () => {
       const savedPreferences =
         await window.preload.ipcToMain.getUserPreferences();

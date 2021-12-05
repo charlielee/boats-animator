@@ -7,6 +7,8 @@ const appReducer = (state = initialAppState, action: AppAction): AppState => {
   switch (action.type) {
     case AppActionType.SET_APP_MODE:
       return { ...state, appMode: action.payload.appMode };
+    case AppActionType.SET_CURRENT_DEVICE:
+      return { ...state, currentDevice: action.payload.currentDevice };
     case AppActionType.SET_DEVICE_LIST:
       return { ...state, deviceList: action.payload.deviceList };
     case AppActionType.START_LOADING:
@@ -23,6 +25,16 @@ export const setAppMode = (appMode: AppMode): AppAction => ({
   payload: { appMode },
 });
 
+export const setCurrentDevice = (currentDevice?: ImagingDevice) => ({
+  type: AppActionType.SET_CURRENT_DEVICE,
+  payload: { currentDevice },
+});
+
+export const setDeviceList = (deviceList: ImagingDevice[]) => ({
+  type: AppActionType.SET_DEVICE_LIST,
+  payload: { deviceList },
+});
+
 export const startLoading = (message: string): AppAction => ({
   type: AppActionType.START_LOADING,
   payload: { message },
@@ -30,11 +42,6 @@ export const startLoading = (message: string): AppAction => ({
 
 export const stopLoading = (): AppAction => ({
   type: AppActionType.STOP_LOADING,
-});
-
-export const setDeviceList = (deviceList: ImagingDevice[]) => ({
-  type: AppActionType.SET_DEVICE_LIST,
-  payload: { deviceList },
 });
 
 export default appReducer;

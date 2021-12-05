@@ -2,7 +2,7 @@ import * as rLogger from "../../services/rLogger/rLogger";
 import WebMediaDevice from "./WebMediaDevice";
 
 export interface ImagingDevice {
-  id: string;
+  deviceId: string;
   name: string;
 }
 
