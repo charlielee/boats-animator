@@ -1,19 +1,28 @@
+import * as rLogger from "../../services/rLogger/rLogger";
 import WebMediaDevice from "./WebMediaDevice";
 
-export interface ImagingDeviceApi {
+export interface ImagingDevice {
   id: string;
   name: string;
 }
 
-const dispatchDeviceChangeEvent = () =>
-  document.dispatchEvent(new CustomEvent("custom-imagingdevicechange"));
+const IMAGING_DEVICE_CHANGE_EVENT_NAME = "custom-imagingdevicechange";
 
-export const listDevices = async (): Promise<ImagingDeviceApi[]> => {
+const dispatchDeviceChangeEvent = () =>
+  document.dispatchEvent(new CustomEvent(IMAGING_DEVICE_CHANGE_EVENT_NAME));
+
+export const listDevices = async (): Promise<ImagingDevice[]> => {
+  rLogger.info("imagingDevice.listDevices");
   const webMediaDevices = await WebMediaDevice.listDevices();
   return [...webMediaDevices];
 };
 
 export const onDeviceChange = (callback: () => void) => {
   WebMediaDevice.onDeviceChange(dispatchDeviceChangeEvent);
-  document.addEventListener("custom-imagingdevicechange", callback);
+  document.addEventListener(IMAGING_DEVICE_CHANGE_EVENT_NAME, callback);
+
+  return document.removeEventListener(
+    IMAGING_DEVICE_CHANGE_EVENT_NAME,
+    callback
+  );
 };

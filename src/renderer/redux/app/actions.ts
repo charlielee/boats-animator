@@ -1,7 +1,9 @@
 import { AppMode } from "../../../common/AppMode";
+import { ImagingDevice } from "../../services/imagingDevice/ImagingDevice";
 
 export enum AppActionType {
   SET_APP_MODE = "app/SET_APP_MODE",
+  SET_DEVICE_LIST = "app/SET_DEVICE_LIST",
   START_LOADING = "app/START_LOADING",
   STOP_LOADING = "app/STOP_LOADING",
 }
@@ -9,6 +11,11 @@ export enum AppActionType {
 interface SetAppModeAppAction {
   type: AppActionType.SET_APP_MODE;
   payload: { appMode: AppMode };
+}
+
+interface SetDeviceListAppAction {
+  type: AppActionType.SET_DEVICE_LIST;
+  payload: { deviceList: ImagingDevice[] };
 }
 
 interface StartLoadingAppAction {
@@ -22,5 +29,6 @@ interface StopLoadingAppAction {
 
 export type AppAction =
   | SetAppModeAppAction
+  | SetDeviceListAppAction
   | StartLoadingAppAction
   | StopLoadingAppAction;

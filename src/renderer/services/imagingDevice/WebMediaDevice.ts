@@ -1,6 +1,6 @@
-import { ImagingDeviceApi } from "./ImagingDevice";
+import { ImagingDevice } from "./ImagingDevice";
 
-class WebMediaDevice implements ImagingDeviceApi {
+class WebMediaDevice implements ImagingDevice {
   constructor(public id: string, public name: string) {}
 
   static async listDevices(): Promise<WebMediaDevice[]> {
