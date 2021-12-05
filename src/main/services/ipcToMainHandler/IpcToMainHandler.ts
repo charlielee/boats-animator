@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from "electron";
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import Ipc from "../../../common/ipc/IpcHandler";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
-import logger from "../logger/Logger";
+import logger, { ProcessName } from "../logger/Logger";
 import {
   getWindowSize,
   openConfirmPrompt,
@@ -18,6 +18,20 @@ class IpcToMainHandler {
   getUserPreferences = async (
     e: IpcMainInvokeEvent
   ): Ipc.GetUserPreferences.Response => settingsFileStore.get().userPreferences;
+
+  logRenderer = async (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.LogRenderer.Payload
+  ): Ipc.LogRenderer.Response => {
+    logger.log(
+      payload.logLevel,
+      payload.loggingCode,
+      payload.message,
+      true,
+      ProcessName.RENDERER
+    );
+  };
 
   saveSettingsAndClose = async (
     e: IpcMainInvokeEvent,
@@ -53,7 +67,9 @@ class IpcToMainHandler {
     ) => any
   ) => {
     ipcMain.handle(channel, (event: IpcMainInvokeEvent, payload: any) => {
-      logger.info(`ipcToMainHandler.${channel}`);
+      if (channel !== IpcChannel.LOG_RENDERER) {
+        logger.info(`ipcToMainHandler.${channel}`);
+      }
       const win = BrowserWindow.fromWebContents(event.sender);
       return win ? listener(event, win, payload) : undefined;
     });
@@ -71,6 +87,11 @@ export const addIpcToMainHandlers = () => {
   IpcToMainHandler.handleIfWindow(
     IpcChannel.GET_USER_PREFERENCES,
     ipcHandler.getUserPreferences
+  );
+
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.LOG_RENDERER,
+    ipcHandler.logRenderer
   );
 
   IpcToMainHandler.handleIfWindow(

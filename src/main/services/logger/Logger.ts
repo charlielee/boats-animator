@@ -1,5 +1,6 @@
 import { app } from "electron";
 import * as fs from "fs";
+import LogLevel from "../../../common/LogLevel";
 
 const USER_DATA_PATH = app.getPath("userData");
 const LOG_FILE_PATH = app.isPackaged
@@ -11,24 +12,16 @@ export enum ProcessName {
   RENDERER = "RENDERER",
 }
 
-enum LogLevel {
-  INFO = "INFO",
-  WARN = "WARN",
-  ERROR = "ERROR",
-}
-
 class Logger {
   private stream: fs.WriteStream | undefined;
 
-  clear() {
+  initialize() {
     if (fs.existsSync(LOG_FILE_PATH)) {
       this.info("logger.clear", "Log file cleared", false);
 
       fs.unlinkSync(LOG_FILE_PATH);
     }
-  }
 
-  initialize() {
     this.stream = fs.createWriteStream(LOG_FILE_PATH, {
       // a = Open file for appending
       flags: "a",

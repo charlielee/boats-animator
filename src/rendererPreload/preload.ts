@@ -15,6 +15,9 @@ const api = {
     getUserPreferences: (): Ipc.GetUserPreferences.Response =>
       ipcRenderer.invoke(IpcChannel.GET_USER_PREFERENCES),
 
+    logRenderer: (payload: Ipc.LogRenderer.Payload): Ipc.LogRenderer.Response =>
+      ipcRenderer.invoke(IpcChannel.LOG_RENDERER, payload),
+
     saveSettingsAndClose: (
       payload: Ipc.SaveSettingsAndClose.Payload
     ): Ipc.SaveSettingsAndClose.Response =>

@@ -1,3 +1,4 @@
+import LogLevel from "../LogLevel";
 import { UserPreferences } from "../UserPreferences";
 
 namespace Ipc {
@@ -11,6 +12,16 @@ namespace Ipc {
     export type Channel = "GET_USER_PREFERENCES";
     export type Payload = undefined;
     export type Response = Promise<UserPreferences>;
+  }
+
+  export namespace LogRenderer {
+    export type Channel = "LOG_RENDERER";
+    export type Payload = {
+      logLevel: LogLevel;
+      loggingCode: string;
+      message?: string | Record<string, string>;
+    };
+    export type Response = Promise<void>;
   }
 
   export namespace OnCloseButtonClick {

@@ -1,3 +1,4 @@
+import * as rLogger from "../rLogger/rLogger";
 import NewsDownloadError from "./NewsDownloadError";
 import { NewsResponse } from "./NewsResponse";
 
@@ -6,6 +7,7 @@ const POST_COUNT = 5;
 
 export const fetchRecent = async (): Promise<NewsResponse> => {
   try {
+    rLogger.info("newsApi.fetchRecent.start");
     const newsResponse: NewsResponse = await window
       .fetch(NEWS_URL, {
         method: "get",
@@ -21,6 +23,7 @@ export const fetchRecent = async (): Promise<NewsResponse> => {
 
     return { ...newsResponse, posts: transformPosts };
   } catch (e) {
+    rLogger.warn("newsApi.fetchRecent.error", "Unable to download news posts");
     throw new NewsDownloadError();
   }
 };
