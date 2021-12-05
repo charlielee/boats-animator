@@ -1,12 +1,13 @@
 import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from "electron";
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import Ipc from "../../../common/ipc/IpcHandler";
+import { settingsFileStore } from "../fileStore/SettingsFileStore";
+import logger from "../logger/Logger";
 import {
   getWindowSize,
   openConfirmPrompt,
   openDirDialog,
 } from "../windowUtils.ts/windowUtils";
-import { settingsFileStore } from "../fileStore/SettingsFileStore";
 
 class IpcToMainHandler {
   constructor() {}
@@ -52,6 +53,7 @@ class IpcToMainHandler {
     ) => any
   ) => {
     ipcMain.handle(channel, (event: IpcMainInvokeEvent, payload: any) => {
+      logger.info(`ipcToMainHandler.${channel}`);
       const win = BrowserWindow.fromWebContents(event.sender);
       return win ? listener(event, win, payload) : undefined;
     });
@@ -61,9 +63,12 @@ class IpcToMainHandler {
 export const addIpcToMainHandlers = () => {
   const ipcHandler = new IpcToMainHandler();
 
-  ipcMain.handle(IpcChannel.APP_VERSION, ipcHandler.appVersion);
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.APP_VERSION,
+    ipcHandler.appVersion
+  );
 
-  ipcMain.handle(
+  IpcToMainHandler.handleIfWindow(
     IpcChannel.GET_USER_PREFERENCES,
     ipcHandler.getUserPreferences
   );
