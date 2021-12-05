@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { changeWorkingDirectory } from "../../../services/userPreferences/UserPreferencesApi";
+import { changeWorkingDirectory } from "../../../redux/userPreferences/thunks";
 import Button from "../../common/Button/Button";
 import "./ExportDirectory.css";
 
@@ -22,7 +22,7 @@ const ExportDirectory = (): JSX.Element => {
 
       <Button
         title="Browse..."
-        onClick={() => changeWorkingDirectory(dispatch, workingDirectory)}
+        onClick={() => dispatch(changeWorkingDirectory(workingDirectory))}
       />
     </div>
   );

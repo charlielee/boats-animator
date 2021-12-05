@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { loadAndSetDeviceList } from "../../../redux/app/thunks";
 import { RootState } from "../../../redux/store";
+import { loadSavedPreferences } from "../../../redux/userPreferences/thunks";
 import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
 import { onDeviceChange } from "../../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../../services/rLogger/rLogger";
@@ -14,11 +15,13 @@ const AppListeners = (): JSX.Element => {
     (state: RootState) => state.userPreferences
   );
 
-  // Get the available cameras
   useEffect(() => {
+    // Load saved preferences
+    dispatch(loadSavedPreferences());
+
+    // Get the available cameras
     dispatch(loadAndSetDeviceList());
     onDeviceChange(() => {
-      rLogger.info("appListener.onDeviceChange");
       dispatch(loadAndSetDeviceList());
     });
   }, []);
