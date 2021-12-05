@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { PageRoute } from "../../../../common/PageRoute";
 import Button from "../../common/Button/Button";
 import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
@@ -16,15 +15,6 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import NewsFeed from "../NewsFeed/NewsFeed";
 
 const StartupModal = (): JSX.Element => {
-  const [appVersion, setAppVersion] = useState("");
-
-  useEffect(() => {
-    (async () => {
-      const version = await window.preload.ipcToMain.appVersion();
-      setAppVersion(version);
-    })();
-  }, []);
-
   return (
     <Modal>
       <ModalBody>
