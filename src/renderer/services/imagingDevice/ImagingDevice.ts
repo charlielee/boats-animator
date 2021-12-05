@@ -20,9 +20,4 @@ export const listDevices = async (): Promise<ImagingDevice[]> => {
 export const onDeviceChange = (callback: () => void) => {
   WebMediaDevice.onDeviceChange(dispatchDeviceChangeEvent);
   document.addEventListener(IMAGING_DEVICE_CHANGE_EVENT_NAME, callback);
-
-  return document.removeEventListener(
-    IMAGING_DEVICE_CHANGE_EVENT_NAME,
-    callback
-  );
 };
