@@ -2,6 +2,10 @@ import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { listDevices } from "../../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../../services/rLogger/rLogger";
+import {
+  closeDevice,
+  openDevice,
+} from "../../middleware/imagingDeviceMiddleware";
 import { RootState } from "../../store";
 import { setCurrentDevice, setDeviceList } from "./reducer";
 
@@ -30,6 +34,7 @@ export const fetchAndSetDeviceList = () => {
   };
 };
 
+// TODO MOVE INTO IMAGING DEVICE MIDDLEWARE
 export const changeDevice = (deviceId?: string) => {
   return (
     dispatch: ThunkDispatch<RootState, void, Action>,
@@ -38,12 +43,14 @@ export const changeDevice = (deviceId?: string) => {
     const { deviceList } = getState().app;
 
     return (async () => {
-      // TODO Stop the current device
+      dispatch(closeDevice());
 
-      // TODO Start the new device
       const newDevice = deviceList.find(
         (device) => device.deviceId === deviceId
       );
+      if (newDevice) {
+        dispatch(openDevice(newDevice));
+      }
 
       // const connectedDevices = await listDevices();
       dispatch(setCurrentDevice(newDevice));
