@@ -11,7 +11,7 @@ import TabGroup from "../../common/TabGroup/TabGroup";
 import AnimationToolbar from "../AnimationToolbar/AnimationToolbar";
 import CaptureTab from "../CaptureTab/CaptureTab";
 import ExportDirectory from "../ExportDirectory/ExportDirectory";
-import PreviewArea from "../PreviewArea/PreviewArea";
+import Preview from "../Preview/Preview";
 import StatusToolbar from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
 
@@ -27,7 +27,7 @@ const Animator = (): JSX.Element => {
         <Content>
           <StatusToolbar />
 
-          <PreviewArea />
+          <Preview />
 
           <AnimationToolbar />
 
