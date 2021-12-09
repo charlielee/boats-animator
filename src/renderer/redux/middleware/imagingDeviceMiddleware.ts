@@ -11,7 +11,7 @@ export enum ActionType {
   OPEN_DEVICE = "imagingDevice/OPEN",
   CLOSE_DEVICE = "imagingDevice/CLOSE",
   TAKE_PICTURE = "imagingDevice/TAKE_PICTURE",
-  ATTACH_STREAM_TO_ELEMENT = "imagingDevice/ATTACH_STREAM_TO_ELEMENT",
+  ATTACH_STREAM_TO_VIDEO = "imagingDevice/ATTACH_STREAM_TO_VIDEO",
 }
 
 export const createCaptureMiddleware: Middleware<{}, RootState> = (
@@ -23,8 +23,12 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
     switch (action.type) {
       case ActionType.OPEN_DEVICE: {
         currentDevice = deviceIdentifierToDevice(action.payload.identifier);
-        currentDevice.open();
-        storeApi.dispatch(setDeviceStreaming(true));
+
+        (async () => {
+          await currentDevice.open();
+          storeApi.dispatch(setDeviceStreaming(true));
+        })();
+
         return;
       }
       case ActionType.CLOSE_DEVICE: {
@@ -34,17 +38,16 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
         return;
       }
       case ActionType.TAKE_PICTURE: {
-        console.log("TODO");
         return;
       }
-      case ActionType.ATTACH_STREAM_TO_ELEMENT: {
-        console.log("TODO");
-        return;
+      case ActionType.ATTACH_STREAM_TO_VIDEO: {
+        if (currentDevice?.stream) {
+          action.payload.element.srcObject = currentDevice.stream;
+        }
       }
     }
 
     return next(action);
-    // const state = storeApi.getState();
   };
 };
 
@@ -57,6 +60,7 @@ export const closeDevice = () => ({
   type: ActionType.CLOSE_DEVICE,
 });
 
-// export const stopLoading = (): AppAction => ({
-//   type: AppActionType.STOP_LOADING,
-// });
+export const attachStreamToVideo = (element: HTMLVideoElement) => ({
+  type: ActionType.ATTACH_STREAM_TO_VIDEO,
+  payload: { element },
+});

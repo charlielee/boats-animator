@@ -6,7 +6,7 @@ import {
 } from "./ImagingDevice";
 
 class WebMediaDevice implements ImagingDevice {
-  private stream?: MediaStream;
+  public stream?: MediaStream;
 
   constructor(public identifier: ImagingDeviceIdentifier) {}
 

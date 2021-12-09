@@ -12,6 +12,7 @@ export interface ImagingDeviceIdentifier {
 }
 
 export interface ImagingDevice {
+  stream?: MediaStream;
   identifier: ImagingDeviceIdentifier;
   open(): Promise<MediaStream>;
   close(): void;

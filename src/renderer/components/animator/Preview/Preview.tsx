@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { attachStreamToVideo } from "../../../redux/middleware/imagingDeviceMiddleware";
 import { RootState } from "../../../redux/store";
 import "./Preview.css";
 import PreviewLiveView from "./PreviewLiveView/PreviewLiveView";
@@ -9,11 +10,17 @@ interface PreviewProps {
 }
 
 const Preview = ({ active }: PreviewProps): JSX.Element => {
-  const { currentDevice } = useSelector((state: RootState) => state.app);
+  const dispatch = useDispatch();
+  const { currentDevice, currentDeviceStreaming } = useSelector(
+    (state: RootState) => state.app
+  );
   return (
     <div className={classNames("preview", { "preview--active": active })}>
       {currentDevice ? (
-        <PreviewLiveView />
+        <PreviewLiveView
+          streaming={currentDeviceStreaming}
+          updateSrcObject={(element) => dispatch(attachStreamToVideo(element))}
+        />
       ) : (
         <h2>Select a Camera Source to begin!</h2>
       )}
