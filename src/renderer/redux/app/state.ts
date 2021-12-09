@@ -1,10 +1,10 @@
 import { AppMode } from "../../../common/AppMode";
-import { ImagingDevice } from "../../services/imagingDevice/ImagingDevice";
+import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 
 export interface AppState {
   appMode: AppMode;
-  currentDevice?: ImagingDevice;
-  deviceList: ImagingDevice[];
+  currentDevice?: ImagingDeviceIdentifier;
+  deviceList: ImagingDeviceIdentifier[];
   loadingMessage?: string;
 }
 

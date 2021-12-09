@@ -1,5 +1,5 @@
 import { AppMode } from "../../../common/AppMode";
-import { ImagingDevice } from "../../services/imagingDevice/ImagingDevice";
+import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 
 export enum AppActionType {
   SET_APP_MODE = "app/SET_APP_MODE",
@@ -16,12 +16,12 @@ interface SetAppModeAppAction {
 
 interface SetCurrentDeviceAppAction {
   type: AppActionType.SET_CURRENT_DEVICE;
-  payload: { currentDevice?: ImagingDevice };
+  payload: { currentDevice?: ImagingDeviceIdentifier };
 }
 
 interface SetDeviceListAppAction {
   type: AppActionType.SET_DEVICE_LIST;
-  payload: { deviceList: ImagingDevice[] };
+  payload: { deviceList: ImagingDeviceIdentifier[] };
 }
 
 interface StartLoadingAppAction {

@@ -1,5 +1,5 @@
 import { AppMode } from "../../../common/AppMode";
-import { ImagingDevice } from "../../services/imagingDevice/ImagingDevice";
+import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 import { AppAction, AppActionType } from "./actions";
 import { AppState, initialAppState } from "./state";
 
@@ -25,12 +25,12 @@ export const setAppMode = (appMode: AppMode): AppAction => ({
   payload: { appMode },
 });
 
-export const setCurrentDevice = (currentDevice?: ImagingDevice) => ({
+export const setCurrentDevice = (currentDevice?: ImagingDeviceIdentifier) => ({
   type: AppActionType.SET_CURRENT_DEVICE,
   payload: { currentDevice },
 });
 
-export const setDeviceList = (deviceList: ImagingDevice[]) => ({
+export const setDeviceList = (deviceList: ImagingDeviceIdentifier[]) => ({
   type: AppActionType.SET_DEVICE_LIST,
   payload: { deviceList },
 });

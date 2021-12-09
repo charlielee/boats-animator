@@ -1,9 +1,24 @@
-import { ImagingDevice } from "./ImagingDevice";
+import { ImagingDevice, ImagingDeviceIdentifier } from "./ImagingDevice";
 
 class WebMediaDevice implements ImagingDevice {
-  constructor(public deviceId: string, public name: string) {}
+  private stream?: MediaStream;
 
-  static async listDevices(): Promise<WebMediaDevice[]> {
+  constructor(public identifier: ImagingDeviceIdentifier) {}
+
+  async open() {
+    this.stream = await navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: { deviceId: { exact: this.identifier.deviceId } },
+    });
+
+    return this.stream;
+  }
+
+  close() {
+    this.stream?.getTracks().forEach((track) => track.stop());
+  }
+
+  static async listDevices(): Promise<ImagingDeviceIdentifier[]> {
     const devices = await navigator.mediaDevices.enumerateDevices();
 
     return devices
