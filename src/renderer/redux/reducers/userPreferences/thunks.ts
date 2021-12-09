@@ -1,6 +1,6 @@
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 import { editUserPreferences } from "./reducer";
 
 export const changeWorkingDirectory = (workingDirectory?: string) => {

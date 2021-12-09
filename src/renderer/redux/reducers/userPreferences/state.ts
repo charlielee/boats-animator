@@ -1,4 +1,4 @@
-import { UserPreferences } from "../../../common/UserPreferences";
+import { UserPreferences } from "../../../../common/UserPreferences";
 
 export type UserPreferencesState = UserPreferences;
 

@@ -1,7 +1,8 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunk from "redux-thunk";
-import appReducer from "./app/reducer";
-import userPreferencesReducer from "./userPreferences/reducer";
+import { createCaptureMiddleware } from "./middleware/imagingDeviceMiddleware";
+import appReducer from "./reducers/app/reducer";
+import userPreferencesReducer from "./reducers/userPreferences/reducer";
 export type RootState = ReturnType<typeof rootReducer>;
 
 const rootReducer = combineReducers({
@@ -9,6 +10,9 @@ const rootReducer = combineReducers({
   userPreferences: userPreferencesReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk, createCaptureMiddleware)
+);
 
 export default store;

@@ -1,6 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { changeDevice } from "../../../redux/app/thunks";
+import {
+  closeDevice,
+  openDevice,
+} from "../../../redux/middleware/imagingDeviceMiddleware";
+import { changeDevice } from "../../../redux/reducers/app/thunks";
 import { RootState } from "../../../redux/store";
+import Button from "../../common/Button/Button";
 import IconName from "../../common/Icon/IconName";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
@@ -35,6 +40,22 @@ const CaptureTab = (): JSX.Element => {
             }
           />
         </InputGroup>
+
+        <Button
+          title="Open Device"
+          onClick={() => {
+            if (currentDevice) {
+              dispatch(openDevice(currentDevice));
+            }
+          }}
+        />
+
+        <Button
+          title="Close Device"
+          onClick={() => {
+            dispatch(closeDevice());
+          }}
+        />
       </SidebarBlock>
     </Tab>
   );

@@ -1,4 +1,8 @@
-import { ImagingDevice, ImagingDeviceIdentifier } from "./ImagingDevice";
+import {
+  ImagingDevice,
+  ImagingDeviceIdentifier,
+  ImagingDeviceType,
+} from "./ImagingDevice";
 
 class WebMediaDevice implements ImagingDevice {
   private stream?: MediaStream;
@@ -6,15 +10,18 @@ class WebMediaDevice implements ImagingDevice {
   constructor(public identifier: ImagingDeviceIdentifier) {}
 
   async open() {
+    console.log("opened");
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: { deviceId: { exact: this.identifier.deviceId } },
     });
+    console.log(this.stream);
 
     return this.stream;
   }
 
   close() {
+    console.log("closed");
     this.stream?.getTracks().forEach((track) => track.stop());
   }
 
@@ -26,6 +33,7 @@ class WebMediaDevice implements ImagingDevice {
       .map((device) => ({
         deviceId: device.deviceId,
         name: device.label.split("(")[0],
+        type: ImagingDeviceType.WEB_MEDIA,
       }));
   }
 

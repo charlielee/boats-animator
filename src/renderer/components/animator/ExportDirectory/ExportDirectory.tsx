@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
+import { changeWorkingDirectory } from "../../../redux/reducers/userPreferences/thunks";
 import { RootState } from "../../../redux/store";
-import { changeWorkingDirectory } from "../../../redux/userPreferences/thunks";
 import Button from "../../common/Button/Button";
 import "./ExportDirectory.css";
 

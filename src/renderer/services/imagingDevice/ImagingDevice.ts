@@ -1,9 +1,14 @@
 import * as rLogger from "../../services/rLogger/rLogger";
 import WebMediaDevice from "./WebMediaDevice";
 
+export enum ImagingDeviceType {
+  WEB_MEDIA = "WEB_MEDIA",
+}
+
 export interface ImagingDeviceIdentifier {
   deviceId: string;
   name: string;
+  type: ImagingDeviceType;
 }
 
 export interface ImagingDevice {
@@ -32,4 +37,13 @@ export const listDevices = async (): Promise<ImagingDeviceIdentifier[]> => {
 export const onDeviceChange = (callback: () => void) => {
   WebMediaDevice.onDeviceChange(dispatchDeviceChangeEvent);
   document.addEventListener(IMAGING_DEVICE_CHANGE_EVENT_NAME, callback);
+};
+
+export const deviceIdentifierToDevice = (
+  identifier: ImagingDeviceIdentifier
+) => {
+  switch (identifier.type) {
+    case ImagingDeviceType.WEB_MEDIA:
+      return new WebMediaDevice(identifier);
+  }
 };
