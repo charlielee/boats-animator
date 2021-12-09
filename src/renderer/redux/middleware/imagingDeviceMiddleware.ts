@@ -4,6 +4,7 @@ import {
   ImagingDeviceIdentifier,
 } from "../../services/imagingDevice/ImagingDevice";
 import WebMediaDevice from "../../services/imagingDevice/WebMediaDevice";
+import { setDeviceStreaming } from "../reducers/app/reducer";
 import { RootState } from "../store";
 
 export enum ActionType {
@@ -23,14 +24,14 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
       case ActionType.OPEN_DEVICE: {
         currentDevice = deviceIdentifierToDevice(action.payload.identifier);
         currentDevice.open();
+        storeApi.dispatch(setDeviceStreaming(true));
         return;
-        // dispatch streaming = true
       }
       case ActionType.CLOSE_DEVICE: {
         currentDevice?.close();
         currentDevice = undefined;
+        storeApi.dispatch(setDeviceStreaming(false));
         return;
-        // dispatch streaming = false
       }
       case ActionType.TAKE_PICTURE: {
         console.log("TODO");

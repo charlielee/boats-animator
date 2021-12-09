@@ -1,3 +1,4 @@
+import * as rLogger from "../rLogger/rLogger";
 import {
   ImagingDevice,
   ImagingDeviceIdentifier,
@@ -10,18 +11,17 @@ class WebMediaDevice implements ImagingDevice {
   constructor(public identifier: ImagingDeviceIdentifier) {}
 
   async open() {
-    console.log("opened");
+    rLogger.info("webMediaDevice.open");
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: { deviceId: { exact: this.identifier.deviceId } },
     });
-    console.log(this.stream);
 
     return this.stream;
   }
 
   close() {
-    console.log("closed");
+    rLogger.info("webMediaDevice.close");
     this.stream?.getTracks().forEach((track) => track.stop());
   }
 

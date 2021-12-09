@@ -9,6 +9,11 @@ const appReducer = (state = initialAppState, action: AppAction): AppState => {
       return { ...state, appMode: action.payload.appMode };
     case AppActionType.SET_CURRENT_DEVICE:
       return { ...state, currentDevice: action.payload.currentDevice };
+    case AppActionType.SET_CURRENT_DEVICE_STREAMING:
+      return {
+        ...state,
+        currentDeviceStreaming: action.payload.currentDeviceStreaming,
+      };
     case AppActionType.SET_DEVICE_LIST:
       return { ...state, deviceList: action.payload.deviceList };
     case AppActionType.START_LOADING:
@@ -28,6 +33,11 @@ export const setAppMode = (appMode: AppMode): AppAction => ({
 export const setCurrentDevice = (currentDevice?: ImagingDeviceIdentifier) => ({
   type: AppActionType.SET_CURRENT_DEVICE,
   payload: { currentDevice },
+});
+
+export const setDeviceStreaming = (currentDeviceStreaming: boolean) => ({
+  type: AppActionType.SET_CURRENT_DEVICE_STREAMING,
+  payload: { currentDeviceStreaming },
 });
 
 export const setDeviceList = (deviceList: ImagingDeviceIdentifier[]) => ({

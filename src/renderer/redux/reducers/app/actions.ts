@@ -4,6 +4,7 @@ import { ImagingDeviceIdentifier } from "../../../services/imagingDevice/Imaging
 export enum AppActionType {
   SET_APP_MODE = "app/SET_APP_MODE",
   SET_CURRENT_DEVICE = "app/SET_CURRENT_DEVICE",
+  SET_CURRENT_DEVICE_STREAMING = "app/SET_CURRENT_DEVICE_STREAMING",
   SET_DEVICE_LIST = "app/SET_DEVICE_LIST",
   START_LOADING = "app/START_LOADING",
   STOP_LOADING = "app/STOP_LOADING",
@@ -17,6 +18,11 @@ interface SetAppModeAppAction {
 interface SetCurrentDeviceAppAction {
   type: AppActionType.SET_CURRENT_DEVICE;
   payload: { currentDevice?: ImagingDeviceIdentifier };
+}
+
+interface SetCurrentDeviceStreaming {
+  type: AppActionType.SET_CURRENT_DEVICE_STREAMING;
+  payload: { currentDeviceStreaming: boolean };
 }
 
 interface SetDeviceListAppAction {
@@ -36,6 +42,7 @@ interface StopLoadingAppAction {
 export type AppAction =
   | SetAppModeAppAction
   | SetCurrentDeviceAppAction
+  | SetCurrentDeviceStreaming
   | SetDeviceListAppAction
   | StartLoadingAppAction
   | StopLoadingAppAction;

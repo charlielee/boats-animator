@@ -15,7 +15,7 @@ import Tab from "../../common/Tab/Tab";
 
 const CaptureTab = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { currentDevice, deviceList } = useSelector(
+  const { currentDevice, deviceList, currentDeviceStreaming } = useSelector(
     (state: RootState) => state.app
   );
 
@@ -56,6 +56,8 @@ const CaptureTab = (): JSX.Element => {
             dispatch(closeDevice());
           }}
         />
+
+        <p>{currentDeviceStreaming ? "yes" : "no"}</p>
       </SidebarBlock>
     </Tab>
   );
