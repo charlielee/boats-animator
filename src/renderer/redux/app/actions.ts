@@ -1,7 +1,9 @@
 import { AppMode } from "../../../common/AppMode";
+import { UserPreferences } from "../../../common/UserPreferences";
 import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 
 export enum AppActionType {
+  EDIT_USER_PREFERENCES = "app/EDIT_USER_PREFERENCES",
   SET_APP_MODE = "app/SET_APP_MODE",
   SET_CURRENT_DEVICE = "app/SET_CURRENT_DEVICE",
   SET_IS_DEVICE_OPEN = "app/SET_IS_DEVICE_OPEN",
@@ -11,6 +13,7 @@ export enum AppActionType {
 }
 
 export type AppAction =
+  | AppAction.EditUserPreferences
   | AppAction.SetAppMode
   | AppAction.SetCurrentDevice
   | AppAction.SetIsDeviceOpen
@@ -19,6 +22,10 @@ export type AppAction =
   | AppAction.StopLoading;
 
 export namespace AppAction {
+  export interface EditUserPreferences {
+    type: AppActionType.EDIT_USER_PREFERENCES;
+    payload: { userPreferences: Partial<UserPreferences> };
+  }
   export interface SetAppMode {
     type: AppActionType.SET_APP_MODE;
     payload: { appMode: AppMode };
@@ -48,6 +55,13 @@ export namespace AppAction {
     type: AppActionType.STOP_LOADING;
   }
 }
+
+export const editUserPreferences = (
+  userPreferences: Partial<UserPreferences>
+): AppAction.EditUserPreferences => ({
+  type: AppActionType.EDIT_USER_PREFERENCES,
+  payload: { userPreferences },
+});
 
 export const setAppMode = (appMode: AppMode): AppAction.SetAppMode => ({
   type: AppActionType.SET_APP_MODE,

@@ -1,4 +1,5 @@
 import { AppMode } from "../../../common/AppMode";
+import { UserPreferences } from "../../../common/UserPreferences";
 import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 
 export interface AppState {
@@ -7,6 +8,7 @@ export interface AppState {
   isDeviceOpen: boolean;
   deviceList: ImagingDeviceIdentifier[];
   loadingMessage?: string;
+  userPreferences: UserPreferences;
 }
 
 export const initialAppState: AppState = {
@@ -15,4 +17,7 @@ export const initialAppState: AppState = {
   isDeviceOpen: false,
   deviceList: [],
   loadingMessage: undefined,
+  userPreferences: {
+    workingDirectory: undefined,
+  },
 };

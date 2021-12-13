@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
+import { changeWorkingDirectory } from "../../../redux/app/thunks";
 import { RootState } from "../../../redux/store";
-import { changeWorkingDirectory } from "../../../redux/userPreferences/thunks";
 import Button from "../../common/Button/Button";
 import "./ExportDirectory.css";
 
 const ExportDirectory = (): JSX.Element => {
   const { workingDirectory } = useSelector(
-    (state: RootState) => state.userPreferences
+    (state: RootState) => state.app.userPreferences
   );
   const dispatch = useDispatch();
 

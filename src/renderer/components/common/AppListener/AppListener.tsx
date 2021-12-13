@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { fetchAndSetDeviceList } from "../../../redux/app/thunks";
+import {
+  fetchAndSetDeviceList,
+  loadSavedPreferences,
+} from "../../../redux/app/thunks";
 import { RootState } from "../../../redux/store";
-import { loadSavedPreferences } from "../../../redux/userPreferences/thunks";
 import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
 import { onDeviceChange } from "../../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../../services/rLogger/rLogger";
@@ -12,7 +14,7 @@ const AppListeners = (): JSX.Element => {
   const dispatch = useDispatch();
   const location = useLocation();
   const userPreferences = useSelector(
-    (state: RootState) => state.userPreferences
+    (state: RootState) => state.app.userPreferences
   );
 
   useEffect(() => {

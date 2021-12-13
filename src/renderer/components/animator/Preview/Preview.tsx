@@ -5,20 +5,16 @@ import { RootState } from "../../../redux/store";
 import "./Preview.css";
 import PreviewLiveView from "./PreviewLiveView/PreviewLiveView";
 
-interface PreviewProps {
-  active?: boolean;
-}
-
-const Preview = ({ active }: PreviewProps): JSX.Element => {
+const Preview = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { currentDevice, currentDeviceStreaming } = useSelector(
+  const { currentDevice, isDeviceOpen } = useSelector(
     (state: RootState) => state.app
   );
   return (
-    <div className={classNames("preview", { "preview--active": active })}>
+    <div className={classNames("preview", { "preview--active": isDeviceOpen })}>
       {currentDevice ? (
         <PreviewLiveView
-          streaming={currentDeviceStreaming}
+          streaming={isDeviceOpen}
           updateSrcObject={(element) => dispatch(attachStreamToVideo(element))}
         />
       ) : (

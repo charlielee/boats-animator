@@ -3,6 +3,8 @@ import { AppState, initialAppState } from "./state";
 
 const appReducer = (state = initialAppState, action: AppAction): AppState => {
   switch (action.type) {
+    case AppActionType.EDIT_USER_PREFERENCES:
+      return { ...state, ...action.payload?.userPreferences };
     case AppActionType.SET_APP_MODE:
       return { ...state, appMode: action.payload.appMode };
     case AppActionType.SET_CURRENT_DEVICE:

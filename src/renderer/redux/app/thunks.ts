@@ -4,7 +4,11 @@ import { listDevices } from "../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../services/rLogger/rLogger";
 import { changeDevice } from "../capture/middleware";
 import { RootState } from "../store";
-import { setCurrentDevice, setDeviceList } from "./actions";
+import {
+  editUserPreferences,
+  setCurrentDevice,
+  setDeviceList,
+} from "./actions";
 
 export const fetchAndSetDeviceList = () => {
   return (
@@ -44,5 +48,32 @@ export const setCurrentDeviceFromId = (deviceId?: string) => {
     dispatch(setCurrentDevice(identifier));
 
     return identifier;
+  };
+};
+
+export const changeWorkingDirectory = (workingDirectory?: string) => {
+  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
+    return (async () => {
+      const newDirectory = await window.preload.ipcToMain.openDirDialog({
+        workingDirectory,
+        title: "Select a directory to save captured frames",
+      });
+
+      dispatch(
+        editUserPreferences({
+          workingDirectory: newDirectory,
+        })
+      );
+    })();
+  };
+};
+
+export const loadSavedPreferences = () => {
+  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
+    return (async () => {
+      const savedPreferences =
+        await window.preload.ipcToMain.getUserPreferences();
+      dispatch(editUserPreferences(savedPreferences));
+    })();
   };
 };
