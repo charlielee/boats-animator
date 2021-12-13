@@ -10,6 +10,7 @@ import { RootState } from "../store";
 import { withLoader } from "../utils";
 
 export enum ActionType {
+  CLOSE_DEVICE = "imagingDevice/CLOSE_DEVICE",
   CHANGE_DEVICE = "imagingDevice/CHANGE",
   TAKE_PICTURE = "imagingDevice/TAKE_PICTURE",
   ATTACH_STREAM_TO_VIDEO = "imagingDevice/ATTACH_STREAM_TO_VIDEO",
@@ -23,13 +24,16 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
 
   return (next) => (action) => {
     switch (action.type) {
+      case ActionType.CLOSE_DEVICE: {
+        currentDevice?.close();
+        dispatch(setDeviceStreaming(false));
+      }
       case ActionType.CHANGE_DEVICE: {
         withLoader(
           dispatch,
           "Loading device",
           (async () => {
-            currentDevice?.close();
-            dispatch(setDeviceStreaming(false));
+            dispatch(closeDevice());
 
             const identifier = dispatch(
               setCurrentDeviceFromId(action.payload.deviceId)
@@ -65,6 +69,10 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
     return next(action);
   };
 };
+
+export const closeDevice = () => ({
+  type: ActionType.CLOSE_DEVICE,
+});
 
 export const changeDevice = (deviceId?: string) => ({
   type: ActionType.CHANGE_DEVICE,
