@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { TrackType } from "../../../../common/Project";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
@@ -16,11 +15,6 @@ import StatusToolbar from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
 
 const Animator = (): JSX.Element => {
-  const [range, setRange] = useState(10);
-  const [check, setCheck] = useState(false);
-  const [checkSwitch, setCheckSwitch] = useState(false);
-  const [numberAndRange, setNumberAndRange] = useState(2);
-
   return (
     <Page>
       <PageBody>
