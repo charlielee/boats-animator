@@ -15,7 +15,10 @@ class WebMediaDevice implements ImagingDevice {
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({
         audio: false,
-        video: { deviceId: { exact: this.identifier.deviceId } },
+        video: {
+          deviceId: { exact: this.identifier.deviceId },
+          width: { ideal: 99999 },
+        },
       });
       return true;
     } catch (e) {
