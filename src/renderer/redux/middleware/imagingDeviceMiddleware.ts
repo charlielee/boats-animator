@@ -11,7 +11,8 @@ import { withLoader } from "../utils";
 
 export enum ActionType {
   CLOSE_DEVICE = "imagingDevice/CLOSE_DEVICE",
-  CHANGE_DEVICE = "imagingDevice/CHANGE",
+  OPEN_DEVICE = "imagingDevice/OPEN_DEVICE",
+  CHANGE_DEVICE = "imagingDevice/CHANGE_DEVICE",
   TAKE_PICTURE = "imagingDevice/TAKE_PICTURE",
   ATTACH_STREAM_TO_VIDEO = "imagingDevice/ATTACH_STREAM_TO_VIDEO",
 }
@@ -27,25 +28,15 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
       case ActionType.CLOSE_DEVICE: {
         currentDevice?.close();
         dispatch(setDeviceStreaming(false));
+        return;
       }
-      case ActionType.CHANGE_DEVICE: {
+      case ActionType.OPEN_DEVICE: {
         withLoader(
           dispatch,
           "Loading device",
           (async () => {
-            dispatch(closeDevice());
+            const deviceOpened = await currentDevice?.open();
 
-            const identifier = dispatch(
-              setCurrentDeviceFromId(action.payload.deviceId)
-            );
-            if (identifier) {
-              currentDevice = deviceIdentifierToDevice(identifier);
-            } else {
-              currentDevice = undefined;
-              return;
-            }
-
-            const deviceOpened = await currentDevice.open();
             if (deviceOpened) {
               storeApi.dispatch(setDeviceStreaming(true));
             } else {
@@ -53,6 +44,22 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
             }
           })()
         );
+        return;
+      }
+      case ActionType.CHANGE_DEVICE: {
+        dispatch(closeDevice());
+
+        const identifier = dispatch(
+          setCurrentDeviceFromId(action.payload.deviceId)
+        );
+        if (identifier) {
+          currentDevice = deviceIdentifierToDevice(identifier);
+        } else {
+          currentDevice = undefined;
+          return;
+        }
+
+        dispatch(openDevice());
 
         return;
       }
@@ -72,6 +79,10 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
 
 export const closeDevice = () => ({
   type: ActionType.CLOSE_DEVICE,
+});
+
+export const openDevice = () => ({
+  type: ActionType.OPEN_DEVICE,
 });
 
 export const changeDevice = (deviceId?: string) => ({

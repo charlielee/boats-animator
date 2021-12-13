@@ -37,6 +37,7 @@ class WebMediaDevice implements ImagingDevice {
   close() {
     rLogger.info("webMediaDevice.close");
     this.stream?.getTracks().forEach((track) => track.stop());
+    this.stream = undefined;
   }
 
   static async listDevices(): Promise<ImagingDeviceIdentifier[]> {
