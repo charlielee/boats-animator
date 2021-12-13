@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { changeDevice } from "../../../redux/reducers/app/thunks";
+import { openDevice } from "../../../redux/middleware/imagingDeviceMiddleware";
 import { RootState } from "../../../redux/store";
 import IconName from "../../common/Icon/IconName";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
@@ -30,8 +30,8 @@ const CaptureTab = (): JSX.Element => {
             id="camera-source-select"
             options={buildCameraSourceOptions()}
             value={currentDevice?.deviceId}
-            onChange={(newValue) =>
-              dispatch(changeDevice(newValue === "" ? undefined : newValue))
+            onChange={(deviceId) =>
+              dispatch(openDevice(deviceId === "" ? undefined : deviceId))
             }
           />
         </InputGroup>

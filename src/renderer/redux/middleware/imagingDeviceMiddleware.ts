@@ -20,14 +20,33 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
   let currentDevice: WebMediaDevice | undefined = undefined;
 
   return (next) => (action) => {
+    const { deviceList } = storeApi.getState().app;
+
+    const getDeviceIdentifierById = (deviceId: string) =>
+      deviceList.find(
+        (identifier: ImagingDeviceIdentifier) =>
+          identifier.deviceId === deviceId
+      );
+
     switch (action.type) {
       case ActionType.OPEN_DEVICE: {
-        currentDevice = deviceIdentifierToDevice(action.payload.identifier);
-
         (async () => {
-          await currentDevice.open();
-          storeApi.dispatch(setCurrentDevice(currentDevice.identifier));
-          storeApi.dispatch(setDeviceStreaming(true));
+          currentDevice?.close();
+
+          const deviceIdentifier = getDeviceIdentifierById(
+            action.payload.deviceId
+          );
+
+          if (deviceIdentifier) {
+            currentDevice = deviceIdentifierToDevice(deviceIdentifier);
+            await currentDevice.open();
+            storeApi.dispatch(setDeviceStreaming(true));
+          } else {
+            currentDevice = undefined;
+            storeApi.dispatch(setDeviceStreaming(false));
+          }
+
+          storeApi.dispatch(setCurrentDevice(currentDevice?.identifier));
         })();
 
         return;
@@ -52,9 +71,9 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
   };
 };
 
-export const openDevice = (identifier: ImagingDeviceIdentifier) => ({
+export const openDevice = (deviceId?: string) => ({
   type: ActionType.OPEN_DEVICE,
-  payload: { identifier },
+  payload: { deviceId },
 });
 
 export const closeDevice = () => ({
