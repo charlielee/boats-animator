@@ -8,7 +8,7 @@ import { setCurrentDevice, setDeviceStreaming } from "../reducers/app/reducer";
 import { RootState } from "../store";
 
 export enum ActionType {
-  OPEN_DEVICE = "imagingDevice/OPEN",
+  CHANGE_DEVICE = "imagingDevice/CHANGE",
   CLOSE_DEVICE = "imagingDevice/CLOSE",
   TAKE_PICTURE = "imagingDevice/TAKE_PICTURE",
   ATTACH_STREAM_TO_VIDEO = "imagingDevice/ATTACH_STREAM_TO_VIDEO",
@@ -29,7 +29,7 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
       );
 
     switch (action.type) {
-      case ActionType.OPEN_DEVICE: {
+      case ActionType.CHANGE_DEVICE: {
         (async () => {
           currentDevice?.close();
 
@@ -51,12 +51,6 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
 
         return;
       }
-      case ActionType.CLOSE_DEVICE: {
-        currentDevice?.close();
-        // currentDevice = undefined;
-        storeApi.dispatch(setDeviceStreaming(false));
-        return;
-      }
       case ActionType.TAKE_PICTURE: {
         return;
       }
@@ -71,13 +65,9 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
   };
 };
 
-export const openDevice = (deviceId?: string) => ({
-  type: ActionType.OPEN_DEVICE,
+export const changeDevice = (deviceId?: string) => ({
+  type: ActionType.CHANGE_DEVICE,
   payload: { deviceId },
-});
-
-export const closeDevice = () => ({
-  type: ActionType.CLOSE_DEVICE,
 });
 
 export const attachStreamToVideo = (element: HTMLVideoElement) => ({
