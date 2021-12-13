@@ -45,10 +45,17 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
 
             if (deviceIdentifier) {
               currentDevice = deviceIdentifierToDevice(deviceIdentifier);
-              await currentDevice.open();
-              storeApi.dispatch(setDeviceStreaming(true));
             } else {
               currentDevice = undefined;
+              return;
+            }
+
+            const deviceOpened = await currentDevice.open();
+
+            if (deviceOpened) {
+              storeApi.dispatch(setDeviceStreaming(true));
+            } else {
+              storeApi.dispatch(setCurrentDevice());
             }
           })()
         );

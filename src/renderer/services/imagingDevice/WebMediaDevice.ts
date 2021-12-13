@@ -11,13 +11,24 @@ class WebMediaDevice implements ImagingDevice {
   constructor(public identifier: ImagingDeviceIdentifier) {}
 
   async open() {
-    rLogger.info("webMediaDevice.open");
-    this.stream = await navigator.mediaDevices.getUserMedia({
-      audio: false,
-      video: { deviceId: { exact: this.identifier.deviceId } },
-    });
-
-    return this.stream;
+    rLogger.info("webMediaDevice.open.start");
+    try {
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: { deviceId: { exact: this.identifier.deviceId } },
+      });
+      return true;
+    } catch (e) {
+      if (e instanceof DOMException) {
+        rLogger.info(
+          "webMediaDevice.open.deviceError",
+          `${e.name}: ${e.message}`
+        );
+        return false;
+      } else {
+        throw e;
+      }
+    }
   }
 
   close() {

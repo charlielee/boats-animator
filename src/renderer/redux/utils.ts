@@ -7,8 +7,11 @@ export const withLoader = (
   cb: Promise<void>
 ) => {
   (async () => {
-    dispatch(startLoading(loadingMessage));
-    await cb;
-    dispatch(stopLoading());
+    try {
+      dispatch(startLoading(loadingMessage));
+      await cb;
+    } finally {
+      dispatch(stopLoading());
+    }
   })();
 };

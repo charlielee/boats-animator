@@ -10,12 +10,12 @@ import Tab from "../../common/Tab/Tab";
 
 const CaptureTab = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { currentDevice, deviceList, currentDeviceStreaming } = useSelector(
+  const { currentDevice, deviceList } = useSelector(
     (state: RootState) => state.app
   );
 
   const buildCameraSourceOptions = () => ({
-    "No camera selected": "",
+    "No camera selected": "#",
     ...Object.fromEntries(
       deviceList.map((device) => [device.name, device.deviceId])
     ),
@@ -29,9 +29,9 @@ const CaptureTab = (): JSX.Element => {
           <InputSelect
             id="camera-source-select"
             options={buildCameraSourceOptions()}
-            value={currentDevice?.deviceId}
+            value={!currentDevice?.deviceId ? "#" : currentDevice?.deviceId}
             onChange={(deviceId) =>
-              dispatch(changeDevice(deviceId === "" ? undefined : deviceId))
+              dispatch(changeDevice(deviceId === "#" ? undefined : deviceId))
             }
           />
         </InputGroup>
