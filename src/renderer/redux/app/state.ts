@@ -1,5 +1,5 @@
-import { AppMode } from "../../../../common/AppMode";
-import { ImagingDeviceIdentifier } from "../../../services/imagingDevice/ImagingDevice";
+import { AppMode } from "../../../common/AppMode";
+import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 
 export interface AppState {
   appMode: AppMode;

@@ -1,5 +1,5 @@
-import { AppMode } from "../../../../common/AppMode";
-import { ImagingDeviceIdentifier } from "../../../services/imagingDevice/ImagingDevice";
+import { AppMode } from "../../../common/AppMode";
+import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 
 export enum AppActionType {
   SET_APP_MODE = "app/SET_APP_MODE",

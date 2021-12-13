@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { startLoading, stopLoading } from "./reducers/app/reducer";
+import { startLoading, stopLoading } from "./app/reducer";
 
 export const withLoader = (
   dispatch: Dispatch,
