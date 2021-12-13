@@ -4,7 +4,7 @@ import {
   deviceIdentifierToDevice,
   ImagingDevice,
 } from "../../services/imagingDevice/ImagingDevice";
-import { setCurrentDevice, setDeviceStreaming } from "../app/reducer";
+import { setCurrentDevice, setDeviceStreaming } from "../app/actions";
 import { setCurrentDeviceFromId } from "../app/thunks";
 import { RootState } from "../store";
 import { withLoader } from "../utils";

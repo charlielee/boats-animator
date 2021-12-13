@@ -1,5 +1,3 @@
-import { AppMode } from "../../../common/AppMode";
-import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 import { AppAction, AppActionType } from "./actions";
 import { AppState, initialAppState } from "./state";
 
@@ -24,34 +22,5 @@ const appReducer = (state = initialAppState, action: AppAction): AppState => {
       return state;
   }
 };
-
-export const setAppMode = (appMode: AppMode): AppAction => ({
-  type: AppActionType.SET_APP_MODE,
-  payload: { appMode },
-});
-
-export const setCurrentDevice = (currentDevice?: ImagingDeviceIdentifier) => ({
-  type: AppActionType.SET_CURRENT_DEVICE,
-  payload: { currentDevice },
-});
-
-export const setDeviceStreaming = (currentDeviceStreaming: boolean) => ({
-  type: AppActionType.SET_CURRENT_DEVICE_STREAMING,
-  payload: { currentDeviceStreaming },
-});
-
-export const setDeviceList = (deviceList: ImagingDeviceIdentifier[]) => ({
-  type: AppActionType.SET_DEVICE_LIST,
-  payload: { deviceList },
-});
-
-export const startLoading = (message: string): AppAction => ({
-  type: AppActionType.START_LOADING,
-  payload: { message },
-});
-
-export const stopLoading = (): AppAction => ({
-  type: AppActionType.STOP_LOADING,
-});
 
 export default appReducer;

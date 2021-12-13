@@ -2,9 +2,9 @@ import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { listDevices } from "../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../services/rLogger/rLogger";
-import { changeDevice } from "../capture/imagingDeviceMiddleware";
+import { changeDevice } from "../capture/middleware";
 import { RootState } from "../store";
-import { setCurrentDevice, setDeviceList } from "./reducer";
+import { setCurrentDevice, setDeviceList } from "./actions";
 
 export const fetchAndSetDeviceList = () => {
   return (
