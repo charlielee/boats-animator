@@ -7,10 +7,10 @@ const appReducer = (state = initialAppState, action: AppAction): AppState => {
       return { ...state, appMode: action.payload.appMode };
     case AppActionType.SET_CURRENT_DEVICE:
       return { ...state, currentDevice: action.payload.currentDevice };
-    case AppActionType.SET_CURRENT_DEVICE_STREAMING:
+    case AppActionType.SET_IS_DEVICE_OPEN:
       return {
         ...state,
-        currentDeviceStreaming: action.payload.currentDeviceStreaming,
+        isDeviceOpen: action.payload.isDeviceOpen,
       };
     case AppActionType.SET_DEVICE_LIST:
       return { ...state, deviceList: action.payload.deviceList };

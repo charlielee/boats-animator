@@ -4,7 +4,7 @@ import {
   deviceIdentifierToDevice,
   ImagingDevice,
 } from "../../services/imagingDevice/ImagingDevice";
-import { setCurrentDevice, setDeviceStreaming } from "../app/actions";
+import { setCurrentDevice, setIsDeviceOpen } from "../app/actions";
 import { setCurrentDeviceFromId } from "../app/thunks";
 import { RootState } from "../store";
 import { withLoader } from "../utils";
@@ -27,7 +27,7 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
     switch (action.type) {
       case ActionType.CLOSE_DEVICE: {
         currentDevice?.close();
-        dispatch(setDeviceStreaming(false));
+        dispatch(setIsDeviceOpen(false));
         return;
       }
       case ActionType.OPEN_DEVICE: {
@@ -38,7 +38,7 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
             const deviceOpened = await currentDevice?.open();
 
             if (deviceOpened) {
-              storeApi.dispatch(setDeviceStreaming(true));
+              storeApi.dispatch(setIsDeviceOpen(true));
             } else {
               storeApi.dispatch(setCurrentDevice());
             }

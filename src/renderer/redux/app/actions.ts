@@ -4,18 +4,16 @@ import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDev
 export enum AppActionType {
   SET_APP_MODE = "app/SET_APP_MODE",
   SET_CURRENT_DEVICE = "app/SET_CURRENT_DEVICE",
-  SET_CURRENT_DEVICE_STREAMING = "app/SET_CURRENT_DEVICE_STREAMING",
+  SET_IS_DEVICE_OPEN = "app/SET_IS_DEVICE_OPEN",
   SET_DEVICE_LIST = "app/SET_DEVICE_LIST",
   START_LOADING = "app/START_LOADING",
   STOP_LOADING = "app/STOP_LOADING",
 }
 
-// export type AppAction =
-
 export type AppAction =
   | AppAction.SetAppMode
   | AppAction.SetCurrentDevice
-  | AppAction.SetCurrentDeviceStreaming
+  | AppAction.SetIsDeviceOpen
   | AppAction.SetDeviceList
   | AppAction.StartLoading
   | AppAction.StopLoading;
@@ -36,9 +34,9 @@ export namespace AppAction {
     payload: { deviceList: ImagingDeviceIdentifier[] };
   }
 
-  export interface SetCurrentDeviceStreaming {
-    type: AppActionType.SET_CURRENT_DEVICE_STREAMING;
-    payload: { currentDeviceStreaming: boolean };
+  export interface SetIsDeviceOpen {
+    type: AppActionType.SET_IS_DEVICE_OPEN;
+    payload: { isDeviceOpen: boolean };
   }
 
   export interface StartLoading {
@@ -70,11 +68,11 @@ export const setDeviceList = (
   payload: { deviceList },
 });
 
-export const setDeviceStreaming = (
-  currentDeviceStreaming: boolean
-): AppAction.SetCurrentDeviceStreaming => ({
-  type: AppActionType.SET_CURRENT_DEVICE_STREAMING,
-  payload: { currentDeviceStreaming },
+export const setIsDeviceOpen = (
+  isDeviceOpen: boolean
+): AppAction.SetIsDeviceOpen => ({
+  type: AppActionType.SET_IS_DEVICE_OPEN,
+  payload: { isDeviceOpen },
 });
 
 export const startLoading = (message: string): AppAction.StartLoading => ({

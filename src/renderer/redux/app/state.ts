@@ -4,7 +4,7 @@ import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDev
 export interface AppState {
   appMode: AppMode;
   currentDevice?: ImagingDeviceIdentifier;
-  currentDeviceStreaming: boolean;
+  isDeviceOpen: boolean;
   deviceList: ImagingDeviceIdentifier[];
   loadingMessage?: string;
 }
@@ -12,7 +12,7 @@ export interface AppState {
 export const initialAppState: AppState = {
   appMode: AppMode.CAPTURE,
   currentDevice: undefined,
-  currentDeviceStreaming: false,
+  isDeviceOpen: false,
   deviceList: [],
   loadingMessage: undefined,
 };
