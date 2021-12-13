@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
-import { attachStreamToVideo } from "../../../redux/middleware/imagingDeviceMiddleware";
+import { attachStreamToVideo } from "../../../redux/capture/middleware";
 import { RootState } from "../../../redux/store";
 import "./Preview.css";
 import PreviewLiveView from "./PreviewLiveView/PreviewLiveView";
