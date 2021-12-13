@@ -4,13 +4,9 @@ import {
   ImagingDeviceIdentifier,
 } from "../../services/imagingDevice/ImagingDevice";
 import WebMediaDevice from "../../services/imagingDevice/WebMediaDevice";
-import {
-  setCurrentDevice,
-  setDeviceStreaming,
-  startLoading,
-  stopLoading,
-} from "../reducers/app/reducer";
+import { setCurrentDevice, setDeviceStreaming } from "../reducers/app/reducer";
 import { RootState } from "../store";
+import { withLoader } from "../utils";
 
 export enum ActionType {
   CHANGE_DEVICE = "imagingDevice/CHANGE",
@@ -21,6 +17,7 @@ export enum ActionType {
 export const createCaptureMiddleware: Middleware<{}, RootState> = (
   storeApi: MiddlewareAPI
 ) => {
+  const { dispatch } = storeApi;
   let currentDevice: WebMediaDevice | undefined = undefined;
 
   return (next) => (action) => {
@@ -34,26 +31,27 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
 
     switch (action.type) {
       case ActionType.CHANGE_DEVICE: {
-        (async () => {
-          currentDevice?.close();
-          storeApi.dispatch(startLoading("Loading device"));
+        withLoader(
+          dispatch,
+          "Loading device",
+          (async () => {
+            currentDevice?.close();
+            dispatch(setDeviceStreaming(false));
 
-          const deviceIdentifier = getDeviceIdentifierById(
-            action.payload.deviceId
-          );
-          storeApi.dispatch(setCurrentDevice(deviceIdentifier));
+            const deviceIdentifier = getDeviceIdentifierById(
+              action.payload.deviceId
+            );
+            storeApi.dispatch(setCurrentDevice(deviceIdentifier));
 
-          if (deviceIdentifier) {
-            currentDevice = deviceIdentifierToDevice(deviceIdentifier);
-            await currentDevice.open();
-            storeApi.dispatch(setDeviceStreaming(true));
-          } else {
-            currentDevice = undefined;
-            storeApi.dispatch(setDeviceStreaming(false));
-          }
-
-          storeApi.dispatch(stopLoading());
-        })();
+            if (deviceIdentifier) {
+              currentDevice = deviceIdentifierToDevice(deviceIdentifier);
+              await currentDevice.open();
+              storeApi.dispatch(setDeviceStreaming(true));
+            } else {
+              currentDevice = undefined;
+            }
+          })()
+        );
 
         return;
       }
