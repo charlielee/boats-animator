@@ -4,7 +4,7 @@ import { listDevices } from "../../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../../services/rLogger/rLogger";
 import { changeDevice } from "../../middleware/imagingDeviceMiddleware";
 import { RootState } from "../../store";
-import { setDeviceList } from "./reducer";
+import { setCurrentDevice, setDeviceList } from "./reducer";
 
 export const fetchAndSetDeviceList = () => {
   return (
@@ -28,5 +28,21 @@ export const fetchAndSetDeviceList = () => {
         dispatch(changeDevice());
       }
     })();
+  };
+};
+
+export const setCurrentDeviceFromId = (deviceId?: string) => {
+  return (
+    dispatch: ThunkDispatch<RootState, void, Action>,
+    getState: () => RootState
+  ) => {
+    const { deviceList } = getState().app;
+    const identifier = deviceList.find(
+      (identifier) => identifier.deviceId === deviceId
+    );
+
+    dispatch(setCurrentDevice(identifier));
+
+    return identifier;
   };
 };
