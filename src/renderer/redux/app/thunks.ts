@@ -1,8 +1,9 @@
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { PageRoute } from "../../../common/PageRoute";
 import { listDevices } from "../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../services/rLogger/rLogger";
-import { changeDevice } from "../capture/middleware";
+import { changeDevice, closeDevice, openDevice } from "../capture/middleware";
 import { RootState } from "../store";
 import {
   editUserPreferences,
@@ -75,5 +76,21 @@ export const loadSavedPreferences = () => {
         await window.preload.ipcToMain.getUserPreferences();
       dispatch(editUserPreferences(savedPreferences));
     })();
+  };
+};
+
+export const onRouteChange = (route: PageRoute) => {
+  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
+    switch (route) {
+      case PageRoute.ANIMATOR: {
+        dispatch(openDevice());
+        return;
+      }
+      default: {
+        // Pause streaming when a modal is open
+        dispatch(closeDevice());
+        return;
+      }
+    }
   };
 };
