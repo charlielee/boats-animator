@@ -1,9 +1,15 @@
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { PageRoute } from "../../../common/PageRoute";
 import { listDevices } from "../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../services/rLogger/rLogger";
+import { changeDevice, closeDevice, openDevice } from "../capture/actions";
 import { RootState } from "../store";
-import { setCurrentDevice, setDeviceList } from "./reducer";
+import {
+  editUserPreferences,
+  setCurrentDevice,
+  setDeviceList,
+} from "./actions";
 
 export const fetchAndSetDeviceList = () => {
   return (
@@ -22,31 +28,69 @@ export const fetchAndSetDeviceList = () => {
           (device) => device.deviceId === currentDevice.deviceId
         );
 
-      if (!currentDeviceConnected) {
+      if (currentDevice && !currentDeviceConnected) {
         rLogger.info("thunks.fetchAndSetDeviceList.currentDeviceRemoved");
-        dispatch(setCurrentDevice(undefined));
+        dispatch(changeDevice());
       }
     })();
   };
 };
 
-export const changeDevice = (deviceId?: string) => {
+export const setCurrentDeviceFromId = (deviceId?: string) => {
   return (
     dispatch: ThunkDispatch<RootState, void, Action>,
     getState: () => RootState
   ) => {
     const { deviceList } = getState().app;
+    const identifier = deviceList.find(
+      (identifier) => identifier.deviceId === deviceId
+    );
 
+    dispatch(setCurrentDevice(identifier));
+
+    return identifier;
+  };
+};
+
+export const changeWorkingDirectory = (workingDirectory?: string) => {
+  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
     return (async () => {
-      // TODO Stop the current device
+      const newDirectory = await window.preload.ipcToMain.openDirDialog({
+        workingDirectory,
+        title: "Select a directory to save captured frames",
+      });
 
-      // TODO Start the new device
-      const newDevice = deviceList.find(
-        (device) => device.deviceId === deviceId
+      dispatch(
+        editUserPreferences({
+          workingDirectory: newDirectory,
+        })
       );
-
-      // const connectedDevices = await listDevices();
-      dispatch(setCurrentDevice(newDevice));
     })();
+  };
+};
+
+export const loadSavedPreferences = () => {
+  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
+    return (async () => {
+      const savedPreferences =
+        await window.preload.ipcToMain.getUserPreferences();
+      dispatch(editUserPreferences(savedPreferences));
+    })();
+  };
+};
+
+export const onRouteChange = (route: PageRoute) => {
+  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
+    switch (route) {
+      case PageRoute.ANIMATOR: {
+        dispatch(openDevice());
+        return;
+      }
+      default: {
+        // Pause streaming when a modal is open
+        dispatch(closeDevice());
+        return;
+      }
+    }
   };
 };

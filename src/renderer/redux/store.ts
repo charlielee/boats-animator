@@ -1,14 +1,16 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunk from "redux-thunk";
 import appReducer from "./app/reducer";
-import userPreferencesReducer from "./userPreferences/reducer";
+import { createCaptureMiddleware } from "./capture/middleware";
 export type RootState = ReturnType<typeof rootReducer>;
 
 const rootReducer = combineReducers({
   app: appReducer,
-  userPreferences: userPreferencesReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk, createCaptureMiddleware)
+);
 
 export default store;
