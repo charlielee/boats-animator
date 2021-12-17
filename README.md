@@ -3,7 +3,7 @@
 [![Documentation Status](https://readthedocs.org/projects/boatsanimator/badge/?version=stable)](https://boatsanimator.readthedocs.io/en/stable/?badge=stable) 
 [![Official Website](https://img.shields.io/badge/Official%20Website-lightgrey?logo=google-chrome&logoColor=white)](https://www.charlielee.uk/boats-animator)
 [![Discord](https://img.shields.io/badge/Discord%20Server-%237289DA.svg?logo=discord&logoColor=white)](https://discord.com/invite/SUPWr8fDWN)
-![Support Me on Ko-Fi](https://img.shields.io/badge/Support%20Me%20on%20Ko--fi-F16061?logo=ko-fi&logoColor=white)
+[![Support Me on Ko-Fi](https://img.shields.io/badge/Support%20Me%20on%20Ko--fi-F16061?logo=ko-fi&logoColor=white)](https://ko-fi.com/charlielee)
 
 ![Screenshot of Boats Animator by Bert Loos](https://www.charlielee.uk/assets/boats-animator/user-submissions/bertl1.jpg)
 
