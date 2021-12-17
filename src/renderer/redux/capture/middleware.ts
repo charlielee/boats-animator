@@ -34,12 +34,7 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
           "Loading device",
           (async () => {
             const deviceOpened = await currentDevice?.open();
-
-            if (deviceOpened) {
-              storeApi.dispatch(setIsDeviceOpen(true));
-            } else {
-              storeApi.dispatch(setCurrentDevice());
-            }
+            dispatch(deviceOpened ? setIsDeviceOpen(true) : setCurrentDevice());
           })()
         );
         return;
@@ -52,12 +47,10 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
         );
         if (identifier) {
           currentDevice = deviceIdentifierToDevice(identifier);
+          dispatch(openDevice());
         } else {
           currentDevice = undefined;
-          return;
         }
-
-        dispatch(openDevice());
 
         return;
       }
