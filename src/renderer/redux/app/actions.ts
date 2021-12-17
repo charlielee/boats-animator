@@ -26,6 +26,7 @@ export namespace AppAction {
     type: AppActionType.EDIT_USER_PREFERENCES;
     payload: { userPreferences: Partial<UserPreferences> };
   }
+
   export interface SetAppMode {
     type: AppActionType.SET_APP_MODE;
     payload: { appMode: AppMode };

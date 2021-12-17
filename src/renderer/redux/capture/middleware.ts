@@ -8,7 +8,12 @@ import { setCurrentDevice, setIsDeviceOpen } from "../app/actions";
 import { setCurrentDeviceFromId } from "../app/thunks";
 import { RootState } from "../store";
 import { withLoader } from "../utils";
-import { CaptureActionType, closeDevice, openDevice } from "./actions";
+import {
+  CaptureAction,
+  CaptureActionType,
+  closeDevice,
+  openDevice,
+} from "./actions";
 
 export const createCaptureMiddleware: Middleware<{}, RootState> = (
   storeApi: MiddlewareAPI<ThunkDispatch<RootState, void, Action>>
@@ -16,7 +21,7 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
   const { dispatch } = storeApi;
   let currentDevice: ImagingDevice | undefined = undefined;
 
-  return (next) => (action) => {
+  return (next) => (action: CaptureAction) => {
     switch (action.type) {
       case CaptureActionType.CLOSE_DEVICE: {
         currentDevice?.close();
