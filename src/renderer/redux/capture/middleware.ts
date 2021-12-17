@@ -8,14 +8,7 @@ import { setCurrentDevice, setIsDeviceOpen } from "../app/actions";
 import { setCurrentDeviceFromId } from "../app/thunks";
 import { RootState } from "../store";
 import { withLoader } from "../utils";
-
-export enum ActionType {
-  CLOSE_DEVICE = "imagingDevice/CLOSE_DEVICE",
-  OPEN_DEVICE = "imagingDevice/OPEN_DEVICE",
-  CHANGE_DEVICE = "imagingDevice/CHANGE_DEVICE",
-  TAKE_PICTURE = "imagingDevice/TAKE_PICTURE",
-  ATTACH_STREAM_TO_VIDEO = "imagingDevice/ATTACH_STREAM_TO_VIDEO",
-}
+import { CaptureActionType, closeDevice, openDevice } from "./actions";
 
 export const createCaptureMiddleware: Middleware<{}, RootState> = (
   storeApi: MiddlewareAPI<ThunkDispatch<RootState, void, Action>>
@@ -25,12 +18,12 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
 
   return (next) => (action) => {
     switch (action.type) {
-      case ActionType.CLOSE_DEVICE: {
+      case CaptureActionType.CLOSE_DEVICE: {
         currentDevice?.close();
         dispatch(setIsDeviceOpen(false));
         return;
       }
-      case ActionType.OPEN_DEVICE: {
+      case CaptureActionType.OPEN_DEVICE: {
         withLoader(
           dispatch,
           "Loading device",
@@ -46,7 +39,7 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
         );
         return;
       }
-      case ActionType.CHANGE_DEVICE: {
+      case CaptureActionType.CHANGE_DEVICE: {
         dispatch(closeDevice());
 
         const identifier = dispatch(
@@ -63,10 +56,10 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
 
         return;
       }
-      case ActionType.TAKE_PICTURE: {
+      case CaptureActionType.TAKE_PICTURE: {
         return;
       }
-      case ActionType.ATTACH_STREAM_TO_VIDEO: {
+      case CaptureActionType.ATTACH_STREAM_TO_VIDEO: {
         if (currentDevice?.stream) {
           action.payload.element.srcObject = currentDevice.stream;
         }
@@ -76,21 +69,3 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
     return next(action);
   };
 };
-
-export const closeDevice = () => ({
-  type: ActionType.CLOSE_DEVICE,
-});
-
-export const openDevice = () => ({
-  type: ActionType.OPEN_DEVICE,
-});
-
-export const changeDevice = (deviceId?: string) => ({
-  type: ActionType.CHANGE_DEVICE,
-  payload: { deviceId },
-});
-
-export const attachStreamToVideo = (element: HTMLVideoElement) => ({
-  type: ActionType.ATTACH_STREAM_TO_VIDEO,
-  payload: { element },
-});

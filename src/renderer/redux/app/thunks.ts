@@ -3,7 +3,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { PageRoute } from "../../../common/PageRoute";
 import { listDevices } from "../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../services/rLogger/rLogger";
-import { changeDevice, closeDevice, openDevice } from "../capture/middleware";
+import { changeDevice, closeDevice, openDevice } from "../capture/actions";
 import { RootState } from "../store";
 import {
   editUserPreferences,

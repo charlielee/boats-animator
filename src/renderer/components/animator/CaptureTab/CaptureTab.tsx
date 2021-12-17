@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { changeDevice } from "../../../redux/capture/middleware";
+import { changeDevice } from "../../../redux/capture/actions";
 import { RootState } from "../../../redux/store";
 import IconName from "../../common/Icon/IconName";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
