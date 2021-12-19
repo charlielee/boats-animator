@@ -5,7 +5,10 @@ import {
   ImagingDevice,
 } from "../../services/imagingDevice/ImagingDevice";
 import { setCurrentDevice, setIsDeviceOpen } from "../app/actions";
-import { setCurrentDeviceFromId } from "../app/thunks";
+import {
+  setCurrentDeviceFromId,
+  updateCameraAccessStatus,
+} from "../app/thunks";
 import { RootState } from "../store";
 import { withLoader } from "../utils";
 import {
@@ -24,16 +27,27 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
   return (next) => (action: CaptureAction) => {
     switch (action.type) {
       case CaptureActionType.CLOSE_DEVICE: {
-        currentDevice?.close();
+        if (!currentDevice) {
+          return;
+        }
+
+        currentDevice.close();
         dispatch(setIsDeviceOpen(false));
         return;
       }
       case CaptureActionType.OPEN_DEVICE: {
+        if (!currentDevice) {
+          return;
+        }
+
         withLoader(
           dispatch,
           "Loading device",
           (async () => {
-            const deviceOpened = await currentDevice?.open();
+            const hasCameraAccess = await dispatch(updateCameraAccessStatus());
+
+            const deviceOpened =
+              hasCameraAccess && (await currentDevice.open());
             dispatch(deviceOpened ? setIsDeviceOpen(true) : setCurrentDevice());
           })()
         );

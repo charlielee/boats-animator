@@ -16,6 +16,8 @@ const appReducer = (state = initialAppState, action: AppAction): AppState => {
       };
     case AppActionType.SET_DEVICE_LIST:
       return { ...state, deviceList: action.payload.deviceList };
+    case AppActionType.SET_CAMERA_ACCESS:
+      return { ...state, hasCameraAccess: action.payload.hasAccess };
     case AppActionType.START_LOADING:
       return { ...state, loadingMessage: action.payload.message };
     case AppActionType.STOP_LOADING:

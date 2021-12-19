@@ -7,19 +7,32 @@ import PreviewLiveView from "./PreviewLiveView/PreviewLiveView";
 
 const Preview = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { currentDevice, isDeviceOpen } = useSelector(
+  const { currentDevice, isDeviceOpen, hasCameraAccess } = useSelector(
     (state: RootState) => state.app
   );
+
   return (
     <div className={classNames("preview", { "preview--active": isDeviceOpen })}>
-      {currentDevice ? (
+      {currentDevice && hasCameraAccess && (
         <PreviewLiveView
           streaming={isDeviceOpen}
           updateSrcObject={(element) => dispatch(attachStreamToVideo(element))}
         />
-      ) : (
-        <h2>Select a Camera Source to begin!</h2>
       )}
+
+      {!currentDevice &&
+        (hasCameraAccess ? (
+          <h2>Select a Camera Source to begin!</h2>
+        ) : (
+          <h2>
+            You have denied camera access to this application.
+            <br />
+            Please enable access in System Preferences and restart Boats
+            Animator.
+          </h2>
+        ))}
+
+      <h2></h2>
     </div>
   );
 };

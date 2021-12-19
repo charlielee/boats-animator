@@ -98,9 +98,10 @@ export const onRouteChange = (route: PageRoute) => {
 
 export const updateCameraAccessStatus = () => {
   return (dispatch: ThunkDispatch<RootState, void, Action>) => {
-    return async () => {
+    return (async () => {
       const hasAccess = await window.preload.ipcToMain.checkCameraAccess();
       dispatch(setCameraAccess(hasAccess));
-    };
+      return hasAccess;
+    })();
   };
 };

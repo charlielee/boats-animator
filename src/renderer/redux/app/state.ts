@@ -17,7 +17,7 @@ export const initialAppState: AppState = {
   currentDevice: undefined,
   isDeviceOpen: false,
   deviceList: [],
-  hasCameraAccess: false,
+  hasCameraAccess: true,
   loadingMessage: undefined,
   userPreferences: {
     workingDirectory: undefined,
