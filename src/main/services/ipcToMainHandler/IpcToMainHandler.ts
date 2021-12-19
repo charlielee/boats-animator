@@ -1,4 +1,10 @@
-import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from "electron";
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  IpcMainInvokeEvent,
+  systemPreferences,
+} from "electron";
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import Ipc from "../../../common/ipc/IpcHandler";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
@@ -14,6 +20,20 @@ class IpcToMainHandler {
 
   appVersion = async (e: IpcMainInvokeEvent): Ipc.AppVersion.Response =>
     app.getVersion();
+
+  checkCameraAccess = async (
+    e: IpcMainInvokeEvent
+  ): Ipc.CheckCameraAccess.Response => {
+    // Only check media access on macOS and Windows (not supported by Linux)
+    switch (process.platform) {
+      case "win32":
+        return systemPreferences.getMediaAccessStatus("camera") === "granted";
+      case "darwin":
+        return await systemPreferences.askForMediaAccess("camera");
+      default:
+        return true;
+    }
+  };
 
   getUserPreferences = async (
     e: IpcMainInvokeEvent
@@ -82,6 +102,11 @@ export const addIpcToMainHandlers = () => {
   IpcToMainHandler.handleIfWindow(
     IpcChannel.APP_VERSION,
     ipcHandler.appVersion
+  );
+
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.CHECK_CAMERA_ACCESS,
+    ipcHandler.checkCameraAccess
   );
 
   IpcToMainHandler.handleIfWindow(

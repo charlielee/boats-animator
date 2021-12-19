@@ -12,6 +12,9 @@ const api = {
     appVersion: (): Ipc.AppVersion.Response =>
       ipcRenderer.invoke(IpcChannel.APP_VERSION),
 
+    checkCameraAccess: (): Ipc.CheckCameraAccess.Response =>
+      ipcRenderer.invoke(IpcChannel.CHECK_CAMERA_ACCESS),
+
     getUserPreferences: (): Ipc.GetUserPreferences.Response =>
       ipcRenderer.invoke(IpcChannel.GET_USER_PREFERENCES),
 
