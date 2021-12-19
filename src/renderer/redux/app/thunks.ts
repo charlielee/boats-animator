@@ -7,6 +7,7 @@ import { changeDevice, closeDevice, openDevice } from "../capture/actions";
 import { RootState } from "../store";
 import {
   editUserPreferences,
+  setCameraAccess,
   setCurrentDevice,
   setDeviceList,
 } from "./actions";
@@ -92,5 +93,14 @@ export const onRouteChange = (route: PageRoute) => {
         return;
       }
     }
+  };
+};
+
+export const updateCameraAccessStatus = () => {
+  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
+    return async () => {
+      const hasAccess = await window.preload.ipcToMain.checkCameraAccess();
+      dispatch(setCameraAccess(hasAccess));
+    };
   };
 };

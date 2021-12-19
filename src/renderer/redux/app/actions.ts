@@ -8,6 +8,7 @@ export enum AppActionType {
   SET_CURRENT_DEVICE = "app/SET_CURRENT_DEVICE",
   SET_IS_DEVICE_OPEN = "app/SET_IS_DEVICE_OPEN",
   SET_DEVICE_LIST = "app/SET_DEVICE_LIST",
+  SET_CAMERA_ACCESS = "app/SET_CAMERA_ACCESS",
   START_LOADING = "app/START_LOADING",
   STOP_LOADING = "app/STOP_LOADING",
 }
@@ -18,6 +19,7 @@ export type AppAction =
   | AppAction.SetCurrentDevice
   | AppAction.SetIsDeviceOpen
   | AppAction.SetDeviceList
+  | AppAction.SetCameraAccess
   | AppAction.StartLoading
   | AppAction.StopLoading;
 
@@ -45,6 +47,11 @@ export namespace AppAction {
   export interface SetIsDeviceOpen {
     type: AppActionType.SET_IS_DEVICE_OPEN;
     payload: { isDeviceOpen: boolean };
+  }
+
+  export interface SetCameraAccess {
+    type: AppActionType.SET_CAMERA_ACCESS;
+    payload: { hasAccess: boolean };
   }
 
   export interface StartLoading {
@@ -88,6 +95,13 @@ export const setIsDeviceOpen = (
 ): AppAction.SetIsDeviceOpen => ({
   type: AppActionType.SET_IS_DEVICE_OPEN,
   payload: { isDeviceOpen },
+});
+
+export const setCameraAccess = (
+  hasAccess: boolean
+): AppAction.SetCameraAccess => ({
+  type: AppActionType.SET_CAMERA_ACCESS,
+  payload: { hasAccess },
 });
 
 export const startLoading = (message: string): AppAction.StartLoading => ({
