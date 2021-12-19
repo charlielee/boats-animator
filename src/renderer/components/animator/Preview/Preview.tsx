@@ -31,8 +31,6 @@ const Preview = (): JSX.Element => {
             Animator.
           </h2>
         ))}
-
-      <h2></h2>
     </div>
   );
 };
