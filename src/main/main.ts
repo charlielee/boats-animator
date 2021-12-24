@@ -1,5 +1,10 @@
 import { app, nativeTheme } from "electron";
 import * as os from "os";
+import {
+  loadExtension,
+  REACT_DEV_TOOLS_ID,
+  REDUX_DEV_TOOLS_ID,
+} from "./services/devToolsExtensions/DevToolsExtensions";
 import { addIpcToMainHandlers } from "./services/ipcToMainHandler/IpcToMainHandler";
 import logger from "./services/logger/Logger";
 import {
@@ -13,13 +18,16 @@ nativeTheme.themeSource = "dark";
 
 logger.initialize();
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   logger.info("app.ready", {
     appVersion: app.getVersion(),
     osType: os.type(),
     osRelease: os.release(),
     osPlatform: os.platform(),
   });
+
+  await loadExtension(REACT_DEV_TOOLS_ID);
+  await loadExtension(REDUX_DEV_TOOLS_ID);
 
   let appWindow = createAppWindow();
   loadApp(appWindow);
