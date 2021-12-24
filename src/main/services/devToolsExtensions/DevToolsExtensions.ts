@@ -26,7 +26,7 @@ const getExtensionDirectory = () => {
 
 export const loadExtension = async (id: string) => {
   const location = await fastGlob(`${getExtensionDirectory()}/${id}/*`, {
-    onlyFiles: false,
+    onlyDirectories: true,
   });
 
   if (location.length < 1) {
