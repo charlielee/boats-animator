@@ -2,7 +2,7 @@ export enum CaptureActionType {
   CLOSE_DEVICE = "imagingDevice/CLOSE_DEVICE",
   OPEN_DEVICE = "imagingDevice/OPEN_DEVICE",
   CHANGE_DEVICE = "imagingDevice/CHANGE_DEVICE",
-  TAKE_PICTURE = "imagingDevice/TAKE_PICTURE",
+  TAKE_PHOTO = "imagingDevice/TAKE_PHOTO",
   ATTACH_STREAM_TO_VIDEO = "imagingDevice/ATTACH_STREAM_TO_VIDEO",
 }
 
@@ -10,7 +10,7 @@ export type CaptureAction =
   | CaptureAction.CloseDevice
   | CaptureAction.OpenDevice
   | CaptureAction.ChangeDevice
-  | CaptureAction.TakePicture
+  | CaptureAction.TakePhoto
   | CaptureAction.AttachStreamToVideo;
 
 export namespace CaptureAction {
@@ -27,8 +27,8 @@ export namespace CaptureAction {
     payload: { deviceId?: string };
   }
 
-  export interface TakePicture {
-    type: CaptureActionType.TAKE_PICTURE;
+  export interface TakePhoto {
+    type: CaptureActionType.TAKE_PHOTO;
   }
 
   export interface AttachStreamToVideo {
@@ -57,4 +57,8 @@ export const attachStreamToVideo = (
 ): CaptureAction.AttachStreamToVideo => ({
   type: CaptureActionType.ATTACH_STREAM_TO_VIDEO,
   payload: { element },
+});
+
+export const takePhoto = (): CaptureAction.TakePhoto => ({
+  type: CaptureActionType.TAKE_PHOTO,
 });

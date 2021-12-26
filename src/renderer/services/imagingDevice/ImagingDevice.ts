@@ -16,6 +16,7 @@ export interface ImagingDevice {
   identifier: ImagingDeviceIdentifier;
   open(): Promise<boolean>;
   close(): void;
+  takePhoto(): Promise<Blob>;
 }
 
 const IMAGING_DEVICE_CHANGE_EVENT_NAME = "custom-imagingdevicechange";

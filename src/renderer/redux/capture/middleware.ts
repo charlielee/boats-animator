@@ -68,7 +68,14 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
 
         return;
       }
-      case CaptureActionType.TAKE_PICTURE: {
+      case CaptureActionType.TAKE_PHOTO: {
+        (async () => {
+          const photo = await currentDevice?.takePhoto();
+
+          if (photo) {
+            console.log(URL.createObjectURL(photo));
+          }
+        })();
         return;
       }
       case CaptureActionType.ATTACH_STREAM_TO_VIDEO: {

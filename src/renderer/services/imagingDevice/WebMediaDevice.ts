@@ -7,6 +7,7 @@ import {
 
 class WebMediaDevice implements ImagingDevice {
   public stream?: MediaStream;
+  private imageCapture?: ImageCapture;
 
   constructor(public identifier: ImagingDeviceIdentifier) {}
 
@@ -20,6 +21,7 @@ class WebMediaDevice implements ImagingDevice {
           width: { ideal: 99999 },
         },
       });
+      this.imageCapture = new ImageCapture(this.stream.getVideoTracks()[0]);
       return true;
     } catch (e) {
       if (e instanceof DOMException) {
@@ -38,6 +40,27 @@ class WebMediaDevice implements ImagingDevice {
     rLogger.info("webMediaDevice.close");
     this.stream?.getTracks().forEach((track) => track.stop());
     this.stream = undefined;
+    this.imageCapture = undefined;
+  }
+
+  takePhoto() {
+    if (!this.imageCapture) {
+      throw "Device must be open before takePhoto can be called";
+    }
+
+    rLogger.info("webMediaDevice.takePhoto");
+    return this.imageCapture.takePhoto({
+      imageHeight: this.getStreamWidth(),
+      imageWidth: this.getStreamHeight(),
+    });
+  }
+
+  private getStreamHeight() {
+    return this.stream?.getVideoTracks()[0].getSettings().height;
+  }
+
+  private getStreamWidth() {
+    return this.stream?.getVideoTracks()[0].getSettings().width;
   }
 
   static async listDevices(): Promise<ImagingDeviceIdentifier[]> {
