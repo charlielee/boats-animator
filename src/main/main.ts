@@ -26,8 +26,10 @@ app.whenReady().then(async () => {
     osPlatform: os.platform(),
   });
 
-  await loadExtension(REACT_DEV_TOOLS_ID);
-  await loadExtension(REDUX_DEV_TOOLS_ID);
+  if (!app.isPackaged) {
+    await loadExtension(REACT_DEV_TOOLS_ID);
+    await loadExtension(REDUX_DEV_TOOLS_ID);
+  }
 
   let appWindow = createAppWindow();
   loadApp(appWindow);
