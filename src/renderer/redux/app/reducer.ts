@@ -3,6 +3,11 @@ import { AppState, initialAppState } from "./state";
 
 const appReducer = (state = initialAppState, action: AppAction): AppState => {
   switch (action.type) {
+    case AppActionType.ADD_FILE_DATA_URL:
+      return {
+        ...state,
+        fileDataUrls: [...state.fileDataUrls, action.payload.dataUrl],
+      };
     case AppActionType.EDIT_USER_PREFERENCES:
       return {
         ...state,

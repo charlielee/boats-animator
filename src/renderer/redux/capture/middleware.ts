@@ -4,7 +4,11 @@ import {
   deviceIdentifierToDevice,
   ImagingDevice,
 } from "../../services/imagingDevice/ImagingDevice";
-import { setCurrentDevice, setIsDeviceOpen } from "../app/actions";
+import {
+  addFileDataUrl,
+  setCurrentDevice,
+  setIsDeviceOpen,
+} from "../app/actions";
 import {
   setCurrentDeviceFromId,
   updateCameraAccessStatus,
@@ -70,10 +74,9 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
       }
       case CaptureActionType.TAKE_PHOTO: {
         (async () => {
-          const photo = await currentDevice?.takePhoto();
-
-          if (photo) {
-            console.log(URL.createObjectURL(photo));
+          const imageData = await currentDevice?.takePhoto();
+          if (imageData) {
+            dispatch(addFileDataUrl(URL.createObjectURL(imageData)));
           }
         })();
         return;
@@ -82,9 +85,11 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
         if (currentDevice?.stream) {
           action.payload.element.srcObject = currentDevice.stream;
         }
+        return;
+      }
+      default: {
+        return next(action);
       }
     }
-
-    return next(action);
   };
 };

@@ -18,7 +18,7 @@ class WebMediaDevice implements ImagingDevice {
         audio: false,
         video: {
           deviceId: { exact: this.identifier.deviceId },
-          width: { ideal: 99999 },
+          width: { ideal: 1920 },
         },
       });
       this.imageCapture = new ImageCapture(this.stream.getVideoTracks()[0]);
@@ -50,8 +50,8 @@ class WebMediaDevice implements ImagingDevice {
 
     rLogger.info("webMediaDevice.takePhoto");
     return this.imageCapture.takePhoto({
-      imageHeight: this.getStreamWidth(),
-      imageWidth: this.getStreamHeight(),
+      imageHeight: this.getStreamHeight(),
+      imageWidth: this.getStreamWidth(),
     });
   }
 
