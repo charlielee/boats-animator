@@ -4,7 +4,7 @@ interface Project {
   fileLastSavedToDisk?: Date;
 }
 
-interface Take {
+export interface Take {
   id: string;
   directoryPath: string;
   shotNumber: number;
