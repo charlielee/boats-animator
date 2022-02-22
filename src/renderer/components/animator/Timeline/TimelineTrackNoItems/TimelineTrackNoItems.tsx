@@ -2,11 +2,11 @@ import { TrackType } from "../../../../../common/Project";
 import "./TimelineTrackNoItems.css";
 
 interface TimelineTrackNoItemsProps {
-  trackType: TrackType;
+  trackType?: TrackType;
 }
 
 const TimelineTrackNoItems = ({
-  trackType,
+  trackType = TrackType.FRAME,
 }: TimelineTrackNoItemsProps): JSX.Element => {
   return (
     <div className="timeline-track-no-items">

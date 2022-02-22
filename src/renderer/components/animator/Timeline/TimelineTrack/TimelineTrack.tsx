@@ -1,30 +1,27 @@
-import { useSelector } from "react-redux";
 import { Track } from "../../../../../common/Project";
-import { RootState } from "../../../../redux/store";
 import TimelineTrackItem from "../TimelineTrackItem/TimelineTrackItem";
 import TimelineTrackLabel from "../TimelineTrackLabel/TimelineTrackLabel";
 import TimelineTrackNoItems from "../TimelineTrackNoItems/TimelineTrackNoItems";
 import "./TimelineTrack.css";
 
 interface TimelineTrackProps {
-  track: Track;
+  track?: Track;
 }
 
 const TimelineTrack = ({ track }: TimelineTrackProps): JSX.Element => {
-  const fileDataUrls = useSelector(
-    (state: RootState) => state.app.fileDataUrls
-  );
-
   return (
     <div className="timeline-track">
-      <TimelineTrackLabel trackType={track.trackType} />
+      <TimelineTrackLabel trackType={track?.trackType} />
 
-      {track.trackItems.length === 0 ? (
-        <TimelineTrackNoItems trackType={track.trackType} />
+      {track && track.trackItems.length > 0 ? (
+        track.trackItems.map((trackItem) => (
+          <TimelineTrackItem
+            dataUrl={trackItem.trackFiles[0].filePath}
+            key={trackItem.id}
+          />
+        ))
       ) : (
-        fileDataUrls.map((dataUrl) => {
-          return <TimelineTrackItem dataUrl={dataUrl} />;
-        })
+        <TimelineTrackNoItems trackType={track?.trackType} />
       )}
     </div>
   );

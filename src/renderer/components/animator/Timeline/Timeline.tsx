@@ -1,20 +1,22 @@
-import { Track } from "../../../../common/Project";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 import "./Timeline.css";
 import TimelinePosition from "./TimelinePosition/TimelinePosition";
 import TimelineTrack from "./TimelineTrack/TimelineTrack";
 
-interface TimelineProps {
-  tracks: Track[];
-}
+const Timeline = (): JSX.Element => {
+  const project = useSelector((state: RootState) => state.project);
+  const frameTrack = project?.take?.frameTrack;
 
-const Timeline = ({ tracks }: TimelineProps): JSX.Element => {
   return (
     <div className="timeline">
       <TimelinePosition frameRate={15} totalFrames={0} />
 
-      {tracks.map((track) => (
-        <TimelineTrack track={track} key={track.id} />
-      ))}
+      {frameTrack ? (
+        <TimelineTrack track={frameTrack} key={frameTrack.id} />
+      ) : (
+        <TimelineTrack />
+      )}
     </div>
   );
 };

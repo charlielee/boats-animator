@@ -2,7 +2,7 @@ import * as rLogger from "../rLogger/rLogger";
 import {
   ImagingDevice,
   ImagingDeviceIdentifier,
-  ImagingDeviceType,
+  ImagingDeviceType
 } from "./ImagingDevice";
 
 class WebMediaDevice implements ImagingDevice {
@@ -11,7 +11,7 @@ class WebMediaDevice implements ImagingDevice {
 
   constructor(public identifier: ImagingDeviceIdentifier) {}
 
-  async open() {
+  async open(): Promise<boolean> {
     rLogger.info("webMediaDevice.open.start");
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({
@@ -36,14 +36,14 @@ class WebMediaDevice implements ImagingDevice {
     }
   }
 
-  close() {
+  close(): void {
     rLogger.info("webMediaDevice.close");
     this.stream?.getTracks().forEach((track) => track.stop());
     this.stream = undefined;
     this.imageCapture = undefined;
   }
 
-  takePhoto() {
+  takePhoto(): Promise<Blob> {
     if (!this.imageCapture) {
       throw "Device must be open before takePhoto can be called";
     }
@@ -75,7 +75,7 @@ class WebMediaDevice implements ImagingDevice {
       }));
   }
 
-  static async onDeviceChange(callback: () => void) {
+  static onDeviceChange(callback: () => void): void {
     navigator.mediaDevices.addEventListener("devicechange", callback);
   }
 }

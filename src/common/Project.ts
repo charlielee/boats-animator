@@ -38,3 +38,30 @@ interface BaseTrackFile {
 interface FrameTrackFile extends BaseTrackFile {}
 
 type TrackFile = FrameTrackFile;
+
+export const makeTake = (args: {
+  shotNumber: number;
+  takeNumber: number;
+  frameRate: number;
+}): Take => ({
+  id: Math.random().toString(),
+  directoryPath: "",
+  captureFramesHold: 1,
+  frameTrack: {
+    id: "1",
+    trackType: TrackType.FRAME,
+    trackItems: [],
+  },
+  ...args,
+});
+
+export const makeFrameTrackItem = (filePath: string): TrackItem => ({
+  id: Math.random().toString(),
+  lengthInFrames: 1,
+  trackFiles: [
+    {
+      id: Math.random().toString(),
+      filePath,
+    },
+  ],
+});

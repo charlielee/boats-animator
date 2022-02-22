@@ -1,4 +1,8 @@
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import { PageRoute } from "../../../../common/PageRoute";
+import { makeTake } from "../../../../common/Project";
+import { addTake } from "../../../redux/project/actions";
 import Button from "../../common/Button/Button";
 import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import Content from "../../common/Content/Content";
@@ -15,6 +19,16 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import NewsFeed from "../NewsFeed/NewsFeed";
 
 const StartupModal = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const newProject = () => {
+    dispatch(
+      addTake(makeTake({ shotNumber: 1, takeNumber: 1, frameRate: 15 }))
+    );
+    history.push(PageRoute.ANIMATOR);
+  };
+
   return (
     <Modal>
       <ModalBody>
@@ -41,7 +55,7 @@ const StartupModal = (): JSX.Element => {
             <Button
               title="New Project"
               icon={IconName.ADD}
-              onClick={PageRoute.ANIMATOR}
+              onClick={newProject}
             />
 
             <Button

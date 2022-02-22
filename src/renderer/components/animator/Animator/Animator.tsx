@@ -1,4 +1,3 @@
-import { TrackType } from "../../../../common/Project";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
 import Page from "../../common/Page/Page";
@@ -25,9 +24,7 @@ const Animator = (): JSX.Element => {
 
           <AnimationToolbar />
 
-          <Timeline
-            tracks={[{ id: "1", trackType: TrackType.FRAME, trackItems: [] }]}
-          />
+          <Timeline />
         </Content>
 
         <Sidebar>

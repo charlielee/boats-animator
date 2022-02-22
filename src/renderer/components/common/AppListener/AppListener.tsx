@@ -5,7 +5,7 @@ import { PageRoute } from "../../../../common/PageRoute";
 import {
   fetchAndSetDeviceList,
   loadSavedPreferences,
-  onRouteChange,
+  onRouteChange
 } from "../../../redux/app/thunks";
 import { RootState } from "../../../redux/store";
 import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
