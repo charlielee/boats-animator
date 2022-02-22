@@ -1,3 +1,4 @@
 .timeline {
   overflow-x: scroll;
+  display: inline-block;
 }

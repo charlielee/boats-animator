@@ -6,11 +6,12 @@
   height: var(--height-200);
   line-height: 1.2;
   overflow: hidden;
-  padding-left: calc(var(--width-16) * 5 + var(--border-1));
-  width: 100%;
+  padding-left: calc(var(--width-16) * 4);
+  /* width: 100%; */
 }
 
 .timeline-position__marker {
+  background-color: var(--ba-dark-mid-hover);
   min-width: calc(var(--width-16) * 8);
   width: calc(var(--width-16) * 8);
 }

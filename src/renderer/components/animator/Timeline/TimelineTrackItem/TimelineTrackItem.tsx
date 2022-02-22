@@ -7,7 +7,7 @@ interface TimelineTrackItemProps {
 const TimelineTrackItem = ({ dataUrl }: TimelineTrackItemProps) => {
   return (
     <div className="timeline-track-item">
-      <img src={dataUrl} style={{ width: "100px" }} key={dataUrl} />
+      <img className="timeline-track-item__img" src={dataUrl} key={dataUrl} />
     </div>
   );
 };

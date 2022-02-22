@@ -10,7 +10,10 @@ const Timeline = (): JSX.Element => {
 
   return (
     <div className="timeline">
-      <TimelinePosition frameRate={15} totalFrames={0} />
+      <TimelinePosition
+        frameRate={15}
+        totalFrames={frameTrack?.trackItems.length ?? 0}
+      />
 
       {frameTrack ? (
         <TimelineTrack track={frameTrack} key={frameTrack.id} />
