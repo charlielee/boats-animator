@@ -12,8 +12,8 @@ const TimelineTrackNoItems = ({
     <div className="timeline-track-no-items">
       <p>
         {trackType === TrackType.FRAME
-          ? "No frames captured."
-          : "No audio imported."}
+          ? "No frames captured"
+          : "No audio imported"}
       </p>
     </div>
   );

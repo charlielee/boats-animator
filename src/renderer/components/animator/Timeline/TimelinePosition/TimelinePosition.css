@@ -1,13 +1,19 @@
 .timeline-position {
+  position: relative;
+  height: var(--height-200);
+}
+
+.timeline-position__inner {
+  position: absolute;
   background-color: var(--ba-dark-mid-hover);
   color: var(--ba-light-mid);
   display: flex;
   font-size: 0.75rem;
-  height: var(--height-200);
+  height: 100%;
   line-height: 1.2;
   overflow: hidden;
   padding-left: calc(var(--width-16) * 4);
-  /* width: 100%; */
+  width: 100%;
 }
 
 .timeline-position__marker {

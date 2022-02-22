@@ -20,13 +20,15 @@ const TimelinePosition = ({
 
   return (
     <div className="timeline-position">
-      {frameNumbers.map((i) => (
-        <div className="timeline-position__marker" key={i}>
-          {i % frameRate === 0 && buildTimeCode(i)}
-          <br />
-          {i + 1}
-        </div>
-      ))}
+      <div className="timeline-position__inner">
+        {frameNumbers.map((i) => (
+          <div className="timeline-position__marker" key={i}>
+            {i % frameRate === 0 && buildTimeCode(i)}
+            <br />
+            {i + 1}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

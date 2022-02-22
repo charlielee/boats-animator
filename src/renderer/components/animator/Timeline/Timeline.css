@@ -1,4 +1,8 @@
 .timeline {
   overflow-x: scroll;
-  display: inline-block;
+}
+
+.timeline__inner {
+  width: max-content;
+  min-width: 100%;
 }
