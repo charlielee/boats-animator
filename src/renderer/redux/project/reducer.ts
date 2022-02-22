@@ -1,9 +1,9 @@
-import { ProjectAction, ProjectActionType } from "./actions";
+import { ProjectActions, ProjectActionType } from "./actions";
 import { initialProjectState, ProjectState } from "./state";
 
 const projectReducer = (
   state = initialProjectState,
-  action: ProjectAction
+  action: ProjectActions
 ): ProjectState => {
   switch (action.type) {
     case ProjectActionType.ADD_TAKE:
@@ -11,6 +11,24 @@ const projectReducer = (
         ...state,
         take: action.payload.take,
       };
+    case ProjectActionType.ADD_FRAME_TRACK_ITEM:
+      return state.take
+        ? {
+            ...state,
+            take: {
+              ...state.take,
+              frameTrack: {
+                ...state.take.frameTrack,
+                trackItems: [
+                  ...state.take.frameTrack.trackItems,
+                  action.payload.trackItem,
+                ],
+              },
+            },
+          }
+        : {
+            ...state,
+          };
     default:
       return state;
   }

@@ -1,5 +1,6 @@
 import { Action, Middleware, MiddlewareAPI } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { makeFrameTrackItem } from "../../../common/Project";
 import {
   deviceIdentifierToDevice,
   ImagingDevice,
@@ -13,6 +14,7 @@ import {
   setCurrentDeviceFromId,
   updateCameraAccessStatus,
 } from "../app/thunks";
+import { addFrameTrackItem } from "../project/actions";
 import { RootState } from "../store";
 import { withLoader } from "../utils";
 import {
@@ -40,21 +42,15 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
         return;
       }
       case CaptureActionType.OPEN_DEVICE: {
-        if (!currentDevice) {
-          return;
-        }
+        withLoader(dispatch, "Loading device", async () => {
+          if (!currentDevice) {
+            return;
+          }
 
-        withLoader(
-          dispatch,
-          "Loading device",
-          (async () => {
-            const hasCameraAccess = await dispatch(updateCameraAccessStatus());
-
-            const deviceOpened =
-              hasCameraAccess && (await currentDevice.open());
-            dispatch(deviceOpened ? setIsDeviceOpen(true) : setCurrentDevice());
-          })()
-        );
+          const hasCameraAccess = await dispatch(updateCameraAccessStatus());
+          const deviceOpened = hasCameraAccess && (await currentDevice.open());
+          dispatch(deviceOpened ? setIsDeviceOpen(true) : setCurrentDevice());
+        });
         return;
       }
       case CaptureActionType.CHANGE_DEVICE: {
@@ -76,7 +72,9 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
         (async () => {
           const imageData = await currentDevice?.takePhoto();
           if (imageData) {
-            dispatch(addFileDataUrl(URL.createObjectURL(imageData)));
+            const imageUrl = URL.createObjectURL(imageData);
+            dispatch(addFileDataUrl(imageUrl));
+            dispatch(addFrameTrackItem(makeFrameTrackItem(imageUrl)));
           }
         })();
         return;
