@@ -9,6 +9,9 @@ export interface AppState {
   deviceList: ImagingDeviceIdentifier[];
   hasCameraAccess: boolean;
   loadingMessage?: string;
+  playback: {
+    position: number;
+  };
   userPreferences: UserPreferences;
 }
 
@@ -19,6 +22,9 @@ export const initialAppState: AppState = {
   deviceList: [],
   hasCameraAccess: true,
   loadingMessage: undefined,
+  playback: {
+    position: 0,
+  },
   userPreferences: {
     workingDirectory: undefined,
   },
