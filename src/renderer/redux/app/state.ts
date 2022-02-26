@@ -5,7 +5,6 @@ import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDev
 export interface AppState {
   appMode: AppMode;
   currentDevice?: ImagingDeviceIdentifier;
-  fileDataUrls: string[];
   isDeviceOpen: boolean;
   deviceList: ImagingDeviceIdentifier[];
   hasCameraAccess: boolean;
@@ -16,7 +15,6 @@ export interface AppState {
 export const initialAppState: AppState = {
   appMode: AppMode.CAPTURE,
   currentDevice: undefined,
-  fileDataUrls: [],
   isDeviceOpen: false,
   deviceList: [],
   hasCameraAccess: true,

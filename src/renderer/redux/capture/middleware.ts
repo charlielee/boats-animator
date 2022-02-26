@@ -1,20 +1,17 @@
 import { Action, Middleware, MiddlewareAPI } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { makeFrameFileRef } from "../../../common/FileRef";
 import { makeFrameTrackItem } from "../../../common/Project";
 import {
   deviceIdentifierToDevice,
   ImagingDevice,
 } from "../../services/imagingDevice/ImagingDevice";
-import {
-  addFileDataUrl,
-  setCurrentDevice,
-  setIsDeviceOpen,
-} from "../app/actions";
+import { setCurrentDevice, setIsDeviceOpen } from "../app/actions";
 import {
   setCurrentDeviceFromId,
   updateCameraAccessStatus,
 } from "../app/thunks";
-import { addFrameTrackItem } from "../project/actions";
+import { addFileRef, addFrameTrackItem } from "../project/actions";
 import { RootState } from "../store";
 import { withLoader } from "../utils";
 import {
@@ -73,8 +70,15 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
           const imageData = await currentDevice?.takePhoto();
           if (imageData) {
             const imageUrl = URL.createObjectURL(imageData);
-            dispatch(addFileDataUrl(imageUrl));
-            dispatch(addFrameTrackItem(makeFrameTrackItem(imageUrl)));
+            // const filePath = makeFilePath()
+            const trackItem = makeFrameTrackItem(imageUrl);
+
+            trackItem.trackFiles.forEach((trackFile) =>
+              dispatch(addFileRef(makeFrameFileRef(trackFile.id, imageUrl)))
+            );
+            dispatch(addFrameTrackItem(trackItem));
+
+            // await writeToDisk(filePath, imageUrl)
           }
         })();
         return;

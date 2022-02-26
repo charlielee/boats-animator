@@ -6,6 +6,11 @@ const projectReducer = (
   action: ProjectActions
 ): ProjectState => {
   switch (action.type) {
+    case ProjectActionType.ADD_FILE_REF:
+      return {
+        ...state,
+        fileRefs: [...state.fileRefs, action.payload.fileRef],
+      };
     case ProjectActionType.ADD_TAKE:
       return {
         ...state,

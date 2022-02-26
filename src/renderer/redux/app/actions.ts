@@ -3,7 +3,6 @@ import { UserPreferences } from "../../../common/UserPreferences";
 import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 
 export enum AppActionType {
-  ADD_FILE_DATA_URL = "app/ADD_FILE_DATA_URL",
   EDIT_USER_PREFERENCES = "app/EDIT_USER_PREFERENCES",
   SET_APP_MODE = "app/SET_APP_MODE",
   SET_CURRENT_DEVICE = "app/SET_CURRENT_DEVICE",
@@ -15,7 +14,6 @@ export enum AppActionType {
 }
 
 export type AppAction =
-  | AppAction.AddFileDataUrl
   | AppAction.EditUserPreferences
   | AppAction.SetAppMode
   | AppAction.SetCurrentDevice
@@ -26,11 +24,6 @@ export type AppAction =
   | AppAction.StopLoading;
 
 export namespace AppAction {
-  export interface AddFileDataUrl {
-    type: AppActionType.ADD_FILE_DATA_URL;
-    payload: { dataUrl: string };
-  }
-
   export interface EditUserPreferences {
     type: AppActionType.EDIT_USER_PREFERENCES;
     payload: { userPreferences: Partial<UserPreferences> };
@@ -70,11 +63,6 @@ export namespace AppAction {
     type: AppActionType.STOP_LOADING;
   }
 }
-
-export const addFileDataUrl = (dataUrl: string): AppAction.AddFileDataUrl => ({
-  type: AppActionType.ADD_FILE_DATA_URL,
-  payload: { dataUrl },
-});
 
 export const editUserPreferences = (
   userPreferences: Partial<UserPreferences>
