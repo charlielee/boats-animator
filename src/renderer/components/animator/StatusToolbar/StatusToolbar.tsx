@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
-import { Take } from "../../../../common/Project";
+import { getTrackLength, Take } from "../../../../common/Project";
 import { zeroPad } from "../../../../common/utils";
 import { RootState } from "../../../redux/store";
 import Button from "../../common/Button/Button";
@@ -16,20 +16,25 @@ const StatusToolbar = (): JSX.Element => {
   const makeTakeTitle = (take: Take) =>
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
 
-  return (
+  return take ? (
     <Toolbar borderBottom>
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <Button
-          title={take ? makeTakeTitle(take) : "No take"}
+          title={makeTakeTitle(take)}
           onClick={PageRoute.STARTUP_MODAL}
           color={ButtonColor.TRANSPARENT}
         />
       </ToolbarItem>
-      <ToolbarItem align={ToolbarItemAlign.CENTER}>Frame 1 of 0</ToolbarItem>
+      <ToolbarItem align={ToolbarItemAlign.CENTER}>
+        Frame {getTrackLength(take.frameTrack) + 1} of{" "}
+        {getTrackLength(take.frameTrack)}
+      </ToolbarItem>
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
-        15 FPS
+        {take.frameRate} FPS
       </ToolbarItem>
     </Toolbar>
+  ) : (
+    <Toolbar />
   );
 };
 
