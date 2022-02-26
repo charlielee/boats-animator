@@ -1,3 +1,13 @@
+import { v4 as uuidv4 } from "uuid";
+import { FileRefType } from "./FileRef";
+import {
+  FrameCount,
+  TakeId,
+  TrackFileId,
+  TrackId,
+  TrackItemId,
+} from "./Flavors";
+
 interface Project {
   name: string;
   filePath: string;
@@ -5,62 +15,54 @@ interface Project {
 }
 
 export interface Take {
-  id: string;
+  id: TakeId;
   directoryPath: string;
   shotNumber: number;
   takeNumber: number;
   frameRate: number;
-  captureFramesHold: number;
+  captureFramesHold: FrameCount;
   frameTrack: Track;
 }
 
 export interface Track {
-  id: string;
-  trackType: TrackType;
+  id: TrackId;
+  fileType: FileRefType;
   trackItems: TrackItem[];
 }
 
-export enum TrackType {
-  FRAME = "FRAME",
-}
-
 export interface TrackItem {
-  id: string;
-  lengthInFrames: number;
+  id: TrackItemId;
   trackFiles: TrackFile[];
 }
 
-interface BaseTrackFile {
-  id: string;
+interface TrackFile {
+  id: TrackFileId;
+  length: FrameCount;
   filePath: string;
 }
-
-interface FrameTrackFile extends BaseTrackFile {}
-
-type TrackFile = FrameTrackFile;
 
 export const makeTake = (args: {
   shotNumber: number;
   takeNumber: number;
   frameRate: number;
 }): Take => ({
-  id: Math.random().toString(),
+  id: uuidv4(),
   directoryPath: "",
   captureFramesHold: 1,
   frameTrack: {
     id: "1",
-    trackType: TrackType.FRAME,
+    fileType: FileRefType.FRAME,
     trackItems: [],
   },
   ...args,
 });
 
 export const makeFrameTrackItem = (filePath: string): TrackItem => ({
-  id: Math.random().toString(),
-  lengthInFrames: 1,
+  id: uuidv4(),
   trackFiles: [
     {
-      id: Math.random().toString(),
+      id: uuidv4(),
+      length: 1,
       filePath,
     },
   ],

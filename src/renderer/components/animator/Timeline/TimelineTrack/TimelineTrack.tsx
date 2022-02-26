@@ -11,7 +11,7 @@ interface TimelineTrackProps {
 const TimelineTrack = ({ track }: TimelineTrackProps): JSX.Element => {
   return (
     <div className="timeline-track">
-      <TimelineTrackLabel trackType={track?.trackType} />
+      <TimelineTrackLabel fileType={track?.fileType} />
 
       {track && track.trackItems.length > 0 ? (
         track.trackItems.map((trackItem) => (
@@ -21,7 +21,7 @@ const TimelineTrack = ({ track }: TimelineTrackProps): JSX.Element => {
           />
         ))
       ) : (
-        <TimelineTrackNoItems trackType={track?.trackType} />
+        <TimelineTrackNoItems fileType={track?.fileType} />
       )}
     </div>
   );
