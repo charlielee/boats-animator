@@ -1,4 +1,7 @@
+import { useSelector } from "react-redux";
+import { getFileRefById } from "../../../../../common/FileRef";
 import { Track } from "../../../../../common/Project";
+import { RootState } from "../../../../redux/store";
 import TimelineTrackItem from "../TimelineTrackItem/TimelineTrackItem";
 import TimelineTrackLabel from "../TimelineTrackLabel/TimelineTrackLabel";
 import TimelineTrackNoItems from "../TimelineTrackNoItems/TimelineTrackNoItems";
@@ -9,6 +12,7 @@ interface TimelineTrackProps {
 }
 
 const TimelineTrack = ({ track }: TimelineTrackProps): JSX.Element => {
+  const { fileRefs } = useSelector((state: RootState) => state.project);
   return (
     <div className="timeline-track">
       <TimelineTrackLabel fileType={track?.fileType} />
@@ -16,7 +20,7 @@ const TimelineTrack = ({ track }: TimelineTrackProps): JSX.Element => {
       {track && track.trackItems.length > 0 ? (
         track.trackItems.map((trackItem) => (
           <TimelineTrackItem
-            dataUrl={trackItem.trackFiles[0].filePath}
+            dataUrl={getFileRefById(fileRefs, trackItem.id).location}
             key={trackItem.id}
           />
         ))

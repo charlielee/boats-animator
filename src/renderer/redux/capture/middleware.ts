@@ -1,7 +1,7 @@
 import { Action, Middleware, MiddlewareAPI } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { makeFrameFileRef } from "../../../common/FileRef";
-import { makeFrameTrackItem } from "../../../common/Project";
+import { makeFrameFilePath, makeFrameTrackItem } from "../../../common/Project";
 import {
   deviceIdentifierToDevice,
   ImagingDevice,
@@ -13,7 +13,7 @@ import {
 } from "../app/thunks";
 import { addFileRef, addFrameTrackItem } from "../project/actions";
 import { RootState } from "../store";
-import { withLoader } from "../utils";
+import { withCurrentTake, withLoader } from "../utils";
 import {
   CaptureAction,
   CaptureActionType,
@@ -24,7 +24,7 @@ import {
 export const createCaptureMiddleware: Middleware<{}, RootState> = (
   storeApi: MiddlewareAPI<ThunkDispatch<RootState, void, Action>>
 ) => {
-  const { dispatch } = storeApi;
+  const { getState, dispatch } = storeApi;
   let currentDevice: ImagingDevice | undefined = undefined;
 
   return (next) => (action: CaptureAction) => {
@@ -66,21 +66,23 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
         return;
       }
       case CaptureActionType.TAKE_PHOTO: {
-        (async () => {
-          const imageData = await currentDevice?.takePhoto();
-          if (imageData) {
-            const imageUrl = URL.createObjectURL(imageData);
-            // const filePath = makeFilePath()
-            const trackItem = makeFrameTrackItem(imageUrl);
+        const state: RootState = getState();
 
-            trackItem.trackFiles.forEach((trackFile) =>
-              dispatch(addFileRef(makeFrameFileRef(trackFile.id, imageUrl)))
-            );
-            dispatch(addFrameTrackItem(trackItem));
-
-            // await writeToDisk(filePath, imageUrl)
+        withCurrentTake(state, async (take) => {
+          if (currentDevice === undefined) {
+            return;
           }
-        })();
+
+          const imageData = await currentDevice.takePhoto();
+          const imageUrl = URL.createObjectURL(imageData);
+
+          const filePath = makeFrameFilePath(take);
+          const trackItem = makeFrameTrackItem(filePath);
+
+          dispatch(addFileRef(makeFrameFileRef(trackItem.id, imageUrl)));
+          dispatch(addFrameTrackItem(trackItem));
+          // await writeToDisk(filePath, imageUrl)
+        });
         return;
       }
       case CaptureActionType.ATTACH_STREAM_TO_VIDEO: {

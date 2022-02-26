@@ -2,11 +2,13 @@ import { v4 as uuidv4 } from "uuid";
 import { FileRefType } from "./FileRef";
 import {
   FrameCount,
+  FrameRate,
   TakeId,
-  TrackFileId,
+  TrackGroupId,
   TrackId,
   TrackItemId,
 } from "./Flavors";
+import { zeroPad } from "./utils";
 
 interface Project {
   name: string;
@@ -19,8 +21,8 @@ export interface Take {
   directoryPath: string;
   shotNumber: number;
   takeNumber: number;
-  frameRate: number;
-  captureFramesHold: FrameCount;
+  frameRate: FrameRate;
+  holdFrames: FrameCount;
   frameTrack: Track;
 }
 
@@ -32,38 +34,66 @@ export interface Track {
 
 export interface TrackItem {
   id: TrackItemId;
-  trackFiles: TrackFile[];
-}
-
-interface TrackFile {
-  id: TrackFileId;
   length: FrameCount;
   filePath: string;
+  trackGroupId: TrackGroupId;
 }
 
-export const makeTake = (args: {
-  shotNumber: number;
-  takeNumber: number;
-  frameRate: number;
-}): Take => ({
+export const makeTake = (
+  workingDirectory: string,
+  shotNumber: number,
+  takeNumber: number,
+  frameRate: number
+): Take => ({
   id: uuidv4(),
-  directoryPath: "",
-  captureFramesHold: 1,
+  directoryPath: makeTakeDirectoryPath(
+    workingDirectory,
+    shotNumber,
+    takeNumber
+  ),
+  shotNumber,
+  takeNumber,
+  frameRate,
+  holdFrames: 1,
   frameTrack: {
-    id: "1",
+    id: uuidv4(),
     fileType: FileRefType.FRAME,
     trackItems: [],
   },
-  ...args,
 });
 
-export const makeFrameTrackItem = (filePath: string): TrackItem => ({
+export const makeFrameTrackItem = (
+  filePath: string,
+  trackGroupId?: TrackGroupId
+): TrackItem => ({
   id: uuidv4(),
-  trackFiles: [
-    {
-      id: uuidv4(),
-      length: 1,
-      filePath,
-    },
-  ],
+  length: 1,
+  filePath,
+  trackGroupId: trackGroupId ?? uuidv4(),
 });
+
+export const makeTakeDirectoryPath = (
+  workingDirectory: string,
+  shotNumber: number,
+  takeNumber: number
+): string =>
+  [
+    workingDirectory,
+    "Untitled Project.bafiles",
+    `BA_${zeroPad(shotNumber, 3)}_${zeroPad(takeNumber, 2)}`,
+  ].join("/");
+
+export const makeFrameFilePath = (take: Take): string =>
+  [
+    take.directoryPath,
+    [
+      "ba",
+      zeroPad(take.shotNumber, 3),
+      zeroPad(take.takeNumber, 2),
+      "frame",
+      `${zeroPad(take.frameTrack.trackItems.length, 5)}.png`,
+    ].join("_"),
+  ].join("/");
+
+export const getTrackLength = (track: Track): FrameCount =>
+  track.trackItems.reduce((prev, trackItem) => prev + trackItem.length, 0);

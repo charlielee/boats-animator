@@ -1,7 +1,7 @@
-import { FrameCount, TrackFileId } from "./Flavors";
+import { TrackItemId } from "./Flavors";
 
 export interface FileRef {
-  trackFileId: TrackFileId;
+  trackItemId: TrackItemId;
   fileType: FileRefType;
   available: boolean;
   // Can be an object URL or local path
@@ -13,14 +13,25 @@ export enum FileRefType {
 }
 
 export const makeFrameFileRef = (
-  trackFileId: TrackFileId,
+  trackItemId: TrackItemId,
   location: string
 ): FileRef => ({
-  trackFileId,
+  trackItemId,
   location,
   fileType: FileRefType.FRAME,
   available: true,
 });
 
-export const getNumberOfFrames = (fileRefs: FileRef[]): FrameCount =>
-  fileRefs.filter((fileRef) => fileRef.fileType === FileRefType.FRAME).length;
+export const getFileRefById = (
+  fileRefs: FileRef[],
+  trackItemId: TrackItemId
+): FileRef => {
+  const fileRef = fileRefs.find(
+    (fileRef) => fileRef.trackItemId === trackItemId
+  );
+  if (fileRef !== undefined) {
+    return fileRef;
+  } else {
+    throw `No file ref with trackItemId ${trackItemId} found`;
+  }
+};
