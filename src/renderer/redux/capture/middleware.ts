@@ -11,7 +11,11 @@ import {
   setCurrentDeviceFromId,
   updateCameraAccessStatus,
 } from "../app/thunks";
-import { addFileRef, addFrameTrackItem } from "../project/actions";
+import {
+  addFileRef,
+  addFrameTrackItem,
+  incrementExportedFrameNumber,
+} from "../project/actions";
 import { RootState } from "../store";
 import { withCurrentTake, withLoader } from "../utils";
 import {
@@ -78,10 +82,11 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
 
           const filePath = makeFrameFilePath(take);
           const trackItem = makeFrameTrackItem(filePath);
+          // writeToDisk(filePath, imageUrl)
 
           dispatch(addFileRef(makeFrameFileRef(trackItem.id, imageUrl)));
           dispatch(addFrameTrackItem(trackItem));
-          // await writeToDisk(filePath, imageUrl)
+          dispatch(incrementExportedFrameNumber());
         });
         return;
       }

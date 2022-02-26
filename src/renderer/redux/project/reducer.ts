@@ -34,6 +34,16 @@ const projectReducer = (
         : {
             ...state,
           };
+    case ProjectActionType.INCREMENT_EXPORTED_FRAME_NUMBER:
+      return state.take
+        ? {
+            ...state,
+            take: {
+              ...state.take,
+              lastExportedFrameNumber: state.take.lastExportedFrameNumber + 1,
+            },
+          }
+        : { ...state };
     default:
       return state;
   }

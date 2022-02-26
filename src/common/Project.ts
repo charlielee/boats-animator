@@ -23,6 +23,7 @@ export interface Take {
   takeNumber: number;
   frameRate: FrameRate;
   holdFrames: FrameCount;
+  lastExportedFrameNumber: number;
   frameTrack: Track;
 }
 
@@ -55,6 +56,7 @@ export const makeTake = (
   takeNumber,
   frameRate,
   holdFrames: 1,
+  lastExportedFrameNumber: 0,
   frameTrack: {
     id: uuidv4(),
     fileType: FileRefType.FRAME,
@@ -91,7 +93,7 @@ export const makeFrameFilePath = (take: Take): string =>
       zeroPad(take.shotNumber, 3),
       zeroPad(take.takeNumber, 2),
       "frame",
-      `${zeroPad(take.frameTrack.trackItems.length, 5)}.png`,
+      `${zeroPad(take.lastExportedFrameNumber + 1, 5)}.png`,
     ].join("_"),
   ].join("/");
 

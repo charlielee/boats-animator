@@ -6,30 +6,35 @@ export enum ProjectActionType {
   ADD_FRAME_TRACK_ITEM = "project/ADD_FRAME_TRACK_ITEM",
   ADD_PROJECT = "project/ADD_PROJECT",
   ADD_TAKE = "project/ADD_TAKE",
+  INCREMENT_EXPORTED_FRAME_NUMBER = "project/INCREMENT_EXPORTED_FRAME_NUMBER",
 }
 
 export type ProjectActions =
   | AddFileRefAction
   | AddFrameTrackAction
-  | AddTakeAction;
+  | AddTakeAction
+  | IncrementExportedFrameNumber;
 
-export interface AddFileRefAction {
+interface AddFileRefAction {
   type: ProjectActionType.ADD_FILE_REF;
   payload: {
     fileRef: FileRef;
   };
 }
-export interface AddFrameTrackAction {
+interface AddFrameTrackAction {
   type: ProjectActionType.ADD_FRAME_TRACK_ITEM;
   payload: {
     trackItem: TrackItem;
   };
 }
-export interface AddTakeAction {
+interface AddTakeAction {
   type: ProjectActionType.ADD_TAKE;
   payload: {
     take: Take;
   };
+}
+interface IncrementExportedFrameNumber {
+  type: ProjectActionType.INCREMENT_EXPORTED_FRAME_NUMBER;
 }
 
 export const addFileRef = (fileRef: FileRef) => ({
@@ -49,4 +54,8 @@ export const addFrameTrackItem = (trackItem: TrackItem) => ({
   payload: {
     trackItem,
   },
+});
+
+export const incrementExportedFrameNumber = () => ({
+  type: ProjectActionType.INCREMENT_EXPORTED_FRAME_NUMBER,
 });
