@@ -2,6 +2,7 @@ import { Action, Middleware, MiddlewareAPI } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { makeFrameFileRef } from "../../../common/FileRef";
 import { makeFrameFilePath, makeFrameTrackItem } from "../../../common/Project";
+import cameraSound from "../../audio/camera.wav";
 import { saveBlobToDisk } from "../../services/blobUtils/blobUtils";
 import {
   deviceIdentifierToDevice,
@@ -77,6 +78,9 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
           if (currentDevice === undefined) {
             return;
           }
+
+          const audio = new Audio(cameraSound);
+          audio.play();
 
           const imageData = await currentDevice.takePhoto();
           const imageUrl = URL.createObjectURL(imageData);
