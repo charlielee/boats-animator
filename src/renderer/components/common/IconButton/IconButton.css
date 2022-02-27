@@ -3,9 +3,11 @@
   padding: var(--margin-050);
 }
 
-.icon-button .button__icon-container {
+.icon-button__icon-container {
   font-size: 1.5rem;
   margin-right: 0;
+  width: 100%;
+  justify-content: center;
 }
 
 .icon-button .button__label {

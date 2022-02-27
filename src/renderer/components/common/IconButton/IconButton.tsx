@@ -8,7 +8,11 @@ const IconButton = (props: ButtonProps): JSX.Element => {
     <Button
       {...props}
       color={props.color || ButtonColor.TRANSPARENT}
-      className={classNames(props.className, "icon-button")}
+      className={classNames("icon-button", props.className)}
+      iconContainerClassName={classNames(
+        "icon-button__icon-container",
+        props.iconContainerClassName
+      )}
     />
   );
 };

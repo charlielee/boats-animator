@@ -10,6 +10,7 @@ export interface ButtonProps {
   title: string;
   active?: boolean;
   className?: string;
+  iconContainerClassName?: string;
   color?: ButtonColor;
   icon?: IconName;
   label?: string;
@@ -20,6 +21,7 @@ const Button = ({
   title,
   active = false,
   className,
+  iconContainerClassName,
   color,
   icon,
   label = title,
@@ -41,7 +43,12 @@ const Button = ({
       onClick={handleClick}
     >
       {icon !== undefined && (
-        <div className="button__icon-container">
+        <div
+          className={classNames(
+            "button__icon-container",
+            iconContainerClassName
+          )}
+        >
           <Icon name={icon} active={active} />
         </div>
       )}
