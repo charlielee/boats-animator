@@ -2,6 +2,7 @@ import { Action, Middleware, MiddlewareAPI } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { makeFrameFileRef } from "../../../common/FileRef";
 import { makeFrameFilePath, makeFrameTrackItem } from "../../../common/Project";
+import { saveBlobToDisk } from "../../services/blobUtils/blobUtils";
 import {
   deviceIdentifierToDevice,
   ImagingDevice,
@@ -82,7 +83,7 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
 
           const filePath = makeFrameFilePath(take);
           const trackItem = makeFrameTrackItem(filePath);
-          // writeToDisk(filePath, imageUrl)
+          saveBlobToDisk(filePath, imageData);
 
           dispatch(addFileRef(makeFrameFileRef(trackItem.id, imageUrl)));
           dispatch(addFrameTrackItem(trackItem));

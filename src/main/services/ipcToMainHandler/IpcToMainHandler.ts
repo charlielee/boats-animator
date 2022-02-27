@@ -8,6 +8,7 @@ import {
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import Ipc from "../../../common/ipc/IpcHandler";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
+import { saveDataToDisk } from "../fileUtils/fileUtils";
 import logger, { ProcessName } from "../logger/Logger";
 import {
   getWindowSize,
@@ -16,14 +17,9 @@ import {
 } from "../windowUtils.ts/windowUtils";
 
 class IpcToMainHandler {
-  constructor() {}
+  appVersion = async (): Ipc.AppVersion.Response => app.getVersion();
 
-  appVersion = async (e: IpcMainInvokeEvent): Ipc.AppVersion.Response =>
-    app.getVersion();
-
-  checkCameraAccess = async (
-    e: IpcMainInvokeEvent
-  ): Ipc.CheckCameraAccess.Response => {
+  checkCameraAccess = async (): Ipc.CheckCameraAccess.Response => {
     // Only check media access on macOS and Windows (not supported by Linux)
     switch (process.platform) {
       case "win32":
@@ -35,9 +31,8 @@ class IpcToMainHandler {
     }
   };
 
-  getUserPreferences = async (
-    e: IpcMainInvokeEvent
-  ): Ipc.GetUserPreferences.Response => settingsFileStore.get().userPreferences;
+  getUserPreferences = async (): Ipc.GetUserPreferences.Response =>
+    settingsFileStore.get().userPreferences;
 
   logRenderer = async (
     e: IpcMainInvokeEvent,
@@ -77,6 +72,13 @@ class IpcToMainHandler {
     payload: Ipc.OpenDirDialog.Payload
   ): Ipc.OpenDirDialog.Response =>
     openDirDialog(win, payload.workingDirectory, payload.title);
+
+  saveDataToDisk = (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.SaveDataToDisk.Payload
+  ): Ipc.SaveDataToDisk.Response =>
+    saveDataToDisk(payload.filePath, payload.rawData);
 
   static handleIfWindow = (
     channel: IpcChannel,
@@ -132,5 +134,10 @@ export const addIpcToMainHandlers = () => {
   IpcToMainHandler.handleIfWindow(
     IpcChannel.OPEN_DIR_DIALOG,
     ipcHandler.openDirDialog
+  );
+
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.SAVE_DATA_TO_DISK,
+    ipcHandler.saveDataToDisk
   );
 };
