@@ -130,4 +130,4 @@ const getPreviousWinBounds = (): Rectangle | {} => {
   }
 };
 
-export const hasWindows = () => BrowserWindow.getAllWindows().length === 0;
+export const hasWindows = () => BrowserWindow.getAllWindows().length > 0;
