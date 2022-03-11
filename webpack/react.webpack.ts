@@ -26,7 +26,8 @@ const config = {
         },
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif|wav)$/i,
+        // Should match src/@types/media.d.ts
+        test: /\.(jpg|png|svg|wav)$/i,
         type: "asset/resource",
       },
     ],
