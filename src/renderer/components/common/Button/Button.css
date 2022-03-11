@@ -46,6 +46,7 @@
 
 .button--color-transparent {
   background-color: transparent;
+  border: var(--border-1) solid transparent;
   color: var(--ba-light);
 }
 .button--color-transparent:hover {

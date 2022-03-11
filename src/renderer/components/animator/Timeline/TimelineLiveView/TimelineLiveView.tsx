@@ -12,7 +12,6 @@ const TimelineLiveView = () => {
         iconContainerClassName="timeline-live-view__button-icon-container"
         title="Live View"
         onClick={() => console.log("TODO")}
-        color={ButtonColor.DEFAULT}
         active
       />
     </div>
