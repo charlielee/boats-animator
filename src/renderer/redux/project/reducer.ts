@@ -5,6 +5,34 @@ const projectReducer = (
   state = initialProjectState,
   action: ProjectActions
 ): ProjectState => {
+  if (state.take) {
+    switch (action.type) {
+      case ProjectActionType.ADD_FRAME_TRACK_ITEM:
+        return {
+          ...state,
+          take: {
+            ...state.take,
+            frameTrack: {
+              ...state.take.frameTrack,
+              trackItems: [
+                ...state.take.frameTrack.trackItems,
+                action.payload.trackItem,
+              ],
+            },
+          },
+        };
+
+      case ProjectActionType.INCREMENT_EXPORTED_FRAME_NUMBER:
+        return {
+          ...state,
+          take: {
+            ...state.take,
+            lastExportedFrameNumber: state.take.lastExportedFrameNumber + 1,
+          },
+        };
+    }
+  }
+
   switch (action.type) {
     case ProjectActionType.ADD_FILE_REF:
       return {
@@ -16,34 +44,7 @@ const projectReducer = (
         ...state,
         take: action.payload.take,
       };
-    case ProjectActionType.ADD_FRAME_TRACK_ITEM:
-      return state.take
-        ? {
-            ...state,
-            take: {
-              ...state.take,
-              frameTrack: {
-                ...state.take.frameTrack,
-                trackItems: [
-                  ...state.take.frameTrack.trackItems,
-                  action.payload.trackItem,
-                ],
-              },
-            },
-          }
-        : {
-            ...state,
-          };
-    case ProjectActionType.INCREMENT_EXPORTED_FRAME_NUMBER:
-      return state.take
-        ? {
-            ...state,
-            take: {
-              ...state.take,
-              lastExportedFrameNumber: state.take.lastExportedFrameNumber + 1,
-            },
-          }
-        : { ...state };
+
     default:
       return state;
   }

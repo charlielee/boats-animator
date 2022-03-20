@@ -34,6 +34,8 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
   let currentDevice: ImagingDevice | undefined = undefined;
 
   return (next) => (action: CaptureAction) => {
+    const state: RootState = getState();
+
     switch (action.type) {
       case CaptureActionType.CLOSE_DEVICE: {
         if (!currentDevice) {
@@ -72,8 +74,6 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
         return;
       }
       case CaptureActionType.TAKE_PHOTO: {
-        const state: RootState = getState();
-
         withCurrentTake(state, async (take) => {
           if (currentDevice === undefined) {
             return;
