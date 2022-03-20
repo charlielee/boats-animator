@@ -21,6 +21,7 @@ import {
   IoPlaySkipBackOutline,
   IoPlaySkipForwardOutline,
   IoRefreshOutline,
+  IoSettingsOutline,
   IoShareOutline,
   IoStopOutline,
   IoSyncOutline,
@@ -91,6 +92,8 @@ const getIconByName = (
       return <IoCodeWorkingOutline {...props} />;
     case IconName.PROJECTS:
       return <IoFileTrayStackedOutline {...props} />;
+    case IconName.SETTINGS:
+      return <IoSettingsOutline {...props} />;
     case IconName.TOGGLE:
       return (
         <IoToggle

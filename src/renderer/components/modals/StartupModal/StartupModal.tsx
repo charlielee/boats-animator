@@ -12,6 +12,7 @@ import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
+import IconButton from "../../common/IconButton/IconButton";
 import Modal from "../../common/Modal/Modal";
 import ModalBody from "../../common/ModalBody/ModalBody";
 import ModalFooter from "../../common/ModalFooter/ModalFooter";
@@ -20,6 +21,9 @@ import PageBody from "../../common/PageBody/PageBody";
 import Sidebar from "../../common/Sidebar/Sidebar";
 import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Toolbar from "../../common/Toolbar/Toolbar";
+import ToolbarItem, {
+  ToolbarItemAlign,
+} from "../../common/ToolbarItem/ToolbarItem";
 import NewsFeed from "../NewsFeed/NewsFeed";
 
 const StartupModal = (): JSX.Element => {
@@ -61,19 +65,28 @@ const StartupModal = (): JSX.Element => {
 
       <ModalFooter>
         <Toolbar borderTop>
-          <ButtonGroup>
-            <Button
-              title="New Project"
-              icon={IconName.ADD}
-              onClick={newProject}
-            />
+          <ToolbarItem align={ToolbarItemAlign.LEFT}>
+            <ButtonGroup>
+              <Button
+                title="New Project"
+                icon={IconName.ADD}
+                onClick={newProject}
+              />
 
-            <Button
-              title="Open Project"
-              icon={IconName.FOLDER}
-              onClick={() => console.log("todo")}
+              <Button
+                title="Open Project"
+                icon={IconName.FOLDER}
+                onClick={() => console.log("todo")}
+              />
+            </ButtonGroup>
+          </ToolbarItem>
+          <ToolbarItem align={ToolbarItemAlign.RIGHT}>
+            <IconButton
+              title="Preferences"
+              icon={IconName.SETTINGS}
+              onClick={PageRoute.PREFERENCES_MODAL}
             />
-          </ButtonGroup>
+          </ToolbarItem>
         </Toolbar>
       </ModalFooter>
     </Modal>
