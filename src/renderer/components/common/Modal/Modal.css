@@ -19,5 +19,14 @@
   max-height: calc(var(--height-400) * 8);
   max-width: calc(var(--height-400) * 12);
   overflow: hidden;
+  position: relative;
   width: calc(100vw - var(--height-400));
+}
+
+.modal__close-button {
+  font-size: 1.4rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: var(--margin-100);
 }

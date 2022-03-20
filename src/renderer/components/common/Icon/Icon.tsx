@@ -4,6 +4,7 @@ import {
   IoAddCircleOutline,
   IoCamera,
   IoCaretUpCircleOutline,
+  IoCloseOutline,
   IoCodeWorkingOutline,
   IoDownload,
   IoEllipse,
@@ -56,6 +57,8 @@ const getIconByName = (
       return <IoEllipse {...props} />;
     case IconName.CIRCLE_UP:
       return <IoCaretUpCircleOutline {...props} />;
+    case IconName.CLOSE:
+      return <IoCloseOutline {...props} />;
     case IconName.CONNECT:
       return <IoShareOutline {...props} />;
     case IconName.DISCORD:

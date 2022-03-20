@@ -5,6 +5,7 @@ const enum IconName {
   CAPTURE_AUTO = "CAPTURE_AUTO",
   CIRCLE = "CIRCLE",
   CIRCLE_UP = "CIRCLE_UP",
+  CLOSE = "CLOSE",
   DISCORD = "DISCORD",
   EXPORT = "EXPORT",
   FRAMES = "FRAMES",
