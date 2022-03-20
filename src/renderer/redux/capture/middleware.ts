@@ -79,8 +79,10 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
             return;
           }
 
-          const audio = new Audio(cameraSound);
-          audio.play();
+          if (state.app.userPreferences.playCaptureSound) {
+            const audio = new Audio(cameraSound);
+            audio.play();
+          }
 
           const imageData = await currentDevice.takePhoto();
           const imageUrl = URL.createObjectURL(imageData);
