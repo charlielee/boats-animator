@@ -26,6 +26,9 @@ const api = {
     ): Ipc.SaveSettingsAndClose.Response =>
       ipcRenderer.invoke(IpcChannel.SAVE_SETTINGS_AND_CLOSE, payload),
 
+    openUserDataDirectory: (): Ipc.OpenUserDataDirectory.Response =>
+      ipcRenderer.invoke(IpcChannel.OPEN_APP_DATA_DIRECTORY),
+
     openConfirmPrompt: (
       payload: Ipc.OpenConfirmPrompt.Payload
     ): Ipc.OpenConfirmPrompt.Response =>

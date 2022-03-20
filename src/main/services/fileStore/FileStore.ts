@@ -29,7 +29,7 @@ class FileStore<OptionsType> {
     name: string,
     migrations: Migrations<OptionsType>
   ) {
-    let loggedMigrations: Migrations<OptionsType> = {};
+    const loggedMigrations: Migrations<OptionsType> = {};
 
     Object.keys(migrations).forEach((version: string) => {
       loggedMigrations[version] = (store: Conf<OptionsType>) => {

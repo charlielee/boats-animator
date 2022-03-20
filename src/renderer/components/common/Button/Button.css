@@ -22,7 +22,7 @@
   background-color: var(--ba-light-active);
 }
 
-.button:focus {
+.button:focus-visible {
   box-shadow: 0 0 var(--border-1) var(--border-1) var(--ba-lightyellow);
   border: var(--border-1) solid var(--ba-lightyellow);
   border-radius: var(--margin-025);

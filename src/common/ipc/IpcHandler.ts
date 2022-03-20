@@ -36,6 +36,11 @@ namespace Ipc {
     export type Response = Promise<void>;
   }
 
+  export namespace OpenUserDataDirectory {
+    export type Payload = undefined;
+    export type Response = Promise<void>;
+  }
+
   export namespace OpenConfirmPrompt {
     export type Payload = { message: string };
     export type Response = Promise<boolean>;
