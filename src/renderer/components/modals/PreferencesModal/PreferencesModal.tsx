@@ -68,9 +68,9 @@ const PreferencesModal = (): JSX.Element => {
         <Toolbar borderTop>
           <ToolbarItem align={ToolbarItemAlign.LEFT}>
             <Button
-              title="Open app data folder"
+              title="Open user data folder"
               icon={IconName.FOLDER}
-              onClick={() => console.log("todo")}
+              onClick={window.preload.ipcToMain.openUserDataDirectory}
             />
           </ToolbarItem>
           <ToolbarItem align={ToolbarItemAlign.RIGHT}>

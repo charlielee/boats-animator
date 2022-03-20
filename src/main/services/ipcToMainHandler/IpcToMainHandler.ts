@@ -8,7 +8,7 @@ import {
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import Ipc from "../../../common/ipc/IpcHandler";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
-import { saveDataToDisk } from "../fileUtils/fileUtils";
+import { openUserDataDirectory, saveDataToDisk } from "../fileUtils/fileUtils";
 import logger, { ProcessName } from "../logger/Logger";
 import {
   getWindowSize,
@@ -59,6 +59,9 @@ class IpcToMainHandler {
     });
     win.destroy();
   };
+
+  openUserDataDirectory = (): Ipc.OpenUserDataDirectory.Response =>
+    openUserDataDirectory();
 
   openConfirmPrompt = (
     e: IpcMainInvokeEvent,
@@ -124,6 +127,11 @@ export const addIpcToMainHandlers = () => {
   IpcToMainHandler.handleIfWindow(
     IpcChannel.SAVE_SETTINGS_AND_CLOSE,
     ipcHandler.saveSettingsAndClose
+  );
+
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.OPEN_APP_DATA_DIRECTORY,
+    ipcHandler.openUserDataDirectory
   );
 
   IpcToMainHandler.handleIfWindow(

@@ -1,6 +1,7 @@
 // Callback over promise fs methods have been used because otherwise
 // annoying workarounds are required to access NodeJS.ErrnoException
 // eg https://stackoverflow.com/questions/51523509/
+import { app, shell } from "electron";
 import { mkdir, writeFile } from "fs";
 import { dirname } from "path";
 import logger from "../logger/Logger";
@@ -41,3 +42,13 @@ export const saveDataToDisk = async (
       resolve();
     });
   });
+
+export const openUserDataDirectory = async (): Promise<void> => {
+  const errorMessage = await shell.openPath(app.getPath("userData"));
+
+  if (errorMessage === "") {
+    return;
+  } else {
+    throw errorMessage;
+  }
+};
