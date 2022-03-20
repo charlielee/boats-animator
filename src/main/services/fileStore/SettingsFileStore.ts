@@ -1,5 +1,8 @@
 import Conf from "conf/dist/source";
-import { UserPreferences } from "../../../common/UserPreferences";
+import {
+  defaultUserPreferences,
+  UserPreferences,
+} from "../../../common/UserPreferences";
 import { WindowSize } from "../../../common/WindowSize";
 import FileStore from "./FileStore";
 
@@ -13,9 +16,7 @@ const defaults: SettingsFileOptions = {
     isMaximized: false,
     winBounds: undefined,
   },
-  userPreferences: {
-    workingDirectory: undefined,
-  },
+  userPreferences: defaultUserPreferences,
 };
 
 const migrations = {

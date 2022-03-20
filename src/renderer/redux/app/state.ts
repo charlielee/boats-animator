@@ -1,5 +1,8 @@
 import { AppMode } from "../../../common/AppMode";
-import { UserPreferences } from "../../../common/UserPreferences";
+import {
+  defaultUserPreferences,
+  UserPreferences,
+} from "../../../common/UserPreferences";
 import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 
 export interface AppState {
@@ -25,7 +28,5 @@ export const initialAppState: AppState = {
   playback: {
     position: 0,
   },
-  userPreferences: {
-    workingDirectory: undefined,
-  },
+  userPreferences: defaultUserPreferences,
 };
