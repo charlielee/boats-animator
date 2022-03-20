@@ -35,6 +35,11 @@ const api = {
       payload: Ipc.OpenDirDialog.Payload
     ): Ipc.OpenDirDialog.Response =>
       ipcRenderer.invoke(IpcChannel.OPEN_DIR_DIALOG, payload),
+
+    saveDataToDisk: (
+      payload: Ipc.SaveDataToDisk.Payload
+    ): Ipc.SaveDataToDisk.Response =>
+      ipcRenderer.invoke(IpcChannel.SAVE_DATA_TO_DISK, payload),
   },
   ipcToRenderer: {
     onCloseButtonClick: (

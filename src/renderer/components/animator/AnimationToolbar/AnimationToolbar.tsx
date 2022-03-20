@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { takePhoto } from "../../../redux/capture/actions";
 import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
@@ -10,6 +12,7 @@ import ToolbarItem, {
 import "./AnimationToolbar.css";
 
 const AnimationToolbar = (): JSX.Element => {
+  const dispatch = useDispatch();
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
   const [shortPlay, setShortPlay] = useState(false);
@@ -40,7 +43,7 @@ const AnimationToolbar = (): JSX.Element => {
           title="Capture Frame"
           icon={IconName.CAPTURE}
           className="animation-toolbar__capture-button"
-          onClick={() => undefined}
+          onClick={() => dispatch(takePhoto())}
         />
       </ToolbarItem>
 

@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import "./Toolbar.css";
 
 interface ToolbarProps {
-  children: ReactNode;
+  children?: ReactNode;
   borderTop?: boolean;
   borderBottom?: boolean;
   className?: string;

@@ -9,7 +9,9 @@ import { ButtonColor } from "./ButtonColor";
 export interface ButtonProps {
   title: string;
   active?: boolean;
+  noBorder?: boolean;
   className?: string;
+  iconContainerClassName?: string;
   color?: ButtonColor;
   icon?: IconName;
   label?: string;
@@ -19,7 +21,9 @@ export interface ButtonProps {
 const Button = ({
   title,
   active = false,
+  noBorder = false,
   className,
+  iconContainerClassName,
   color,
   icon,
   label = title,
@@ -36,12 +40,18 @@ const Button = ({
       className={classNames("button", className, {
         "button--color-primary": color === ButtonColor.PRIMARY,
         "button--color-transparent": color === ButtonColor.TRANSPARENT,
+        "button--no-border": noBorder,
       })}
       title={title}
       onClick={handleClick}
     >
       {icon !== undefined && (
-        <div className="button__icon-container">
+        <div
+          className={classNames(
+            "button__icon-container",
+            iconContainerClassName
+          )}
+        >
           <Icon name={icon} active={active} />
         </div>
       )}

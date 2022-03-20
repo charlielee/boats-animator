@@ -1,4 +1,12 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { Action } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 import { PageRoute } from "../../../../common/PageRoute";
+import { makeTake } from "../../../../common/Project";
+import { changeWorkingDirectory } from "../../../redux/app/thunks";
+import { addTake } from "../../../redux/project/actions";
+import { RootState } from "../../../redux/store";
 import Button from "../../common/Button/Button";
 import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import Content from "../../common/Content/Content";
@@ -15,6 +23,22 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import NewsFeed from "../NewsFeed/NewsFeed";
 
 const StartupModal = (): JSX.Element => {
+  const { workingDirectory } = useSelector(
+    (state: RootState) => state.app.userPreferences
+  );
+  const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
+  const history = useHistory();
+
+  const newProject = async () => {
+    const directory =
+      workingDirectory ?? (await dispatch(changeWorkingDirectory()));
+
+    if (directory !== undefined) {
+      dispatch(addTake(makeTake(directory, 1, 1, 15)));
+      history.push(PageRoute.ANIMATOR);
+    }
+  };
+
   return (
     <Modal>
       <ModalBody>
@@ -41,7 +65,7 @@ const StartupModal = (): JSX.Element => {
             <Button
               title="New Project"
               icon={IconName.ADD}
-              onClick={PageRoute.ANIMATOR}
+              onClick={newProject}
             />
 
             <Button

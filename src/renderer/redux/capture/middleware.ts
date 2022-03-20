@@ -1,5 +1,9 @@
 import { Action, Middleware, MiddlewareAPI } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { makeFrameFileRef } from "../../../common/FileRef";
+import { makeFrameFilePath, makeFrameTrackItem } from "../../../common/Project";
+import cameraSound from "../../audio/camera.wav";
+import { saveBlobToDisk } from "../../services/blobUtils/blobUtils";
 import {
   deviceIdentifierToDevice,
   ImagingDevice,
@@ -9,8 +13,13 @@ import {
   setCurrentDeviceFromId,
   updateCameraAccessStatus,
 } from "../app/thunks";
+import {
+  addFileRef,
+  addFrameTrackItem,
+  incrementExportedFrameNumber,
+} from "../project/actions";
 import { RootState } from "../store";
-import { withLoader } from "../utils";
+import { withCurrentTake, withLoader } from "../utils";
 import {
   CaptureAction,
   CaptureActionType,
@@ -21,10 +30,12 @@ import {
 export const createCaptureMiddleware: Middleware<{}, RootState> = (
   storeApi: MiddlewareAPI<ThunkDispatch<RootState, void, Action>>
 ) => {
-  const { dispatch } = storeApi;
+  const { getState, dispatch } = storeApi;
   let currentDevice: ImagingDevice | undefined = undefined;
 
   return (next) => (action: CaptureAction) => {
+    const state: RootState = getState();
+
     switch (action.type) {
       case CaptureActionType.CLOSE_DEVICE: {
         if (!currentDevice) {
@@ -36,21 +47,15 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
         return;
       }
       case CaptureActionType.OPEN_DEVICE: {
-        if (!currentDevice) {
-          return;
-        }
+        withLoader(dispatch, "Loading device", async () => {
+          if (!currentDevice) {
+            return;
+          }
 
-        withLoader(
-          dispatch,
-          "Loading device",
-          (async () => {
-            const hasCameraAccess = await dispatch(updateCameraAccessStatus());
-
-            const deviceOpened =
-              hasCameraAccess && (await currentDevice.open());
-            dispatch(deviceOpened ? setIsDeviceOpen(true) : setCurrentDevice());
-          })()
-        );
+          const hasCameraAccess = await dispatch(updateCameraAccessStatus());
+          const deviceOpened = hasCameraAccess && (await currentDevice.open());
+          dispatch(deviceOpened ? setIsDeviceOpen(true) : setCurrentDevice());
+        });
         return;
       }
       case CaptureActionType.CHANGE_DEVICE: {
@@ -68,16 +73,37 @@ export const createCaptureMiddleware: Middleware<{}, RootState> = (
 
         return;
       }
-      case CaptureActionType.TAKE_PICTURE: {
+      case CaptureActionType.TAKE_PHOTO: {
+        withCurrentTake(state, async (take) => {
+          if (currentDevice === undefined) {
+            return;
+          }
+
+          const audio = new Audio(cameraSound);
+          audio.play();
+
+          const imageData = await currentDevice.takePhoto();
+          const imageUrl = URL.createObjectURL(imageData);
+
+          const filePath = makeFrameFilePath(take);
+          const trackItem = makeFrameTrackItem(filePath);
+          saveBlobToDisk(filePath, imageData);
+
+          dispatch(addFileRef(makeFrameFileRef(trackItem.id, imageUrl)));
+          dispatch(addFrameTrackItem(trackItem));
+          dispatch(incrementExportedFrameNumber());
+        });
         return;
       }
       case CaptureActionType.ATTACH_STREAM_TO_VIDEO: {
         if (currentDevice?.stream) {
           action.payload.element.srcObject = currentDevice.stream;
         }
+        return;
+      }
+      default: {
+        return next(action);
       }
     }
-
-    return next(action);
   };
 };

@@ -1,19 +1,19 @@
-import { TrackType } from "../../../../../common/Project";
+import { FileRefType } from "../../../../../common/FileRef";
 import "./TimelineTrackNoItems.css";
 
 interface TimelineTrackNoItemsProps {
-  trackType: TrackType;
+  fileType: FileRefType;
 }
 
 const TimelineTrackNoItems = ({
-  trackType,
+  fileType,
 }: TimelineTrackNoItemsProps): JSX.Element => {
   return (
     <div className="timeline-track-no-items">
       <p>
-        {trackType === TrackType.FRAME
-          ? "No frames captured."
-          : "No audio imported."}
+        {fileType === FileRefType.FRAME
+          ? "No frames captured"
+          : "No audio imported"}
       </p>
     </div>
   );

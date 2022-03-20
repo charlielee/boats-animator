@@ -26,6 +26,7 @@ import {
   IoSyncOutline,
   IoTimer,
   IoToggle,
+  IoVideocam,
 } from "react-icons/io5";
 import "./Icon.css";
 import IconName from "./IconName";
@@ -66,6 +67,8 @@ const getIconByName = (
       return <IoFolderOutline {...props} />;
     case IconName.GUIDES:
       return <IoGrid {...props} />;
+    case IconName.LIVE_VIEW:
+      return <IoVideocam {...props} />;
     case IconName.NEWS:
       return <IoNewspaperOutline {...props} />;
     case IconName.PLAY_FIRST:

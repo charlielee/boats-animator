@@ -1,3 +1,8 @@
 .timeline {
   overflow-x: scroll;
 }
+
+.timeline__inner {
+  width: max-content;
+  min-width: 100%;
+}

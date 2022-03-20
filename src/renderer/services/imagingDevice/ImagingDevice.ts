@@ -16,9 +16,10 @@ export interface ImagingDevice {
   identifier: ImagingDeviceIdentifier;
   open(): Promise<boolean>;
   close(): void;
+  takePhoto(): Promise<Blob>;
 }
 
-const IMAGING_DEVICE_CHANGE_EVENT_NAME = "custom-imagingdevicechange";
+const IMAGING_DEVICE_CHANGE_EVENT_NAME = "imaging-device-change";
 
 const dispatchDeviceChangeEvent = () =>
   document.dispatchEvent(new CustomEvent(IMAGING_DEVICE_CHANGE_EVENT_NAME));
@@ -35,14 +36,14 @@ export const listDevices = async (): Promise<ImagingDeviceIdentifier[]> => {
   return allDevices;
 };
 
-export const onDeviceChange = (callback: () => void) => {
+export const onDeviceChange = (callback: () => void): void => {
   WebMediaDevice.onDeviceChange(dispatchDeviceChangeEvent);
   document.addEventListener(IMAGING_DEVICE_CHANGE_EVENT_NAME, callback);
 };
 
 export const deviceIdentifierToDevice = (
   identifier: ImagingDeviceIdentifier
-) => {
+): ImagingDevice => {
   switch (identifier.type) {
     case ImagingDeviceType.WEB_MEDIA:
       return new WebMediaDevice(identifier);

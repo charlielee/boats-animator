@@ -66,6 +66,8 @@ export const changeWorkingDirectory = (workingDirectory?: string) => {
           workingDirectory: newDirectory,
         })
       );
+
+      return newDirectory;
     })();
   };
 };

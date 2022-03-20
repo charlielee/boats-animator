@@ -54,3 +54,7 @@
 .button--color-transparent:active {
   background-color: var(--ba-dark-active);
 }
+
+.button--no-border {
+  border: var(--border-1) solid transparent;
+}

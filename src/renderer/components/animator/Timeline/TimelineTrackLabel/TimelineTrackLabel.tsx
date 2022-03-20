@@ -1,21 +1,21 @@
-import { TrackType } from "../../../../../common/Project";
+import { FileRefType } from "../../../../../common/FileRef";
 import Icon from "../../../common/Icon/Icon";
 import IconName from "../../../common/Icon/IconName";
 import "./TimelineTrackLabel.css";
 
 interface TimelineTrackLabelProps {
-  trackType: TrackType;
+  fileType: FileRefType;
 }
 
 const TimelineTrackLabel = ({
-  trackType,
+  fileType,
 }: TimelineTrackLabelProps): JSX.Element => {
   return (
     <div
       className="timeline-track-label"
-      title={trackType === TrackType.FRAME ? "Frame Track" : "Audio Track"}
+      title={fileType === FileRefType.FRAME ? "Frame Track" : "Audio Track"}
     >
-      {trackType === TrackType.FRAME && (
+      {fileType === FileRefType.FRAME && (
         <Icon name={IconName.FRAMES} size="1.5rem" />
       )}
     </div>

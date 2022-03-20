@@ -7,8 +7,13 @@ const IconButton = (props: ButtonProps): JSX.Element => {
   return (
     <Button
       {...props}
+      noBorder={props.noBorder === undefined ? true : props.noBorder}
       color={props.color || ButtonColor.TRANSPARENT}
-      className={classNames(props.className, "icon-button")}
+      className={classNames("icon-button", props.className)}
+      iconContainerClassName={classNames(
+        "icon-button__icon-container",
+        props.iconContainerClassName
+      )}
     />
   );
 };
