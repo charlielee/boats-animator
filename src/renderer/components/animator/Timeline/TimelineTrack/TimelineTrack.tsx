@@ -9,14 +9,14 @@ import TimelineTrackNoItems from "../TimelineTrackNoItems/TimelineTrackNoItems";
 import "./TimelineTrack.css";
 
 interface TimelineTrackProps {
-  track?: Track;
+  track: Track;
 }
 
 const TimelineTrack = ({ track }: TimelineTrackProps): JSX.Element => {
   const { fileRefs } = useSelector((state: RootState) => state.project);
   return (
     <div className="timeline-track">
-      <TimelineTrackLabel fileType={track?.fileType} />
+      <TimelineTrackLabel fileType={track.fileType} />
 
       {track && track.trackItems.length > 0 ? (
         <>
@@ -30,7 +30,7 @@ const TimelineTrack = ({ track }: TimelineTrackProps): JSX.Element => {
           {track.fileType === FileRefType.FRAME && <TimelineLiveViewButton />}
         </>
       ) : (
-        <TimelineTrackNoItems fileType={track?.fileType} />
+        <TimelineTrackNoItems fileType={track.fileType} />
       )}
     </div>
   );

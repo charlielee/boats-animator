@@ -4,11 +4,11 @@ import IconName from "../../../common/Icon/IconName";
 import "./TimelineTrackLabel.css";
 
 interface TimelineTrackLabelProps {
-  fileType?: FileRefType;
+  fileType: FileRefType;
 }
 
 const TimelineTrackLabel = ({
-  fileType = FileRefType.FRAME,
+  fileType,
 }: TimelineTrackLabelProps): JSX.Element => {
   return (
     <div

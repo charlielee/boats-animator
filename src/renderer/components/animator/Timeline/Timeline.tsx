@@ -35,11 +35,7 @@ const Timeline = (): JSX.Element => {
           totalFrames={frameTrack?.trackItems.length ?? 0}
         />
 
-        {frameTrack ? (
-          <TimelineTrack track={frameTrack} key={frameTrack.id} />
-        ) : (
-          <TimelineTrack />
-        )}
+        {frameTrack && <TimelineTrack track={frameTrack} key={frameTrack.id} />}
       </div>
     </div>
   );

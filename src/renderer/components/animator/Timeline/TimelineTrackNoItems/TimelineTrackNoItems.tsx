@@ -2,11 +2,11 @@ import { FileRefType } from "../../../../../common/FileRef";
 import "./TimelineTrackNoItems.css";
 
 interface TimelineTrackNoItemsProps {
-  fileType?: FileRefType;
+  fileType: FileRefType;
 }
 
 const TimelineTrackNoItems = ({
-  fileType = FileRefType.FRAME,
+  fileType,
 }: TimelineTrackNoItemsProps): JSX.Element => {
   return (
     <div className="timeline-track-no-items">
