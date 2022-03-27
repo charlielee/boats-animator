@@ -33,11 +33,11 @@
     "package:dist": "electron-builder"
   },
   "dependencies": {
-    "@ffmpeg-installer/ffmpeg": "^1.0.18",
     "classnames": "^2.3.1",
     "conf": "^10.0.3",
     "electron-store": "^8.0.1",
     "fast-glob": "^3.2.7",
+    "ffmpeg-static": "^5.0.0",
     "mousetrap": "^1.6.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -51,6 +51,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/ffmpeg-static": "^3.0.1",
     "@types/node": "^16.5.0",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
