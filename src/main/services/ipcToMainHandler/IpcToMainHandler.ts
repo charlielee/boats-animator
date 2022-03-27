@@ -7,6 +7,7 @@ import {
 } from "electron";
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import Ipc from "../../../common/ipc/IpcHandler";
+import { render } from "../exportVideo/ExportVideo";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
 import { openUserDataDirectory, saveDataToDisk } from "../fileUtils/fileUtils";
 import logger, { ProcessName } from "../logger/Logger";
@@ -83,6 +84,12 @@ class IpcToMainHandler {
   ): Ipc.SaveDataToDisk.Response =>
     saveDataToDisk(payload.filePath, payload.rawData);
 
+  exportVideoStart = (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.ExportVideoStart.Payload
+  ): Ipc.ExportVideoStart.Response => render(win, payload.ffmpegArgs);
+
   static handleIfWindow = (
     channel: IpcChannel,
     listener: (
@@ -148,4 +155,15 @@ export const addIpcToMainHandlers = () => {
     IpcChannel.SAVE_DATA_TO_DISK,
     ipcHandler.saveDataToDisk
   );
+
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.EXPORT_VIDEO_START,
+    ipcHandler.exportVideoStart
+  );
 };
+
+export const sendToRenderer = (
+  win: BrowserWindow,
+  channel: IpcChannel,
+  payload?: Record<string, unknown>
+) => win.webContents.send(channel, payload);

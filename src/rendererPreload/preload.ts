@@ -43,11 +43,19 @@ const api = {
       payload: Ipc.SaveDataToDisk.Payload
     ): Ipc.SaveDataToDisk.Response =>
       ipcRenderer.invoke(IpcChannel.SAVE_DATA_TO_DISK, payload),
+
+    exportVideoStart: (
+      payload: Ipc.ExportVideoStart.Payload
+    ): Ipc.ExportVideoStart.Response =>
+      ipcRenderer.invoke(IpcChannel.EXPORT_VIDEO_START, payload),
   },
   ipcToRenderer: {
     onCloseButtonClick: (
       callback: (payload: Ipc.OnCloseButtonClick.Payload) => void
     ) => setListener(IpcChannel.ON_CLOSE_BUTTON_CLICK, callback),
+    onExportVideoData: (
+      callback: (payload: Ipc.OnExportVideoData.Payload) => void
+    ) => setListener(IpcChannel.ON_EXPORT_VIDEO_DATA, callback),
   },
   openExternal: {
     discord: () => shell.openExternal("http://discord.boatsanimator.com"),

@@ -10,6 +10,7 @@ import * as path from "path";
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import { WindowSize } from "../../../common/WindowSize";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
+import { sendToRenderer } from "../ipcToMainHandler/IpcToMainHandler";
 import logger from "../logger/Logger";
 
 const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
@@ -57,7 +58,7 @@ export const loadApp = (win: BrowserWindow) => {
   win.on("close", (e) => {
     logger.info("windowUtils.closePrevented");
     e.preventDefault();
-    win.webContents.send(IpcChannel.ON_CLOSE_BUTTON_CLICK);
+    sendToRenderer(win, IpcChannel.ON_CLOSE_BUTTON_CLICK);
   });
 };
 

@@ -61,6 +61,20 @@ namespace Ipc {
     };
     export type Response = Promise<void>;
   }
+
+  export namespace ExportVideoStart {
+    export type Payload = {
+      ffmpegArgs: string[];
+    };
+    export type Response = Promise<number>;
+  }
+
+  export namespace OnExportVideoData {
+    export type Payload = {
+      data: string;
+    };
+    export type Response = Promise<void>;
+  }
 }
 
 export default Ipc;
