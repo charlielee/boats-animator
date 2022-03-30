@@ -8,6 +8,7 @@ import { ButtonColor } from "./ButtonColor";
 
 export interface ButtonProps {
   title: string;
+  id?: string;
   active?: boolean;
   noBorder?: boolean;
   className?: string;
@@ -20,6 +21,7 @@ export interface ButtonProps {
 
 const Button = ({
   title,
+  id,
   active = false,
   noBorder = false,
   className,
@@ -37,6 +39,7 @@ const Button = ({
 
   return (
     <button
+      id={id}
       className={classNames("button", className, {
         "button--color-primary": color === ButtonColor.PRIMARY,
         "button--color-transparent": color === ButtonColor.TRANSPARENT,

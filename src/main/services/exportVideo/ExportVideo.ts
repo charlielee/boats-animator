@@ -16,11 +16,12 @@ export const render = (
 
     // All ffmpeg output goes to stderrdata
     // https://stackoverflow.com/questions/35169650/
-    ffmpeg.stderr.on("data", (e) => {
+    ffmpeg.stderr.on("data", (data) => {
       // TODO is the toString required?
-      logger.info("exportVideo.render.data", e.toString());
+      logger.info("exportVideo.render.data", data);
+      logger.info("exportVideo.render.data", data.toString());
       sendToRenderer(win, IpcChannel.ON_EXPORT_VIDEO_DATA, {
-        data: e.toString(),
+        data: data.toString(),
       });
     });
 

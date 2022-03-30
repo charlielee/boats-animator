@@ -63,6 +63,7 @@ select {
   color: var(--ba-light);
   height: var(--height-200);
   padding: var(--margin-025);
+  width: 100%;
 }
 
 input[type="number"]:focus,

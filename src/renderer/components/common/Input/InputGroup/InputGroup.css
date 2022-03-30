@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: var(--margin-025) var(--margin-050);
   margin-bottom: var(--margin-100);
+  align-items: flex-start;
 }
 
 .input-group--row {
