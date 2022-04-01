@@ -64,6 +64,7 @@ select {
   height: var(--height-200);
   padding: var(--margin-025);
   width: 100%;
+  flex: 1;
 }
 
 input[type="number"]:focus,

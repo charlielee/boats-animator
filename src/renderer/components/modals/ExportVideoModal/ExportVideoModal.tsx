@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
+import { RootState } from "../../../redux/store";
 import Button from "../../common/Button/Button";
 import { ButtonColor } from "../../common/Button/ButtonColor";
 import Content from "../../common/Content/Content";
@@ -7,8 +9,8 @@ import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
-import InputNumber from "../../common/Input/InputNumber/InputNumber";
 import InputSelect from "../../common/Input/InputSelect/InputSelect";
+import InputText from "../../common/Input/InputText/InputText";
 import Modal from "../../common/Modal/Modal";
 import ModalBody from "../../common/ModalBody/ModalBody";
 import ModalFooter from "../../common/ModalFooter/ModalFooter";
@@ -26,6 +28,10 @@ const fFmpegQualityPresets = {
 };
 
 const ExportVideoModal = (): JSX.Element => {
+  const { take } = useSelector((state: RootState) => state.project);
+  const [exportLocation, setExportLocation] = useState(
+    `${take?.directoryPath}.mp4`
+  );
   const [qualityPreset, setQualityPreset] = useState(
     fFmpegQualityPresets.Medium
   );
@@ -41,12 +47,20 @@ const ExportVideoModal = (): JSX.Element => {
                   <InputLabel inputId="exportVideoLocation">
                     Export Location
                   </InputLabel>
-                  <InputNumber
-                    id="exportVideoLocation"
-                    min={0}
-                    max={1}
-                    onChange={(n) => console.log(n)}
-                  />
+
+                  <InputGroup row noGap noMargin>
+                    <InputText
+                      id="exportVideoLocation"
+                      onChange={setExportLocation}
+                      value={exportLocation}
+                    />
+
+                    <Button
+                      title="Browse..."
+                      onClick={() => console.log("todo")}
+                      borderRadius="right"
+                    />
+                  </InputGroup>
                 </InputGroup>
 
                 <InputGroup>
@@ -65,11 +79,10 @@ const ExportVideoModal = (): JSX.Element => {
                   <InputLabel inputId="exportVideoFFmpegArguments">
                     FFmpeg Arguments (advanced)
                   </InputLabel>
-                  <InputNumber
+                  <InputText
                     id="exportVideoFFmpegArguments"
-                    min={0}
-                    max={1}
                     onChange={(n) => console.log(n)}
+                    value={""}
                   />
                 </InputGroup>
               </ContentBlock>
