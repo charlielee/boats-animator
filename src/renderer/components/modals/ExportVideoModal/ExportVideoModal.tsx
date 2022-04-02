@@ -31,15 +31,40 @@ const fFmpegQualityPresets = {
 
 const ExportVideoModal = (): JSX.Element => {
   const { take } = useSelector((state: RootState) => state.project);
-
   const [currentFilePath, setCurrentFilePath] = useState(
     `${take?.directoryPath}.mp4`
   );
   const [qualityPreset, setQualityPreset] = useState(
     fFmpegQualityPresets.Medium
   );
-
   const [ffmpegArguments, setFFmpegArguments] = useState("");
+
+  const changeExportLocation = async () => {
+    const newFilePath =
+      await window.preload.ipcToMain.openExportVideoFilePathDialog({
+        currentFilePath,
+      });
+    setCurrentFilePath(newFilePath || "");
+  };
+
+  const startExportVideo = () => {
+    // TODO: take should be conformed before export
+
+    // The render method expects an array so convert input from string into array
+    // Regexes are to handle arguments in quotes
+    // https://stackoverflow.com/a/56119602
+    const argumentsArray = ffmpegArguments
+      .match(/[^\s"']+|"([^"]*)"/gim)
+      ?.map((arg: string) => arg.replace(/"|'/g, ""));
+
+    window.preload.ipcToMain
+      .exportVideoStart({
+        ffmpegArgs: argumentsArray ?? [],
+      })
+      .then((exitCode) => {
+        console.log(`export finished with code ${exitCode}`);
+      });
+  };
 
   useEffect(() => {
     if (!take) {
@@ -69,19 +94,11 @@ const ExportVideoModal = (): JSX.Element => {
     );
   }, [currentFilePath, qualityPreset]);
 
-  const changeExportLocation = async () => {
-    const newFilePath =
-      await window.preload.ipcToMain.openExportVideoFilePathDialog({
-        currentFilePath,
-      });
-    setCurrentFilePath(newFilePath || "");
-  };
-
-  const startExportVideo = () => {
-    const filepath = currentFilePath.endsWith(".mp4")
-      ? currentFilePath
-      : `${currentFilePath}.mp4`;
-  };
+  useEffect(() => {
+    return window.preload.ipcToRenderer.onExportVideoData((data) =>
+      console.log(data)
+    );
+  }, []);
 
   return (
     <Modal onClose={PageRoute.ANIMATOR}>

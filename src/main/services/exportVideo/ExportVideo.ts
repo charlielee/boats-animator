@@ -1,6 +1,6 @@
+import { path } from "@ffmpeg-installer/ffmpeg";
 import { spawn } from "child_process";
 import { BrowserWindow } from "electron";
-import pathToFfmpeg from "ffmpeg-static";
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import { sendToRenderer } from "../ipcToMainHandler/IpcToMainHandler";
 import logger from "../logger/Logger";
@@ -10,8 +10,7 @@ export const render = (
   ffmpegArgs: string[]
 ): Promise<number> =>
   new Promise((resolve, reject) => {
-    // TODO do we need to do the "asar" hack
-    const ffmpegPath = pathToFfmpeg;
+    const ffmpegPath = path.replace("app.asar", "app.asar.unpacked");
     const ffmpeg = spawn(ffmpegPath, ffmpegArgs);
 
     // All ffmpeg output goes to stderrdata
