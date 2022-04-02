@@ -105,6 +105,28 @@ export const openDirDialog = async (
   }
 };
 
+export const openExportVideoFilePathDialog = async (
+  win: BrowserWindow,
+  currentFilePath: string | undefined
+) => {
+  logger.info("windowUtils.openExportVideoFilePathDialog");
+
+  const result = await dialog.showSaveDialog(win, {
+    title: "Select the location to save the exported video file",
+    // Title for macOS
+    message: "Select the location to save the exported video file",
+    defaultPath: currentFilePath,
+    properties: ["createDirectory", "showOverwriteConfirmation"],
+    filters: [{ name: "MP4 File", extensions: ["mp4"] }],
+  });
+
+  if (!result.canceled && result.filePath) {
+    return result.filePath;
+  } else {
+    return currentFilePath;
+  }
+};
+
 export const getWindowSize = (win: BrowserWindow): WindowSize => ({
   isMaximized: win.isMaximized(),
   winBounds: win.getNormalBounds(),

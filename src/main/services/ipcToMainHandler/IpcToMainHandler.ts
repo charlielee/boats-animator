@@ -15,6 +15,7 @@ import {
   getWindowSize,
   openConfirmPrompt,
   openDirDialog,
+  openExportVideoFilePathDialog,
 } from "../windowUtils.ts/windowUtils";
 
 class IpcToMainHandler {
@@ -76,6 +77,13 @@ class IpcToMainHandler {
     payload: Ipc.OpenDirDialog.Payload
   ): Ipc.OpenDirDialog.Response =>
     openDirDialog(win, payload.workingDirectory, payload.title);
+
+  openExportVideoFilePathDialog = (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.OpenExportVideoFilePathDialog.Payload
+  ): Ipc.OpenExportVideoFilePathDialog.Response =>
+    openExportVideoFilePathDialog(win, payload.currentFilePath);
 
   saveDataToDisk = (
     e: IpcMainInvokeEvent,
@@ -149,6 +157,11 @@ export const addIpcToMainHandlers = () => {
   IpcToMainHandler.handleIfWindow(
     IpcChannel.OPEN_DIR_DIALOG,
     ipcHandler.openDirDialog
+  );
+
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.OPEN_EXPORT_VIDEO_FILE_PATH_DIALOG,
+    ipcHandler.openExportVideoFilePathDialog
   );
 
   IpcToMainHandler.handleIfWindow(

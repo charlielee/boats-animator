@@ -54,6 +54,13 @@ namespace Ipc {
     export type Response = Promise<string | undefined>;
   }
 
+  export namespace OpenExportVideoFilePathDialog {
+    export type Payload = {
+      currentFilePath: string | undefined;
+    };
+    export type Response = Promise<string | undefined>;
+  }
+
   export namespace SaveDataToDisk {
     export type Payload = {
       filePath: string;

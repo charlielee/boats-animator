@@ -39,6 +39,14 @@ const api = {
     ): Ipc.OpenDirDialog.Response =>
       ipcRenderer.invoke(IpcChannel.OPEN_DIR_DIALOG, payload),
 
+    openExportVideoFilePathDialog: (
+      payload: Ipc.OpenExportVideoFilePathDialog.Payload
+    ): Ipc.OpenExportVideoFilePathDialog.Response =>
+      ipcRenderer.invoke(
+        IpcChannel.OPEN_EXPORT_VIDEO_FILE_PATH_DIALOG,
+        payload
+      ),
+
     saveDataToDisk: (
       payload: Ipc.SaveDataToDisk.Payload
     ): Ipc.SaveDataToDisk.Response =>

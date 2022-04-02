@@ -29,12 +29,32 @@ const fFmpegQualityPresets = {
 
 const ExportVideoModal = (): JSX.Element => {
   const { take } = useSelector((state: RootState) => state.project);
-  const [exportLocation, setExportLocation] = useState(
+  const [currentFilePath, setCurrentFilePath] = useState(
     `${take?.directoryPath}.mp4`
   );
   const [qualityPreset, setQualityPreset] = useState(
     fFmpegQualityPresets.Medium
   );
+
+  // const handleCurrentFilePathChange = (newValue: string) => {
+  //   setCurrentFilePath(
+  //     newValue.endsWith(".mp4") ? newValue : `${newValue}.mp4`
+  //   );
+  // };
+
+  const changeExportLocation = async () => {
+    const newFilePath =
+      await window.preload.ipcToMain.openExportVideoFilePathDialog({
+        currentFilePath,
+      });
+    setCurrentFilePath(newFilePath || "");
+  };
+
+  const startExportVideo = () => {
+    const filepath = currentFilePath.endsWith(".mp4")
+      ? currentFilePath
+      : `${currentFilePath}.mp4`;
+  };
 
   return (
     <Modal onClose={PageRoute.ANIMATOR}>
@@ -44,20 +64,20 @@ const ExportVideoModal = (): JSX.Element => {
             <Content>
               <ContentBlock title="Export Video">
                 <InputGroup>
-                  <InputLabel inputId="exportVideoLocation">
+                  <InputLabel inputId="exportVideoFilePath">
                     Export Location
                   </InputLabel>
 
                   <InputGroup row noGap noMargin>
                     <InputText
-                      id="exportVideoLocation"
-                      onChange={setExportLocation}
-                      value={exportLocation}
+                      id="exportVideoFilePath"
+                      onChange={setCurrentFilePath}
+                      value={currentFilePath}
                     />
 
                     <Button
                       title="Browse..."
-                      onClick={() => console.log("todo")}
+                      onClick={changeExportLocation}
                       borderRadius="right"
                     />
                   </InputGroup>
@@ -98,7 +118,7 @@ const ExportVideoModal = (): JSX.Element => {
               title="Start Export"
               color={ButtonColor.PRIMARY}
               icon={IconName.VIDEO}
-              onClick={() => console.log("todo")}
+              onClick={startExportVideo}
             />
           </ToolbarItem>
         </Toolbar>
