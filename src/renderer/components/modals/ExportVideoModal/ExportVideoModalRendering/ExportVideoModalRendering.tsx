@@ -25,7 +25,8 @@ const ExportVideoModalRendering = ({
   ffmpegArguments,
 }: ExportVideoModalRenderingProps): JSX.Element => {
   const [data, setData] = useState("");
-  const [exitCode, setExitCode] = useState("");
+  const [exitCode, setExitCode] = useState<undefined | number>(undefined);
+  const isCompleted = exitCode !== undefined;
 
   useEffect(() => {
     (async () => {
@@ -41,11 +42,9 @@ const ExportVideoModalRendering = ({
       const exitCode = await window.preload.ipcToMain.exportVideoStart({
         ffmpegArgs: argumentsArray ?? [],
       });
-      setExitCode(exitCode.toString());
+      setExitCode(exitCode);
     })();
-  }, []);
 
-  useEffect(() => {
     return window.preload.ipcToRenderer.onExportVideoData((data) => {
       if (data.data.trim() !== "") {
         setData((prevState) => (prevState += `${data.data.trim()}\n-\n`));
@@ -53,10 +52,8 @@ const ExportVideoModalRendering = ({
     });
   }, []);
 
-  const isCompleted = () => exitCode !== "";
-
   return (
-    <Modal onClose={isCompleted() ? PageRoute.ANIMATOR : undefined}>
+    <Modal onClose={isCompleted ? PageRoute.ANIMATOR : undefined}>
       <ModalBody>
         <Page>
           <PageBody>
@@ -64,7 +61,16 @@ const ExportVideoModalRendering = ({
               <ContentBlock title="Export Video">
                 <InputGroup>
                   <InputLabel inputId="exportVideoDataDisplay">
-                    Exporting video...
+                    {exitCode === undefined ? (
+                      <span> Exporting video...</span>
+                    ) : exitCode === 0 ? (
+                      <span>Video was successfully exported to LINK.</span>
+                    ) : (
+                      <span>
+                        An error occurred trying to export the current take to
+                        video. Please try again later. Exit code {exitCode}.
+                      </span>
+                    )}
                   </InputLabel>
 
                   <InputTextArea
@@ -72,6 +78,7 @@ const ExportVideoModalRendering = ({
                     value={data}
                     onChange={() => undefined}
                     disabled
+                    autoScroll
                     rows={16}
                   />
                 </InputGroup>
@@ -81,7 +88,7 @@ const ExportVideoModalRendering = ({
         </Page>
       </ModalBody>
 
-      {isCompleted() && (
+      {isCompleted && (
         <ModalFooter>
           <Toolbar borderTop>
             <ToolbarItem align={ToolbarItemAlign.LEFT}>
