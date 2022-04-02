@@ -4,6 +4,7 @@ interface InputTextAreaProps {
   onChange(newValue: string): void;
   rows?: number;
   spellCheck?: boolean;
+  disabled?: boolean;
 }
 
 const InputTextArea = ({
@@ -12,6 +13,7 @@ const InputTextArea = ({
   onChange,
   rows = 5,
   spellCheck = false,
+  disabled = false,
 }: InputTextAreaProps): JSX.Element => {
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
     onChange(event.target.value);
@@ -23,6 +25,7 @@ const InputTextArea = ({
       value={value}
       rows={rows}
       spellCheck={spellCheck}
+      disabled={disabled}
     />
   );
 };
