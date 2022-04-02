@@ -62,7 +62,7 @@ select {
   border: var(--border-1) solid var(--ba-border-active);
   color: var(--ba-light);
   height: var(--height-200);
-  padding: var(--margin-025);
+  padding: var(--margin-025) var(--margin-050);
   width: 100%;
   flex: 1;
 }
