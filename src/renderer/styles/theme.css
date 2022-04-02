@@ -57,11 +57,13 @@ h3 {
 
 input[type="number"],
 input[type="text"],
-select {
+select,
+textarea {
   background-color: var(--ba-border);
   border: var(--border-1) solid var(--ba-border-active);
   color: var(--ba-light);
   height: var(--height-200);
+  max-width: 100%;
   padding: var(--margin-025) var(--margin-050);
   width: 100%;
   flex: 1;
@@ -69,7 +71,8 @@ select {
 
 input[type="number"]:focus,
 input[type="text"]:focus,
-select:focus {
+select:focus,
+textarea:focus {
   border: var(--border-1) solid var(--ba-lightyellow);
   border-radius: var(--margin-025);
   box-shadow: 0 0 var(--border-1) var(--border-1) var(--ba-lightyellow);

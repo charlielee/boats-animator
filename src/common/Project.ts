@@ -85,7 +85,7 @@ export const makeTakeDirectoryPath = (
     `BA_${zeroPad(shotNumber, 3)}_${zeroPad(takeNumber, 2)}`,
   ].join("/");
 
-export const makeFrameFilePath = (take: Take): string =>
+export const makeFrameFilePath = (take: Take, fileName?: string): string =>
   [
     take.directoryPath,
     [
@@ -93,7 +93,7 @@ export const makeFrameFilePath = (take: Take): string =>
       zeroPad(take.shotNumber, 3),
       zeroPad(take.takeNumber, 2),
       "frame",
-      `${zeroPad(take.lastExportedFrameNumber + 1, 5)}.png`,
+      `${fileName ?? zeroPad(take.lastExportedFrameNumber + 1, 5)}.png`,
     ].join("_"),
   ].join("/");
 
