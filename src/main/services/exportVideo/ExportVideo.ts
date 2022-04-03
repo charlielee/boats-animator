@@ -9,7 +9,7 @@ export const render = (
   win: BrowserWindow,
   ffmpegArgs: string[]
 ): Promise<number> =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     const ffmpegPath = path.replace("app.asar", "app.asar.unpacked");
     const ffmpeg = spawn(ffmpegPath, ffmpegArgs);
 
@@ -26,10 +26,6 @@ export const render = (
 
     // Returns a promise with the exit code
     ffmpeg.on("exit", (code) => {
-      if (code === 0) {
-        resolve(code);
-      } else {
-        reject(code);
-      }
+      resolve(code ?? 0);
     });
   });

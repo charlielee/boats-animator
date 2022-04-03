@@ -68,22 +68,19 @@ const ExportVideoModalRendering = ({
                     onChange={() => undefined}
                     disabled
                     autoScroll
-                    rows={16}
+                    rows={14}
                   />
                 </InputGroup>
 
-                {isCompleted && (
-                  <p>
-                    {exitCode === 0 ? (
-                      <span>Video was successfully exported to LINK.</span>
-                    ) : (
-                      <span>
-                        An error occurred trying to export the current take to
-                        video. Please try again later. Exit code {exitCode}.
-                      </span>
-                    )}
-                  </p>
-                )}
+                {isCompleted &&
+                  (exitCode === 0 ? (
+                    <span>Video was successfully exported to LINK.</span>
+                  ) : (
+                    <span>
+                      An error occurred trying to export the current take to
+                      video. Please try again later. Exit code {exitCode}.
+                    </span>
+                  ))}
               </ContentBlock>
             </Content>
           </PageBody>
