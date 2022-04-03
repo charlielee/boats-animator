@@ -2,8 +2,10 @@ import classNames from "classnames";
 import { IconBaseProps } from "react-icons";
 import {
   IoAddCircleOutline,
+  IoAlertCircleOutline,
   IoCamera,
   IoCaretUpCircleOutline,
+  IoCheckmarkCircleOutline,
   IoCloseOutline,
   IoCodeWorkingOutline,
   IoDocumentOutline,
@@ -69,6 +71,13 @@ const getIconByName = (
       return <IoDocumentOutline {...props} />;
     case IconName.EXPORT:
       return <IoDownload {...props} />;
+    case IconName.ERROR:
+      return (
+        <IoAlertCircleOutline
+          {...props}
+          className={classNames(props.className, "icon--color-error")}
+        />
+      );
     case IconName.FRAMES:
       return <IoImages {...props} />;
     case IconName.FOLDER:
@@ -101,6 +110,13 @@ const getIconByName = (
       return <IoFileTrayStackedOutline {...props} />;
     case IconName.SETTINGS:
       return <IoSettingsOutline {...props} />;
+    case IconName.SUCCESS:
+      return (
+        <IoCheckmarkCircleOutline
+          {...props}
+          className={classNames(props.className, "icon--color-success")}
+        />
+      );
     case IconName.TOGGLE:
       return (
         <IoToggle

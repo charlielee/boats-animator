@@ -9,3 +9,11 @@
 .icon--mirror-and-rotate-90 {
   transform: scale(-1, 1) rotate(90deg);
 }
+
+.icon--color-success {
+  color: var(--ba-green);
+}
+
+.icon--color-error {
+  color: var(--ba-yellow);
+}
