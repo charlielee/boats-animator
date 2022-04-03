@@ -111,3 +111,11 @@ table {
 ::-webkit-scrollbar-thumb:active {
   background-color: var(--ba-border-active);
 }
+
+::-webkit-scrollbar-corner {
+  background-color: var(--ba-dark-mid-hover);
+}
+
+::-webkit-resizer {
+  background-image: url("./images/resizer.svg");
+}

@@ -5,7 +5,6 @@ import { ButtonColor } from "../../../common/Button/ButtonColor";
 import Content from "../../../common/Content/Content";
 import ContentBlock from "../../../common/ContentBlock/ContentBlock";
 import InputGroup from "../../../common/Input/InputGroup/InputGroup";
-import InputLabel from "../../../common/Input/InputLabel/InputLabel";
 import InputTextArea from "../../../common/Input/InputTextArea/InputTextArea";
 import Modal from "../../../common/Modal/Modal";
 import ModalBody from "../../../common/ModalBody/ModalBody";
@@ -58,23 +57,13 @@ const ExportVideoModalRendering = ({
         <Page>
           <PageBody>
             <Content>
-              <ContentBlock title="Export Video">
+              <ContentBlock
+                title={
+                  isCompleted ? "Export Video Completed" : "Exporting Video..."
+                }
+              >
                 <InputGroup>
-                  <InputLabel inputId="exportVideoDataDisplay">
-                    {exitCode === undefined ? (
-                      <span> Exporting video...</span>
-                    ) : exitCode === 0 ? (
-                      <span>Video was successfully exported to LINK.</span>
-                    ) : (
-                      <span>
-                        An error occurred trying to export the current take to
-                        video. Please try again later. Exit code {exitCode}.
-                      </span>
-                    )}
-                  </InputLabel>
-
                   <InputTextArea
-                    id="exportVideoDataDisplay"
                     value={data}
                     onChange={() => undefined}
                     disabled
@@ -82,6 +71,19 @@ const ExportVideoModalRendering = ({
                     rows={16}
                   />
                 </InputGroup>
+
+                {isCompleted && (
+                  <p>
+                    {exitCode === 0 ? (
+                      <span>Video was successfully exported to LINK.</span>
+                    ) : (
+                      <span>
+                        An error occurred trying to export the current take to
+                        video. Please try again later. Exit code {exitCode}.
+                      </span>
+                    )}
+                  </p>
+                )}
               </ContentBlock>
             </Content>
           </PageBody>

@@ -135,6 +135,7 @@ const ExportVideoModalOptions = ({
                     id="exportVideoFFmpegArguments"
                     onChange={setFFmpegArguments}
                     value={ffmpegArguments}
+                    rows={8}
                   />
                 </InputGroup>
               </ContentBlock>
