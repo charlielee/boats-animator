@@ -1,6 +1,6 @@
 # Boats Animator
 
-[![Documentation Status](https://readthedocs.org/projects/boatsanimator/badge/?version=stable)](https://boatsanimator.readthedocs.io/en/stable/?badge=stable) 
+[![Documentation Status](https://readthedocs.org/projects/boatsanimator/badge/?version=stable)](https://boatsanimator.readthedocs.io/en/stable/?badge=stable)
 [![Official Website](https://img.shields.io/badge/Official%20Website-lightgrey?logo=google-chrome&logoColor=white)](https://www.charlielee.uk/boats-animator)
 [![Discord](https://img.shields.io/badge/Discord%20Server-%237289DA.svg?logo=discord&logoColor=white)](https://discord.com/invite/SUPWr8fDWN)
 [![Support Me on Ko-Fi](https://img.shields.io/badge/Support%20Me%20on%20Ko--fi-F16061?logo=ko-fi&logoColor=white)](https://ko-fi.com/charlielee)
@@ -9,10 +9,13 @@
 
 Boats Animator is a free stop motion animation program, that rocks! It is available for Windows, macOS and Linux.
 
-* **High Resolution Capture** - Capture high resolution images from webcams, including 1080p and beyond! 
-* **Instant Playback** - Instantly preview your captured frames. There's no need to wait for them to process.
-* **Handy Guides** - Simplify creating your animation with tools such as onion skinning, gridlines and aspect ratio masks.
-* **Export Video** - Share your animation by exporting it to a video file or "conforming" the image files for use in video editing software.
+- **High Resolution Capture** - Capture high resolution images from webcams, including 1080p and beyond!
+- **Instant Playback** - Instantly preview your captured frames. There's no need to wait for them to process.
+- **Handy Guides** - Simplify creating your animation with tools such as onion skinning, gridlines and aspect ratio masks.
+- **Export Video** - Share your animation by exporting it to a video file or "conforming" the image files for use in video editing software.
+
+> **Important**
+> This project is currently undergoing a complete rewrite to use React, TypeScript and Electron. As a result, the `master` branch is missing many features from the last released version. Check the [GitHub Project](https://github.com/users/charlielee/projects/1) to keep up on progress.
 
 ## Downloads
 
