@@ -1,0 +1,15 @@
+.toolbar-item {
+  display: flex;
+}
+
+.toolbar-item--stretch {
+  flex: 1;
+}
+
+.toolbar-item--center {
+  justify-content: center;
+}
+
+.toolbar-item--right {
+  justify-content: end;
+}

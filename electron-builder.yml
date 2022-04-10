@@ -8,8 +8,7 @@ directories:
 
 files:
   - package.json
-  - src/
-  - node_modules/
+  - dist/**
 
 # Linux
 
@@ -22,7 +21,7 @@ linux:
     Its intuitive interface caters to animators of all levels and offers
     many powerful features including: instant playback, onion skinning,
     1080p capture and HD video export.
-  icon: icons/icon.icns
+  icon: static/icons/icon.icns
   target:
     - deb
     - tar.gz
@@ -32,7 +31,7 @@ linux:
 mac:
   artifactName: ${name}-${version}-macos.${ext}
   category: public.app-category.photography
-  icon: icons/icon.icns
+  icon: static/icons/icon.icns
   target:
     - dmg
 
@@ -50,7 +49,7 @@ dmg:
 
 win:
   artifactName: ${name}-${version}-win.${ext}
-  icon: icons/icon.ico
+  icon: static/icons/icon.ico
   target:
     - nsis
     - zip
@@ -58,9 +57,9 @@ win:
 nsis:
   artifactName: ${name}-${version}-win-setup.${ext}
   createDesktopShortcut: false
-  include: build/installer.nsh
-  installerSidebar: build/setupbanner.bmp
-  license: build/LICENSE.rtf
+  include: static/build/installer.nsh
+  installerSidebar: static/build/setupbanner.bmp
+  license: static/build/LICENSE.rtf
   oneClick: false
   uninstallDisplayName: Boats Animator
-  uninstallerSidebar: build/setupbanner.bmp
+  uninstallerSidebar: static/build/setupbanner.bmp

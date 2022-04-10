@@ -1,0 +1,11 @@
+.button-group {
+  display: flex;
+}
+
+.button-group .button {
+  margin-right: var(--margin-100);
+}
+
+.button-group .button:last-of-type {
+  margin-right: 0;
+}

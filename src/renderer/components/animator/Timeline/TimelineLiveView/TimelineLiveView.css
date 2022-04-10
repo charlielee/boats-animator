@@ -1,0 +1,15 @@
+.timeline-live-view {
+  height: 100%;
+  min-width: calc(var(--width-16) * 8);
+  width: calc(var(--width-16) * 8);
+  padding: var(--width-16) var(--width-16) var(--width-16) 0;
+}
+
+.timeline-live-view__button {
+  height: 100%;
+  width: 100%;
+}
+
+.timeline-live-view__button-icon-container {
+  font-size: var(--height-300);
+}

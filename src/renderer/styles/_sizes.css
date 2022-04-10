@@ -1,0 +1,28 @@
+:root {
+  --width-1: 0.0625rem;
+  /* 0.125rem  */
+  --width-2: calc(var(--width-1) * 2);
+  /* 0.25rem  */
+  --width-4: calc(var(--width-1) * 4);
+  /* 0.375rem */
+  --width-6: calc(var(--width-1) * 6);
+  /* 0.4375rem */
+  --width-7: calc(var(--width-1) * 7);
+  /* 0.5rem  */
+  --width-8: calc(var(--width-1) * 8);
+  /* 1rem  */
+  --width-16: calc(var(--width-1) * 16);
+
+  --height-100: calc(var(--width-1) * 16);
+  --height-200: calc(var(--width-1) * 32);
+  --height-300: calc(var(--width-1) * 48);
+  --height-400: calc(var(--width-1) * 64);
+  --height-800: calc(var(--width-1) * 128);
+
+  --border-1: var(--width-1);
+  --border-2: var(--width-2);
+
+  --margin-025: var(--width-4);
+  --margin-050: var(--width-8);
+  --margin-100: var(--width-16);
+}

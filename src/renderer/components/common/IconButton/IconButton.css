@@ -1,0 +1,14 @@
+.icon-button {
+  padding: var(--margin-050);
+}
+
+.icon-button__icon-container {
+  font-size: 1.5rem;
+  margin-right: 0;
+  width: 100%;
+  justify-content: center;
+}
+
+.icon-button .button__label {
+  display: none;
+}

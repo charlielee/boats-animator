@@ -1,0 +1,11 @@
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--margin-025) var(--margin-050);
+  margin-bottom: var(--margin-100);
+}
+
+.input-group--row {
+  align-items: center;
+  flex-direction: row;
+}

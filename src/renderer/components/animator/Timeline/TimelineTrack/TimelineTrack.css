@@ -1,0 +1,6 @@
+.timeline-track {
+  align-items: center;
+  display: flex;
+  height: var(--height-800);
+  width: max-content;
+}

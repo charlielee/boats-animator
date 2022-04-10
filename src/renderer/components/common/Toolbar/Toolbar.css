@@ -1,0 +1,16 @@
+.toolbar {
+  align-items: center;
+  display: flex;
+  height: var(--height-400);
+  justify-content: space-between;
+  margin: 0;
+  padding: var(--margin-100);
+}
+
+.toolbar--border-top {
+  border-top: var(--border-1) solid var(--ba-border);
+}
+
+.toolbar--border-bottom {
+  border-bottom: var(--border-1) solid var(--ba-border);
+}
