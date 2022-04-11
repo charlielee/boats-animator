@@ -82,6 +82,13 @@ namespace Ipc {
     };
     export type Response = Promise<void>;
   }
+
+  export namespace ShowItemInFolder {
+    export type Payload = {
+      filePath: string;
+    };
+    export type Response = Promise<void>;
+  }
 }
 
 export default Ipc;

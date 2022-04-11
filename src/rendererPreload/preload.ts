@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer, shell } from "electron";
+import * as path from "path";
 import IpcChannel from "../common/ipc/IpcChannel";
 import Ipc from "../common/ipc/IpcHandler";
 import { NewsResponsePost } from "../renderer/services/news/NewsResponse";
@@ -8,6 +9,8 @@ import { setListener } from "./ipcRendererUtils";
 // https://www.electronjs.org/docs/tutorial/context-isolation
 const api = {
   platform: process.platform,
+  joinPath: (...paths: string[]) => path.join(...paths),
+  normalizePath: (filePath: string) => path.normalize(filePath),
   ipcToMain: {
     appVersion: (): Ipc.AppVersion.Response =>
       ipcRenderer.invoke(IpcChannel.APP_VERSION),
@@ -56,6 +59,11 @@ const api = {
       payload: Ipc.ExportVideoStart.Payload
     ): Ipc.ExportVideoStart.Response =>
       ipcRenderer.invoke(IpcChannel.EXPORT_VIDEO_START, payload),
+
+    showItemInFolder: (
+      payload: Ipc.ShowItemInFolder.Payload
+    ): Ipc.ShowItemInFolder.Response =>
+      ipcRenderer.invoke(IpcChannel.SHOW_ITEM_IN_FOLDER, payload),
   },
   ipcToRenderer: {
     onCloseButtonClick: (

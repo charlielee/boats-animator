@@ -4,11 +4,22 @@ import ExportVideoModalRendering from "./ExportVideoModalRendering/ExportVideoMo
 
 const ExportVideoModal = (): JSX.Element => {
   const [ffmpegArguments, setFFmpegArguments] = useState("");
+  const [videoFilePath, setVideoFilePath] = useState("");
 
   if (ffmpegArguments === "") {
-    return <ExportVideoModalOptions onSubmit={setFFmpegArguments} />;
+    return (
+      <ExportVideoModalOptions
+        onSubmit={setFFmpegArguments}
+        onVideoFilePathChange={setVideoFilePath}
+      />
+    );
   } else {
-    return <ExportVideoModalRendering ffmpegArguments={ffmpegArguments} />;
+    return (
+      <ExportVideoModalRendering
+        ffmpegArguments={ffmpegArguments}
+        videoFilePath={videoFilePath}
+      />
+    );
   }
 };
 

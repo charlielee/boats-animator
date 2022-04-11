@@ -9,7 +9,11 @@ import IpcChannel from "../../../common/ipc/IpcChannel";
 import Ipc from "../../../common/ipc/IpcHandler";
 import { render } from "../exportVideo/ExportVideo";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
-import { openUserDataDirectory, saveDataToDisk } from "../fileUtils/fileUtils";
+import {
+  openUserDataDirectory,
+  saveDataToDisk,
+  showItemInFolder,
+} from "../fileUtils/fileUtils";
 import logger, { ProcessName } from "../logger/Logger";
 import {
   getWindowSize,
@@ -98,6 +102,12 @@ class IpcToMainHandler {
     payload: Ipc.ExportVideoStart.Payload
   ): Ipc.ExportVideoStart.Response => render(win, payload.ffmpegArgs);
 
+  showItemInFolder = (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.ShowItemInFolder.Payload
+  ): Ipc.ShowItemInFolder.Response => showItemInFolder(payload.filePath);
+
   static handleIfWindow = (
     channel: IpcChannel,
     listener: (
@@ -172,6 +182,11 @@ export const addIpcToMainHandlers = () => {
   IpcToMainHandler.handleIfWindow(
     IpcChannel.EXPORT_VIDEO_START,
     ipcHandler.exportVideoStart
+  );
+
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.SHOW_ITEM_IN_FOLDER,
+    ipcHandler.showItemInFolder
   );
 };
 

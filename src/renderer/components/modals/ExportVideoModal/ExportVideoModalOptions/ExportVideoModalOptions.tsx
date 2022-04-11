@@ -34,10 +34,12 @@ const fFmpegQualityPresets = {
 
 interface ExportVideoModalOptionsProps {
   onSubmit(ffmpegArguments: string): void;
+  onVideoFilePathChange(videoFilePath: string): void;
 }
 
 const ExportVideoModalOptions = ({
   onSubmit,
+  onVideoFilePathChange,
 }: ExportVideoModalOptionsProps): JSX.Element => {
   const { take } = useSelector((state: RootState) => state.project);
   const [currentFilePath, setCurrentFilePath] = useState(
@@ -65,9 +67,13 @@ const ExportVideoModalOptions = ({
       return;
     }
 
-    const videoFilePath = currentFilePath.endsWith(".mp4")
-      ? currentFilePath
-      : `${currentFilePath}.mp4`;
+    const videoFilePath = window.preload.normalizePath(
+      currentFilePath.endsWith(".mp4")
+        ? currentFilePath
+        : `${currentFilePath}.mp4`
+    );
+    onVideoFilePathChange(videoFilePath);
+
     const framePath = makeFrameFilePath(take, "%05d");
     const totalFrames = getTrackLength(take?.frameTrack);
 

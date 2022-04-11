@@ -79,14 +79,14 @@ export const makeTakeDirectoryPath = (
   shotNumber: number,
   takeNumber: number
 ): string =>
-  [
+  window.preload.joinPath(
     workingDirectory,
     "Untitled Project.bafiles",
-    `BA_${zeroPad(shotNumber, 3)}_${zeroPad(takeNumber, 2)}`,
-  ].join("/");
+    `BA_${zeroPad(shotNumber, 3)}_${zeroPad(takeNumber, 2)}`
+  );
 
 export const makeFrameFilePath = (take: Take, fileName?: string): string =>
-  [
+  window.preload.joinPath(
     take.directoryPath,
     [
       "ba",
@@ -94,8 +94,8 @@ export const makeFrameFilePath = (take: Take, fileName?: string): string =>
       zeroPad(take.takeNumber, 2),
       "frame",
       `${fileName ?? zeroPad(take.lastExportedFrameNumber + 1, 5)}.png`,
-    ].join("_"),
-  ].join("/");
+    ].join("_")
+  );
 
 export const getTrackLength = (track: Track): FrameCount =>
   track.trackItems.reduce((prev, trackItem) => prev + trackItem.length, 0);

@@ -19,10 +19,12 @@ import ToolbarItem, {
 
 interface ExportVideoModalRenderingProps {
   ffmpegArguments: string;
+  videoFilePath: string;
 }
 
 const ExportVideoModalRendering = ({
   ffmpegArguments,
+  videoFilePath,
 }: ExportVideoModalRenderingProps): JSX.Element => {
   const [data, setData] = useState("");
   const [exitCode, setExitCode] = useState<undefined | number>(undefined);
@@ -112,8 +114,8 @@ const ExportVideoModalRendering = ({
 
                 {isCompleted && !isCompletedSuccessfully && (
                   <span>
-                    An error occurred trying to export the current take to
-                    video. Please try again later. Exit code {exitCode}.
+                    An error occurred when exporting video. Please try again
+                    later. Exit code {exitCode}.
                   </span>
                 )}
               </ContentBlock>
@@ -137,7 +139,11 @@ const ExportVideoModalRendering = ({
               <ToolbarItem align={ToolbarItemAlign.RIGHT}>
                 <Button
                   title={`View in ${fileManagerName()}`}
-                  onClick={() => console.log("todo")}
+                  onClick={() =>
+                    window.preload.ipcToMain.showItemInFolder({
+                      filePath: videoFilePath,
+                    })
+                  }
                 />
               </ToolbarItem>
             )}

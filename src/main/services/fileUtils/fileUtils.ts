@@ -52,3 +52,8 @@ export const openUserDataDirectory = async (): Promise<void> => {
     throw errorMessage;
   }
 };
+
+export const showItemInFolder = async (filePath: string) => {
+  console.log(filePath);
+  shell.showItemInFolder(filePath);
+};

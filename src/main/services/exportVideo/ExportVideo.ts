@@ -10,14 +10,13 @@ export const render = (
   ffmpegArgs: string[]
 ): Promise<number> =>
   new Promise((resolve) => {
+    logger.info("exportVideo.render.start", ffmpegArgs.join(" "));
     const ffmpegPath = path.replace("app.asar", "app.asar.unpacked");
     const ffmpeg = spawn(ffmpegPath, ffmpegArgs);
 
     // All ffmpeg output goes to stderrdata
     // https://stackoverflow.com/questions/35169650/
     ffmpeg.stderr.on("data", (data) => {
-      // TODO is the toString required?
-      logger.info("exportVideo.render.data", data);
       logger.info("exportVideo.render.data", data.toString());
       sendToRenderer(win, IpcChannel.ON_EXPORT_VIDEO_DATA, {
         data: data.toString(),
