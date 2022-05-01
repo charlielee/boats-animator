@@ -11,11 +11,11 @@ import logger from "../logger/Logger";
 
 export const render = (
   win: BrowserWindow,
-  ffmpegArgs: string[],
+  ffmpegArguments: string[],
   videoFilePath: string
 ): Ipc.ExportVideoStart.Response =>
   new Promise((resolve) => {
-    const videoFilePathIndex = ffmpegArgs.findIndex(
+    const videoFilePathIndex = ffmpegArguments.findIndex(
       (el) => el === videoFilePath
     );
 
@@ -30,13 +30,13 @@ export const render = (
         videoFilePath,
         newVideoFilePath,
       });
-      ffmpegArgs[videoFilePathIndex] = newVideoFilePath;
+      ffmpegArguments[videoFilePathIndex] = newVideoFilePath;
     }
 
-    logger.info("exportVideo.render.start", ffmpegArgs.join(" "));
+    logger.info("exportVideo.render.start", ffmpegArguments.join(" "));
     const ffmpeg = spawn(
       ffmpegPath.replace("app.asar", "app.asar.unpacked"),
-      ffmpegArgs
+      ffmpegArguments
     );
 
     // All ffmpeg output goes to stderrdata
@@ -51,7 +51,7 @@ export const render = (
     ffmpeg.on("exit", (code) => {
       resolve({
         code: code ?? 0,
-        videoFilePath: ffmpegArgs[videoFilePathIndex],
+        videoFilePath: ffmpegArguments[videoFilePathIndex],
       });
     });
   });

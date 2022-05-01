@@ -71,7 +71,7 @@ namespace Ipc {
 
   export namespace ExportVideoStart {
     export type Payload = {
-      ffmpegArgs: string[];
+      ffmpegArguments: string[];
       videoFilePath: string;
     };
     export type Response = Promise<{ code: number; videoFilePath: string }>;

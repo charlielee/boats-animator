@@ -101,7 +101,7 @@ class IpcToMainHandler {
     win: BrowserWindow,
     payload: Ipc.ExportVideoStart.Payload
   ): Ipc.ExportVideoStart.Response =>
-    render(win, payload.ffmpegArgs, payload.videoFilePath);
+    render(win, payload.ffmpegArguments, payload.videoFilePath);
 
   showItemInFolder = (
     e: IpcMainInvokeEvent,

@@ -37,12 +37,12 @@ const ExportVideoModalRendering = ({
     (async () => {
       // TODO: take should be conformed before export
 
-      // The render method expects an array so convert input from string into array
       const response = await window.preload.ipcToMain.exportVideoStart({
-        ffmpegArgs: stringToArray(ffmpegArguments) ?? [],
+        ffmpegArguments: stringToArray(ffmpegArguments) ?? [],
         videoFilePath,
       });
-      // Update video path incase it was renamed to prevent overwriting
+
+      // Update video path in case it was renamed to prevent overwriting
       setVideoFilePath(response.videoFilePath);
       setExitCode(response.code);
     })();
