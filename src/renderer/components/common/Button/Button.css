@@ -3,7 +3,6 @@
   appearance: none;
   background-color: var(--ba-light);
   border: var(--border-1) solid var(--ba-border-active);
-  border-radius: var(--margin-025);
   display: flex;
   color: var(--ba-dark);
   font-family: inherit;
@@ -57,4 +56,20 @@
 
 .button--no-border {
   border: var(--border-1) solid transparent;
+}
+
+.button--border-radius-left {
+  border-radius: var(--margin-025) 0 0 var(--margin-025);
+}
+.button--border-radius-right {
+  border-radius: 0 var(--margin-025) var(--margin-025) 0;
+}
+.button--border-radius-all {
+  border-radius: var(--margin-025);
+}
+
+.button--disabled,
+.button--disabled:hover,
+.button--disabled:active {
+  background-color: var(--ba-border-active);
 }

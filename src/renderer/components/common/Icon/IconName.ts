@@ -7,6 +7,8 @@ const enum IconName {
   CIRCLE_UP = "CIRCLE_UP",
   CLOSE = "CLOSE",
   DISCORD = "DISCORD",
+  DOCUMENT = "DOCUMENT",
+  ERROR = "ERROR",
   EXPORT = "EXPORT",
   FRAMES = "FRAMES",
   FOLDER = "FOLDER",
@@ -24,8 +26,10 @@ const enum IconName {
   PLAY_SHORT = "PLAY_SHORT",
   PROJECTS = "PROJECTS",
   SETTINGS = "SETTINGS",
+  SUCCESS = "SUCCESS",
   TOGGLE = "TOGGLE",
   UNDO = "UNDO",
+  VIDEO = "VIDEO",
   WEBSITE = "WEBSITE",
 }
 

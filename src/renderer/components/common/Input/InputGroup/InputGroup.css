@@ -3,9 +3,19 @@
   flex-direction: column;
   gap: var(--margin-025) var(--margin-050);
   margin-bottom: var(--margin-100);
+  align-items: flex-start;
+  width: 100%;
 }
 
 .input-group--row {
   align-items: center;
   flex-direction: row;
+}
+
+.input-group--no-gap {
+  gap: var(--margin-025) 0;
+}
+
+.input-group--no-margin {
+  margin-bottom: 0;
 }

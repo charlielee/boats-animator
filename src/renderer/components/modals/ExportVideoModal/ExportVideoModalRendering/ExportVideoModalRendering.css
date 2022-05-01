@@ -1,0 +1,9 @@
+.export-video-modal-rendering__success-text {
+  color: var(--ba-green);
+  font-weight: 600;
+}
+
+.export-video-modal-rendering__error-text {
+  color: var(--ba-red);
+  font-weight: 600;
+}

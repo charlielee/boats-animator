@@ -3,6 +3,7 @@
 // eg https://stackoverflow.com/questions/51523509/
 import { app, shell } from "electron";
 import { mkdir, writeFile } from "fs";
+import * as path from "path";
 import { dirname } from "path";
 import logger from "../logger/Logger";
 
@@ -52,3 +53,13 @@ export const openUserDataDirectory = async (): Promise<void> => {
     throw errorMessage;
   }
 };
+
+export const showItemInFolder = async (filePath: string) => {
+  shell.showItemInFolder(filePath);
+};
+
+export const filePathWithoutExtension = (filePath: string) =>
+  path.join(
+    path.dirname(filePath),
+    path.basename(filePath, path.extname(filePath))
+  );

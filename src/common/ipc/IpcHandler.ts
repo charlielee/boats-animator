@@ -54,10 +54,39 @@ namespace Ipc {
     export type Response = Promise<string | undefined>;
   }
 
+  export namespace OpenExportVideoFilePathDialog {
+    export type Payload = {
+      currentFilePath: string | undefined;
+    };
+    export type Response = Promise<string | undefined>;
+  }
+
   export namespace SaveDataToDisk {
     export type Payload = {
       filePath: string;
       rawData: Uint8Array;
+    };
+    export type Response = Promise<void>;
+  }
+
+  export namespace ExportVideoStart {
+    export type Payload = {
+      ffmpegArguments: string[];
+      videoFilePath: string;
+    };
+    export type Response = Promise<{ code: number; videoFilePath: string }>;
+  }
+
+  export namespace OnExportVideoData {
+    export type Payload = {
+      data: string;
+    };
+    export type Response = Promise<void>;
+  }
+
+  export namespace ShowItemInFolder {
+    export type Payload = {
+      filePath: string;
     };
     export type Response = Promise<void>;
   }

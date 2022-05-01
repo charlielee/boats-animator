@@ -8,6 +8,7 @@ import { ButtonColor } from "./ButtonColor";
 
 export interface ButtonProps {
   title: string;
+  id?: string;
   active?: boolean;
   noBorder?: boolean;
   className?: string;
@@ -15,11 +16,14 @@ export interface ButtonProps {
   color?: ButtonColor;
   icon?: IconName;
   label?: string;
+  borderRadius?: "left" | "right" | "all";
   onClick: Function | PageRoute;
+  disabled?: boolean;
 }
 
 const Button = ({
   title,
+  id,
   active = false,
   noBorder = false,
   className,
@@ -27,7 +31,9 @@ const Button = ({
   color,
   icon,
   label = title,
+  borderRadius = "all",
   onClick,
+  disabled = false,
 }: ButtonProps): JSX.Element => {
   const history = useHistory();
 
@@ -37,13 +43,20 @@ const Button = ({
 
   return (
     <button
+      id={id}
       className={classNames("button", className, {
         "button--color-primary": color === ButtonColor.PRIMARY,
         "button--color-transparent": color === ButtonColor.TRANSPARENT,
         "button--no-border": noBorder,
+        "button--border-radius-left": borderRadius === "left",
+        "button--border-radius-right": borderRadius === "right",
+        "button--border-radius-all": borderRadius === "all",
+        "button--disabled": disabled,
       })}
       title={title}
-      onClick={handleClick}
+      onClick={() => (disabled ? undefined : handleClick())}
+      disabled={disabled}
+      aria-disabled={disabled ? "true" : "false"}
     >
       {icon !== undefined && (
         <div

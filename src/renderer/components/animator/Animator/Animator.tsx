@@ -8,7 +8,7 @@ import Tab from "../../common/Tab/Tab";
 import TabGroup from "../../common/TabGroup/TabGroup";
 import AnimationToolbar from "../AnimationToolbar/AnimationToolbar";
 import CaptureTab from "../CaptureTab/CaptureTab";
-import ExportDirectory from "../ExportDirectory/ExportDirectory";
+import MediaTab from "../MediaTab/MediaTab";
 import Preview from "../Preview/Preview";
 import StatusToolbar from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
@@ -45,11 +45,7 @@ const Animator = (): JSX.Element => {
                 </SidebarBlock>
               </Tab>,
 
-              <Tab>
-                <SidebarBlock title="Export" titleIcon={IconName.EXPORT}>
-                  <ExportDirectory />
-                </SidebarBlock>
-              </Tab>,
+              <MediaTab />,
             ]}
           />
         </Sidebar>

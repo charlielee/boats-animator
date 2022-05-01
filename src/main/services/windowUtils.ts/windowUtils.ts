@@ -10,6 +10,7 @@ import * as path from "path";
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import { WindowSize } from "../../../common/WindowSize";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
+import { sendToRenderer } from "../ipcToMainHandler/IpcToMainHandler";
 import logger from "../logger/Logger";
 
 const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
@@ -57,7 +58,7 @@ export const loadApp = (win: BrowserWindow) => {
   win.on("close", (e) => {
     logger.info("windowUtils.closePrevented");
     e.preventDefault();
-    win.webContents.send(IpcChannel.ON_CLOSE_BUTTON_CLICK);
+    sendToRenderer(win, IpcChannel.ON_CLOSE_BUTTON_CLICK);
   });
 };
 
@@ -101,6 +102,28 @@ export const openDirDialog = async (
     return result.filePaths[0];
   } else {
     return workingDirectory;
+  }
+};
+
+export const openExportVideoFilePathDialog = async (
+  win: BrowserWindow,
+  currentFilePath: string | undefined
+) => {
+  logger.info("windowUtils.openExportVideoFilePathDialog");
+
+  const result = await dialog.showSaveDialog(win, {
+    title: "Select the location to save the exported video file",
+    // Title for macOS
+    message: "Select the location to save the exported video file",
+    defaultPath: currentFilePath,
+    properties: ["createDirectory", "showOverwriteConfirmation"],
+    filters: [{ name: "MP4 File", extensions: ["mp4"] }],
+  });
+
+  if (!result.canceled && result.filePath) {
+    return result.filePath;
+  } else {
+    return currentFilePath;
   }
 };
 

@@ -7,13 +7,19 @@ import {
 } from "electron";
 import IpcChannel from "../../../common/ipc/IpcChannel";
 import Ipc from "../../../common/ipc/IpcHandler";
+import { render } from "../exportVideo/ExportVideo";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
-import { openUserDataDirectory, saveDataToDisk } from "../fileUtils/fileUtils";
+import {
+  openUserDataDirectory,
+  saveDataToDisk,
+  showItemInFolder,
+} from "../fileUtils/fileUtils";
 import logger, { ProcessName } from "../logger/Logger";
 import {
   getWindowSize,
   openConfirmPrompt,
   openDirDialog,
+  openExportVideoFilePathDialog,
 } from "../windowUtils.ts/windowUtils";
 
 class IpcToMainHandler {
@@ -76,12 +82,32 @@ class IpcToMainHandler {
   ): Ipc.OpenDirDialog.Response =>
     openDirDialog(win, payload.workingDirectory, payload.title);
 
+  openExportVideoFilePathDialog = (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.OpenExportVideoFilePathDialog.Payload
+  ): Ipc.OpenExportVideoFilePathDialog.Response =>
+    openExportVideoFilePathDialog(win, payload.currentFilePath);
+
   saveDataToDisk = (
     e: IpcMainInvokeEvent,
     win: BrowserWindow,
     payload: Ipc.SaveDataToDisk.Payload
   ): Ipc.SaveDataToDisk.Response =>
     saveDataToDisk(payload.filePath, payload.rawData);
+
+  exportVideoStart = (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.ExportVideoStart.Payload
+  ): Ipc.ExportVideoStart.Response =>
+    render(win, payload.ffmpegArguments, payload.videoFilePath);
+
+  showItemInFolder = (
+    e: IpcMainInvokeEvent,
+    win: BrowserWindow,
+    payload: Ipc.ShowItemInFolder.Payload
+  ): Ipc.ShowItemInFolder.Response => showItemInFolder(payload.filePath);
 
   static handleIfWindow = (
     channel: IpcChannel,
@@ -145,7 +171,28 @@ export const addIpcToMainHandlers = () => {
   );
 
   IpcToMainHandler.handleIfWindow(
+    IpcChannel.OPEN_EXPORT_VIDEO_FILE_PATH_DIALOG,
+    ipcHandler.openExportVideoFilePathDialog
+  );
+
+  IpcToMainHandler.handleIfWindow(
     IpcChannel.SAVE_DATA_TO_DISK,
     ipcHandler.saveDataToDisk
   );
+
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.EXPORT_VIDEO_START,
+    ipcHandler.exportVideoStart
+  );
+
+  IpcToMainHandler.handleIfWindow(
+    IpcChannel.SHOW_ITEM_IN_FOLDER,
+    ipcHandler.showItemInFolder
+  );
 };
+
+export const sendToRenderer = (
+  win: BrowserWindow,
+  channel: IpcChannel,
+  payload?: Record<string, unknown>
+) => win.webContents.send(channel, payload);

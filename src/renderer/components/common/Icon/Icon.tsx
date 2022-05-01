@@ -2,13 +2,17 @@ import classNames from "classnames";
 import { IconBaseProps } from "react-icons";
 import {
   IoAddCircleOutline,
+  IoAlertCircleOutline,
   IoCamera,
   IoCaretUpCircleOutline,
+  IoCheckmarkCircleOutline,
   IoCloseOutline,
   IoCodeWorkingOutline,
+  IoDocumentOutline,
   IoDownload,
   IoEllipse,
   IoFileTrayStackedOutline,
+  IoFilmOutline,
   IoFolderOutline,
   IoGlobeOutline,
   IoGrid,
@@ -63,8 +67,17 @@ const getIconByName = (
       return <IoShareOutline {...props} />;
     case IconName.DISCORD:
       return <IoLogoDiscord {...props} />;
+    case IconName.DOCUMENT:
+      return <IoDocumentOutline {...props} />;
     case IconName.EXPORT:
       return <IoDownload {...props} />;
+    case IconName.ERROR:
+      return (
+        <IoAlertCircleOutline
+          {...props}
+          className={classNames(props.className, "icon--color-error")}
+        />
+      );
     case IconName.FRAMES:
       return <IoImages {...props} />;
     case IconName.FOLDER:
@@ -97,6 +110,13 @@ const getIconByName = (
       return <IoFileTrayStackedOutline {...props} />;
     case IconName.SETTINGS:
       return <IoSettingsOutline {...props} />;
+    case IconName.SUCCESS:
+      return (
+        <IoCheckmarkCircleOutline
+          {...props}
+          className={classNames(props.className, "icon--color-success")}
+        />
+      );
     case IconName.TOGGLE:
       return (
         <IoToggle
@@ -111,6 +131,8 @@ const getIconByName = (
           className={classNames(props.className, "icon--mirror-and-rotate-90")}
         />
       );
+    case IconName.VIDEO:
+      return <IoFilmOutline {...props} />;
     case IconName.WEBSITE:
       return <IoGlobeOutline {...props} />;
     // default:

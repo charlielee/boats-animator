@@ -1,6 +1,7 @@
 import { Redirect, Route } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import Animator from "../../animator/Animator/Animator";
+import ExportVideoModal from "../../modals/ExportVideoModal/ExportVideoModal";
 import PreferencesModal from "../../modals/PreferencesModal/PreferencesModal";
 import StartupModal from "../../modals/StartupModal/StartupModal";
 import AppListener from "../AppListener/AppListener";
@@ -16,6 +17,11 @@ const App = (): JSX.Element => {
         <Redirect to={PageRoute.STARTUP_MODAL} />
       </Route>
 
+      <Route
+        exact
+        path={PageRoute.EXPORT_VIDEO_MODAL}
+        component={ExportVideoModal}
+      />
       <Route
         exact
         path={PageRoute.PREFERENCES_MODAL}

@@ -1,5 +1,6 @@
 import * as path from "path";
 import { Configuration } from "webpack";
+import webpackNodeExternals from "webpack-node-externals";
 
 const rootPath = path.resolve(__dirname, "..");
 
@@ -31,6 +32,11 @@ const config: Configuration = {
     path: path.resolve(rootPath, "dist"),
     filename: "[name].js",
   },
+  // https://github.com/kribblo/node-ffmpeg-installer/issues/39#issuecomment-689823370
+  externals: [
+    webpackNodeExternals(),
+    { "@ffmpeg-installer/ffmpeg": { commonjs: "@ffmpeg-installer/ffmpeg" } },
+  ],
 };
 
 export default config;
