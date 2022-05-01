@@ -74,7 +74,7 @@ namespace Ipc {
       ffmpegArgs: string[];
       videoFilePath: string;
     };
-    export type Response = Promise<number>;
+    export type Response = Promise<{ code: number; videoFilePath: string }>;
   }
 
   export namespace OnExportVideoData {

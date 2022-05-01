@@ -17,7 +17,7 @@ const ExportVideoModal = (): JSX.Element => {
     return (
       <ExportVideoModalRendering
         ffmpegArguments={ffmpegArguments}
-        videoFilePath={videoFilePath}
+        originalVideoFilePath={videoFilePath}
       />
     );
   }

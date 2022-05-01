@@ -4,6 +4,7 @@ import { BrowserWindow } from "electron";
 import * as fs from "fs";
 import * as path from "path";
 import IpcChannel from "../../../common/ipc/IpcChannel";
+import Ipc from "../../../common/ipc/IpcHandler";
 import { filePathWithoutExtension } from "../fileUtils/fileUtils";
 import { sendToRenderer } from "../ipcToMainHandler/IpcToMainHandler";
 import logger from "../logger/Logger";
@@ -12,8 +13,12 @@ export const render = (
   win: BrowserWindow,
   ffmpegArgs: string[],
   videoFilePath: string
-): Promise<number> =>
+): Ipc.ExportVideoStart.Response =>
   new Promise((resolve) => {
+    const videoFilePathIndex = ffmpegArgs.findIndex(
+      (el) => el === videoFilePath
+    );
+
     // Add current date to file name if already exists
     if (fs.existsSync(videoFilePath)) {
       const newVideoFilePath = [
@@ -25,10 +30,6 @@ export const render = (
         videoFilePath,
         newVideoFilePath,
       });
-
-      const videoFilePathIndex = ffmpegArgs.findIndex(
-        (el) => el === videoFilePath
-      );
       ffmpegArgs[videoFilePathIndex] = newVideoFilePath;
     }
 
@@ -48,6 +49,9 @@ export const render = (
     });
 
     ffmpeg.on("exit", (code) => {
-      resolve(code ?? 0);
+      resolve({
+        code: code ?? 0,
+        videoFilePath: ffmpegArgs[videoFilePathIndex],
+      });
     });
   });

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { PageRoute } from "../../../../../common/PageRoute";
+import { stringToArray } from "../../../../../common/utils";
 import Button from "../../../common/Button/Button";
 import { ButtonColor } from "../../../common/Button/ButtonColor";
 import Content from "../../../common/Content/Content";
@@ -19,14 +20,15 @@ import ToolbarItem, {
 
 interface ExportVideoModalRenderingProps {
   ffmpegArguments: string;
-  videoFilePath: string;
+  originalVideoFilePath: string;
 }
 
 const ExportVideoModalRendering = ({
   ffmpegArguments,
-  videoFilePath,
+  originalVideoFilePath,
 }: ExportVideoModalRenderingProps): JSX.Element => {
   const [data, setData] = useState("");
+  const [videoFilePath, setVideoFilePath] = useState(originalVideoFilePath);
   const [exitCode, setExitCode] = useState<undefined | number>(undefined);
   const isCompleted = exitCode !== undefined;
   const isCompletedSuccessfully = exitCode === 0;
@@ -36,17 +38,13 @@ const ExportVideoModalRendering = ({
       // TODO: take should be conformed before export
 
       // The render method expects an array so convert input from string into array
-      // Regexes are to handle arguments in quotes
-      // https://stackoverflow.com/a/56119602
-      const argumentsArray = ffmpegArguments
-        .match(/[^\s"']+|"([^"]*)"/gim)
-        ?.map((arg: string) => arg.replace(/"|'/g, ""));
-
-      const exitCode = await window.preload.ipcToMain.exportVideoStart({
-        ffmpegArgs: argumentsArray ?? [],
+      const response = await window.preload.ipcToMain.exportVideoStart({
+        ffmpegArgs: stringToArray(ffmpegArguments) ?? [],
         videoFilePath,
       });
-      setExitCode(exitCode);
+      // Update video path incase it was renamed to prevent overwriting
+      setVideoFilePath(response.videoFilePath);
+      setExitCode(response.code);
     })();
 
     return window.preload.ipcToRenderer.onExportVideoData((data) => {
