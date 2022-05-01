@@ -44,6 +44,7 @@ const ExportVideoModalRendering = ({
 
       const exitCode = await window.preload.ipcToMain.exportVideoStart({
         ffmpegArgs: argumentsArray ?? [],
+        videoFilePath,
       });
       setExitCode(exitCode);
     })();
