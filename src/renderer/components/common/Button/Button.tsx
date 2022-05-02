@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import Icon from "../Icon/Icon";
 import IconName from "../Icon/IconName";
@@ -35,10 +35,10 @@ const Button = ({
   onClick,
   disabled = false,
 }: ButtonProps): JSX.Element => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    typeof onClick === "string" ? history.push(onClick) : onClick();
+    typeof onClick === "string" ? navigate(onClick) : onClick();
   };
 
   return (

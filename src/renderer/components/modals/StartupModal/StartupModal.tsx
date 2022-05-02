@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { PageRoute } from "../../../../common/PageRoute";
@@ -31,7 +31,7 @@ const StartupModal = (): JSX.Element => {
     (state: RootState) => state.app.userPreferences
   );
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const newProject = async () => {
     const directory =
@@ -39,7 +39,7 @@ const StartupModal = (): JSX.Element => {
 
     if (directory !== undefined) {
       dispatch(addTake(makeTake(directory, 1, 1, 15)));
-      history.push(PageRoute.ANIMATOR);
+      navigate(PageRoute.ANIMATOR);
     }
   };
 
