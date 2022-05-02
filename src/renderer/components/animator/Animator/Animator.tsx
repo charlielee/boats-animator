@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Take } from "../../../../common/Project";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
 import Page from "../../common/Page/Page";
@@ -14,47 +14,48 @@ import Preview from "../Preview/Preview";
 import StatusToolbar from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
 
-const Animator = (): JSX.Element => {
+interface AnimatorProps {
+  take: Take;
+}
+
+const Animator = ({ take }: AnimatorProps): JSX.Element => {
   return (
-    <>
-      <Outlet />
-      <Page>
-        <PageBody>
-          <Content>
-            <StatusToolbar />
+    <Page>
+      <PageBody>
+        <Content>
+          <StatusToolbar take={take} />
 
-            <Preview />
+          <Preview />
 
-            <AnimationToolbar />
+          <AnimationToolbar />
 
-            <Timeline />
-          </Content>
+          <Timeline take={take} />
+        </Content>
 
-          <Sidebar>
-            <TabGroup
-              titles={["Capture", "Guides", "X-Sheet", "Media"]}
-              tabs={[
-                <CaptureTab />,
+        <Sidebar>
+          <TabGroup
+            titles={["Capture", "Guides", "X-Sheet", "Media"]}
+            tabs={[
+              <CaptureTab />,
 
-                <Tab>
-                  <SidebarBlock title="Guides" titleIcon={IconName.GUIDES}>
-                    Guides
-                  </SidebarBlock>
-                </Tab>,
+              <Tab>
+                <SidebarBlock title="Guides" titleIcon={IconName.GUIDES}>
+                  Guides
+                </SidebarBlock>
+              </Tab>,
 
-                <Tab>
-                  <SidebarBlock title="X-Sheet" titleIcon={IconName.GUIDES}>
-                    X-Sheet
-                  </SidebarBlock>
-                </Tab>,
+              <Tab>
+                <SidebarBlock title="X-Sheet" titleIcon={IconName.GUIDES}>
+                  X-Sheet
+                </SidebarBlock>
+              </Tab>,
 
-                <MediaTab />,
-              ]}
-            />
-          </Sidebar>
-        </PageBody>
-      </Page>
-    </>
+              <MediaTab take={take} />,
+            ]}
+          />
+        </Sidebar>
+      </PageBody>
+    </Page>
   );
 };
 

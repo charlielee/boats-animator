@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { PageRoute } from "../../../../../common/PageRoute";
 import {
   getTrackLength,
   makeFrameFilePath,
+  Take,
 } from "../../../../../common/Project";
-import { RootState } from "../../../../redux/store";
 import Button from "../../../common/Button/Button";
 import { ButtonColor } from "../../../common/Button/ButtonColor";
 import Content from "../../../common/Content/Content";
@@ -35,15 +34,16 @@ const fFmpegQualityPresets = {
 interface ExportVideoModalOptionsProps {
   onSubmit(ffmpegArguments: string): void;
   onVideoFilePathChange(videoFilePath: string): void;
+  take: Take;
 }
 
 const ExportVideoModalOptions = ({
   onSubmit,
   onVideoFilePathChange,
+  take,
 }: ExportVideoModalOptionsProps): JSX.Element => {
-  const { take } = useSelector((state: RootState) => state.project);
   const [currentFilePath, setCurrentFilePath] = useState(
-    `${take?.directoryPath}.mp4`
+    `${take.directoryPath}.mp4`
   );
   const [qualityPreset, setQualityPreset] = useState(
     fFmpegQualityPresets.Medium
@@ -63,10 +63,6 @@ const ExportVideoModalOptions = ({
   };
 
   useEffect(() => {
-    if (!take) {
-      return;
-    }
-
     const videoFilePath = window.preload.normalizePath(
       currentFilePath.endsWith(".mp4")
         ? currentFilePath
@@ -75,12 +71,12 @@ const ExportVideoModalOptions = ({
     onVideoFilePathChange(videoFilePath);
 
     const framePath = makeFrameFilePath(take, "%05d");
-    const totalFrames = getTrackLength(take?.frameTrack);
+    const totalFrames = getTrackLength(take.frameTrack);
 
     setFFmpegArguments(
       [
         "-y", // Overwrite output file if it already exists
-        `-framerate ${take?.frameRate}`,
+        `-framerate ${take.frameRate}`,
         `-start_number 0`,
         `-i "${framePath}"`,
         `-frames:v ${totalFrames}`,

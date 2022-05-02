@@ -1,8 +1,13 @@
 import { useState } from "react";
+import { Take } from "../../../../common/Project";
 import ExportVideoModalOptions from "./ExportVideoModalOptions/ExportVideoModalOptions";
 import ExportVideoModalRendering from "./ExportVideoModalRendering/ExportVideoModalRendering";
 
-const ExportVideoModal = (): JSX.Element => {
+interface ExportVideoModalProps {
+  take: Take;
+}
+
+const ExportVideoModal = ({ take }: ExportVideoModalProps): JSX.Element => {
   const [ffmpegArguments, setFFmpegArguments] = useState("");
   const [videoFilePath, setVideoFilePath] = useState("");
 
@@ -11,6 +16,7 @@ const ExportVideoModal = (): JSX.Element => {
       <ExportVideoModalOptions
         onSubmit={setFFmpegArguments}
         onVideoFilePathChange={setVideoFilePath}
+        take={take}
       />
     );
   } else {

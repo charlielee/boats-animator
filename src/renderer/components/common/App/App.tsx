@@ -22,17 +22,26 @@ const App = (): JSX.Element => {
 
         <Route
           path={PageRoute.ANIMATOR}
-          element={take ? <Animator /> : <Outlet />}
+          element={
+            <>
+              <Outlet />
+              {take && <Animator take={take} />}
+            </>
+          }
         >
-          <Route
-            path={PageRoute.EXPORT_VIDEO_MODAL}
-            element={<ExportVideoModal />}
-          />
+          <Route path={PageRoute.STARTUP_MODAL} element={<StartupModal />} />
+
           <Route
             path={PageRoute.PREFERENCES_MODAL}
             element={<PreferencesModal />}
           />
-          <Route path={PageRoute.STARTUP_MODAL} element={<StartupModal />} />
+
+          {take && (
+            <Route
+              path={PageRoute.EXPORT_VIDEO_MODAL}
+              element={<ExportVideoModal take={take} />}
+            />
+          )}
         </Route>
       </Routes>
     </>
