@@ -1,5 +1,7 @@
-import { Redirect, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
+import { RootState } from "../../../redux/store";
 import Animator from "../../animator/Animator/Animator";
 import ExportVideoModal from "../../modals/ExportVideoModal/ExportVideoModal";
 import PreferencesModal from "../../modals/PreferencesModal/PreferencesModal";
@@ -8,28 +10,40 @@ import AppListener from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
 
 const App = (): JSX.Element => {
+  const take = useSelector((state: RootState) => state.project.take);
+
   return (
     <>
       <AppListener />
       <AppLoad />
 
-      <Route exact path="/">
-        <Redirect to={PageRoute.STARTUP_MODAL} />
-      </Route>
+      <Routes>
+        <Route index element={<Navigate to={PageRoute.STARTUP_MODAL} />} />
 
-      <Route
-        exact
-        path={PageRoute.EXPORT_VIDEO_MODAL}
-        component={ExportVideoModal}
-      />
-      <Route
-        exact
-        path={PageRoute.PREFERENCES_MODAL}
-        component={PreferencesModal}
-      />
-      <Route exact path={PageRoute.STARTUP_MODAL} component={StartupModal} />
+        <Route
+          path={PageRoute.ANIMATOR}
+          element={
+            <>
+              <Outlet />
+              {take && <Animator take={take} />}
+            </>
+          }
+        >
+          <Route path={PageRoute.STARTUP_MODAL} element={<StartupModal />} />
 
-      <Route path={PageRoute.ANIMATOR} component={Animator} />
+          <Route
+            path={PageRoute.PREFERENCES_MODAL}
+            element={<PreferencesModal />}
+          />
+
+          {take && (
+            <Route
+              path={PageRoute.EXPORT_VIDEO_MODAL}
+              element={<ExportVideoModal take={take} />}
+            />
+          )}
+        </Route>
+      </Routes>
     </>
   );
 };

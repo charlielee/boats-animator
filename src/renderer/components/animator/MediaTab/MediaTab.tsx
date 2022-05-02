@@ -1,7 +1,5 @@
-import { useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
-import { getTrackLength } from "../../../../common/Project";
-import { RootState } from "../../../redux/store";
+import { getTrackLength, Take } from "../../../../common/Project";
 import Button from "../../common/Button/Button";
 import IconName from "../../common/Icon/IconName";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
@@ -10,13 +8,11 @@ import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Tab from "../../common/Tab/Tab";
 import ExportDirectory from "../ExportDirectory/ExportDirectory";
 
-const MediaTab = (): JSX.Element => {
-  const { take } = useSelector((state: RootState) => state.project);
+interface MediaTabProps {
+  take: Take;
+}
 
-  if (!take) {
-    return <></>;
-  }
-
+const MediaTab = ({ take }: MediaTabProps): JSX.Element => {
   return (
     <Tab>
       <SidebarBlock title="Media" titleIcon={IconName.DOCUMENT}>

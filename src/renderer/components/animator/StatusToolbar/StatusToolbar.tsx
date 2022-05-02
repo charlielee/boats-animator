@@ -1,8 +1,6 @@
-import { useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
 import { getTrackLength, Take } from "../../../../common/Project";
 import { zeroPad } from "../../../../common/utils";
-import { RootState } from "../../../redux/store";
 import Button from "../../common/Button/Button";
 import { ButtonColor } from "../../common/Button/ButtonColor";
 import Toolbar from "../../common/Toolbar/Toolbar";
@@ -10,13 +8,15 @@ import ToolbarItem, {
   ToolbarItemAlign,
 } from "../../common/ToolbarItem/ToolbarItem";
 
-const StatusToolbar = (): JSX.Element => {
-  const [take] = useSelector((state: RootState) => [state.project.take]);
+interface StatusToolbarProps {
+  take: Take;
+}
 
+const StatusToolbar = ({ take }: StatusToolbarProps): JSX.Element => {
   const makeTakeTitle = (take: Take) =>
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
 
-  return take ? (
+  return (
     <Toolbar borderBottom>
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <Button
@@ -33,8 +33,6 @@ const StatusToolbar = (): JSX.Element => {
         {take.frameRate} FPS
       </ToolbarItem>
     </Toolbar>
-  ) : (
-    <Toolbar />
   );
 };
 

@@ -1,3 +1,4 @@
+import { Take } from "../../../../common/Project";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
 import Page from "../../common/Page/Page";
@@ -13,18 +14,22 @@ import Preview from "../Preview/Preview";
 import StatusToolbar from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
 
-const Animator = (): JSX.Element => {
+interface AnimatorProps {
+  take: Take;
+}
+
+const Animator = ({ take }: AnimatorProps): JSX.Element => {
   return (
     <Page>
       <PageBody>
         <Content>
-          <StatusToolbar />
+          <StatusToolbar take={take} />
 
           <Preview />
 
           <AnimationToolbar />
 
-          <Timeline />
+          <Timeline take={take} />
         </Content>
 
         <Sidebar>
@@ -45,7 +50,7 @@ const Animator = (): JSX.Element => {
                 </SidebarBlock>
               </Tab>,
 
-              <MediaTab />,
+              <MediaTab take={take} />,
             ]}
           />
         </Sidebar>
