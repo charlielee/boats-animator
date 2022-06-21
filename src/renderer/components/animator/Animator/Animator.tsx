@@ -36,21 +36,21 @@ const Animator = ({ take }: AnimatorProps): JSX.Element => {
           <TabGroup
             titles={["Capture", "Guides", "X-Sheet", "Media"]}
             tabs={[
-              <CaptureTab />,
+              <CaptureTab key="capture" />,
 
-              <Tab>
+              <Tab key="guides">
                 <SidebarBlock title="Guides" titleIcon={IconName.GUIDES}>
                   Guides
                 </SidebarBlock>
               </Tab>,
 
-              <Tab>
+              <Tab key="x-sheet">
                 <SidebarBlock title="X-Sheet" titleIcon={IconName.GUIDES}>
                   X-Sheet
                 </SidebarBlock>
               </Tab>,
 
-              <MediaTab take={take} />,
+              <MediaTab key="media" take={take} />,
             ]}
           />
         </Sidebar>
