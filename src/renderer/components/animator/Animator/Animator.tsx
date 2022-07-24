@@ -1,4 +1,5 @@
 import { Take } from "../../../../common/Project";
+import PlaybackContextProvider from "../../../context/PlaybackContext/PlaybackContextProvider";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
 import Page from "../../common/Page/Page";
@@ -20,42 +21,44 @@ interface AnimatorProps {
 
 const Animator = ({ take }: AnimatorProps): JSX.Element => {
   return (
-    <Page>
-      <PageBody>
-        <Content>
-          <StatusToolbar take={take} />
+    <PlaybackContextProvider take={take}>
+      <Page>
+        <PageBody>
+          <Content>
+            <StatusToolbar take={take} />
 
-          <Preview />
+            <Preview />
 
-          <AnimationToolbar />
+            <AnimationToolbar />
 
-          <Timeline take={take} />
-        </Content>
+            <Timeline take={take} />
+          </Content>
 
-        <Sidebar>
-          <TabGroup
-            titles={["Capture", "Guides", "X-Sheet", "Media"]}
-            tabs={[
-              <CaptureTab key="capture" />,
+          <Sidebar>
+            <TabGroup
+              titles={["Capture", "Guides", "X-Sheet", "Media"]}
+              tabs={[
+                <CaptureTab key="capture" />,
 
-              <Tab key="guides">
-                <SidebarBlock title="Guides" titleIcon={IconName.GUIDES}>
-                  Guides
-                </SidebarBlock>
-              </Tab>,
+                <Tab key="guides">
+                  <SidebarBlock title="Guides" titleIcon={IconName.GUIDES}>
+                    Guides
+                  </SidebarBlock>
+                </Tab>,
 
-              <Tab key="x-sheet">
-                <SidebarBlock title="X-Sheet" titleIcon={IconName.GUIDES}>
-                  X-Sheet
-                </SidebarBlock>
-              </Tab>,
+                <Tab key="x-sheet">
+                  <SidebarBlock title="X-Sheet" titleIcon={IconName.GUIDES}>
+                    X-Sheet
+                  </SidebarBlock>
+                </Tab>,
 
-              <MediaTab key="media" take={take} />,
-            ]}
-          />
-        </Sidebar>
-      </PageBody>
-    </Page>
+                <MediaTab key="media" take={take} />,
+              ]}
+            />
+          </Sidebar>
+        </PageBody>
+      </Page>
+    </PlaybackContextProvider>
   );
 };
 

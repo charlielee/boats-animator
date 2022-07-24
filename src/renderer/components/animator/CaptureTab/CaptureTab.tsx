@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { changeDevice } from "../../../redux/capture/actions";
 import { RootState } from "../../../redux/store";
 import IconName from "../../common/Icon/IconName";
@@ -35,6 +36,10 @@ const CaptureTab = (): JSX.Element => {
             }
           />
         </InputGroup>
+
+        <PlaybackContext.Consumer>
+          {(value) => <h1>{JSON.stringify(value)}</h1>}
+        </PlaybackContext.Consumer>
       </SidebarBlock>
     </Tab>
   );
