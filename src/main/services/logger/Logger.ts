@@ -1,5 +1,6 @@
 import { app } from "electron";
 import * as fs from "fs";
+import { Primitive } from "../../../common/Flavors";
 import LogLevel from "../../../common/LogLevel";
 
 const USER_DATA_PATH = app.getPath("userData");
@@ -31,27 +32,27 @@ class Logger {
 
   info = (
     loggingCode: string,
-    message?: string | Record<string, string>,
-    writeToFile: boolean = true
+    message?: Primitive | Record<string, Primitive>,
+    writeToFile = true
   ) => this.log(LogLevel.INFO, loggingCode, message, writeToFile);
 
   warn = (
     loggingCode: string,
-    message?: string | Record<string, string>,
-    writeToFile: boolean = true
+    message?: Primitive | Record<string, Primitive>,
+    writeToFile = true
   ) => this.log(LogLevel.WARN, loggingCode, message, writeToFile);
 
   error = (
     loggingCode: string,
-    message?: string | Record<string, string>,
-    writeToFile: boolean = true
+    message?: Primitive | Record<string, Primitive>,
+    writeToFile = true
   ) => this.log(LogLevel.ERROR, loggingCode, message, writeToFile);
 
   log(
     logLevel: LogLevel,
     loggingCode: string,
-    message?: string | Record<string, string>,
-    writeToFile: boolean = true,
+    message?: Primitive | Record<string, Primitive>,
+    writeToFile = true,
     processName: ProcessName = ProcessName.MAIN
   ) {
     const logLine = this.buildLogLine(
@@ -60,6 +61,7 @@ class Logger {
       loggingCode,
       message
     );
+    // eslint-disable-next-line no-console
     console.log(logLine);
 
     if (this.stream) {
@@ -73,7 +75,7 @@ class Logger {
     processName: ProcessName,
     logLevel: LogLevel,
     loggingCode: string,
-    message?: string | Record<string, string>
+    message?: Primitive | Record<string, Primitive>
   ) {
     const logDate = new Date().toISOString();
     return JSON.stringify([

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { FrameNumber, FrameRate } from "../../common/Flavors";
+import * as rLogger from "../services/rLogger/rLogger";
 import useRequestAnimationFrame from "./useRequestAnimationFrame";
 
 interface UsePlaybackOptions {
@@ -27,13 +28,36 @@ const usePlayback = ({
     }
   });
 
+  const startPlayback = () => {
+    if (stopFrame > 0) {
+      start();
+    }
+    rLogger.info("usePlayback.startPlayback", {
+      startFrame,
+      stopFrame,
+      frameRate,
+      currentPlayFrame,
+    });
+  };
+
+  const stopPlayback = () => {
+    stop();
+    setCurrentPlayFrame(0);
+    rLogger.info("usePlayback.stopPlayback", {
+      startFrame,
+      stopFrame,
+      frameRate,
+      currentPlayFrame,
+    });
+  };
+
   useEffect(() => {
-    if (currentPlayFrame === stopFrame) {
-      stop();
+    if (currentPlayFrame >= stopFrame) {
+      stopPlayback();
     }
   }, [currentPlayFrame]);
 
-  return [start, stop, currentPlayFrame];
+  return [startPlayback, stopPlayback, currentPlayFrame];
 };
 
 export default usePlayback;

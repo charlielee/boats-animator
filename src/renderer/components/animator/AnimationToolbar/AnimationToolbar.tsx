@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import usePlayback from "../../../hooks/usePlayback";
+import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { takePhoto } from "../../../redux/capture/actions";
 import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import IconName from "../../common/Icon/IconName";
@@ -12,21 +12,19 @@ import ToolbarItem, {
 } from "../../common/ToolbarItem/ToolbarItem";
 import "./AnimationToolbar.css";
 
-const AnimationToolbar = (): JSX.Element => {
+interface AnimationToolbarProps {
+  startPlayback: () => void;
+  stopPlayback: () => void;
+}
+
+const AnimationToolbar = ({
+  startPlayback,
+  stopPlayback,
+}: AnimationToolbarProps): JSX.Element => {
   const dispatch = useDispatch();
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
   const [shortPlay, setShortPlay] = useState(false);
-
-  const [start, stop, currentPlayFrame] = usePlayback({
-    startFrame: 0,
-    stopFrame: 100,
-    frameRate: 15,
-  });
-
-  useEffect(() => {
-    console.log(currentPlayFrame);
-  }, [currentPlayFrame]);
 
   return (
     <Toolbar borderTop className="animation-toolbar">
@@ -72,12 +70,12 @@ const AnimationToolbar = (): JSX.Element => {
         <IconButton
           title="Playback Frames"
           icon={IconName.PLAY}
-          onClick={start}
+          onClick={() => startPlayback()}
         />
         <IconButton
           title="Stop Playback"
           icon={IconName.PLAY_STOP}
-          onClick={stop}
+          onClick={() => stopPlayback()}
         />
         <IconButton
           title="Next Frame"
@@ -107,4 +105,10 @@ const AnimationToolbar = (): JSX.Element => {
   );
 };
 
-export default AnimationToolbar;
+const AnimationToolbarWithContext = () => (
+  <PlaybackContext.Consumer>
+    {(value) => <AnimationToolbar {...value} />}
+  </PlaybackContext.Consumer>
+);
+
+export default AnimationToolbarWithContext;
