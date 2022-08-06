@@ -18,7 +18,11 @@ const AnimationToolbar = (): JSX.Element => {
   const [loopPlayback, setLoopPlayback] = useState(false);
   const [shortPlay, setShortPlay] = useState(false);
 
-  const [start, stop, currentPlayFrame] = usePlayback(0, 15);
+  const [start, stop, currentPlayFrame] = usePlayback({
+    startFrame: 0,
+    stopFrame: 100,
+    frameRate: 15,
+  });
 
   useEffect(() => {
     console.log(currentPlayFrame);
@@ -68,10 +72,7 @@ const AnimationToolbar = (): JSX.Element => {
         <IconButton
           title="Playback Frames"
           icon={IconName.PLAY}
-          onClick={() => {
-            console.log("click play");
-            start();
-          }}
+          onClick={start}
         />
         <IconButton
           title="Stop Playback"

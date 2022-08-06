@@ -1,7 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 const useRequestAnimationFrame = (
-  stopped: boolean,
   callback: (time: DOMHighResTimeStamp) => void
 ) => {
   const requestId = useRef<number>();
@@ -11,13 +10,15 @@ const useRequestAnimationFrame = (
     callback(time);
   };
 
-  useEffect(() => {
+  const start = () => {
     requestId.current = requestAnimationFrame(animate);
-    return () => {
-      console.log("return");
-      cancelAnimationFrame(requestId.current ?? 0);
-    };
-  }, [stopped]);
+  };
+
+  const stop = () => {
+    cancelAnimationFrame(requestId.current ?? 0);
+  };
+
+  return [start, stop];
 };
 
 export default useRequestAnimationFrame;

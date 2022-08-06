@@ -1,32 +1,37 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FrameNumber, FrameRate } from "../../common/Flavors";
 import useRequestAnimationFrame from "./useRequestAnimationFrame";
 
-const usePlayback = (
-  startFrame: FrameNumber,
-  frameRate: FrameRate
-): [() => void, () => void, FrameNumber] => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentPlayFrame, setCurrentPlayFrame] = useState(startFrame);
+interface UsePlaybackOptions {
+  startFrame: FrameNumber;
+  stopFrame: FrameNumber;
+  frameRate: FrameRate;
+}
 
+const usePlayback = ({
+  startFrame,
+  stopFrame,
+  frameRate,
+}: UsePlaybackOptions): [() => void, () => void, FrameNumber] => {
   const delay = 1000 / frameRate;
   const previousTime = useRef<number>();
+  const [currentPlayFrame, setCurrentPlayFrame] = useState(startFrame);
 
-  const start = () => setIsPlaying(true);
-
-  const stop = () => setIsPlaying(false);
-
-  useRequestAnimationFrame(isPlaying, (newTime) => {
-    console.log("isPlaying", isPlaying);
+  const [start, stop] = useRequestAnimationFrame((newTime) => {
     if (
-      isPlaying &&
-      (previousTime.current == undefined ||
-        newTime > previousTime.current + delay)
+      previousTime.current == undefined ||
+      newTime >= previousTime.current + delay
     ) {
       previousTime.current = newTime;
       setCurrentPlayFrame((prev) => prev + 1);
     }
   });
+
+  useEffect(() => {
+    if (currentPlayFrame === stopFrame) {
+      stop();
+    }
+  }, [currentPlayFrame]);
 
   return [start, stop, currentPlayFrame];
 };
