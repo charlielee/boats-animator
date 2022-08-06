@@ -10,3 +10,7 @@
   width: 100%;
   object-fit: cover;
 }
+
+.timeline-track-item__img--highlighted {
+  outline: var(--border-1) solid var(--ba-light);
+}

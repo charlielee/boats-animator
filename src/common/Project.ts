@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { FileRefType } from "./FileRef";
 import {
   FrameCount,
+  FrameNumber,
   FrameRate,
   TakeId,
   TrackGroupId,
@@ -97,5 +98,30 @@ export const makeFrameFilePath = (take: Take, fileName?: string): string =>
     ].join("_")
   );
 
+export const getTrackItemsLength = (trackItems: TrackItem[]): FrameCount =>
+  trackItems.reduce((prev, trackItem) => prev + trackItem.length, 0);
+
 export const getTrackLength = (track: Track): FrameCount =>
-  track.trackItems.reduce((prev, trackItem) => prev + trackItem.length, 0);
+  getTrackItemsLength(track.trackItems);
+
+export const getTrackItemStartPosition = (
+  track: Track,
+  trackItemIndex: number,
+  trackItemLength: FrameCount
+) => getTrackItemEndPosition(track, trackItemIndex) - trackItemLength;
+
+export const getTrackItemEndPosition = (track: Track, trackItemIndex: number) =>
+  getTrackItemsLength(track.trackItems.slice(0, trackItemIndex + 1));
+
+export const getHighlightedTrackItem = (
+  track: Track,
+  currentPlayFrame: FrameNumber
+): TrackItem | undefined =>
+  currentPlayFrame === 0
+    ? undefined
+    : track.trackItems.find(
+        (trackItem, index) =>
+          getTrackItemStartPosition(track, index, trackItem.length) >=
+          // -1 because FrameNumbers start at 1, but trackItemIndexes start at 0
+          currentPlayFrame - 1
+      );

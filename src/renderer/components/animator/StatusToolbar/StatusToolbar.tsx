@@ -50,9 +50,7 @@ const StatusToolbar = ({
 
 const StatusToolbarWithContext = (props: StatusToolbarWithContextProps) => (
   <PlaybackContext.Consumer>
-    {(value) => (
-      <StatusToolbar currentPlayFrame={value.currentPlayFrame} {...props} />
-    )}
+    {(value) => <StatusToolbar {...value} {...props} />}
   </PlaybackContext.Consumer>
 );
 
