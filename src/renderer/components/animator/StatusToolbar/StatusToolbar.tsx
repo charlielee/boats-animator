@@ -1,4 +1,4 @@
-import { FrameNumber } from "../../../../common/Flavors";
+import { TimelineIndex } from "../../../../common/Flavors";
 import { PageRoute } from "../../../../common/PageRoute";
 import { getTrackLength, Take } from "../../../../common/Project";
 import { zeroPad } from "../../../../common/utils";
@@ -15,12 +15,12 @@ interface StatusToolbarWithContextProps {
 }
 
 interface StatusToolbarProps extends StatusToolbarWithContextProps {
-  currentPlayFrame: FrameNumber;
+  timelineIndex: TimelineIndex | undefined;
 }
 
 const StatusToolbar = ({
   take,
-  currentPlayFrame,
+  timelineIndex,
 }: StatusToolbarProps): JSX.Element => {
   const makeTakeTitle = (take: Take) =>
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
@@ -36,9 +36,9 @@ const StatusToolbar = ({
       </ToolbarItem>
       <ToolbarItem align={ToolbarItemAlign.CENTER}>
         Frame{" "}
-        {currentPlayFrame === 0
-          ? getTrackLength(take.frameTrack) + 1
-          : currentPlayFrame}{" "}
+        {timelineIndex
+          ? timelineIndex + 1
+          : getTrackLength(take.frameTrack) + 1}{" "}
         of {getTrackLength(take.frameTrack)}
       </ToolbarItem>
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>

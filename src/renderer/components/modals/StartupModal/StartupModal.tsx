@@ -38,7 +38,7 @@ const StartupModal = (): JSX.Element => {
       workingDirectory ?? (await dispatch(changeWorkingDirectory()));
 
     if (directory !== undefined) {
-      dispatch(addTake(makeTake(directory, 1, 1, 15)));
+      dispatch(addTake(makeTake(directory, 1, 1, 1))); // TODO
       navigate(PageRoute.ANIMATOR);
     }
   };

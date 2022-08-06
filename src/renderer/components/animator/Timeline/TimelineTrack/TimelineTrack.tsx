@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FileRefType, getFileRefById } from "../../../../../common/FileRef";
-import { FrameNumber } from "../../../../../common/Flavors";
+import { TimelineIndex } from "../../../../../common/Flavors";
 import {
   getHighlightedTrackItem,
-  getTrackItemEndPosition,
-  getTrackItemsLength,
-  getTrackItemStartPosition,
-  getTrackLength,
   Track,
   TrackItem,
 } from "../../../../../common/Project";
@@ -20,12 +16,12 @@ import "./TimelineTrack.css";
 
 interface TimelineTrackProps {
   track: Track;
-  currentPlayFrame: FrameNumber;
+  timelineIndex: TimelineIndex | undefined;
 }
 
 const TimelineTrack = ({
   track,
-  currentPlayFrame,
+  timelineIndex,
 }: TimelineTrackProps): JSX.Element => {
   const { fileRefs } = useSelector((state: RootState) => state.project);
   const [highlightedTrackItem, setHighlightedTrackItem] = useState<
@@ -33,22 +29,22 @@ const TimelineTrack = ({
   >();
 
   useEffect(() => {
-    setHighlightedTrackItem(getHighlightedTrackItem(track, currentPlayFrame));
-  }, [currentPlayFrame]);
+    setHighlightedTrackItem(getHighlightedTrackItem(track, timelineIndex));
+  }, [timelineIndex]);
 
-  console.log("getTrackItemsLength", getTrackItemsLength(track.trackItems));
-  console.log("getTrackLength", getTrackLength(track));
+  // console.log("getTrackItemsLength", getTrackItemsLength(track.trackItems));
+  // console.log("getTrackLength", getTrackLength(track));
 
-  track.trackItems.map((trackItem, i) => {
-    console.log(trackItem.filePath, {
-      getTrackItemStartPosition: getTrackItemStartPosition(
-        track,
-        i,
-        trackItem.length
-      ),
-      getTrackItemEndPosition: getTrackItemEndPosition(track, i),
-    });
-  });
+  // track.trackItems.map((trackItem, i) => {
+  //   console.log(trackItem.filePath, {
+  //     getTrackItemStartPosition: getTrackItemStartPosition(
+  //       track,
+  //       i,
+  //       trackItem.length
+  //     ),
+  //     getTrackItemEndPosition: getTrackItemEndPosition(track, i),
+  //   });
+  // });
 
   return (
     <div className="timeline-track">
@@ -66,7 +62,9 @@ const TimelineTrack = ({
             );
           })}
 
-          {track.fileType === FileRefType.FRAME && <TimelineLiveViewButton />}
+          {track.fileType === FileRefType.FRAME && (
+            <TimelineLiveViewButton highlighted={timelineIndex === undefined} />
+          )}
         </>
       ) : (
         <TimelineTrackNoItems fileType={track.fileType} />

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { FrameNumber } from "../../../../common/Flavors";
+import { TimelineIndex } from "../../../../common/Flavors";
 import { getTrackLength, Take } from "../../../../common/Project";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { RootState } from "../../../redux/store";
@@ -13,10 +13,10 @@ interface TimelineWithContextProps {
 }
 
 interface TimelineProps extends TimelineWithContextProps {
-  currentPlayFrame: FrameNumber;
+  timelineIndex: TimelineIndex | undefined;
 }
 
-const Timeline = ({ take, currentPlayFrame }: TimelineProps): JSX.Element => {
+const Timeline = ({ take, timelineIndex }: TimelineProps): JSX.Element => {
   const frameTrack = take.frameTrack;
 
   const playbackPosition = useSelector(
@@ -42,13 +42,13 @@ const Timeline = ({ take, currentPlayFrame }: TimelineProps): JSX.Element => {
     <div className="timeline" ref={timelineRef}>
       <div className="timeline__inner">
         <TimelinePosition
-          frameRate={15} // TODO
+          frameRate={take.frameRate}
           totalFrames={frameTrack.trackItems.length}
         />
         <TimelineTrack
           track={frameTrack}
           key={frameTrack.id}
-          currentPlayFrame={currentPlayFrame}
+          timelineIndex={timelineIndex}
         />
       </div>
     </div>

@@ -1,16 +1,16 @@
 import { createContext } from "react";
-import { FrameNumber } from "../../../common/Flavors";
+import { TimelineIndex } from "../../../common/Flavors";
 
 export interface PlaybackContextProps {
   startPlayback: () => void;
   stopPlayback: () => void;
-  currentPlayFrame: FrameNumber;
+  timelineIndex: TimelineIndex | undefined;
 }
 
 const defaultValue: PlaybackContextProps = {
   startPlayback: () => undefined,
   stopPlayback: () => undefined,
-  currentPlayFrame: 0,
+  timelineIndex: undefined,
 };
 
 const PlaybackContext = createContext<PlaybackContextProps>(defaultValue);

@@ -1,6 +1,9 @@
 import { ReactNode } from "react";
-import { FrameNumber } from "../../../common/Flavors";
-import { getTrackLength, Take } from "../../../common/Project";
+import {
+  frameCountToTimelineIndex,
+  getTrackLength,
+  Take,
+} from "../../../common/Project";
 import usePlayback from "../../hooks/usePlayback";
 import PlaybackContext, { PlaybackContextProps } from "./PlaybackContext";
 
@@ -13,16 +16,18 @@ const PlaybackContextProvider = ({
   take,
   children,
 }: PlaybackContextProviderProps) => {
-  const [startPlayback, stopPlayback, currentPlayFrame] = usePlayback({
-    startFrame: 0,
-    stopFrame: getTrackLength(take.frameTrack) as FrameNumber,
+  const [startPlayback, stopPlayback, timelineIndex] = usePlayback({
+    startTimelineIndex: 0,
+    stopTimelineIndex: frameCountToTimelineIndex(
+      getTrackLength(take.frameTrack)
+    ),
     frameRate: take.frameRate,
   });
 
   const value: PlaybackContextProps = {
     startPlayback,
     stopPlayback,
-    currentPlayFrame,
+    timelineIndex,
   };
 
   return (
