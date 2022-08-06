@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import usePlayback from "../../../hooks/usePlayback";
 import { takePhoto } from "../../../redux/capture/actions";
 import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import IconName from "../../common/Icon/IconName";
@@ -16,6 +17,12 @@ const AnimationToolbar = (): JSX.Element => {
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
   const [shortPlay, setShortPlay] = useState(false);
+
+  const [start, stop, currentPlayFrame] = usePlayback(0, 15);
+
+  useEffect(() => {
+    console.log(currentPlayFrame);
+  }, [currentPlayFrame]);
 
   return (
     <Toolbar borderTop className="animation-toolbar">
@@ -61,12 +68,15 @@ const AnimationToolbar = (): JSX.Element => {
         <IconButton
           title="Playback Frames"
           icon={IconName.PLAY}
-          onClick={() => undefined}
+          onClick={() => {
+            console.log("click play");
+            start();
+          }}
         />
         <IconButton
           title="Stop Playback"
           icon={IconName.PLAY_STOP}
-          onClick={() => undefined}
+          onClick={stop}
         />
         <IconButton
           title="Next Frame"
