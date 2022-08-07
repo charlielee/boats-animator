@@ -25,6 +25,8 @@ const StatusToolbar = ({
   const makeTakeTitle = (take: Take) =>
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
 
+  console.log("timelineIndex statusToolbar", timelineIndex);
+
   return (
     <Toolbar borderBottom>
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
@@ -36,9 +38,9 @@ const StatusToolbar = ({
       </ToolbarItem>
       <ToolbarItem align={ToolbarItemAlign.CENTER}>
         Frame{" "}
-        {timelineIndex
-          ? timelineIndex + 1
-          : getTrackLength(take.frameTrack) + 1}{" "}
+        {timelineIndex === undefined
+          ? getTrackLength(take.frameTrack) + 1
+          : timelineIndex + 1}{" "}
         of {getTrackLength(take.frameTrack)}
       </ToolbarItem>
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>

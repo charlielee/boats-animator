@@ -37,12 +37,11 @@ const TimelineTrack = ({
 
   // track.trackItems.map((trackItem, i) => {
   //   console.log(trackItem.filePath, {
-  //     getTrackItemStartPosition: getTrackItemStartPosition(
-  //       track,
-  //       i,
-  //       trackItem.length
-  //     ),
+  //     trackItem: trackItem,
+  //     i: i,
+  //     getTrackItemStartPosition: getTrackItemStartPosition(track, i),
   //     getTrackItemEndPosition: getTrackItemEndPosition(track, i),
+  //     getHighlightedTrackItem: getHighlightedTrackItem(track, i),
   //   });
   // });
 

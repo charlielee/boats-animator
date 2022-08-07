@@ -106,25 +106,27 @@ export const getTrackLength = (track: Track): FrameCount =>
 
 export const getTrackItemStartPosition = (
   track: Track,
-  trackItemIndex: number,
-  trackItemLength: FrameCount
-) => getTrackItemEndPosition(track, trackItemIndex) - trackItemLength;
+  trackItemIndex: number
+): TimelineIndex =>
+  getTrackItemsLength(
+    track.trackItems.slice(0, trackItemIndex)
+  ) as TimelineIndex;
 
-export const getTrackItemEndPosition = (track: Track, trackItemIndex: number) =>
-  getTrackItemsLength(track.trackItems.slice(0, trackItemIndex + 1));
+export const getTrackItemEndPosition = (
+  track: Track,
+  trackItemIndex: number
+): TimelineIndex =>
+  getTrackItemsLength(
+    track.trackItems.slice(0, trackItemIndex + 1)
+  ) as TimelineIndex;
 
 export const getHighlightedTrackItem = (
   track: Track,
   timelineIndex: TimelineIndex | undefined
 ): TrackItem | undefined =>
-  timelineIndex
-    ? track.trackItems.find(
-        (trackItem, index) =>
-          getTrackItemStartPosition(track, index, trackItem.length) >=
-          timelineIndex
-      )
-    : undefined;
-
-export const frameCountToTimelineIndex = (
-  frameCount: FrameCount
-): TimelineIndex | undefined => (frameCount <= 0 ? undefined : frameCount - 1);
+  timelineIndex === undefined
+    ? undefined
+    : track.trackItems.find(
+        (_trackItem, index) =>
+          getTrackItemStartPosition(track, index) >= timelineIndex
+      );

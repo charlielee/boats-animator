@@ -44,7 +44,7 @@ const usePlayback = ({
 
       switch (animationFrameIndex.current) {
         case undefined:
-          updateFrameIndex(0);
+          updateFrameIndex(startTimelineIndex);
           break;
         case lastFrameIndex.current:
           stopPlayback();
