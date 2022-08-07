@@ -35,18 +35,10 @@ const usePlayback = ({
   const [start, stop] = useRequestAnimationFrame((newTime) => {
     console.log("animate", animationFrameIndex.current);
 
-    if (animationFrameIndex.current === undefined) {
-      throw "Must set animationFrameIndex.current before running";
-    }
-
-    // TODO TODO TODO need to handle the first frame
-
-    // if (animationFrameIndex.current === 0) {
-    //   previousTime.current = newTime;
-    //   return;
-    // }
-
-    if (newTime >= previousTime.current + delay) {
+    if (
+      animationFrameIndex.current === undefined ||
+      newTime >= previousTime.current + delay
+    ) {
       console.log("frame", animationFrameIndex.current);
       previousTime.current = newTime;
 
@@ -66,10 +58,9 @@ const usePlayback = ({
 
   const startPlayback = () => {
     logPlayback("usePlayback.startPlayback");
-    console.log("lastFrameIndex.current", lastFrameIndex.current);
     if (playForDuration > 0) {
       lastFrameIndex.current = startTimelineIndex + playForDuration - 1;
-      updateFrameIndex(0);
+      console.log("lastFrameIndex.current", lastFrameIndex.current);
       start();
     }
   };
