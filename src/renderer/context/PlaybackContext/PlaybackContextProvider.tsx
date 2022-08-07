@@ -1,9 +1,5 @@
 import { ReactNode } from "react";
-import {
-  frameCountToTimelineIndex,
-  getTrackLength,
-  Take,
-} from "../../../common/Project";
+import { getTrackLength, Take } from "../../../common/Project";
 import usePlayback from "../../hooks/usePlayback";
 import PlaybackContext, { PlaybackContextProps } from "./PlaybackContext";
 
@@ -18,9 +14,8 @@ const PlaybackContextProvider = ({
 }: PlaybackContextProviderProps) => {
   const [startPlayback, stopPlayback, timelineIndex] = usePlayback({
     startTimelineIndex: 0,
-    stopTimelineIndex: frameCountToTimelineIndex(
-      getTrackLength(take.frameTrack)
-    ),
+    playForDuration: getTrackLength(take.frameTrack),
+    returnToLiveView: true,
     frameRate: take.frameRate,
   });
 

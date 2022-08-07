@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { FrameRate, TimelineIndex } from "../../common/Flavors";
+import { FrameCount, FrameRate, TimelineIndex } from "../../common/Flavors";
 import * as rLogger from "../services/rLogger/rLogger";
 import useRequestAnimationFrame from "./useRequestAnimationFrame";
 
@@ -7,13 +7,19 @@ interface UsePlaybackOptions {
   // The zero based index of the first frame to play
   startTimelineIndex: TimelineIndex;
   // The zero based index of the last frame to play
-  stopTimelineIndex: TimelineIndex | undefined;
+  // stopTimelineIndex: TimelineIndex | undefined;
+
+  // How many frames to playback
+  playForDuration: FrameCount;
+  // Should playback stop at the last frame or return to the live view?
+  returnToLiveView: boolean;
   frameRate: FrameRate;
 }
 
 const usePlayback = ({
   startTimelineIndex,
-  stopTimelineIndex,
+  playForDuration,
+  returnToLiveView,
   frameRate,
 }: UsePlaybackOptions): [() => void, () => void, TimelineIndex | undefined] => {
   // Note: an `undefined` timeline index indicates the application is showing the live view
@@ -23,7 +29,8 @@ const usePlayback = ({
 
   const delay = 1000 / frameRate;
   const previousTime = useRef<number>(0);
-  const animationFrameIndex = useRef<number | undefined>(undefined);
+  const animationFrameIndex = useRef<TimelineIndex | undefined>(undefined);
+  const lastFrameIndex = useRef<TimelineIndex>(0);
 
   const [start, stop] = useRequestAnimationFrame((newTime) => {
     console.log("animate", animationFrameIndex.current);
@@ -42,17 +49,26 @@ const usePlayback = ({
     if (newTime >= previousTime.current + delay) {
       console.log("frame", animationFrameIndex.current);
       previousTime.current = newTime;
-      updateFrameIndex(animationFrameIndex.current + 1);
-    }
 
-    if (stopTimelineIndex && animationFrameIndex.current > stopTimelineIndex) {
-      stopPlayback();
+      switch (animationFrameIndex.current) {
+        case undefined:
+          updateFrameIndex(0);
+          break;
+        case lastFrameIndex.current:
+          stopPlayback();
+          break;
+        default:
+          updateFrameIndex(animationFrameIndex.current + 1);
+          break;
+      }
     }
   });
 
   const startPlayback = () => {
     logPlayback("usePlayback.startPlayback");
-    if (stopTimelineIndex) {
+    console.log("lastFrameIndex.current", lastFrameIndex.current);
+    if (playForDuration > 0) {
+      lastFrameIndex.current = startTimelineIndex + playForDuration - 1;
       updateFrameIndex(0);
       start();
     }
@@ -61,7 +77,9 @@ const usePlayback = ({
   const stopPlayback = () => {
     logPlayback("usePlayback.stopPlayback");
     stop();
-    updateFrameIndex(undefined);
+    if (returnToLiveView) {
+      updateFrameIndex(undefined);
+    }
   };
 
   const updateFrameIndex = (i: number | undefined) => {
@@ -72,7 +90,8 @@ const usePlayback = ({
   const logPlayback = (loggingCode: string) =>
     rLogger.info(loggingCode, {
       startTimelineIndex,
-      stopTimelineIndex: stopTimelineIndex ?? "(no frames captured)",
+      playForDuration,
+      returnToLiveView,
       frameRate,
       timelineIndex: animationFrameIndex.current ?? "(showing live view)",
     });
