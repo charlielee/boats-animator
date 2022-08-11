@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { takePhoto } from "../../../redux/capture/actions";
-import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import InputRange from "../../common/Input/InputRange/InputRange";
@@ -15,27 +14,29 @@ const AnimationToolbar = (): JSX.Element => {
   const dispatch = useDispatch();
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
-  const [shortPlay, setShortPlay] = useState(false);
 
   return (
     <Toolbar borderTop className="animation-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
-        <ButtonGroup>
-          <IconButton
-            title="Undo Last Frame"
-            icon={IconName.UNDO}
-            onClick={() => undefined}
-          />
-          <InputRange
-            id="animation-toolbar__onion-skin-range"
-            title={`Onion Skin ${onionSkinAmount}%`}
-            onChange={setOnionSkinAmount}
-            min={-100}
-            max={100}
-            step={2}
-            value={onionSkinAmount}
-          />
-        </ButtonGroup>
+        <IconButton
+          title="Undo Last Frame"
+          icon={IconName.UNDO}
+          onClick={() => undefined}
+        />
+        <IconButton
+          title="Short Play"
+          icon={IconName.PLAY_SHORT}
+          onClick={() => undefined}
+        />
+        <InputRange
+          id="animation-toolbar__onion-skin-range"
+          title={`Onion Skin ${onionSkinAmount}%`}
+          onChange={setOnionSkinAmount}
+          min={-100}
+          max={100}
+          step={2}
+          value={onionSkinAmount}
+        />
       </ToolbarItem>
 
       <ToolbarItem align={ToolbarItemAlign.CENTER}>
@@ -77,19 +78,12 @@ const AnimationToolbar = (): JSX.Element => {
           title="Last Frame"
           icon={IconName.PLAY_LAST}
           onClick={() => undefined}
-          className="animation-toolbar__play-last-button"
         />
         <IconButton
           title={`${loopPlayback ? "Disable" : "Enable"} Loop Playback`}
           icon={IconName.PLAY_LOOP}
           onClick={() => setLoopPlayback((prevState) => !prevState)}
           active={loopPlayback}
-        />
-        <IconButton
-          title={`${shortPlay ? "Disable" : "Enable"} Short Play`}
-          icon={IconName.PLAY_SHORT}
-          onClick={() => setShortPlay((prevState) => !prevState)}
-          active={shortPlay}
         />
       </ToolbarItem>
     </Toolbar>

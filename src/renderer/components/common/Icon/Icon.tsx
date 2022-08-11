@@ -7,7 +7,6 @@ import {
   IoCaretUpCircleOutline,
   IoCheckmarkCircleOutline,
   IoCloseOutline,
-  IoCodeWorkingOutline,
   IoDocumentOutline,
   IoDownload,
   IoEllipse,
@@ -21,6 +20,7 @@ import {
   IoNewspaperOutline,
   IoPauseOutline,
   IoPlayBackOutline,
+  IoPlayCircleOutline,
   IoPlayForwardOutline,
   IoPlayOutline,
   IoPlaySkipBackOutline,
@@ -105,7 +105,7 @@ const getIconByName = (
     case IconName.PLAY_LOOP:
       return <IoSyncOutline {...props} />;
     case IconName.PLAY_SHORT:
-      return <IoCodeWorkingOutline {...props} />;
+      return <IoPlayCircleOutline {...props} />;
     case IconName.PROJECTS:
       return <IoFileTrayStackedOutline {...props} />;
     case IconName.SETTINGS:

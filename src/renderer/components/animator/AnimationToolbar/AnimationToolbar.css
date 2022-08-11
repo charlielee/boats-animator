@@ -10,7 +10,3 @@
 .animation-toolbar__capture-button .button__icon-container {
   font-size: var(--height-300);
 }
-
-.animation-toolbar__play-last-button {
-  margin-right: var(--margin-100);
-}
