@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FrameCount, FrameRate, TimelineIndex } from "../../common/Flavors";
 import * as rLogger from "../services/rLogger/rLogger";
 import useRequestAnimationFrame from "./useRequestAnimationFrame";
@@ -6,9 +6,6 @@ import useRequestAnimationFrame from "./useRequestAnimationFrame";
 interface UsePlaybackOptions {
   // The zero based index of the first frame to play
   startTimelineIndex: TimelineIndex;
-  // The zero based index of the last frame to play
-  // stopTimelineIndex: TimelineIndex | undefined;
-
   // How many frames to playback
   playForDuration: FrameCount;
   // Should playback stop at the last frame or return to the live view?
@@ -33,13 +30,10 @@ const usePlayback = ({
   const lastFrameIndex = useRef<TimelineIndex>(0);
 
   const [start, stop] = useRequestAnimationFrame((newTime) => {
-    console.log("animate", animationFrameIndex.current);
-
     if (
       animationFrameIndex.current === undefined ||
       newTime >= previousTime.current + delay
     ) {
-      console.log("frame", animationFrameIndex.current);
       previousTime.current = newTime;
 
       switch (animationFrameIndex.current) {
@@ -60,7 +54,6 @@ const usePlayback = ({
     logPlayback("usePlayback.startPlayback");
     if (playForDuration > 0) {
       lastFrameIndex.current = startTimelineIndex + playForDuration - 1;
-      console.log("lastFrameIndex.current", lastFrameIndex.current);
       start();
     }
   };
@@ -86,10 +79,6 @@ const usePlayback = ({
       frameRate,
       timelineIndex: animationFrameIndex.current ?? "(showing live view)",
     });
-
-  useEffect(() => {
-    console.log("timelineIndex", timelineIndex);
-  }, [timelineIndex]);
 
   return [startPlayback, stopPlayback, timelineIndex];
 };
