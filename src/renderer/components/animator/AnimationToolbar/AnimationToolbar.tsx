@@ -91,7 +91,7 @@ const AnimationToolbar = ({
   );
 };
 
-const AnimationToolbarWithContext = () => (
+const AnimationToolbarWithContext = (): JSX.Element => (
   <PlaybackContext.Consumer>
     {(value) => <AnimationToolbar {...value} />}
   </PlaybackContext.Consumer>
