@@ -12,7 +12,7 @@ const PlaybackContextProvider = ({
   take,
   children,
 }: PlaybackContextProviderProps) => {
-  const [startPlayback, stopPlayback, timelineIndex] = usePlayback({
+  const [startPlayback, stopPlayback, timelineIndex, isPlaying] = usePlayback({
     startTimelineIndex: 0,
     playForDuration: getTrackLength(take.frameTrack),
     returnToLiveView: true,
@@ -23,6 +23,7 @@ const PlaybackContextProvider = ({
     startPlayback,
     stopPlayback,
     timelineIndex,
+    isPlaying,
   };
 
   return (

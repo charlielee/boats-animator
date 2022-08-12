@@ -18,11 +18,17 @@ const usePlayback = ({
   playForDuration,
   returnToLiveView,
   frameRate,
-}: UsePlaybackOptions): [() => void, () => void, TimelineIndex | undefined] => {
+}: UsePlaybackOptions): [
+  () => void,
+  () => void,
+  TimelineIndex | undefined,
+  boolean
+] => {
   // Note: an `undefined` timeline index indicates the application is showing the live view
   const [timelineIndex, setTimelineIndex] = useState<TimelineIndex | undefined>(
     undefined
   );
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const delay = 1000 / frameRate;
   const previousTime = useRef<number>(0);
@@ -52,15 +58,17 @@ const usePlayback = ({
 
   const startPlayback = () => {
     logPlayback("usePlayback.startPlayback");
-    if (playForDuration > 0) {
+    if (playForDuration > 0 && !isPlaying) {
       lastFrameIndex.current = startTimelineIndex + playForDuration - 1;
       start();
+      setIsPlaying(true);
     }
   };
 
   const stopPlayback = () => {
     logPlayback("usePlayback.stopPlayback");
     stop();
+    setIsPlaying(false);
     if (returnToLiveView) {
       updateFrameIndex(undefined);
     }
@@ -80,7 +88,7 @@ const usePlayback = ({
       timelineIndex: animationFrameIndex.current ?? "(showing live view)",
     });
 
-  return [startPlayback, stopPlayback, timelineIndex];
+  return [startPlayback, stopPlayback, timelineIndex, isPlaying];
 };
 
 export default usePlayback;
