@@ -24,11 +24,6 @@ const appReducer = (state = initialAppState, action: AppAction): AppState => {
       return { ...state, deviceList: action.payload.deviceList };
     case AppActionType.SET_CAMERA_ACCESS:
       return { ...state, hasCameraAccess: action.payload.hasAccess };
-    case AppActionType.SET_PLAYBACK_POSITION:
-      return {
-        ...state,
-        playback: { ...state.playback, position: action.payload.position },
-      };
     case AppActionType.START_LOADING:
       return { ...state, loadingMessage: action.payload.message };
     case AppActionType.STOP_LOADING:

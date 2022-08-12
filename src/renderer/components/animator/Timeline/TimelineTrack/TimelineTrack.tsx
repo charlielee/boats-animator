@@ -32,19 +32,6 @@ const TimelineTrack = ({
     setHighlightedTrackItem(getHighlightedTrackItem(track, timelineIndex));
   }, [timelineIndex]);
 
-  // console.log("getTrackItemsLength", getTrackItemsLength(track.trackItems));
-  // console.log("getTrackLength", getTrackLength(track));
-
-  // track.trackItems.map((trackItem, i) => {
-  //   console.log(trackItem.filePath, {
-  //     trackItem: trackItem,
-  //     i: i,
-  //     getTrackItemStartPosition: getTrackItemStartPosition(track, i),
-  //     getTrackItemEndPosition: getTrackItemEndPosition(track, i),
-  //     getHighlightedTrackItem: getHighlightedTrackItem(track, i),
-  //   });
-  // });
-
   return (
     <div className="timeline-track">
       <TimelineTrackLabel fileType={track.fileType} />
