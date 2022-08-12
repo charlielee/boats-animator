@@ -1,0 +1,11 @@
+.preview-frame {
+  flex: 1;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  width: 100%;
+}
+
+.preview-frame--hidden {
+  opacity: 0;
+}
