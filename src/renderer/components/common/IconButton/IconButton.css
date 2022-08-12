@@ -1,5 +1,5 @@
 .icon-button {
-  padding: var(--margin-050);
+  padding: var(--margin-050) var(--margin-025);
 }
 
 .icon-button__icon-container {

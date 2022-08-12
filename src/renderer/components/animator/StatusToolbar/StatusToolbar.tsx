@@ -28,7 +28,7 @@ const StatusToolbar = ({
   console.log("timelineIndex statusToolbar", timelineIndex);
 
   return (
-    <Toolbar borderBottom>
+    <Toolbar>
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <Button
           title={makeTakeTitle(take)}

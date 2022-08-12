@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { attachStreamToVideo } from "../../../redux/capture/actions";
 import { RootState } from "../../../redux/store";
@@ -12,7 +11,7 @@ const Preview = (): JSX.Element => {
   );
 
   return (
-    <div className={classNames("preview", { "preview--active": isDeviceOpen })}>
+    <div className="preview">
       {currentDevice && hasCameraAccess && (
         <PreviewLiveView
           streaming={isDeviceOpen}

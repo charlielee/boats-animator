@@ -1,13 +1,8 @@
 .preview {
   align-items: center;
-  background-color: var(--ba-black);
-  border: var(--ba-border-2) solid transparent;
   display: flex;
   flex: 1;
   justify-content: center;
   position: relative;
-}
-
-.preview--active {
-  border: var(--border-2) solid var(--ba-red);
+  margin: var(--margin-100);
 }
