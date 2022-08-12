@@ -1,6 +1,12 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FileRefType, getFileRefById } from "../../../../../common/FileRef";
-import { Track } from "../../../../../common/Project";
+import { TimelineIndex } from "../../../../../common/Flavors";
+import {
+  getHighlightedTrackItem,
+  Track,
+  TrackItem,
+} from "../../../../../common/Project";
 import { RootState } from "../../../../redux/store";
 import TimelineLiveViewButton from "../TimelineLiveView/TimelineLiveView";
 import TimelineTrackItem from "../TimelineTrackItem/TimelineTrackItem";
@@ -10,24 +16,41 @@ import "./TimelineTrack.css";
 
 interface TimelineTrackProps {
   track: Track;
+  timelineIndex: TimelineIndex | undefined;
 }
 
-const TimelineTrack = ({ track }: TimelineTrackProps): JSX.Element => {
+const TimelineTrack = ({
+  track,
+  timelineIndex,
+}: TimelineTrackProps): JSX.Element => {
   const { fileRefs } = useSelector((state: RootState) => state.project);
+  const [highlightedTrackItem, setHighlightedTrackItem] = useState<
+    TrackItem | undefined
+  >();
+
+  useEffect(() => {
+    setHighlightedTrackItem(getHighlightedTrackItem(track, timelineIndex));
+  }, [timelineIndex]);
+
   return (
     <div className="timeline-track">
       <TimelineTrackLabel fileType={track.fileType} />
 
       {track && track.trackItems.length > 0 ? (
         <>
-          {track.trackItems.map((trackItem) => (
-            <TimelineTrackItem
-              dataUrl={getFileRefById(fileRefs, trackItem.id).location}
-              key={trackItem.id}
-            />
-          ))}
+          {track.trackItems.map((trackItem) => {
+            return (
+              <TimelineTrackItem
+                dataUrl={getFileRefById(fileRefs, trackItem.id).location}
+                highlighted={highlightedTrackItem?.id === trackItem.id}
+                key={trackItem.id}
+              />
+            );
+          })}
 
-          {track.fileType === FileRefType.FRAME && <TimelineLiveViewButton />}
+          {track.fileType === FileRefType.FRAME && (
+            <TimelineLiveViewButton highlighted={timelineIndex === undefined} />
+          )}
         </>
       ) : (
         <TimelineTrackNoItems fileType={track.fileType} />

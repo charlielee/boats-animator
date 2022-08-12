@@ -1,8 +1,9 @@
+import { Primitive } from "../../../common/Flavors";
 import LogLevel from "../../../common/LogLevel";
 
 export const info = (
   loggingCode: string,
-  message?: string | Record<string, string>
+  message?: Primitive | Record<string, Primitive>
 ) =>
   window.preload.ipcToMain.logRenderer({
     logLevel: LogLevel.INFO,
@@ -12,7 +13,7 @@ export const info = (
 
 export const warn = (
   loggingCode: string,
-  message?: string | Record<string, string>
+  message?: Primitive | Record<string, Primitive>
 ) =>
   window.preload.ipcToMain.logRenderer({
     logLevel: LogLevel.WARN,
@@ -22,7 +23,7 @@ export const warn = (
 
 export const error = (
   loggingCode: string,
-  message?: string | Record<string, string>
+  message?: Primitive | Record<string, Primitive>
 ) =>
   window.preload.ipcToMain.logRenderer({
     logLevel: LogLevel.ERROR,

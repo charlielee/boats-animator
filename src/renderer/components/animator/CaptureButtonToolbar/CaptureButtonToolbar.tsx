@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { takePhoto } from "../../../redux/capture/actions";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
@@ -8,7 +9,15 @@ import ToolbarItem, {
 } from "../../common/ToolbarItem/ToolbarItem";
 import "./CaptureButtonToolbar.css";
 
-const CaptureButtonToolbar = (): JSX.Element => {
+interface CaptureToolbarProps {
+  stopPlayback: () => void;
+  isPlaying: boolean;
+}
+
+const CaptureButtonToolbar = ({
+  stopPlayback,
+  isPlaying,
+}: CaptureToolbarProps): JSX.Element => {
   const dispatch = useDispatch();
 
   return (
@@ -18,11 +27,22 @@ const CaptureButtonToolbar = (): JSX.Element => {
           title="Capture Frame"
           icon={IconName.CAPTURE}
           className="animation-toolbar__capture-button"
-          onClick={() => dispatch(takePhoto())}
+          onClick={() => {
+            if (isPlaying) {
+              stopPlayback();
+            }
+            dispatch(takePhoto());
+          }}
         />
       </ToolbarItem>
     </Toolbar>
   );
 };
 
-export default CaptureButtonToolbar;
+const CaptureButtonToolbarWithContext = (): JSX.Element => (
+  <PlaybackContext.Consumer>
+    {(value) => <CaptureButtonToolbar {...value} />}
+  </PlaybackContext.Consumer>
+);
+
+export default CaptureButtonToolbarWithContext;

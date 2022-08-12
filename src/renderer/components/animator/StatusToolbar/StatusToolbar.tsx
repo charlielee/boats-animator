@@ -1,6 +1,8 @@
+import { TimelineIndex } from "../../../../common/Flavors";
 import { PageRoute } from "../../../../common/PageRoute";
 import { getTrackLength, Take } from "../../../../common/Project";
 import { zeroPad } from "../../../../common/utils";
+import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import Button from "../../common/Button/Button";
 import { ButtonColor } from "../../common/Button/ButtonColor";
 import Toolbar from "../../common/Toolbar/Toolbar";
@@ -8,11 +10,18 @@ import ToolbarItem, {
   ToolbarItemAlign,
 } from "../../common/ToolbarItem/ToolbarItem";
 
-interface StatusToolbarProps {
+interface StatusToolbarWithContextProps {
   take: Take;
 }
 
-const StatusToolbar = ({ take }: StatusToolbarProps): JSX.Element => {
+interface StatusToolbarProps extends StatusToolbarWithContextProps {
+  timelineIndex: TimelineIndex | undefined;
+}
+
+const StatusToolbar = ({
+  take,
+  timelineIndex,
+}: StatusToolbarProps): JSX.Element => {
   const makeTakeTitle = (take: Take) =>
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
 
@@ -26,8 +35,11 @@ const StatusToolbar = ({ take }: StatusToolbarProps): JSX.Element => {
         />
       </ToolbarItem>
       <ToolbarItem align={ToolbarItemAlign.CENTER}>
-        Frame {getTrackLength(take.frameTrack) + 1} of{" "}
-        {getTrackLength(take.frameTrack)}
+        Frame{" "}
+        {timelineIndex === undefined
+          ? getTrackLength(take.frameTrack) + 1
+          : timelineIndex + 1}{" "}
+        of {getTrackLength(take.frameTrack)}
       </ToolbarItem>
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
         {take.frameRate} FPS
@@ -36,4 +48,10 @@ const StatusToolbar = ({ take }: StatusToolbarProps): JSX.Element => {
   );
 };
 
-export default StatusToolbar;
+const StatusToolbarWithContext = (props: StatusToolbarWithContextProps) => (
+  <PlaybackContext.Consumer>
+    {(value) => <StatusToolbar {...value} {...props} />}
+  </PlaybackContext.Consumer>
+);
+
+export default StatusToolbarWithContext;

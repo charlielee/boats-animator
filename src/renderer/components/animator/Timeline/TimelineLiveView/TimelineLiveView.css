@@ -10,6 +10,10 @@
   width: 100%;
 }
 
+.timeline-live-view__button--highlighted {
+  outline: var(--border-1) solid var(--ba-light);
+}
+
 .timeline-live-view__button-icon-container {
   font-size: var(--height-300);
 }

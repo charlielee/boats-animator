@@ -1,4 +1,5 @@
 import { Take } from "../../../../common/Project";
+import PlaybackContextProvider from "../../../context/PlaybackContext/PlaybackContextProvider";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
 import Page from "../../common/Page/Page";
@@ -7,27 +8,27 @@ import Sidebar from "../../common/Sidebar/Sidebar";
 import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Tab from "../../common/Tab/Tab";
 import TabGroup from "../../common/TabGroup/TabGroup";
-import AnimationToolbar from "../AnimationToolbar/AnimationToolbar";
-import CaptureButtonToolbar from "../CaptureButtonToolbar/CaptureButtonToolbar";
+import AnimationToolbarWithContext from "../AnimationToolbar/AnimationToolbar";
+import CaptureButtonToolbarWithContext from "../CaptureButtonToolbar/CaptureButtonToolbar";
 import CaptureTab from "../CaptureTab/CaptureTab";
 import MediaTab from "../MediaTab/MediaTab";
 import Preview from "../Preview/Preview";
-import StatusToolbar from "../StatusToolbar/StatusToolbar";
+import StatusToolbarWithContext from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
 
-interface AnimatorProps {
+interface AnimatorWithProviderProps {
   take: Take;
 }
 
-const Animator = ({ take }: AnimatorProps): JSX.Element => {
+const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
   return (
     <Page>
       <PageBody>
         <Content>
-          <StatusToolbar take={take} />
+          <StatusToolbarWithContext take={take} />
           <Preview />
-          <CaptureButtonToolbar />
-          <AnimationToolbar />
+          <CaptureButtonToolbarWithContext />
+          <AnimationToolbarWithContext />
           <Timeline take={take} />
         </Content>
 
@@ -58,4 +59,14 @@ const Animator = ({ take }: AnimatorProps): JSX.Element => {
   );
 };
 
-export default Animator;
+const AnimatorWithProvider = ({
+  take,
+}: AnimatorWithProviderProps): JSX.Element => {
+  return (
+    <PlaybackContextProvider take={take}>
+      <Animator take={take} />
+    </PlaybackContextProvider>
+  );
+};
+
+export default AnimatorWithProvider;

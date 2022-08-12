@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import InputRange from "../../common/Input/InputRange/InputRange";
@@ -8,7 +9,15 @@ import ToolbarItem, {
 } from "../../common/ToolbarItem/ToolbarItem";
 import "./AnimationToolbar.css";
 
-const AnimationToolbar = (): JSX.Element => {
+interface AnimationToolbarProps {
+  startPlayback: () => void;
+  stopPlayback: () => void;
+}
+
+const AnimationToolbar = ({
+  startPlayback,
+  stopPlayback,
+}: AnimationToolbarProps): JSX.Element => {
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
 
@@ -51,12 +60,12 @@ const AnimationToolbar = (): JSX.Element => {
         <IconButton
           title="Playback Frames"
           icon={IconName.PLAY}
-          onClick={() => undefined}
+          onClick={() => startPlayback()}
         />
         <IconButton
           title="Stop Playback"
           icon={IconName.PLAY_STOP}
-          onClick={() => undefined}
+          onClick={() => stopPlayback()}
         />
         <IconButton
           title="Next Frame"
@@ -82,4 +91,10 @@ const AnimationToolbar = (): JSX.Element => {
   );
 };
 
-export default AnimationToolbar;
+const AnimationToolbarWithContext = (): JSX.Element => (
+  <PlaybackContext.Consumer>
+    {(value) => <AnimationToolbar {...value} />}
+  </PlaybackContext.Consumer>
+);
+
+export default AnimationToolbarWithContext;
