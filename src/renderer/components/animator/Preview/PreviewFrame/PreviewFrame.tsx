@@ -4,8 +4,6 @@ import "./PreviewFrame.css";
 
 interface PreviewFrameProps {
   src: string;
-  // videoWidth: number;
-  // videoHeight: number;
   hidden: boolean;
 }
 
