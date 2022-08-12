@@ -12,13 +12,13 @@ const PreviewFrame = ({ src, hidden }: PreviewFrameProps): JSX.Element => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
-    if (!canvasRef.current) {
+    const context = canvasRef.current?.getContext("2d");
+    if (!context) {
       return;
     }
 
     const image = new Image();
     image.src = src;
-    const context = canvasRef.current.getContext("2d");
     context?.drawImage(image, 0, 0);
     setDimensions({ width: image.naturalWidth, height: image.naturalHeight });
   }, [src]);
