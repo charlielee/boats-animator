@@ -104,6 +104,21 @@ export const getTrackItemsLength = (trackItems: TrackItem[]): FrameCount =>
 export const getTrackLength = (track: Track): FrameCount =>
   getTrackItemsLength(track.trackItems);
 
+export const getTrackItemStartPositionById = (
+  track: Track,
+  trackItemId: TrackItemId
+): TimelineIndex => {
+  const trackItemIndex = track.trackItems.findIndex(
+    (trackItem) => trackItem.id === trackItemId
+  );
+
+  if (trackItemIndex >= 0) {
+    return getTrackItemStartPosition(track, trackItemIndex);
+  } else {
+    throw `Track item ID '${trackItemId}' was not found on this track`;
+  }
+};
+
 export const getTrackItemStartPosition = (
   track: Track,
   trackItemIndex: number
