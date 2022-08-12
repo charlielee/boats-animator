@@ -5,3 +5,7 @@
   position: absolute;
   width: 100%;
 }
+
+.preview-frame--hidden {
+  opacity: 0;
+}

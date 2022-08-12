@@ -26,7 +26,7 @@ const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
       <PageBody>
         <Content>
           <StatusToolbarWithContext take={take} />
-          <Preview />
+          <Preview take={take} />
           <CaptureButtonToolbarWithContext />
           <AnimationToolbarWithContext />
           <Timeline take={take} />
