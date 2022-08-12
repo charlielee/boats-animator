@@ -8,6 +8,7 @@ import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Tab from "../../common/Tab/Tab";
 import TabGroup from "../../common/TabGroup/TabGroup";
 import AnimationToolbar from "../AnimationToolbar/AnimationToolbar";
+import CaptureButtonToolbar from "../CaptureButtonToolbar/CaptureButtonToolbar";
 import CaptureTab from "../CaptureTab/CaptureTab";
 import MediaTab from "../MediaTab/MediaTab";
 import Preview from "../Preview/Preview";
@@ -24,11 +25,9 @@ const Animator = ({ take }: AnimatorProps): JSX.Element => {
       <PageBody>
         <Content>
           <StatusToolbar take={take} />
-
           <Preview />
-
+          <CaptureButtonToolbar />
           <AnimationToolbar />
-
           <Timeline take={take} />
         </Content>
 

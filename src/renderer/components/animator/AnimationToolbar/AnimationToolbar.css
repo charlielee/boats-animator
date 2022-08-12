@@ -3,14 +3,10 @@
 }
 
 .animation-toolbar #animation-toolbar__onion-skin-range {
-  margin-left: var(--margin-100);
-  width: 12rem;
+  margin: 0 var(--margin-050);
+  width: 6rem;
 }
 
 .animation-toolbar__capture-button .button__icon-container {
   font-size: var(--height-300);
-}
-
-.animation-toolbar__play-last-button {
-  margin-right: var(--margin-100);
 }

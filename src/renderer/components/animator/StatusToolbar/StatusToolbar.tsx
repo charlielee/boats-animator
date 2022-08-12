@@ -17,7 +17,7 @@ const StatusToolbar = ({ take }: StatusToolbarProps): JSX.Element => {
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
 
   return (
-    <Toolbar borderBottom>
+    <Toolbar>
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <Button
           title={makeTakeTitle(take)}
