@@ -4,7 +4,7 @@
 
 .animation-toolbar #animation-toolbar__onion-skin-range {
   margin-left: var(--margin-100);
-  width: 12rem;
+  width: 6rem;
 }
 
 .animation-toolbar__capture-button .button__icon-container {

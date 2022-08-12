@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { takePhoto } from "../../../redux/capture/actions";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import InputRange from "../../common/Input/InputRange/InputRange";
@@ -11,12 +9,11 @@ import ToolbarItem, {
 import "./AnimationToolbar.css";
 
 const AnimationToolbar = (): JSX.Element => {
-  const dispatch = useDispatch();
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
 
   return (
-    <Toolbar borderTop className="animation-toolbar">
+    <Toolbar className="animation-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <IconButton
           title="Undo Last Frame"
@@ -41,15 +38,6 @@ const AnimationToolbar = (): JSX.Element => {
 
       <ToolbarItem align={ToolbarItemAlign.CENTER}>
         <IconButton
-          title="Capture Frame"
-          icon={IconName.CAPTURE}
-          className="animation-toolbar__capture-button"
-          onClick={() => dispatch(takePhoto())}
-        />
-      </ToolbarItem>
-
-      <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
-        <IconButton
           title="First Frame"
           icon={IconName.PLAY_FIRST}
           onClick={() => undefined}
@@ -59,6 +47,7 @@ const AnimationToolbar = (): JSX.Element => {
           icon={IconName.PLAY_PREVIOUS}
           onClick={() => undefined}
         />
+
         <IconButton
           title="Playback Frames"
           icon={IconName.PLAY}
@@ -79,6 +68,9 @@ const AnimationToolbar = (): JSX.Element => {
           icon={IconName.PLAY_LAST}
           onClick={() => undefined}
         />
+      </ToolbarItem>
+
+      <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
         <IconButton
           title={`${loopPlayback ? "Disable" : "Enable"} Loop Playback`}
           icon={IconName.PLAY_LOOP}

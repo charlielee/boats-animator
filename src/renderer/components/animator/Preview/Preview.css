@@ -1,6 +1,5 @@
 .preview {
   align-items: center;
-  background-color: var(--ba-black);
   border: var(--ba-border-2) solid transparent;
   display: flex;
   flex: 1;
