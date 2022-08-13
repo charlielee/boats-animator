@@ -3,26 +3,28 @@ import { TimelineIndex } from "../../../common/Flavors";
 
 export interface PlaybackContextProps {
   startPlayback: () => void;
-  stopPlayback: () => void;
-  displayFrame: (i: TimelineIndex | undefined) => void;
+  stopPlayback: (i?: TimelineIndex | undefined, pause?: boolean) => void;
+  pausePlayback: () => void;
   displayFirstFrame: () => void;
   displayPreviousFrame: () => void;
   displayNextFrame: () => void;
   displayLastFrame: () => void;
   timelineIndex: TimelineIndex | undefined;
   liveViewVisible: boolean;
+  paused: boolean;
 }
 
 const defaultValue: PlaybackContextProps = {
   startPlayback: () => undefined,
   stopPlayback: () => undefined,
-  displayFrame: () => undefined,
+  pausePlayback: () => undefined,
   displayFirstFrame: () => undefined,
   displayPreviousFrame: () => undefined,
   displayNextFrame: () => undefined,
   displayLastFrame: () => undefined,
   timelineIndex: undefined,
   liveViewVisible: true,
+  paused: false,
 };
 
 const PlaybackContext = createContext<PlaybackContextProps>(defaultValue);

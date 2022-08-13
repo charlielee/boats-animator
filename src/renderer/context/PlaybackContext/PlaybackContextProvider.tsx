@@ -21,6 +21,7 @@ const PlaybackContextProvider = ({
     undefined
   );
   const [liveViewVisible, setLiveViewVisible] = useState(true);
+  const [paused, setPaused] = useState(false);
 
   const delay = 1000 / take.frameRate;
   const previousTime = useRef<number>(0);
@@ -54,40 +55,36 @@ const PlaybackContextProvider = ({
       lastFrameIndex.current = playForDuration - 1;
       start();
       setLiveViewVisible(false);
+      setPaused(false);
     }
   };
 
-  const stopPlayback = () => {
+  const stopPlayback = (i?: TimelineIndex | undefined, pause = false) => {
     _logPlayback("playback.stopPlayback");
     stop();
-    _updateFrameIndex(undefined);
-    setLiveViewVisible(true);
+    _updateFrameIndex(i === undefined ? undefined : i);
+    setLiveViewVisible(i === undefined);
+    setPaused(pause);
   };
 
-  const displayFrame = (i: TimelineIndex | undefined) => {
-    _logPlayback("playback.displayFrame");
-    if (i === undefined) {
-      stopPlayback();
-    } else {
-      stop();
-      _updateFrameIndex(i);
-      setLiveViewVisible(false);
-    }
+  const pausePlayback = () => {
+    _logPlayback("playback.pausePlayback");
+    stopPlayback(timelineIndex, true);
   };
 
   const displayFirstFrame = () => {
     _logPlayback("playback.displayFirstFrame");
-    displayFrame(0);
+    stopPlayback(0);
   };
 
   const displayPreviousFrame = () => {
     _logPlayback("playback.displayPreviousFrame");
 
     if (timelineIndex === undefined) {
-      return displayFrame(playForDuration - 1);
+      return stopPlayback(playForDuration - 1);
     }
     if (timelineIndex > 0) {
-      return displayFrame(timelineIndex - 1);
+      return stopPlayback(timelineIndex - 1);
     }
   };
 
@@ -95,10 +92,10 @@ const PlaybackContextProvider = ({
     _logPlayback("playback.displayNextFrame");
 
     if (timelineIndex === playForDuration - 1) {
-      return displayFrame(undefined);
+      return stopPlayback(undefined);
     }
     if (timelineIndex !== undefined) {
-      return displayFrame(timelineIndex + 1);
+      return stopPlayback(timelineIndex + 1);
     }
   };
 
@@ -106,10 +103,10 @@ const PlaybackContextProvider = ({
     _logPlayback("playback.displayLastFrame");
 
     if (timelineIndex === playForDuration - 1) {
-      return displayFrame(undefined);
+      return stopPlayback(undefined);
     }
     if (timelineIndex !== undefined) {
-      return displayFrame(playForDuration - 1);
+      return stopPlayback(playForDuration - 1);
     }
   };
 
@@ -128,13 +125,14 @@ const PlaybackContextProvider = ({
   const value: PlaybackContextProps = {
     startPlayback,
     stopPlayback,
-    displayFrame,
+    pausePlayback,
     displayFirstFrame,
     displayPreviousFrame,
     displayNextFrame,
     displayLastFrame,
     timelineIndex,
     liveViewVisible,
+    paused,
   };
 
   return (
