@@ -11,8 +11,6 @@ interface PlaybackContextProviderProps {
 }
 
 // interface UsePlaybackOptions {
-//   // The zero based index of the first frame to play
-//   startTimelineIndex: TimelineIndex;
 //   // How many frames to playback
 //   playForDuration: FrameCount;
 //   // Should playback stop at the last frame or return to the live view?
@@ -24,9 +22,7 @@ const PlaybackContextProvider = ({
   take,
   children,
 }: PlaybackContextProviderProps) => {
-  const startTimelineIndex = 0;
   const playForDuration = getTrackLength(take.frameTrack);
-  const returnToLiveView = true;
 
   // Note: an `undefined` timeline index indicates the application is showing the live view
   const [timelineIndex, setTimelineIndex] = useState<TimelineIndex | undefined>(
@@ -48,7 +44,7 @@ const PlaybackContextProvider = ({
 
       switch (animationFrameIndex.current) {
         case undefined:
-          _updateFrameIndex(startTimelineIndex);
+          _updateFrameIndex(0);
           break;
         case lastFrameIndex.current:
           stopPlayback();
@@ -63,7 +59,7 @@ const PlaybackContextProvider = ({
   const startPlayback = () => {
     _logPlayback("playback.startPlayback");
     if (playForDuration > 0) {
-      lastFrameIndex.current = startTimelineIndex + playForDuration - 1;
+      lastFrameIndex.current = playForDuration - 1;
       start();
       setLiveViewVisible(false);
     }
@@ -72,10 +68,8 @@ const PlaybackContextProvider = ({
   const stopPlayback = () => {
     _logPlayback("playback.stopPlayback");
     stop();
-    if (returnToLiveView) {
-      _updateFrameIndex(undefined);
-      setLiveViewVisible(true);
-    }
+    _updateFrameIndex(undefined);
+    setLiveViewVisible(true);
   };
 
   const displayFrame = (i: TimelineIndex | undefined) => {
@@ -91,9 +85,7 @@ const PlaybackContextProvider = ({
 
   const _logPlayback = (loggingCode: string) =>
     rLogger.info(loggingCode, {
-      startTimelineIndex,
       playForDuration,
-      returnToLiveView,
       frameRate: take.frameRate,
       timelineIndex: animationFrameIndex.current ?? "(showing live view)",
     });
