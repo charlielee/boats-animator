@@ -12,7 +12,7 @@ import {
   hasWindows,
   loadApp,
   restoreAndFocus,
-} from "./services/windowUtils.ts/windowUtils";
+} from "./services/windowUtils/windowUtils";
 
 nativeTheme.themeSource = "dark";
 

@@ -18,7 +18,7 @@ const ExportDirectory = (): JSX.Element => {
         Captured frames will be exported to:
         <br />
         <span className="export-directory__name">
-          {workingDirectory || "No directory selected"}
+          {workingDirectory ?? "No directory selected"}
         </span>
       </InputLabel>
 

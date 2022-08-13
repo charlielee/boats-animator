@@ -13,7 +13,7 @@ const Modal = ({ children, onClose }: ModalProps): JSX.Element => {
   return (
     <div className="modal">
       <div className="modal__content">
-        {onClose && (
+        {onClose !== undefined && (
           <IconButton
             className="modal__close-button"
             title="Close"

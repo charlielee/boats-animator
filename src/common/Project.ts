@@ -11,6 +11,7 @@ import {
 } from "./Flavors";
 import { zeroPad } from "./utils";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Project {
   name: string;
   filePath: string;

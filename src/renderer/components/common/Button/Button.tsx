@@ -17,7 +17,7 @@ export interface ButtonProps {
   icon?: IconName;
   label?: string;
   borderRadius?: "left" | "right" | "all";
-  onClick: Function | PageRoute;
+  onClick: (() => void) | PageRoute;
   disabled?: boolean;
 }
 

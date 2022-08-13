@@ -36,7 +36,7 @@ const TimelineTrack = ({
     <div className="timeline-track">
       <TimelineTrackLabel fileType={track.fileType} />
 
-      {track && track.trackItems.length > 0 ? (
+      {track.trackItems.length > 0 ? (
         <>
           {track.trackItems.map((trackItem) => {
             return (

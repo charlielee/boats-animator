@@ -55,7 +55,7 @@ const ExportVideoModalOptions = ({
       await window.preload.ipcToMain.openExportVideoFilePathDialog({
         currentFilePath,
       });
-    setCurrentFilePath(newFilePath || "");
+    setCurrentFilePath(newFilePath ?? "");
   };
 
   const startExportVideo = () => {
