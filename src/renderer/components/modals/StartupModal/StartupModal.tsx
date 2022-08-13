@@ -76,7 +76,7 @@ const StartupModal = (): JSX.Element => {
               <Button
                 title="Open Project"
                 icon={IconName.FOLDER}
-                onClick={() => console.log("todo")}
+                onClick={() => undefined}
               />
             </ButtonGroup>
           </ToolbarItem>
