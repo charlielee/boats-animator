@@ -5,11 +5,13 @@ import "./TimelineTrackItem.css";
 interface TimelineTrackItemProps {
   dataUrl: string;
   highlighted: boolean;
+  onClick: () => void;
 }
 
 const TimelineTrackItem = ({
   dataUrl,
   highlighted,
+  onClick,
 }: TimelineTrackItemProps) => {
   const trackItemRef = useRef<HTMLDivElement>(null);
 
@@ -22,7 +24,7 @@ const TimelineTrackItem = ({
   }, [highlighted]);
 
   return (
-    <div className="timeline-track-item" ref={trackItemRef}>
+    <div className="timeline-track-item" ref={trackItemRef} onClick={onClick}>
       <img
         className={classNames("timeline-track-item__img", {
           "timeline-track-item__img--highlighted": highlighted,

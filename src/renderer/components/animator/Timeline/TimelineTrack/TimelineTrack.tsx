@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FileRefType, getFileRefById } from "../../../../../common/FileRef";
-import { TimelineIndex } from "../../../../../common/Flavors";
+import { TimelineIndex, TrackItemId } from "../../../../../common/Flavors";
 import {
   getHighlightedTrackItem,
   Track,
@@ -17,11 +17,13 @@ import "./TimelineTrack.css";
 interface TimelineTrackProps {
   track: Track;
   timelineIndex: TimelineIndex | undefined;
+  onClickItem: (trackItemId: TrackItemId) => void;
 }
 
 const TimelineTrack = ({
   track,
   timelineIndex,
+  onClickItem,
 }: TimelineTrackProps): JSX.Element => {
   const { fileRefs } = useSelector((state: RootState) => state.project);
   const [highlightedTrackItem, setHighlightedTrackItem] = useState<
@@ -44,6 +46,7 @@ const TimelineTrack = ({
                 dataUrl={getFileRefById(fileRefs, trackItem.id).location}
                 highlighted={highlightedTrackItem?.id === trackItem.id}
                 key={trackItem.id}
+                onClick={() => onClickItem(trackItem.id)}
               />
             );
           })}

@@ -48,20 +48,20 @@ const PlaybackContextProvider = ({
 
       switch (animationFrameIndex.current) {
         case undefined:
-          updateFrameIndex(startTimelineIndex);
+          _updateFrameIndex(startTimelineIndex);
           break;
         case lastFrameIndex.current:
           stopPlayback();
           break;
         default:
-          updateFrameIndex(animationFrameIndex.current + 1);
+          _updateFrameIndex(animationFrameIndex.current + 1);
           break;
       }
     }
   });
 
   const startPlayback = () => {
-    logPlayback("usePlayback.startPlayback");
+    _logPlayback("usePlayback.startPlayback");
     if (playForDuration > 0 && !isPlaying) {
       lastFrameIndex.current = startTimelineIndex + playForDuration - 1;
       start();
@@ -70,20 +70,24 @@ const PlaybackContextProvider = ({
   };
 
   const stopPlayback = () => {
-    logPlayback("usePlayback.stopPlayback");
+    _logPlayback("usePlayback.stopPlayback");
     stop();
     setIsPlaying(false);
     if (returnToLiveView) {
-      updateFrameIndex(undefined);
+      _updateFrameIndex(undefined);
     }
   };
 
-  const updateFrameIndex = (i: number | undefined) => {
+  const displayFrame = (i: TimelineIndex | undefined) => {
+    _updateFrameIndex(i);
+  };
+
+  const _updateFrameIndex = (i: TimelineIndex | undefined) => {
     animationFrameIndex.current = i;
     setTimelineIndex(i);
   };
 
-  const logPlayback = (loggingCode: string) =>
+  const _logPlayback = (loggingCode: string) =>
     rLogger.info(loggingCode, {
       startTimelineIndex,
       playForDuration,
@@ -95,6 +99,7 @@ const PlaybackContextProvider = ({
   const value: PlaybackContextProps = {
     startPlayback,
     stopPlayback,
+    displayFrame,
     timelineIndex,
     isPlaying,
   };
