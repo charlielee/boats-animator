@@ -11,12 +11,12 @@ import "./CaptureButtonToolbar.css";
 
 interface CaptureToolbarProps {
   stopPlayback: () => void;
-  isPlaying: boolean;
+  liveViewVisible: boolean;
 }
 
 const CaptureButtonToolbar = ({
   stopPlayback,
-  isPlaying,
+  liveViewVisible,
 }: CaptureToolbarProps): JSX.Element => {
   const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ const CaptureButtonToolbar = ({
           icon={IconName.CAPTURE}
           className="animation-toolbar__capture-button"
           onClick={() => {
-            if (isPlaying) {
+            if (!liveViewVisible) {
               stopPlayback();
             }
             dispatch(takePhoto());
