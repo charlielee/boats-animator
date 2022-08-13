@@ -31,6 +31,7 @@ const TimelineTrackItem = ({
         src={dataUrl}
         key={dataUrl}
       />
+      <div className="timeline-track-item__cover"></div>
     </div>
   );
 };
