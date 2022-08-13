@@ -11,7 +11,7 @@ export interface PlaybackContextProps {
   displayLastFrame: () => void;
   timelineIndex: TimelineIndex | undefined;
   liveViewVisible: boolean;
-  paused: boolean;
+  playing: boolean;
 }
 
 const defaultValue: PlaybackContextProps = {
@@ -24,7 +24,7 @@ const defaultValue: PlaybackContextProps = {
   displayLastFrame: () => undefined,
   timelineIndex: undefined,
   liveViewVisible: true,
-  paused: false,
+  playing: false,
 };
 
 const PlaybackContext = createContext<PlaybackContextProps>(defaultValue);

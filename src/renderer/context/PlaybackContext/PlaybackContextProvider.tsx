@@ -21,7 +21,7 @@ const PlaybackContextProvider = ({
     undefined
   );
   const [liveViewVisible, setLiveViewVisible] = useState(true);
-  const [paused, setPaused] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   const delay = 1000 / take.frameRate;
   const previousTime = useRef<number>(0);
@@ -55,21 +55,21 @@ const PlaybackContextProvider = ({
       lastFrameIndex.current = playForDuration - 1;
       start();
       setLiveViewVisible(false);
-      setPaused(false);
+      setPlaying(true);
     }
   };
 
-  const stopPlayback = (i?: TimelineIndex | undefined, pause = false) => {
+  const stopPlayback = (i?: TimelineIndex | undefined) => {
     _logPlayback("playback.stopPlayback");
     stop();
     _updateFrameIndex(i === undefined ? undefined : i);
     setLiveViewVisible(i === undefined);
-    setPaused(pause);
+    setPlaying(false);
   };
 
   const pausePlayback = () => {
     _logPlayback("playback.pausePlayback");
-    stopPlayback(timelineIndex, true);
+    stopPlayback(timelineIndex);
   };
 
   const displayFirstFrame = () => {
@@ -132,7 +132,7 @@ const PlaybackContextProvider = ({
     displayLastFrame,
     timelineIndex,
     liveViewVisible,
-    paused,
+    playing,
   };
 
   return (
