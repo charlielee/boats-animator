@@ -3,12 +3,14 @@ import { useEffect, useRef } from "react";
 import "./TimelineTrackItem.css";
 
 interface TimelineTrackItemProps {
+  title: string;
   dataUrl: string;
   highlighted: boolean;
   onClick: () => void;
 }
 
 const TimelineTrackItem = ({
+  title,
   dataUrl,
   highlighted,
   onClick,
@@ -23,7 +25,12 @@ const TimelineTrackItem = ({
   }, [highlighted]);
 
   return (
-    <div className="timeline-track-item" ref={trackItemRef} onClick={onClick}>
+    <div
+      className="timeline-track-item"
+      ref={trackItemRef}
+      onClick={onClick}
+      title={title}
+    >
       <img
         className={classNames("timeline-track-item__img", {
           "timeline-track-item__img--highlighted": highlighted,

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { TimelineIndex, TrackItemId } from "../../../../common/Flavors";
+import { TimelineIndex } from "../../../../common/Flavors";
 import {
-  getTrackItemStartPositionById,
+  getTrackItemStartPosition,
   Take,
   Track,
 } from "../../../../common/Project";
@@ -33,8 +33,8 @@ const Timeline = ({
     }
   }, [timelineIndex, frameTrack.trackItems]);
 
-  const onClickItem = (track: Track, trackItemId: TrackItemId) =>
-    displayFrame(getTrackItemStartPositionById(track, trackItemId));
+  const onClickItem = (track: Track, trackItemIndex: number) =>
+    displayFrame(getTrackItemStartPosition(track, trackItemIndex));
 
   return (
     <div className="timeline" ref={timelineRef}>
@@ -47,7 +47,9 @@ const Timeline = ({
           track={frameTrack}
           key={frameTrack.id}
           timelineIndex={timelineIndex}
-          onClickItem={(trackItemId) => onClickItem(frameTrack, trackItemId)}
+          onClickItem={(trackItemIndex) =>
+            onClickItem(frameTrack, trackItemIndex)
+          }
           onClickLiveView={() => displayFrame(undefined)}
         />
       </div>

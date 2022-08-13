@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FileRefType, getFileRefById } from "../../../../../common/FileRef";
-import { TimelineIndex, TrackItemId } from "../../../../../common/Flavors";
+import { TimelineIndex } from "../../../../../common/Flavors";
 import {
   getHighlightedTrackItem,
+  getTrackItemTitle,
   Track,
   TrackItem,
 } from "../../../../../common/Project";
@@ -17,7 +18,7 @@ import "./TimelineTrack.css";
 interface TimelineTrackProps {
   track: Track;
   timelineIndex: TimelineIndex | undefined;
-  onClickItem: (trackItemId: TrackItemId) => void;
+  onClickItem: (trackItemIndex: number) => void;
   onClickLiveView: () => void;
 }
 
@@ -42,13 +43,14 @@ const TimelineTrack = ({
 
       {track && track.trackItems.length > 0 ? (
         <>
-          {track.trackItems.map((trackItem) => {
+          {track.trackItems.map((trackItem, i) => {
             return (
               <TimelineTrackItem
+                title={getTrackItemTitle(track, i)}
                 dataUrl={getFileRefById(fileRefs, trackItem.id).location}
                 highlighted={highlightedTrackItem?.id === trackItem.id}
                 key={trackItem.id}
-                onClick={() => onClickItem(trackItem.id)}
+                onClick={() => onClickItem(i)}
               />
             );
           })}
