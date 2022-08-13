@@ -20,7 +20,7 @@ import {
   openConfirmPrompt,
   openDirDialog,
   openExportVideoFilePathDialog,
-} from "../windowUtils.ts/windowUtils";
+} from "../windowUtils/windowUtils";
 
 class IpcToMainHandler {
   appVersion = async (): Ipc.AppVersion.Response => app.getVersion();

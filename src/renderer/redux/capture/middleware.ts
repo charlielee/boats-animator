@@ -27,9 +27,10 @@ import {
   openDevice,
 } from "./actions";
 
-export const createCaptureMiddleware: Middleware<{}, RootState> = (
-  storeApi: MiddlewareAPI<ThunkDispatch<RootState, void, Action>>
-) => {
+export const createCaptureMiddleware: Middleware<
+  Record<string, unknown>,
+  RootState
+> = (storeApi: MiddlewareAPI<ThunkDispatch<RootState, void, Action>>) => {
   const { getState, dispatch } = storeApi;
   let currentDevice: ImagingDevice | undefined = undefined;
 

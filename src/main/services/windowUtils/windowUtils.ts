@@ -98,7 +98,7 @@ export const openDirDialog = async (
     properties: ["openDirectory", "createDirectory"],
   });
 
-  if (!result.canceled && result.filePaths[0]) {
+  if (!result.canceled && result.filePaths[0] !== "") {
     return result.filePaths[0];
   } else {
     return workingDirectory;
@@ -120,7 +120,7 @@ export const openExportVideoFilePathDialog = async (
     filters: [{ name: "MP4 File", extensions: ["mp4"] }],
   });
 
-  if (!result.canceled && result.filePath) {
+  if (!result.canceled && result.filePath !== undefined) {
     return result.filePath;
   } else {
     return currentFilePath;
@@ -132,7 +132,7 @@ export const getWindowSize = (win: BrowserWindow): WindowSize => ({
   winBounds: win.getNormalBounds(),
 });
 
-const getPreviousWinBounds = (): Rectangle | {} => {
+const getPreviousWinBounds = (): Rectangle | Record<string, never> => {
   logger.info("windowUtils.getPreviousWinBounds");
 
   const currentDisplaySize = screen.getPrimaryDisplay().workAreaSize;
@@ -141,9 +141,10 @@ const getPreviousWinBounds = (): Rectangle | {} => {
   // Check the window will fit in the x and y dimensions
   // +10 is to allow for a small amount of leeway
   const doesXFit =
-    winBounds && currentDisplaySize.width + 10 >= winBounds.x + winBounds.width;
+    winBounds !== undefined &&
+    currentDisplaySize.width + 10 >= winBounds.x + winBounds.width;
   const doesYFit =
-    winBounds &&
+    winBounds !== undefined &&
     currentDisplaySize.height + 10 >= winBounds.y + winBounds.height;
 
   if (doesXFit && doesYFit) {

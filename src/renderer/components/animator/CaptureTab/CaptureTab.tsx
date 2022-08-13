@@ -29,7 +29,11 @@ const CaptureTab = (): JSX.Element => {
           <InputSelect
             id="camera-source-select"
             options={buildCameraSourceOptions()}
-            value={currentDevice?.deviceId ? currentDevice.deviceId : "#"}
+            value={
+              currentDevice?.deviceId === undefined
+                ? "#"
+                : currentDevice.deviceId
+            }
             onChange={(deviceId) =>
               dispatch(changeDevice(deviceId === "#" ? undefined : deviceId))
             }

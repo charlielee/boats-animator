@@ -33,6 +33,8 @@ class FileStore<OptionsType> {
 
     Object.keys(migrations).forEach((version: string) => {
       loggedMigrations[version] = (store: Conf<OptionsType>) => {
+        // Can't use logger for this as it isn't initialized when the migrations are run
+        // eslint-disable-next-line no-console
         console.log(`Migrating ${name} file to ${version}`);
         migrations[version](store);
       };

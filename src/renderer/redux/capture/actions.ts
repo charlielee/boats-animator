@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 export enum CaptureActionType {
   CLOSE_DEVICE = "imagingDevice/CLOSE_DEVICE",
   OPEN_DEVICE = "imagingDevice/OPEN_DEVICE",

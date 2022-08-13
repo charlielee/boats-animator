@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import { AppMode } from "../../../common/AppMode";
 import { UserPreferences } from "../../../common/UserPreferences";
 import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";

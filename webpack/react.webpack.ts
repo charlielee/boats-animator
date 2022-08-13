@@ -1,9 +1,13 @@
+import ESLintPlugin from "eslint-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import * as path from "path";
+import { Configuration } from "webpack";
+// This import "augments" the Configuration interface from webpack
+import "webpack-dev-server";
 
 const rootPath = path.resolve(__dirname, "..");
 
-const config = {
+const config: Configuration = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
     mainFields: ["main", "module", "browser"],
@@ -40,6 +44,12 @@ const config = {
     port: 4000,
     historyApiFallback: true,
     compress: true,
+    client: {
+      overlay: {
+        warnings: false,
+        errors: true,
+      },
+    },
   },
   output: {
     path: path.resolve(rootPath, "dist/renderer"),
@@ -48,6 +58,7 @@ const config = {
     globalObject: "this",
   },
   plugins: [
+    new ESLintPlugin({ extensions: ["ts", "tsx"] }),
     new HtmlWebpackPlugin({
       title: "Boats Animator",
       template: "static/index.html",
