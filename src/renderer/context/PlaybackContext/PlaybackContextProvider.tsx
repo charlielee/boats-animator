@@ -3,7 +3,10 @@ import { TimelineIndex } from "../../../common/Flavors";
 import { getTrackLength, Take } from "../../../common/Project";
 import useRequestAnimationFrame from "../../hooks/useRequestAnimationFrame";
 import * as rLogger from "../../services/rLogger/rLogger";
-import PlaybackContext, { PlaybackContextProps } from "./PlaybackContext";
+import PlaybackContext, {
+  PlaybackContextProps,
+  PlaybackFrameName,
+} from "./PlaybackContext";
 
 interface PlaybackContextProviderProps {
   take: Take;
@@ -21,6 +24,7 @@ const PlaybackContextProvider = ({
     undefined
   );
   const [liveViewVisible, setLiveViewVisible] = useState(true);
+  const [playing, setPlaying] = useState(false);
 
   const delay = 1000 / take.frameRate;
   const previousTime = useRef<number>(0);
@@ -48,68 +52,80 @@ const PlaybackContextProvider = ({
     }
   });
 
-  const startPlayback = () => {
+  const startOrPausePlayback = () =>
+    playing ? _pausePlayback() : _startPlayback();
+
+  const stopPlayback = (i?: TimelineIndex | undefined) => {
+    _logPlayback("playback.stopPlayback");
+    stop();
+    _updateFrameIndex(i === undefined ? undefined : i);
+    setLiveViewVisible(i === undefined);
+    setPlaying(false);
+  };
+
+  const displayFrame = (name: PlaybackFrameName) => {
+    switch (name) {
+      case PlaybackFrameName.FIRST:
+        return _displayFirstFrame();
+      case PlaybackFrameName.PREVIOUS:
+        return _displayPreviousFrame();
+      case PlaybackFrameName.NEXT:
+        return _displayNextFrame();
+      case PlaybackFrameName.LAST:
+        return _displayLastFrame();
+    }
+  };
+
+  const _startPlayback = () => {
     _logPlayback("playback.startPlayback");
     if (playForDuration > 0) {
       lastFrameIndex.current = playForDuration - 1;
       start();
       setLiveViewVisible(false);
+      setPlaying(true);
     }
   };
 
-  const stopPlayback = () => {
-    _logPlayback("playback.stopPlayback");
-    stop();
-    _updateFrameIndex(undefined);
-    setLiveViewVisible(true);
+  const _pausePlayback = () => {
+    _logPlayback("playback.pausePlayback");
+    stopPlayback(timelineIndex);
   };
 
-  const displayFrame = (i: TimelineIndex | undefined) => {
-    _logPlayback("playback.displayFrame");
-    if (i === undefined) {
-      stopPlayback();
-    } else {
-      stop();
-      _updateFrameIndex(i);
-      setLiveViewVisible(false);
-    }
-  };
-
-  const displayFirstFrame = () => {
+  const _displayFirstFrame = () => {
     _logPlayback("playback.displayFirstFrame");
-    displayFrame(0);
+    stopPlayback(0);
   };
 
-  const displayPreviousFrame = () => {
+  const _displayPreviousFrame = () => {
     _logPlayback("playback.displayPreviousFrame");
 
     if (timelineIndex === undefined) {
-      return displayFrame(playForDuration - 1);
+      return stopPlayback(playForDuration - 1);
     }
     if (timelineIndex > 0) {
-      return displayFrame(timelineIndex - 1);
+      return stopPlayback(timelineIndex - 1);
     }
   };
 
-  const displayNextFrame = () => {
+  const _displayNextFrame = () => {
     _logPlayback("playback.displayNextFrame");
 
     if (timelineIndex === playForDuration - 1) {
-      return displayFrame(undefined);
+      return stopPlayback(undefined);
     }
     if (timelineIndex !== undefined) {
-      return displayFrame(timelineIndex + 1);
+      return stopPlayback(timelineIndex + 1);
     }
   };
 
-  const displayLastFrame = () => {
+  const _displayLastFrame = () => {
     _logPlayback("playback.displayLastFrame");
 
     if (timelineIndex === playForDuration - 1) {
-      return displayFrame(undefined);
+      return stopPlayback(undefined);
     }
     if (timelineIndex !== undefined) {
-      return displayFrame(playForDuration - 1);
+      return stopPlayback(playForDuration - 1);
     }
   };
 
@@ -126,15 +142,12 @@ const PlaybackContextProvider = ({
     });
 
   const value: PlaybackContextProps = {
-    startPlayback,
+    startOrPausePlayback,
     stopPlayback,
     displayFrame,
-    displayFirstFrame,
-    displayPreviousFrame,
-    displayNextFrame,
-    displayLastFrame,
     timelineIndex,
     liveViewVisible,
+    playing,
   };
 
   return (

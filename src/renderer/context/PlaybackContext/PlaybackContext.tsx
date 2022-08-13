@@ -1,28 +1,29 @@
 import { createContext } from "react";
 import { TimelineIndex } from "../../../common/Flavors";
 
+export const enum PlaybackFrameName {
+  FIRST = "FIRST",
+  PREVIOUS = "PREVIOUS",
+  NEXT = "NEXT",
+  LAST = "LAST",
+}
+
 export interface PlaybackContextProps {
-  startPlayback: () => void;
-  stopPlayback: () => void;
-  displayFrame: (i: TimelineIndex | undefined) => void;
-  displayFirstFrame: () => void;
-  displayPreviousFrame: () => void;
-  displayNextFrame: () => void;
-  displayLastFrame: () => void;
+  startOrPausePlayback: () => void;
+  stopPlayback: (i?: TimelineIndex | undefined, pause?: boolean) => void;
+  displayFrame: (name: PlaybackFrameName) => void;
   timelineIndex: TimelineIndex | undefined;
   liveViewVisible: boolean;
+  playing: boolean;
 }
 
 const defaultValue: PlaybackContextProps = {
-  startPlayback: () => undefined,
+  startOrPausePlayback: () => undefined,
   stopPlayback: () => undefined,
   displayFrame: () => undefined,
-  displayFirstFrame: () => undefined,
-  displayPreviousFrame: () => undefined,
-  displayNextFrame: () => undefined,
-  displayLastFrame: () => undefined,
   timelineIndex: undefined,
   liveViewVisible: true,
+  playing: false,
 };
 
 const PlaybackContext = createContext<PlaybackContextProps>(defaultValue);
