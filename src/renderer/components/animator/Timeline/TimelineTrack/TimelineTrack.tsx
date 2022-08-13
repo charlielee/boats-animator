@@ -18,12 +18,14 @@ interface TimelineTrackProps {
   track: Track;
   timelineIndex: TimelineIndex | undefined;
   onClickItem: (trackItemId: TrackItemId) => void;
+  onClickLiveView: () => void;
 }
 
 const TimelineTrack = ({
   track,
   timelineIndex,
   onClickItem,
+  onClickLiveView,
 }: TimelineTrackProps): JSX.Element => {
   const { fileRefs } = useSelector((state: RootState) => state.project);
   const [highlightedTrackItem, setHighlightedTrackItem] = useState<
@@ -52,7 +54,10 @@ const TimelineTrack = ({
           })}
 
           {track.fileType === FileRefType.FRAME && (
-            <TimelineLiveViewButton highlighted={timelineIndex === undefined} />
+            <TimelineLiveViewButton
+              highlighted={timelineIndex === undefined}
+              onClick={onClickLiveView}
+            />
           )}
         </>
       ) : (

@@ -10,14 +10,6 @@ interface PlaybackContextProviderProps {
   children: ReactNode;
 }
 
-// interface UsePlaybackOptions {
-//   // How many frames to playback
-//   playForDuration: FrameCount;
-//   // Should playback stop at the last frame or return to the live view?
-//   returnToLiveView: boolean;
-//   frameRate: FrameRate;
-// }
-
 const PlaybackContextProvider = ({
   take,
   children,
@@ -74,8 +66,12 @@ const PlaybackContextProvider = ({
 
   const displayFrame = (i: TimelineIndex | undefined) => {
     _logPlayback("playback.displayFrame");
-    _updateFrameIndex(i);
-    setLiveViewVisible(false);
+    if (i === undefined) {
+      stopPlayback();
+    } else {
+      _updateFrameIndex(i);
+      setLiveViewVisible(false);
+    }
   };
 
   const _updateFrameIndex = (i: TimelineIndex | undefined) => {

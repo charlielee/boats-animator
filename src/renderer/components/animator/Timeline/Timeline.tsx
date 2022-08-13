@@ -33,9 +33,8 @@ const Timeline = ({
     }
   }, [timelineIndex, frameTrack.trackItems]);
 
-  const onClickItem = (track: Track, trackItemId: TrackItemId) => {
+  const onClickItem = (track: Track, trackItemId: TrackItemId) =>
     displayFrame(getTrackItemStartPositionById(track, trackItemId));
-  };
 
   return (
     <div className="timeline" ref={timelineRef}>
@@ -49,6 +48,7 @@ const Timeline = ({
           key={frameTrack.id}
           timelineIndex={timelineIndex}
           onClickItem={(trackItemId) => onClickItem(frameTrack, trackItemId)}
+          onClickLiveView={() => displayFrame(undefined)}
         />
       </div>
     </div>
