@@ -17,9 +17,8 @@ const TimelineTrackItem = ({
 
   useEffect(() => {
     if (highlighted) {
-      trackItemRef.current?.scrollIntoView({
-        inline: "end",
-      });
+      // Note: this is a non-standard webkit method
+      (trackItemRef.current as any)?.scrollIntoViewIfNeeded();
     }
   }, [highlighted]);
 
