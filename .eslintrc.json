@@ -17,7 +17,8 @@
       "jsx": true
     },
     "ecmaVersion": 11,
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
   "settings": {
     "react": {
@@ -28,6 +29,10 @@
     "react/react-in-jsx-scope": "off",
     "react/display-name": "off",
     "react/prop-types": "off",
+    "@typescript-eslint/strict-boolean-expressions": [
+      "error",
+      { "allowString": false, "allowNumber": false }
+    ],
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
@@ -43,7 +48,7 @@
       }
     ],
     "no-console": [
-      "error",
+      "warn",
       {
         "allow": ["warn", "error"]
       }
