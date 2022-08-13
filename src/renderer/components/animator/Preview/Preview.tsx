@@ -32,8 +32,7 @@ const Preview = ({
       hasCameraAccess: state.app.hasCameraAccess,
       fileRefs: state.project.fileRefs,
     }));
-
-  const [previewSrc, setPreviewSrc] = useState("");
+  const [previewSrc, setPreviewSrc] = useState<string | undefined>();
 
   useEffect(() => {
     const highlightedTrackItem = getHighlightedTrackItem(
