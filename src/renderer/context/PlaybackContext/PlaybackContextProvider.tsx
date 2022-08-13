@@ -69,8 +69,47 @@ const PlaybackContextProvider = ({
     if (i === undefined) {
       stopPlayback();
     } else {
+      stop();
       _updateFrameIndex(i);
       setLiveViewVisible(false);
+    }
+  };
+
+  const displayFirstFrame = () => {
+    _logPlayback("playback.displayFirstFrame");
+    displayFrame(0);
+  };
+
+  const displayPreviousFrame = () => {
+    _logPlayback("playback.displayPreviousFrame");
+
+    if (timelineIndex === undefined) {
+      return displayFrame(playForDuration - 1);
+    }
+    if (timelineIndex > 0) {
+      return displayFrame(timelineIndex - 1);
+    }
+  };
+
+  const displayNextFrame = () => {
+    _logPlayback("playback.displayNextFrame");
+
+    if (timelineIndex === playForDuration - 1) {
+      return displayFrame(undefined);
+    }
+    if (timelineIndex !== undefined) {
+      return displayFrame(timelineIndex + 1);
+    }
+  };
+
+  const displayLastFrame = () => {
+    _logPlayback("playback.displayLastFrame");
+
+    if (timelineIndex === playForDuration - 1) {
+      return displayFrame(undefined);
+    }
+    if (timelineIndex !== undefined) {
+      return displayFrame(playForDuration - 1);
     }
   };
 
@@ -90,6 +129,10 @@ const PlaybackContextProvider = ({
     startPlayback,
     stopPlayback,
     displayFrame,
+    displayFirstFrame,
+    displayPreviousFrame,
+    displayNextFrame,
+    displayLastFrame,
     timelineIndex,
     liveViewVisible,
   };

@@ -19,7 +19,7 @@ const TimelineLiveView = ({ highlighted, onClick }: TimelineLiveViewProps) => {
         iconContainerClassName="timeline-live-view__button-icon-container"
         title="Live View"
         onClick={onClick}
-        active
+        active={highlighted}
       />
     </div>
   );
