@@ -64,7 +64,6 @@ const AnimationToolbar = ({
           icon={IconName.PLAY_PREVIOUS}
           onClick={() => displayPreviousFrame()}
         />
-
         <IconButton
           title="Playback Frames"
           icon={IconName.PLAY}
