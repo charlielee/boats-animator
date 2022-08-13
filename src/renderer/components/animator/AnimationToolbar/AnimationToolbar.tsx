@@ -1,5 +1,7 @@
 import { useState } from "react";
-import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import PlaybackContext, {
+  PlaybackFrameName,
+} from "../../../context/PlaybackContext/PlaybackContext";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import InputRange from "../../common/Input/InputRange/InputRange";
@@ -12,20 +14,14 @@ import "./AnimationToolbar.css";
 interface AnimationToolbarProps {
   startOrPausePlayback: () => void;
   stopPlayback: () => void;
-  displayFirstFrame: () => void;
-  displayPreviousFrame: () => void;
-  displayNextFrame: () => void;
-  displayLastFrame: () => void;
+  displayFrame: (name: PlaybackFrameName) => void;
   playing: boolean;
 }
 
 const AnimationToolbar = ({
   startOrPausePlayback,
   stopPlayback,
-  displayFirstFrame,
-  displayPreviousFrame,
-  displayNextFrame,
-  displayLastFrame,
+  displayFrame,
   playing,
 }: AnimationToolbarProps): JSX.Element => {
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
@@ -59,12 +55,12 @@ const AnimationToolbar = ({
         <IconButton
           title="First Frame"
           icon={IconName.PLAY_FIRST}
-          onClick={() => displayFirstFrame()}
+          onClick={() => displayFrame(PlaybackFrameName.FIRST)}
         />
         <IconButton
           title="Previous Frame"
           icon={IconName.PLAY_PREVIOUS}
-          onClick={() => displayPreviousFrame()}
+          onClick={() => displayFrame(PlaybackFrameName.PREVIOUS)}
         />
         <IconButton
           title={playing ? "Pause Playback" : "Playback Frames"}
@@ -79,12 +75,12 @@ const AnimationToolbar = ({
         <IconButton
           title="Next Frame"
           icon={IconName.PLAY_NEXT}
-          onClick={() => displayNextFrame()}
+          onClick={() => displayFrame(PlaybackFrameName.NEXT)}
         />
         <IconButton
           title="Last Frame"
           icon={IconName.PLAY_LAST}
-          onClick={() => displayLastFrame()}
+          onClick={() => displayFrame(PlaybackFrameName.LAST)}
         />
       </ToolbarItem>
 
