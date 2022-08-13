@@ -74,6 +74,35 @@ const PlaybackContextProvider = ({
     }
   };
 
+  const displayFirstFrame = () => displayFrame(0);
+
+  const displayPreviousFrame = () => {
+    if (timelineIndex === undefined) {
+      return displayFrame(playForDuration - 1);
+    }
+    if (timelineIndex > 0) {
+      return displayFrame(timelineIndex - 1);
+    }
+  };
+
+  const displayNextFrame = () => {
+    if (timelineIndex === playForDuration - 1) {
+      return displayFrame(undefined);
+    }
+    if (timelineIndex !== undefined) {
+      return displayFrame(timelineIndex + 1);
+    }
+  };
+
+  const displayLastFrame = () => {
+    if (timelineIndex === playForDuration - 1) {
+      return displayFrame(undefined);
+    }
+    if (timelineIndex !== undefined) {
+      return displayFrame(playForDuration - 1);
+    }
+  };
+
   const _updateFrameIndex = (i: TimelineIndex | undefined) => {
     animationFrameIndex.current = i;
     setTimelineIndex(i);
@@ -90,6 +119,10 @@ const PlaybackContextProvider = ({
     startPlayback,
     stopPlayback,
     displayFrame,
+    displayFirstFrame,
+    displayPreviousFrame,
+    displayNextFrame,
+    displayLastFrame,
     timelineIndex,
     liveViewVisible,
   };

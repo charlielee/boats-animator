@@ -12,11 +12,19 @@ import "./AnimationToolbar.css";
 interface AnimationToolbarProps {
   startPlayback: () => void;
   stopPlayback: () => void;
+  displayFirstFrame: () => void;
+  displayPreviousFrame: () => void;
+  displayNextFrame: () => void;
+  displayLastFrame: () => void;
 }
 
 const AnimationToolbar = ({
   startPlayback,
   stopPlayback,
+  displayFirstFrame,
+  displayPreviousFrame,
+  displayNextFrame,
+  displayLastFrame,
 }: AnimationToolbarProps): JSX.Element => {
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
@@ -49,12 +57,12 @@ const AnimationToolbar = ({
         <IconButton
           title="First Frame"
           icon={IconName.PLAY_FIRST}
-          onClick={() => undefined}
+          onClick={() => displayFirstFrame()}
         />
         <IconButton
           title="Previous Frame"
           icon={IconName.PLAY_PREVIOUS}
-          onClick={() => undefined}
+          onClick={() => displayPreviousFrame()}
         />
 
         <IconButton
@@ -70,12 +78,12 @@ const AnimationToolbar = ({
         <IconButton
           title="Next Frame"
           icon={IconName.PLAY_NEXT}
-          onClick={() => undefined}
+          onClick={() => displayNextFrame()}
         />
         <IconButton
           title="Last Frame"
           icon={IconName.PLAY_LAST}
-          onClick={() => undefined}
+          onClick={() => displayLastFrame()}
         />
       </ToolbarItem>
 
