@@ -61,8 +61,8 @@ const PlaybackContextProvider = ({
   });
 
   const startPlayback = () => {
-    _logPlayback("usePlayback.startPlayback");
-    if (playForDuration > 0 && !isPlaying) {
+    _logPlayback("playback.startPlayback");
+    if (playForDuration > 0) {
       lastFrameIndex.current = startTimelineIndex + playForDuration - 1;
       start();
       setIsPlaying(true);
@@ -70,7 +70,7 @@ const PlaybackContextProvider = ({
   };
 
   const stopPlayback = () => {
-    _logPlayback("usePlayback.stopPlayback");
+    _logPlayback("playback.stopPlayback");
     stop();
     setIsPlaying(false);
     if (returnToLiveView) {
@@ -79,7 +79,9 @@ const PlaybackContextProvider = ({
   };
 
   const displayFrame = (i: TimelineIndex | undefined) => {
+    _logPlayback("playback.displayFrame");
     _updateFrameIndex(i);
+    setIsPlaying(true);
   };
 
   const _updateFrameIndex = (i: TimelineIndex | undefined) => {
