@@ -10,9 +10,8 @@ import ToolbarItem, {
 import "./AnimationToolbar.css";
 
 interface AnimationToolbarProps {
-  startPlayback: () => void;
+  startOrPausePlayback: () => void;
   stopPlayback: () => void;
-  pausePlayback: () => void;
   displayFirstFrame: () => void;
   displayPreviousFrame: () => void;
   displayNextFrame: () => void;
@@ -21,9 +20,8 @@ interface AnimationToolbarProps {
 }
 
 const AnimationToolbar = ({
-  startPlayback,
+  startOrPausePlayback,
   stopPlayback,
-  pausePlayback,
   displayFirstFrame,
   displayPreviousFrame,
   displayNextFrame,
@@ -71,7 +69,7 @@ const AnimationToolbar = ({
         <IconButton
           title={playing ? "Pause Playback" : "Playback Frames"}
           icon={playing ? IconName.PLAY_PAUSE : IconName.PLAY}
-          onClick={() => (playing ? pausePlayback() : startPlayback())}
+          onClick={() => startOrPausePlayback()}
         />
         <IconButton
           title="Stop Playback"

@@ -2,9 +2,8 @@ import { createContext } from "react";
 import { TimelineIndex } from "../../../common/Flavors";
 
 export interface PlaybackContextProps {
-  startPlayback: () => void;
+  startOrPausePlayback: () => void;
   stopPlayback: (i?: TimelineIndex | undefined, pause?: boolean) => void;
-  pausePlayback: () => void;
   displayFirstFrame: () => void;
   displayPreviousFrame: () => void;
   displayNextFrame: () => void;
@@ -15,9 +14,8 @@ export interface PlaybackContextProps {
 }
 
 const defaultValue: PlaybackContextProps = {
-  startPlayback: () => undefined,
+  startOrPausePlayback: () => undefined,
   stopPlayback: () => undefined,
-  pausePlayback: () => undefined,
   displayFirstFrame: () => undefined,
   displayPreviousFrame: () => undefined,
   displayNextFrame: () => undefined,

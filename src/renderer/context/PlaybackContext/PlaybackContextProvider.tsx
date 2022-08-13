@@ -49,7 +49,7 @@ const PlaybackContextProvider = ({
     }
   });
 
-  const startPlayback = () => {
+  const _startPlayback = () => {
     _logPlayback("playback.startPlayback");
     if (playForDuration > 0) {
       lastFrameIndex.current = playForDuration - 1;
@@ -67,10 +67,13 @@ const PlaybackContextProvider = ({
     setPlaying(false);
   };
 
-  const pausePlayback = () => {
+  const _pausePlayback = () => {
     _logPlayback("playback.pausePlayback");
     stopPlayback(timelineIndex);
   };
+
+  const startOrPausePlayback = () =>
+    playing ? _pausePlayback() : _startPlayback();
 
   const displayFirstFrame = () => {
     _logPlayback("playback.displayFirstFrame");
@@ -123,9 +126,8 @@ const PlaybackContextProvider = ({
     });
 
   const value: PlaybackContextProps = {
-    startPlayback,
+    startOrPausePlayback,
     stopPlayback,
-    pausePlayback,
     displayFirstFrame,
     displayPreviousFrame,
     displayNextFrame,
