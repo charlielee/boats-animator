@@ -5,9 +5,10 @@ import "./TimelineLiveView.css";
 
 interface TimelineLiveViewProps {
   highlighted: boolean;
+  onClick: () => void;
 }
 
-const TimelineLiveView = ({ highlighted }: TimelineLiveViewProps) => {
+const TimelineLiveView = ({ highlighted, onClick }: TimelineLiveViewProps) => {
   return (
     <div className="timeline-live-view">
       <IconButton
@@ -17,7 +18,7 @@ const TimelineLiveView = ({ highlighted }: TimelineLiveViewProps) => {
         })}
         iconContainerClassName="timeline-live-view__button-icon-container"
         title="Live View"
-        onClick={() => console.log("TODO")}
+        onClick={onClick}
         active
       />
     </div>

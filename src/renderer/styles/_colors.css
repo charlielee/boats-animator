@@ -15,6 +15,8 @@
   --ba-light: #d3d3d3;
   --ba-light-hover: #e9e9e9;
   --ba-light-active: #f5f5f5;
+  --ba-light-20: rgb(211, 211, 211, 0.2);
+  --ba-light-30: rgb(211, 211, 211, 0.3);
   --ba-light-mid: #adadad;
 
   --ba-lightred: #c54c4c;

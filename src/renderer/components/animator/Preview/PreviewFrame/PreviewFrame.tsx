@@ -3,25 +3,41 @@ import { useEffect, useRef, useState } from "react";
 import "./PreviewFrame.css";
 
 interface PreviewFrameProps {
-  src: string;
+  src: string | undefined;
   hidden: boolean;
 }
 
 const PreviewFrame = ({ src, hidden }: PreviewFrameProps): JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const imageRef = useRef<HTMLImageElement>(new Image());
+  const [imageWidth, setImageWidth] = useState(0);
+  const [imageHeight, setImageHeight] = useState(0);
 
-  useEffect(() => {
+  const drawImage = () => {
     const context = canvasRef.current?.getContext("2d");
     if (!context) {
       return;
     }
 
-    const image = new Image();
-    image.src = src;
-    context?.drawImage(image, 0, 0);
-    setDimensions({ width: image.naturalWidth, height: image.naturalHeight });
+    context?.drawImage(imageRef.current, 0, 0);
+  };
+
+  useEffect(() => {
+    if (src === undefined) {
+      return;
+    }
+
+    imageRef.current.src = src;
+    imageRef.current.addEventListener("load", drawImage);
+    setImageWidth(imageRef.current.naturalWidth);
+    setImageHeight(imageRef.current.naturalHeight);
+
+    return () => imageRef.current.removeEventListener("load", drawImage);
   }, [src]);
+
+  useEffect(() => {
+    drawImage();
+  }, [imageWidth, imageHeight]);
 
   return (
     <canvas
@@ -29,8 +45,8 @@ const PreviewFrame = ({ src, hidden }: PreviewFrameProps): JSX.Element => {
         "preview-frame--hidden": hidden,
       })}
       ref={canvasRef}
-      width={dimensions.width}
-      height={dimensions.height}
+      width={imageWidth}
+      height={imageHeight}
     />
   );
 };

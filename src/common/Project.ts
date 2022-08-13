@@ -131,3 +131,8 @@ export const getHighlightedTrackItem = (
         (_trackItem, index) =>
           getTrackItemStartPosition(track, index) >= timelineIndex
       );
+
+export const getTrackItemTitle = (track: Track, trackItemIndex: number) =>
+  track.fileType === FileRefType.FRAME
+    ? `Frame ${getTrackItemStartPosition(track, trackItemIndex) + 1}`
+    : track.trackItems[trackItemIndex].filePath;

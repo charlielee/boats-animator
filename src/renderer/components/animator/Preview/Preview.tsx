@@ -15,13 +15,13 @@ interface PreviewWithContextProps {
 }
 
 interface PreviewProps extends PreviewWithContextProps {
-  isPlaying: boolean;
+  liveViewVisible: boolean;
   timelineIndex: TimelineIndex | undefined;
 }
 
 const Preview = ({
   take,
-  isPlaying,
+  liveViewVisible,
   timelineIndex,
 }: PreviewProps): JSX.Element => {
   const dispatch = useDispatch();
@@ -32,8 +32,7 @@ const Preview = ({
       hasCameraAccess: state.app.hasCameraAccess,
       fileRefs: state.project.fileRefs,
     }));
-
-  const [previewSrc, setPreviewSrc] = useState("");
+  const [previewSrc, setPreviewSrc] = useState<string | undefined>();
 
   useEffect(() => {
     const highlightedTrackItem = getHighlightedTrackItem(
@@ -56,7 +55,7 @@ const Preview = ({
         />
       )}
 
-      {!isPlaying &&
+      {liveViewVisible &&
         !currentDevice &&
         (hasCameraAccess ? (
           <h2>Select a Camera Source to begin!</h2>
@@ -69,7 +68,7 @@ const Preview = ({
           </h2>
         ))}
 
-      <PreviewFrame src={previewSrc} hidden={!isPlaying} />
+      <PreviewFrame src={previewSrc} hidden={liveViewVisible} />
     </div>
   );
 };
