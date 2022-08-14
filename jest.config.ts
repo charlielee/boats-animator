@@ -23,8 +23,5 @@ export default {
   transformIgnorePatterns: [],
   testPathIgnorePatterns: ["/node-modules/"],
   roots: ["<rootDir>/src"],
-  setupFilesAfterEnv: [
-    "<rootDir>/src/setupTests.js",
-    "<rootDir>/src/setupTests2.ts",
-  ],
+  setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
 };

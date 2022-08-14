@@ -5,18 +5,24 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { zeroPad } from "../../../common/utils";
 
-export const makeTake = (
-  workingDirectory: string,
-  shotNumber: number,
-  takeNumber: number,
-  frameRate: number
-): Take => ({
+export interface ProjectBuilderOptions {
+  workingDirectory: string;
+  shotNumber: number;
+  takeNumber: number;
+}
+
+export const makeTake = ({
+  workingDirectory,
+  shotNumber,
+  takeNumber,
+  frameRate,
+}: ProjectBuilderOptions & { frameRate: number }): Take => ({
   id: uuidv4(),
-  directoryPath: makeTakeDirectoryPath(
+  directoryPath: makeTakeDirectoryPath({
     workingDirectory,
     shotNumber,
-    takeNumber
-  ),
+    takeNumber,
+  }),
   shotNumber,
   takeNumber,
   frameRate,
@@ -39,18 +45,18 @@ export const makeFrameTrackItem = (
   trackGroupId: trackGroupId ?? uuidv4(),
 });
 
-export const makeTakeDirectoryPath = (
-  workingDirectory: string,
-  shotNumber: number,
-  takeNumber: number
-): string =>
+export const makeTakeDirectoryPath = ({
+  workingDirectory,
+  shotNumber,
+  takeNumber,
+}: ProjectBuilderOptions): string =>
   window.preload.joinPath(
     workingDirectory,
     "Untitled Project.bafiles",
     `BA_${zeroPad(shotNumber, 3)}_${zeroPad(takeNumber, 2)}`
   );
 
-export const makeFrameFilePath = (take: Take, fileName?: string): string =>
+export const makeFrameFilePath = (take: Take, frameName?: string): string =>
   window.preload.joinPath(
     take.directoryPath,
     [
@@ -58,6 +64,6 @@ export const makeFrameFilePath = (take: Take, fileName?: string): string =>
       zeroPad(take.shotNumber, 3),
       zeroPad(take.takeNumber, 2),
       "frame",
-      `${fileName ?? zeroPad(take.lastExportedFrameNumber + 1, 5)}.png`,
+      `${frameName ?? zeroPad(take.lastExportedFrameNumber + 1, 5)}.png`,
     ].join("_")
   );
