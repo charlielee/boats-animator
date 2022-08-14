@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FileRefType, getFileRefById } from "../../../../../common/FileRef";
 import { TimelineIndex } from "../../../../../common/Flavors";
+import { Track } from "../../../../../common/project/Track";
+import { TrackItem } from "../../../../../common/project/TrackItem";
+import { RootState } from "../../../../redux/store";
 import {
   getHighlightedTrackItem,
   getTrackItemTitle,
-  Track,
-  TrackItem,
-} from "../../../../../common/Project";
-import { RootState } from "../../../../redux/store";
+} from "../../../../services/project/projectCalculator";
 import TimelineLiveViewButton from "../TimelineLiveView/TimelineLiveView";
 import TimelineTrackItem from "../TimelineTrackItem/TimelineTrackItem";
 import TimelineTrackLabel from "../TimelineTrackLabel/TimelineTrackLabel";

@@ -1,5 +1,5 @@
 import { FileRef } from "../../../common/FileRef";
-import { Take } from "../../../common/Project";
+import { Take } from "../../../common/project/Take";
 
 export interface ProjectState {
   fileRefs: FileRef[];

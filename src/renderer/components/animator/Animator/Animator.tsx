@@ -1,4 +1,4 @@
-import { Take } from "../../../../common/Project";
+import { Take } from "../../../../common/project/Take";
 import PlaybackContextProvider from "../../../context/PlaybackContext/PlaybackContextProvider";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";

@@ -1,13 +1,16 @@
 import { Action, Middleware, MiddlewareAPI } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { makeFrameFileRef } from "../../../common/FileRef";
-import { makeFrameFilePath, makeFrameTrackItem } from "../../../common/Project";
 import cameraSound from "../../audio/camera.wav";
 import { saveBlobToDisk } from "../../services/blobUtils/blobUtils";
 import {
   deviceIdentifierToDevice,
   ImagingDevice,
 } from "../../services/imagingDevice/ImagingDevice";
+import {
+  makeFrameFilePath,
+  makeFrameTrackItem,
+} from "../../services/project/projectBuilder";
 import { setCurrentDevice, setIsDeviceOpen } from "../app/actions";
 import {
   setCurrentDeviceFromId,
