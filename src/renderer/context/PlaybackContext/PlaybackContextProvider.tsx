@@ -1,8 +1,8 @@
 import { ReactNode, useRef, useState } from "react";
 import { TimelineIndex } from "../../../common/Flavors";
-import { getTrackLength } from "../../../common/project/Project";
 import { Take } from "../../../common/project/Take";
 import useRequestAnimationFrame from "../../hooks/useRequestAnimationFrame";
+import { getTrackLength } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
 import PlaybackContext, {
   PlaybackContextProps,

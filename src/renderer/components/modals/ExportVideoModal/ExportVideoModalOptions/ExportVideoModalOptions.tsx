@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { PageRoute } from "../../../../../common/PageRoute";
-import { getTrackLength } from "../../../../../common/project/Project";
 import { Take } from "../../../../../common/project/Take";
 import { makeFrameFilePath } from "../../../../services/project/projectBuilder";
+import { getTrackLength } from "../../../../services/project/projectCalculator";
 import Button from "../../../common/Button/Button";
 import { ButtonColor } from "../../../common/Button/ButtonColor";
 import Content from "../../../common/Content/Content";
