@@ -1,6 +1,7 @@
 import { TimelineIndex } from "../../../../common/Flavors";
 import { PageRoute } from "../../../../common/PageRoute";
-import { getTrackLength, Take } from "../../../../common/Project";
+import { getTrackLength } from "../../../../common/project/Project";
+import { Take } from "../../../../common/project/Take";
 import { zeroPad } from "../../../../common/utils";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import Button from "../../common/Button/Button";

@@ -1,45 +1,15 @@
 import { v4 as uuidv4 } from "uuid";
-import { FileRefType } from "./FileRef";
-import {
-  FrameCount,
-  FrameRate,
-  TakeId,
-  TimelineIndex,
-  TrackGroupId,
-  TrackId,
-  TrackItemId,
-} from "./Flavors";
-import { zeroPad } from "./utils";
+import { FileRefType } from "../FileRef";
+import { FrameCount, TimelineIndex, TrackGroupId } from "../Flavors";
+import { zeroPad } from "../utils";
+import { Take } from "./Take";
+import { Track } from "./Track";
+import { TrackItem } from "./TrackItem";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface Project {
+export interface Project {
   name: string;
   filePath: string;
   fileLastSavedToDisk?: Date;
-}
-
-export interface Take {
-  id: TakeId;
-  directoryPath: string;
-  shotNumber: number;
-  takeNumber: number;
-  frameRate: FrameRate;
-  holdFrames: FrameCount;
-  lastExportedFrameNumber: number;
-  frameTrack: Track;
-}
-
-export interface Track {
-  id: TrackId;
-  fileType: FileRefType;
-  trackItems: TrackItem[];
-}
-
-export interface TrackItem {
-  id: TrackItemId;
-  length: FrameCount;
-  filePath: string;
-  trackGroupId: TrackGroupId;
 }
 
 export const makeTake = (

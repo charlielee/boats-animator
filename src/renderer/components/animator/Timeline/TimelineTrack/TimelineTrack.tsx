@@ -5,9 +5,9 @@ import { TimelineIndex } from "../../../../../common/Flavors";
 import {
   getHighlightedTrackItem,
   getTrackItemTitle,
-  Track,
-  TrackItem,
-} from "../../../../../common/Project";
+} from "../../../../../common/project/Project";
+import { Track } from "../../../../../common/project/Track";
+import { TrackItem } from "../../../../../common/project/TrackItem";
 import { RootState } from "../../../../redux/store";
 import TimelineLiveViewButton from "../TimelineLiveView/TimelineLiveView";
 import TimelineTrackItem from "../TimelineTrackItem/TimelineTrackItem";

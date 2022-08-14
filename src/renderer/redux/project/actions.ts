@@ -1,5 +1,6 @@
 import { FileRef } from "../../../common/FileRef";
-import { Take, TrackItem } from "../../../common/Project";
+import { Take } from "../../../common/project/Take";
+import { TrackItem } from "../../../common/project/TrackItem";
 
 export enum ProjectActionType {
   ADD_FILE_REF = "project/ADD_FILE_REF",

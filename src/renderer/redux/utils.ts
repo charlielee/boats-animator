@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { Take } from "../../common/Project";
+import { Take } from "../../common/project/Take";
 import { startLoading, stopLoading } from "./app/actions";
 import { RootState } from "./store";
 

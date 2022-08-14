@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
 import { TimelineIndex } from "../../../../common/Flavors";
-import {
-  getTrackItemStartPosition,
-  Take,
-  Track,
-} from "../../../../common/Project";
+import { getTrackItemStartPosition } from "../../../../common/project/Project";
+import { Take } from "../../../../common/project/Take";
+import { Track } from "../../../../common/project/Track";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import "./Timeline.css";
 import TimelinePosition from "./TimelinePosition/TimelinePosition";

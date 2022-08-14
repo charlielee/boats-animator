@@ -1,7 +1,10 @@
 import { Action, Middleware, MiddlewareAPI } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { makeFrameFileRef } from "../../../common/FileRef";
-import { makeFrameFilePath, makeFrameTrackItem } from "../../../common/Project";
+import {
+  makeFrameFilePath,
+  makeFrameTrackItem,
+} from "../../../common/project/Project";
 import cameraSound from "../../audio/camera.wav";
 import { saveBlobToDisk } from "../../services/blobUtils/blobUtils";
 import {

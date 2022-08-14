@@ -1,5 +1,6 @@
 import { PageRoute } from "../../../../common/PageRoute";
-import { getTrackLength, Take } from "../../../../common/Project";
+import { getTrackLength } from "../../../../common/project/Project";
+import { Take } from "../../../../common/project/Take";
 import Button from "../../common/Button/Button";
 import IconName from "../../common/Icon/IconName";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";

@@ -3,8 +3,8 @@ import { PageRoute } from "../../../../../common/PageRoute";
 import {
   getTrackLength,
   makeFrameFilePath,
-  Take,
-} from "../../../../../common/Project";
+} from "../../../../../common/project/Project";
+import { Take } from "../../../../../common/project/Take";
 import Button from "../../../common/Button/Button";
 import { ButtonColor } from "../../../common/Button/ButtonColor";
 import Content from "../../../common/Content/Content";

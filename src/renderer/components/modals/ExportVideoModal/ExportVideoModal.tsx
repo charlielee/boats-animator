@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Take } from "../../../../common/Project";
+import { Take } from "../../../../common/project/Take";
 import ExportVideoModalOptions from "./ExportVideoModalOptions/ExportVideoModalOptions";
 import ExportVideoModalRendering from "./ExportVideoModalRendering/ExportVideoModalRendering";
 
