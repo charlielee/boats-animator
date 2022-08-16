@@ -5,7 +5,7 @@ import { PageRoute } from "../../../../common/PageRoute";
 import {
   fetchAndSetDeviceList,
   loadSavedPreferences,
-  onRouteChange
+  onRouteChange,
 } from "../../../redux/app/thunks";
 import { RootState } from "../../../redux/store";
 import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
@@ -21,12 +21,12 @@ const AppListeners = (): JSX.Element => {
 
   useEffect(() => {
     // Load saved preferences
-    dispatch(loadSavedPreferences());
+    dispatch(loadSavedPreferences() as any);
 
     // Get the available cameras
-    dispatch(fetchAndSetDeviceList());
+    dispatch(fetchAndSetDeviceList() as any);
     onDeviceChange(() => {
-      dispatch(fetchAndSetDeviceList());
+      dispatch(fetchAndSetDeviceList() as any);
     });
   }, []);
 
@@ -40,7 +40,7 @@ const AppListeners = (): JSX.Element => {
   // Log when changing route
   useEffect(() => {
     rLogger.info("appListener.routeChange", location.pathname);
-    dispatch(onRouteChange(location.pathname as PageRoute));
+    dispatch(onRouteChange(location.pathname as PageRoute) as any);
   }, [location]);
 
   return <></>;

@@ -25,7 +25,9 @@ const ExportDirectory = (): JSX.Element => {
       <Button
         id="exportDirectoryButton"
         title="Browse..."
-        onClick={() => dispatch(changeWorkingDirectory(workingDirectory))}
+        onClick={() =>
+          dispatch(changeWorkingDirectory(workingDirectory) as any)
+        }
       />
     </InputGroup>
   );
