@@ -7,7 +7,7 @@ import { setListener } from "./ipcRendererUtils";
 
 // This file controls access to the Electron and Node methods required by the renderer process
 // https://www.electronjs.org/docs/tutorial/context-isolation
-const api = {
+export const api = {
   platform: process.platform,
   joinPath: (...paths: string[]) => path.join(...paths),
   normalizePath: (filePath: string) => path.normalize(filePath),
