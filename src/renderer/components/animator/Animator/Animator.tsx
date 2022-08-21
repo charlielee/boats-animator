@@ -63,7 +63,7 @@ const AnimatorWithProvider = ({
   take,
 }: AnimatorWithProviderProps): JSX.Element => {
   return (
-    <PlaybackContextProvider take={take}>
+    <PlaybackContextProvider take={take} shortPlayLength={6}>
       <Animator take={take} />
     </PlaybackContextProvider>
   );

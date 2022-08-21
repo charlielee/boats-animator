@@ -15,6 +15,7 @@ interface AnimationToolbarProps {
   startOrPausePlayback: () => void;
   stopPlayback: () => void;
   displayFrame: (name: PlaybackFrameName) => void;
+  shortPlay: () => void;
   playing: boolean;
 }
 
@@ -22,6 +23,7 @@ const AnimationToolbar = ({
   startOrPausePlayback,
   stopPlayback,
   displayFrame,
+  shortPlay,
   playing,
 }: AnimationToolbarProps): JSX.Element => {
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
@@ -38,7 +40,7 @@ const AnimationToolbar = ({
         <IconButton
           title="Short Play"
           icon={IconName.PLAY_SHORT}
-          onClick={() => undefined}
+          onClick={() => shortPlay()}
         />
         <InputRange
           id="animation-toolbar__onion-skin-range"

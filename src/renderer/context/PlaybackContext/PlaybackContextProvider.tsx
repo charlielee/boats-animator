@@ -1,5 +1,5 @@
 import { ReactNode, useRef, useState } from "react";
-import { TimelineIndex } from "../../../common/Flavors";
+import { FrameCount, TimelineIndex } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import useRequestAnimationFrame from "../../hooks/useRequestAnimationFrame";
 import { getTrackLength } from "../../services/project/projectCalculator";
@@ -10,11 +10,13 @@ import PlaybackContext, {
 } from "./PlaybackContext";
 
 interface PlaybackContextProviderProps {
+  shortPlayLength: FrameCount;
   take: Take;
   children: ReactNode;
 }
 
 const PlaybackContextProvider = ({
+  shortPlayLength,
   take,
   children,
 }: PlaybackContextProviderProps) => {
@@ -75,6 +77,18 @@ const PlaybackContextProvider = ({
       case PlaybackFrameName.LAST:
         return _displayLastFrame();
     }
+  };
+
+  const shortPlay = () => {
+    _logPlayback("playback.shortPlay");
+    const playFromFrame = playForDuration - shortPlayLength;
+
+    if (playFromFrame > 0) {
+      stopPlayback(playFromFrame);
+    } else {
+      stopPlayback(0);
+    }
+    _startPlayback();
   };
 
   const _startPlayback = () => {
@@ -146,6 +160,7 @@ const PlaybackContextProvider = ({
     startOrPausePlayback,
     stopPlayback,
     displayFrame,
+    shortPlay,
     timelineIndex,
     liveViewVisible,
     playing,
