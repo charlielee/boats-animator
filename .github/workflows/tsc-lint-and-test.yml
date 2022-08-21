@@ -1,4 +1,4 @@
-name: "Lint and Test"
+name: "Run TSC, Lint and Test"
 on: push
 jobs:
   lint:
@@ -10,4 +10,5 @@ jobs:
           node-version: 16.15.0
       - run: npm install
       - run: npm run lint
-      - run: npm run test
+      - run: npm run tsc
+      - run: npm test

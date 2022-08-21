@@ -21,8 +21,8 @@
   },
   "scripts": {
     "start": "npm-run-all -p dev:react electron:serve",
-    "watch": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --watch",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "test-watch": "npm run test -- --watch",
     "tsc": "tsc",
     "lint": "eslint",
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack/electron.webpack.ts --mode=development && npm run start:electron",
