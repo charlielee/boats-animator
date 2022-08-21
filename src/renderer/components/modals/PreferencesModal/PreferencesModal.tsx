@@ -9,6 +9,7 @@ import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
+import InputNumber from "../../common/Input/InputNumber/InputNumber";
 import InputSwitch from "../../common/Input/InputSwitch/InputSwitch";
 import Modal from "../../common/Modal/Modal";
 import ModalBody from "../../common/ModalBody/ModalBody";
@@ -57,6 +58,25 @@ const PreferencesModal = (): JSX.Element => {
                   <InputLabel inputId="preferencesPlayCaptureSound">
                     Play capture sound
                   </InputLabel>
+                </InputGroup>
+
+                <InputGroup row>
+                  <InputLabel inputId="preferencesShortPlayLength">
+                    Short play length
+                  </InputLabel>
+                  <InputNumber
+                    id="preferencesShortPlayLength"
+                    min={1}
+                    max={100}
+                    value={userPreferences.shortPlayLength}
+                    onChange={(newValue) =>
+                      dispatch(
+                        editUserPreferences({
+                          shortPlayLength: newValue,
+                        })
+                      )
+                    }
+                  />
                 </InputGroup>
               </ContentBlock>
             </Content>
