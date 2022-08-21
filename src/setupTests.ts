@@ -1,3 +1,4 @@
+import "@testing-library/jest-dom/extend-expect";
 import nodeCrypto from "crypto";
 import { api } from "./rendererPreload/preload";
 
