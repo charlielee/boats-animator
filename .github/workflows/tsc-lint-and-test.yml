@@ -1,0 +1,14 @@
+name: "Run TSC, Lint and Test"
+on: push
+jobs:
+  tsc-lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.15.0
+      - run: npm install
+      - run: npm run tsc
+      - run: npm run lint
+      - run: npm test
