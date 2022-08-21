@@ -61,9 +61,15 @@ const PlaybackContextProvider = ({
   const stopPlayback = (i?: TimelineIndex | undefined) => {
     _logPlayback("playback.stopPlayback");
     stop();
-    _updateFrameIndex(i === undefined ? undefined : i);
-    setLiveViewVisible(i === undefined);
     setPlaying(false);
+
+    if (i === undefined || playForDuration === 0) {
+      _updateFrameIndex(undefined);
+      setLiveViewVisible(true);
+    } else {
+      _updateFrameIndex(i);
+      setLiveViewVisible(false);
+    }
   };
 
   const displayFrame = (name: PlaybackFrameName) => {
