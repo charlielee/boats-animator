@@ -24,6 +24,8 @@ const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
   webPreferences: {
     contextIsolation: true,
     nodeIntegration: false,
+    // TODO https://github.com/charlielee/boats-animator/issues/423
+    sandbox: false,
     preload: path.join(__dirname, "preload.js"),
   },
   width: 1050,
