@@ -2,18 +2,19 @@ site_name: Boats Animator
 site_dir: bin/mkdocs
 repo_url: https://github.com/charlielee/boats-animator
 nav:
-- Home: index.md
-- Introduction:
-  - System Requirements: introduction/system-requirements.md
-  - License: introduction/license.md
-- Interface:
-  - Launcher Window: interface/launcher-window.md
-  - Main Window: interface/main-window.md
-- Features:
-  - Export Video: features/export-video.md
-  - Keyboard Shortcuts: features/keyboard-shortcuts.md
-  - Menu Bar: features/menu-bar.md
-  - Status Bar: features/status-bar.md
+  - Home: index.md
+  - Introduction:
+      - System Requirements: introduction/system-requirements.md
+      - License: introduction/license.md
+      - Download: introduction/download.md
+  - Interface:
+      - Launcher Window: interface/launcher-window.md
+      - Main Window: interface/main-window.md
+  - Features:
+      - Export Video: features/export-video.md
+      - Keyboard Shortcuts: features/keyboard-shortcuts.md
+      - Menu Bar: features/menu-bar.md
+      - Status Bar: features/status-bar.md
 
 theme: readthedocs
 extra_css: [css/custom.css]
