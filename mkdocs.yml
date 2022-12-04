@@ -11,6 +11,7 @@ nav:
       - Launcher Window: interface/launcher-window.md
       - Main Window: interface/main-window.md
   - Features:
+      - Supported Camera: feature/cameras.md
       - Export Video: features/export-video.md
       - Keyboard Shortcuts: features/keyboard-shortcuts.md
       - Menu Bar: features/menu-bar.md

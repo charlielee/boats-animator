@@ -22,10 +22,9 @@ gconf2 gconf-service libnotify4 libappindicator1 libxtst6 libnss3x
 
 ## Hardware
 
-* Intel Pentium 4 or later with SSE2 support
-* 1 GB of RAM
-* 1 GB of available storage
-* USB webcam
+- Intel Pentium 4 or later with SSE2 support
+- 1 GB of RAM
+- 1 GB of available storage
+- USB webcam
 
-!!! note "Note"
-    Please note that Boats Animator currently only supports webcams and other similar USB devices. D-SLR support is not expected anytime soon.
+Please see the [Supported Cameras](/features/cameras) page for further information.
