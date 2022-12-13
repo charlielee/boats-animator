@@ -29,7 +29,7 @@ describe("makeTake", () => {
 
 describe("makeFrameTrackItem", () => {
   it("should make frame track item with no Track Group ID supplied", () => {
-    const filePath = "/frame.png";
+    const filePath = "/frame.jpg";
 
     expect(makeFrameTrackItem(filePath)).toStrictEqual({
       filePath,
@@ -40,7 +40,7 @@ describe("makeFrameTrackItem", () => {
   });
 
   it("should make frame track item with Track Group ID supplied", () => {
-    const filePath = "/frame.png";
+    const filePath = "/frame.jpg";
     const trackGroupId = TRACK_GROUP_ID;
 
     expect(makeFrameTrackItem(filePath, trackGroupId)).toStrictEqual({
@@ -67,7 +67,7 @@ describe("makeFrameFilePath", () => {
     const fileName = "cheese";
 
     expect(makeFrameFilePath(take, fileName)).toEqual(
-      `${takeDirectoryPath}/ba_002_03_frame_cheese.png`
+      `${takeDirectoryPath}/ba_002_03_frame_cheese.jpg`
     );
   });
 
@@ -77,7 +77,7 @@ describe("makeFrameFilePath", () => {
     const takeDirectoryPath = makeTakeDirectoryPath(options);
 
     expect(makeFrameFilePath(take)).toEqual(
-      `${takeDirectoryPath}/ba_002_03_frame_00004.png`
+      `${takeDirectoryPath}/ba_002_03_frame_00004.jpg`
     );
   });
 });
