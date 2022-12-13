@@ -64,6 +64,6 @@ export const makeFrameFilePath = (take: Take, frameName?: string): string =>
       zeroPad(take.shotNumber, 3),
       zeroPad(take.takeNumber, 2),
       "frame",
-      `${frameName ?? zeroPad(take.lastExportedFrameNumber + 1, 5)}.png`,
+      `${frameName ?? zeroPad(take.lastExportedFrameNumber + 1, 5)}.jpg`,
     ].join("_")
   );
