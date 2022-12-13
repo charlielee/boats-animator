@@ -37,7 +37,7 @@
     "package:dist": "electron-builder"
   },
   "dependencies": {
-    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@ffmpeg-installer/ffmpeg": "1.1.0",
     "@redux-devtools/extension": "^3.2.3",
     "classnames": "^2.3.1",
     "conf": "^10.0.3",
@@ -57,6 +57,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/ffmpeg-installer__ffmpeg": "^1.0.0",
     "@types/jest": "^28.1.6",
     "@types/node": "^16.5.0",
     "@types/react": "^18.0.17",
