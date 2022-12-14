@@ -47,7 +47,7 @@ const AnimationToolbar = ({
         <IconButton
           title={`Short Play (${shortPlayLength} ${shortPlayFrameText})`}
           icon={IconName.PLAY_SHORT}
-          onClick={() => shortPlay()}
+          onClick={shortPlay}
         />
         <InputRange
           id="animation-toolbar__onion-skin-range"
@@ -79,7 +79,7 @@ const AnimationToolbar = ({
         <IconButton
           title="Stop Playback"
           icon={IconName.PLAY_STOP}
-          onClick={() => stopPlayback()}
+          onClick={stopPlayback}
         />
         <IconButton
           title="Next Frame"
