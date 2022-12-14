@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import PlaybackContext, {
   PlaybackFrameName,
 } from "../../../context/PlaybackContext/PlaybackContext";
+import { RootState } from "../../../redux/store";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import InputRange from "../../common/Input/InputRange/InputRange";
@@ -26,6 +28,11 @@ const AnimationToolbar = ({
   shortPlay,
   playing,
 }: AnimationToolbarProps): JSX.Element => {
+  const shortPlayLength = useSelector(
+    (state: RootState) => state.app.userPreferences.shortPlayLength
+  );
+  const shortPlayFrameText = shortPlayLength === 1 ? "frame" : "frames";
+
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
 
@@ -38,7 +45,7 @@ const AnimationToolbar = ({
           onClick={() => undefined}
         />
         <IconButton
-          title="Short Play"
+          title={`Short Play (${shortPlayLength} ${shortPlayFrameText})`}
           icon={IconName.PLAY_SHORT}
           onClick={() => shortPlay()}
         />
