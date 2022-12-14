@@ -1,6 +1,7 @@
 import { ReactNode, useRef, useState } from "react";
 import { FrameCount, TimelineIndex } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
+import useLinkedRefAndState from "../../hooks/useLinkedRefAndState";
 import useRequestAnimationFrame from "../../hooks/useRequestAnimationFrame";
 import { getTrackLength } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
@@ -22,16 +23,20 @@ const PlaybackContextProvider = ({
 }: PlaybackContextProviderProps) => {
   const playForDuration = getTrackLength(take.frameTrack);
 
-  // Note: an `undefined` timeline index indicates the application is showing the live view
-  const [timelineIndex, setTimelineIndex] = useState<TimelineIndex | undefined>(
-    undefined
-  );
+  // An `undefined` timeline index indicates the application is showing the live view
+  const {
+    state: timelineIndex,
+    ref: timelineIndexRef,
+    setRefAndState: setTimelineIndex,
+  } = useLinkedRefAndState<TimelineIndex | undefined>(undefined);
+
+  // const {state: xPlaying, ref: xPlayingRef, setRefAndState: xSetPlaying} = useLinkedRefAndState(false)
+
   const [liveViewVisible, setLiveViewVisible] = useState(true);
   const [playing, setPlaying] = useState(false);
 
   const delay = 1000 / take.frameRate;
   const previousTime = useRef<number>(0);
-  const animationFrameIndex = useRef<TimelineIndex | undefined>(undefined);
   const lastFrameIndex = useRef<TimelineIndex>(0);
   const wasPlaying = useRef(false);
 
@@ -42,20 +47,20 @@ const PlaybackContextProvider = ({
     }
 
     if (
-      animationFrameIndex.current === undefined ||
+      timelineIndexRef.current === undefined ||
       newTime >= previousTime.current + delay
     ) {
       previousTime.current = newTime;
 
-      switch (animationFrameIndex.current) {
+      switch (timelineIndexRef.current) {
         case undefined:
-          _updateFrameIndex(0);
+          setTimelineIndex(0);
           break;
         case lastFrameIndex.current:
           stopPlayback();
           break;
         default:
-          _updateFrameIndex(animationFrameIndex.current + 1);
+          setTimelineIndex(timelineIndexRef.current + 1);
           break;
       }
     }
@@ -71,10 +76,10 @@ const PlaybackContextProvider = ({
     wasPlaying.current = false;
 
     if (i === undefined || playForDuration === 0) {
-      _updateFrameIndex(undefined);
+      setTimelineIndex(undefined);
       setLiveViewVisible(true);
     } else {
-      _updateFrameIndex(i);
+      setTimelineIndex(i);
       setLiveViewVisible(false);
     }
   };
@@ -157,16 +162,11 @@ const PlaybackContextProvider = ({
     }
   };
 
-  const _updateFrameIndex = (i: TimelineIndex | undefined) => {
-    animationFrameIndex.current = i;
-    setTimelineIndex(i);
-  };
-
   const _logPlayback = (loggingCode: string) =>
     rLogger.info(loggingCode, {
       playForDuration,
       frameRate: take.frameRate,
-      timelineIndex: animationFrameIndex.current ?? "(showing live view)",
+      timelineIndex: timelineIndexRef.current ?? "(showing live view)",
     });
 
   const value: PlaybackContextProps = {
