@@ -1,6 +1,8 @@
-import { useRef, useState } from "react";
+import { MutableRefObject, useRef, useState } from "react";
 
-const useLinkedRefAndState = <T>(initialValue: T) => {
+const useLinkedRefAndState = <T>(
+  initialValue: T
+): [T, MutableRefObject<T>, (newValue: T) => void] => {
   const [state, setState] = useState<T>(initialValue);
   const ref = useRef<T>(initialValue);
 
@@ -9,7 +11,7 @@ const useLinkedRefAndState = <T>(initialValue: T) => {
     ref.current = newValue;
   };
 
-  return { state, ref, setRefAndState };
+  return [state, ref, setRefAndState];
 };
 
 export default useLinkedRefAndState;

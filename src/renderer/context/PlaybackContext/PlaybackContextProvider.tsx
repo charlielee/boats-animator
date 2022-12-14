@@ -24,26 +24,20 @@ const PlaybackContextProvider = ({
   const playForDuration = getTrackLength(take.frameTrack);
 
   // An `undefined` timeline index indicates the application is showing the live view
-  const {
-    state: timelineIndex,
-    ref: timelineIndexRef,
-    setRefAndState: setTimelineIndex,
-  } = useLinkedRefAndState<TimelineIndex | undefined>(undefined);
-
-  // const {state: xPlaying, ref: xPlayingRef, setRefAndState: xSetPlaying} = useLinkedRefAndState(false)
+  const [timelineIndex, timelineIndexRef, setTimelineIndex] =
+    useLinkedRefAndState<TimelineIndex | undefined>(undefined);
+  const [playing, playingRef, setPlaying] = useLinkedRefAndState(false);
 
   const [liveViewVisible, setLiveViewVisible] = useState(true);
-  const [playing, setPlaying] = useState(false);
 
   const delay = 1000 / take.frameRate;
   const previousTime = useRef<number>(0);
   const lastFrameIndex = useRef<TimelineIndex>(0);
-  const wasPlaying = useRef(false);
 
   const [startRAF, stopRAF] = useRequestAnimationFrame((newTime) => {
-    if (!wasPlaying.current) {
+    if (!playingRef.current) {
       previousTime.current = newTime;
-      wasPlaying.current = true;
+      setPlaying(true);
     }
 
     if (
@@ -73,7 +67,6 @@ const PlaybackContextProvider = ({
     _logPlayback("playback.stopPlayback");
     stopRAF();
     setPlaying(false);
-    wasPlaying.current = false;
 
     if (i === undefined || playForDuration === 0) {
       setTimelineIndex(undefined);
@@ -115,7 +108,6 @@ const PlaybackContextProvider = ({
       lastFrameIndex.current = playForDuration - 1;
       startRAF();
       setLiveViewVisible(false);
-      setPlaying(true);
     }
   };
 
