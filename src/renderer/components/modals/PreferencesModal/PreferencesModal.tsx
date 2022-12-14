@@ -67,7 +67,7 @@ const PreferencesModal = (): JSX.Element => {
                   <InputNumber
                     id="preferencesShortPlayLength"
                     min={1}
-                    max={100}
+                    max={99}
                     value={userPreferences.shortPlayLength}
                     onChange={(newValue) =>
                       dispatch(
@@ -76,6 +76,7 @@ const PreferencesModal = (): JSX.Element => {
                         })
                       )
                     }
+                    validateOnChange
                   />
                 </InputGroup>
               </ContentBlock>
