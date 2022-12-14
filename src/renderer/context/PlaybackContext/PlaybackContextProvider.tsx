@@ -33,8 +33,14 @@ const PlaybackContextProvider = ({
   const previousTime = useRef<number>(0);
   const animationFrameIndex = useRef<TimelineIndex | undefined>(undefined);
   const lastFrameIndex = useRef<TimelineIndex>(0);
+  const wasPlaying = useRef(false);
 
-  const [start, stop] = useRequestAnimationFrame((newTime) => {
+  const [startRAF, stopRAF] = useRequestAnimationFrame((newTime) => {
+    if (!wasPlaying.current) {
+      previousTime.current = newTime;
+      wasPlaying.current = true;
+    }
+
     if (
       animationFrameIndex.current === undefined ||
       newTime >= previousTime.current + delay
@@ -60,8 +66,9 @@ const PlaybackContextProvider = ({
 
   const stopPlayback = (i?: TimelineIndex | undefined) => {
     _logPlayback("playback.stopPlayback");
-    stop();
+    stopRAF();
     setPlaying(false);
+    wasPlaying.current = false;
 
     if (i === undefined || playForDuration === 0) {
       _updateFrameIndex(undefined);
@@ -101,7 +108,7 @@ const PlaybackContextProvider = ({
     _logPlayback("playback.startPlayback");
     if (playForDuration > 0) {
       lastFrameIndex.current = playForDuration - 1;
-      start();
+      startRAF();
       setLiveViewVisible(false);
       setPlaying(true);
     }
