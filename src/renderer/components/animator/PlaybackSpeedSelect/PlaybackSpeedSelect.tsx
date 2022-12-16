@@ -1,15 +1,23 @@
+import { useState } from "react";
 import { playbackSpeeds } from "../../../../common/utils";
 import InputSelect from "../../common/Input/InputSelect/InputSelect";
 
-const PlaybackSpeedSelect = (): JSX.Element => (
-  <InputSelect
-    options={playbackSpeeds.reduce(
-      (output, s) => ({ ...output, [`${s}X`]: s }),
-      {} as Record<string, number>
-    )}
-    value={1}
-    onChange={(newValue) => console.log(newValue)}
-  />
+const playbackSpeedOptions = playbackSpeeds.reduce(
+  (output, s) => ({ ...output, [`${s}X`]: s }),
+  {} as Record<string, number>
 );
+
+const PlaybackSpeedSelect = (): JSX.Element => {
+  const [speed, setSpeed] = useState(1);
+
+  return (
+    <InputSelect
+      options={playbackSpeedOptions}
+      value={speed}
+      onChange={(newValue) => setSpeed(parseFloat(newValue))}
+      title={`Playback Speed ${speed}X`}
+    />
+  );
+};
 
 export default PlaybackSpeedSelect;

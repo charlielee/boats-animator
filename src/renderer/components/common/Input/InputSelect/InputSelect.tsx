@@ -5,6 +5,7 @@ interface InputSelectProps<TValue> {
   options: Record<string, TValue>;
   value: TValue;
   onChange(newValue: string): void;
+  title?: string;
 }
 
 const InputSelect = <TValue extends InputSelectValue>({
@@ -12,12 +13,13 @@ const InputSelect = <TValue extends InputSelectValue>({
   options,
   onChange,
   value,
+  title,
 }: InputSelectProps<TValue>): JSX.Element => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
     onChange(event.target.value);
 
   return (
-    <select id={id} value={value} onChange={handleChange}>
+    <select id={id} value={value} onChange={handleChange} title={title}>
       {Object.entries(options).map(([k, v]) => (
         <option value={v} key={k}>
           {k}
