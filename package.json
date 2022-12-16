@@ -91,5 +91,8 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
     "webpack-node-externals": "^3.0.0"
+  },
+  "overrides": {
+    "memfs": "3.4.12"
   }
 }
