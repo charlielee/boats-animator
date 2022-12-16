@@ -20,3 +20,5 @@ export const stringToArray = (items: string) =>
   items
     .match(/[^\s"']+|"([^"]*)"/gim)
     ?.map((arg: string) => arg.replace(/"|'/g, ""));
+
+export const playbackSpeeds = [0.25, 0.5, 1, 2, 4];

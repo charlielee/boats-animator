@@ -1,16 +1,18 @@
-interface InputSelectProps {
+type InputSelectValue = string | number | undefined;
+
+interface InputSelectProps<TValue> {
   id?: string;
-  options: Record<string, string>;
-  value: string | undefined;
+  options: Record<string, TValue>;
+  value: TValue;
   onChange(newValue: string): void;
 }
 
-const InputSelect = ({
+const InputSelect = <TValue extends InputSelectValue>({
   id,
   options,
   onChange,
   value,
-}: InputSelectProps): JSX.Element => {
+}: InputSelectProps<TValue>): JSX.Element => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
     onChange(event.target.value);
 
