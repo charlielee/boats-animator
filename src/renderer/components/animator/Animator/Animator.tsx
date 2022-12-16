@@ -1,5 +1,7 @@
+import { useSelector } from "react-redux";
 import { Take } from "../../../../common/project/Take";
 import PlaybackContextProvider from "../../../context/PlaybackContext/PlaybackContextProvider";
+import { RootState } from "../../../redux/store";
 import Content from "../../common/Content/Content";
 import IconName from "../../common/Icon/IconName";
 import Page from "../../common/Page/Page";
@@ -62,8 +64,12 @@ const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
 const AnimatorWithProvider = ({
   take,
 }: AnimatorWithProviderProps): JSX.Element => {
+  const shortPlayLength = useSelector(
+    (state: RootState) => state.app.userPreferences.shortPlayLength
+  );
+
   return (
-    <PlaybackContextProvider take={take}>
+    <PlaybackContextProvider take={take} shortPlayLength={shortPlayLength}>
       <Animator take={take} />
     </PlaybackContextProvider>
   );

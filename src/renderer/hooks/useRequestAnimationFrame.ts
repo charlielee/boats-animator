@@ -17,15 +17,15 @@ const useRequestAnimationFrame = (
     callback(time);
   };
 
-  const start = () => {
+  const startRAF = () => {
     requestId.current = requestAnimationFrame(animate);
   };
 
-  const stop = () => {
+  const stopRAF = () => {
     cancelAnimationFrame(requestId.current ?? 0);
   };
 
-  return [start, stop];
+  return [startRAF, stopRAF];
 };
 
 export default useRequestAnimationFrame;
