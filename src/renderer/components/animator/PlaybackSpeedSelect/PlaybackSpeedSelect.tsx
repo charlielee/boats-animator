@@ -3,7 +3,7 @@ import { playbackSpeeds } from "../../../../common/utils";
 import InputSelect from "../../common/Input/InputSelect/InputSelect";
 
 const playbackSpeedOptions = playbackSpeeds.reduce(
-  (output, s) => ({ ...output, [`${s}X`]: s }),
+  (output, s) => ({ ...output, [`${s}x`]: s }),
   {} as Record<string, number>
 );
 
@@ -15,7 +15,7 @@ const PlaybackSpeedSelect = (): JSX.Element => {
       options={playbackSpeedOptions}
       value={speed}
       onChange={(newValue) => setSpeed(parseFloat(newValue))}
-      title={`Playback Speed ${speed}X`}
+      title={`Playback Speed ${speed}x`}
       fitContent
     />
   );
