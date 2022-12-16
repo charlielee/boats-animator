@@ -16,6 +16,7 @@ const PlaybackSpeedSelect = (): JSX.Element => {
       value={speed}
       onChange={(newValue) => setSpeed(parseFloat(newValue))}
       title={`Playback Speed ${speed}X`}
+      fitContent
     />
   );
 };

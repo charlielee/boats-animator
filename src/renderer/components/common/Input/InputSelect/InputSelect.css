@@ -1,0 +1,9 @@
+
+.input-select {
+  padding: var(--margin-025) var(--margin-150)  var(--margin-025) var(--margin-050);
+
+}
+
+.input-select--fit-content {
+  max-width: fit-content;
+}
