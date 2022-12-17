@@ -4,9 +4,9 @@ import { PlaybackFrameName } from "./PlaybackContext";
 export const findRelativeTimelineIndex = (
   index: TimelineIndex | undefined,
   name: PlaybackFrameName,
-  playForDuration: FrameCount
+  totalFrames: FrameCount
 ): TimelineIndex | undefined => {
-  const lastIndex: TimelineIndex = playForDuration - 1;
+  const lastIndex: TimelineIndex = totalFrames - 1;
   if (lastIndex < 0) {
     throw "No frames captured";
   }
@@ -61,8 +61,8 @@ const isLastIndex = (
 
 export const findShortPlayStartFrame = (
   shortPlayLength: number,
-  playForDuration: FrameCount
+  totalFrames: FrameCount
 ) => {
-  const playFromFrame = playForDuration - shortPlayLength;
+  const playFromFrame = totalFrames - shortPlayLength;
   return playFromFrame > 0 ? playFromFrame : 0;
 };

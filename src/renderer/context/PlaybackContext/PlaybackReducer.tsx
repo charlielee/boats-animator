@@ -5,11 +5,20 @@ import {
 } from "./timelineIndexCalculator";
 import { PlaybackAction, PlaybackActionType, PlaybackState } from "./types";
 
+export const initialPlaybackState = {
+  timelineIndex: undefined,
+  playing: false,
+  loopPlayback: false,
+  playbackSpeed: 1,
+  totalFrames: 0,
+  shortPlayLength: 6,
+};
+
 export const playbackReducer = (
   state: PlaybackState,
   action: PlaybackAction
 ): PlaybackState => {
-  if (state.playForDuration > 0) {
+  if (state.totalFrames > 0) {
     return actionsWithFrames(state, action);
   }
 
@@ -30,7 +39,7 @@ const actionsWithFrames = (
         timelineIndex: findRelativeTimelineIndex(
           state.timelineIndex,
           payload.name,
-          state.playForDuration
+          state.totalFrames
         ),
       };
 
@@ -38,6 +47,12 @@ const actionsWithFrames = (
       return {
         ...state,
         timelineIndex: payload.timelineIndex,
+      };
+
+    case PlaybackActionType.SET_TOTAL_FRAMES:
+      return {
+        ...state,
+        totalFrames: payload.totalFrames,
       };
 
     case PlaybackActionType.START_OR_PAUSE_PLAYBACK:
@@ -55,7 +70,7 @@ const actionsWithFrames = (
         playing: true,
         timelineIndex: findShortPlayStartFrame(
           state.shortPlayLength,
-          state.playForDuration
+          state.totalFrames
         ),
       };
 

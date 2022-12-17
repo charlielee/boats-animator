@@ -6,13 +6,14 @@ export interface PlaybackState {
   playing: boolean;
   loopPlayback: boolean;
   playbackSpeed: number;
-  playForDuration: FrameCount;
+  totalFrames: FrameCount;
   shortPlayLength: number;
 }
 
 export enum PlaybackActionType {
   DISPLAY_FRAME = "playback/DISPLAY_FRAME",
   SET_TIMELINE_INDEX = "playback/SET_TIMELINE_INDEX",
+  SET_TOTAL_FRAMES = "playback/SET_TOTAL_FRAMES",
   START_OR_PAUSE_PLAYBACK = "playback/START_OR_PAUSE_PLAYBACK",
   START_SHORT_PLAY = "playback/START_SHORT_PLAY",
   STOP_OR_REPEAT_PLAYBACK = "playback/STOP_OR_REPEAT_PLAYBACK",
@@ -22,6 +23,7 @@ export enum PlaybackActionType {
 export type PlaybackAction =
   | DisplayFrameAction
   | SetTimelineIndexAction
+  | SetTotalFramesAction
   | StartOrPausePlaybackAction
   | StartShortPlayAction
   | StopOrRepeatPlaybackAction
@@ -38,6 +40,13 @@ export interface SetTimelineIndexAction {
   type: PlaybackActionType.SET_TIMELINE_INDEX;
   payload: {
     timelineIndex: TimelineIndex;
+  };
+}
+
+export interface SetTotalFramesAction {
+  type: PlaybackActionType.SET_TOTAL_FRAMES;
+  payload: {
+    totalFrames: number;
   };
 }
 
