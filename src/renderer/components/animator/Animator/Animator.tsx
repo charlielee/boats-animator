@@ -64,12 +64,13 @@ const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
 const AnimatorWithProvider = ({
   take,
 }: AnimatorWithProviderProps): JSX.Element => {
-  const shortPlayLength = useSelector(
-    (state: RootState) => state.app.userPreferences.shortPlayLength
-  );
+  const selectors = useSelector((state: RootState) => ({
+    shortPlayLength: state.app.userPreferences.shortPlayLength,
+    playbackSpeed: state.project.playbackSpeed,
+  }));
 
   return (
-    <PlaybackContextProvider take={take} shortPlayLength={shortPlayLength}>
+    <PlaybackContextProvider take={take} {...selectors}>
       <Animator take={take} />
     </PlaybackContextProvider>
   );

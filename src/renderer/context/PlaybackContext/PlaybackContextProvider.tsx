@@ -13,12 +13,14 @@ import PlaybackContext, {
 interface PlaybackContextProviderProps {
   shortPlayLength: FrameCount;
   take: Take;
+  playbackSpeed: number;
   children: ReactNode;
 }
 
 const PlaybackContextProvider = ({
   shortPlayLength,
   take,
+  playbackSpeed,
   children,
 }: PlaybackContextProviderProps) => {
   const playForDuration = getTrackLength(take.frameTrack);
@@ -30,7 +32,7 @@ const PlaybackContextProvider = ({
 
   const [liveViewVisible, setLiveViewVisible] = useState(true);
 
-  const delay = 1000 / take.frameRate;
+  const delay = 1000 / take.frameRate / playbackSpeed;
   const previousTime = useRef<number>(0);
   const lastFrameIndex = useRef<TimelineIndex>(0);
 
