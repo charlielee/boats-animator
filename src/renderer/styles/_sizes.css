@@ -25,4 +25,5 @@
   --margin-025: var(--width-4);
   --margin-050: var(--width-8);
   --margin-100: var(--width-16);
+  --margin-150: calc(var(--width-16) * 1.5);
 }

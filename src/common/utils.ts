@@ -20,3 +20,12 @@ export const stringToArray = (items: string) =>
   items
     .match(/[^\s"']+|"([^"]*)"/gim)
     ?.map((arg: string) => arg.replace(/"|'/g, ""));
+
+export const PLAYBACK_SPEEDS = {
+  "0.1×": 0.1,
+  "0.25×": 0.25,
+  "0.5×": 0.5,
+  "1.0×": 1,
+  "2.0×": 2,
+  "4.0×": 4,
+};

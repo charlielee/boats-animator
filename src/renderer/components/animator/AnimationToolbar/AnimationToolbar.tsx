@@ -11,6 +11,7 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, {
   ToolbarItemAlign,
 } from "../../common/ToolbarItem/ToolbarItem";
+import PlaybackSpeedSelect from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
 import "./AnimationToolbar.css";
 
 interface AnimationToolbarProps {
@@ -94,6 +95,7 @@ const AnimationToolbar = ({
       </ToolbarItem>
 
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
+        <PlaybackSpeedSelect />
         <IconButton
           title={`${loopPlayback ? "Disable" : "Enable"} Loop Playback`}
           icon={IconName.PLAY_LOOP}

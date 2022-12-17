@@ -84,7 +84,8 @@ textarea:focus {
 select {
   background-image: url("./images/dropdown.svg");
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: center right var(--margin-025);
+  background-size: 1rem;
 }
 
 table {
