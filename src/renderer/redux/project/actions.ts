@@ -8,13 +8,15 @@ export enum ProjectActionType {
   ADD_PROJECT = "project/ADD_PROJECT",
   ADD_TAKE = "project/ADD_TAKE",
   INCREMENT_EXPORTED_FRAME_NUMBER = "project/INCREMENT_EXPORTED_FRAME_NUMBER",
+  SET_PLAYBACK_SPEED = "project/SET_PLAYBACK_SPEED",
 }
 
 export type ProjectActions =
   | AddFileRefAction
   | AddFrameTrackAction
   | AddTakeAction
-  | IncrementExportedFrameNumber;
+  | IncrementExportedFrameNumber
+  | SetPlaybackSpeed;
 
 interface AddFileRefAction {
   type: ProjectActionType.ADD_FILE_REF;
@@ -38,6 +40,13 @@ interface IncrementExportedFrameNumber {
   type: ProjectActionType.INCREMENT_EXPORTED_FRAME_NUMBER;
 }
 
+interface SetPlaybackSpeed {
+  type: ProjectActionType.SET_PLAYBACK_SPEED;
+  payload: {
+    playbackSpeed: number;
+  };
+}
+
 export const addFileRef = (fileRef: FileRef) => ({
   type: ProjectActionType.ADD_FILE_REF,
   payload: { fileRef },
@@ -59,4 +68,11 @@ export const addFrameTrackItem = (trackItem: TrackItem) => ({
 
 export const incrementExportedFrameNumber = () => ({
   type: ProjectActionType.INCREMENT_EXPORTED_FRAME_NUMBER,
+});
+
+export const setPlaybackSpeed = (playbackSpeed: number) => ({
+  type: ProjectActionType.SET_PLAYBACK_SPEED,
+  payload: {
+    playbackSpeed,
+  },
 });

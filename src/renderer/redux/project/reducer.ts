@@ -30,6 +30,12 @@ const projectReducer = (
             lastExportedFrameNumber: state.take.lastExportedFrameNumber + 1,
           },
         };
+
+      case ProjectActionType.SET_PLAYBACK_SPEED:
+        return {
+          ...state,
+          playbackSpeed: action.payload.playbackSpeed,
+        };
     }
   }
 

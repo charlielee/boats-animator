@@ -12,6 +12,7 @@ export enum AppActionType {
   SET_CAMERA_ACCESS = "app/SET_CAMERA_ACCESS",
   START_LOADING = "app/START_LOADING",
   STOP_LOADING = "app/STOP_LOADING",
+  SET_PLAYBACK_SPEED = "app/SET_PLAYBACK_SPEED",
 }
 
 export type AppAction =
