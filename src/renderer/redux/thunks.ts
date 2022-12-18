@@ -3,12 +3,8 @@ import { PageRoute } from "../../common/PageRoute";
 import { listDevices } from "../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../services/rLogger/rLogger";
 import { changeDevice, closeDevice, openDevice } from "./capture/actions";
-import {
-  editUserPreferences,
-  setCameraAccess,
-  setCurrentDevice,
-  setDeviceList,
-} from "./slices/appSlice";
+import { editUserPreferences, setCameraAccess } from "./slices/appSlice";
+import { setCurrentDevice, setDeviceList } from "./slices/captureSlice";
 import { RootState } from "./store";
 
 export const fetchAndSetDeviceList = () => {
@@ -16,19 +12,19 @@ export const fetchAndSetDeviceList = () => {
     dispatch: ThunkDispatch<RootState, void, Action>,
     getState: () => RootState
   ) => {
-    const { currentDevice } = getState().app;
+    const { currentDeviceIdentifier } = getState().capture;
 
     return (async () => {
       const connectedDevices = await listDevices();
       dispatch(setDeviceList(connectedDevices));
 
       const currentDeviceConnected =
-        currentDevice &&
+        currentDeviceIdentifier &&
         connectedDevices.find(
-          (device) => device.deviceId === currentDevice.deviceId
+          (device) => device.deviceId === currentDeviceIdentifier.deviceId
         );
 
-      if (currentDevice && !currentDeviceConnected) {
+      if (currentDeviceIdentifier && !currentDeviceConnected) {
         rLogger.info("thunks.fetchAndSetDeviceList.currentDeviceRemoved");
         dispatch(changeDevice());
       }
@@ -41,7 +37,7 @@ export const setCurrentDeviceFromId = (deviceId?: string) => {
     dispatch: ThunkDispatch<RootState, void, Action>,
     getState: () => RootState
   ) => {
-    const { deviceList } = getState().app;
+    const { deviceList } = getState().capture;
     const identifier = deviceList.find(
       (identifier) => identifier.deviceId === deviceId
     );

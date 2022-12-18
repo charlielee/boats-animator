@@ -3,21 +3,14 @@ import {
   defaultUserPreferences,
   UserPreferences,
 } from "../../../common/UserPreferences";
-import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 
 interface AppState {
-  currentDevice?: ImagingDeviceIdentifier;
-  isDeviceOpen: boolean;
-  deviceList: ImagingDeviceIdentifier[];
   hasCameraAccess: boolean;
   loadingMessage?: string;
   userPreferences: UserPreferences;
 }
 
 const initialState: AppState = {
-  currentDevice: undefined,
-  isDeviceOpen: false,
-  deviceList: [],
   hasCameraAccess: true,
   loadingMessage: undefined,
   userPreferences: defaultUserPreferences,
@@ -37,24 +30,6 @@ const appSlice = createSlice({
       };
     },
 
-    setCurrentDevice: (
-      state,
-      action: PayloadAction<ImagingDeviceIdentifier | undefined>
-    ) => {
-      state.currentDevice = action.payload;
-    },
-
-    setDeviceList: (
-      state,
-      action: PayloadAction<ImagingDeviceIdentifier[]>
-    ) => {
-      state.deviceList = action.payload;
-    },
-
-    setIsDeviceOpen: (state, action: PayloadAction<boolean>) => {
-      state.isDeviceOpen = action.payload;
-    },
-
     setCameraAccess: (state, action: PayloadAction<boolean>) => {
       state.hasCameraAccess = action.payload;
     },
@@ -71,9 +46,6 @@ const appSlice = createSlice({
 
 export const {
   editUserPreferences,
-  setCurrentDevice,
-  setDeviceList,
-  setIsDeviceOpen,
   setCameraAccess,
   startLoading,
   stopLoading,

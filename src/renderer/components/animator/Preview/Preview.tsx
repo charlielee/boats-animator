@@ -26,10 +26,10 @@ const Preview = ({
   timelineIndex,
 }: PreviewProps): JSX.Element => {
   const dispatch = useDispatch();
-  const { currentDevice, isDeviceOpen, hasCameraAccess, fileRefs } =
+  const { currentDeviceIdentifier, isDeviceOpen, hasCameraAccess, fileRefs } =
     useSelector((state: RootState) => ({
-      currentDevice: state.app.currentDevice,
-      isDeviceOpen: state.app.isDeviceOpen,
+      currentDeviceIdentifier: state.capture.currentDeviceIdentifier,
+      isDeviceOpen: state.capture.deviceOpen,
       hasCameraAccess: state.app.hasCameraAccess,
       fileRefs: state.project.fileRefs,
     }));
@@ -49,7 +49,7 @@ const Preview = ({
 
   return (
     <div className="preview">
-      {currentDevice && hasCameraAccess && (
+      {currentDeviceIdentifier && hasCameraAccess && (
         <PreviewLiveView
           streaming={isDeviceOpen}
           updateSrcObject={(element) => dispatch(attachStreamToVideo(element))}
@@ -57,7 +57,7 @@ const Preview = ({
       )}
 
       {liveViewVisible &&
-        !currentDevice &&
+        !currentDeviceIdentifier &&
         (hasCameraAccess ? (
           <h2>Select a Camera Source to begin!</h2>
         ) : (

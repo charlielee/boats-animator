@@ -15,7 +15,7 @@ import {
   makeFrameFilePath,
   makeFrameTrackItem,
 } from "../../services/project/projectBuilder";
-import { setCurrentDevice, setIsDeviceOpen } from "../slices/appSlice";
+import { setCurrentDevice, setDeviceOpen } from "../slices/captureSlice";
 import {
   addFileRef,
   addFrameTrackItem,
@@ -48,7 +48,7 @@ export const createCaptureMiddleware: Middleware<
         }
 
         currentDevice.close();
-        dispatch(setIsDeviceOpen(false));
+        dispatch(setDeviceOpen(false));
         return;
       }
       case CaptureActionType.OPEN_DEVICE: {
@@ -59,7 +59,7 @@ export const createCaptureMiddleware: Middleware<
 
           const hasCameraAccess = await dispatch(updateCameraAccessStatus());
           const deviceOpened = hasCameraAccess && (await currentDevice.open());
-          dispatch(deviceOpened ? setIsDeviceOpen(true) : setCurrentDevice());
+          dispatch(deviceOpened ? setDeviceOpen(true) : setCurrentDevice());
         });
         return;
       }
