@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
-import { editUserPreferences } from "../../../redux/app/actions";
+import { editUserPreferences } from "../../../redux/slices/appSlice";
 import { RootState } from "../../../redux/store";
 import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";

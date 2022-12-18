@@ -6,7 +6,7 @@ import {
   fetchAndSetDeviceList,
   loadSavedPreferences,
   onRouteChange,
-} from "../../../redux/app/thunks";
+} from "../../../redux/thunks";
 import { RootState } from "../../../redux/store";
 import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
 import { onDeviceChange } from "../../../services/imagingDevice/ImagingDevice";

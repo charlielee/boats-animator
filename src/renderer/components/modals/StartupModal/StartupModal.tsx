@@ -1,10 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Action } from "redux";
-import { ThunkDispatch } from "redux-thunk";
 import { PageRoute } from "../../../../common/PageRoute";
-import { changeWorkingDirectory } from "../../../redux/app/thunks";
-import { addTake } from "../../../redux/project/actions";
+import { changeWorkingDirectory } from "../../../redux/thunks";
 import { RootState } from "../../../redux/store";
 import { makeTake } from "../../../services/project/projectBuilder";
 import Button from "../../common/Button/Button";
@@ -25,6 +22,8 @@ import ToolbarItem, {
   ToolbarItemAlign,
 } from "../../common/ToolbarItem/ToolbarItem";
 import NewsFeed from "../NewsFeed/NewsFeed";
+import { addTake } from "../../../redux/slices/projectSlice";
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 
 const StartupModal = (): JSX.Element => {
   const { workingDirectory } = useSelector(

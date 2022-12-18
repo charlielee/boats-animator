@@ -1,5 +1,9 @@
-import { Action, Middleware, MiddlewareAPI } from "redux";
-import { ThunkDispatch } from "redux-thunk";
+import {
+  Action,
+  Middleware,
+  MiddlewareAPI,
+  ThunkDispatch,
+} from "@reduxjs/toolkit";
 import { makeFrameFileRef } from "../../../common/FileRef";
 import cameraSound from "../../audio/camera.wav";
 import { saveBlobToDisk } from "../../services/blobUtils/blobUtils";
@@ -11,17 +15,14 @@ import {
   makeFrameFilePath,
   makeFrameTrackItem,
 } from "../../services/project/projectBuilder";
-import { setCurrentDevice, setIsDeviceOpen } from "../app/actions";
-import {
-  setCurrentDeviceFromId,
-  updateCameraAccessStatus,
-} from "../app/thunks";
+import { setCurrentDevice, setIsDeviceOpen } from "../slices/appSlice";
 import {
   addFileRef,
   addFrameTrackItem,
   incrementExportedFrameNumber,
-} from "../project/actions";
+} from "../slices/projectSlice";
 import { RootState } from "../store";
+import { setCurrentDeviceFromId, updateCameraAccessStatus } from "../thunks";
 import { withCurrentTake, withLoader } from "../utils";
 import {
   CaptureAction,

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { PLAYBACK_SPEEDS } from "../../../../common/utils";
-import { setPlaybackSpeed } from "../../../redux/project/actions";
+import { setPlaybackSpeed } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
 import InputSelect from "../../common/Input/InputSelect/InputSelect";
 
