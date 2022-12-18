@@ -1,4 +1,4 @@
-import { Dispatch } from "redux";
+import { Dispatch } from "@reduxjs/toolkit";
 import { Take } from "../../common/project/Take";
 import { startLoading, stopLoading } from "./slices/appSlice";
 import { RootState } from "./store";

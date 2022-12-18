@@ -1,5 +1,4 @@
-import { Action } from "redux";
-import { ThunkDispatch } from "redux-thunk";
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { PageRoute } from "../../common/PageRoute";
 import { listDevices } from "../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../services/rLogger/rLogger";
