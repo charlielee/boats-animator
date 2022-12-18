@@ -12,11 +12,6 @@ import {
   makeFrameTrackItem,
 } from "../../services/project/projectBuilder";
 import { setCurrentDeviceFromId, updateCameraAccessStatus } from "../thunks";
-import {
-  addFileRef,
-  addFrameTrackItem,
-  incrementExportedFrameNumber,
-} from "../project/actions";
 import { RootState } from "../store";
 import { withCurrentTake, withLoader } from "../utils";
 import {
@@ -26,6 +21,11 @@ import {
   openDevice,
 } from "./actions";
 import { setIsDeviceOpen, setCurrentDevice } from "../slices/appSlice";
+import {
+  addFileRef,
+  addFrameTrackItem,
+  incrementExportedFrameNumber,
+} from "../slices/projectSlice";
 
 export const createCaptureMiddleware: Middleware<
   Record<string, unknown>,

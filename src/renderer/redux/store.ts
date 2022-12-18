@@ -1,13 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import projectReducer from "./project/reducer";
 import { appReducer } from "./slices/appSlice";
-
-// export type RootState = ReturnType<typeof rootReducer>;
-
-// const rootReducer = combineReducers({
-//   app: appReducer,
-//   project: projectReducer,
-// });
+import { projectReducer } from "./slices/projectSlice";
 
 // const store = createStore(
 //   rootReducer,

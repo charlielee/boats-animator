@@ -5,7 +5,7 @@ import {
 } from "../../../common/UserPreferences";
 import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 
-export interface AppState {
+interface AppState {
   currentDevice?: ImagingDeviceIdentifier;
   isDeviceOpen: boolean;
   deviceList: ImagingDeviceIdentifier[];
@@ -23,7 +23,7 @@ const initialState: AppState = {
   userPreferences: defaultUserPreferences,
 };
 
-export const appSlice = createSlice({
+const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {

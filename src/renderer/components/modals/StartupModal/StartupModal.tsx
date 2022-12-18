@@ -4,7 +4,6 @@ import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { PageRoute } from "../../../../common/PageRoute";
 import { changeWorkingDirectory } from "../../../redux/thunks";
-import { addTake } from "../../../redux/project/actions";
 import { RootState } from "../../../redux/store";
 import { makeTake } from "../../../services/project/projectBuilder";
 import Button from "../../common/Button/Button";
@@ -25,6 +24,7 @@ import ToolbarItem, {
   ToolbarItemAlign,
 } from "../../common/ToolbarItem/ToolbarItem";
 import NewsFeed from "../NewsFeed/NewsFeed";
+import { addTake } from "../../../redux/slices/projectSlice";
 
 const StartupModal = (): JSX.Element => {
   const { workingDirectory } = useSelector(
