@@ -1,3 +1,4 @@
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFileRefById } from "../../../../common/FileRef";
@@ -25,7 +26,7 @@ const Preview = ({
   liveViewVisible,
   timelineIndex,
 }: PreviewProps): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const { currentDeviceIdentifier, isDeviceOpen, hasCameraAccess, fileRefs } =
     useSelector((state: RootState) => ({
       currentDeviceIdentifier: state.capture.currentDeviceIdentifier,
