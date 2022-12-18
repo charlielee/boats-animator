@@ -29,3 +29,10 @@ export const PLAYBACK_SPEEDS = {
   "2.0×": 2,
   "4.0×": 4,
 };
+
+export const enum PlaybackFrameName {
+  FIRST = "FIRST",
+  PREVIOUS = "PREVIOUS",
+  NEXT = "NEXT",
+  LAST = "LAST",
+}
