@@ -14,6 +14,7 @@ import AnimationToolbarWithContext from "../AnimationToolbar/AnimationToolbar";
 import CaptureButtonToolbarWithContext from "../CaptureButtonToolbar/CaptureButtonToolbar";
 import CaptureTab from "../CaptureTab/CaptureTab";
 import MediaTab from "../MediaTab/MediaTab";
+import PlaybackRAFContainerWithContext from "../PlaybackRAFContainer/PlaybackRAFContainer";
 import Preview from "../Preview/Preview";
 import StatusToolbarWithContext from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
@@ -24,40 +25,43 @@ interface AnimatorWithProviderProps {
 
 const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
   return (
-    <Page>
-      <PageBody>
-        <Content>
-          <StatusToolbarWithContext take={take} />
-          <Preview take={take} />
-          <CaptureButtonToolbarWithContext />
-          <AnimationToolbarWithContext />
-          <Timeline take={take} />
-        </Content>
+    <>
+      <PlaybackRAFContainerWithContext take={take} />
+      <Page>
+        <PageBody>
+          <Content>
+            <StatusToolbarWithContext take={take} />
+            <Preview take={take} />
+            <CaptureButtonToolbarWithContext />
+            <AnimationToolbarWithContext />
+            <Timeline take={take} />
+          </Content>
 
-        <Sidebar>
-          <TabGroup
-            titles={["Capture", "Guides", "X-Sheet", "Media"]}
-            tabs={[
-              <CaptureTab key="capture" />,
+          <Sidebar>
+            <TabGroup
+              titles={["Capture", "Guides", "X-Sheet", "Media"]}
+              tabs={[
+                <CaptureTab key="capture" />,
 
-              <Tab key="guides">
-                <SidebarBlock title="Guides" titleIcon={IconName.GUIDES}>
-                  Guides
-                </SidebarBlock>
-              </Tab>,
+                <Tab key="guides">
+                  <SidebarBlock title="Guides" titleIcon={IconName.GUIDES}>
+                    Guides
+                  </SidebarBlock>
+                </Tab>,
 
-              <Tab key="x-sheet">
-                <SidebarBlock title="X-Sheet" titleIcon={IconName.GUIDES}>
-                  X-Sheet
-                </SidebarBlock>
-              </Tab>,
+                <Tab key="x-sheet">
+                  <SidebarBlock title="X-Sheet" titleIcon={IconName.GUIDES}>
+                    X-Sheet
+                  </SidebarBlock>
+                </Tab>,
 
-              <MediaTab key="media" take={take} />,
-            ]}
-          />
-        </Sidebar>
-      </PageBody>
-    </Page>
+                <MediaTab key="media" take={take} />,
+              ]}
+            />
+          </Sidebar>
+        </PageBody>
+      </Page>
+    </>
   );
 };
 
@@ -70,9 +74,12 @@ const AnimatorWithProvider = ({
   }));
 
   return (
+    // <PlaybackContextProvider take={take} {...selectors}>
     <PlaybackContextProvider take={take} {...selectors}>
       <Animator take={take} />
     </PlaybackContextProvider>
+
+    // </PlaybackContextProvider>
   );
 };
 

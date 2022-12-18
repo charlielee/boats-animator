@@ -14,12 +14,14 @@ interface TimelineWithContextProps {
 
 interface TimelineProps extends TimelineWithContextProps {
   timelineIndex: TimelineIndex | undefined;
-  stopPlayback: (timelineIndex?: TimelineIndex | undefined) => void;
+  setTimelineIndex: (timelineIndex: TimelineIndex) => void;
+  stopPlayback: () => void;
 }
 
 const Timeline = ({
   take,
   timelineIndex,
+  setTimelineIndex,
   stopPlayback,
 }: TimelineProps): JSX.Element => {
   const frameTrack = take.frameTrack;
@@ -32,7 +34,7 @@ const Timeline = ({
   }, [timelineIndex, frameTrack.trackItems]);
 
   const onClickItem = (track: Track, trackItemIndex: number) =>
-    stopPlayback(getTrackItemStartPosition(track, trackItemIndex));
+    setTimelineIndex(getTrackItemStartPosition(track, trackItemIndex));
 
   return (
     <div className="timeline" ref={timelineRef}>
@@ -48,7 +50,7 @@ const Timeline = ({
           onClickItem={(trackItemIndex) =>
             onClickItem(frameTrack, trackItemIndex)
           }
-          onClickLiveView={() => stopPlayback()}
+          onClickLiveView={stopPlayback}
         />
       </div>
     </div>
@@ -57,7 +59,13 @@ const Timeline = ({
 
 const TimelineWithContext = (props: TimelineWithContextProps) => (
   <PlaybackContext.Consumer>
-    {(value) => <Timeline {...value} {...props} />}
+    {(value) => (
+      <Timeline
+        {...value}
+        {...props}
+        timelineIndex={value.state.timelineIndex}
+      />
+    )}
   </PlaybackContext.Consumer>
 );
 

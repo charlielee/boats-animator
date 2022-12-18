@@ -18,6 +18,8 @@ export const playbackReducer = (
   state: PlaybackState,
   action: PlaybackAction
 ): PlaybackState => {
+  console.log(state, action);
+
   if (state.totalFrames > 0) {
     return actionsWithFrames(state, action);
   }
@@ -29,7 +31,7 @@ const actionsWithFrames = (
   state: PlaybackState,
   action: PlaybackAction
 ): PlaybackState => {
-  const { type, payload } = action;
+  const { type } = action;
 
   switch (type) {
     case PlaybackActionType.DISPLAY_FRAME:
@@ -38,7 +40,7 @@ const actionsWithFrames = (
         playing: false,
         timelineIndex: findRelativeTimelineIndex(
           state.timelineIndex,
-          payload.name,
+          action.payload.name,
           state.totalFrames
         ),
       };
@@ -46,13 +48,13 @@ const actionsWithFrames = (
     case PlaybackActionType.SET_TIMELINE_INDEX:
       return {
         ...state,
-        timelineIndex: payload.timelineIndex,
+        timelineIndex: action.payload.timelineIndex,
       };
 
     case PlaybackActionType.SET_TOTAL_FRAMES:
       return {
         ...state,
-        totalFrames: payload.totalFrames,
+        totalFrames: action.payload.totalFrames,
       };
 
     case PlaybackActionType.START_OR_PAUSE_PLAYBACK:

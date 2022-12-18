@@ -1,14 +1,10 @@
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useEffect, useReducer } from "react";
 import { FrameCount, TimelineIndex } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
-import useLinkedRefAndState from "../../hooks/useLinkedRefAndState";
-import useRequestAnimationFrame from "../../hooks/useRequestAnimationFrame";
 import { getTrackLength } from "../../services/project/projectCalculator";
-import * as rLogger from "../../services/rLogger/rLogger";
-import PlaybackContext, {
-  PlaybackContextProps,
-  PlaybackFrameName,
-} from "./PlaybackContext";
+import PlaybackContext, { PlaybackContextProps } from "./PlaybackContext";
+import { initialPlaybackState, playbackReducer } from "./PlaybackReducer";
+import { PlaybackActionType, PlaybackFrameName } from "./types";
 
 interface PlaybackContextProviderProps {
   shortPlayLength: FrameCount;
@@ -18,159 +14,49 @@ interface PlaybackContextProviderProps {
 }
 
 const PlaybackContextProvider = ({
-  shortPlayLength,
+  // shortPlayLength,
   take,
-  playbackSpeed,
+  // playbackSpeed,
   children,
 }: PlaybackContextProviderProps) => {
-  const playForDuration = getTrackLength(take.frameTrack);
+  const [state, dispatch] = useReducer(playbackReducer, initialPlaybackState);
+  const totalFrames = getTrackLength(take.frameTrack);
 
-  // An `undefined` timeline index indicates the application is showing the live view
-  const [timelineIndex, timelineIndexRef, setTimelineIndex] =
-    useLinkedRefAndState<TimelineIndex | undefined>(undefined);
-  const [playing, playingRef, setPlaying] = useLinkedRefAndState(false);
-
-  const [liveViewVisible, setLiveViewVisible] = useState(true);
-
-  const delay = 1000 / take.frameRate / playbackSpeed;
-  const previousTime = useRef<number>(0);
-  const lastFrameIndex = useRef<TimelineIndex>(0);
-
-  const [startRAF, stopRAF] = useRequestAnimationFrame((newTime) => {
-    if (!playingRef.current) {
-      previousTime.current = newTime;
-      setPlaying(true);
-    }
-
-    if (
-      timelineIndexRef.current === undefined ||
-      newTime >= previousTime.current + delay
-    ) {
-      previousTime.current = newTime;
-
-      switch (timelineIndexRef.current) {
-        case undefined:
-          setTimelineIndex(0);
-          break;
-        case lastFrameIndex.current:
-          stopPlayback();
-          break;
-        default:
-          setTimelineIndex(timelineIndexRef.current + 1);
-          break;
-      }
-    }
-  });
-
-  const startOrPausePlayback = () =>
-    playing ? _pausePlayback() : _startPlayback();
-
-  const stopPlayback = (i?: TimelineIndex | undefined) => {
-    _logPlayback("playback.stopPlayback");
-    stopRAF();
-    setPlaying(false);
-
-    if (i === undefined || playForDuration === 0) {
-      setTimelineIndex(undefined);
-      setLiveViewVisible(true);
-    } else {
-      setTimelineIndex(i);
-      setLiveViewVisible(false);
-    }
-  };
-
-  const displayFrame = (name: PlaybackFrameName) => {
-    switch (name) {
-      case PlaybackFrameName.FIRST:
-        return _displayFirstFrame();
-      case PlaybackFrameName.PREVIOUS:
-        return _displayPreviousFrame();
-      case PlaybackFrameName.NEXT:
-        return _displayNextFrame();
-      case PlaybackFrameName.LAST:
-        return _displayLastFrame();
-    }
-  };
-
-  const shortPlay = () => {
-    _logPlayback("playback.shortPlay");
-    const playFromFrame = playForDuration - shortPlayLength;
-
-    if (playFromFrame > 0) {
-      stopPlayback(playFromFrame);
-    } else {
-      stopPlayback(0);
-    }
-    _startPlayback();
-  };
-
-  const _startPlayback = () => {
-    _logPlayback("playback.startPlayback");
-    if (playForDuration > 0) {
-      lastFrameIndex.current = playForDuration - 1;
-      startRAF();
-      setLiveViewVisible(false);
-    }
-  };
-
-  const _pausePlayback = () => {
-    _logPlayback("playback.pausePlayback");
-    stopPlayback(timelineIndex);
-  };
-
-  const _displayFirstFrame = () => {
-    _logPlayback("playback.displayFirstFrame");
-    stopPlayback(0);
-  };
-
-  const _displayPreviousFrame = () => {
-    _logPlayback("playback.displayPreviousFrame");
-
-    if (timelineIndex === undefined) {
-      return stopPlayback(playForDuration - 1);
-    }
-    if (timelineIndex > 0) {
-      return stopPlayback(timelineIndex - 1);
-    }
-  };
-
-  const _displayNextFrame = () => {
-    _logPlayback("playback.displayNextFrame");
-
-    if (timelineIndex === playForDuration - 1) {
-      return stopPlayback(undefined);
-    }
-    if (timelineIndex !== undefined) {
-      return stopPlayback(timelineIndex + 1);
-    }
-  };
-
-  const _displayLastFrame = () => {
-    _logPlayback("playback.displayLastFrame");
-
-    if (timelineIndex === playForDuration - 1) {
-      return stopPlayback(undefined);
-    }
-    if (timelineIndex !== undefined) {
-      return stopPlayback(playForDuration - 1);
-    }
-  };
-
-  const _logPlayback = (loggingCode: string) =>
-    rLogger.info(loggingCode, {
-      playForDuration,
-      frameRate: take.frameRate,
-      timelineIndex: timelineIndexRef.current ?? "(showing live view)",
+  useEffect(() => {
+    dispatch({
+      type: PlaybackActionType.SET_TOTAL_FRAMES,
+      payload: { totalFrames },
     });
+  }, [totalFrames]);
 
   const value: PlaybackContextProps = {
-    startOrPausePlayback,
-    stopPlayback,
-    displayFrame,
-    shortPlay,
-    timelineIndex,
-    liveViewVisible,
-    playing,
+    state,
+
+    displayFrame: (name: PlaybackFrameName) =>
+      dispatch({ type: PlaybackActionType.DISPLAY_FRAME, payload: { name } }),
+
+    setTimelineIndex: (timelineIndex: TimelineIndex) =>
+      dispatch({
+        type: PlaybackActionType.SET_TIMELINE_INDEX,
+        payload: { timelineIndex },
+      }),
+
+    startOrPausePlayback: () =>
+      dispatch({
+        type: PlaybackActionType.START_OR_PAUSE_PLAYBACK,
+      }),
+
+    startShortPlay: () =>
+      dispatch({
+        type: PlaybackActionType.START_SHORT_PLAY,
+      }),
+
+    stopOrRepeatPlayback: () =>
+      dispatch({
+        type: PlaybackActionType.STOP_OR_REPEAT_PLAYBACK,
+      }),
+
+    stopPlayback: () => dispatch({ type: PlaybackActionType.STOP_PLAYBACK }),
   };
 
   return (

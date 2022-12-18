@@ -51,7 +51,13 @@ const StatusToolbar = ({
 
 const StatusToolbarWithContext = (props: StatusToolbarWithContextProps) => (
   <PlaybackContext.Consumer>
-    {(value) => <StatusToolbar {...value} {...props} />}
+    {(value) => (
+      <StatusToolbar
+        {...value}
+        {...props}
+        timelineIndex={value.state.timelineIndex}
+      />
+    )}
   </PlaybackContext.Consumer>
 );
 

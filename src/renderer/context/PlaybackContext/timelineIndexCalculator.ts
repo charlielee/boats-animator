@@ -1,5 +1,5 @@
 import { FrameCount, TimelineIndex } from "../../../common/Flavors";
-import { PlaybackFrameName } from "./PlaybackContext";
+import { PlaybackFrameName } from "./types";
 
 export const findRelativeTimelineIndex = (
   index: TimelineIndex | undefined,

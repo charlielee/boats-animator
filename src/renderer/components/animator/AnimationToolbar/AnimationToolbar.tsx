@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import PlaybackContext, {
-  PlaybackFrameName,
-} from "../../../context/PlaybackContext/PlaybackContext";
+import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import { PlaybackFrameName } from "../../../context/PlaybackContext/types";
 import { RootState } from "../../../redux/store";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
@@ -18,7 +17,7 @@ interface AnimationToolbarProps {
   startOrPausePlayback: () => void;
   stopPlayback: () => void;
   displayFrame: (name: PlaybackFrameName) => void;
-  shortPlay: () => void;
+  startShortPlay: () => void;
   playing: boolean;
 }
 
@@ -26,7 +25,7 @@ const AnimationToolbar = ({
   startOrPausePlayback,
   stopPlayback,
   displayFrame,
-  shortPlay,
+  startShortPlay,
   playing,
 }: AnimationToolbarProps): JSX.Element => {
   const shortPlayLength = useSelector(
@@ -48,7 +47,7 @@ const AnimationToolbar = ({
         <IconButton
           title={`Short Play (${shortPlayLength} ${shortPlayFrameText})`}
           icon={IconName.PLAY_SHORT}
-          onClick={shortPlay}
+          onClick={startShortPlay}
         />
         <InputRange
           id="animation-toolbar__onion-skin-range"
@@ -109,7 +108,7 @@ const AnimationToolbar = ({
 
 const AnimationToolbarWithContext = (): JSX.Element => (
   <PlaybackContext.Consumer>
-    {(value) => <AnimationToolbar {...value} />}
+    {(value) => <AnimationToolbar {...value} playing={value.state.playing} />}
   </PlaybackContext.Consumer>
 );
 

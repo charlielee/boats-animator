@@ -1,5 +1,11 @@
 import { FrameCount, TimelineIndex } from "../../../common/Flavors";
-import { PlaybackFrameName } from "./PlaybackContext";
+
+export const enum PlaybackFrameName {
+  FIRST = "FIRST",
+  PREVIOUS = "PREVIOUS",
+  NEXT = "NEXT",
+  LAST = "LAST",
+}
 
 export interface PlaybackState {
   timelineIndex: TimelineIndex | undefined;
@@ -52,20 +58,16 @@ export interface SetTotalFramesAction {
 
 export interface StartOrPausePlaybackAction {
   type: PlaybackActionType.START_OR_PAUSE_PLAYBACK;
-  payload: undefined;
 }
 
 export interface StartShortPlayAction {
   type: PlaybackActionType.START_SHORT_PLAY;
-  payload: undefined;
 }
 
 export interface StopOrRepeatPlaybackAction {
   type: PlaybackActionType.STOP_OR_REPEAT_PLAYBACK;
-  payload: undefined;
 }
 
 export interface StopPlaybackAction {
   type: PlaybackActionType.STOP_PLAYBACK;
-  payload: undefined;
 }

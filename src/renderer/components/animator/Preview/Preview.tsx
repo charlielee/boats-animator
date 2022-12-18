@@ -4,6 +4,7 @@ import { getFileRefById } from "../../../../common/FileRef";
 import { TimelineIndex } from "../../../../common/Flavors";
 import { Take } from "../../../../common/project/Take";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import { isLiveView } from "../../../context/PlaybackContext/timelineIndexCalculator";
 import { attachStreamToVideo } from "../../../redux/capture/actions";
 import { RootState } from "../../../redux/store";
 import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
@@ -16,15 +17,10 @@ interface PreviewWithContextProps {
 }
 
 interface PreviewProps extends PreviewWithContextProps {
-  liveViewVisible: boolean;
   timelineIndex: TimelineIndex | undefined;
 }
 
-const Preview = ({
-  take,
-  liveViewVisible,
-  timelineIndex,
-}: PreviewProps): JSX.Element => {
+const Preview = ({ take, timelineIndex }: PreviewProps): JSX.Element => {
   const dispatch = useDispatch();
   const { currentDevice, isDeviceOpen, hasCameraAccess, fileRefs } =
     useSelector((state: RootState) => ({
@@ -56,7 +52,7 @@ const Preview = ({
         />
       )}
 
-      {liveViewVisible &&
+      {isLiveView(timelineIndex) &&
         !currentDevice &&
         (hasCameraAccess ? (
           <h2>Select a Camera Source to begin!</h2>
@@ -69,14 +65,20 @@ const Preview = ({
           </h2>
         ))}
 
-      <PreviewFrame src={previewSrc} hidden={liveViewVisible} />
+      <PreviewFrame src={previewSrc} hidden={isLiveView(timelineIndex)} />
     </div>
   );
 };
 
 const PreviewWithContext = (props: PreviewWithContextProps): JSX.Element => (
   <PlaybackContext.Consumer>
-    {(value) => <Preview {...props} {...value} />}
+    {(value) => (
+      <Preview
+        {...props}
+        {...value}
+        timelineIndex={value.state.timelineIndex}
+      />
+    )}
   </PlaybackContext.Consumer>
 );
 

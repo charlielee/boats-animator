@@ -1,5 +1,7 @@
 import { useDispatch } from "react-redux";
+import { TimelineIndex } from "../../../../common/Flavors";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import { isLiveView } from "../../../context/PlaybackContext/timelineIndexCalculator";
 import { takePhoto } from "../../../redux/capture/actions";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
@@ -11,12 +13,12 @@ import "./CaptureButtonToolbar.css";
 
 interface CaptureToolbarProps {
   stopPlayback: () => void;
-  liveViewVisible: boolean;
+  timelineIndex: TimelineIndex | undefined;
 }
 
 const CaptureButtonToolbar = ({
   stopPlayback,
-  liveViewVisible,
+  timelineIndex,
 }: CaptureToolbarProps): JSX.Element => {
   const dispatch = useDispatch();
 
@@ -28,7 +30,7 @@ const CaptureButtonToolbar = ({
           icon={IconName.CAPTURE}
           className="animation-toolbar__capture-button"
           onClick={() => {
-            if (!liveViewVisible) {
+            if (!isLiveView(timelineIndex)) {
               stopPlayback();
             }
             dispatch(takePhoto());
@@ -41,7 +43,12 @@ const CaptureButtonToolbar = ({
 
 const CaptureButtonToolbarWithContext = (): JSX.Element => (
   <PlaybackContext.Consumer>
-    {(value) => <CaptureButtonToolbar {...value} />}
+    {(value) => (
+      <CaptureButtonToolbar
+        {...value}
+        timelineIndex={value.state.timelineIndex}
+      />
+    )}
   </PlaybackContext.Consumer>
 );
 
