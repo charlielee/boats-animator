@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { PageRoute } from "../../../../common/PageRoute";
-import { changeWorkingDirectory } from "../../../redux/app/thunks";
+import { changeWorkingDirectory } from "../../../redux/thunks";
 import { addTake } from "../../../redux/project/actions";
 import { RootState } from "../../../redux/store";
 import { makeTake } from "../../../services/project/projectBuilder";

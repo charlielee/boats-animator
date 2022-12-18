@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { changeWorkingDirectory } from "../../../redux/app/thunks";
+import { changeWorkingDirectory } from "../../../redux/thunks";
 import { RootState } from "../../../redux/store";
 import Button from "../../common/Button/Button";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";

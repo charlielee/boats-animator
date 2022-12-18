@@ -29,41 +29,38 @@ export const appSlice = createSlice({
   reducers: {
     editUserPreferences: (
       state,
-      action: PayloadAction<{ userPreferences: Partial<UserPreferences> }>
+      action: PayloadAction<Partial<UserPreferences>>
     ) => {
       state.userPreferences = {
         ...state.userPreferences,
-        ...action.payload.userPreferences,
+        ...action.payload,
       };
     },
 
     setCurrentDevice: (
       state,
-      action: PayloadAction<{ currentDevice?: ImagingDeviceIdentifier }>
+      action: PayloadAction<ImagingDeviceIdentifier | undefined>
     ) => {
-      state.currentDevice = action.payload.currentDevice;
+      state.currentDevice = action.payload;
     },
 
     setDeviceList: (
       state,
-      action: PayloadAction<{ deviceList: ImagingDeviceIdentifier[] }>
+      action: PayloadAction<ImagingDeviceIdentifier[]>
     ) => {
-      state.deviceList = action.payload.deviceList;
+      state.deviceList = action.payload;
     },
 
-    setIsDeviceOpen: (
-      state,
-      action: PayloadAction<{ isDeviceOpen: boolean }>
-    ) => {
-      state.isDeviceOpen = action.payload.isDeviceOpen;
+    setIsDeviceOpen: (state, action: PayloadAction<boolean>) => {
+      state.isDeviceOpen = action.payload;
     },
 
-    setCameraAccess: (state, action: PayloadAction<{ hasAccess: boolean }>) => {
-      state.hasCameraAccess = action.payload.hasAccess;
+    setCameraAccess: (state, action: PayloadAction<boolean>) => {
+      state.hasCameraAccess = action.payload;
     },
 
-    startLoading: (state, action: PayloadAction<{ message: string }>) => {
-      state.loadingMessage = action.payload.message;
+    startLoading: (state, action: PayloadAction<string>) => {
+      state.loadingMessage = action.payload;
     },
 
     stopLoading: (state) => {
