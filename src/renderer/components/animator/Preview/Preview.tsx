@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { MutableRefObject, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getFileRefById } from "../../../../common/FileRef";
 import { TimelineIndex } from "../../../../common/Flavors";
@@ -6,6 +6,7 @@ import { Take } from "../../../../common/project/Take";
 import CaptureContext from "../../../context/CaptureContext/CaptureContext";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { RootState } from "../../../redux/store";
+import { ImagingDevice } from "../../../services/imagingDevice/ImagingDevice";
 import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
 import "./Preview.css";
 import PreviewFrame from "./PreviewFrame/PreviewFrame";
@@ -16,14 +17,14 @@ interface PreviewWithContextProps {
 }
 
 interface PreviewProps extends PreviewWithContextProps {
-  attachStreamToVideo: (element: HTMLVideoElement) => void;
+  deviceRef: MutableRefObject<ImagingDevice | undefined> | undefined;
   liveViewVisible: boolean;
   timelineIndex: TimelineIndex | undefined;
 }
 
 const Preview = ({
   take,
-  attachStreamToVideo,
+  deviceRef,
   liveViewVisible,
   timelineIndex,
 }: PreviewProps): JSX.Element => {
@@ -53,7 +54,7 @@ const Preview = ({
       {deviceStatus && hasCameraAccess && (
         <PreviewLiveView
           streaming={deviceStatus.open}
-          updateSrcObject={(element) => attachStreamToVideo(element)}
+          stream={deviceRef?.current?.stream}
         />
       )}
 
@@ -77,12 +78,12 @@ const Preview = ({
 
 const PreviewWithContext = (props: PreviewWithContextProps): JSX.Element => (
   <CaptureContext.Consumer>
-    {({ attachStreamToVideo }) => (
+    {({ deviceRef }) => (
       <PlaybackContext.Consumer>
         {({ liveViewVisible, timelineIndex }) => (
           <Preview
             {...props}
-            attachStreamToVideo={attachStreamToVideo}
+            deviceRef={deviceRef}
             liveViewVisible={liveViewVisible}
             timelineIndex={timelineIndex}
           />

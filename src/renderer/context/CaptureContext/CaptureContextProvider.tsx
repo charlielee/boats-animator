@@ -32,7 +32,7 @@ interface CaptureContextProviderProps {
 }
 
 const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
-  const device = useRef<ImagingDevice | undefined>(undefined);
+  const deviceRef = useRef<ImagingDevice | undefined>(undefined);
 
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const { playCaptureSound, deviceStatus, deviceList, take } = useSelector(
@@ -46,13 +46,14 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
 
   const onChangeDevice = useCallback(
     (deviceId: string | undefined) => {
+      rLogger.info("captureContextProvider.onChangeDevice");
       dispatch(closeDevice());
       const identifier = dispatch(setCurrentDeviceFromId(deviceId));
 
       if (identifier) {
-        device.current = deviceIdentifierToDevice(identifier);
+        deviceRef.current = deviceIdentifierToDevice(identifier);
       } else {
-        device.current = undefined;
+        deviceRef.current = undefined;
       }
     },
     [dispatch]
@@ -61,12 +62,14 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const onOpenDevice = useCallback(
     () =>
       withLoader(dispatch, "Loading device", async () => {
-        if (!device.current) {
+        rLogger.info("captureContextProvider.onOpenDevice");
+        if (!deviceRef.current) {
           return;
         }
 
         const hasCameraAccess = await dispatch(updateCameraAccessStatus());
-        const deviceOpened = hasCameraAccess && (await device.current.open());
+        const deviceOpened =
+          hasCameraAccess && (await deviceRef.current.open());
 
         if (!deviceOpened) {
           dispatch(closeDevice());
@@ -76,15 +79,16 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   );
 
   const onCloseDevice = () => {
-    if (!device.current) {
+    rLogger.info("captureContextProvider.onCloseDevice");
+    if (!deviceRef.current) {
       return;
     }
 
-    device.current.close();
+    deviceRef.current.close();
   };
 
   const takePhoto = async () => {
-    if (!device.current || !take) {
+    if (!deviceRef.current || !take) {
       return;
     }
 
@@ -94,7 +98,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     }
 
     const filePath = makeFrameFilePath(take);
-    const imageData = await device.current.takePhoto();
+    const imageData = await deviceRef.current.takePhoto();
     saveBlobToDisk(filePath, imageData);
 
     const trackItem = makeFrameTrackItem(filePath);
@@ -104,14 +108,8 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     dispatch(incrementExportedFrameNumber());
   };
 
-  const attachStreamToVideo = (element: HTMLVideoElement) => {
-    if (device.current?.stream) {
-      element.srcObject = device.current.stream;
-    }
-  };
-
   useEffect(() => {
-    if (deviceStatus?.identifier !== device.current?.identifier) {
+    if (deviceStatus?.identifier !== deviceRef.current?.identifier) {
       onChangeDevice(deviceStatus?.identifier?.deviceId);
     }
   }, [deviceStatus?.identifier, onChangeDevice]);
@@ -140,7 +138,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     <CaptureContext.Provider
       value={{
         takePhoto,
-        attachStreamToVideo,
+        deviceRef,
       }}
     >
       {children}

@@ -1,13 +1,14 @@
-import { createContext } from "react";
+import { createContext, MutableRefObject } from "react";
+import { ImagingDevice } from "../../services/imagingDevice/ImagingDevice";
 
 export interface CaptureContextProps {
   takePhoto: () => void;
-  attachStreamToVideo: (element: HTMLVideoElement) => void;
+  deviceRef: MutableRefObject<ImagingDevice | undefined> | undefined;
 }
 
 const defaultValue: CaptureContextProps = {
   takePhoto: () => undefined,
-  attachStreamToVideo: () => undefined,
+  deviceRef: undefined,
 };
 
 const CaptureContext = createContext<CaptureContextProps>(defaultValue);

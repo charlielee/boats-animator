@@ -3,22 +3,28 @@ import "./PreviewLiveView.css";
 
 interface PreviewLiveViewProps {
   streaming: boolean;
-  updateSrcObject(element: HTMLVideoElement): void;
+  stream: MediaStream | undefined;
 }
 
 const PreviewLiveView = ({
   streaming,
-  updateSrcObject,
+  stream,
 }: PreviewLiveViewProps): JSX.Element => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (videoRef.current && streaming) {
-      updateSrcObject(videoRef.current);
+    if (videoRef.current && streaming && stream) {
+      videoRef.current.srcObject = stream;
     }
-  }, [streaming, updateSrcObject]);
+  }, [stream, streaming]);
 
   return <video className="preview-live-view" autoPlay ref={videoRef}></video>;
 };
 
 export default PreviewLiveView;
+
+// const attachStreamToVideo = (element: HTMLVideoElement) => {
+//   if (device.current?.stream) {
+//     element.srcObject = device.current.stream;
+//   }
+// };
