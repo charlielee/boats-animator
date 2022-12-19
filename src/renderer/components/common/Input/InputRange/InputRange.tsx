@@ -57,13 +57,14 @@ const InputRange = ({
       const positionFromStart = parseInt(inputRef.current.value, 10) - min;
       const percentage = (positionFromStart / range) * 100;
 
-      inputRef.current.style.backgroundImage = `linear-gradient(
-      to right,
-      ${color()} 0%,
-      ${color()} ${percentage}%,
-      var(--ba-border-active) ${percentage}%,
-      var(--ba-border-active) 100%
-    )`;
+      const gradientProperties = [
+        `to right`,
+        `${color()} 0%`,
+        `${color()} ${percentage}%`,
+        `var(--ba-border-active) ${percentage}%`,
+        `var(--ba-border-active) 100%`,
+      ].join(",");
+      inputRef.current.style.backgroundImage = `linear-gradient(${gradientProperties})`;
     },
     [max, min]
   );
