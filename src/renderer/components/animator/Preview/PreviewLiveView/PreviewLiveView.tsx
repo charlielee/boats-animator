@@ -19,9 +19,3 @@ const PreviewLiveView = ({ stream }: PreviewLiveViewProps): JSX.Element => {
 };
 
 export default PreviewLiveView;
-
-// const attachStreamToVideo = (element: HTMLVideoElement) => {
-//   if (device.current?.stream) {
-//     element.srcObject = device.current.stream;
-//   }
-// };
