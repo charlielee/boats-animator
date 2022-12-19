@@ -1,5 +1,5 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
-import { ReactNode, useCallback, useEffect, useRef } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeFrameFileRef } from "../../../common/FileRef";
 import cameraSound from "../../audio/camera.wav";
@@ -32,7 +32,7 @@ interface CaptureContextProviderProps {
 }
 
 const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
-  const deviceRef = useRef<ImagingDevice | undefined>(undefined);
+  const [device, setDevice] = useState<ImagingDevice | undefined>(undefined);
 
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const { playCaptureSound, deviceStatus, deviceList, take } = useSelector(
@@ -51,9 +51,9 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
       const identifier = dispatch(setCurrentDeviceFromId(deviceId));
 
       if (identifier) {
-        deviceRef.current = deviceIdentifierToDevice(identifier);
+        setDevice(deviceIdentifierToDevice(identifier));
       } else {
-        deviceRef.current = undefined;
+        setDevice(undefined);
       }
     },
     [dispatch]
@@ -63,32 +63,27 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     () =>
       withLoader(dispatch, "Loading device", async () => {
         rLogger.info("captureContextProvider.onOpenDevice");
-        if (!deviceRef.current) {
+        if (!device) {
           return;
         }
 
         const hasCameraAccess = await dispatch(updateCameraAccessStatus());
-        const deviceOpened =
-          hasCameraAccess && (await deviceRef.current.open());
+        const deviceOpened = hasCameraAccess && (await device.open());
 
         if (!deviceOpened) {
           dispatch(closeDevice());
         }
       }),
-    [dispatch]
+    [device, dispatch]
   );
 
-  const onCloseDevice = () => {
+  const onCloseDevice = useCallback(() => {
     rLogger.info("captureContextProvider.onCloseDevice");
-    if (!deviceRef.current) {
-      return;
-    }
-
-    deviceRef.current.close();
-  };
+    device?.close();
+  }, [device]);
 
   const takePhoto = async () => {
-    if (!deviceRef.current || !take) {
+    if (!device || !take) {
       return;
     }
 
@@ -98,7 +93,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     }
 
     const filePath = makeFrameFilePath(take);
-    const imageData = await deviceRef.current.takePhoto();
+    const imageData = await device.takePhoto();
     saveBlobToDisk(filePath, imageData);
 
     const trackItem = makeFrameTrackItem(filePath);
@@ -109,10 +104,10 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   };
 
   useEffect(() => {
-    if (deviceStatus?.identifier !== deviceRef.current?.identifier) {
+    if (deviceStatus?.identifier !== device?.identifier) {
       onChangeDevice(deviceStatus?.identifier?.deviceId);
     }
-  }, [deviceStatus?.identifier, onChangeDevice]);
+  }, [device?.identifier, deviceStatus?.identifier, onChangeDevice]);
 
   useEffect(() => {
     if (
@@ -132,13 +127,13 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     } else {
       onCloseDevice();
     }
-  }, [deviceStatus, onOpenDevice]);
+  }, [deviceStatus, onCloseDevice, onOpenDevice]);
 
   return (
     <CaptureContext.Provider
       value={{
         takePhoto,
-        deviceRef,
+        device,
       }}
     >
       {children}

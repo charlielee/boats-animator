@@ -1,14 +1,14 @@
-import { createContext, MutableRefObject } from "react";
+import { createContext } from "react";
 import { ImagingDevice } from "../../services/imagingDevice/ImagingDevice";
 
 export interface CaptureContextProps {
   takePhoto: () => void;
-  deviceRef: MutableRefObject<ImagingDevice | undefined> | undefined;
+  device: ImagingDevice | undefined;
 }
 
 const defaultValue: CaptureContextProps = {
   takePhoto: () => undefined,
-  deviceRef: undefined,
+  device: undefined,
 };
 
 const CaptureContext = createContext<CaptureContextProps>(defaultValue);

@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getFileRefById } from "../../../../common/FileRef";
 import { TimelineIndex } from "../../../../common/Flavors";
@@ -17,14 +17,14 @@ interface PreviewWithContextProps {
 }
 
 interface PreviewProps extends PreviewWithContextProps {
-  deviceRef: MutableRefObject<ImagingDevice | undefined> | undefined;
+  device: ImagingDevice | undefined;
   liveViewVisible: boolean;
   timelineIndex: TimelineIndex | undefined;
 }
 
 const Preview = ({
   take,
-  deviceRef,
+  device,
   liveViewVisible,
   timelineIndex,
 }: PreviewProps): JSX.Element => {
@@ -52,10 +52,7 @@ const Preview = ({
   return (
     <div className="preview">
       {deviceStatus && hasCameraAccess && (
-        <PreviewLiveView
-          streaming={deviceStatus.open}
-          stream={deviceRef?.current?.stream}
-        />
+        <PreviewLiveView stream={device?.stream} />
       )}
 
       {liveViewVisible &&
@@ -78,12 +75,12 @@ const Preview = ({
 
 const PreviewWithContext = (props: PreviewWithContextProps): JSX.Element => (
   <CaptureContext.Consumer>
-    {({ deviceRef }) => (
+    {({ device }) => (
       <PlaybackContext.Consumer>
         {({ liveViewVisible, timelineIndex }) => (
           <Preview
             {...props}
-            deviceRef={deviceRef}
+            device={device}
             liveViewVisible={liveViewVisible}
             timelineIndex={timelineIndex}
           />
