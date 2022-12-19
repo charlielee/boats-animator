@@ -42,9 +42,11 @@ const PlaybackContextProvider = ({
       setPlaying(true);
     }
 
+    const incrementIfExceedsTime = Math.floor(previousTime.current + delay);
+
     if (
       timelineIndexRef.current === undefined ||
-      newTime >= previousTime.current + delay
+      newTime >= incrementIfExceedsTime
     ) {
       previousTime.current = newTime;
 

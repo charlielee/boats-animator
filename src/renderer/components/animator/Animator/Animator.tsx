@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Take } from "../../../../common/project/Take";
+import CaptureContextProvider from "../../../context/CaptureContext/CaptureContextProvider";
 import PlaybackContextProvider from "../../../context/PlaybackContext/PlaybackContextProvider";
 import { RootState } from "../../../redux/store";
 import Content from "../../common/Content/Content";
@@ -12,7 +13,7 @@ import Tab from "../../common/Tab/Tab";
 import TabGroup from "../../common/TabGroup/TabGroup";
 import AnimationToolbarWithContext from "../AnimationToolbar/AnimationToolbar";
 import CaptureButtonToolbarWithContext from "../CaptureButtonToolbar/CaptureButtonToolbar";
-import CaptureTab from "../CaptureTab/CaptureTab";
+import CaptureTabWithContext from "../CaptureTab/CaptureTab";
 import MediaTab from "../MediaTab/MediaTab";
 import Preview from "../Preview/Preview";
 import StatusToolbarWithContext from "../StatusToolbar/StatusToolbar";
@@ -38,7 +39,7 @@ const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
           <TabGroup
             titles={["Capture", "Guides", "X-Sheet", "Media"]}
             tabs={[
-              <CaptureTab key="capture" />,
+              <CaptureTabWithContext key="capture" />,
 
               <Tab key="guides">
                 <SidebarBlock title="Guides" titleIcon={IconName.GUIDES}>
@@ -70,9 +71,11 @@ const AnimatorWithProvider = ({
   }));
 
   return (
-    <PlaybackContextProvider take={take} {...selectors}>
-      <Animator take={take} />
-    </PlaybackContextProvider>
+    <CaptureContextProvider>
+      <PlaybackContextProvider take={take} {...selectors}>
+        <Animator take={take} />
+      </PlaybackContextProvider>
+    </CaptureContextProvider>
   );
 };
 

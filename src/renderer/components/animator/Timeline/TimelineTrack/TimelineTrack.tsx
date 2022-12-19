@@ -35,7 +35,7 @@ const TimelineTrack = ({
 
   useEffect(() => {
     setHighlightedTrackItem(getHighlightedTrackItem(track, timelineIndex));
-  }, [timelineIndex]);
+  }, [timelineIndex, track]);
 
   return (
     <div className="timeline-track">

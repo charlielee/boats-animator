@@ -52,7 +52,7 @@ const ExportVideoModalRendering = ({
         setData((prevState) => (prevState += `${data.data.trim()}\n-\n`));
       }
     });
-  }, []);
+  }, [ffmpegArguments, videoFilePath]);
 
   const fileManagerName = () => {
     switch (window.preload.platform) {

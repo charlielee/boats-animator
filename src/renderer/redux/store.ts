@@ -1,21 +1,21 @@
-import { composeWithDevTools } from "@redux-devtools/extension";
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import thunk from "redux-thunk";
-import appReducer from "./app/reducer";
-import { createCaptureMiddleware } from "./capture/middleware";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import playbackReducer from "./playback/reducer";
-import projectReducer from "./project/reducer";
-export type RootState = ReturnType<typeof rootReducer>;
+import { appReducer } from "./slices/appSlice";
+import { captureReducer } from "./slices/captureSlice";
+import { projectReducer } from "./slices/projectSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
+  capture: captureReducer,
   playback: playbackReducer,
   project: projectReducer,
 });
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk, createCaptureMiddleware))
-);
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+});
 
-export default store;
+export type RootState = ReturnType<typeof rootReducer>;
+
+export type AppDispatch = typeof store.dispatch;

@@ -25,7 +25,7 @@ const InputTextArea = ({
     if (autoScroll && textAreaRef.current) {
       textAreaRef.current.scrollTop = textAreaRef.current.scrollHeight;
     }
-  }, [value]);
+  }, [autoScroll, value]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
     onChange(event.target.value);

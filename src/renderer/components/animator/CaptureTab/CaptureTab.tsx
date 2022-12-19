@@ -1,6 +1,7 @@
+import { ThunkDispatch, Action } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { changeDevice } from "../../../redux/capture/actions";
 import { RootState } from "../../../redux/store";
+import { setCurrentDeviceFromId } from "../../../redux/thunks";
 import IconName from "../../common/Icon/IconName";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
@@ -9,15 +10,16 @@ import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Tab from "../../common/Tab/Tab";
 
 const CaptureTab = (): JSX.Element => {
-  const dispatch = useDispatch();
-  const { currentDevice, deviceList } = useSelector(
-    (state: RootState) => state.app
-  );
+  const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
+  const { deviceStatus, deviceList } = useSelector((state: RootState) => ({
+    deviceStatus: state.capture.deviceStatus,
+    deviceList: state.capture.deviceList,
+  }));
 
   const buildCameraSourceOptions = () => ({
     "No camera selected": "#",
     ...Object.fromEntries(
-      deviceList.map((device) => [device.name, device.deviceId])
+      deviceList.map((identifier) => [identifier.name, identifier.deviceId])
     ),
   });
 
@@ -29,13 +31,11 @@ const CaptureTab = (): JSX.Element => {
           <InputSelect
             id="camera-source-select"
             options={buildCameraSourceOptions()}
-            value={
-              currentDevice?.deviceId === undefined
-                ? "#"
-                : currentDevice.deviceId
-            }
+            value={deviceStatus?.identifier?.deviceId ?? "#"}
             onChange={(deviceId) =>
-              dispatch(changeDevice(deviceId === "#" ? undefined : deviceId))
+              dispatch(
+                setCurrentDeviceFromId(deviceId === "#" ? undefined : deviceId)
+              )
             }
           />
         </InputGroup>

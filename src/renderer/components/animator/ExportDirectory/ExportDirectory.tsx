@@ -1,16 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
-import { changeWorkingDirectory } from "../../../redux/app/thunks";
+import { changeWorkingDirectory } from "../../../redux/thunks";
 import { RootState } from "../../../redux/store";
 import Button from "../../common/Button/Button";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
 import "./ExportDirectory.css";
+import { ThunkDispatch, Action } from "@reduxjs/toolkit";
 
 const ExportDirectory = (): JSX.Element => {
   const { workingDirectory } = useSelector(
     (state: RootState) => state.app.userPreferences
   );
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
 
   return (
     <InputGroup>
@@ -25,9 +26,7 @@ const ExportDirectory = (): JSX.Element => {
       <Button
         id="exportDirectoryButton"
         title="Browse..."
-        onClick={() =>
-          dispatch(changeWorkingDirectory(workingDirectory) as any)
-        }
+        onClick={() => dispatch(changeWorkingDirectory(workingDirectory))}
       />
     </InputGroup>
   );
