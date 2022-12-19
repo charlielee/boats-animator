@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import playbackReducer from "./playback/reducer";
 import { appReducer } from "./slices/appSlice";
 import { captureReducer } from "./slices/captureSlice";
+import { playbackReducer } from "./slices/playbackSlice";
 import { projectReducer } from "./slices/projectSlice";
 
 const rootReducer = combineReducers({
