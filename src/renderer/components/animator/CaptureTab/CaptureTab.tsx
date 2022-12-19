@@ -11,14 +11,18 @@ import Tab from "../../common/Tab/Tab";
 
 const CaptureTab = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
-  const { deviceIdentifier, deviceList } = useSelector(
-    (state: RootState) => state.capture
-  );
+  const { deviceStatus, deviceList } = useSelector((state: RootState) => ({
+    deviceStatus: state.capture.deviceStatus,
+    deviceList: state.capture.deviceList,
+  }));
 
   const buildCameraSourceOptions = () => ({
     "No camera selected": "#",
     ...Object.fromEntries(
-      deviceList.map((device) => [device.name, device.deviceId])
+      deviceList.map((deviceStatus) => [
+        deviceStatus.name,
+        deviceStatus.deviceId,
+      ])
     ),
   });
 
@@ -30,11 +34,7 @@ const CaptureTab = (): JSX.Element => {
           <InputSelect
             id="camera-source-select"
             options={buildCameraSourceOptions()}
-            value={
-              deviceIdentifier?.deviceId === undefined
-                ? "#"
-                : deviceIdentifier.deviceId
-            }
+            value={deviceStatus?.identifier?.deviceId ?? "#"}
             onChange={(deviceId) =>
               dispatch(
                 setCurrentDeviceFromId(deviceId === "#" ? undefined : deviceId)

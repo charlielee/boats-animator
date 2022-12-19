@@ -1,5 +1,5 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeFrameFileRef } from "../../../common/FileRef";
 import cameraSound from "../../audio/camera.wav";
@@ -35,65 +35,45 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const device = useRef<ImagingDevice | undefined>(undefined);
 
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
-  const { playCaptureSound, deviceIdentifier, deviceList, deviceOpen, take } =
-    useSelector((state: RootState) => ({
+  const { playCaptureSound, deviceStatus, deviceList, take } = useSelector(
+    (state: RootState) => ({
       playCaptureSound: state.app.userPreferences.playCaptureSound,
-      deviceIdentifier: state.capture.deviceIdentifier,
+      deviceStatus: state.capture.deviceStatus,
       deviceList: state.capture.deviceList,
-      deviceOpen: state.capture.deviceOpen,
       take: state.project.take,
-    }));
+    })
+  );
 
-  useEffect(() => {
-    if (deviceIdentifier !== device.current?.identifier) {
-      onChangeDevice(deviceIdentifier?.deviceId);
-    }
-  }, [deviceIdentifier]);
+  const onChangeDevice = useCallback(
+    (deviceId: string | undefined) => {
+      dispatch(closeDevice());
+      const identifier = dispatch(setCurrentDeviceFromId(deviceId));
 
-  useEffect(() => {
-    if (
-      deviceIdentifier &&
-      !deviceList.find(
-        (device) => device.deviceId === deviceIdentifier.deviceId
-      )
-    ) {
-      rLogger.info("captureContextProvider.currentDeviceRemoved");
-      onChangeDevice(undefined);
-    }
-  }, [deviceList]);
-
-  useEffect(() => {
-    if (deviceOpen) {
-      onOpenDevice();
-    } else {
-      onCloseDevice();
-    }
-  }, [deviceOpen]);
-
-  const onChangeDevice = (deviceId: string | undefined) => {
-    dispatch(closeDevice());
-    const identifier = dispatch(setCurrentDeviceFromId(deviceId));
-
-    if (identifier) {
-      device.current = deviceIdentifierToDevice(identifier);
-    } else {
-      device.current = undefined;
-    }
-  };
-
-  const onOpenDevice = () =>
-    withLoader(dispatch, "Loading device", async () => {
-      if (!device.current) {
-        return;
+      if (identifier) {
+        device.current = deviceIdentifierToDevice(identifier);
+      } else {
+        device.current = undefined;
       }
+    },
+    [dispatch]
+  );
 
-      const hasCameraAccess = await dispatch(updateCameraAccessStatus());
-      const deviceOpened = hasCameraAccess && (await device.current.open());
+  const onOpenDevice = useCallback(
+    () =>
+      withLoader(dispatch, "Loading device", async () => {
+        if (!device.current) {
+          return;
+        }
 
-      if (!deviceOpened) {
-        dispatch(closeDevice());
-      }
-    });
+        const hasCameraAccess = await dispatch(updateCameraAccessStatus());
+        const deviceOpened = hasCameraAccess && (await device.current.open());
+
+        if (!deviceOpened) {
+          dispatch(closeDevice());
+        }
+      }),
+    [dispatch]
+  );
 
   const onCloseDevice = () => {
     if (!device.current) {
@@ -125,11 +105,36 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   };
 
   const attachStreamToVideo = (element: HTMLVideoElement) => {
-    console.log("attach", device.current?.stream);
     if (device.current?.stream) {
       element.srcObject = device.current.stream;
     }
   };
+
+  useEffect(() => {
+    if (deviceStatus?.identifier !== device.current?.identifier) {
+      onChangeDevice(deviceStatus?.identifier?.deviceId);
+    }
+  }, [deviceStatus?.identifier, onChangeDevice]);
+
+  useEffect(() => {
+    if (
+      deviceStatus &&
+      !deviceList.find(
+        (device) => device.deviceId === deviceStatus.identifier.deviceId
+      )
+    ) {
+      rLogger.info("captureContextProvider.currentDeviceRemoved");
+      onChangeDevice(undefined);
+    }
+  }, [deviceList, deviceStatus, onChangeDevice]);
+
+  useEffect(() => {
+    if (deviceStatus && deviceStatus?.open) {
+      onOpenDevice();
+    } else {
+      onCloseDevice();
+    }
+  }, [deviceStatus, onOpenDevice]);
 
   return (
     <CaptureContext.Provider

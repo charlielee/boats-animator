@@ -1,15 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
+import {
+  ImagingDeviceIdentifier,
+  ImagingDeviceStatus,
+} from "../../services/imagingDevice/ImagingDevice";
 
 interface CaptureState {
-  deviceIdentifier?: ImagingDeviceIdentifier;
-  deviceOpen: boolean;
+  deviceStatus: ImagingDeviceStatus | undefined;
   deviceList: ImagingDeviceIdentifier[];
 }
 
 const initialState: CaptureState = {
-  deviceIdentifier: undefined,
-  deviceOpen: false,
+  deviceStatus: undefined,
   deviceList: [],
 };
 
@@ -18,23 +19,23 @@ const captureSlice = createSlice({
   initialState,
   reducers: {
     reopenDevice: (state) => {
-      if (state.deviceIdentifier) {
-        state.deviceOpen = true;
+      if (state.deviceStatus) {
+        state.deviceStatus.open = true;
       }
     },
 
     pauseDevice: (state) => {
-      state.deviceOpen = false;
+      if (state.deviceStatus) {
+        state.deviceStatus.open = false;
+      }
     },
 
     closeDevice: (state) => {
-      state.deviceOpen = false;
-      state.deviceIdentifier = undefined;
+      state.deviceStatus = undefined;
     },
 
     changeDevice: (state, action: PayloadAction<ImagingDeviceIdentifier>) => {
-      state.deviceIdentifier = action.payload;
-      state.deviceOpen = true;
+      state.deviceStatus = { identifier: action.payload, open: true };
     },
 
     setDeviceList: (

@@ -27,13 +27,13 @@ const Preview = ({
   liveViewVisible,
   timelineIndex,
 }: PreviewProps): JSX.Element => {
-  const { deviceIdentifier, isDeviceOpen, hasCameraAccess, fileRefs } =
-    useSelector((state: RootState) => ({
-      deviceIdentifier: state.capture.deviceIdentifier,
-      isDeviceOpen: state.capture.deviceOpen,
+  const { deviceStatus, hasCameraAccess, fileRefs } = useSelector(
+    (state: RootState) => ({
+      deviceStatus: state.capture.deviceStatus,
       hasCameraAccess: state.app.hasCameraAccess,
       fileRefs: state.project.fileRefs,
-    }));
+    })
+  );
   const [previewSrc, setPreviewSrc] = useState<string | undefined>();
 
   useEffect(() => {
@@ -46,21 +46,19 @@ const Preview = ({
       const { location } = getFileRefById(fileRefs, highlightedTrackItem.id);
       setPreviewSrc(location);
     }
-  }, [timelineIndex]);
-
-  console.log("h", deviceIdentifier, hasCameraAccess, isDeviceOpen);
+  }, [fileRefs, take.frameTrack, timelineIndex]);
 
   return (
     <div className="preview">
-      {deviceIdentifier && hasCameraAccess && (
+      {deviceStatus && hasCameraAccess && (
         <PreviewLiveView
-          streaming={isDeviceOpen}
+          streaming={deviceStatus.open}
           updateSrcObject={(element) => attachStreamToVideo(element)}
         />
       )}
 
       {liveViewVisible &&
-        !deviceIdentifier &&
+        !deviceStatus &&
         (hasCameraAccess ? (
           <h2>Select a Camera Source to begin!</h2>
         ) : (
