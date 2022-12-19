@@ -16,7 +16,7 @@ const PreviewLiveView = ({
     if (videoRef.current && streaming) {
       updateSrcObject(videoRef.current);
     }
-  }, [streaming]);
+  }, [streaming, updateSrcObject]);
 
   return <video className="preview-live-view" autoPlay ref={videoRef}></video>;
 };

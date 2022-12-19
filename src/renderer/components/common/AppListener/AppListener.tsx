@@ -27,7 +27,7 @@ const AppListeners = (): JSX.Element => {
     onDeviceChange(() => {
       dispatch(fetchAndSetDeviceList());
     });
-  }, []);
+  }, [dispatch]);
 
   // Handle pressing the close button
   useEffect(() => {
@@ -40,7 +40,7 @@ const AppListeners = (): JSX.Element => {
   useEffect(() => {
     rLogger.info("appListener.routeChange", location.pathname);
     dispatch(onRouteChange(location.pathname as PageRoute));
-  }, [location]);
+  }, [dispatch, location]);
 
   return <></>;
 };

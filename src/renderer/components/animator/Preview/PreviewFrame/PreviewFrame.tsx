@@ -26,13 +26,13 @@ const PreviewFrame = ({ src, hidden }: PreviewFrameProps): JSX.Element => {
     if (src === undefined) {
       return;
     }
+    const image = imageRef.current;
+    image.src = src;
+    image.addEventListener("load", drawImage);
+    setImageWidth(image.naturalWidth);
+    setImageHeight(image.naturalHeight);
 
-    imageRef.current.src = src;
-    imageRef.current.addEventListener("load", drawImage);
-    setImageWidth(imageRef.current.naturalWidth);
-    setImageHeight(imageRef.current.naturalHeight);
-
-    return () => imageRef.current.removeEventListener("load", drawImage);
+    return () => image.removeEventListener("load", drawImage);
   }, [src]);
 
   useEffect(() => {

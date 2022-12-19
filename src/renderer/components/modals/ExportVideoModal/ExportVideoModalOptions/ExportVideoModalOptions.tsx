@@ -86,7 +86,7 @@ const ExportVideoModalOptions = ({
         "-hide_banner", // Hide FFmpeg library info from output
       ].join(" ")
     );
-  }, [currentFilePath, qualityPreset]);
+  }, [currentFilePath, onVideoFilePathChange, qualityPreset, take]);
 
   return (
     <Modal onClose={PageRoute.ANIMATOR}>
