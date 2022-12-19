@@ -1,7 +1,12 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { PageRoute } from "../../common/PageRoute";
 import { listDevices } from "../services/imagingDevice/ImagingDevice";
-import { editUserPreferences, setCameraAccess } from "./slices/appSlice";
+import {
+  editUserPreferences,
+  setCameraAccess,
+  startLoading,
+  stopLoading,
+} from "./slices/appSlice";
 import {
   closeDevice,
   pauseDevice,
@@ -87,6 +92,22 @@ export const updateCameraAccessStatus = () => {
       const hasAccess = await window.preload.ipcToMain.checkCameraAccess();
       dispatch(setCameraAccess(hasAccess));
       return hasAccess;
+    })();
+  };
+};
+
+export const withLoader = (
+  loadingMessage: string,
+  callback: () => Promise<void>
+) => {
+  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
+    return (async () => {
+      try {
+        dispatch(startLoading(loadingMessage));
+        await callback();
+      } finally {
+        dispatch(stopLoading());
+      }
     })();
   };
 };

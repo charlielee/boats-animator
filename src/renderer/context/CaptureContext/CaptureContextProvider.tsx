@@ -13,8 +13,8 @@ import { RootState } from "../../redux/store";
 import {
   setCurrentDeviceFromId,
   updateCameraAccessStatus,
+  withLoader,
 } from "../../redux/thunks";
-import { withLoader } from "../../redux/utils";
 import { saveBlobToDisk } from "../../services/blobUtils/blobUtils";
 import {
   deviceIdentifierToDevice,
@@ -61,19 +61,21 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
 
   const onOpenDevice = useCallback(
     () =>
-      withLoader(dispatch, "Loading device", async () => {
-        rLogger.info("captureContextProvider.onOpenDevice");
-        if (!device) {
-          return;
-        }
+      dispatch(
+        withLoader("Loading device", async () => {
+          rLogger.info("captureContextProvider.onOpenDevice");
+          if (!device) {
+            return;
+          }
 
-        const hasCameraAccess = await dispatch(updateCameraAccessStatus());
-        const deviceOpened = hasCameraAccess && (await device.open());
+          const hasCameraAccess = await dispatch(updateCameraAccessStatus());
+          const deviceOpened = hasCameraAccess && (await device.open());
 
-        if (!deviceOpened) {
-          dispatch(closeDevice());
-        }
-      }),
+          if (!deviceOpened) {
+            dispatch(closeDevice());
+          }
+        })
+      ),
     [device, dispatch]
   );
 
