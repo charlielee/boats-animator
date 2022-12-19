@@ -1,34 +1,33 @@
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
+import { RootState } from "../../../redux/store";
 import {
   fetchAndSetDeviceList,
   loadSavedPreferences,
   onRouteChange,
 } from "../../../redux/thunks";
-import { RootState } from "../../../redux/store";
 import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
 import { onDeviceChange } from "../../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../../services/rLogger/rLogger";
 
 const AppListeners = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const location = useLocation();
-  const userPreferences = useSelector(
-    (state: RootState) => state.app.userPreferences
-  );
+  const { userPreferences } = useSelector((state: RootState) => ({
+    userPreferences: state.app.userPreferences,
+  }));
 
   useEffect(() => {
-    // Load saved preferences
-    dispatch(loadSavedPreferences() as any);
+    dispatch(loadSavedPreferences());
 
-    // Get the available cameras
-    dispatch(fetchAndSetDeviceList() as any);
+    dispatch(fetchAndSetDeviceList());
     onDeviceChange(() => {
-      dispatch(fetchAndSetDeviceList() as any);
+      dispatch(fetchAndSetDeviceList());
     });
-  }, []);
+  }, [dispatch]);
 
   // Handle pressing the close button
   useEffect(() => {
@@ -40,8 +39,8 @@ const AppListeners = (): JSX.Element => {
   // Log when changing route
   useEffect(() => {
     rLogger.info("appListener.routeChange", location.pathname);
-    dispatch(onRouteChange(location.pathname as PageRoute) as any);
-  }, [location]);
+    dispatch(onRouteChange(location.pathname as PageRoute));
+  }, [dispatch, location]);
 
   return <></>;
 };

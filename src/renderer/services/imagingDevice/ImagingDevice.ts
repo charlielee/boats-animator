@@ -11,6 +11,11 @@ export interface ImagingDeviceIdentifier {
   type: ImagingDeviceType;
 }
 
+export interface ImagingDeviceStatus {
+  identifier: ImagingDeviceIdentifier;
+  open: boolean;
+}
+
 export interface ImagingDevice {
   stream?: MediaStream;
   identifier: ImagingDeviceIdentifier;
