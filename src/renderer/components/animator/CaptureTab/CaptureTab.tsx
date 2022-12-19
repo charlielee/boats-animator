@@ -1,6 +1,7 @@
+import { ThunkDispatch, Action } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { changeDevice } from "../../../redux/capture/actions";
 import { RootState } from "../../../redux/store";
+import { setCurrentDeviceFromId } from "../../../redux/thunks";
 import IconName from "../../common/Icon/IconName";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
@@ -9,8 +10,8 @@ import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Tab from "../../common/Tab/Tab";
 
 const CaptureTab = (): JSX.Element => {
-  const dispatch = useDispatch();
-  const { currentDeviceIdentifier, deviceList } = useSelector(
+  const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
+  const { deviceIdentifier, deviceList } = useSelector(
     (state: RootState) => state.capture
   );
 
@@ -30,12 +31,14 @@ const CaptureTab = (): JSX.Element => {
             id="camera-source-select"
             options={buildCameraSourceOptions()}
             value={
-              currentDeviceIdentifier?.deviceId === undefined
+              deviceIdentifier?.deviceId === undefined
                 ? "#"
-                : currentDeviceIdentifier.deviceId
+                : deviceIdentifier.deviceId
             }
             onChange={(deviceId) =>
-              dispatch(changeDevice(deviceId === "#" ? undefined : deviceId))
+              dispatch(
+                setCurrentDeviceFromId(deviceId === "#" ? undefined : deviceId)
+              )
             }
           />
         </InputGroup>

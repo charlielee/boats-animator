@@ -1,11 +1,10 @@
-import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getFileRefById } from "../../../../common/FileRef";
 import { TimelineIndex } from "../../../../common/Flavors";
 import { Take } from "../../../../common/project/Take";
+import CaptureContext from "../../../context/CaptureContext/CaptureContext";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
-import { attachStreamToVideo } from "../../../redux/capture/actions";
 import { RootState } from "../../../redux/store";
 import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
 import "./Preview.css";
@@ -17,19 +16,20 @@ interface PreviewWithContextProps {
 }
 
 interface PreviewProps extends PreviewWithContextProps {
+  attachStreamToVideo: (element: HTMLVideoElement) => void;
   liveViewVisible: boolean;
   timelineIndex: TimelineIndex | undefined;
 }
 
 const Preview = ({
   take,
+  attachStreamToVideo,
   liveViewVisible,
   timelineIndex,
 }: PreviewProps): JSX.Element => {
-  const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
-  const { currentDeviceIdentifier, isDeviceOpen, hasCameraAccess, fileRefs } =
+  const { deviceIdentifier, isDeviceOpen, hasCameraAccess, fileRefs } =
     useSelector((state: RootState) => ({
-      currentDeviceIdentifier: state.capture.currentDeviceIdentifier,
+      deviceIdentifier: state.capture.deviceIdentifier,
       isDeviceOpen: state.capture.deviceOpen,
       hasCameraAccess: state.app.hasCameraAccess,
       fileRefs: state.project.fileRefs,
@@ -48,17 +48,19 @@ const Preview = ({
     }
   }, [timelineIndex]);
 
+  console.log("h", deviceIdentifier, hasCameraAccess, isDeviceOpen);
+
   return (
     <div className="preview">
-      {currentDeviceIdentifier && hasCameraAccess && (
+      {deviceIdentifier && hasCameraAccess && (
         <PreviewLiveView
           streaming={isDeviceOpen}
-          updateSrcObject={(element) => dispatch(attachStreamToVideo(element))}
+          updateSrcObject={(element) => attachStreamToVideo(element)}
         />
       )}
 
       {liveViewVisible &&
-        !currentDeviceIdentifier &&
+        !deviceIdentifier &&
         (hasCameraAccess ? (
           <h2>Select a Camera Source to begin!</h2>
         ) : (
@@ -76,9 +78,20 @@ const Preview = ({
 };
 
 const PreviewWithContext = (props: PreviewWithContextProps): JSX.Element => (
-  <PlaybackContext.Consumer>
-    {(value) => <Preview {...props} {...value} />}
-  </PlaybackContext.Consumer>
+  <CaptureContext.Consumer>
+    {({ attachStreamToVideo }) => (
+      <PlaybackContext.Consumer>
+        {({ liveViewVisible, timelineIndex }) => (
+          <Preview
+            {...props}
+            attachStreamToVideo={attachStreamToVideo}
+            liveViewVisible={liveViewVisible}
+            timelineIndex={timelineIndex}
+          />
+        )}
+      </PlaybackContext.Consumer>
+    )}
+  </CaptureContext.Consumer>
 );
 
 export default PreviewWithContext;

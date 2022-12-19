@@ -1,30 +1,28 @@
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
+import { RootState } from "../../../redux/store";
 import {
   fetchAndSetDeviceList,
   loadSavedPreferences,
   onRouteChange,
 } from "../../../redux/thunks";
-import { RootState } from "../../../redux/store";
 import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
 import { onDeviceChange } from "../../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../../services/rLogger/rLogger";
-import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 
 const AppListeners = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const location = useLocation();
-  const userPreferences = useSelector(
-    (state: RootState) => state.app.userPreferences
-  );
+  const { userPreferences } = useSelector((state: RootState) => ({
+    userPreferences: state.app.userPreferences,
+  }));
 
   useEffect(() => {
-    // Load saved preferences
     dispatch(loadSavedPreferences());
 
-    // Get the available cameras
     dispatch(fetchAndSetDeviceList());
     onDeviceChange(() => {
       dispatch(fetchAndSetDeviceList());

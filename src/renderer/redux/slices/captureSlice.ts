@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
 
 interface CaptureState {
-  currentDeviceIdentifier?: ImagingDeviceIdentifier;
+  deviceIdentifier?: ImagingDeviceIdentifier;
   deviceOpen: boolean;
   deviceList: ImagingDeviceIdentifier[];
 }
 
 const initialState: CaptureState = {
-  currentDeviceIdentifier: undefined,
+  deviceIdentifier: undefined,
   deviceOpen: false,
   deviceList: [],
 };
@@ -17,15 +17,24 @@ const captureSlice = createSlice({
   name: "capture",
   initialState,
   reducers: {
-    setDeviceOpen: (state, action: PayloadAction<boolean>) => {
-      state.deviceOpen = action.payload;
+    reopenDevice: (state) => {
+      if (state.deviceIdentifier) {
+        state.deviceOpen = true;
+      }
     },
 
-    setCurrentDevice: (
-      state,
-      action: PayloadAction<ImagingDeviceIdentifier | undefined>
-    ) => {
-      state.currentDeviceIdentifier = action.payload;
+    pauseDevice: (state) => {
+      state.deviceOpen = false;
+    },
+
+    closeDevice: (state) => {
+      state.deviceOpen = false;
+      state.deviceIdentifier = undefined;
+    },
+
+    changeDevice: (state, action: PayloadAction<ImagingDeviceIdentifier>) => {
+      state.deviceIdentifier = action.payload;
+      state.deviceOpen = true;
     },
 
     setDeviceList: (
@@ -37,11 +46,12 @@ const captureSlice = createSlice({
   },
 });
 
-export const { setDeviceOpen, setCurrentDevice, setDeviceList } =
-  captureSlice.actions;
+export const {
+  reopenDevice,
+  pauseDevice,
+  closeDevice,
+  changeDevice,
+  setDeviceList,
+} = captureSlice.actions;
 
 export const captureReducer = captureSlice.reducer;
-
-// things in context
-// takePhoto
-// attachStreamToVideo

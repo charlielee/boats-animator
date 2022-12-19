@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { createCaptureMiddleware } from "./capture/middleware";
 import { appReducer } from "./slices/appSlice";
 import { captureReducer } from "./slices/captureSlice";
 import { projectReducer } from "./slices/projectSlice";
@@ -12,12 +11,7 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: ["imagingDevice/ATTACH_STREAM_TO_VIDEO"],
-      },
-    }).concat(createCaptureMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
