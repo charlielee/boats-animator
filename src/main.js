@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
-const settings = new (require("./js/main/Settings"));
-const shortcutStore = new (require("./js/main/ShortcutStore"));
-const win = new (require("./js/main/Win"));
+const settings = new (require("./js/main/Settings"))();
+const shortcutStore = new (require("./js/main/ShortcutStore"))();
+const win = new (require("./js/main/Win"))();
 
 // App events
 
@@ -74,9 +74,12 @@ ipcMain.handle("settings:show-export-frame-dir-dialog", async (e) => {
 });
 
 // Open select export video file path dialog
-ipcMain.handle("settings:show-export-video-file-path-dialog", async (e, curFilePath) => {
-  return settings.showExportVideoFilePathDialog(curFilePath);
-});
+ipcMain.handle(
+  "settings:show-export-video-file-path-dialog",
+  async (e, curFilePath) => {
+    return settings.showExportVideoFilePathDialog(curFilePath);
+  }
+);
 
 ipcMain.handle("shortcut-store:get-all", async (e) => {
   return shortcutStore.getAll();

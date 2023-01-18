@@ -1,6 +1,6 @@
 (function () {
   const { BrowserWindow, dialog, screen } = require("electron");
-  const settings = new (require("./Settings"));
+  const settings = new (require("./Settings"))();
   const MenuBar = require("./MenuBar");
 
   /**
@@ -15,7 +15,8 @@
 
       // Notify the renderer process when menu bar items are clicked
       this.menuBar.eventEmitter.on("menubar:click", (menuItemName) => {
-        let currentWindow = (BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]);
+        let currentWindow =
+          BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0];
 
         // Ensure current window is visible
         if (currentWindow && !currentWindow.isVisible()) {
@@ -36,7 +37,8 @@
      * @param {String} winName The name of the window to switch to
      */
     switchWindow(winName) {
-      const originalWindow = (BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]);
+      const originalWindow =
+        BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0];
 
       switch (winName) {
         case "animator": {
@@ -67,9 +69,10 @@
         show: true,
         title: "Boats Animator",
         webPreferences: {
-          nodeIntegration: true
+          nodeIntegration: true,
+          contextIsolation: false,
         },
-        width: 1050
+        width: 1050,
       };
 
       // Load last dimensions of the window
@@ -125,9 +128,10 @@
         show: true,
         title: "Boats Animator",
         webPreferences: {
-          nodeIntegration: true
+          nodeIntegration: true,
+          contextIsolation: false,
         },
-        width: 730
+        width: 730,
       });
 
       launcherWin.loadFile("src/launcher.html");
@@ -142,18 +146,20 @@
      * @param {BrowserWindow} animatorWin The Animator window
      */
     confirmCloseAnimator(animatorWin) {
-      let choice = dialog.showMessageBoxSync(animatorWin,
-        {
-          type: "question",
-          buttons: ["OK", "Cancel"],
-          title: "Boats Animator",
-          message: "Are you sure you want to exit Boats Animator?"
-        });
+      let choice = dialog.showMessageBoxSync(animatorWin, {
+        type: "question",
+        buttons: ["OK", "Cancel"],
+        title: "Boats Animator",
+        message: "Are you sure you want to exit Boats Animator?",
+      });
 
       if (choice === 0) {
         // Store window dimensions on close
         settings.set("windows.animator.isMaximized", animatorWin.isMaximized());
-        settings.set("windows.animator.winBounds", animatorWin.getNormalBounds());
+        settings.set(
+          "windows.animator.winBounds",
+          animatorWin.getNormalBounds()
+        );
 
         return true;
       } else {
@@ -171,12 +177,19 @@
       let displayWorkAreaSize = screen.getPrimaryDisplay().workAreaSize;
 
       // Previous dimensions of the animator window
-      let appBounds = Object.assign({}, settings.get("windows.animator.winBounds"));
+      let appBounds = Object.assign(
+        {},
+        settings.get("windows.animator.winBounds")
+      );
 
       // Check the window will fit in the x and y dimensions
       // +10 is to allow for a small amount of leeway
-      let doesXFit = (displayWorkAreaSize["width"] + 10 >= appBounds["x"] + appBounds["width"]);
-      let doesYFit = (displayWorkAreaSize["height"] + 10 >= appBounds["y"] + appBounds["height"]);
+      let doesXFit =
+        displayWorkAreaSize["width"] + 10 >=
+        appBounds["x"] + appBounds["width"];
+      let doesYFit =
+        displayWorkAreaSize["height"] + 10 >=
+        appBounds["y"] + appBounds["height"];
 
       if (doesXFit && doesYFit) {
         return appBounds;
