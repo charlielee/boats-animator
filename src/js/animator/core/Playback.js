@@ -1,4 +1,4 @@
-(function() {
+(function () {
   "use strict";
   const { ipcRenderer } = require("electron");
 
@@ -16,6 +16,7 @@
       this.isPlaying = false;
       this.playBackRAF = null;
       this.playBackTimeout = null;
+      this.playBackRAFPreviousTime = null;
 
       // Add the event listeners
       PlaybackControls.setListeners();
@@ -37,7 +38,11 @@
       }
 
       // Toggle checkbox on related menubar item
-      ipcRenderer.send("menubar:toggle-checkbox", "loopPlayback", this.isLooping);
+      ipcRenderer.send(
+        "menubar:toggle-checkbox",
+        "loopPlayback",
+        this.isLooping
+      );
 
       console.info(`Loop playback: ${this.isLooping}`);
     }
@@ -65,7 +70,10 @@
     videoStop() {
       this.videoPause();
       this.curPlayFrame = 0;
-      if (global.projectInst.currentTake.getTotalFrames() > 0 && global.projectInst.getCurrentMode() === "playback") {
+      if (
+        global.projectInst.currentTake.getTotalFrames() > 0 &&
+        global.projectInst.getCurrentMode() === "playback"
+      ) {
         this._displayFrame(global.projectInst.currentTake.getTotalFrames());
       }
       console.info("Playback stopped");
@@ -77,7 +85,7 @@
     shortPlay() {
       if (global.projectInst.currentTake.getTotalFrames() > 0) {
         if (!this.isPlaying) {
-          const totalFrames = global.projectInst.currentTake.getTotalFrames()
+          const totalFrames = global.projectInst.currentTake.getTotalFrames();
           const number = totalFrames - 5;
           if (totalFrames <= 5) {
             this.previewCapturedFrames();
@@ -89,7 +97,6 @@
         }
       }
     }
-
 
     /**
      * Pause playback and view a specific frame in the preview area.
@@ -103,7 +110,9 @@
 
         // Preview selected frame ID
         global.projectInst.currentTake.frameReel.selectFrame(id);
-        PlaybackCanvas.drawImage(global.projectInst.currentTake.capturedFrames[id - 1]);
+        PlaybackCanvas.drawImage(
+          global.projectInst.currentTake.capturedFrames[id - 1]
+        );
         StatusBar.setCurrentFrame(id);
       }
 
@@ -125,7 +134,9 @@
 
       // Reset canvas to first frame if playing from start
       if (this.curPlayFrame === 0) {
-        PlaybackCanvas.drawImage(global.projectInst.currentTake.capturedFrames[0]);
+        PlaybackCanvas.drawImage(
+          global.projectInst.currentTake.capturedFrames[0]
+        );
       }
 
       // Update the play/pause button
@@ -136,36 +147,80 @@
       console.info("Playback started");
       this.isPlaying = true;
 
-      Playback._videoPlay();
+      global.projectInst.playback.playBackRAF = requestAnimationFrame(
+        Playback._videoPlay
+      );
     }
 
     /**
      * Play captured frames preview video.
      */
-    static _videoPlay() {
-      global.projectInst.playback.playBackTimeout = setTimeout(function() {
-        global.projectInst.playback.playBackRAF = requestAnimationFrame(Playback._videoPlay);
+    static _videoPlay(newTime = 0) {
+      const delay = 1000 / global.projectInst.frameRate.getFrameRateValue();
 
-        // There are no more frames to preview
-        if (global.projectInst.playback.curPlayFrame >= global.projectInst.currentTake.getTotalFrames()) {
-          // We are not looping, stop the playback
-          if (!global.projectInst.playback.isLooping) {
-            global.projectInst.setCurrentMode("capture");
-            return;
-          }
+      if (global.projectInst.playback.playBackRAFPreviousTime === null) {
+        global.projectInst.playback.playBackRAFPreviousTime = newTime;
+      }
 
-          // Loop the playback
-          console.info("Playback looped");
-          global.projectInst.playback.curPlayFrame = 0;
-        }
+      const incrementIfExceedsTime = Math.floor(
+        global.projectInst.playback.playBackRAFPreviousTime + delay
+      );
+
+      if (newTime >= incrementIfExceedsTime) {
+        global.projectInst.playback.playBackRAFPreviousTime = newTime;
 
         // Display each frame and update the UI accordingly
-        PlaybackCanvas.drawImage(global.projectInst.currentTake.capturedFrames[global.projectInst.playback.curPlayFrame]);
+        PlaybackCanvas.drawImage(
+          global.projectInst.currentTake.capturedFrames[
+            global.projectInst.playback.curPlayFrame
+          ]
+        );
         StatusBar.setCurrentFrame(global.projectInst.playback.curPlayFrame + 1);
-        global.projectInst.currentTake.frameReel.selectFrame(global.projectInst.playback.curPlayFrame + 1);
+        global.projectInst.currentTake.frameReel.selectFrame(
+          global.projectInst.playback.curPlayFrame + 1
+        );
 
         global.projectInst.playback.curPlayFrame++;
-      }, 1000 / global.projectInst.frameRate.getFrameRateValue());
+      }
+
+      if (
+        global.projectInst.playback.curPlayFrame >=
+        global.projectInst.currentTake.getTotalFrames()
+      ) {
+        // We are not looping, stop the playback
+        if (!global.projectInst.playback.isLooping) {
+          global.projectInst.setCurrentMode("capture");
+          return;
+        }
+
+        // Loop the playback
+        console.info("Playback looped");
+        global.projectInst.playback.curPlayFrame = 0;
+      }
+
+      ////
+      // global.projectInst.playback.playBackTimeout = setTimeout(function() {
+      //   global.projectInst.playback.playBackRAF = requestAnimationFrame(Playback._videoPlay);
+
+      //   // There are no more frames to preview
+      //   if (global.projectInst.playback.curPlayFrame >= global.projectInst.currentTake.getTotalFrames()) {
+      //     // We are not looping, stop the playback
+      //     if (!global.projectInst.playback.isLooping) {
+      //       global.projectInst.setCurrentMode("capture");
+      //       return;
+      //     }
+
+      //     // Loop the playback
+      //     console.info("Playback looped");
+      //     global.projectInst.playback.curPlayFrame = 0;
+      //   }
+
+      // }, 1000 / global.projectInst.frameRate.getFrameRateValue());
+      /////
+
+      global.projectInst.playback.playBackRAF = requestAnimationFrame(
+        Playback._videoPlay
+      );
     }
   }
 
