@@ -2,9 +2,9 @@
 
 A free stop motion animation program created using Electron for Windows, macOS and Linux.
 
-  * **Official homepage:** <https://www.charlielee.uk/boats-animator>
-  * **Documentation:** <https://boatsanimator.readthedocs.io>
-  * **Discord Server:** <http://discord.boatsanimator.com>
+- **Official homepage:** <https://www.charlielee.uk/boats-animator>
+- **Documentation:** <https://help.boatsanimator.com>
+- **Discord Server:** <http://discord.boatsanimator.com>
 
 ![Screenshot of Boats Animator by Bert Loos](https://www.charlielee.uk/assets/boats-animator/user-submissions/bertl1.jpg)
 

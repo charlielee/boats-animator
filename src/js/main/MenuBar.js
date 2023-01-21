@@ -1,11 +1,11 @@
-(function() {
+(function () {
   "use strict";
   const { app, Menu, shell } = require("electron");
   const events = require("events");
 
-  const shortcutStore = new (require("./ShortcutStore"));
+  const shortcutStore = new (require("./ShortcutStore"))();
 
-  const isMac = (process.platform === "darwin");
+  const isMac = process.platform === "darwin";
 
   class MenuBar {
     constructor() {
@@ -22,29 +22,33 @@
       // Menu items to add
       let menuItems = [
         // App Menu (macOS only)
-        ...(isMac ? [{
-          label: "Boats Animator",
-          submenu: [
-            {
-              label: "About Boats Animator",
-              role: "about"
-            },
-            { type: "separator" },
-            { role: "services" },
-            { type: "separator" },
-            {
-              label: "Hide Boats Animator",
-              role: "hide"
-            },
-            { role: "hideothers" },
-            { role: "unhide" },
-            { type: "separator" },
-            {
-              label: "Quit Boats Animator",
-              role: "quit"
-            }
-          ]
-        }] : []),
+        ...(isMac
+          ? [
+              {
+                label: "Boats Animator",
+                submenu: [
+                  {
+                    label: "About Boats Animator",
+                    role: "about",
+                  },
+                  { type: "separator" },
+                  { role: "services" },
+                  { type: "separator" },
+                  {
+                    label: "Hide Boats Animator",
+                    role: "hide",
+                  },
+                  { role: "hideothers" },
+                  { role: "unhide" },
+                  { type: "separator" },
+                  {
+                    label: "Quit Boats Animator",
+                    role: "quit",
+                  },
+                ],
+              },
+            ]
+          : []),
         // File
         {
           label: "File",
@@ -55,7 +59,7 @@
               click: function () {
                 self._sendClickEvent("newProject");
               },
-              accelerator: "CommandOrControl+n"
+              accelerator: "CommandOrControl+n",
             },
             // Open project
             {
@@ -63,7 +67,7 @@
               click: function () {
                 self._sendClickEvent("openProject");
               },
-              accelerator: "CommandOrControl+o"
+              accelerator: "CommandOrControl+o",
             },
             // Return to main menu
             {
@@ -71,18 +75,20 @@
               click: function () {
                 self._sendClickEvent("mainMenu");
               },
-              accelerator: "CommandOrControl+w"
+              accelerator: "CommandOrControl+w",
             },
             // Quit app (Windows/Linux)
-            ...(!isMac ? [
-              { type: "separator" },
-              {
-                label: "Exit",
-                role: "quit",
-                accelerator: "CommandOrControl+q"
-              }
-            ] : [])
-          ]
+            ...(!isMac
+              ? [
+                  { type: "separator" },
+                  {
+                    label: "Exit",
+                    role: "quit",
+                    accelerator: "CommandOrControl+q",
+                  },
+                ]
+              : []),
+          ],
         },
         // Edit
         {
@@ -98,9 +104,9 @@
               },
               // Show keyboard shortcut but disable as handled by Mousetrap
               accelerator: self._getAccelerator("animator.undoFrame"),
-              registerAccelerator: false
-            }
-          ]
+              registerAccelerator: false,
+            },
+          ],
         },
         // Capture
         {
@@ -114,13 +120,13 @@
                 }
               },
               accelerator: self._getAccelerator("animator.takePicture"),
-              registerAccelerator: false
+              registerAccelerator: false,
             },
             {
               label: "Conform Take",
               click: function () {
                 self._sendClickEvent("conformTake");
-              }
+              },
             },
             { type: "separator" },
             {
@@ -133,15 +139,15 @@
               type: "checkbox",
               checked: true,
               accelerator: self._getAccelerator("animator.audioToggle"),
-              registerAccelerator: false
+              registerAccelerator: false,
             },
             {
               label: "Change Capture Destination",
               click: function () {
                 self._sendClickEvent("openDirChooseDialog");
-              }
-            }
-          ]
+              },
+            },
+          ],
         },
         // Playback
         {
@@ -157,7 +163,7 @@
               type: "checkbox",
               checked: false,
               accelerator: self._getAccelerator("animator.loopPlayback"),
-              registerAccelerator: false
+              registerAccelerator: false,
             },
             { type: "separator" },
             {
@@ -168,7 +174,7 @@
                 }
               },
               accelerator: self._getAccelerator("animator.firstFrame"),
-              registerAccelerator: false
+              registerAccelerator: false,
             },
             {
               label: "Display Last Frame",
@@ -178,32 +184,35 @@
                 }
               },
               accelerator: self._getAccelerator("animator.lastFrame"),
-              registerAccelerator: false
-            }
-          ]
+              registerAccelerator: false,
+            },
+          ],
         },
         // View
         {
           label: "View",
           submenu: [
             // Only show reload options in development mode
-            ...(!app.isPackaged ? [
-              { role: "reload" },
-              { role: "forceReload" }
-            ] : []),
+            ...(!app.isPackaged
+              ? [{ role: "reload" }, { role: "forceReload" }]
+              : []),
             { role: "toggleDevTools" },
             { type: "separator" },
             { role: "resetZoom" },
             { role: "zoomIn" },
             { role: "zoomOut" },
             { type: "separator" },
-            { role: "togglefullscreen" }
-          ]
+            { role: "togglefullscreen" },
+          ],
         },
         // Window (macOS only)
-        ...(isMac ? [{
-          role: "windowMenu"
-        }] : []),
+        ...(isMac
+          ? [
+              {
+                role: "windowMenu",
+              },
+            ]
+          : []),
         // Help
         {
           label: "Help",
@@ -211,31 +220,35 @@
             {
               label: "Documentation",
               click: function () {
-                shell.openExternal("https://boatsanimator.readthedocs.io/");
+                shell.openExternal("https://help.boatsanimator.com/");
               },
-              accelerator: "F1"
+              accelerator: "F1",
             },
             {
               label: "Give Feedback",
               click: function () {
-                shell.openExternal("https://github.com/charlielee/boats-animator/issues");
-              }
+                shell.openExternal(
+                  "https://github.com/charlielee/boats-animator/issues"
+                );
+              },
             },
             { type: "separator" },
             {
               label: "View License",
               click: function () {
-                shell.openExternal("https://github.com/charlielee/boats-animator/blob/master/LICENSE");
-              }
+                shell.openExternal(
+                  "https://github.com/charlielee/boats-animator/blob/master/LICENSE"
+                );
+              },
             },
             {
               label: "Official Website",
               click: function () {
                 shell.openExternal("https://www.charlielee.uk/boats-animator");
-              }
-            }
-          ]
-        }
+              },
+            },
+          ],
+        },
       ];
 
       // Create top menu and sub-menus
@@ -252,11 +265,12 @@
       let menu = Menu.getApplicationMenu();
       const toggleableMenus = ["Edit", "Capture", "Playback"];
 
-      self.animatorItemsEnabled = (forceState === null ? !self.animatorItemsEnabled : forceState);
+      self.animatorItemsEnabled =
+        forceState === null ? !self.animatorItemsEnabled : forceState;
 
-      menu.items.forEach(function(menuItem) {
+      menu.items.forEach(function (menuItem) {
         if (toggleableMenus.includes(menuItem.label)) {
-          menuItem.submenu.items.forEach(function(subMenuItem) {
+          menuItem.submenu.items.forEach(function (subMenuItem) {
             subMenuItem.enabled = self.animatorItemsEnabled;
           });
         }
@@ -271,11 +285,11 @@
     toggleCheckbox(itemName, state) {
       const menu = Menu.getApplicationMenu();
       // Handle mac having an extra appName menu item
-      const macOffset = (isMac ? 1 : 0);
+      const macOffset = isMac ? 1 : 0;
 
       const checkboxItems = {
-        captureSounds: menu.items[2+macOffset].submenu.items[3],
-        loopPlayback: menu.items[3+macOffset].submenu.items[0]
+        captureSounds: menu.items[2 + macOffset].submenu.items[3],
+        loopPlayback: menu.items[3 + macOffset].submenu.items[0],
       };
 
       if (Object.keys(checkboxItems).includes(itemName)) {
@@ -305,4 +319,4 @@
   }
 
   module.exports = MenuBar;
-}());
+})();
