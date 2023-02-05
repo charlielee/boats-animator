@@ -1,13 +1,11 @@
-(function() {
+(function () {
   "use strict";
   const { ipcRenderer } = require("electron");
 
   const newsFeed = require("./js/launcher/NewsFeed");
-  const Notification = require("./js/common/Notification");
 
   const newProjectBtn = document.querySelector("#new-project");
   const launcherMessage = document.querySelector("#launcher-message");
-  const loadProjectBtn = document.querySelector("#load-project");
   const qAppVersion = document.querySelector("#app-version");
 
   // Get the version number from the manifest file
@@ -21,11 +19,6 @@
   // Open the animator when new project is pressed
   newProjectBtn.addEventListener("click", () => {
     ipcRenderer.send("win:switch-window", "animator");
-  });
-
-  // Display error notification when "Open Project is selected"
-  loadProjectBtn.addEventListener("click", () => {
-    Notification.info("This feature is not yet available!");
   });
 
   /**
@@ -60,4 +53,4 @@
       }
     }
   }
-}());
+})();
