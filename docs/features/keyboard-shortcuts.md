@@ -12,6 +12,7 @@ There are numerous keyboard shortcuts available in Boats Animator; here is a com
 | Delete current selected frame | **`Delete`** | **`Backspace`** |
 | Toggle audio | **`Ctrl M`** | |
 | Play / pause playback | **`Space`** | **`0`** |
+| Short play | **`P`** | **`.`** |
 | Toggle playback looping | **`8`** | |
 | Live view | **`L`** | **`3`** |
 | Display first frame | **`Ctrl Left`** | |

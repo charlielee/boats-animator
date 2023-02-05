@@ -14,6 +14,7 @@
   const btnFramePrevious = document.querySelector("#btn-frame-previous");
   const btnFrameFirst = document.querySelector("#btn-frame-first");
   const btnFrameLast = document.querySelector("#btn-frame-last");
+  const btnShortPlay = document.querySelector("#btn-short-play");
 
   const btnDirectoryChange = document.querySelector("#btn-dir-change");
 
@@ -83,6 +84,10 @@
 
     static previousFrame() {
       btnFramePrevious.click();
+    }
+
+    static shortPlay() {
+      btnShortPlay.click();
     }
 
     // Preview overlay features
