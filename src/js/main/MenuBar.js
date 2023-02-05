@@ -53,22 +53,6 @@
         {
           label: "File",
           submenu: [
-            // New project
-            {
-              label: "New Project...",
-              click: function () {
-                self._sendClickEvent("newProject");
-              },
-              accelerator: "CommandOrControl+n",
-            },
-            // Open project
-            {
-              label: "Open Project...",
-              click: function () {
-                self._sendClickEvent("openProject");
-              },
-              accelerator: "CommandOrControl+o",
-            },
             // Return to main menu
             {
               label: "Main Menu",

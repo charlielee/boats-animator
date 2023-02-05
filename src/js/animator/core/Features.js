@@ -1,4 +1,4 @@
-(function() {
+(function () {
   "use strict";
   const { ipcRenderer } = require("electron");
   const AudioManager = require("./AudioManager");
@@ -31,14 +31,6 @@
 
     // Projects
 
-    static newProject() {
-      Notification.info("This feature is not yet available!");
-    }
-
-    static openProject() {
-      Notification.info("This feature is not yet available!");
-    }
-
     static openDirChooseDialog() {
       btnDirectoryChange.click();
     }
@@ -62,7 +54,7 @@
     }
 
     static audioToggle() {
-      AudioManager.setEnabled(!AudioManager.getEnabled())
+      AudioManager.setEnabled(!AudioManager.getEnabled());
     }
 
     static playPause() {
@@ -96,12 +88,16 @@
     // Preview overlay features
 
     static toggleGridOverlay() {
-      let gridOverlayBtn = document.querySelector(".switch-btn[data-id='gridOverlay']");
+      let gridOverlayBtn = document.querySelector(
+        ".switch-btn[data-id='gridOverlay']"
+      );
       gridOverlayBtn.click();
     }
 
     static toggleAspectRatioOverlay() {
-      let aspectOverlayBtn = document.querySelector(".switch-btn[data-id='aspectRatioMask']");
+      let aspectOverlayBtn = document.querySelector(
+        ".switch-btn[data-id='aspectRatioMask']"
+      );
       aspectOverlayBtn.click();
     }
 
