@@ -2,7 +2,7 @@ import * as rLogger from "../rLogger/rLogger";
 import {
   ImagingDevice,
   ImagingDeviceIdentifier,
-  ImagingDeviceType
+  ImagingDeviceType,
 } from "./ImagingDevice";
 
 class WebMediaDevice implements ImagingDevice {
@@ -43,16 +43,56 @@ class WebMediaDevice implements ImagingDevice {
     this.imageCapture = undefined;
   }
 
-  takePhoto(): Promise<Blob> {
+  async takePhoto(): Promise<Blob> {
     if (!this.imageCapture) {
       throw "Device must be open before takePhoto can be called";
     }
 
     rLogger.info("webMediaDevice.takePhoto");
-    return this.imageCapture.takePhoto({
-      imageHeight: this.getStreamHeight(),
-      imageWidth: this.getStreamWidth(),
-    });
+
+    try {
+      return await this.imageCapture.takePhoto({
+        imageHeight: this.getStreamHeight(),
+        imageWidth: this.getStreamWidth(),
+      });
+    } catch {
+      rLogger.info(
+        "webMediaDevice.grabFrameFallback",
+        "Error running takePhoto. Trying grabFrame instead."
+      );
+      const frame = await this.grabFrame();
+
+      if (frame) {
+        return frame;
+      } else {
+        rLogger.error(
+          "webMediaDevice.noImageData",
+          "Both takePhoto and grabFrame failed"
+        );
+        throw "webMediaDevice.noImageData Both takePhoto and grabFrame failed";
+      }
+    }
+  }
+
+  // Some devices (eg virtual cameras) do not support imageCapture.takePhoto()
+  // so call imageCapture.grabFrame() as a backup and convert the ImageBitmap to a Blob
+  private async grabFrame(): Promise<Blob | null> {
+    if (!this.imageCapture) {
+      throw "Device must be open before grabFrame can be called";
+    }
+
+    rLogger.info("webMediaDevice.grabFrame");
+    const bitmap = await this.imageCapture.grabFrame();
+
+    const canvas = document.createElement("canvas");
+    canvas.height = bitmap.height;
+    canvas.width = bitmap.width;
+    const context = canvas.getContext("bitmaprenderer");
+    context?.transferFromImageBitmap(bitmap);
+
+    return new Promise((res) =>
+      canvas.toBlob((blob) => res(blob), "image/jpeg")
+    );
   }
 
   private getStreamHeight() {
