@@ -5,7 +5,7 @@
 The menu bar contains an assortment of options both to do with the current project and the program in general. The menu bar is located in the [Main Window](/interface/main-window).
 
 !!! note "Note for macOS users"
-    The menu bar will show some additional items to those listed here. These features are part of macOS rather than Boats Animator.
+The menu bar will show some additional items to those listed here. These features are part of macOS rather than Boats Animator.
 
 ### File menu
 
@@ -50,8 +50,6 @@ The menu bar contains an assortment of options both to do with the current proje
 **Zoom Out:** this decreases the size of the user interface.
 
 **Toggle Full Screen:** this sets the application to be full screen. Select this option again or use the keyboard shortcut `F11` to leave full screen.
-
-
 
 ### Help menu
 

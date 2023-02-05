@@ -20,9 +20,7 @@ it("should call onClick when button is clicked", async () => {
 it("should not call onClick when button is disabled", async () => {
   const buttonTitle = "Hello";
   const onClick = jest.fn();
-  renderWithProviders(
-    <Button title={buttonTitle} onClick={onClick} disabled />
-  );
+  renderWithProviders(<Button title={buttonTitle} onClick={onClick} disabled />);
 
   await userEvent.click(getButton());
 

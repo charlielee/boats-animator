@@ -1,9 +1,5 @@
 import * as rLogger from "../rLogger/rLogger";
-import {
-  ImagingDevice,
-  ImagingDeviceIdentifier,
-  ImagingDeviceType,
-} from "./ImagingDevice";
+import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
 
 class WebMediaDevice implements ImagingDevice {
   public stream?: MediaStream;
@@ -25,10 +21,7 @@ class WebMediaDevice implements ImagingDevice {
       return true;
     } catch (e) {
       if (e instanceof DOMException) {
-        rLogger.info(
-          "webMediaDevice.open.deviceError",
-          `${e.name}: ${e.message}`
-        );
+        rLogger.info("webMediaDevice.open.deviceError", `${e.name}: ${e.message}`);
         return false;
       } else {
         throw e;
@@ -65,10 +58,7 @@ class WebMediaDevice implements ImagingDevice {
       if (frame) {
         return frame;
       } else {
-        rLogger.error(
-          "webMediaDevice.noImageData",
-          "Both takePhoto and grabFrame failed"
-        );
+        rLogger.error("webMediaDevice.noImageData", "Both takePhoto and grabFrame failed");
         throw "webMediaDevice.noImageData Both takePhoto and grabFrame failed";
       }
     }
@@ -90,9 +80,7 @@ class WebMediaDevice implements ImagingDevice {
     const context = canvas.getContext("bitmaprenderer");
     context?.transferFromImageBitmap(bitmap);
 
-    return new Promise((res) =>
-      canvas.toBlob((blob) => res(blob), "image/jpeg")
-    );
+    return new Promise((res) => canvas.toBlob((blob) => res(blob), "image/jpeg"));
   }
 
   private getStreamHeight() {

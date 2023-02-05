@@ -7,9 +7,7 @@ import { getTrackLength } from "../../../services/project/projectCalculator";
 import Button from "../../common/Button/Button";
 import { ButtonColor } from "../../common/Button/ButtonColor";
 import Toolbar from "../../common/Toolbar/Toolbar";
-import ToolbarItem, {
-  ToolbarItemAlign,
-} from "../../common/ToolbarItem/ToolbarItem";
+import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 
 interface StatusToolbarWithContextProps {
   take: Take;
@@ -19,10 +17,7 @@ interface StatusToolbarProps extends StatusToolbarWithContextProps {
   timelineIndex: TimelineIndex | undefined;
 }
 
-const StatusToolbar = ({
-  take,
-  timelineIndex,
-}: StatusToolbarProps): JSX.Element => {
+const StatusToolbar = ({ take, timelineIndex }: StatusToolbarProps): JSX.Element => {
   const makeTakeTitle = (take: Take) =>
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
 
@@ -37,10 +32,8 @@ const StatusToolbar = ({
       </ToolbarItem>
       <ToolbarItem align={ToolbarItemAlign.CENTER}>
         Frame{" "}
-        {timelineIndex === undefined
-          ? getTrackLength(take.frameTrack) + 1
-          : timelineIndex + 1}{" "}
-        of {getTrackLength(take.frameTrack)}
+        {timelineIndex === undefined ? getTrackLength(take.frameTrack) + 1 : timelineIndex + 1} of{" "}
+        {getTrackLength(take.frameTrack)}
       </ToolbarItem>
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
         {take.frameRate} FPS

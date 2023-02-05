@@ -21,26 +21,26 @@ To build packages for Boats Animator for the current operating system run: `npm 
 
 If you find a bug or want to suggest an improvement:
 
-* First check someone else hasn't already reported it in the [issues](https://github.com/charlielee/boats-animator/issues) section.
-* If not, create a [new issue](https://github.com/charlielee/boats-animator/issues/new) for it.
-* Please make sure to include a clear **title** and **description** as well as any relevant error messages, code snippets or screenshots.
+- First check someone else hasn't already reported it in the [issues](https://github.com/charlielee/boats-animator/issues) section.
+- If not, create a [new issue](https://github.com/charlielee/boats-animator/issues/new) for it.
+- Please make sure to include a clear **title** and **description** as well as any relevant error messages, code snippets or screenshots.
 
 ## Submitting changes
 
 If you're working on an improvement to Boats Animator it is usually good practise to add a comment to the [relevant issue](https://github.com/charlielee/boats-animator/issues). Once you are ready to submit your changes you should:
 
-* Create a [new pull request](https://github.com/charlielee/boats-animator/pull/new/master) with a clear list of what you've done *([read more about pull requests](http://help.github.com/pull-requests/))*.
-* The pull request should reference any relevant issues and have a clear title.
-* The log messages for any commits should also be clear.
-* The coding conventions for Boats Animator should be followed.
-* If your pull request brings any visible changes, the Markdown based documentation in the `docs` directory should be updated.
+- Create a [new pull request](https://github.com/charlielee/boats-animator/pull/new/master) with a clear list of what you've done _([read more about pull requests](http://help.github.com/pull-requests/))_.
+- The pull request should reference any relevant issues and have a clear title.
+- The log messages for any commits should also be clear.
+- The coding conventions for Boats Animator should be followed.
+- If your pull request brings any visible changes, the Markdown based documentation in the `docs` directory should be updated.
 
 ## Coding conventions
 
 The following conventions should be observed in Boats Animator's code:
 
-* Features with the `Webkit` prefix may be used if there is no standardised method available.
-* Code should use **2 space indentation**.
-* Trailing white space should be avoided.
-* HTML classes and ids are `spaced-using-dashes`. JavaScript variables and functions are `spacedUsingCamelCase`.
-* JavaScript functions should be documented using [JSDoc](http://usejsdoc.org/about-getting-started.html) notation.
+- Features with the `Webkit` prefix may be used if there is no standardised method available.
+- Code should use **2 space indentation**.
+- Trailing white space should be avoided.
+- HTML classes and ids are `spaced-using-dashes`. JavaScript variables and functions are `spacedUsingCamelCase`.
+- JavaScript functions should be documented using [JSDoc](http://usejsdoc.org/about-getting-started.html) notation.

@@ -20,9 +20,7 @@ const MediaTab = ({ take }: MediaTabProps): JSX.Element => {
         <ExportDirectory />
 
         <InputGroup>
-          <InputLabel inputId="exportVideoButton">
-            Render current take as a video file:
-          </InputLabel>
+          <InputLabel inputId="exportVideoButton">Render current take as a video file:</InputLabel>
           <Button
             id="exportVideoButton"
             title="Export Video..."

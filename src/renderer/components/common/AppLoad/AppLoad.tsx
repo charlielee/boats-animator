@@ -9,9 +9,7 @@ const AppLoad = (): JSX.Element => {
   const { loadingMessage } = useSelector((state: RootState) => state.app);
 
   return (
-    <div
-      className={classNames("app-load", { "app-load--show": loadingMessage })}
-    >
+    <div className={classNames("app-load", { "app-load--show": loadingMessage })}>
       <div className="app-load__content">
         <h2>{loadingMessage}</h2>
         <div className="app-load__dots">

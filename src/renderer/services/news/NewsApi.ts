@@ -14,12 +14,10 @@ export const fetchRecent = async (): Promise<NewsResponse> => {
       })
       .then((data) => data.json());
 
-    const transformPosts = newsResponse.posts
-      .slice(0, POST_COUNT)
-      .map((post) => ({
-        ...post,
-        date: new Date(post.date),
-      }));
+    const transformPosts = newsResponse.posts.slice(0, POST_COUNT).map((post) => ({
+      ...post,
+      date: new Date(post.date),
+    }));
 
     return { ...newsResponse, posts: transformPosts };
   } catch (e) {

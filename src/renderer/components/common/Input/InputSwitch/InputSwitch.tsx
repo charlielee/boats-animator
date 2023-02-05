@@ -10,18 +10,10 @@ interface InputSwitchProps {
   onChange(newValue: boolean): void;
 }
 
-const InputSwitch = ({
-  id,
-  checked,
-  onChange,
-}: InputSwitchProps): JSX.Element => {
+const InputSwitch = ({ id, checked, onChange }: InputSwitchProps): JSX.Element => {
   return (
     <label htmlFor={id} className="input-switch" role="switch">
-      <Icon
-        name={IconName.TOGGLE}
-        active={checked}
-        className="input-switch__icon"
-      />
+      <Icon name={IconName.TOGGLE} active={checked} className="input-switch__icon" />
       <InputCheckbox
         id={id}
         className="input-switch__checkbox"

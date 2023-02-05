@@ -25,6 +25,7 @@
     "test-watch": "npm run test -- --watch",
     "tsc": "tsc",
     "lint": "eslint",
+    "format": "prettier . --write",
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack/electron.webpack.ts --mode=development && npm run start:electron",
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack/react.webpack.ts --mode=development",
     "electron:serve": "wait-on http-get://localhost:4000/ && npm run dev:electron",

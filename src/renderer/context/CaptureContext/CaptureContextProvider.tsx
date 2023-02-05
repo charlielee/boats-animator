@@ -10,20 +10,13 @@ import {
   incrementExportedFrameNumber,
 } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
-import {
-  setCurrentDeviceFromId,
-  updateCameraAccessStatus,
-  withLoader,
-} from "../../redux/thunks";
+import { setCurrentDeviceFromId, updateCameraAccessStatus, withLoader } from "../../redux/thunks";
 import { saveBlobToDisk } from "../../services/blobUtils/blobUtils";
 import {
   deviceIdentifierToDevice,
   ImagingDevice,
 } from "../../services/imagingDevice/ImagingDevice";
-import {
-  makeFrameFilePath,
-  makeFrameTrackItem,
-} from "../../services/project/projectBuilder";
+import { makeFrameFilePath, makeFrameTrackItem } from "../../services/project/projectBuilder";
 import * as rLogger from "../../services/rLogger/rLogger";
 import CaptureContext from "./CaptureContext";
 
@@ -35,14 +28,12 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const [device, setDevice] = useState<ImagingDevice | undefined>(undefined);
 
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
-  const { playCaptureSound, deviceStatus, deviceList, take } = useSelector(
-    (state: RootState) => ({
-      playCaptureSound: state.app.userPreferences.playCaptureSound,
-      deviceStatus: state.capture.deviceStatus,
-      deviceList: state.capture.deviceList,
-      take: state.project.take,
-    })
-  );
+  const { playCaptureSound, deviceStatus, deviceList, take } = useSelector((state: RootState) => ({
+    playCaptureSound: state.app.userPreferences.playCaptureSound,
+    deviceStatus: state.capture.deviceStatus,
+    deviceList: state.capture.deviceList,
+    take: state.project.take,
+  }));
 
   const onChangeDevice = useCallback(
     (deviceId: string | undefined) => {
@@ -114,9 +105,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   useEffect(() => {
     if (
       deviceStatus &&
-      !deviceList.find(
-        (device) => device.deviceId === deviceStatus.identifier.deviceId
-      )
+      !deviceList.find((device) => device.deviceId === deviceStatus.identifier.deviceId)
     ) {
       rLogger.info("captureContextProvider.currentDeviceRemoved");
       onChangeDevice(undefined);

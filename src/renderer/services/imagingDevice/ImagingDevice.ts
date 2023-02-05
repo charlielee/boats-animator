@@ -33,10 +33,7 @@ export const listDevices = async (): Promise<ImagingDeviceIdentifier[]> => {
   rLogger.info("imagingDevice.listDevices.start");
   const webMediaDevices = await WebMediaDevice.listDevices();
   const allDevices = [...webMediaDevices];
-  rLogger.info(
-    "imagingDevice.listDevices.end",
-    `${allDevices.length} device(s) found`
-  );
+  rLogger.info("imagingDevice.listDevices.end", `${allDevices.length} device(s) found`);
 
   return allDevices;
 };
@@ -46,9 +43,7 @@ export const onDeviceChange = (callback: () => void): void => {
   document.addEventListener(IMAGING_DEVICE_CHANGE_EVENT_NAME, callback);
 };
 
-export const deviceIdentifierToDevice = (
-  identifier: ImagingDeviceIdentifier
-): ImagingDevice => {
+export const deviceIdentifierToDevice = (identifier: ImagingDeviceIdentifier): ImagingDevice => {
   switch (identifier.type) {
     case ImagingDeviceType.WEB_MEDIA:
       return new WebMediaDevice(identifier);

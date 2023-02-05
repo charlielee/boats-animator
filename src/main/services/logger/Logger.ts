@@ -55,12 +55,7 @@ class Logger {
     writeToFile = true,
     processName: ProcessName = ProcessName.MAIN
   ) {
-    const logLine = this.buildLogLine(
-      processName,
-      logLevel,
-      loggingCode,
-      message
-    );
+    const logLine = this.buildLogLine(processName, logLevel, loggingCode, message);
     // eslint-disable-next-line no-console
     console.log(logLine);
 
@@ -78,13 +73,7 @@ class Logger {
     message?: Primitive | Record<string, Primitive>
   ) {
     const logDate = new Date().toISOString();
-    return JSON.stringify([
-      logDate,
-      processName,
-      logLevel,
-      loggingCode,
-      message,
-    ]).slice(1, -1);
+    return JSON.stringify([logDate, processName, logLevel, loggingCode, message]).slice(1, -1);
   }
 }
 

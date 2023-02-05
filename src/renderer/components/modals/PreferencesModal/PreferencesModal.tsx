@@ -17,9 +17,7 @@ import ModalFooter from "../../common/ModalFooter/ModalFooter";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
-import ToolbarItem, {
-  ToolbarItemAlign,
-} from "../../common/ToolbarItem/ToolbarItem";
+import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 
 const PreferencesModal = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -55,15 +53,11 @@ const PreferencesModal = (): JSX.Element => {
                       )
                     }
                   />
-                  <InputLabel inputId="preferencesPlayCaptureSound">
-                    Play capture sound
-                  </InputLabel>
+                  <InputLabel inputId="preferencesPlayCaptureSound">Play capture sound</InputLabel>
                 </InputGroup>
 
                 <InputGroup row>
-                  <InputLabel inputId="preferencesShortPlayLength">
-                    Short play length
-                  </InputLabel>
+                  <InputLabel inputId="preferencesShortPlayLength">Short play length</InputLabel>
                   <InputNumber
                     id="preferencesShortPlayLength"
                     min={1}
@@ -94,9 +88,7 @@ const PreferencesModal = (): JSX.Element => {
               onClick={window.preload.ipcToMain.openUserDataDirectory}
             />
           </ToolbarItem>
-          <ToolbarItem align={ToolbarItemAlign.RIGHT}>
-            Version {appVersion}
-          </ToolbarItem>
+          <ToolbarItem align={ToolbarItemAlign.RIGHT}>Version {appVersion}</ToolbarItem>
         </Toolbar>
       </ModalFooter>
     </Modal>

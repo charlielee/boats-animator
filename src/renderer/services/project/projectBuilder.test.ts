@@ -1,7 +1,4 @@
-import {
-  TRACK_GROUP_ID,
-  WORKING_DIRECTORY,
-} from "../../../common/testConstants";
+import { TRACK_GROUP_ID, WORKING_DIRECTORY } from "../../../common/testConstants";
 import {
   makeFrameFilePath,
   makeFrameTrackItem,
@@ -76,8 +73,6 @@ describe("makeFrameFilePath", () => {
     take.lastExportedFrameNumber = 3;
     const takeDirectoryPath = makeTakeDirectoryPath(options);
 
-    expect(makeFrameFilePath(take)).toEqual(
-      `${takeDirectoryPath}/ba_002_03_frame_00004.jpg`
-    );
+    expect(makeFrameFilePath(take)).toEqual(`${takeDirectoryPath}/ba_002_03_frame_00004.jpg`);
   });
 });

@@ -6,9 +6,7 @@ import InputSelect from "../../common/Input/InputSelect/InputSelect";
 
 const PlaybackSpeedSelect = (): JSX.Element => {
   const dispatch = useDispatch();
-  const playbackSpeed = useSelector(
-    (state: RootState) => state.project.playbackSpeed
-  );
+  const playbackSpeed = useSelector((state: RootState) => state.project.playbackSpeed);
 
   return (
     <InputSelect

@@ -8,9 +8,7 @@ import "./ExportDirectory.css";
 import { ThunkDispatch, Action } from "@reduxjs/toolkit";
 
 const ExportDirectory = (): JSX.Element => {
-  const { workingDirectory } = useSelector(
-    (state: RootState) => state.app.userPreferences
-  );
+  const { workingDirectory } = useSelector((state: RootState) => state.app.userPreferences);
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
 
   return (

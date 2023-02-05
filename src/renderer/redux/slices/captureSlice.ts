@@ -38,21 +38,13 @@ const captureSlice = createSlice({
       state.deviceStatus = { identifier: action.payload, open: true };
     },
 
-    setDeviceList: (
-      state,
-      action: PayloadAction<ImagingDeviceIdentifier[]>
-    ) => {
+    setDeviceList: (state, action: PayloadAction<ImagingDeviceIdentifier[]>) => {
       state.deviceList = action.payload;
     },
   },
 });
 
-export const {
-  reopenDevice,
-  pauseDevice,
-  closeDevice,
-  changeDevice,
-  setDeviceList,
-} = captureSlice.actions;
+export const { reopenDevice, pauseDevice, closeDevice, changeDevice, setDeviceList } =
+  captureSlice.actions;
 
 export const captureReducer = captureSlice.reducer;

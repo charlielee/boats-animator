@@ -69,10 +69,7 @@ export const restoreAndFocus = (win: BrowserWindow) => {
   win.focus();
 };
 
-export const openConfirmPrompt = async (
-  win: BrowserWindow,
-  message: string
-) => {
+export const openConfirmPrompt = async (win: BrowserWindow, message: string) => {
   logger.info("windowUtils.openConfirmPrompt", message);
 
   const choice = await dialog.showMessageBox(win, {
@@ -143,11 +140,9 @@ const getPreviousWinBounds = (): Rectangle | Record<string, never> => {
   // Check the window will fit in the x and y dimensions
   // +10 is to allow for a small amount of leeway
   const doesXFit =
-    winBounds !== undefined &&
-    currentDisplaySize.width + 10 >= winBounds.x + winBounds.width;
+    winBounds !== undefined && currentDisplaySize.width + 10 >= winBounds.x + winBounds.width;
   const doesYFit =
-    winBounds !== undefined &&
-    currentDisplaySize.height + 10 >= winBounds.y + winBounds.height;
+    winBounds !== undefined && currentDisplaySize.height + 10 >= winBounds.y + winBounds.height;
 
   if (doesXFit && doesYFit) {
     return winBounds;

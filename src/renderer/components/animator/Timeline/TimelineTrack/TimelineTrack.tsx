@@ -29,9 +29,7 @@ const TimelineTrack = ({
   onClickLiveView,
 }: TimelineTrackProps): JSX.Element => {
   const { fileRefs } = useSelector((state: RootState) => state.project);
-  const [highlightedTrackItem, setHighlightedTrackItem] = useState<
-    TrackItem | undefined
-  >();
+  const [highlightedTrackItem, setHighlightedTrackItem] = useState<TrackItem | undefined>();
 
   useEffect(() => {
     setHighlightedTrackItem(getHighlightedTrackItem(track, timelineIndex));

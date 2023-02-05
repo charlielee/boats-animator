@@ -26,9 +26,7 @@ const InputRange = ({
   value,
   onChange,
 }: InputRangeProps): JSX.Element => {
-  const [slider, setSlider] = useState<InputRangeSliderState>(
-    InputRangeSliderState.DEFAULT
-  );
+  const [slider, setSlider] = useState<InputRangeSliderState>(InputRangeSliderState.DEFAULT);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

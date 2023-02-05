@@ -59,12 +59,7 @@ const Button = ({
       aria-disabled={disabled ? "true" : "false"}
     >
       {icon !== undefined && (
-        <div
-          className={classNames(
-            "button__icon-container",
-            iconContainerClassName
-          )}
-        >
+        <div className={classNames("button__icon-container", iconContainerClassName)}>
           <Icon name={icon} active={active} />
         </div>
       )}

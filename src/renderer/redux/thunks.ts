@@ -1,12 +1,7 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { PageRoute } from "../../common/PageRoute";
 import { listDevices } from "../services/imagingDevice/ImagingDevice";
-import {
-  editUserPreferences,
-  setCameraAccess,
-  startLoading,
-  stopLoading,
-} from "./slices/appSlice";
+import { editUserPreferences, setCameraAccess, startLoading, stopLoading } from "./slices/appSlice";
 import {
   closeDevice,
   pauseDevice,
@@ -26,14 +21,9 @@ export const fetchAndSetDeviceList = () => {
 };
 
 export const setCurrentDeviceFromId = (deviceId?: string) => {
-  return (
-    dispatch: ThunkDispatch<RootState, void, Action>,
-    getState: () => RootState
-  ) => {
+  return (dispatch: ThunkDispatch<RootState, void, Action>, getState: () => RootState) => {
     const { deviceList } = getState().capture;
-    const identifier = deviceList.find(
-      (identifier) => identifier.deviceId === deviceId
-    );
+    const identifier = deviceList.find((identifier) => identifier.deviceId === deviceId);
 
     dispatch(identifier ? changeDevice(identifier) : closeDevice());
 
@@ -63,8 +53,7 @@ export const changeWorkingDirectory = (workingDirectory?: string) => {
 export const loadSavedPreferences = () => {
   return (dispatch: ThunkDispatch<RootState, void, Action>) => {
     return (async () => {
-      const savedPreferences =
-        await window.preload.ipcToMain.getUserPreferences();
+      const savedPreferences = await window.preload.ipcToMain.getUserPreferences();
       dispatch(editUserPreferences(savedPreferences));
     })();
   };
@@ -96,10 +85,7 @@ export const updateCameraAccessStatus = () => {
   };
 };
 
-export const withLoader = (
-  loadingMessage: string,
-  callback: () => Promise<void>
-) => {
+export const withLoader = (loadingMessage: string, callback: () => Promise<void>) => {
   return (dispatch: ThunkDispatch<RootState, void, Action>) => {
     return (async () => {
       try {

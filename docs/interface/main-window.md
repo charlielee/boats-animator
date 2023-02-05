@@ -60,7 +60,7 @@ These buttons affect the playback of captured frames in the [preview area](#prev
 
 **Stop playback:** this will stop playback and jump to the last frame captured.
 
-**Next frame:**  this displays one frame after the current frame being displayed.
+**Next frame:** this displays one frame after the current frame being displayed.
 
 **Last frame:** this displays the last frame captured.
 
@@ -117,6 +117,7 @@ Select this to change the folder Boats Animator exports captured frames to.
 #### Export video
 
 Select this to render the captured frames as a video file. You must capture at least one frame for this option to be available. See [Export Video](/features/export-video) for further information.
+
 ### Overlays
 
 Overlays are visuals that display over the [preview area](#preview-area). They are for reference only and will not show on capture frames or exported videos.

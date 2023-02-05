@@ -62,9 +62,7 @@ const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
   );
 };
 
-const AnimatorWithProvider = ({
-  take,
-}: AnimatorWithProviderProps): JSX.Element => {
+const AnimatorWithProvider = ({ take }: AnimatorWithProviderProps): JSX.Element => {
   const selectors = useSelector((state: RootState) => ({
     shortPlayLength: state.app.userPreferences.shortPlayLength,
     playbackSpeed: state.project.playbackSpeed,

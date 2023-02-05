@@ -9,12 +9,7 @@ interface ToolbarProps {
   className?: string;
 }
 
-const Toolbar = ({
-  children,
-  borderTop,
-  borderBottom,
-  className,
-}: ToolbarProps): JSX.Element => {
+const Toolbar = ({ children, borderTop, borderBottom, className }: ToolbarProps): JSX.Element => {
   return (
     <div
       className={classNames("toolbar", className, {

@@ -44,11 +44,7 @@ interface IconProps {
   size?: string;
 }
 
-const getIconByName = (
-  name: IconName,
-  active: boolean,
-  props: IconBaseProps
-) => {
+const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) => {
   // See possible icons at https://react-icons.github.io/react-icons/icons?name=io5
   switch (name) {
     case IconName.ADD:

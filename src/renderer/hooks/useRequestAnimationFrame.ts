@@ -7,9 +7,7 @@ import { useRef } from "react";
  *                 behaviour and cannot be used as RAF runs outside of React's loop.
  * @returns
  */
-const useRequestAnimationFrame = (
-  callback: (time: DOMHighResTimeStamp) => void
-) => {
+const useRequestAnimationFrame = (callback: (time: DOMHighResTimeStamp) => void) => {
   const requestId = useRef<number>();
 
   const animate = (time: DOMHighResTimeStamp) => {

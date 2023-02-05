@@ -14,9 +14,7 @@ import ModalFooter from "../../../common/ModalFooter/ModalFooter";
 import Page from "../../../common/Page/Page";
 import PageBody from "../../../common/PageBody/PageBody";
 import Toolbar from "../../../common/Toolbar/Toolbar";
-import ToolbarItem, {
-  ToolbarItemAlign,
-} from "../../../common/ToolbarItem/ToolbarItem";
+import ToolbarItem, { ToolbarItemAlign } from "../../../common/ToolbarItem/ToolbarItem";
 
 interface ExportVideoModalRenderingProps {
   ffmpegArguments: string;
@@ -97,10 +95,7 @@ const ExportVideoModalRendering = ({
         <Page>
           <PageBody>
             <Content>
-              <ContentBlock
-                title={modalHeading().title}
-                titleIcon={modalHeading().titleIcon}
-              >
+              <ContentBlock title={modalHeading().title} titleIcon={modalHeading().titleIcon}>
                 <InputGroup>
                   <InputTextArea
                     value={data}
@@ -113,8 +108,8 @@ const ExportVideoModalRendering = ({
 
                 {isCompleted && !isCompletedSuccessfully && (
                   <span>
-                    An error occurred when exporting video. Please try again
-                    later. Exit code {exitCode}.
+                    An error occurred when exporting video. Please try again later. Exit code{" "}
+                    {exitCode}.
                   </span>
                 )}
               </ContentBlock>
@@ -127,11 +122,7 @@ const ExportVideoModalRendering = ({
         <ModalFooter>
           <Toolbar borderTop>
             <ToolbarItem align={ToolbarItemAlign.LEFT}>
-              <Button
-                title="OK"
-                color={ButtonColor.PRIMARY}
-                onClick={PageRoute.ANIMATOR}
-              />
+              <Button title="OK" color={ButtonColor.PRIMARY} onClick={PageRoute.ANIMATOR} />
             </ToolbarItem>
 
             {isCompletedSuccessfully && (

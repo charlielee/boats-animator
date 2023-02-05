@@ -3,9 +3,7 @@ import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import Toolbar from "../../common/Toolbar/Toolbar";
-import ToolbarItem, {
-  ToolbarItemAlign,
-} from "../../common/ToolbarItem/ToolbarItem";
+import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import "./CaptureButtonToolbar.css";
 
 interface CaptureToolbarProps {

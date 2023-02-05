@@ -21,20 +21,8 @@ const InputNumberAndRange = ({
 }: InputNumberAndRangeProps): JSX.Element => {
   return (
     <InputGroup row>
-      <InputNumber
-        id={id}
-        min={min}
-        max={max}
-        value={value}
-        onChange={onChange}
-      />
-      <InputRange
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={onChange}
-      />
+      <InputNumber id={id} min={min} max={max} value={value} onChange={onChange} />
+      <InputRange min={min} max={max} step={step} value={value} onChange={onChange} />
     </InputGroup>
   );
 };

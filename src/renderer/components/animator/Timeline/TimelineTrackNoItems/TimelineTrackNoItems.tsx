@@ -5,16 +5,10 @@ interface TimelineTrackNoItemsProps {
   fileType: FileRefType;
 }
 
-const TimelineTrackNoItems = ({
-  fileType,
-}: TimelineTrackNoItemsProps): JSX.Element => {
+const TimelineTrackNoItems = ({ fileType }: TimelineTrackNoItemsProps): JSX.Element => {
   return (
     <div className="timeline-track-no-items">
-      <p>
-        {fileType === FileRefType.FRAME
-          ? "No frames captured"
-          : "No audio imported"}
-      </p>
+      <p>{fileType === FileRefType.FRAME ? "No frames captured" : "No audio imported"}</p>
     </div>
   );
 };

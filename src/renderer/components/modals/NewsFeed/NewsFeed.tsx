@@ -26,17 +26,12 @@ const NewsFeed = (): JSX.Element => {
   return (
     <div className="news-feed">
       {error ? (
-        <p className="news-feed__error">
-          News could not be loaded at this time.
-        </p>
+        <p className="news-feed__error">News could not be loaded at this time.</p>
       ) : (
         newPosts.map((post) => (
           <div key={post.id}>
             <h3>
-              <a
-                href="#"
-                onClick={() => window.preload.openExternal.newsPost(post)}
-              >
+              <a href="#" onClick={() => window.preload.openExternal.newsPost(post)}>
                 {post.title}
               </a>
             </h3>

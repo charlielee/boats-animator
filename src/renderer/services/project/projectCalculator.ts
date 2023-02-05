@@ -6,24 +6,13 @@ import { TrackItem } from "../../../common/project/TrackItem";
 export const getTrackItemsLength = (trackItems: TrackItem[]): FrameCount =>
   trackItems.reduce((prev, trackItem) => prev + trackItem.length, 0);
 
-export const getTrackLength = (track: Track): FrameCount =>
-  getTrackItemsLength(track.trackItems);
+export const getTrackLength = (track: Track): FrameCount => getTrackItemsLength(track.trackItems);
 
-export const getTrackItemStartPosition = (
-  track: Track,
-  trackItemIndex: number
-): TimelineIndex =>
-  getTrackItemsLength(
-    track.trackItems.slice(0, trackItemIndex)
-  ) as TimelineIndex;
+export const getTrackItemStartPosition = (track: Track, trackItemIndex: number): TimelineIndex =>
+  getTrackItemsLength(track.trackItems.slice(0, trackItemIndex)) as TimelineIndex;
 
-export const getTrackItemEndPosition = (
-  track: Track,
-  trackItemIndex: number
-): TimelineIndex =>
-  getTrackItemsLength(
-    track.trackItems.slice(0, trackItemIndex + 1)
-  ) as TimelineIndex;
+export const getTrackItemEndPosition = (track: Track, trackItemIndex: number): TimelineIndex =>
+  getTrackItemsLength(track.trackItems.slice(0, trackItemIndex + 1)) as TimelineIndex;
 
 export const getHighlightedTrackItem = (
   track: Track,
@@ -32,8 +21,7 @@ export const getHighlightedTrackItem = (
   timelineIndex === undefined
     ? undefined
     : track.trackItems.find(
-        (_trackItem, index) =>
-          getTrackItemStartPosition(track, index) >= timelineIndex
+        (_trackItem, index) => getTrackItemStartPosition(track, index) >= timelineIndex
       );
 
 export const getTrackItemTitle = (track: Track, trackItemIndex: number) =>

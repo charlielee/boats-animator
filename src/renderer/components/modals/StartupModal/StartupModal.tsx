@@ -18,23 +18,18 @@ import PageBody from "../../common/PageBody/PageBody";
 import Sidebar from "../../common/Sidebar/Sidebar";
 import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Toolbar from "../../common/Toolbar/Toolbar";
-import ToolbarItem, {
-  ToolbarItemAlign,
-} from "../../common/ToolbarItem/ToolbarItem";
+import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import NewsFeed from "../NewsFeed/NewsFeed";
 import { addTake } from "../../../redux/slices/projectSlice";
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 
 const StartupModal = (): JSX.Element => {
-  const { workingDirectory } = useSelector(
-    (state: RootState) => state.app.userPreferences
-  );
+  const { workingDirectory } = useSelector((state: RootState) => state.app.userPreferences);
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
   const newProject = async () => {
-    const directory =
-      workingDirectory ?? (await dispatch(changeWorkingDirectory()));
+    const directory = workingDirectory ?? (await dispatch(changeWorkingDirectory()));
 
     if (directory !== undefined) {
       dispatch(
@@ -75,17 +70,9 @@ const StartupModal = (): JSX.Element => {
         <Toolbar borderTop>
           <ToolbarItem align={ToolbarItemAlign.LEFT}>
             <ButtonGroup>
-              <Button
-                title="New Project"
-                icon={IconName.ADD}
-                onClick={newProject}
-              />
+              <Button title="New Project" icon={IconName.ADD} onClick={newProject} />
 
-              <Button
-                title="Open Project"
-                icon={IconName.FOLDER}
-                onClick={() => undefined}
-              />
+              <Button title="Open Project" icon={IconName.FOLDER} onClick={() => undefined} />
             </ButtonGroup>
           </ToolbarItem>
           <ToolbarItem align={ToolbarItemAlign.RIGHT}>

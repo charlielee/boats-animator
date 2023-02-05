@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import { RootState } from "../../../redux/store";
-import {
-  fetchAndSetDeviceList,
-  loadSavedPreferences,
-  onRouteChange,
-} from "../../../redux/thunks";
+import { fetchAndSetDeviceList, loadSavedPreferences, onRouteChange } from "../../../redux/thunks";
 import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
 import { onDeviceChange } from "../../../services/imagingDevice/ImagingDevice";
 import * as rLogger from "../../../services/rLogger/rLogger";

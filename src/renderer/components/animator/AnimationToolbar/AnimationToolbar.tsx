@@ -8,9 +8,7 @@ import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import InputRange from "../../common/Input/InputRange/InputRange";
 import Toolbar from "../../common/Toolbar/Toolbar";
-import ToolbarItem, {
-  ToolbarItemAlign,
-} from "../../common/ToolbarItem/ToolbarItem";
+import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import PlaybackSpeedSelect from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
 import "./AnimationToolbar.css";
 
@@ -40,11 +38,7 @@ const AnimationToolbar = ({
   return (
     <Toolbar className="animation-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
-        <IconButton
-          title="Undo Last Frame"
-          icon={IconName.UNDO}
-          onClick={() => undefined}
-        />
+        <IconButton title="Undo Last Frame" icon={IconName.UNDO} onClick={() => undefined} />
         <IconButton
           title={`Short Play (${shortPlayLength} ${shortPlayFrameText})`}
           icon={IconName.PLAY_SHORT}
@@ -77,11 +71,7 @@ const AnimationToolbar = ({
           icon={playing ? IconName.PLAY_PAUSE : IconName.PLAY}
           onClick={() => startOrPausePlayback()}
         />
-        <IconButton
-          title="Stop Playback"
-          icon={IconName.PLAY_STOP}
-          onClick={stopPlayback}
-        />
+        <IconButton title="Stop Playback" icon={IconName.PLAY_STOP} onClick={stopPlayback} />
         <IconButton
           title="Next Frame"
           icon={IconName.PLAY_NEXT}
@@ -108,9 +98,7 @@ const AnimationToolbar = ({
 };
 
 const AnimationToolbarWithContext = (): JSX.Element => (
-  <PlaybackContext.Consumer>
-    {(value) => <AnimationToolbar {...value} />}
-  </PlaybackContext.Consumer>
+  <PlaybackContext.Consumer>{(value) => <AnimationToolbar {...value} />}</PlaybackContext.Consumer>
 );
 
 export default AnimationToolbarWithContext;

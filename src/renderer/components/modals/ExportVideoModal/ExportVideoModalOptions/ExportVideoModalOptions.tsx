@@ -19,9 +19,7 @@ import ModalFooter from "../../../common/ModalFooter/ModalFooter";
 import Page from "../../../common/Page/Page";
 import PageBody from "../../../common/PageBody/PageBody";
 import Toolbar from "../../../common/Toolbar/Toolbar";
-import ToolbarItem, {
-  ToolbarItemAlign,
-} from "../../../common/ToolbarItem/ToolbarItem";
+import ToolbarItem, { ToolbarItemAlign } from "../../../common/ToolbarItem/ToolbarItem";
 
 const fFmpegQualityPresets = {
   High: "veryslow",
@@ -40,19 +38,14 @@ const ExportVideoModalOptions = ({
   onVideoFilePathChange,
   take,
 }: ExportVideoModalOptionsProps): JSX.Element => {
-  const [currentFilePath, setCurrentFilePath] = useState(
-    `${take.directoryPath}.mp4`
-  );
-  const [qualityPreset, setQualityPreset] = useState(
-    fFmpegQualityPresets.Medium
-  );
+  const [currentFilePath, setCurrentFilePath] = useState(`${take.directoryPath}.mp4`);
+  const [qualityPreset, setQualityPreset] = useState(fFmpegQualityPresets.Medium);
   const [ffmpegArguments, setFFmpegArguments] = useState("");
 
   const changeExportLocation = async () => {
-    const newFilePath =
-      await window.preload.ipcToMain.openExportVideoFilePathDialog({
-        currentFilePath,
-      });
+    const newFilePath = await window.preload.ipcToMain.openExportVideoFilePathDialog({
+      currentFilePath,
+    });
     setCurrentFilePath(newFilePath ?? "");
   };
 
@@ -62,9 +55,7 @@ const ExportVideoModalOptions = ({
 
   useEffect(() => {
     const videoFilePath = window.preload.normalizePath(
-      currentFilePath.endsWith(".mp4")
-        ? currentFilePath
-        : `${currentFilePath}.mp4`
+      currentFilePath.endsWith(".mp4") ? currentFilePath : `${currentFilePath}.mp4`
     );
     onVideoFilePathChange(videoFilePath);
 
@@ -96,9 +87,7 @@ const ExportVideoModalOptions = ({
             <Content>
               <ContentBlock title="Export Video">
                 <InputGroup>
-                  <InputLabel inputId="exportVideoFilePath">
-                    Export Location
-                  </InputLabel>
+                  <InputLabel inputId="exportVideoFilePath">Export Location</InputLabel>
 
                   <InputGroup row noGap noMargin>
                     <InputText
@@ -107,18 +96,12 @@ const ExportVideoModalOptions = ({
                       value={currentFilePath}
                     />
 
-                    <Button
-                      title="Browse..."
-                      onClick={changeExportLocation}
-                      borderRadius="right"
-                    />
+                    <Button title="Browse..." onClick={changeExportLocation} borderRadius="right" />
                   </InputGroup>
                 </InputGroup>
 
                 <InputGroup>
-                  <InputLabel inputId="exportVideoQualityPreset">
-                    Quality Preset
-                  </InputLabel>
+                  <InputLabel inputId="exportVideoQualityPreset">Quality Preset</InputLabel>
                   <InputSelect
                     id="exportVideoQualityPreset"
                     options={fFmpegQualityPresets}

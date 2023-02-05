@@ -5,10 +5,7 @@ import useLinkedRefAndState from "../../hooks/useLinkedRefAndState";
 import useRequestAnimationFrame from "../../hooks/useRequestAnimationFrame";
 import { getTrackLength } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
-import PlaybackContext, {
-  PlaybackContextProps,
-  PlaybackFrameName,
-} from "./PlaybackContext";
+import PlaybackContext, { PlaybackContextProps, PlaybackFrameName } from "./PlaybackContext";
 
 interface PlaybackContextProviderProps {
   shortPlayLength: FrameCount;
@@ -26,8 +23,9 @@ const PlaybackContextProvider = ({
   const playForDuration = getTrackLength(take.frameTrack);
 
   // An `undefined` timeline index indicates the application is showing the live view
-  const [timelineIndex, timelineIndexRef, setTimelineIndex] =
-    useLinkedRefAndState<TimelineIndex | undefined>(undefined);
+  const [timelineIndex, timelineIndexRef, setTimelineIndex] = useLinkedRefAndState<
+    TimelineIndex | undefined
+  >(undefined);
   const [playing, playingRef, setPlaying] = useLinkedRefAndState(false);
 
   const [liveViewVisible, setLiveViewVisible] = useState(true);
@@ -44,10 +42,7 @@ const PlaybackContextProvider = ({
 
     const incrementIfExceedsTime = Math.floor(previousTime.current + delay);
 
-    if (
-      timelineIndexRef.current === undefined ||
-      newTime >= incrementIfExceedsTime
-    ) {
+    if (timelineIndexRef.current === undefined || newTime >= incrementIfExceedsTime) {
       previousTime.current = newTime;
 
       switch (timelineIndexRef.current) {
@@ -64,8 +59,7 @@ const PlaybackContextProvider = ({
     }
   });
 
-  const startOrPausePlayback = () =>
-    playing ? _pausePlayback() : _startPlayback();
+  const startOrPausePlayback = () => (playing ? _pausePlayback() : _startPlayback());
 
   const stopPlayback = (i?: TimelineIndex | undefined) => {
     _logPlayback("playback.stopPlayback");
@@ -175,11 +169,7 @@ const PlaybackContextProvider = ({
     playing,
   };
 
-  return (
-    <PlaybackContext.Provider value={value}>
-      {children}
-    </PlaybackContext.Provider>
-  );
+  return <PlaybackContext.Provider value={value}>{children}</PlaybackContext.Provider>;
 };
 
 export default PlaybackContextProvider;

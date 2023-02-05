@@ -25,10 +25,7 @@ class FileStore<OptionsType> {
 
   // To test migrations delete the "__internal__" block from the settings.json file
   // located in your Boats Animator appData directory
-  private migrationsWithLogging(
-    name: string,
-    migrations: Migrations<OptionsType>
-  ) {
+  private migrationsWithLogging(name: string, migrations: Migrations<OptionsType>) {
     const loggedMigrations: Migrations<OptionsType> = {};
 
     Object.keys(migrations).forEach((version: string) => {
@@ -43,8 +40,7 @@ class FileStore<OptionsType> {
     return loggedMigrations;
   }
 
-  private minifyJson: Serialize<OptionsType> = (value) =>
-    JSON.stringify(value, undefined);
+  private minifyJson: Serialize<OptionsType> = (value) => JSON.stringify(value, undefined);
 }
 
 export default FileStore;

@@ -21,10 +21,7 @@ export const makeContainingDirectory = (filePath: string): Promise<void> =>
     });
   });
 
-export const saveDataToDisk = async (
-  filePath: string,
-  rawData: Uint8Array
-): Promise<void> =>
+export const saveDataToDisk = async (filePath: string, rawData: Uint8Array): Promise<void> =>
   new Promise((resolve, reject) => {
     writeFile(filePath, rawData, async (err) => {
       if (err) {
@@ -59,7 +56,4 @@ export const showItemInFolder = async (filePath: string) => {
 };
 
 export const filePathWithoutExtension = (filePath: string) =>
-  path.join(
-    path.dirname(filePath),
-    path.basename(filePath, path.extname(filePath))
-  );
+  path.join(path.dirname(filePath), path.basename(filePath, path.extname(filePath)));

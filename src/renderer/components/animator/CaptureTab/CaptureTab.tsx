@@ -18,9 +18,7 @@ const CaptureTab = (): JSX.Element => {
 
   const buildCameraSourceOptions = () => ({
     "No camera selected": "#",
-    ...Object.fromEntries(
-      deviceList.map((identifier) => [identifier.name, identifier.deviceId])
-    ),
+    ...Object.fromEntries(deviceList.map((identifier) => [identifier.name, identifier.deviceId])),
   });
 
   return (
@@ -33,9 +31,7 @@ const CaptureTab = (): JSX.Element => {
             options={buildCameraSourceOptions()}
             value={deviceStatus?.identifier?.deviceId ?? "#"}
             onChange={(deviceId) =>
-              dispatch(
-                setCurrentDeviceFromId(deviceId === "#" ? undefined : deviceId)
-              )
+              dispatch(setCurrentDeviceFromId(deviceId === "#" ? undefined : deviceId))
             }
           />
         </InputGroup>

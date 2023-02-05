@@ -6,10 +6,7 @@ interface TimelinePositionProps {
   totalFrames: number;
 }
 
-const TimelinePosition = ({
-  frameRate,
-  totalFrames,
-}: TimelinePositionProps): JSX.Element => {
+const TimelinePosition = ({ frameRate, totalFrames }: TimelinePositionProps): JSX.Element => {
   const frameCount = totalFrames < 30 ? 30 : totalFrames;
   const frameNumbers = [...Array(frameCount).keys()];
 

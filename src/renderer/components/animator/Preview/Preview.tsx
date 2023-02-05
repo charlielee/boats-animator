@@ -22,26 +22,16 @@ interface PreviewProps extends PreviewWithContextProps {
   timelineIndex: TimelineIndex | undefined;
 }
 
-const Preview = ({
-  take,
-  device,
-  liveViewVisible,
-  timelineIndex,
-}: PreviewProps): JSX.Element => {
-  const { deviceStatus, hasCameraAccess, fileRefs } = useSelector(
-    (state: RootState) => ({
-      deviceStatus: state.capture.deviceStatus,
-      hasCameraAccess: state.app.hasCameraAccess,
-      fileRefs: state.project.fileRefs,
-    })
-  );
+const Preview = ({ take, device, liveViewVisible, timelineIndex }: PreviewProps): JSX.Element => {
+  const { deviceStatus, hasCameraAccess, fileRefs } = useSelector((state: RootState) => ({
+    deviceStatus: state.capture.deviceStatus,
+    hasCameraAccess: state.app.hasCameraAccess,
+    fileRefs: state.project.fileRefs,
+  }));
   const [previewSrc, setPreviewSrc] = useState<string | undefined>();
 
   useEffect(() => {
-    const highlightedTrackItem = getHighlightedTrackItem(
-      take.frameTrack,
-      timelineIndex
-    );
+    const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
 
     if (highlightedTrackItem) {
       const { location } = getFileRefById(fileRefs, highlightedTrackItem.id);
@@ -51,9 +41,7 @@ const Preview = ({
 
   return (
     <div className="preview">
-      {deviceStatus && hasCameraAccess && (
-        <PreviewLiveView stream={device?.stream} />
-      )}
+      {deviceStatus && hasCameraAccess && <PreviewLiveView stream={device?.stream} />}
 
       {liveViewVisible &&
         !deviceStatus &&
@@ -63,8 +51,7 @@ const Preview = ({
           <h2>
             You have denied camera access to this application.
             <br />
-            Please enable access in System Preferences and restart Boats
-            Animator.
+            Please enable access in System Preferences and restart Boats Animator.
           </h2>
         ))}
 

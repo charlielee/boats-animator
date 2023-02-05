@@ -3,10 +3,7 @@ export const blobToRawData = async (blob: Blob): Promise<Uint8Array> => {
   return new Uint8Array(arrayBuffer);
 };
 
-export const saveBlobToDisk = async (
-  filePath: string,
-  blob: Blob
-): Promise<void> => {
+export const saveBlobToDisk = async (filePath: string, blob: Blob): Promise<void> => {
   const rawData = await blobToRawData(blob);
   return window.preload.ipcToMain.saveDataToDisk({ filePath, rawData });
 };

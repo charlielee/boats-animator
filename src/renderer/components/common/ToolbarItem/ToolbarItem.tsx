@@ -14,11 +14,7 @@ interface ToolbarItemProps {
   stretch?: boolean;
 }
 
-const ToolbarItem = ({
-  align,
-  children,
-  stretch,
-}: ToolbarItemProps): JSX.Element => {
+const ToolbarItem = ({ align, children, stretch }: ToolbarItemProps): JSX.Element => {
   return (
     <div
       className={classNames("toolbar-item", {

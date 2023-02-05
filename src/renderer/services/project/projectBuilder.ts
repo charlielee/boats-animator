@@ -35,10 +35,7 @@ export const makeTake = ({
   },
 });
 
-export const makeFrameTrackItem = (
-  filePath: string,
-  trackGroupId?: TrackGroupId
-): TrackItem => ({
+export const makeFrameTrackItem = (filePath: string, trackGroupId?: TrackGroupId): TrackItem => ({
   id: uuidv4(),
   length: 1,
   filePath,

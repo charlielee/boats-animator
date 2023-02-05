@@ -6,8 +6,7 @@ export const REACT_DEV_TOOLS_ID = "fmkadmapgofadopljbjfkapdkoienihi";
 export const REDUX_DEV_TOOLS_ID = "lmhkpmbekcpmknklioeibfkpmmfibljd";
 
 const WINDOWS_DIR = `${process.env.LOCALAPPDATA}\\Google\\Chrome\\User Data\\Default\\Extensions`;
-const MAC_DIR =
-  "~/Library/Application Support/Google/Chrome/Default/Extensions";
+const MAC_DIR = "~/Library/Application Support/Google/Chrome/Default/Extensions";
 const LINUX_DIR = "~/.config/google-chrome/Default/Extensions";
 
 const getExtensionDirectory = () => {

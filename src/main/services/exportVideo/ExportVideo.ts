@@ -15,9 +15,7 @@ export const render = (
   videoFilePath: string
 ): Ipc.ExportVideoStart.Response =>
   new Promise((resolve) => {
-    const videoFilePathIndex = ffmpegArguments.findIndex(
-      (el) => el === videoFilePath
-    );
+    const videoFilePathIndex = ffmpegArguments.findIndex((el) => el === videoFilePath);
 
     // Add current date to file name if already exists
     if (fs.existsSync(videoFilePath)) {
@@ -34,10 +32,7 @@ export const render = (
     }
 
     logger.info("exportVideo.render.start", ffmpegArguments.join(" "));
-    const ffmpeg = spawn(
-      ffmpegPath.replace("app.asar", "app.asar.unpacked"),
-      ffmpegArguments
-    );
+    const ffmpeg = spawn(ffmpegPath.replace("app.asar", "app.asar.unpacked"), ffmpegArguments);
 
     // All ffmpeg output goes to stderrdata
     // https://stackoverflow.com/questions/35169650/

@@ -12,23 +12,15 @@ export enum FileRefType {
   FRAME = "FRAME",
 }
 
-export const makeFrameFileRef = (
-  trackItemId: TrackItemId,
-  location: string
-): FileRef => ({
+export const makeFrameFileRef = (trackItemId: TrackItemId, location: string): FileRef => ({
   trackItemId,
   location,
   fileType: FileRefType.FRAME,
   available: true,
 });
 
-export const getFileRefById = (
-  fileRefs: FileRef[],
-  trackItemId: TrackItemId
-): FileRef => {
-  const fileRef = fileRefs.find(
-    (fileRef) => fileRef.trackItemId === trackItemId
-  );
+export const getFileRefById = (fileRefs: FileRef[], trackItemId: TrackItemId): FileRef => {
+  const fileRef = fileRefs.find((fileRef) => fileRef.trackItemId === trackItemId);
   if (fileRef !== undefined) {
     return fileRef;
   } else {
