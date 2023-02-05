@@ -156,20 +156,32 @@
      * Play captured frames preview video.
      */
     static _videoPlay(newTime = 0) {
-      const delay = 1000 / global.projectInst.frameRate.getFrameRateValue();
-
       if (global.projectInst.playback.playBackRAFPreviousTime === null) {
         global.projectInst.playback.playBackRAFPreviousTime = newTime;
       }
-
+      const delay = 1000 / global.projectInst.frameRate.getFrameRateValue();
       const incrementIfExceedsTime = Math.floor(
         global.projectInst.playback.playBackRAFPreviousTime + delay
       );
 
+      // Stop or loop at last frame
+      if (
+        newTime >= incrementIfExceedsTime &&
+        global.projectInst.playback.curPlayFrame >=
+          global.projectInst.currentTake.getTotalFrames()
+      ) {
+        if (!global.projectInst.playback.isLooping) {
+          global.projectInst.setCurrentMode("capture");
+          return;
+        }
+
+        console.info("Playback looped");
+        global.projectInst.playback.curPlayFrame = 0;
+      }
+
       if (newTime >= incrementIfExceedsTime) {
         global.projectInst.playback.playBackRAFPreviousTime = newTime;
 
-        // Display each frame and update the UI accordingly
         PlaybackCanvas.drawImage(
           global.projectInst.currentTake.capturedFrames[
             global.projectInst.playback.curPlayFrame
@@ -182,41 +194,6 @@
 
         global.projectInst.playback.curPlayFrame++;
       }
-
-      if (
-        global.projectInst.playback.curPlayFrame >=
-        global.projectInst.currentTake.getTotalFrames()
-      ) {
-        // We are not looping, stop the playback
-        if (!global.projectInst.playback.isLooping) {
-          global.projectInst.setCurrentMode("capture");
-          return;
-        }
-
-        // Loop the playback
-        console.info("Playback looped");
-        global.projectInst.playback.curPlayFrame = 0;
-      }
-
-      ////
-      // global.projectInst.playback.playBackTimeout = setTimeout(function() {
-      //   global.projectInst.playback.playBackRAF = requestAnimationFrame(Playback._videoPlay);
-
-      //   // There are no more frames to preview
-      //   if (global.projectInst.playback.curPlayFrame >= global.projectInst.currentTake.getTotalFrames()) {
-      //     // We are not looping, stop the playback
-      //     if (!global.projectInst.playback.isLooping) {
-      //       global.projectInst.setCurrentMode("capture");
-      //       return;
-      //     }
-
-      //     // Loop the playback
-      //     console.info("Playback looped");
-      //     global.projectInst.playback.curPlayFrame = 0;
-      //   }
-
-      // }, 1000 / global.projectInst.frameRate.getFrameRateValue());
-      /////
 
       global.projectInst.playback.playBackRAF = requestAnimationFrame(
         Playback._videoPlay
