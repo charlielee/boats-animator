@@ -21,7 +21,7 @@ Thank you for choosing to download Boats Animator! Here is a guide to installing
 6. The first time you open Boats Animator you will be prompted to allow access to the camera. Select `OK` if you want to be able to capture images! ![Screenshot of allow camera access prompt](../img/download-mac-3.png)
 
 !!! note "Note"
-If you see the following message then select `Cancel`, press `control + click` on the `Boats Animator` entry and choose `Open`. This will display a different message with the option to open the program. This step is only necessary the first time you open Boats Animator.
+    If you see the following message then select `Cancel`, press `control + click` on the `Boats Animator` entry and choose `Open`. This will display a different message with the option to open the program. This step is only necessary the first time you open Boats Animator.
 
 ![Screenshot of developer can't be verified prompt](../img/download-mac-4.png) ![Screenshot of are you sure you want to open prompt](../img/download-mac-5.png)
 
@@ -32,7 +32,7 @@ If you see the following message then select `Cancel`, press `control + click` o
 3. Boats Animator will now be added to your application menu.
 
 !!! note "Note"
-If you require a different Linux package type then please [visit the code repository](https://github.com/charlielee/boats-animator/) for instructions on building your own binaries.
+    If you require a different Linux package type then please [visit the code repository](https://github.com/charlielee/boats-animator/) for instructions on building your own binaries.
 
 ## Is Boats Animator safe? Why do I have to ignore certain security messages?
 

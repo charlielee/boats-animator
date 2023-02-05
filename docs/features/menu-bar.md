@@ -5,7 +5,7 @@
 The menu bar contains an assortment of options both to do with the current project and the program in general. The menu bar is located in the [Main Window](/interface/main-window).
 
 !!! note "Note for macOS users"
-The menu bar will show some additional items to those listed here. These features are part of macOS rather than Boats Animator.
+    The menu bar will show some additional items to those listed here. These features are part of macOS rather than Boats Animator.
 
 ### File menu
 
