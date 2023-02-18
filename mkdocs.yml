@@ -6,12 +6,12 @@ nav:
   - Introduction:
       - System Requirements: introduction/system-requirements.md
       - License: introduction/license.md
-      - Download: introduction/download.md
+      - Download and Installation Guide: introduction/download.md
+      - Supported Cameras: introduction/cameras.md
   - Interface:
       - Launcher Window: interface/launcher-window.md
       - Main Window: interface/main-window.md
   - Features:
-      - Supported Cameras: feature/cameras.md
       - Export Video: features/export-video.md
       - Keyboard Shortcuts: features/keyboard-shortcuts.md
       - Menu Bar: features/menu-bar.md
