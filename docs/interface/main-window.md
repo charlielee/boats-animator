@@ -1,6 +1,6 @@
 # Main Window
 
-![Main window](../img/ba-0-11-0-screenshot-1.png)
+![Main window](../img/ba-0-13-0-screenshot-1.png)
 
 The main window is where you will spend most of your time with Boats Animator.
 
@@ -94,7 +94,7 @@ The status bar contains useful information about the current project. See [Statu
 
 ## Sidebar
 
-![Sidebar](../img/sidebar.png)
+![Sidebar](../img/sidebar-capture.png)
 
 The sidebar contains options that are not changed very often during animating.
 
