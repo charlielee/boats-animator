@@ -29,4 +29,4 @@ Boats Animator is built on Electron, which is in turn built on Chromium. If your
 - 1 GB of available storage
 - USB webcam
 
-Please see the [Supported Cameras](/features/cameras) page for further information.
+Please see the [Supported Cameras](/introduction/cameras) page for further information.
