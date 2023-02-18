@@ -4,15 +4,9 @@
 
 The launcher window is the screen that appears after Boats Animator is launched.
 
-## Project options
-
-### New Project
+## New Project
 
 Select this button to begin a new animation.
-
-### Load Project
-
-This feature is not implemented yet.
 
 ## Version number
 
