@@ -22,6 +22,8 @@ gconf2 gconf-service libnotify4 libappindicator1 libxtst6 libnss3x
 
 ## Hardware
 
+Boats Animator is built on Electron, which is in turn built on Chromium. If your system is able to run recent versions of Chromium based web browsers, then Boats Animator is likely to have similar performance. The following are based on the system requirements for Chromium:
+
 - Intel Pentium 4 or later with SSE2 support
 - 1 GB of RAM
 - 1 GB of available storage
