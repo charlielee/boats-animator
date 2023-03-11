@@ -2,6 +2,8 @@
 
 Thank you for choosing to help improve Boats Animator!
 
+> **Important** This project is currently undergoing a complete rewrite to use React, TypeScript and Electron. As a result, this document is currently out of date. Check the GitHub Project to keep up on progress.
+
 ## Setup
 
 1. Make sure [Git](https://git-scm.com/) and [Node.js](https://nodejs.org/) are installed on your computer.
