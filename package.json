@@ -1,6 +1,6 @@
 {
-  "name": "boats-animator",
-  "version": "1.0.0-alpha",
+  "name": "boats-animator-2",
+  "version": "2.0.0-alpha.1",
   "private": true,
   "description": "A free, open-source stop motion animation program.",
   "main": "./dist/main.js",

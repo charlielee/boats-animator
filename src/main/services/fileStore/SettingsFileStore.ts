@@ -17,7 +17,7 @@ const defaults: SettingsFileOptions = {
 };
 
 const migrations = {
-  "1.0.0-alpha": (store: Conf<SettingsFileOptions>) => {
+  "2.0.0-alpha.1": (store: Conf<SettingsFileOptions>) => {
     store.clear();
   },
 };
