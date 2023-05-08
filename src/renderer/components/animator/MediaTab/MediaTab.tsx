@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { PageRoute } from "../../../../common/PageRoute";
 import { Take } from "../../../../common/project/Take";
 import { getTrackLength } from "../../../services/project/projectCalculator";
@@ -21,13 +22,6 @@ const MediaTab = ({ take }: MediaTabProps): JSX.Element => {
 
         <InputGroup>
           <InputLabel inputId="exportVideoButton">Render current take as a video file:</InputLabel>
-          <Button
-            id="exportVideoButton"
-            title="Export Video..."
-            onClick={PageRoute.EXPORT_VIDEO_MODAL}
-            icon={IconName.VIDEO}
-            disabled={getTrackLength(take.frameTrack) === 0}
-          />
         </InputGroup>
       </SidebarBlock>
     </Tab>

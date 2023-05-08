@@ -1,8 +1,10 @@
 import { PageRoute } from "../../../../common/PageRoute";
 import { Take } from "../../../../common/project/Take";
 import { zeroPad } from "../../../../common/utils";
+import { getTrackLength } from "../../../services/project/projectCalculator";
 import Button from "../../common/Button/Button";
 import { ButtonColor } from "../../common/Button/ButtonColor";
+import IconName from "../../common/Icon/IconName";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import "./TitleToolbar.css";
@@ -19,14 +21,23 @@ const TitleToolbar = ({ take }: TitleToolbarProps): JSX.Element => {
     <Toolbar className="title-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <Button
-          title={makeTakeTitle(take)}
+          label={makeTakeTitle(take)}
+          title="Manage project"
           onClick={PageRoute.STARTUP_MODAL}
           color={ButtonColor.TRANSPARENT}
         />
       </ToolbarItem>
       <ToolbarItem align={ToolbarItemAlign.CENTER}>Untitled Project </ToolbarItem>
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
-        todo
+        <Button
+          id="exportVideoButton"
+          label="Export"
+          title="Render current take as a video file"
+          onClick={PageRoute.EXPORT_VIDEO_MODAL}
+          icon={IconName.VIDEO}
+          disabled={getTrackLength(take.frameTrack) === 0}
+          color={ButtonColor.TRANSPARENT}
+        />
       </ToolbarItem>
     </Toolbar>
   );
