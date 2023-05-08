@@ -1,5 +1,6 @@
 .toolbar-item {
   display: flex;
+  column-gap: var(--margin-050);
 }
 
 .toolbar-item--stretch {
