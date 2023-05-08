@@ -1,8 +1,7 @@
-import { ThunkDispatch, Action } from "@reduxjs/toolkit";
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { setCurrentDeviceFromId } from "../../../redux/thunks";
-import IconName from "../../common/Icon/IconName";
 import InputGroup from "../../common/Input/InputGroup/InputGroup";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
 import InputSelect from "../../common/Input/InputSelect/InputSelect";
@@ -21,7 +20,7 @@ const CaptureSidebarBlock = (): JSX.Element => {
   });
 
   return (
-    <SidebarBlock title="Capture" titleIcon={IconName.CAPTURE}>
+    <SidebarBlock title="Capture">
       <InputGroup>
         <InputLabel inputId="camera-source-select">Camera Source</InputLabel>
         <InputSelect

@@ -72,7 +72,7 @@ const ExportVideoModalRendering = ({
       return {
         onClose: undefined,
         title: "Exporting Video...",
-        titleIcon: IconName.VIDEO,
+        titleIcon: undefined,
       };
     } else if (isCompletedSuccessfully) {
       return {

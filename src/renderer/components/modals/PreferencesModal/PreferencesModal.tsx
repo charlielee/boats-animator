@@ -40,7 +40,7 @@ const PreferencesModal = (): JSX.Element => {
         <Page>
           <PageBody>
             <Content>
-              <ContentBlock title="Preferences" titleIcon={IconName.SETTINGS}>
+              <ContentBlock title="Preferences">
                 <InputGroup row>
                   <InputSwitch
                     id="preferencesPlayCaptureSound"

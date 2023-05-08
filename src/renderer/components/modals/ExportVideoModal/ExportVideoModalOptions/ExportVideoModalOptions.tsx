@@ -85,7 +85,7 @@ const ExportVideoModalOptions = ({
         <Page>
           <PageBody>
             <Content>
-              <ContentBlock title="Export Video" titleIcon={IconName.VIDEO}>
+              <ContentBlock title="Export Video">
                 <InputGroup>
                   <InputLabel inputId="exportVideoFilePath">Export Location</InputLabel>
 
