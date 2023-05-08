@@ -18,6 +18,7 @@ import MediaTab from "../MediaTab/MediaTab";
 import Preview from "../Preview/Preview";
 import StatusToolbarWithContext from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
+import TitleToolbar from "../TitleToolbar/TitleToolbar";
 
 interface AnimatorWithProviderProps {
   take: Take;
@@ -26,6 +27,7 @@ interface AnimatorWithProviderProps {
 const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
   return (
     <Page>
+      <TitleToolbar take={take} />
       <PageBody>
         <Content>
           <StatusToolbarWithContext take={take} />
