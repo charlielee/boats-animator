@@ -73,3 +73,10 @@
 .button--disabled:active {
   background-color: var(--ba-border-active);
 }
+
+.button--color-transparent.button--disabled,
+.button--disabled:hover.button--disabled,
+.button--disabled:active.button--disabled {
+  background-color: transparent;
+  color: var(--ba-dark-active);
+}

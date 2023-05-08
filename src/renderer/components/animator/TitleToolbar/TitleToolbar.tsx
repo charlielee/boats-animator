@@ -30,8 +30,7 @@ const TitleToolbar = ({ take }: TitleToolbarProps): JSX.Element => {
       </ToolbarItem>
       <ToolbarItem align={ToolbarItemAlign.CENTER}>Untitled Project </ToolbarItem>
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
-        <Button
-          label="Export"
+        <IconButton
           title="Render current take as a video file"
           onClick={PageRoute.EXPORT_VIDEO_MODAL}
           icon={IconName.VIDEO}
