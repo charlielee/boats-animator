@@ -1,5 +1,5 @@
 import { FrameCount, FrameRate, TimelineIndex } from "../../../../../common/Flavors";
-import { buildTimeCode } from "../../../../../common/timeUtils";
+import { buildStartTimeCode } from "../../../../../common/timeUtils";
 import "./TimelinePosition.css";
 
 interface TimelinePositionProps {
@@ -16,7 +16,7 @@ const TimelinePosition = ({ frameRate, totalFrames }: TimelinePositionProps): JS
       <div className="timeline-position__inner">
         {frameNumbers.map((i: TimelineIndex) => (
           <div className="timeline-position__marker" key={i}>
-            {i % frameRate === 0 && buildTimeCode(i, frameRate, false)}
+            {i % frameRate === 0 && buildStartTimeCode(i, frameRate, false)}
             <br />
             {i + 1}
           </div>

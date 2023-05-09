@@ -5,7 +5,7 @@ import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext
 import { getTrackLength } from "../../../../services/project/projectCalculator";
 import Button from "../../../common/Button/Button";
 import { ButtonColor } from "../../../common/Button/ButtonColor";
-import { buildTimeCode } from "../../../../../common/timeUtils";
+import { buildStartTimeCode } from "../../../../../common/timeUtils";
 import "./StatusToolbarTimestamp.css";
 
 interface StatusToolbarTimestampWithContextProps {
@@ -24,9 +24,9 @@ const StatusToolbarTimestamp = ({
 
   const trackLength = getTrackLength(take.frameTrack);
   const secondsText = [
-    buildTimeCode(timelineIndex ?? (trackLength as TimelineIndex), take.frameRate),
+    buildStartTimeCode(timelineIndex ?? (trackLength as TimelineIndex), take.frameRate),
     "/",
-    buildTimeCode(trackLength as TimelineIndex, take.frameRate),
+    buildStartTimeCode(trackLength as TimelineIndex, take.frameRate),
   ].join(" ");
   const frameText = [
     "Frame",

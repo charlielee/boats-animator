@@ -13,7 +13,7 @@ export const secondsToTimeCode = (seconds: number, showDecimal = true) => {
   ].join("");
 };
 
-export const buildTimeCode = (
+export const buildStartTimeCode = (
   framePosition: TimelineIndex,
   frameRate: FrameRate,
   showDecimal?: boolean
