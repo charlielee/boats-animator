@@ -7,6 +7,8 @@ import Button from "../../../common/Button/Button";
 import { ButtonColor } from "../../../common/Button/ButtonColor";
 import { buildStartTimeCode } from "../../../../../common/timeUtils";
 import "./StatusToolbarTimestamp.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 
 interface StatusToolbarTimestampWithContextProps {
   take: Take;
@@ -20,7 +22,8 @@ const StatusToolbarTimestamp = ({
   take,
   timelineIndex,
 }: StatusToolbarTimestampProps): JSX.Element => {
-  const [showInSeconds, setShowInSeconds] = useState(false);
+  const { showTimestampInSeconds } = useSelector((state: RootState) => state.app.userPreferences);
+  const [showInSeconds, setShowInSeconds] = useState(showTimestampInSeconds);
 
   const trackLength = getTrackLength(take.frameTrack);
   const secondsText = [

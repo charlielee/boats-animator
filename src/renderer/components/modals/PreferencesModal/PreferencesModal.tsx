@@ -73,6 +73,23 @@ const PreferencesModal = (): JSX.Element => {
                     validateOnChange
                   />
                 </InputGroup>
+
+                <InputGroup row>
+                  <InputSwitch
+                    id="preferencesShowTimestampInSeconds"
+                    checked={userPreferences.showTimestampInSeconds}
+                    onChange={() =>
+                      dispatch(
+                        editUserPreferences({
+                          showTimestampInSeconds: !userPreferences.showTimestampInSeconds,
+                        })
+                      )
+                    }
+                  />
+                  <InputLabel inputId="preferencesShowTimestampInSeconds">
+                    Show timestamp in seconds on startup
+                  </InputLabel>
+                </InputGroup>
               </ContentBlock>
             </Content>
           </PageBody>
