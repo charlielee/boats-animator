@@ -5,6 +5,7 @@ import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext
 import { getTrackLength } from "../../../../services/project/projectCalculator";
 import Button from "../../../common/Button/Button";
 import { ButtonColor } from "../../../common/Button/ButtonColor";
+import { buildTimeCode } from "../../../../../common/timeUtils";
 
 interface StatusToolbarTimestampWithContextProps {
   take: Take;
@@ -20,13 +21,17 @@ const StatusToolbarTimestamp = ({
 }: StatusToolbarTimestampProps): JSX.Element => {
   const [showInSeconds, setShowInSeconds] = useState(false);
 
-  const secondsText = "00:00.00 / 00:09.83";
-
+  const trackLength = getTrackLength(take.frameTrack);
+  const secondsText = [
+    buildTimeCode(timelineIndex ?? (trackLength as TimelineIndex), take.frameRate),
+    "/",
+    buildTimeCode(trackLength as TimelineIndex, take.frameRate),
+  ].join(" ");
   const frameText = [
     "Frame",
-    timelineIndex === undefined ? getTrackLength(take.frameTrack) + 1 : timelineIndex + 1,
+    timelineIndex === undefined ? trackLength + 1 : timelineIndex + 1,
     "of",
-    getTrackLength(take.frameTrack),
+    trackLength,
   ].join(" ");
 
   return (
