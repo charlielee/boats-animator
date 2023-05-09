@@ -7,7 +7,8 @@ describe("secondsToTimeCode", () => {
     expect(secondsToTimeCode(0.999, true)).toBe("00:00.999");
     expect(secondsToTimeCode(1, true)).toBe("00:01.000");
     expect(secondsToTimeCode(1.1, true)).toBe("00:01.100");
-    expect(secondsToTimeCode(1.66667, true)).toBe("00:01.667");
+    expect(secondsToTimeCode(1.6664, true)).toBe("00:01.666");
+    expect(secondsToTimeCode(1.6665, true)).toBe("00:01.667");
     expect(secondsToTimeCode(60, true)).toBe("01:00.000");
     expect(secondsToTimeCode(61, true)).toBe("01:01.000");
     expect(secondsToTimeCode(600, true)).toBe("10:00.000");
@@ -23,7 +24,8 @@ describe("secondsToTimeCode", () => {
     expect(secondsToTimeCode(0.999, false)).toBe("00:00");
     expect(secondsToTimeCode(1, false)).toBe("00:01");
     expect(secondsToTimeCode(1.1, false)).toBe("00:01");
-    expect(secondsToTimeCode(1.66667, false)).toBe("00:01");
+    expect(secondsToTimeCode(1.6664, false)).toBe("00:01");
+    expect(secondsToTimeCode(1.6665, false)).toBe("00:01");
     expect(secondsToTimeCode(60, false)).toBe("01:00");
     expect(secondsToTimeCode(61, false)).toBe("01:01");
     expect(secondsToTimeCode(600, false)).toBe("10:00");
