@@ -6,6 +6,7 @@ import { getTrackLength } from "../../../../services/project/projectCalculator";
 import Button from "../../../common/Button/Button";
 import { ButtonColor } from "../../../common/Button/ButtonColor";
 import { buildTimeCode } from "../../../../../common/timeUtils";
+import "./StatusToolbarTimestamp.css";
 
 interface StatusToolbarTimestampWithContextProps {
   take: Take;
@@ -36,6 +37,7 @@ const StatusToolbarTimestamp = ({
 
   return (
     <Button
+      className="status-toolbar-timestamp"
       label={showInSeconds ? secondsText : frameText}
       title={showInSeconds ? "Show timestamp in frames" : "Show timestamp in seconds"}
       onClick={() => setShowInSeconds((prevState) => !prevState)}
