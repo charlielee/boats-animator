@@ -5,10 +5,12 @@ describe("secondsToTimeCode", () => {
     expect(secondsToTimeCode(0, true)).toBe("00:00.000");
     expect(secondsToTimeCode(0.01, true)).toBe("00:00.010");
     expect(secondsToTimeCode(0.999, true)).toBe("00:00.999");
+    expect(secondsToTimeCode(0.9999, true)).toBe("00:01.000");
     expect(secondsToTimeCode(1, true)).toBe("00:01.000");
     expect(secondsToTimeCode(1.1, true)).toBe("00:01.100");
     expect(secondsToTimeCode(1.6664, true)).toBe("00:01.666");
     expect(secondsToTimeCode(1.6665, true)).toBe("00:01.667");
+    expect(secondsToTimeCode(59, true)).toBe("00:59.000");
     expect(secondsToTimeCode(60, true)).toBe("01:00.000");
     expect(secondsToTimeCode(61, true)).toBe("01:01.000");
     expect(secondsToTimeCode(600, true)).toBe("10:00.000");
@@ -21,16 +23,18 @@ describe("secondsToTimeCode", () => {
   it("should convert to correct time codes when show decimal is false", () => {
     expect(secondsToTimeCode(0, false)).toBe("00:00");
     expect(secondsToTimeCode(0.01, false)).toBe("00:00");
-    expect(secondsToTimeCode(0.999, false)).toBe("00:00");
+    expect(secondsToTimeCode(0.999, false)).toBe("00:01");
+    expect(secondsToTimeCode(0.9999, false)).toBe("00:01");
     expect(secondsToTimeCode(1, false)).toBe("00:01");
     expect(secondsToTimeCode(1.1, false)).toBe("00:01");
-    expect(secondsToTimeCode(1.6664, false)).toBe("00:01");
-    expect(secondsToTimeCode(1.6665, false)).toBe("00:01");
+    expect(secondsToTimeCode(1.6664, false)).toBe("00:02");
+    expect(secondsToTimeCode(1.6665, false)).toBe("00:02");
+    expect(secondsToTimeCode(59, false)).toBe("00:59");
     expect(secondsToTimeCode(60, false)).toBe("01:00");
     expect(secondsToTimeCode(61, false)).toBe("01:01");
     expect(secondsToTimeCode(600, false)).toBe("10:00");
     expect(secondsToTimeCode(601, false)).toBe("10:01");
-    expect(secondsToTimeCode(601.789, false)).toBe("10:01");
+    expect(secondsToTimeCode(601.789, false)).toBe("10:02");
     expect(secondsToTimeCode(5999, false)).toBe("99:59");
     expect(secondsToTimeCode(6000, false)).toBe("100:00");
   });
