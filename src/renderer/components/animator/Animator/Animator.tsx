@@ -4,20 +4,16 @@ import CaptureContextProvider from "../../../context/CaptureContext/CaptureConte
 import PlaybackContextProvider from "../../../context/PlaybackContext/PlaybackContextProvider";
 import { RootState } from "../../../redux/store";
 import Content from "../../common/Content/Content";
-import IconName from "../../common/Icon/IconName";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import Sidebar from "../../common/Sidebar/Sidebar";
-import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
-import Tab from "../../common/Tab/Tab";
-import TabGroup from "../../common/TabGroup/TabGroup";
 import AnimationToolbarWithContext from "../AnimationToolbar/AnimationToolbar";
 import CaptureButtonToolbarWithContext from "../CaptureButtonToolbar/CaptureButtonToolbar";
-import CaptureTabWithContext from "../CaptureTab/CaptureTab";
-import MediaTab from "../MediaTab/MediaTab";
+import CaptureSidebarBlock from "../CaptureSidebarBlock/CaptureSidebarBlock";
 import Preview from "../Preview/Preview";
 import StatusToolbarWithContext from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
+import TitleToolbar from "../TitleToolbar/TitleToolbar";
 
 interface AnimatorWithProviderProps {
   take: Take;
@@ -26,6 +22,7 @@ interface AnimatorWithProviderProps {
 const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
   return (
     <Page>
+      <TitleToolbar take={take} />
       <PageBody>
         <Content>
           <StatusToolbarWithContext take={take} />
@@ -36,26 +33,7 @@ const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
         </Content>
 
         <Sidebar>
-          <TabGroup
-            titles={["Capture", "Guides", "X-Sheet", "Media"]}
-            tabs={[
-              <CaptureTabWithContext key="capture" />,
-
-              <Tab key="guides">
-                <SidebarBlock title="Guides" titleIcon={IconName.GUIDES}>
-                  Guides
-                </SidebarBlock>
-              </Tab>,
-
-              <Tab key="x-sheet">
-                <SidebarBlock title="X-Sheet" titleIcon={IconName.GUIDES}>
-                  X-Sheet
-                </SidebarBlock>
-              </Tab>,
-
-              <MediaTab key="media" take={take} />,
-            ]}
-          />
+          <CaptureSidebarBlock key="capture" />
         </Sidebar>
       </PageBody>
     </Page>

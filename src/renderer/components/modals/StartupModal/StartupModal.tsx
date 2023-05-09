@@ -52,13 +52,11 @@ const StartupModal = (): JSX.Element => {
         <Page>
           <PageBody>
             <Content>
-              <ContentBlock title="Projects" titleIcon={IconName.PROJECTS}>
-                Hi
-              </ContentBlock>
+              <ContentBlock title="Projects">Hi</ContentBlock>
             </Content>
 
             <Sidebar>
-              <SidebarBlock title="Connect" titleIcon={IconName.CONNECT}>
+              <SidebarBlock title="Connect">
                 <NewsFeed />
               </SidebarBlock>
             </Sidebar>
