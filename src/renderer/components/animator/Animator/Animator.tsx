@@ -11,7 +11,7 @@ import AnimationToolbarWithContext from "../AnimationToolbar/AnimationToolbar";
 import CaptureButtonToolbarWithContext from "../CaptureButtonToolbar/CaptureButtonToolbar";
 import CaptureSidebarBlock from "../CaptureSidebarBlock/CaptureSidebarBlock";
 import Preview from "../Preview/Preview";
-import StatusToolbarWithContext from "../StatusToolbar/StatusToolbar";
+import StatusToolbar from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
 import TitleToolbar from "../TitleToolbar/TitleToolbar";
 
@@ -25,7 +25,7 @@ const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
       <TitleToolbar take={take} />
       <PageBody>
         <Content>
-          <StatusToolbarWithContext take={take} />
+          <StatusToolbar take={take} />
           <Preview take={take} />
           <CaptureButtonToolbarWithContext />
           <AnimationToolbarWithContext />

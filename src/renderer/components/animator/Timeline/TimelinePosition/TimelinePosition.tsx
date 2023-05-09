@@ -1,26 +1,22 @@
-import { secondsToTimeCode } from "../../../../../common/utils";
+import { FrameCount, FrameRate, TimelineIndex } from "../../../../../common/Flavors";
+import { buildStartTimeCode } from "../../../../../common/timeUtils";
 import "./TimelinePosition.css";
 
 interface TimelinePositionProps {
-  frameRate: number;
-  totalFrames: number;
+  frameRate: FrameRate;
+  totalFrames: FrameCount;
 }
 
 const TimelinePosition = ({ frameRate, totalFrames }: TimelinePositionProps): JSX.Element => {
-  const frameCount = totalFrames < 30 ? 30 : totalFrames;
+  const frameCount: FrameCount = totalFrames < 30 ? 30 : totalFrames;
   const frameNumbers = [...Array(frameCount).keys()];
-
-  const buildTimeCode = (framePosition: number) => {
-    const timeInSeconds = framePosition / frameRate;
-    return secondsToTimeCode(timeInSeconds);
-  };
 
   return (
     <div className="timeline-position">
       <div className="timeline-position__inner">
-        {frameNumbers.map((i) => (
+        {frameNumbers.map((i: TimelineIndex) => (
           <div className="timeline-position__marker" key={i}>
-            {i % frameRate === 0 && buildTimeCode(i)}
+            {i % frameRate === 0 && buildStartTimeCode(i, frameRate, false)}
             <br />
             {i + 1}
           </div>
