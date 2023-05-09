@@ -2,7 +2,7 @@
   align-items: center;
   color: var(--ba-light-mid);
   display: flex;
-  height: 100%;
+  height: var(--height-800);
   padding: var(--width-16);
   min-width: calc(var(--width-16) * 4);
   width: calc(var(--width-16) * 4);

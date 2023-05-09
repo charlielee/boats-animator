@@ -3,5 +3,6 @@
   display: flex;
   height: var(--height-800);
   width: max-content;
-  padding: var(--margin-100) 0;
+  padding: var(--margin-100);
+  gap: var(--margin-100);
 }

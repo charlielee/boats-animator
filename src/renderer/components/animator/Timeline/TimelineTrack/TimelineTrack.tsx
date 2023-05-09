@@ -11,7 +11,6 @@ import {
 } from "../../../../services/project/projectCalculator";
 import TimelineLiveViewButton from "../TimelineLiveView/TimelineLiveView";
 import TimelineTrackItem from "../TimelineTrackItem/TimelineTrackItem";
-import TimelineTrackLabel from "../TimelineTrackLabel/TimelineTrackLabel";
 import TimelineTrackNoItems from "../TimelineTrackNoItems/TimelineTrackNoItems";
 import "./TimelineTrack.css";
 
@@ -37,8 +36,6 @@ const TimelineTrack = ({
 
   return (
     <div className="timeline-track">
-      <TimelineTrackLabel fileType={track.fileType} />
-
       {track.trackItems.length > 0 ? (
         <>
           {track.trackItems.map((trackItem, i) => {
