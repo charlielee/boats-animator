@@ -26,6 +26,12 @@ const projectSlice = createSlice({
       state.project = action.payload;
     },
 
+    updateProject: (state, action: PayloadAction<Partial<Project>>) => {
+      if (state.project) {
+        state.project = { ...state.project, ...action.payload };
+      }
+    },
+
     addFrameTrackItem: (state, action: PayloadAction<TrackItem>) => {
       state.take?.frameTrack.trackItems.push(action.payload);
     },
@@ -52,6 +58,7 @@ const projectSlice = createSlice({
 
 export const {
   addProject,
+  updateProject,
   addFrameTrackItem,
   incrementExportedFrameNumber,
   setPlaybackSpeed,

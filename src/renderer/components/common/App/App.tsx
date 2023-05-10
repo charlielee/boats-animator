@@ -7,8 +7,11 @@ import ProjectSettingsModal from "../../modals/ProjectSettingsModal/ProjectSetti
 import StartupModal from "../../modals/StartupModal/StartupModal";
 import AppListener from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 const App = (): JSX.Element => {
+  const { project, take } = useSelector((state: RootState) => state.project);
   return (
     <>
       <AppListener />
@@ -19,20 +22,18 @@ const App = (): JSX.Element => {
 
         <Route path={PageRoute.STARTUP_MODAL} element={<StartupModal />} />
 
-        <Route path={PageRoute.PREFERENCES_MODAL} element={<PreferencesModal />} />
-
-        <Route path={PageRoute.PROJECT_SETTINGS_MODAL} element={<ProjectSettingsModal />} />
-
         <Route
           path={PageRoute.ANIMATOR}
           element={
             <>
               <Outlet />
-              <Animator />
+              {project && take && <Animator />}
             </>
           }
         >
           <Route path={PageRoute.EXPORT_VIDEO_MODAL} element={<ExportVideoModal />} />
+          <Route path={PageRoute.PREFERENCES_MODAL} element={<PreferencesModal />} />
+          <Route path={PageRoute.PROJECT_SETTINGS_MODAL} element={<ProjectSettingsModal />} />
         </Route>
       </Routes>
     </>

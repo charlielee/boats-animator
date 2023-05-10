@@ -20,7 +20,7 @@ import {
   makeProjectFileName,
   makeTake,
 } from "../../../services/project/projectBuilder";
-import { addProject, addTake } from "../../../redux/slices/projectSlice";
+import { addProject, addTake, updateProject } from "../../../redux/slices/projectSlice";
 import { ThunkDispatch, Action } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 
@@ -29,10 +29,16 @@ const DEFAULT_PROJECT_NAME = "Untitled Movie";
 const ProjectSettingsModal = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
-  const { workingDirectory } = useSelector((state: RootState) => state.app.userPreferences);
 
-  const [name, setName] = useState(DEFAULT_PROJECT_NAME);
-  const [fileName, setFileName] = useState(makeProjectFileName(DEFAULT_PROJECT_NAME));
+  const { currentProject, workingDirectory } = useSelector((state: RootState) => ({
+    currentProject: state.project.project,
+    workingDirectory: state.app.userPreferences.workingDirectory,
+  }));
+
+  const [name, setName] = useState(currentProject?.name ?? DEFAULT_PROJECT_NAME);
+  const [fileName, setFileName] = useState(
+    currentProject?.fileName ?? makeProjectFileName(DEFAULT_PROJECT_NAME)
+  );
 
   const onRenameProject = (newName: string) => {
     setName(newName === "" ? DEFAULT_PROJECT_NAME : newName);
@@ -44,29 +50,32 @@ const ProjectSettingsModal = (): JSX.Element => {
     return <></>;
   }
 
-  const createProject = () => {
-    dispatch(addProject({ name, fileName }));
-
-    dispatch(
-      addTake(
-        makeTake({
-          workingDirectory,
-          shotNumber: 1,
-          takeNumber: 1,
-          frameRate: 15,
-        })
-      )
-    );
+  const setProject = () => {
+    if (currentProject) {
+      dispatch(updateProject({ name, fileName }));
+    } else {
+      dispatch(addProject({ name, fileName }));
+      dispatch(
+        addTake(
+          makeTake({
+            workingDirectory,
+            shotNumber: 1,
+            takeNumber: 1,
+            frameRate: 15,
+          })
+        )
+      );
+    }
 
     navigate(PageRoute.ANIMATOR);
   };
 
   return (
-    <Modal onClose={PageRoute.STARTUP_MODAL}>
+    <Modal onClose={currentProject ? PageRoute.ANIMATOR : PageRoute.STARTUP_MODAL}>
       <ModalBody>
         <PageBody>
           <Content>
-            <ContentBlock title="New Project">
+            <ContentBlock title={currentProject ? "Project Settings" : "New Project"}>
               <InputGroup>
                 <InputLabel inputId="projectSettingsName">Project Name</InputLabel>
                 <InputText
@@ -96,7 +105,11 @@ const ProjectSettingsModal = (): JSX.Element => {
       <ModalFooter>
         <Toolbar borderTop>
           <ToolbarItem align={ToolbarItemAlign.LEFT}>
-            <Button title="Create Project" icon={IconName.ADD} onClick={createProject} />
+            <Button
+              title={currentProject ? "Update Project" : "Create Project"}
+              icon={currentProject ? IconName.SAVE : IconName.ADD}
+              onClick={setProject}
+            />
           </ToolbarItem>
         </Toolbar>
       </ModalFooter>
