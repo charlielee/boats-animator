@@ -1,10 +1,10 @@
 import { useState } from "react";
-import useSelectorWithProjectAndTake from "../../../hooks/useSelectorWithProjectAndTake";
+import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import ExportVideoModalOptions from "./ExportVideoModalOptions/ExportVideoModalOptions";
 import ExportVideoModalRendering from "./ExportVideoModalRendering/ExportVideoModalRendering";
 
 const ExportVideoModal = (): JSX.Element => {
-  const { take } = useSelectorWithProjectAndTake();
+  const { take } = useProjectAndTake();
   const [ffmpegArguments, setFFmpegArguments] = useState("");
   const [videoFilePath, setVideoFilePath] = useState("");
 

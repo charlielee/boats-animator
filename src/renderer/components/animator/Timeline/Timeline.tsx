@@ -1,24 +1,21 @@
 import { useEffect, useRef } from "react";
 import { TimelineIndex } from "../../../../common/Flavors";
-import { Take } from "../../../../common/project/Take";
 import { Track } from "../../../../common/project/Track";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { getTrackItemStartPosition } from "../../../services/project/projectCalculator";
 import "./Timeline.css";
 import TimelinePosition from "./TimelinePosition/TimelinePosition";
 import TimelineTrack from "./TimelineTrack/TimelineTrack";
 import TimelineTrackLabel from "./TimelineTrackLabel/TimelineTrackLabel";
 
-interface TimelineWithContextProps {
-  take: Take;
-}
-
-interface TimelineProps extends TimelineWithContextProps {
+interface TimelineProps {
   timelineIndex: TimelineIndex | undefined;
   stopPlayback: (timelineIndex?: TimelineIndex | undefined) => void;
 }
 
-const Timeline = ({ take, timelineIndex, stopPlayback }: TimelineProps): JSX.Element => {
+const Timeline = ({ timelineIndex, stopPlayback }: TimelineProps): JSX.Element => {
+  const { take } = useProjectAndTake();
   const frameTrack = take.frameTrack;
   const timelineTracksRef = useRef<HTMLDivElement>(null);
 
@@ -54,10 +51,8 @@ const Timeline = ({ take, timelineIndex, stopPlayback }: TimelineProps): JSX.Ele
   );
 };
 
-const TimelineWithContext = (props: TimelineWithContextProps) => (
-  <PlaybackContext.Consumer>
-    {(value) => <Timeline {...value} {...props} />}
-  </PlaybackContext.Consumer>
+const TimelineWithContext = () => (
+  <PlaybackContext.Consumer>{(value) => <Timeline {...value} />}</PlaybackContext.Consumer>
 );
 
 export default TimelineWithContext;

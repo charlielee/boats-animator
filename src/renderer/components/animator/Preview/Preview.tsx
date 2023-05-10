@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getFileRefById } from "../../../../common/FileRef";
 import { TimelineIndex } from "../../../../common/Flavors";
-import { Take } from "../../../../common/project/Take";
 import CaptureContext from "../../../context/CaptureContext/CaptureContext";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { RootState } from "../../../redux/store";
 import { ImagingDevice } from "../../../services/imagingDevice/ImagingDevice";
 import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
@@ -12,17 +12,14 @@ import "./Preview.css";
 import PreviewFrame from "./PreviewFrame/PreviewFrame";
 import PreviewLiveView from "./PreviewLiveView/PreviewLiveView";
 
-interface PreviewWithContextProps {
-  take: Take;
-}
-
-interface PreviewProps extends PreviewWithContextProps {
+interface PreviewProps {
   device: ImagingDevice | undefined;
   liveViewVisible: boolean;
   timelineIndex: TimelineIndex | undefined;
 }
 
-const Preview = ({ take, device, liveViewVisible, timelineIndex }: PreviewProps): JSX.Element => {
+const Preview = ({ device, liveViewVisible, timelineIndex }: PreviewProps): JSX.Element => {
+  const { take } = useProjectAndTake();
   const { deviceStatus, hasCameraAccess, fileRefs } = useSelector((state: RootState) => ({
     deviceStatus: state.capture.deviceStatus,
     hasCameraAccess: state.app.hasCameraAccess,
@@ -60,13 +57,12 @@ const Preview = ({ take, device, liveViewVisible, timelineIndex }: PreviewProps)
   );
 };
 
-const PreviewWithContext = (props: PreviewWithContextProps): JSX.Element => (
+const PreviewWithContext = (): JSX.Element => (
   <CaptureContext.Consumer>
     {({ device }) => (
       <PlaybackContext.Consumer>
         {({ liveViewVisible, timelineIndex }) => (
           <Preview
-            {...props}
             device={device}
             liveViewVisible={liveViewVisible}
             timelineIndex={timelineIndex}

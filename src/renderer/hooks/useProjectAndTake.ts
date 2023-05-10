@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
-const useSelectorWithProjectAndTake = () => {
+const useProjectAndTake = () => {
   const { project, take } = useSelector((state: RootState) => state.project);
 
   if (!project) {
@@ -15,4 +15,4 @@ const useSelectorWithProjectAndTake = () => {
   return { project, take };
 };
 
-export default useSelectorWithProjectAndTake;
+export default useProjectAndTake;
