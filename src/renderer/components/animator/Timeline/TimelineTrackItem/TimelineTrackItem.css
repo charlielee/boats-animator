@@ -31,3 +31,10 @@
 .timeline-track-item__cover:active {
   background-color: var(--ba-light-30);
 }
+
+.timetime-track-item__scroll-target {
+  position: absolute;
+  height: 100%;
+  width: calc(var(--margin-100) * 2 + 100%);
+  left: calc(var(--margin-100) * -1);
+}

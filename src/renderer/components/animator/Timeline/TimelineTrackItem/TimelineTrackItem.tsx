@@ -10,17 +10,17 @@ interface TimelineTrackItemProps {
 }
 
 const TimelineTrackItem = ({ title, dataUrl, highlighted, onClick }: TimelineTrackItemProps) => {
-  const trackItemRef = useRef<HTMLDivElement>(null);
+  const scrollTargetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (highlighted) {
       // Note: this is a non-standard webkit method
-      (trackItemRef.current as any)?.scrollIntoViewIfNeeded();
+      (scrollTargetRef.current as any)?.scrollIntoViewIfNeeded();
     }
   }, [highlighted]);
 
   return (
-    <div className="timeline-track-item" ref={trackItemRef} onClick={onClick} title={title}>
+    <div className="timeline-track-item" onClick={onClick} title={title}>
       <img
         className={classNames("timeline-track-item__img", {
           "timeline-track-item__img--highlighted": highlighted,
@@ -29,6 +29,7 @@ const TimelineTrackItem = ({ title, dataUrl, highlighted, onClick }: TimelineTra
         key={dataUrl}
       />
       <div className="timeline-track-item__cover"></div>
+      <div className="timetime-track-item__scroll-target" ref={scrollTargetRef}></div>
     </div>
   );
 };
