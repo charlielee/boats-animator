@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
@@ -32,17 +33,7 @@ const StartupModal = (): JSX.Element => {
     const directory = workingDirectory ?? (await dispatch(changeWorkingDirectory()));
 
     if (directory !== undefined) {
-      dispatch(
-        addTake(
-          makeTake({
-            workingDirectory: directory,
-            shotNumber: 1,
-            takeNumber: 1,
-            frameRate: 15,
-          })
-        )
-      );
-      navigate(PageRoute.ANIMATOR);
+      navigate(PageRoute.PROJECT_SETTINGS_MODAL);
     }
   };
 

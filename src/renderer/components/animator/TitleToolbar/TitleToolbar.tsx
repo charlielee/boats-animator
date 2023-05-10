@@ -24,7 +24,7 @@ const TitleToolbar = ({ take }: TitleToolbarProps): JSX.Element => {
         <Button
           label={makeTakeTitle(take)}
           title="Manage project"
-          onClick={PageRoute.STARTUP_MODAL}
+          onClick={PageRoute.PROJECT_SETTINGS_MODAL}
           color={ButtonColor.TRANSPARENT}
         />
       </ToolbarItem>

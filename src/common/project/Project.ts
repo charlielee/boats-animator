@@ -1,5 +1,5 @@
 export interface Project {
   name: string;
-  filePath: string;
+  fileName: string;
   fileLastSavedToDisk?: Date;
 }

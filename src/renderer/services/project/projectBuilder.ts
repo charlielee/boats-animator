@@ -3,7 +3,7 @@ import { FileRefType } from "../../../common/FileRef";
 import { TrackGroupId } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
-import { zeroPad } from "../../../common/utils";
+import { PROJECT_DIRECTORY_EXTENSION, zeroPad } from "../../../common/utils";
 
 export interface ProjectBuilderOptions {
   workingDirectory: string;
@@ -64,3 +64,8 @@ export const makeFrameFilePath = (take: Take, frameName?: string): string =>
       `${frameName ?? zeroPad(take.lastExportedFrameNumber + 1, 5)}.jpg`,
     ].join("_")
   );
+
+export const makeProjectFileName = (name: string) => name.trim().replaceAll(" ", "-");
+
+export const makeProjectDirectoryPath = (workingDirectory: string, fileName: string) =>
+  window.preload.joinPath(workingDirectory, `${fileName}.${PROJECT_DIRECTORY_EXTENSION}`);

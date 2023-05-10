@@ -14,12 +14,13 @@ import Preview from "../Preview/Preview";
 import StatusToolbar from "../StatusToolbar/StatusToolbar";
 import Timeline from "../Timeline/Timeline";
 import TitleToolbar from "../TitleToolbar/TitleToolbar";
+import useSelectorWithProjectAndTake from "../../../hooks/useSelectorWithProjectAndTake";
 
-interface AnimatorWithProviderProps {
+interface AnimatorProps {
   take: Take;
 }
 
-const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
+const Animator = ({ take }: AnimatorProps): JSX.Element => {
   return (
     <Page>
       <TitleToolbar take={take} />
@@ -40,7 +41,8 @@ const Animator = ({ take }: AnimatorWithProviderProps): JSX.Element => {
   );
 };
 
-const AnimatorWithProvider = ({ take }: AnimatorWithProviderProps): JSX.Element => {
+const AnimatorWithProvider = (): JSX.Element => {
+  const { take } = useSelectorWithProjectAndTake();
   const selectors = useSelector((state: RootState) => ({
     shortPlayLength: state.app.userPreferences.shortPlayLength,
     playbackSpeed: state.project.playbackSpeed,
