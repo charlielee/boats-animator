@@ -41,7 +41,7 @@ export const changeWorkingDirectory = (workingDirectory?: string) => {
 
       dispatch(
         editUserPreferences({
-          workingDirectory: newDirectory,
+          defaultWorkingDirectory: newDirectory,
         })
       );
 

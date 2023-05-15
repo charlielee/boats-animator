@@ -25,12 +25,12 @@ import { addTake } from "../../../redux/slices/projectSlice";
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 
 const StartupModal = (): JSX.Element => {
-  const { workingDirectory } = useSelector((state: RootState) => state.app.userPreferences);
+  const { defaultWorkingDirectory } = useSelector((state: RootState) => state.app.userPreferences);
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
   const newProject = async () => {
-    const directory = workingDirectory ?? (await dispatch(changeWorkingDirectory()));
+    const directory = defaultWorkingDirectory ?? (await dispatch(changeWorkingDirectory()));
 
     if (directory !== undefined) {
       navigate(PageRoute.PROJECT_SETTINGS_MODAL);

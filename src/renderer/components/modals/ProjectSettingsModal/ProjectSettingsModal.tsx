@@ -1,7 +1,15 @@
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
+import { addProject, addTake, updateProject } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
+import {
+  makeProject,
+  makeProjectDirectoryPath,
+  makeTake,
+} from "../../../services/project/projectBuilder";
 import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
@@ -15,14 +23,6 @@ import ModalFooter from "../../common/ModalFooter/ModalFooter";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
-import {
-  makeProjectDirectoryPath,
-  makeProjectFileName,
-  makeTake,
-} from "../../../services/project/projectBuilder";
-import { addProject, addTake, updateProject } from "../../../redux/slices/projectSlice";
-import { ThunkDispatch, Action } from "@reduxjs/toolkit";
-import { useNavigate } from "react-router-dom";
 
 const DEFAULT_PROJECT_NAME = "Untitled Movie";
 
@@ -30,35 +30,31 @@ const ProjectSettingsModal = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
-  const { currentProject, workingDirectory } = useSelector((state: RootState) => ({
+  const { currentProject, defaultWorkingDirectory } = useSelector((state: RootState) => ({
     currentProject: state.project.project,
-    workingDirectory: state.app.userPreferences.workingDirectory,
+    defaultWorkingDirectory: state.app.userPreferences.defaultWorkingDirectory,
   }));
 
-  const [name, setName] = useState(currentProject?.name ?? DEFAULT_PROJECT_NAME);
-  const [fileName, setFileName] = useState(
-    currentProject?.fileName ?? makeProjectFileName(DEFAULT_PROJECT_NAME)
-  );
-
-  const onRenameProject = (newName: string) => {
-    setName(newName === "" ? DEFAULT_PROJECT_NAME : newName);
-    setFileName(makeProjectFileName(newName === "" ? DEFAULT_PROJECT_NAME : newName));
-  };
-
-  // TODO handle this check elsewhere
-  if (workingDirectory === undefined) {
-    return <></>;
+  if (defaultWorkingDirectory === undefined) {
+    throw "No working directory has been selected";
   }
 
-  const setProject = () => {
+  const [project, setProject] = useState(
+    currentProject ??
+      makeProject({ name: DEFAULT_PROJECT_NAME, workingDirectory: defaultWorkingDirectory })
+  );
+
+  const onRenameProject = (newName: string) =>
+    setProject((prevState) => makeProject({ ...prevState, name: newName }));
+
+  const onSubmitProjectSettings = () => {
     if (currentProject) {
-      dispatch(updateProject({ name, fileName }));
+      dispatch(updateProject(project));
     } else {
-      dispatch(addProject({ name, fileName }));
+      dispatch(addProject(project));
       dispatch(
         addTake(
           makeTake({
-            workingDirectory,
             shotNumber: 1,
             takeNumber: 1,
             frameRate: 15,
@@ -80,19 +76,19 @@ const ProjectSettingsModal = (): JSX.Element => {
                 <InputLabel inputId="projectSettingsName">Project Name</InputLabel>
                 <InputText
                   id="projectSettingsName"
-                  value={name === DEFAULT_PROJECT_NAME ? "" : name}
+                  value={project.name === DEFAULT_PROJECT_NAME ? "" : project.name}
                   placeholder="Untitled Movie"
                   onChange={onRenameProject}
                 />
               </InputGroup>
 
               <InputGroup>
-                <InputLabel inputId="projectSettingsDirectory">
+                <InputLabel inputId="projectSettingsDirectoryPath">
                   Project files will be saved to...
                 </InputLabel>
                 <InputText
-                  id="projectSettingsDirectory"
-                  value={makeProjectDirectoryPath(workingDirectory, fileName)}
+                  id="projectSettingsDirectoryPath"
+                  value={makeProjectDirectoryPath(project)}
                   placeholder="Untitled Movie"
                   disabled
                 />
@@ -108,7 +104,7 @@ const ProjectSettingsModal = (): JSX.Element => {
             <Button
               title={currentProject ? "Update Project" : "Create Project"}
               icon={currentProject ? IconName.SAVE : IconName.ADD}
-              onClick={setProject}
+              onClick={onSubmitProjectSettings}
             />
           </ToolbarItem>
         </Toolbar>

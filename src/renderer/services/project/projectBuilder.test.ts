@@ -1,25 +1,51 @@
-import { TRACK_GROUP_ID, WORKING_DIRECTORY } from "../../../common/testConstants";
+import {
+  PROJECT,
+  PROJECT_FILE_NAME,
+  PROJECT_NAME,
+  TAKE,
+  TRACK_GROUP_ID,
+  WORKING_DIRECTORY,
+} from "../../../common/testConstants";
+import { PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
 import {
   makeFrameFilePath,
   makeFrameTrackItem,
+  makeProject,
+  makeProjectDirectoryPath,
   makeTake,
   makeTakeDirectoryPath,
 } from "./projectBuilder";
 
-const options = {
-  workingDirectory: WORKING_DIRECTORY,
-  shotNumber: 2,
-  takeNumber: 3,
-  frameRate: 15,
-};
+const projectDirectory = `${WORKING_DIRECTORY}/${PROJECT_FILE_NAME}.${PROJECT_DIRECTORY_EXTENSION}`;
+
+// const projectOptions = {
+//   name: PROJECT_NAME,
+//   workingDirectory: WORKING_DIRECTORY,
+// };
+// const project = makeProject(projectOptions);
+
+describe("makeProject", () => {
+  it("should make project with the supplied options", () => {
+    expect(makeProject({ name: PROJECT_NAME, workingDirectory: WORKING_DIRECTORY })).toEqual({
+      name: PROJECT_NAME,
+      fileName: PROJECT_FILE_NAME,
+      workingDirectory: WORKING_DIRECTORY,
+    });
+  });
+});
 
 describe("makeTake", () => {
+  const takeOptions = {
+    shotNumber: 2,
+    takeNumber: 3,
+    frameRate: 15,
+  };
+
   it("should make take with the supplied options", () => {
-    expect(makeTake(options)).toMatchObject({
-      directoryPath: `${options.workingDirectory}/Untitled Project.bafiles/BA_002_03`,
-      shotNumber: options.shotNumber,
-      takeNumber: options.takeNumber,
-      frameRate: options.frameRate,
+    expect(makeTake(takeOptions)).toMatchObject({
+      shotNumber: takeOptions.shotNumber,
+      takeNumber: takeOptions.takeNumber,
+      frameRate: takeOptions.frameRate,
     });
   });
 });
@@ -49,30 +75,33 @@ describe("makeFrameTrackItem", () => {
   });
 });
 
+describe("makeProjectDirectoryPath", () => {
+  it("should make project directory path with supplied options", () => {
+    expect(makeProjectDirectoryPath(PROJECT)).toBe(projectDirectory);
+  });
+});
+
 describe("makeTakeDirectoryPath", () => {
   it("should make take directory path with supplied options", () => {
-    expect(makeTakeDirectoryPath(options)).toEqual(
-      `${options.workingDirectory}/Untitled Project.bafiles/BA_002_03`
-    );
+    expect(makeTakeDirectoryPath(PROJECT, TAKE)).toEqual(`${projectDirectory}/BA_001_01`);
   });
 });
 
 describe("makeFrameFilePath", () => {
   it("should make frame file path when frame name supplied", () => {
-    const take = makeTake(options);
-    const takeDirectoryPath = makeTakeDirectoryPath(options);
     const fileName = "cheese";
 
-    expect(makeFrameFilePath(take, fileName)).toEqual(
-      `${takeDirectoryPath}/ba_002_03_frame_cheese.jpg`
+    expect(makeFrameFilePath(PROJECT, TAKE, fileName)).toEqual(
+      `${projectDirectory}/BA_001_01/ba_001_01_frame_cheese.jpg`
     );
   });
 
   it("should make frame file path when frame name not supplied", () => {
-    const take = makeTake(options);
+    const take = TAKE;
     take.lastExportedFrameNumber = 3;
-    const takeDirectoryPath = makeTakeDirectoryPath(options);
 
-    expect(makeFrameFilePath(take)).toEqual(`${takeDirectoryPath}/ba_002_03_frame_00004.jpg`);
+    expect(makeFrameFilePath(PROJECT, take)).toEqual(
+      `${projectDirectory}/BA_001_01/ba_001_01_frame_00004.jpg`
+    );
   });
 });

@@ -8,7 +8,7 @@ import "./ChooseWorkingDirectory.css";
 import { ThunkDispatch, Action } from "@reduxjs/toolkit";
 
 const ChooseWorkingDirectory = (): JSX.Element => {
-  const { workingDirectory } = useSelector((state: RootState) => state.app.userPreferences);
+  const { defaultWorkingDirectory } = useSelector((state: RootState) => state.app.userPreferences);
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
 
   return (
@@ -17,14 +17,14 @@ const ChooseWorkingDirectory = (): JSX.Element => {
         Projects working directory
         <br />
         <span className="choose-working-directory__name">
-          {workingDirectory ?? "No directory selected"}
+          {defaultWorkingDirectory ?? "No directory selected"}
         </span>
       </InputLabel>
 
       <Button
         id="chooseWorkingDirectoryButton"
         title="Browse..."
-        onClick={() => dispatch(changeWorkingDirectory(workingDirectory))}
+        onClick={() => dispatch(changeWorkingDirectory(defaultWorkingDirectory))}
       />
     </InputGroup>
   );

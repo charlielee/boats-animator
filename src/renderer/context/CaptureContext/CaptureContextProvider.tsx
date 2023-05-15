@@ -19,6 +19,7 @@ import {
 import { makeFrameFilePath, makeFrameTrackItem } from "../../services/project/projectBuilder";
 import * as rLogger from "../../services/rLogger/rLogger";
 import CaptureContext from "./CaptureContext";
+import useProjectAndTake from "../../hooks/useProjectAndTake";
 
 interface CaptureContextProviderProps {
   children: ReactNode;
@@ -28,11 +29,11 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const [device, setDevice] = useState<ImagingDevice | undefined>(undefined);
 
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
-  const { playCaptureSound, deviceStatus, deviceList, take } = useSelector((state: RootState) => ({
+  const { project, take } = useProjectAndTake();
+  const { playCaptureSound, deviceStatus, deviceList } = useSelector((state: RootState) => ({
     playCaptureSound: state.app.userPreferences.playCaptureSound,
     deviceStatus: state.capture.deviceStatus,
     deviceList: state.capture.deviceList,
-    take: state.project.take,
   }));
 
   const onChangeDevice = useCallback(
@@ -76,7 +77,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   }, [device]);
 
   const takePhoto = async () => {
-    if (!device || !take) {
+    if (!device) {
       return;
     }
 
@@ -85,7 +86,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
       audio.play();
     }
 
-    const filePath = makeFrameFilePath(take);
+    const filePath = makeFrameFilePath(project, take);
     const imageData = await device.takePhoto();
     saveBlobToDisk(filePath, imageData);
 

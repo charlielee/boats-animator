@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { PageRoute } from "../../../../../common/PageRoute";
-import { Take } from "../../../../../common/project/Take";
+import useProjectAndTake from "../../../../hooks/useProjectAndTake";
 import { makeFrameFilePath } from "../../../../services/project/projectBuilder";
 import { getTrackLength } from "../../../../services/project/projectCalculator";
 import Button from "../../../common/Button/Button";
@@ -30,15 +30,15 @@ const fFmpegQualityPresets = {
 interface ExportVideoModalOptionsProps {
   onSubmit(ffmpegArguments: string): void;
   onVideoFilePathChange(videoFilePath: string): void;
-  take: Take;
 }
 
 const ExportVideoModalOptions = ({
   onSubmit,
   onVideoFilePathChange,
-  take,
 }: ExportVideoModalOptionsProps): JSX.Element => {
-  const [currentFilePath, setCurrentFilePath] = useState(`${take.directoryPath}.mp4`);
+  const { project, take } = useProjectAndTake();
+
+  const [currentFilePath, setCurrentFilePath] = useState("");
   const [qualityPreset, setQualityPreset] = useState(fFmpegQualityPresets.Medium);
   const [ffmpegArguments, setFFmpegArguments] = useState("");
 
@@ -59,7 +59,7 @@ const ExportVideoModalOptions = ({
     );
     onVideoFilePathChange(videoFilePath);
 
-    const framePath = makeFrameFilePath(take, "%05d");
+    const framePath = makeFrameFilePath(project, take, "%05d");
     const totalFrames = getTrackLength(take.frameTrack);
 
     setFFmpegArguments(
@@ -77,7 +77,7 @@ const ExportVideoModalOptions = ({
         "-hide_banner", // Hide FFmpeg library info from output
       ].join(" ")
     );
-  }, [currentFilePath, onVideoFilePathChange, qualityPreset, take]);
+  }, [currentFilePath, onVideoFilePathChange, project, qualityPreset, take]);
 
   return (
     <Modal onClose={PageRoute.ANIMATOR}>
