@@ -9,7 +9,7 @@
 
 .timeline__track-labels-inner {
   background-color: var(--ba-dark);
-  margin: var(--height-200) 0 0 0;
+  margin-top: var(--height-200);
 }
 
 .timeline__tracks {
