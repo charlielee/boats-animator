@@ -2,7 +2,6 @@
   height: 100%;
   min-width: calc(var(--width-16) * 7);
   width: calc(var(--width-16) * 7);
-  margin-right: var(--width-16);
 }
 
 .timeline-live-view__button {

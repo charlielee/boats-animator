@@ -7,6 +7,7 @@ import { getTrackItemStartPosition } from "../../../services/project/projectCalc
 import "./Timeline.css";
 import TimelinePosition from "./TimelinePosition/TimelinePosition";
 import TimelineTrack from "./TimelineTrack/TimelineTrack";
+import TimelineTrackLabel from "./TimelineTrackLabel/TimelineTrackLabel";
 
 interface TimelineWithContextProps {
   take: Take;
@@ -19,11 +20,11 @@ interface TimelineProps extends TimelineWithContextProps {
 
 const Timeline = ({ take, timelineIndex, stopPlayback }: TimelineProps): JSX.Element => {
   const frameTrack = take.frameTrack;
-  const timelineRef = useRef<HTMLDivElement>(null);
+  const timelineTracksRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (timelineRef.current && timelineIndex === undefined) {
-      timelineRef.current.scrollLeft = timelineRef.current.scrollWidth;
+    if (timelineTracksRef.current && timelineIndex === undefined) {
+      timelineTracksRef.current.scrollLeft = timelineTracksRef.current.scrollWidth;
     }
   }, [timelineIndex, frameTrack.trackItems]);
 
@@ -31,16 +32,23 @@ const Timeline = ({ take, timelineIndex, stopPlayback }: TimelineProps): JSX.Ele
     stopPlayback(getTrackItemStartPosition(track, trackItemIndex));
 
   return (
-    <div className="timeline" ref={timelineRef}>
-      <div className="timeline__inner">
-        <TimelinePosition frameRate={take.frameRate} totalFrames={frameTrack.trackItems.length} />
-        <TimelineTrack
-          track={frameTrack}
-          key={frameTrack.id}
-          timelineIndex={timelineIndex}
-          onClickItem={(trackItemIndex) => onClickItem(frameTrack, trackItemIndex)}
-          onClickLiveView={() => stopPlayback()}
-        />
+    <div className="timeline">
+      <div className="timeline__track-labels">
+        <div className="timeline__track-labels-inner">
+          <TimelineTrackLabel fileType={frameTrack.fileType} />
+        </div>
+      </div>
+      <div className="timeline__tracks" ref={timelineTracksRef}>
+        <div className="timeline__tracks-inner">
+          <TimelinePosition frameRate={take.frameRate} totalFrames={frameTrack.trackItems.length} />
+          <TimelineTrack
+            track={frameTrack}
+            key={frameTrack.id}
+            timelineIndex={timelineIndex}
+            onClickItem={(trackItemIndex) => onClickItem(frameTrack, trackItemIndex)}
+            onClickLiveView={() => stopPlayback()}
+          />
+        </div>
       </div>
     </div>
   );

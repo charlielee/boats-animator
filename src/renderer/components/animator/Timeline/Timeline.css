@@ -1,8 +1,23 @@
 .timeline {
+  display: flex;
+}
+
+.timeline__track-labels {
+  background-color: var(--ba-dark-mid-hover);
+  border-right: var(--border-1) solid var(--ba-border);
+}
+
+.timeline__track-labels-inner {
+  background-color: var(--ba-dark);
+  margin-top: var(--height-200);
+}
+
+.timeline__tracks {
+  flex: 1;
   overflow-x: scroll;
 }
 
-.timeline__inner {
+.timeline__tracks-inner {
   width: max-content;
   min-width: 100%;
 }
