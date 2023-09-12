@@ -2,7 +2,7 @@ import Conf from "conf/dist/source";
 import { Migrations, Serialize } from "conf/dist/source/types";
 import Store from "electron-store";
 
-class FileStore<OptionsType> {
+class FileStore<OptionsType extends Record<string, any>> {
   private store: Store<OptionsType>;
 
   constructor(options: Store.Options<OptionsType> | undefined = {}) {
