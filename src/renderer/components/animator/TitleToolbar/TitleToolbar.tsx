@@ -20,15 +20,14 @@ const TitleToolbar = (): JSX.Element => {
     <Toolbar className="title-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <Button
-          label={makeTakeTitle(take)}
+          label={project.name}
           title="Manage project"
           onClick={PageRoute.PROJECT_SETTINGS_MODAL}
           color={ButtonColor.TRANSPARENT}
+          icon={IconName.FOLDER}
         />
       </ToolbarItem>
-      <ToolbarItem align={ToolbarItemAlign.CENTER}>
-        <span title={`Project Name: ${project.name}`}>{project.name}</span>
-      </ToolbarItem>
+      <ToolbarItem align={ToolbarItemAlign.CENTER}>{makeTakeTitle(take)}</ToolbarItem>
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
         <IconButton
           title="Render current take as a video file"
