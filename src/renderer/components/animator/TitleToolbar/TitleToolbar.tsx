@@ -1,6 +1,7 @@
 import { PageRoute } from "../../../../common/PageRoute";
 import { Take } from "../../../../common/project/Take";
 import { zeroPad } from "../../../../common/utils";
+import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { getTrackLength } from "../../../services/project/projectCalculator";
 import Button from "../../common/Button/Button";
 import { ButtonColor } from "../../common/Button/ButtonColor";
@@ -10,11 +11,8 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import "./TitleToolbar.css";
 
-interface TitleToolbarProps {
-  take: Take;
-}
-
-const TitleToolbar = ({ take }: TitleToolbarProps): JSX.Element => {
+const TitleToolbar = (): JSX.Element => {
+  const { project, take } = useProjectAndTake();
   const makeTakeTitle = (take: Take) =>
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
 
@@ -22,13 +20,14 @@ const TitleToolbar = ({ take }: TitleToolbarProps): JSX.Element => {
     <Toolbar className="title-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <Button
-          label={makeTakeTitle(take)}
+          label={project.name}
           title="Manage project"
-          onClick={PageRoute.STARTUP_MODAL}
+          onClick={PageRoute.PROJECT_SETTINGS_MODAL}
           color={ButtonColor.TRANSPARENT}
+          icon={IconName.FOLDER}
         />
       </ToolbarItem>
-      <ToolbarItem align={ToolbarItemAlign.CENTER}>Untitled Project </ToolbarItem>
+      <ToolbarItem align={ToolbarItemAlign.CENTER}>{makeTakeTitle(take)}</ToolbarItem>
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
         <IconButton
           title="Render current take as a video file"

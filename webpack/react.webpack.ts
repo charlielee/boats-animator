@@ -30,6 +30,10 @@ const config: Configuration = {
         },
       },
       {
+        test: /\.ttf$/i,
+        type: "asset/resource",
+      },
+      {
         // Should match src/@types/media.d.ts
         test: /\.(jpg|png|svg|wav)$/i,
         type: "asset/resource",

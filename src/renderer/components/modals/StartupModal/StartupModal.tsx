@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import { changeWorkingDirectory } from "../../../redux/thunks";
 import { RootState } from "../../../redux/store";
-import { makeTake } from "../../../services/project/projectBuilder";
 import Button from "../../common/Button/Button";
 import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import Content from "../../common/Content/Content";
@@ -20,29 +19,18 @@ import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import NewsFeed from "../NewsFeed/NewsFeed";
-import { addTake } from "../../../redux/slices/projectSlice";
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 
 const StartupModal = (): JSX.Element => {
-  const { workingDirectory } = useSelector((state: RootState) => state.app.userPreferences);
+  const { defaultWorkingDirectory } = useSelector((state: RootState) => state.app.userPreferences);
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
   const newProject = async () => {
-    const directory = workingDirectory ?? (await dispatch(changeWorkingDirectory()));
+    const directory = defaultWorkingDirectory ?? (await dispatch(changeWorkingDirectory()));
 
     if (directory !== undefined) {
-      dispatch(
-        addTake(
-          makeTake({
-            workingDirectory: directory,
-            shotNumber: 1,
-            takeNumber: 1,
-            frameRate: 15,
-          })
-        )
-      );
-      navigate(PageRoute.ANIMATOR);
+      navigate(PageRoute.PROJECT_SETTINGS_MODAL);
     }
   };
 

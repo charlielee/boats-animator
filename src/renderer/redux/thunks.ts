@@ -36,12 +36,12 @@ export const changeWorkingDirectory = (workingDirectory?: string) => {
     return (async () => {
       const newDirectory = await window.preload.ipcToMain.openDirDialog({
         workingDirectory,
-        title: "Select a directory to save captured frames",
+        title: "Select a directory to save projects to",
       });
 
       dispatch(
         editUserPreferences({
-          workingDirectory: newDirectory,
+          defaultWorkingDirectory: newDirectory,
         })
       );
 

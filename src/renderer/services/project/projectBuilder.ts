@@ -3,26 +3,46 @@ import { FileRefType } from "../../../common/FileRef";
 import { TrackGroupId } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
-import { zeroPad } from "../../../common/utils";
+import {
+  DEFAULT_PROJECT_FILE_NAME,
+  DEFAULT_PROJECT_NAME,
+  PROJECT_DIRECTORY_EXTENSION,
+  zeroPad,
+} from "../../../common/utils";
+import { Project } from "../../../common/project/Project";
 
-export interface ProjectBuilderOptions {
-  workingDirectory: string;
+interface ProjectBuilderOptions {
   shotNumber: number;
   takeNumber: number;
+  frameRate: number;
 }
 
-export const makeTake = ({
+export const makeProject = ({
+  name,
   workingDirectory,
-  shotNumber,
-  takeNumber,
-  frameRate,
-}: ProjectBuilderOptions & { frameRate: number }): Take => ({
+}: {
+  name: string;
+  workingDirectory: string;
+}): Project => ({
+  name: name.substring(0, 256),
+  fileName: makeProjectFileName(name),
+  workingDirectory,
+});
+
+const makeProjectFileName = (name: string) => {
+  const fileName = name
+    .replace(/[<>:"/\\|?*.]/g, "")
+    .substring(0, 60)
+    .trim()
+    .replace(/ /g, "-");
+  return fileName === "" ? DEFAULT_PROJECT_FILE_NAME : fileName;
+};
+
+export const formatProjectName = (name: string) =>
+  name.trim() === "" ? DEFAULT_PROJECT_NAME : name.trim();
+
+export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOptions): Take => ({
   id: uuidv4(),
-  directoryPath: makeTakeDirectoryPath({
-    workingDirectory,
-    shotNumber,
-    takeNumber,
-  }),
   shotNumber,
   takeNumber,
   frameRate,
@@ -42,20 +62,21 @@ export const makeFrameTrackItem = (filePath: string, trackGroupId?: TrackGroupId
   trackGroupId: trackGroupId ?? uuidv4(),
 });
 
-export const makeTakeDirectoryPath = ({
-  workingDirectory,
-  shotNumber,
-  takeNumber,
-}: ProjectBuilderOptions): string =>
+export const makeProjectDirectoryPath = (project: Project) =>
   window.preload.joinPath(
-    workingDirectory,
-    "Untitled Project.bafiles",
-    `BA_${zeroPad(shotNumber, 3)}_${zeroPad(takeNumber, 2)}`
+    project.workingDirectory,
+    `${project.fileName}.${PROJECT_DIRECTORY_EXTENSION}`
   );
 
-export const makeFrameFilePath = (take: Take, frameName?: string): string =>
+export const makeTakeDirectoryPath = (project: Project, take: Take) =>
   window.preload.joinPath(
-    take.directoryPath,
+    makeProjectDirectoryPath(project),
+    `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`
+  );
+
+export const makeFrameFilePath = (project: Project, take: Take, frameName?: string): string =>
+  window.preload.joinPath(
+    makeTakeDirectoryPath(project, take),
     [
       "ba",
       zeroPad(take.shotNumber, 3),

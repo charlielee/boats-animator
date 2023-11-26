@@ -26,6 +26,7 @@ import {
   IoPlaySkipBackOutline,
   IoPlaySkipForwardOutline,
   IoRefreshOutline,
+  IoSaveOutline,
   IoSettingsOutline,
   IoShareOutline,
   IoStopOutline,
@@ -104,6 +105,8 @@ const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) =>
       return <IoPlayCircleOutline {...props} />;
     case IconName.PROJECTS:
       return <IoFileTrayStackedOutline {...props} />;
+    case IconName.SAVE:
+      return <IoSaveOutline {...props} />;
     case IconName.SETTINGS:
       return <IoSettingsOutline {...props} />;
     case IconName.SUCCESS:
