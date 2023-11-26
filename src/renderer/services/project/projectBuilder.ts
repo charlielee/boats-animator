@@ -19,7 +19,7 @@ export const makeProject = ({
   name: string;
   workingDirectory: string;
 }): Project => ({
-  name,
+  name: name.substring(0, 256),
   fileName: makeProjectFileName(name),
   workingDirectory,
 });
@@ -27,6 +27,7 @@ export const makeProject = ({
 const makeProjectFileName = (name: string) =>
   name
     .replace(/[<>:"/\\|?*.]/g, "")
+    .substring(0, 60)
     .trim()
     .replace(/ /g, "-");
 

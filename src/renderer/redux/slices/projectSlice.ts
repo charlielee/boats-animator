@@ -23,12 +23,12 @@ const projectSlice = createSlice({
   initialState,
   reducers: {
     addProject: (state, action: PayloadAction<Project>) => {
-      state.project = action.payload;
+      state.project = { ...action.payload, name: action.payload.name.trim() };
     },
 
-    updateProject: (state, action: PayloadAction<Partial<Project>>) => {
+    updateProject: (state, action: PayloadAction<Project>) => {
       if (state.project) {
-        state.project = { ...state.project, ...action.payload };
+        state.project = { ...state.project, ...action.payload, name: action.payload.name.trim() };
       }
     },
 

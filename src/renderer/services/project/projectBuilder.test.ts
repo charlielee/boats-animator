@@ -27,11 +27,20 @@ describe("makeProject", () => {
     });
   });
 
+  it("should truncate long project name", () => {
+    const projectName = "a".repeat(256);
+    expect(makeProject({ name: projectName, workingDirectory: WORKING_DIRECTORY })).toEqual({
+      name: "a".repeat(256),
+      fileName: "a".repeat(60),
+      workingDirectory: WORKING_DIRECTORY,
+    });
+  });
+
   it("should handle project name with special characters", () => {
-    const projectName = ' 🚢<>:"My/\\|Test ?*.Movié!龙🐸 ';
+    const projectName = ' 🚢<>:"My/\\|Test ?*.Movié 01!龙🐸 ';
     expect(makeProject({ name: projectName, workingDirectory: WORKING_DIRECTORY })).toEqual({
       name: projectName,
-      fileName: "🚢MyTest-Movié!龙🐸",
+      fileName: "🚢MyTest-Movié-01!龙🐸",
       workingDirectory: WORKING_DIRECTORY,
     });
   });
