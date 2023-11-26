@@ -6,8 +6,13 @@ import {
   TRACK_GROUP_ID,
   WORKING_DIRECTORY,
 } from "../../../common/testConstants";
-import { DEFAULT_PROJECT_FILE_NAME, PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
 import {
+  DEFAULT_PROJECT_FILE_NAME,
+  DEFAULT_PROJECT_NAME,
+  PROJECT_DIRECTORY_EXTENSION,
+} from "../../../common/utils";
+import {
+  formatProjectName,
   makeFrameFilePath,
   makeFrameTrackItem,
   makeProject,
@@ -61,6 +66,17 @@ describe("makeProject", () => {
       fileName: DEFAULT_PROJECT_FILE_NAME,
       workingDirectory: WORKING_DIRECTORY,
     });
+  });
+});
+
+describe("formatProjectName", () => {
+  it("should trim whitespace from project name", () => {
+    expect(formatProjectName(` My Movie \r\n\t`)).toBe("My Movie");
+  });
+
+  it("should use default project name if name is blank or only whitespace", () => {
+    expect(formatProjectName("")).toBe(DEFAULT_PROJECT_NAME);
+    expect(formatProjectName(` \r\n\t`)).toBe(DEFAULT_PROJECT_NAME);
   });
 });
 

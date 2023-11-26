@@ -6,6 +6,7 @@ import { PageRoute } from "../../../../common/PageRoute";
 import { addProject, addTake, updateProject } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
 import {
+  formatProjectName,
   makeProject,
   makeProjectDirectoryPath,
   makeTake,
@@ -46,10 +47,12 @@ const ProjectSettingsModal = (): JSX.Element => {
     setProject((prevState) => makeProject({ ...prevState, name: newName }));
 
   const onSubmitProjectSettings = () => {
+    const name = formatProjectName(project.name);
+
     if (currentProject) {
-      dispatch(updateProject(project));
+      dispatch(updateProject({ ...project, name }));
     } else {
-      dispatch(addProject(project));
+      dispatch(addProject({ ...project, name }));
       dispatch(
         addTake(
           makeTake({
