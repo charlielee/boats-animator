@@ -6,7 +6,7 @@ import {
   TRACK_GROUP_ID,
   WORKING_DIRECTORY,
 } from "../../../common/testConstants";
-import { PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
+import { DEFAULT_PROJECT_FILE_NAME, PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
 import {
   makeFrameFilePath,
   makeFrameTrackItem,
@@ -41,6 +41,24 @@ describe("makeProject", () => {
     expect(makeProject({ name: projectName, workingDirectory: WORKING_DIRECTORY })).toEqual({
       name: projectName,
       fileName: "🚢MyTest-Movié-01!龙🐸",
+      workingDirectory: WORKING_DIRECTORY,
+    });
+  });
+
+  it("should use default project file name if name is blank", () => {
+    const projectName = "";
+    expect(makeProject({ name: projectName, workingDirectory: WORKING_DIRECTORY })).toEqual({
+      name: projectName,
+      fileName: DEFAULT_PROJECT_FILE_NAME,
+      workingDirectory: WORKING_DIRECTORY,
+    });
+  });
+
+  it("should use default project file name if name is only special characters", () => {
+    const projectName = ' <>:"/\\|?*. ';
+    expect(makeProject({ name: projectName, workingDirectory: WORKING_DIRECTORY })).toEqual({
+      name: projectName,
+      fileName: DEFAULT_PROJECT_FILE_NAME,
       workingDirectory: WORKING_DIRECTORY,
     });
   });

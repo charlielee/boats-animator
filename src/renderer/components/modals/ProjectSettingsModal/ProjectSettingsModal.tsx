@@ -23,8 +23,7 @@ import ModalFooter from "../../common/ModalFooter/ModalFooter";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
-
-const DEFAULT_PROJECT_NAME = "Untitled Movie";
+import { DEFAULT_PROJECT_NAME } from "../../../../common/utils";
 
 const ProjectSettingsModal = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -40,8 +39,7 @@ const ProjectSettingsModal = (): JSX.Element => {
   }
 
   const [project, setProject] = useState(
-    currentProject ??
-      makeProject({ name: DEFAULT_PROJECT_NAME, workingDirectory: defaultWorkingDirectory })
+    currentProject ?? makeProject({ name: "", workingDirectory: defaultWorkingDirectory })
   );
 
   const onRenameProject = (newName: string) =>

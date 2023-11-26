@@ -3,7 +3,11 @@ import { FileRefType } from "../../../common/FileRef";
 import { TrackGroupId } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
-import { PROJECT_DIRECTORY_EXTENSION, zeroPad } from "../../../common/utils";
+import {
+  DEFAULT_PROJECT_FILE_NAME,
+  PROJECT_DIRECTORY_EXTENSION,
+  zeroPad,
+} from "../../../common/utils";
 import { Project } from "../../../common/project/Project";
 
 interface ProjectBuilderOptions {
@@ -24,12 +28,14 @@ export const makeProject = ({
   workingDirectory,
 });
 
-const makeProjectFileName = (name: string) =>
-  name
+const makeProjectFileName = (name: string) => {
+  const fileName = name
     .replace(/[<>:"/\\|?*.]/g, "")
     .substring(0, 60)
     .trim()
     .replace(/ /g, "-");
+  return fileName === "" ? DEFAULT_PROJECT_FILE_NAME : fileName;
+};
 
 export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOptions): Take => ({
   id: uuidv4(),
