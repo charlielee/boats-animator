@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import { changeWorkingDirectory } from "../../../redux/thunks";
 import { RootState } from "../../../redux/store";
-import { makeTake } from "../../../services/project/projectBuilder";
 import Button from "../../common/Button/Button";
 import ButtonGroup from "../../common/ButtonGroup/ButtonGroup";
 import Content from "../../common/Content/Content";
@@ -21,7 +19,6 @@ import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import NewsFeed from "../NewsFeed/NewsFeed";
-import { addTake } from "../../../redux/slices/projectSlice";
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 
 const StartupModal = (): JSX.Element => {
