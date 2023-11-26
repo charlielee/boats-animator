@@ -24,6 +24,12 @@ export const makeProject = ({
   workingDirectory,
 });
 
+const makeProjectFileName = (name: string) =>
+  name
+    .replace(/[<>:"/\\|?*.]/g, "")
+    .trim()
+    .replace(/ /g, "-");
+
 export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOptions): Take => ({
   id: uuidv4(),
   shotNumber,
@@ -44,8 +50,6 @@ export const makeFrameTrackItem = (filePath: string, trackGroupId?: TrackGroupId
   filePath,
   trackGroupId: trackGroupId ?? uuidv4(),
 });
-
-const makeProjectFileName = (name: string) => name.trim().replaceAll(" ", "-");
 
 export const makeProjectDirectoryPath = (project: Project) =>
   window.preload.joinPath(

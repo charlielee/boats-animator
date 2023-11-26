@@ -18,17 +18,20 @@ import {
 
 const projectDirectory = `${WORKING_DIRECTORY}/${PROJECT_FILE_NAME}.${PROJECT_DIRECTORY_EXTENSION}`;
 
-// const projectOptions = {
-//   name: PROJECT_NAME,
-//   workingDirectory: WORKING_DIRECTORY,
-// };
-// const project = makeProject(projectOptions);
-
 describe("makeProject", () => {
   it("should make project with the supplied options", () => {
     expect(makeProject({ name: PROJECT_NAME, workingDirectory: WORKING_DIRECTORY })).toEqual({
       name: PROJECT_NAME,
       fileName: PROJECT_FILE_NAME,
+      workingDirectory: WORKING_DIRECTORY,
+    });
+  });
+
+  it("should handle project name with special characters", () => {
+    const projectName = ' 🚢<>:"My/\\|Test ?*.Movié!龙🐸 ';
+    expect(makeProject({ name: projectName, workingDirectory: WORKING_DIRECTORY })).toEqual({
+      name: projectName,
+      fileName: "🚢MyTest-Movié!龙🐸",
       workingDirectory: WORKING_DIRECTORY,
     });
   });
