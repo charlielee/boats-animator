@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getFileRefById } from "../../../../common/FileRef";
 import { TimelineIndex } from "../../../../common/Flavors";
@@ -25,16 +24,11 @@ const Preview = ({ device, liveViewVisible, timelineIndex }: PreviewProps): JSX.
     hasCameraAccess: state.app.hasCameraAccess,
     fileRefs: state.project.fileRefs,
   }));
-  const [previewSrc, setPreviewSrc] = useState<string | undefined>();
 
-  useEffect(() => {
-    const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
-
-    if (highlightedTrackItem) {
-      const { location } = getFileRefById(fileRefs, highlightedTrackItem.id);
-      setPreviewSrc(location);
-    }
-  }, [fileRefs, take.frameTrack, timelineIndex]);
+  const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
+  const previewSrc = highlightedTrackItem
+    ? getFileRefById(fileRefs, highlightedTrackItem.id).location
+    : undefined;
 
   return (
     <div className="preview">
