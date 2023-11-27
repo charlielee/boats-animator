@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FileRefType, getFileRefById } from "../../../../../common/FileRef";
 import { TimelineIndex } from "../../../../../common/Flavors";
 import { Track } from "../../../../../common/project/Track";
-import { TrackItem } from "../../../../../common/project/TrackItem";
 import { RootState } from "../../../../redux/store";
 import {
   getHighlightedTrackItem,
@@ -28,11 +26,7 @@ const TimelineTrack = ({
   onClickLiveView,
 }: TimelineTrackProps): JSX.Element => {
   const { fileRefs } = useSelector((state: RootState) => state.project);
-  const [highlightedTrackItem, setHighlightedTrackItem] = useState<TrackItem | undefined>();
-
-  useEffect(() => {
-    setHighlightedTrackItem(getHighlightedTrackItem(track, timelineIndex));
-  }, [timelineIndex, track]);
+  const highlightedTrackItem = getHighlightedTrackItem(track, timelineIndex);
 
   return (
     <div className="timeline-track">
