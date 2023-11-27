@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback } from "react";
 import "./PreviewLiveView.css";
 
 interface PreviewLiveViewProps {
@@ -6,14 +6,14 @@ interface PreviewLiveViewProps {
 }
 
 const PreviewLiveView = ({ stream }: PreviewLiveViewProps): JSX.Element => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      video.srcObject = stream ?? null;
-    }
-  }, [stream]);
+  const videoRef = useCallback(
+    (video: HTMLVideoElement | null) => {
+      if (video) {
+        video.srcObject = stream ?? null;
+      }
+    },
+    [stream]
+  );
 
   return <video className="preview-live-view" autoPlay ref={videoRef}></video>;
 };
