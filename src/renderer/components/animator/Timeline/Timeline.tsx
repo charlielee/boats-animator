@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback } from "react";
 import { TimelineIndex } from "../../../../common/Flavors";
 import { Track } from "../../../../common/project/Track";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
@@ -17,13 +17,15 @@ interface TimelineProps {
 const Timeline = ({ timelineIndex, stopPlayback }: TimelineProps): JSX.Element => {
   const { take } = useProjectAndTake();
   const frameTrack = take.frameTrack;
-  const timelineTracksRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (timelineTracksRef.current && timelineIndex === undefined) {
-      timelineTracksRef.current.scrollLeft = timelineTracksRef.current.scrollWidth;
-    }
-  }, [timelineIndex, frameTrack.trackItems]);
+  const timelineTracksRef = useCallback(
+    (timelineDiv: HTMLDivElement | null) => {
+      if (timelineDiv && timelineIndex === undefined) {
+        timelineDiv.scrollLeft = timelineDiv.scrollWidth;
+      }
+    },
+    [timelineIndex, frameTrack.trackItems] // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   const onClickItem = (track: Track, trackItemIndex: number) =>
     stopPlayback(getTrackItemStartPosition(track, trackItemIndex));
