@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useEffect, useRef } from "react";
+import { useCallback } from "react";
 import "./TimelineTrackItem.css";
 
 interface TimelineTrackItemProps {
@@ -10,14 +10,15 @@ interface TimelineTrackItemProps {
 }
 
 const TimelineTrackItem = ({ title, dataUrl, highlighted, onClick }: TimelineTrackItemProps) => {
-  const scrollTargetRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (highlighted) {
-      // Note: this is a non-standard webkit method
-      (scrollTargetRef.current as any)?.scrollIntoViewIfNeeded();
-    }
-  }, [highlighted]);
+  const scrollTargetRef = useCallback(
+    (scrollTargetDiv: HTMLDivElement | null) => {
+      if (scrollTargetDiv && highlighted) {
+        // Note: this is a non-standard webkit method
+        (scrollTargetDiv as any)?.scrollIntoViewIfNeeded();
+      }
+    },
+    [highlighted]
+  );
 
   return (
     <div className="timeline-track-item" onClick={onClick} title={title}>
