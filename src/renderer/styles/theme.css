@@ -68,6 +68,7 @@ textarea {
   appearance: none;
   background-color: var(--ba-border);
   border: var(--border-1) solid var(--ba-border-active);
+  border-radius: var(--margin-025);
   color: var(--ba-light);
   height: var(--height-200);
   min-height: var(--height-200);
