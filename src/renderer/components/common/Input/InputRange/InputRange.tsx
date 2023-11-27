@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import "./InputRange.css";
 
 enum InputRangeSliderState {
@@ -27,21 +27,20 @@ const InputRange = ({
   onChange,
 }: InputRangeProps): JSX.Element => {
   const [slider, setSlider] = useState<InputRangeSliderState>(InputRangeSliderState.DEFAULT);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSlider(InputRangeSliderState.ACTIVE);
     onChange(parseInt(event.target.value, 10));
   };
 
-  const setLeftColor = useCallback(
-    (sliderState: InputRangeSliderState) => {
-      if (!inputRef.current) {
+  const inputRef = useCallback(
+    (inputRef: HTMLInputElement | null) => {
+      if (!inputRef) {
         return;
       }
 
       const color = () => {
-        switch (sliderState) {
+        switch (slider) {
           case InputRangeSliderState.DEFAULT:
             return "var(--ba-lightred)";
           case InputRangeSliderState.HOVER:
@@ -52,7 +51,7 @@ const InputRange = ({
       };
 
       const range = max - min;
-      const positionFromStart = parseInt(inputRef.current.value, 10) - min;
+      const positionFromStart = parseInt(inputRef.value, 10) - min;
       const percentage = (positionFromStart / range) * 100;
 
       const gradientProperties = [
@@ -62,14 +61,10 @@ const InputRange = ({
         `var(--ba-border-active) ${percentage}%`,
         `var(--ba-border-active) 100%`,
       ].join(",");
-      inputRef.current.style.backgroundImage = `linear-gradient(${gradientProperties})`;
+      inputRef.style.backgroundImage = `linear-gradient(${gradientProperties})`;
     },
-    [max, min]
+    [max, min, slider, value] // eslint-disable-line react-hooks/exhaustive-deps
   );
-
-  useEffect(() => {
-    setLeftColor(slider);
-  }, [value, slider, setLeftColor]);
 
   return (
     <div className="input-range__container">
