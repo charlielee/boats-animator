@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback } from "react";
 
 interface InputTextAreaProps {
   id?: string;
@@ -19,13 +19,14 @@ const InputTextArea = ({
   disabled = false,
   autoScroll = false,
 }: InputTextAreaProps): JSX.Element => {
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (autoScroll && textAreaRef.current) {
-      textAreaRef.current.scrollTop = textAreaRef.current.scrollHeight;
-    }
-  }, [autoScroll, value]);
+  const textAreaRef = useCallback(
+    (textArea: HTMLTextAreaElement | null) => {
+      if (textArea && autoScroll) {
+        textArea.scrollTop = textArea.scrollHeight;
+      }
+    },
+    [autoScroll, value] // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
     onChange(event.target.value);
