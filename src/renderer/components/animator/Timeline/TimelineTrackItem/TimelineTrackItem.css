@@ -3,6 +3,12 @@
   height: 100%;
   min-width: calc(var(--width-16) * 7);
   width: calc(var(--width-16) * 7);
+  border-radius: var(--margin-025);
+}
+
+.timeline-track-item--loading {
+  background-color: var(--ba-dark-mid-hover);
+  cursor: progress;
 }
 
 .timeline-track-item__img {
