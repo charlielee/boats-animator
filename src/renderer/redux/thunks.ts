@@ -1,22 +1,8 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { PageRoute } from "../../common/PageRoute";
 import { editUserPreferences, setCameraAccess, startLoading, stopLoading } from "./slices/appSlice";
-import { changeDevice, closeDevice, pauseDevice, reopenDevice } from "./slices/captureSlice";
+import { pauseDevice, reopenDevice } from "./slices/captureSlice";
 import { RootState } from "./store";
-import { ImagingDeviceIdentifier } from "../services/imagingDevice/ImagingDevice";
-
-export const setCurrentDeviceFromId = (
-  deviceId: string | undefined,
-  deviceList: ImagingDeviceIdentifier[]
-) => {
-  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
-    const identifier = deviceList.find((identifier) => identifier.deviceId === deviceId);
-
-    dispatch(identifier ? changeDevice(identifier) : closeDevice());
-
-    return identifier;
-  };
-};
 
 export const changeWorkingDirectory = (workingDirectory?: string) => {
   return (dispatch: ThunkDispatch<RootState, void, Action>) => {
