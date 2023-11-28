@@ -47,7 +47,6 @@ export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOp
   takeNumber,
   frameRate,
   holdFrames: 1,
-  lastExportedFrameNumber: 0,
   frameTrack: {
     id: uuidv4(),
     fileType: FileRefType.FRAME,
@@ -74,7 +73,7 @@ export const makeTakeDirectoryPath = (project: Project, take: Take) =>
     `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`
   );
 
-export const makeFrameFilePath = (project: Project, take: Take, frameName?: string): string =>
+export const makeFrameFilePath = (project: Project, take: Take, frameName: string): string =>
   window.preload.joinPath(
     makeTakeDirectoryPath(project, take),
     [
@@ -82,6 +81,6 @@ export const makeFrameFilePath = (project: Project, take: Take, frameName?: stri
       zeroPad(take.shotNumber, 3),
       zeroPad(take.takeNumber, 2),
       "frame",
-      `${frameName ?? zeroPad(take.lastExportedFrameNumber + 1, 5)}.jpg`,
+      `${frameName}.jpg`,
     ].join("_")
   );

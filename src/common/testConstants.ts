@@ -18,7 +18,6 @@ export const TAKE: Take = {
   takeNumber: 1,
   frameRate: 15,
   holdFrames: 1,
-  lastExportedFrameNumber: 0,
   frameTrack: {
     id: uuidv4(),
     fileType: FileRefType.FRAME,

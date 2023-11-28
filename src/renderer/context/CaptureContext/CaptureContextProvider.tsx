@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeFrameFileRef } from "../../../common/FileRef";
 import cameraSound from "../../audio/camera.wav";
 import useProjectAndTake from "../../hooks/useProjectAndTake";
-import {
-  addFileRef,
-  addFrameTrackItem,
-  incrementExportedFrameNumber,
-} from "../../redux/slices/projectSlice";
+import { addFileRef, addFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
 import { saveBlobToDisk } from "../../services/blobUtils/blobUtils";
 import {
@@ -20,6 +16,8 @@ import CaptureContext from "./CaptureContext";
 import * as rLogger from "../../services/rLogger/rLogger";
 import useDeviceList from "../../hooks/useDeviceList";
 import { closeDevice } from "../../redux/slices/captureSlice";
+import { zeroPad } from "../../../common/utils";
+import { TrackItem } from "../../../common/project/TrackItem";
 
 interface CaptureContextProviderProps {
   children: ReactNode;
@@ -35,27 +33,33 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const playCaptureSound = useSelector(
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
+  const fileRefs = useSelector((state: RootState) => state.project.fileRefs);
 
-  const takePhoto = async () => {
+  const takePhoto = () => {
     rLogger.info("captureContextProvider.takePhoto");
-    if (!device) {
-      return;
-    }
 
     if (playCaptureSound) {
       const audio = new Audio(cameraSound);
       audio.play();
     }
 
-    const filePath = makeFrameFilePath(project, take);
+    const filePath = makeFrameFilePath(project, take, zeroPad(fileRefs.length + 1, 5));
+    const trackItem = makeFrameTrackItem(filePath);
+    dispatch(addFrameTrackItem(trackItem));
+
+    // Intentionally fire async method without await to ensure frames are processed in the correct order
+    processTakePhoto(filePath, trackItem);
+  };
+
+  const processTakePhoto = async (filePath: string, trackItem: TrackItem) => {
+    if (!device) {
+      return;
+    }
     const imageData = await device.takePhoto();
     saveBlobToDisk(filePath, imageData);
 
-    const trackItem = makeFrameTrackItem(filePath);
     const imageUrl = URL.createObjectURL(imageData);
     dispatch(addFileRef(makeFrameFileRef(trackItem.id, imageUrl)));
-    dispatch(addFrameTrackItem(trackItem));
-    dispatch(incrementExportedFrameNumber());
   };
 
   const onChangeDevice = useCallback(async () => {

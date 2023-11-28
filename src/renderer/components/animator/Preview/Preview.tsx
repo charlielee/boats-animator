@@ -27,7 +27,7 @@ const Preview = ({ device, liveViewVisible, timelineIndex }: PreviewProps): JSX.
 
   const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
   const previewSrc = highlightedTrackItem
-    ? getFileRefById(fileRefs, highlightedTrackItem.id).location
+    ? getFileRefById(fileRefs, highlightedTrackItem.id)?.location
     : undefined;
 
   return (

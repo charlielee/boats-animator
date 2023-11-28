@@ -1,10 +1,11 @@
 import classNames from "classnames";
 import { useCallback } from "react";
 import "./TimelineTrackItem.css";
+import { v4 as uuidv4 } from "uuid";
 
 interface TimelineTrackItemProps {
   title: string;
-  dataUrl: string;
+  dataUrl: string | undefined;
   highlighted: boolean;
   onClick: () => void;
 }
@@ -27,7 +28,7 @@ const TimelineTrackItem = ({ title, dataUrl, highlighted, onClick }: TimelineTra
           "timeline-track-item__img--highlighted": highlighted,
         })}
         src={dataUrl}
-        key={dataUrl}
+        key={dataUrl ?? uuidv4()}
       />
       <div className="timeline-track-item__cover"></div>
       <div className="timetime-track-item__scroll-target" ref={scrollTargetRef}></div>

@@ -7,6 +7,5 @@ export interface Take {
   takeNumber: number;
   frameRate: FrameRate;
   holdFrames: FrameCount;
-  lastExportedFrameNumber: number;
   frameTrack: Track;
 }

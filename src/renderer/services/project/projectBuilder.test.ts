@@ -134,20 +134,11 @@ describe("makeTakeDirectoryPath", () => {
 });
 
 describe("makeFrameFilePath", () => {
-  it("should make frame file path when frame name supplied", () => {
+  it("should make expected frame file path", () => {
     const fileName = "cheese";
 
     expect(makeFrameFilePath(PROJECT, TAKE, fileName)).toEqual(
       `${projectDirectory}/BA_001_01/ba_001_01_frame_cheese.jpg`
-    );
-  });
-
-  it("should make frame file path when frame name not supplied", () => {
-    const take = TAKE;
-    take.lastExportedFrameNumber = 3;
-
-    expect(makeFrameFilePath(PROJECT, take)).toEqual(
-      `${projectDirectory}/BA_001_01/ba_001_01_frame_00004.jpg`
     );
   });
 });

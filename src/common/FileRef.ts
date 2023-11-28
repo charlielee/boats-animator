@@ -19,11 +19,7 @@ export const makeFrameFileRef = (trackItemId: TrackItemId, location: string): Fi
   available: true,
 });
 
-export const getFileRefById = (fileRefs: FileRef[], trackItemId: TrackItemId): FileRef => {
-  const fileRef = fileRefs.find((fileRef) => fileRef.trackItemId === trackItemId);
-  if (fileRef !== undefined) {
-    return fileRef;
-  } else {
-    throw `No file ref with trackItemId ${trackItemId} found`;
-  }
-};
+export const getFileRefById = (
+  fileRefs: FileRef[],
+  trackItemId: TrackItemId
+): FileRef | undefined => fileRefs.find((fileRef) => fileRef.trackItemId === trackItemId);
