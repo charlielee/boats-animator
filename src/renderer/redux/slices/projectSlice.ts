@@ -36,12 +36,6 @@ const projectSlice = createSlice({
       state.take?.frameTrack.trackItems.push(action.payload);
     },
 
-    incrementExportedFrameNumber: (state) => {
-      if (state.take) {
-        state.take.lastExportedFrameNumber += 1;
-      }
-    },
-
     setPlaybackSpeed: (state, action: PayloadAction<number>) => {
       state.playbackSpeed = action.payload;
     },
@@ -60,7 +54,6 @@ export const {
   addProject,
   updateProject,
   addFrameTrackItem,
-  incrementExportedFrameNumber,
   setPlaybackSpeed,
   addFileRef,
   addTake,

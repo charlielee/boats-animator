@@ -36,7 +36,7 @@ const TimelineTrack = ({
             return (
               <TimelineTrackItem
                 title={getTrackItemTitle(track, i)}
-                dataUrl={getFileRefById(fileRefs, trackItem.id).location}
+                dataUrl={getFileRefById(fileRefs, trackItem.id)?.location}
                 highlighted={highlightedTrackItem?.id === trackItem.id}
                 key={trackItem.id}
                 onClick={() => onClickItem(i)}

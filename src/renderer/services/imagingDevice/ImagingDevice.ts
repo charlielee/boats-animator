@@ -24,11 +24,6 @@ export interface ImagingDevice {
   takePhoto(): Promise<Blob>;
 }
 
-const IMAGING_DEVICE_CHANGE_EVENT_NAME = "imaging-device-change";
-
-const dispatchDeviceChangeEvent = () =>
-  document.dispatchEvent(new CustomEvent(IMAGING_DEVICE_CHANGE_EVENT_NAME));
-
 export const listDevices = async (): Promise<ImagingDeviceIdentifier[]> => {
   rLogger.info("imagingDevice.listDevices.start");
   const webMediaDevices = await WebMediaDevice.listDevices();
@@ -38,9 +33,12 @@ export const listDevices = async (): Promise<ImagingDeviceIdentifier[]> => {
   return allDevices;
 };
 
-export const onDeviceChange = (callback: () => void): void => {
-  WebMediaDevice.onDeviceChange(dispatchDeviceChangeEvent);
-  document.addEventListener(IMAGING_DEVICE_CHANGE_EVENT_NAME, callback);
+export const addDeviceChangeListeners = (listener: () => void): void => {
+  WebMediaDevice.addDeviceChangeListener(listener);
+};
+
+export const removeDeviceChangeListeners = (listener: () => void): void => {
+  WebMediaDevice.removeDeviceChangeListener(listener);
 };
 
 export const deviceIdentifierToDevice = (identifier: ImagingDeviceIdentifier): ImagingDevice => {
