@@ -97,25 +97,27 @@ describe("makeTake", () => {
 });
 
 describe("makeFrameTrackItem", () => {
-  it("should make frame track item with no Track Group ID supplied", () => {
-    const filePath = "/frame.jpg";
+  const filePath = "/frame.jpg";
+  const fileNumber = 0;
 
-    expect(makeFrameTrackItem(filePath)).toStrictEqual({
+  it("should make frame track item with no Track Group ID supplied", () => {
+    expect(makeFrameTrackItem(filePath, fileNumber)).toStrictEqual({
       filePath,
       id: expect.any(String),
       length: 1,
+      fileNumber,
       trackGroupId: expect.any(String),
     });
   });
 
   it("should make frame track item with Track Group ID supplied", () => {
-    const filePath = "/frame.jpg";
     const trackGroupId = TRACK_GROUP_ID;
 
-    expect(makeFrameTrackItem(filePath, trackGroupId)).toStrictEqual({
+    expect(makeFrameTrackItem(filePath, fileNumber, trackGroupId)).toStrictEqual({
       filePath,
       id: expect.any(String),
       length: 1,
+      fileNumber,
       trackGroupId,
     });
   });

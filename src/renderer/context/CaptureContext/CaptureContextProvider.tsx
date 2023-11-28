@@ -18,6 +18,7 @@ import useDeviceList from "../../hooks/useDeviceList";
 import { closeDevice } from "../../redux/slices/captureSlice";
 import { zeroPad } from "../../../common/utils";
 import { TrackItem } from "../../../common/project/TrackItem";
+import { getNextFileNumber } from "../../services/project/projectCalculator";
 
 interface CaptureContextProviderProps {
   children: ReactNode;
@@ -33,7 +34,6 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const playCaptureSound = useSelector(
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
-  const fileRefs = useSelector((state: RootState) => state.project.fileRefs);
 
   const takePhoto = () => {
     rLogger.info("captureContextProvider.takePhoto");
@@ -43,15 +43,18 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
       audio.play();
     }
 
-    const filePath = makeFrameFilePath(project, take, zeroPad(fileRefs.length + 1, 5));
-    const trackItem = makeFrameTrackItem(filePath);
+    // Frame track items should be created synchronously to ensure frames are created in the correct order
+    // and do not have overwriting file names
+    const fileNumber = getNextFileNumber(take.frameTrack);
+    const filePath = makeFrameFilePath(project, take, zeroPad(fileNumber, 5));
+    const trackItem = makeFrameTrackItem(filePath, fileNumber);
     dispatch(addFrameTrackItem(trackItem));
 
-    // Intentionally fire async method without await to ensure frames are processed in the correct order
-    processTakePhoto(filePath, trackItem);
+    // Intentionally fire async method without await
+    processPhoto(filePath, trackItem);
   };
 
-  const processTakePhoto = async (filePath: string, trackItem: TrackItem) => {
+  const processPhoto = async (filePath: string, trackItem: TrackItem) => {
     if (!device) {
       return;
     }

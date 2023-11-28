@@ -28,3 +28,7 @@ export const getTrackItemTitle = (track: Track, trackItemIndex: number) =>
   track.fileType === FileRefType.FRAME
     ? `Frame ${getTrackItemStartPosition(track, trackItemIndex) + 1}`
     : track.trackItems[trackItemIndex].filePath;
+
+const getLastFileNumberInTrack = (track: Track): number => track.trackItems.at(-1)?.fileNumber ?? 0;
+
+export const getNextFileNumber = (track: Track): number => getLastFileNumberInTrack(track) + 1;

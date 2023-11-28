@@ -54,10 +54,15 @@ export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOp
   },
 });
 
-export const makeFrameTrackItem = (filePath: string, trackGroupId?: TrackGroupId): TrackItem => ({
+export const makeFrameTrackItem = (
+  filePath: string,
+  fileNumber: number,
+  trackGroupId?: TrackGroupId
+): TrackItem => ({
   id: uuidv4(),
   length: 1,
   filePath,
+  fileNumber,
   trackGroupId: trackGroupId ?? uuidv4(),
 });
 
