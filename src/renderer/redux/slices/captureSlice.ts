@@ -6,12 +6,10 @@ import {
 
 interface CaptureState {
   deviceStatus: ImagingDeviceStatus | undefined;
-  deviceList: ImagingDeviceIdentifier[];
 }
 
 const initialState: CaptureState = {
   deviceStatus: undefined,
-  deviceList: [],
 };
 
 const captureSlice = createSlice({
@@ -37,14 +35,9 @@ const captureSlice = createSlice({
     changeDevice: (state, action: PayloadAction<ImagingDeviceIdentifier>) => {
       state.deviceStatus = { identifier: action.payload, open: true };
     },
-
-    setDeviceList: (state, action: PayloadAction<ImagingDeviceIdentifier[]>) => {
-      state.deviceList = action.payload;
-    },
   },
 });
 
-export const { reopenDevice, pauseDevice, closeDevice, changeDevice, setDeviceList } =
-  captureSlice.actions;
+export const { reopenDevice, pauseDevice, closeDevice, changeDevice } = captureSlice.actions;
 
 export const captureReducer = captureSlice.reducer;

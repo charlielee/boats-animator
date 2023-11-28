@@ -103,8 +103,12 @@ class WebMediaDevice implements ImagingDevice {
       }));
   }
 
-  static onDeviceChange(callback: () => void): void {
-    navigator.mediaDevices.addEventListener("devicechange", callback);
+  static addDeviceChangeListener(listener: () => void): void {
+    navigator.mediaDevices.addEventListener("devicechange", listener);
+  }
+
+  static removeDeviceChangeListener(listener: () => void): void {
+    navigator.mediaDevices.removeEventListener("devicechange", listener);
   }
 }
 

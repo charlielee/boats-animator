@@ -6,13 +6,14 @@ import InputGroup from "../../common/Input/InputGroup/InputGroup";
 import InputLabel from "../../common/Input/InputLabel/InputLabel";
 import InputSelect from "../../common/Input/InputSelect/InputSelect";
 import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
+import useDeviceList from "../../../hooks/useDeviceList";
 
 const CaptureSidebarBlock = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
-  const { deviceStatus, deviceList } = useSelector((state: RootState) => ({
+  const { deviceStatus } = useSelector((state: RootState) => ({
     deviceStatus: state.capture.deviceStatus,
-    deviceList: state.capture.deviceList,
   }));
+  const deviceList = useDeviceList();
 
   const buildCameraSourceOptions = () => ({
     "No camera selected": "#",
@@ -28,7 +29,7 @@ const CaptureSidebarBlock = (): JSX.Element => {
           options={buildCameraSourceOptions()}
           value={deviceStatus?.identifier?.deviceId ?? "#"}
           onChange={(deviceId) =>
-            dispatch(setCurrentDeviceFromId(deviceId === "#" ? undefined : deviceId))
+            dispatch(setCurrentDeviceFromId(deviceId === "#" ? undefined : deviceId, deviceList))
           }
         />
       </InputGroup>

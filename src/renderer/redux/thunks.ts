@@ -1,28 +1,15 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { PageRoute } from "../../common/PageRoute";
-import { listDevices } from "../services/imagingDevice/ImagingDevice";
 import { editUserPreferences, setCameraAccess, startLoading, stopLoading } from "./slices/appSlice";
-import {
-  closeDevice,
-  pauseDevice,
-  reopenDevice,
-  changeDevice,
-  setDeviceList,
-} from "./slices/captureSlice";
+import { changeDevice, closeDevice, pauseDevice, reopenDevice } from "./slices/captureSlice";
 import { RootState } from "./store";
+import { ImagingDeviceIdentifier } from "../services/imagingDevice/ImagingDevice";
 
-export const fetchAndSetDeviceList = () => {
+export const setCurrentDeviceFromId = (
+  deviceId: string | undefined,
+  deviceList: ImagingDeviceIdentifier[]
+) => {
   return (dispatch: ThunkDispatch<RootState, void, Action>) => {
-    return (async () => {
-      const connectedDevices = await listDevices();
-      dispatch(setDeviceList(connectedDevices));
-    })();
-  };
-};
-
-export const setCurrentDeviceFromId = (deviceId?: string) => {
-  return (dispatch: ThunkDispatch<RootState, void, Action>, getState: () => RootState) => {
-    const { deviceList } = getState().capture;
     const identifier = deviceList.find((identifier) => identifier.deviceId === deviceId);
 
     dispatch(identifier ? changeDevice(identifier) : closeDevice());
