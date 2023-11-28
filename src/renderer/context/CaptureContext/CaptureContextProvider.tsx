@@ -18,6 +18,8 @@ import {
 import { makeFrameFilePath, makeFrameTrackItem } from "../../services/project/projectBuilder";
 import CaptureContext from "./CaptureContext";
 import * as rLogger from "../../services/rLogger/rLogger";
+import useDeviceList from "../../hooks/useDeviceList";
+import { closeDevice } from "../../redux/slices/captureSlice";
 
 interface CaptureContextProviderProps {
   children: ReactNode;
@@ -27,25 +29,12 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const [device, setDevice] = useState<ImagingDevice | undefined>(undefined);
 
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
+  const deviceList = useDeviceList();
   const { project, take } = useProjectAndTake();
   const deviceStatus = useSelector((state: RootState) => state.capture.deviceStatus);
   const playCaptureSound = useSelector(
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
-
-  const updateDevice = useCallback(async () => {
-    rLogger.info("captureContextProvider.updateDevice", JSON.stringify(deviceStatus));
-    const identifier = deviceStatus?.identifier;
-    const newDevice = identifier ? deviceIdentifierToDevice(identifier) : undefined;
-
-    device?.close();
-
-    if (deviceStatus?.open === true) {
-      await newDevice?.open();
-    }
-
-    setDevice(newDevice);
-  }, [deviceStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const takePhoto = async () => {
     rLogger.info("captureContextProvider.takePhoto");
@@ -69,9 +58,37 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     dispatch(incrementExportedFrameNumber());
   };
 
+  const onChangeDevice = useCallback(async () => {
+    rLogger.info("captureContextProvider.onChangeDevice", JSON.stringify(deviceStatus));
+    const identifier = deviceStatus?.identifier;
+    const newDevice = identifier ? deviceIdentifierToDevice(identifier) : undefined;
+
+    device?.close();
+
+    if (deviceStatus?.open === true) {
+      await newDevice?.open();
+    }
+
+    setDevice(newDevice);
+  }, [deviceStatus]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const onDeviceListChange = useCallback(() => {
+    if (
+      deviceStatus &&
+      !deviceList.find((identifier) => identifier.deviceId === deviceStatus.identifier.deviceId)
+    ) {
+      rLogger.info("captureContextProvider.currentDeviceDisconnected");
+      dispatch(closeDevice());
+    }
+  }, [deviceList, deviceStatus, dispatch]);
+
   useEffect(() => {
-    updateDevice();
-  }, [deviceStatus, updateDevice]);
+    onChangeDevice();
+  }, [onChangeDevice, deviceStatus]);
+
+  useEffect(() => {
+    onDeviceListChange();
+  }, [onDeviceListChange, deviceList]);
 
   return (
     <CaptureContext.Provider
