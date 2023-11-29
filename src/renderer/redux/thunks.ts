@@ -90,6 +90,8 @@ export const newProject = (project: Project) => {
           })
         )
       );
+      // Todo async behave not quite right
+      // Todo review the hook related to useLiveQuery
       const fileSystemDirectoryHandle = await window.showDirectoryPicker({
         id: "newProject",
         mode: "readwrite",

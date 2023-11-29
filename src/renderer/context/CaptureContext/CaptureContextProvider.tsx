@@ -57,12 +57,13 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   };
 
   const processPhoto = async (filePath: string, trackItem: TrackItem) => {
-    if (!device) {
+    console.log("projecthandle", projectHandle);
+    if (!device || !projectHandle) {
       return;
     }
     const imageData = await device.takePhoto();
     const fileManager = new FileManager(projectHandle);
-    fileManager.saveTrackItemToDisk(take, trackItem, imageData);
+    await fileManager.saveTrackItemToDisk(take, trackItem, imageData);
 
     const imageUrl = URL.createObjectURL(imageData);
     dispatch(addFileRef(makeFrameFileRef(trackItem.id, imageUrl)));

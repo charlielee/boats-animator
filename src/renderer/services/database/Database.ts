@@ -8,7 +8,7 @@ class Database extends Dexie {
   constructor() {
     super("BoatsAnimatorDatabase");
     this.version(1).stores({
-      recentProjects: "+id, name, fileSystemDirectoryHandle",
+      recentProjects: "id, name, fileSystemDirectoryHandle",
     });
   }
 }

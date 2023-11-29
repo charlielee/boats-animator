@@ -15,9 +15,9 @@ const useProjectDirectoryHandle = () => {
     return recentProject?.fileSystemDirectoryHandle;
   });
 
-  if (!projectDirectoryHandle) {
-    throw "No project handle found in database";
-  }
+  // if (!projectDirectoryHandle) {
+  //   throw "No project handle found in database";
+  // }
 
   return projectDirectoryHandle;
 };
