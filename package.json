@@ -65,6 +65,7 @@
     "@types/uuid": "^8.3.4",
     "@types/w3c-image-capture": "^1.0.5",
     "@types/webpack-node-externals": "^2.5.3",
+    "@types/wicg-file-system-access": "^2023.10.4",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "cross-env": "^7.0.3",
