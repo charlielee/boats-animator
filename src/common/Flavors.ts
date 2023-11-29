@@ -10,8 +10,9 @@ export type FrameRate = Flavor<number, "FrameRate">;
 export type TimelineIndex = Flavor<number, "TimelineIndex">;
 type NumberFlavor = FrameCount | FrameRate | TimelineIndex;
 
+export type ProjectId = Flavor<string, "ProjectId">;
 export type TakeId = Flavor<string, "TakeId">;
 export type TrackId = Flavor<string, "TrackId">;
 export type TrackItemId = Flavor<string, "TrackItemId">;
 export type TrackGroupId = Flavor<string, "TrackGroupId">;
-type StringFlavor = TakeId | TrackId | TrackItemId | TrackGroupId;
+type StringFlavor = TakeId | TrackId | TrackItemId | TrackGroupId | ProjectId;

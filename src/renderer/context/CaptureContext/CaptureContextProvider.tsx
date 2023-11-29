@@ -6,7 +6,6 @@ import cameraSound from "../../audio/camera.wav";
 import useProjectAndTake from "../../hooks/useProjectAndTake";
 import { addFileRef, addFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
-import { saveBlobToDisk } from "../../services/blobUtils/blobUtils";
 import {
   ImagingDevice,
   deviceIdentifierToDevice,
@@ -19,6 +18,8 @@ import { closeDevice } from "../../redux/slices/captureSlice";
 import { zeroPad } from "../../../common/utils";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { getNextFileNumber } from "../../services/project/projectCalculator";
+import useProjectDirectoryHandle from "../../hooks/useProjectDirectoryHandle";
+import FileManager from "../../services/fileManager/FileManager";
 
 interface CaptureContextProviderProps {
   children: ReactNode;
@@ -34,6 +35,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const playCaptureSound = useSelector(
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
+  const projectHandle = useProjectDirectoryHandle();
 
   const takePhoto = () => {
     rLogger.info("captureContextProvider.takePhoto");
@@ -59,7 +61,8 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
       return;
     }
     const imageData = await device.takePhoto();
-    saveBlobToDisk(filePath, imageData);
+    const fileManager = new FileManager(projectHandle);
+    fileManager.saveTrackItemToDisk(take, trackItem, imageData);
 
     const imageUrl = URL.createObjectURL(imageData);
     dispatch(addFileRef(makeFrameFileRef(trackItem.id, imageUrl)));

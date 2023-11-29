@@ -24,6 +24,7 @@ export const makeProject = ({
   name: string;
   workingDirectory: string;
 }): Project => ({
+  id: uuidv4(),
   name: name.substring(0, 256),
   fileName: makeProjectFileName(name),
   workingDirectory,
@@ -77,6 +78,18 @@ export const makeTakeDirectoryPath = (project: Project, take: Take) =>
     makeProjectDirectoryPath(project),
     `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`
   );
+
+export const makeTakeDirectoryName = (take: Take) =>
+  `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`;
+
+export const makeFrameFileName = (take: Take, frameName: string) =>
+  [
+    "ba",
+    zeroPad(take.shotNumber, 3),
+    zeroPad(take.takeNumber, 2),
+    "frame",
+    `${frameName}.jpg`,
+  ].join("_");
 
 export const makeFrameFilePath = (project: Project, take: Take, frameName: string): string =>
   window.preload.joinPath(

@@ -3,13 +3,14 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
-import { addProject, addTake, updateProject } from "../../../redux/slices/projectSlice";
+import { DEFAULT_PROJECT_NAME } from "../../../../common/utils";
+import { updateProject } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
+import { newProject } from "../../../redux/thunks";
 import {
   formatProjectName,
   makeProject,
   makeProjectDirectoryPath,
-  makeTake,
 } from "../../../services/project/projectBuilder";
 import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";
@@ -24,7 +25,6 @@ import ModalFooter from "../../common/ModalFooter/ModalFooter";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
-import { DEFAULT_PROJECT_NAME } from "../../../../common/utils";
 
 const ProjectSettingsModal = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -46,22 +46,12 @@ const ProjectSettingsModal = (): JSX.Element => {
   const onRenameProject = (newName: string) =>
     setProject((prevState) => makeProject({ ...prevState, name: newName }));
 
-  const onSubmitProjectSettings = () => {
-    const name = formatProjectName(project.name);
-
+  const onSubmitProjectSettings = async () => {
     if (currentProject) {
+      const name = formatProjectName(project.name);
       dispatch(updateProject({ ...project, name }));
     } else {
-      dispatch(addProject({ ...project, name }));
-      dispatch(
-        addTake(
-          makeTake({
-            shotNumber: 1,
-            takeNumber: 1,
-            frameRate: 15,
-          })
-        )
-      );
+      await dispatch(newProject(project));
     }
 
     navigate(PageRoute.ANIMATOR);

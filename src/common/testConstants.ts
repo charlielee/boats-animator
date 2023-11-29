@@ -7,6 +7,7 @@ export const PROJECT_NAME = "My Test Movie";
 export const PROJECT_FILE_NAME = "My-Test-Movie";
 export const WORKING_DIRECTORY = "/hello";
 export const PROJECT: Project = {
+  id: uuidv4(),
   name: PROJECT_NAME,
   fileName: PROJECT_FILE_NAME,
   workingDirectory: WORKING_DIRECTORY,
