@@ -9,9 +9,15 @@ import AppListener from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import { useEffect } from "react";
 
 const App = (): JSX.Element => {
   const { project, take } = useSelector((state: RootState) => state.project);
+
+  useEffect(() => {
+    document.title = project ? `${project.name} - Boats Animator` : "Boats Animator";
+  }, [project]);
+
   return (
     <>
       <AppListener />
