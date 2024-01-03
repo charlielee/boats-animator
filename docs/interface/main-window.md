@@ -174,5 +174,5 @@ This is not a valid image sequence because of the gap between `frame002.png` and
 ```
 frame001.png
 frame002.png
-frame004.png
+frame003.png
 ```
