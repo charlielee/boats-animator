@@ -1,6 +1,6 @@
 # System Requirements
 
-The following are the system requirements for using Boats Animator.
+The following are the system requirements for using Boats Animator (last updated for v0.13).
 
 ## Operating System
 
@@ -10,7 +10,7 @@ Windows 7 or later is required.
 
 ### macOS
 
-macOS 10.10 or later is required.
+macOS 10.13 or later is required.
 
 ### Linux
 
