@@ -70,7 +70,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.3.0",
     "electron": "^26.2.4",
-    "electron-builder": "^24.0.0",
+    "electron-builder": "^24.13.3",
     "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.2.0",
     "eslint-plugin-react": "^7.23.2",
