@@ -31,7 +31,6 @@ const makeProjectFileName = (name: string) => {
   return fileName === "" ? DEFAULT_PROJECT_FILE_NAME : fileName;
 };
 
-// todo rename?
 export const formatProjectName = (name: string) =>
   name.trim() === "" ? DEFAULT_PROJECT_NAME : name.trim();
 
@@ -63,15 +62,14 @@ export const makeFrameTrackItem = (
 export const makeProjectDirectoryName = (project: Project) =>
   `${project.fileName}.${PROJECT_DIRECTORY_EXTENSION}`;
 
-// TODO makeTakeDirectoryName
+export const makeTakeDirectoryName = (take: Take) =>
+  `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`;
+
 export const makeTakeDirectoryPath = (project: Project, take: Take) =>
   window.preload.joinPath(
     makeProjectDirectoryName(project),
     `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`
   );
-
-export const makeTakeDirectoryName = (take: Take) =>
-  `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`;
 
 export const makeFrameFileName = (take: Take, frameName: string) =>
   [

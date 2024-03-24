@@ -27,6 +27,8 @@ import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarI
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import { putOrAddWorkingDirectory } from "../../../services/database/RecentDirectoryEntry";
 import { newProject } from "../../../redux/thunks/projectThunk";
+import NoWorkingDirectoryError from "../../../redux/thunks/NoWorkingDirectoryError";
+import * as rLogger from "../../../services/rLogger/rLogger";
 
 const ProjectSettingsModal = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -54,7 +56,19 @@ const ProjectSettingsModal = (): JSX.Element => {
     if (currentProject) {
       dispatch(updateProject(formattedProject));
     } else {
-      await dispatch(newProject(formattedProject));
+      try {
+        await dispatch(newProject(formattedProject));
+      } catch (e) {
+        if (e instanceof NoWorkingDirectoryError) {
+          // TODO show notification
+          console.info(e.message);
+        } else if (e instanceof Error) {
+          rLogger.error("projectSettingsModal.newProject.unhandledError", {
+            name: e.name,
+            message: e.message,
+          });
+        }
+      }
     }
 
     navigate(PageRoute.ANIMATOR);

@@ -48,7 +48,6 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     // Frame track items should be created synchronously to ensure frames are created in the correct order
     // and do not have overwriting file names
     const fileNumber = getNextFileNumber(take.frameTrack);
-    // TODO remove
     const filePath = makeFrameFilePath(project, take, zeroPad(fileNumber, 5));
     const trackItem = makeFrameTrackItem(filePath, fileNumber);
     dispatch(addFrameTrackItem(trackItem));
