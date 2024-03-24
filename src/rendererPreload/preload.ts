@@ -42,9 +42,6 @@ export const api = {
     ): Ipc.OpenExportVideoFilePathDialog.Response =>
       ipcRenderer.invoke(IpcChannel.OPEN_EXPORT_VIDEO_FILE_PATH_DIALOG, payload),
 
-    saveDataToDisk: (payload: Ipc.SaveDataToDisk.Payload): Ipc.SaveDataToDisk.Response =>
-      ipcRenderer.invoke(IpcChannel.SAVE_DATA_TO_DISK, payload),
-
     exportVideoStart: (payload: Ipc.ExportVideoStart.Payload): Ipc.ExportVideoStart.Response =>
       ipcRenderer.invoke(IpcChannel.EXPORT_VIDEO_START, payload),
 

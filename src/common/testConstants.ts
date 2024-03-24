@@ -5,7 +5,6 @@ import { Take } from "./project/Take";
 
 export const PROJECT_NAME = "My Test Movie";
 export const PROJECT_FILE_NAME = "My-Test-Movie";
-export const WORKING_DIRECTORY = "/hello";
 export const PROJECT: Project = {
   name: PROJECT_NAME,
   fileName: PROJECT_FILE_NAME,

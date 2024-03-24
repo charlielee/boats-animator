@@ -61,6 +61,7 @@ const ProjectSettingsModal = (): JSX.Element => {
       } catch (e) {
         if (e instanceof NoWorkingDirectoryError) {
           // TODO show notification
+          // eslint-disable-next-line no-console
           console.info(e.message);
         } else if (e instanceof Error) {
           rLogger.error("projectSettingsModal.newProject.unhandledError", {

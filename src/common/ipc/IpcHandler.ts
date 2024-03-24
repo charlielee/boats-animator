@@ -62,14 +62,6 @@ namespace Ipc {
     export type Response = Promise<string | undefined>;
   }
 
-  export namespace SaveDataToDisk {
-    export type Payload = {
-      filePath: string;
-      rawData: Uint8Array;
-    };
-    export type Response = Promise<void>;
-  }
-
   export namespace ExportVideoStart {
     export type Payload = {
       ffmpegArguments: string[];
