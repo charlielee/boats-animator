@@ -6,7 +6,7 @@ interface TestAppProps {
   children: ReactNode;
 }
 
-export const TestApp = ({ children }: TestAppProps) => {
+const TestApp = ({ children }: TestAppProps) => {
   return <MemoryRouter>{children}</MemoryRouter>;
 };
 
