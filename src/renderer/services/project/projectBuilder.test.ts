@@ -4,7 +4,6 @@ import {
   PROJECT_NAME,
   TAKE,
   TRACK_GROUP_ID,
-  WORKING_DIRECTORY,
 } from "../../../common/testConstants";
 import {
   DEFAULT_PROJECT_FILE_NAME,
@@ -16,55 +15,50 @@ import {
   makeFrameFilePath,
   makeFrameTrackItem,
   makeProject,
-  makeProjectDirectoryPath,
+  makeProjectDirectoryName,
   makeTake,
   makeTakeDirectoryPath,
 } from "./projectBuilder";
 
-const projectDirectory = `${WORKING_DIRECTORY}/${PROJECT_FILE_NAME}.${PROJECT_DIRECTORY_EXTENSION}`;
+const projectDirectory = `${PROJECT_FILE_NAME}.${PROJECT_DIRECTORY_EXTENSION}`;
 
 describe("makeProject", () => {
   it("should make project with the supplied options", () => {
-    expect(makeProject({ name: PROJECT_NAME, workingDirectory: WORKING_DIRECTORY })).toEqual({
+    expect(makeProject({ name: PROJECT_NAME })).toEqual({
       name: PROJECT_NAME,
       fileName: PROJECT_FILE_NAME,
-      workingDirectory: WORKING_DIRECTORY,
     });
   });
 
   it("should truncate long project name", () => {
     const projectName = "a".repeat(256);
-    expect(makeProject({ name: projectName, workingDirectory: WORKING_DIRECTORY })).toEqual({
+    expect(makeProject({ name: projectName })).toEqual({
       name: "a".repeat(256),
       fileName: "a".repeat(60),
-      workingDirectory: WORKING_DIRECTORY,
     });
   });
 
   it("should handle project name with special characters", () => {
     const projectName = ' 🚢<>:"My/\\|Test ?*.Movié 01!龙🐸 ';
-    expect(makeProject({ name: projectName, workingDirectory: WORKING_DIRECTORY })).toEqual({
+    expect(makeProject({ name: projectName })).toEqual({
       name: projectName,
       fileName: "🚢MyTest-Movié-01!龙🐸",
-      workingDirectory: WORKING_DIRECTORY,
     });
   });
 
   it("should use default project file name if name is blank", () => {
     const projectName = "";
-    expect(makeProject({ name: projectName, workingDirectory: WORKING_DIRECTORY })).toEqual({
+    expect(makeProject({ name: projectName })).toEqual({
       name: projectName,
       fileName: DEFAULT_PROJECT_FILE_NAME,
-      workingDirectory: WORKING_DIRECTORY,
     });
   });
 
   it("should use default project file name if name is only special characters", () => {
     const projectName = ' <>:"/\\|?*. ';
-    expect(makeProject({ name: projectName, workingDirectory: WORKING_DIRECTORY })).toEqual({
+    expect(makeProject({ name: projectName })).toEqual({
       name: projectName,
       fileName: DEFAULT_PROJECT_FILE_NAME,
-      workingDirectory: WORKING_DIRECTORY,
     });
   });
 });
@@ -123,9 +117,9 @@ describe("makeFrameTrackItem", () => {
   });
 });
 
-describe("makeProjectDirectoryPath", () => {
-  it("should make project directory path with supplied options", () => {
-    expect(makeProjectDirectoryPath(PROJECT)).toBe(projectDirectory);
+describe("makeProjectDirectoryName", () => {
+  it("should make project directory name with supplied options", () => {
+    expect(makeProjectDirectoryName(PROJECT)).toBe(projectDirectory);
   });
 });
 

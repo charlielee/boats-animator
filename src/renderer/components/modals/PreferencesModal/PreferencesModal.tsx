@@ -18,7 +18,6 @@ import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
-import ChooseWorkingDirectory from "./ChooseWorkingDirectory/ChooseWorkingDirectory";
 
 const PreferencesModal = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -95,10 +94,6 @@ const PreferencesModal = (): JSX.Element => {
                     validateOnChange
                   />
                 </InputGroup>
-
-                <h3>PROJECTS</h3>
-
-                <ChooseWorkingDirectory />
               </ContentBlock>
             </Content>
           </PageBody>

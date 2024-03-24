@@ -2,23 +2,24 @@ import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeFrameFileRef } from "../../../common/FileRef";
+import { TrackItem } from "../../../common/project/TrackItem";
+import { zeroPad } from "../../../common/utils";
 import cameraSound from "../../audio/camera.wav";
+import useDeviceList from "../../hooks/useDeviceList";
 import useProjectAndTake from "../../hooks/useProjectAndTake";
+import useProjectDirectory from "../../hooks/useProjectDirectory";
+import { closeDevice } from "../../redux/slices/captureSlice";
 import { addFileRef, addFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
-import { saveBlobToDisk } from "../../services/blobUtils/blobUtils";
+import FileManager from "../../services/fileManager/FileManager";
 import {
   ImagingDevice,
   deviceIdentifierToDevice,
 } from "../../services/imagingDevice/ImagingDevice";
 import { makeFrameFilePath, makeFrameTrackItem } from "../../services/project/projectBuilder";
-import CaptureContext from "./CaptureContext";
-import * as rLogger from "../../services/rLogger/rLogger";
-import useDeviceList from "../../hooks/useDeviceList";
-import { closeDevice } from "../../redux/slices/captureSlice";
-import { zeroPad } from "../../../common/utils";
-import { TrackItem } from "../../../common/project/TrackItem";
 import { getNextFileNumber } from "../../services/project/projectCalculator";
+import * as rLogger from "../../services/rLogger/rLogger";
+import CaptureContext from "./CaptureContext";
 
 interface CaptureContextProviderProps {
   children: ReactNode;
@@ -34,6 +35,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const playCaptureSound = useSelector(
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
+  const projectDirectory = useProjectDirectory();
 
   const takePhoto = () => {
     rLogger.info("captureContextProvider.takePhoto");
@@ -51,15 +53,16 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     dispatch(addFrameTrackItem(trackItem));
 
     // Intentionally fire async method without await
-    processPhoto(filePath, trackItem);
+    processPhoto(trackItem);
   };
 
-  const processPhoto = async (filePath: string, trackItem: TrackItem) => {
-    if (!device) {
+  const processPhoto = async (trackItem: TrackItem) => {
+    if (!device || !projectDirectory) {
       return;
     }
     const imageData = await device.takePhoto();
-    saveBlobToDisk(filePath, imageData);
+    const fileManager = new FileManager(projectDirectory.handle);
+    await fileManager.saveTrackItemToDisk(take, trackItem, imageData);
 
     const imageUrl = URL.createObjectURL(imageData);
     dispatch(addFileRef(makeFrameFileRef(trackItem.id, imageUrl)));

@@ -18,6 +18,10 @@ nativeTheme.themeSource = "dark";
 
 logger.initialize();
 
+// Electron does not support writing with the File System Access API
+// https://github.com/electron/electron/issues/28422
+app.commandLine.appendSwitch("enable-experimental-web-platform-features");
+
 app.whenReady().then(async () => {
   logger.info("app.ready", {
     appVersion: app.getVersion(),

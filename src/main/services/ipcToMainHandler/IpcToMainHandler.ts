@@ -3,7 +3,7 @@ import IpcChannel from "../../../common/ipc/IpcChannel";
 import Ipc from "../../../common/ipc/IpcHandler";
 import { render } from "../exportVideo/ExportVideo";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
-import { openUserDataDirectory, saveDataToDisk, showItemInFolder } from "../fileUtils/fileUtils";
+import { openUserDataDirectory, showItemInFolder } from "../fileUtils/fileUtils";
 import logger, { ProcessName } from "../logger/Logger";
 import {
   getWindowSize,
@@ -71,12 +71,6 @@ class IpcToMainHandler {
   ): Ipc.OpenExportVideoFilePathDialog.Response =>
     openExportVideoFilePathDialog(win, payload.currentFilePath);
 
-  saveDataToDisk = (
-    e: IpcMainInvokeEvent,
-    win: BrowserWindow,
-    payload: Ipc.SaveDataToDisk.Payload
-  ): Ipc.SaveDataToDisk.Response => saveDataToDisk(payload.filePath, payload.rawData);
-
   exportVideoStart = (
     e: IpcMainInvokeEvent,
     win: BrowserWindow,
@@ -132,8 +126,6 @@ export const addIpcToMainHandlers = () => {
     IpcChannel.OPEN_EXPORT_VIDEO_FILE_PATH_DIALOG,
     ipcHandler.openExportVideoFilePathDialog
   );
-
-  IpcToMainHandler.handleIfWindow(IpcChannel.SAVE_DATA_TO_DISK, ipcHandler.saveDataToDisk);
 
   IpcToMainHandler.handleIfWindow(IpcChannel.EXPORT_VIDEO_START, ipcHandler.exportVideoStart);
 

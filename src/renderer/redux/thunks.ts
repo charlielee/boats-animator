@@ -4,25 +4,6 @@ import { editUserPreferences, setCameraAccess, startLoading, stopLoading } from 
 import { pauseDevice, reopenDevice } from "./slices/captureSlice";
 import { RootState } from "./store";
 
-export const changeWorkingDirectory = (workingDirectory?: string) => {
-  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
-    return (async () => {
-      const newDirectory = await window.preload.ipcToMain.openDirDialog({
-        workingDirectory,
-        title: "Select a directory to save projects to",
-      });
-
-      dispatch(
-        editUserPreferences({
-          defaultWorkingDirectory: newDirectory,
-        })
-      );
-
-      return newDirectory;
-    })();
-  };
-};
-
 export const loadSavedPreferences = () => {
   return (dispatch: ThunkDispatch<RootState, void, Action>) => {
     return (async () => {

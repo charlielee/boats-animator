@@ -17,16 +17,9 @@ interface ProjectBuilderOptions {
   frameRate: number;
 }
 
-export const makeProject = ({
-  name,
-  workingDirectory,
-}: {
-  name: string;
-  workingDirectory: string;
-}): Project => ({
+export const makeProject = ({ name }: { name: string }): Project => ({
   name: name.substring(0, 256),
   fileName: makeProjectFileName(name),
-  workingDirectory,
 });
 
 const makeProjectFileName = (name: string) => {
@@ -66,17 +59,26 @@ export const makeFrameTrackItem = (
   trackGroupId: trackGroupId ?? uuidv4(),
 });
 
-export const makeProjectDirectoryPath = (project: Project) =>
-  window.preload.joinPath(
-    project.workingDirectory,
-    `${project.fileName}.${PROJECT_DIRECTORY_EXTENSION}`
-  );
+export const makeProjectDirectoryName = (project: Project) =>
+  `${project.fileName}.${PROJECT_DIRECTORY_EXTENSION}`;
+
+export const makeTakeDirectoryName = (take: Take) =>
+  `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`;
 
 export const makeTakeDirectoryPath = (project: Project, take: Take) =>
   window.preload.joinPath(
-    makeProjectDirectoryPath(project),
+    makeProjectDirectoryName(project),
     `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`
   );
+
+export const makeFrameFileName = (take: Take, frameName: string) =>
+  [
+    "ba",
+    zeroPad(take.shotNumber, 3),
+    zeroPad(take.takeNumber, 2),
+    "frame",
+    `${frameName}.jpg`,
+  ].join("_");
 
 export const makeFrameFilePath = (project: Project, take: Take, frameName: string): string =>
   window.preload.joinPath(
