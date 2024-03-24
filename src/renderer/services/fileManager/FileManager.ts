@@ -2,6 +2,7 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { zeroPad } from "../../../common/utils";
 import { makeFrameFileName, makeTakeDirectoryName } from "../project/projectBuilder";
+import * as rLogger from "../../services/rLogger/rLogger";
 
 class FileManager {
   constructor(private projectHandle: FileSystemDirectoryHandle) {}
@@ -11,13 +12,17 @@ class FileManager {
       return;
     }
 
-    const takeHandle = await this.projectHandle.getDirectoryHandle(makeTakeDirectoryName(take), {
+    const takeDirectory = makeTakeDirectoryName(take);
+    const frameFileName = makeFrameFileName(take, zeroPad(trackItem.fileNumber, 5));
+    rLogger.info("fileManager.saveTrackItemToDisk", {
+      takeDirectory: takeDirectory,
+      frameFileName: frameFileName,
+    });
+
+    const takeHandle = await this.projectHandle.getDirectoryHandle(takeDirectory, {
       create: true,
     });
-    const fileHandle = await takeHandle.getFileHandle(
-      makeFrameFileName(take, zeroPad(trackItem.fileNumber, 5)),
-      { create: true }
-    );
+    const fileHandle = await takeHandle.getFileHandle(frameFileName, { create: true });
 
     const writable = await fileHandle.createWritable();
     await writable.write({ type: "write", data: blob });
