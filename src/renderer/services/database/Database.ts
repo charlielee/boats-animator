@@ -1,14 +1,14 @@
 import Dexie, { Table } from "dexie";
-import { ProjectId } from "../../../common/Flavors";
-import { RecentProjectEntry } from "./RecentProjectEntry";
+import { RecentDirectoryId } from "../../../common/Flavors";
+import { RecentDirectoryEntry } from "./RecentDirectoryEntry";
 
 class Database extends Dexie {
-  recentProjects!: Table<RecentProjectEntry, ProjectId>;
+  recentDirectories!: Table<RecentDirectoryEntry, RecentDirectoryId>;
 
   constructor() {
     super("BoatsAnimatorDatabase");
     this.version(1).stores({
-      recentProjects: "id, name, fileSystemDirectoryHandle",
+      recentDirectories: "id, type, friendlyName, fileSystemDirectoryHandle",
     });
   }
 }

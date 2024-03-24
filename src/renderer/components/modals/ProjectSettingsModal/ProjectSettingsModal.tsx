@@ -6,7 +6,6 @@ import { PageRoute } from "../../../../common/PageRoute";
 import { DEFAULT_PROJECT_NAME } from "../../../../common/utils";
 import { updateProject } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
-import { newProject } from "../../../redux/thunks";
 import {
   formatProjectName,
   makeProject,
@@ -25,6 +24,7 @@ import ModalFooter from "../../common/ModalFooter/ModalFooter";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
+import { newProject } from "../../../redux/thunks/projectThunk";
 
 const ProjectSettingsModal = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();

@@ -39,6 +39,7 @@ const makeProjectFileName = (name: string) => {
   return fileName === "" ? DEFAULT_PROJECT_FILE_NAME : fileName;
 };
 
+// todo rename?
 export const formatProjectName = (name: string) =>
   name.trim() === "" ? DEFAULT_PROJECT_NAME : name.trim();
 
@@ -72,6 +73,9 @@ export const makeProjectDirectoryPath = (project: Project) =>
     project.workingDirectory,
     `${project.fileName}.${PROJECT_DIRECTORY_EXTENSION}`
   );
+
+export const makeProjectDirectory2 = (project: Project) =>
+  `${project.fileName}.${PROJECT_DIRECTORY_EXTENSION}`;
 
 export const makeTakeDirectoryPath = (project: Project, take: Take) =>
   window.preload.joinPath(

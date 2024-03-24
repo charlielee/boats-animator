@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { changeWorkingDirectory } from "../../../../redux/thunks";
 import { RootState } from "../../../../redux/store";
 import Button from "../../../common/Button/Button";
 import InputGroup from "../../../common/Input/InputGroup/InputGroup";
 import InputLabel from "../../../common/Input/InputLabel/InputLabel";
 import "./ChooseWorkingDirectory.css";
 import { ThunkDispatch, Action } from "@reduxjs/toolkit";
+import { changeWorkingDirectory } from "../../../../redux/thunks/projectThunk";
 
 const ChooseWorkingDirectory = (): JSX.Element => {
   const { defaultWorkingDirectory } = useSelector((state: RootState) => state.app.userPreferences);
@@ -24,7 +24,7 @@ const ChooseWorkingDirectory = (): JSX.Element => {
       <Button
         id="chooseWorkingDirectoryButton"
         title="Browse..."
-        onClick={() => dispatch(changeWorkingDirectory(defaultWorkingDirectory))}
+        onClick={() => dispatch(changeWorkingDirectory())}
       />
     </InputGroup>
   );

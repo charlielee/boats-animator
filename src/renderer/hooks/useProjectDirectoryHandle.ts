@@ -11,7 +11,7 @@ const useProjectDirectoryHandle = () => {
   }
 
   const projectDirectoryHandle = useLiveQuery(async () => {
-    const recentProject = await db.recentProjects.get(project.id);
+    const recentProject = await db.recentDirectories.get(project.id);
     return recentProject?.fileSystemDirectoryHandle;
   });
 
