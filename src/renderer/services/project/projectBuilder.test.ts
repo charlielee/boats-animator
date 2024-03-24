@@ -4,7 +4,6 @@ import {
   PROJECT_NAME,
   TAKE,
   TRACK_GROUP_ID,
-  WORKING_DIRECTORY,
 } from "../../../common/testConstants";
 import {
   DEFAULT_PROJECT_FILE_NAME,
@@ -16,7 +15,7 @@ import {
   makeFrameFilePath,
   makeFrameTrackItem,
   makeProject,
-  makeProjectDirectory,
+  makeProjectDirectoryName,
   makeTake,
   makeTakeDirectoryPath,
 } from "./projectBuilder";
@@ -118,9 +117,9 @@ describe("makeFrameTrackItem", () => {
   });
 });
 
-describe("makeProjectDirectoryPath", () => {
-  it("should make project directory path with supplied options", () => {
-    expect(makeProjectDirectory(PROJECT)).toBe(projectDirectory);
+describe("makeProjectDirectoryName", () => {
+  it("should make project directory name with supplied options", () => {
+    expect(makeProjectDirectoryName(PROJECT)).toBe(projectDirectory);
   });
 });
 

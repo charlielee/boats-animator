@@ -9,7 +9,7 @@ import { RootState } from "../../../redux/store";
 import {
   formatProjectName,
   makeProject,
-  makeProjectDirectory,
+  makeProjectDirectoryName,
 } from "../../../services/project/projectBuilder";
 import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";
@@ -24,6 +24,8 @@ import ModalFooter from "../../common/ModalFooter/ModalFooter";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
+import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
+import { putOrAddWorkingDirectory } from "../../../services/database/RecentDirectoryEntry";
 import { newProject } from "../../../redux/thunks/projectThunk";
 
 const ProjectSettingsModal = (): JSX.Element => {
@@ -31,18 +33,28 @@ const ProjectSettingsModal = (): JSX.Element => {
   const navigate = useNavigate();
 
   const currentProject = useSelector((state: RootState) => state.project.project);
-
   const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));
+  const workingDirectory = useWorkingDirectory();
 
   const onRenameProject = (newName: string) =>
     setProject((prevState) => makeProject({ ...prevState, name: newName }));
 
+  const changeWorkingDirectory = async () => {
+    const workingDirectoryHandle = await window.showDirectoryPicker({
+      id: "changeWorkingDirectory",
+      mode: "readwrite",
+      startIn: "documents",
+    });
+    await putOrAddWorkingDirectory(workingDirectoryHandle);
+  };
+
   const onSubmitProjectSettings = async () => {
+    const formattedProject = { ...project, name: formatProjectName(project.name) };
+
     if (currentProject) {
-      const name = formatProjectName(project.name);
-      dispatch(updateProject({ ...project, name }));
+      dispatch(updateProject(formattedProject));
     } else {
-      await dispatch(newProject(project));
+      await dispatch(newProject(formattedProject));
     }
 
     navigate(PageRoute.ANIMATOR);
@@ -68,12 +80,17 @@ const ProjectSettingsModal = (): JSX.Element => {
                 <InputLabel inputId="projectSettingsDirectoryPath">
                   Project files will be saved to...
                 </InputLabel>
-                <InputText
-                  id="projectSettingsDirectoryPath"
-                  value={makeProjectDirectory(project)}
-                  placeholder="Untitled Movie"
-                  disabled
-                />
+                {workingDirectory && (
+                  <InputText
+                    id="projectSettingsDirectoryPath"
+                    value={`./${workingDirectory.friendlyName}/${makeProjectDirectoryName(
+                      project
+                    )}`}
+                    placeholder="Untitled Movie"
+                    disabled
+                  />
+                )}
+                <Button title="Choose Folder" onClick={changeWorkingDirectory} />
               </InputGroup>
             </ContentBlock>
           </Content>

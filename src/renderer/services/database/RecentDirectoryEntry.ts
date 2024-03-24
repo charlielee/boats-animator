@@ -11,7 +11,7 @@ export interface RecentDirectoryEntry {
   id: RecentDirectoryId;
   type: RecentDirectoryType;
   friendlyName: string;
-  fileSystemDirectoryHandle: FileSystemDirectoryHandle;
+  handle: FileSystemDirectoryHandle;
 }
 
 export const getWorkingDirectory = async () =>
@@ -19,21 +19,30 @@ export const getWorkingDirectory = async () =>
     type: RecentDirectoryType.WORKING_DIRECTORY,
   });
 
-export const putOrAddWorkingDirectory = async (
-  fileSystemDirectoryHandle: FileSystemDirectoryHandle
-) => {
+export const putOrAddWorkingDirectory = async (handle: FileSystemDirectoryHandle) => {
+  const workingDirectory = await getWorkingDirectory();
   const newEntry: RecentDirectoryEntry = {
-    id: uuidv4(),
+    id: workingDirectory?.id ?? uuidv4(),
     type: RecentDirectoryType.WORKING_DIRECTORY,
-    friendlyName: fileSystemDirectoryHandle.name,
-    fileSystemDirectoryHandle,
+    friendlyName: handle.name,
+    handle,
   };
 
-  if (await getWorkingDirectory()) {
-    await db.recentDirectories.put(newEntry);
-  } else {
-    await db.recentDirectories.add(newEntry);
-  }
+  await db.recentDirectories.put(newEntry);
 
   return newEntry;
+};
+
+export const addProjectDirectory = async (
+  friendlyName: string,
+  handle: FileSystemDirectoryHandle
+) => {
+  const recentDirectoryEntry: RecentDirectoryEntry = {
+    id: uuidv4(),
+    type: RecentDirectoryType.PROJECT,
+    friendlyName,
+    handle,
+  };
+  await db.recentDirectories.add(recentDirectoryEntry);
+  return recentDirectoryEntry;
 };

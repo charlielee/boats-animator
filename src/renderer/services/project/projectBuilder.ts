@@ -60,13 +60,13 @@ export const makeFrameTrackItem = (
   trackGroupId: trackGroupId ?? uuidv4(),
 });
 
-export const makeProjectDirectory = (project: Project) =>
+export const makeProjectDirectoryName = (project: Project) =>
   `${project.fileName}.${PROJECT_DIRECTORY_EXTENSION}`;
 
-// TODO
+// TODO makeTakeDirectoryName
 export const makeTakeDirectoryPath = (project: Project, take: Take) =>
   window.preload.joinPath(
-    makeProjectDirectory(project),
+    makeProjectDirectoryName(project),
     `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`
   );
 

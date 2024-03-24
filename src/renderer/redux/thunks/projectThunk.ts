@@ -1,34 +1,12 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { Project } from "../../../common/project/Project";
-import { db } from "../../services/database/Database";
 import {
-  RecentDirectoryEntry,
-  RecentDirectoryType,
+  addProjectDirectory,
   getWorkingDirectory,
-  putOrAddWorkingDirectory,
 } from "../../services/database/RecentDirectoryEntry";
-import {
-  formatProjectName,
-  makeProjectDirectory,
-  makeTake,
-} from "../../services/project/projectBuilder";
-import { addProject, addTake, setRecentDirectoryId } from "../slices/projectSlice";
+import { makeProjectDirectoryName, makeTake } from "../../services/project/projectBuilder";
+import { addProject, addTake, setProjectDirectoryId } from "../slices/projectSlice";
 import { RootState } from "../store";
-import { v4 as uuidv4 } from "uuid";
-
-export const changeWorkingDirectory = () => {
-  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
-    return (async () => {
-      const workingDirectoryHandle = await window.showDirectoryPicker({
-        id: "changeWorkingDirectory",
-        mode: "readwrite",
-        startIn: "documents",
-      });
-      const recentDirectoryEntry = await putOrAddWorkingDirectory(workingDirectoryHandle);
-      dispatch(setRecentDirectoryId(recentDirectoryEntry.id));
-    })();
-  };
-};
 
 export const newProject = (project: Project) => {
   return (dispatch: ThunkDispatch<RootState, void, Action>) => {
@@ -38,21 +16,12 @@ export const newProject = (project: Project) => {
         throw "Unable to create a new project without a working directory selected";
       }
 
-      const projectDirectory = makeProjectDirectory(project);
-      const projectDirectoryHandle =
-        await workingDirectory.fileSystemDirectoryHandle.getDirectoryHandle(projectDirectory);
+      const directoryName = makeProjectDirectoryName(project);
+      const projectHandle = await workingDirectory.handle.getDirectoryHandle(directoryName);
+      const projectDirectory = await addProjectDirectory(project.name, projectHandle);
 
-      const name = formatProjectName(project.name);
-      const recentDirectoryEntry: RecentDirectoryEntry = {
-        id: uuidv4(),
-        type: RecentDirectoryType.PROJECT,
-        friendlyName: name,
-        fileSystemDirectoryHandle: projectDirectoryHandle,
-      };
-      await db.recentDirectories.add(recentDirectoryEntry);
-
-      const formattedProject: Project = { ...project, name: name };
-      dispatch(addProject(formattedProject));
+      dispatch(addProject(project));
+      dispatch(setProjectDirectoryId(projectDirectory.id));
 
       const take = makeTake({
         shotNumber: 1,
@@ -60,8 +29,6 @@ export const newProject = (project: Project) => {
         frameRate: 15,
       });
       dispatch(addTake(take));
-      // Todo async behave not quite right
-      // Todo review the hook related to useLiveQuery
     })();
   };
 };

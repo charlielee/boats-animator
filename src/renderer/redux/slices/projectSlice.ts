@@ -10,7 +10,7 @@ export interface ProjectState {
   fileRefs: FileRef[];
   take?: Take;
   playbackSpeed: number;
-  recentDirectoryId?: string;
+  projectDirectoryId?: RecentDirectoryId;
 }
 
 const initialState: ProjectState = {
@@ -18,7 +18,7 @@ const initialState: ProjectState = {
   fileRefs: [],
   take: undefined,
   playbackSpeed: 1,
-  recentDirectoryId: undefined,
+  projectDirectoryId: undefined,
 };
 
 const projectSlice = createSlice({
@@ -51,8 +51,8 @@ const projectSlice = createSlice({
       state.take = action.payload;
     },
 
-    setRecentDirectoryId: (state, action: PayloadAction<RecentDirectoryId>) => {
-      state.recentDirectoryId = action.payload;
+    setProjectDirectoryId: (state, action: PayloadAction<RecentDirectoryId>) => {
+      state.projectDirectoryId = action.payload;
     },
   },
 });
@@ -64,7 +64,7 @@ export const {
   setPlaybackSpeed,
   addFileRef,
   addTake,
-  setRecentDirectoryId,
+  setProjectDirectoryId,
 } = projectSlice.actions;
 
 export const projectReducer = projectSlice.reducer;
