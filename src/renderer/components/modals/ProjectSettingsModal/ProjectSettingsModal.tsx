@@ -9,7 +9,7 @@ import { RootState } from "../../../redux/store";
 import {
   formatProjectName,
   makeProject,
-  makeProjectDirectoryPath,
+  makeProjectDirectory,
 } from "../../../services/project/projectBuilder";
 import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";
@@ -30,18 +30,9 @@ const ProjectSettingsModal = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
-  const { currentProject, defaultWorkingDirectory } = useSelector((state: RootState) => ({
-    currentProject: state.project.project,
-    defaultWorkingDirectory: state.app.userPreferences.defaultWorkingDirectory,
-  }));
+  const currentProject = useSelector((state: RootState) => state.project.project);
 
-  if (defaultWorkingDirectory === undefined) {
-    throw "No working directory has been selected";
-  }
-
-  const [project, setProject] = useState(
-    currentProject ?? makeProject({ name: "", workingDirectory: defaultWorkingDirectory })
-  );
+  const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));
 
   const onRenameProject = (newName: string) =>
     setProject((prevState) => makeProject({ ...prevState, name: newName }));
@@ -79,7 +70,7 @@ const ProjectSettingsModal = (): JSX.Element => {
                 </InputLabel>
                 <InputText
                   id="projectSettingsDirectoryPath"
-                  value={makeProjectDirectoryPath(project)}
+                  value={makeProjectDirectory(project)}
                   placeholder="Untitled Movie"
                   disabled
                 />

@@ -17,17 +17,9 @@ interface ProjectBuilderOptions {
   frameRate: number;
 }
 
-export const makeProject = ({
-  name,
-  workingDirectory,
-}: {
-  name: string;
-  workingDirectory: string;
-}): Project => ({
-  id: uuidv4(),
+export const makeProject = ({ name }: { name: string }): Project => ({
   name: name.substring(0, 256),
   fileName: makeProjectFileName(name),
-  workingDirectory,
 });
 
 const makeProjectFileName = (name: string) => {
@@ -68,18 +60,13 @@ export const makeFrameTrackItem = (
   trackGroupId: trackGroupId ?? uuidv4(),
 });
 
-export const makeProjectDirectoryPath = (project: Project) =>
-  window.preload.joinPath(
-    project.workingDirectory,
-    `${project.fileName}.${PROJECT_DIRECTORY_EXTENSION}`
-  );
-
-export const makeProjectDirectory2 = (project: Project) =>
+export const makeProjectDirectory = (project: Project) =>
   `${project.fileName}.${PROJECT_DIRECTORY_EXTENSION}`;
 
+// TODO
 export const makeTakeDirectoryPath = (project: Project, take: Take) =>
   window.preload.joinPath(
-    makeProjectDirectoryPath(project),
+    makeProjectDirectory(project),
     `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`
   );
 

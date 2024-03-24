@@ -9,11 +9,10 @@ import {
 } from "../../services/database/RecentDirectoryEntry";
 import {
   formatProjectName,
-  makeProjectDirectory2,
+  makeProjectDirectory,
   makeTake,
 } from "../../services/project/projectBuilder";
-import { editUserPreferences } from "../slices/appSlice";
-import { addProject, addTake } from "../slices/projectSlice";
+import { addProject, addTake, setRecentDirectoryId } from "../slices/projectSlice";
 import { RootState } from "../store";
 import { v4 as uuidv4 } from "uuid";
 
@@ -25,13 +24,8 @@ export const changeWorkingDirectory = () => {
         mode: "readwrite",
         startIn: "documents",
       });
-      const workingDirectoryEntry = await putOrAddWorkingDirectory(workingDirectoryHandle);
-
-      dispatch(
-        editUserPreferences({
-          defaultWorkingDirectory: workingDirectoryEntry.friendlyName,
-        })
-      );
+      const recentDirectoryEntry = await putOrAddWorkingDirectory(workingDirectoryHandle);
+      dispatch(setRecentDirectoryId(recentDirectoryEntry.id));
     })();
   };
 };
@@ -44,7 +38,7 @@ export const newProject = (project: Project) => {
         throw "Unable to create a new project without a working directory selected";
       }
 
-      const projectDirectory = makeProjectDirectory2(project);
+      const projectDirectory = makeProjectDirectory(project);
       const projectDirectoryHandle =
         await workingDirectory.fileSystemDirectoryHandle.getDirectoryHandle(projectDirectory);
 
