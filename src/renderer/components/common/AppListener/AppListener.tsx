@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import { RootState } from "../../../redux/store";
-import { loadSavedPreferences, onRouteChange } from "../../../redux/thunks";
+import {
+  loadSavedPreferences,
+  onRouteChange,
+  updateCameraAccessStatus,
+} from "../../../redux/thunks";
 import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
 import * as rLogger from "../../../services/rLogger/rLogger";
 
@@ -17,6 +21,7 @@ const AppListeners = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(loadSavedPreferences());
+    dispatch(updateCameraAccessStatus());
   }, [dispatch]);
 
   // Handle pressing the close button

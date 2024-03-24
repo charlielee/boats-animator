@@ -8,7 +8,7 @@ interface AppState {
 }
 
 const initialState: AppState = {
-  hasCameraAccess: true,
+  hasCameraAccess: false,
   loadingMessage: undefined,
   userPreferences: defaultUserPreferences,
 };
