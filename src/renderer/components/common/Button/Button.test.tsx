@@ -10,11 +10,11 @@ it("should call onClick when button is clicked", async () => {
   const onClick = jest.fn();
   renderWithProviders(<Button title={buttonTitle} onClick={onClick} />);
 
-  expect(onClick).not.toBeCalled();
+  expect(onClick).not.toHaveBeenCalled();
 
   await userEvent.click(getButton());
 
-  expect(onClick).toBeCalled();
+  expect(onClick).toHaveBeenCalled();
 });
 
 it("should not call onClick when button is disabled", async () => {
@@ -24,6 +24,6 @@ it("should not call onClick when button is disabled", async () => {
 
   await userEvent.click(getButton());
 
-  expect(onClick).not.toBeCalled();
+  expect(onClick).not.toHaveBeenCalled();
   expect(getButton()).toBeDisabled();
 });
