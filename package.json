@@ -40,8 +40,8 @@
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "1.1.0",
     "@reduxjs/toolkit": "^2.2.2",
-    "classnames": "^2.3.1",
-    "dexie": "^3.2.4",
+    "classnames": "^2.5.1",
+    "dexie": "^3.2.7",
     "dexie-react-hooks": "^1.1.7",
     "electron-store": "^8.2.0",
     "fast-glob": "^3.3.2",
@@ -49,7 +49,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.3.1",
     "react-redux": "^9.1.0",
-    "react-router-dom": "^6.3.0",
+    "react-router-dom": "^6.22.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
@@ -63,9 +63,9 @@
     "@types/react-dom": "^18.2",
     "@types/testing-library__jest-dom": "^5.14.9",
     "@types/uuid": "^9.0.8",
-    "@types/w3c-image-capture": "^1.0.5",
+    "@types/w3c-image-capture": "^1.0.10",
     "@types/webpack-node-externals": "^3.0.4",
-    "@types/wicg-file-system-access": "^2023.10.4",
+    "@types/wicg-file-system-access": "^2023.10.5",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
     "cross-env": "^7.0.3",
