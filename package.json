@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "npm-run-all -p dev:react electron:serve",
-    "test": "npx jest",
+    "test": "jest",
     "test-watch": "npm run test -- --watch",
     "tsc": "tsc",
     "lint": "eslint",
