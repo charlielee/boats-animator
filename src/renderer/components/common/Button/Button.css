@@ -72,11 +72,12 @@
 .button--disabled:hover,
 .button--disabled:active {
   background-color: var(--ba-border-active);
+  cursor: not-allowed;
 }
 
 .button--color-transparent.button--disabled,
-.button--disabled:hover.button--disabled,
-.button--disabled:active.button--disabled {
+.button--color-transparent.button--disabled:hover.button--disabled,
+.button--color-transparent.button--disabled:active.button--disabled {
   background-color: transparent;
   color: var(--ba-dark-active);
 }

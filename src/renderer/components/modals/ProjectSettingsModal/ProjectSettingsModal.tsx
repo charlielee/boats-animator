@@ -4,8 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import { DEFAULT_PROJECT_NAME } from "../../../../common/utils";
+import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import { updateProject } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
+import { newProject } from "../../../redux/thunks/projectThunk";
+import { putOrAddWorkingDirectory } from "../../../services/database/RecentDirectoryEntry";
 import {
   formatProjectName,
   makeProject,
@@ -24,11 +27,6 @@ import ModalFooter from "../../common/ModalFooter/ModalFooter";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
-import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
-import { putOrAddWorkingDirectory } from "../../../services/database/RecentDirectoryEntry";
-import { newProject } from "../../../redux/thunks/projectThunk";
-import NoWorkingDirectoryError from "../../../redux/thunks/NoWorkingDirectoryError";
-import * as rLogger from "../../../services/rLogger/rLogger";
 
 const ProjectSettingsModal = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -56,20 +54,7 @@ const ProjectSettingsModal = (): JSX.Element => {
     if (currentProject) {
       dispatch(updateProject(formattedProject));
     } else {
-      try {
-        await dispatch(newProject(formattedProject));
-      } catch (e) {
-        if (e instanceof NoWorkingDirectoryError) {
-          // TODO show notification
-          // eslint-disable-next-line no-console
-          console.info(e.message);
-        } else if (e instanceof Error) {
-          rLogger.error("projectSettingsModal.newProject.unhandledError", {
-            name: e.name,
-            message: e.message,
-          });
-        }
-      }
+      await dispatch(newProject(formattedProject));
     }
 
     navigate(PageRoute.ANIMATOR);
@@ -119,6 +104,7 @@ const ProjectSettingsModal = (): JSX.Element => {
               title={currentProject ? "Update Project" : "Create Project"}
               icon={currentProject ? IconName.SAVE : IconName.ADD}
               onClick={onSubmitProjectSettings}
+              disabled={!workingDirectory}
             />
           </ToolbarItem>
         </Toolbar>
