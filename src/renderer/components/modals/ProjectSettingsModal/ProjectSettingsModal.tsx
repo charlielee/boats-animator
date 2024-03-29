@@ -95,14 +95,16 @@ const ProjectSettingsModal = (): JSX.Element => {
                     readOnly
                   />
                 )}
-                <Button
-                  title="Choose Folder"
-                  onClick={changeWorkingDirectory}
-                  className={classNames("project-settings-modal__choose-folder-button", {
-                    "project-settings-modal__choose-folder-button--no-working-directory":
-                      !workingDirectory,
-                  })}
-                />
+                {!currentProject && (
+                  <Button
+                    title="Choose Folder"
+                    onClick={changeWorkingDirectory}
+                    className={classNames("project-settings-modal__choose-folder-button", {
+                      "project-settings-modal__choose-folder-button--no-working-directory":
+                        !workingDirectory,
+                    })}
+                  />
+                )}
               </InputGroup>
             </ContentBlock>
           </Content>
