@@ -29,6 +29,7 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import "./ProjectSettingsModal.css";
 import classNames from "classnames";
+import FileManager from "../../../services/fileManager/FileManager";
 
 const ProjectSettingsModal = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -42,12 +43,12 @@ const ProjectSettingsModal = (): JSX.Element => {
     setProject((prevState) => makeProject({ ...prevState, name: newName }));
 
   const changeWorkingDirectory = async () => {
-    const workingDirectoryHandle = await window.showDirectoryPicker({
-      id: "changeWorkingDirectory",
-      mode: "readwrite",
-      startIn: "documents",
-    });
-    await putOrAddWorkingDirectory(workingDirectoryHandle);
+    const workingDirectoryHandle =
+      await FileManager.openDirectoryDialogHandleCancel("changeWorkingDirectory");
+
+    if (workingDirectoryHandle) {
+      await putOrAddWorkingDirectory(workingDirectoryHandle);
+    }
   };
 
   const onSubmitProjectSettings = async () => {
