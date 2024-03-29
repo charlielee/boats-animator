@@ -11,7 +11,7 @@ interface ModalProps {
 
 const Modal = ({ children, onClose }: ModalProps): JSX.Element => {
   return (
-    <div className="modal">
+    <div className="modal" role="dialog">
       <div className="modal__content">
         {onClose !== undefined && (
           <IconButton

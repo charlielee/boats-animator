@@ -30,8 +30,9 @@ import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarI
 import "./ProjectSettingsModal.css";
 import classNames from "classnames";
 import FileManager from "../../../services/fileManager/FileManager";
+import { JSXElementWithTestIds } from "../../../types";
 
-const ProjectSettingsModal = (): JSX.Element => {
+const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
@@ -103,6 +104,7 @@ const ProjectSettingsModal = (): JSX.Element => {
                       "project-settings-modal__choose-folder-button--no-working-directory":
                         !workingDirectory,
                     })}
+                    testid={ProjectSettingsModal.testIds.chooseFolderButton}
                   />
                 )}
               </InputGroup>
@@ -119,12 +121,18 @@ const ProjectSettingsModal = (): JSX.Element => {
               icon={currentProject ? IconName.SAVE : IconName.ADD}
               onClick={onSubmitProjectSettings}
               disabled={!workingDirectory}
+              testid={ProjectSettingsModal.testIds.submitButton}
             />
           </ToolbarItem>
         </Toolbar>
       </ModalFooter>
     </Modal>
   );
+};
+
+ProjectSettingsModal.testIds = {
+  chooseFolderButton: "ProjectSettingsModal.chooseFolderButton",
+  submitButton: "ProjectSettingsModal.submitButton",
 };
 
 export default ProjectSettingsModal;
