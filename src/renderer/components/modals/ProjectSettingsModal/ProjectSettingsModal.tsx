@@ -27,6 +27,8 @@ import ModalFooter from "../../common/ModalFooter/ModalFooter";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
+import "./ProjectSettingsModal.css";
+import classNames from "classnames";
 
 const ProjectSettingsModal = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -87,10 +89,17 @@ const ProjectSettingsModal = (): JSX.Element => {
                       project
                     )}`}
                     placeholder="Untitled Movie"
-                    disabled
+                    readOnly
                   />
                 )}
-                <Button title="Choose Folder" onClick={changeWorkingDirectory} />
+                <Button
+                  title="Choose Folder"
+                  onClick={changeWorkingDirectory}
+                  className={classNames("project-settings-modal__choose-folder-button", {
+                    "project-settings-modal__choose-folder-button--no-working-directory":
+                      !workingDirectory,
+                  })}
+                />
               </InputGroup>
             </ContentBlock>
           </Content>
