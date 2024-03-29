@@ -38,6 +38,8 @@ const ProjectSettingsModal = (): JSX.Element => {
   const currentProject = useSelector((state: RootState) => state.project.project);
   const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));
   const workingDirectory = useWorkingDirectory();
+  const projectDisplayedName =
+    currentProject && project.name === DEFAULT_PROJECT_NAME ? "" : project.name;
 
   const onRenameProject = (newName: string) =>
     setProject((prevState) => makeProject({ ...prevState, name: newName }));
@@ -73,7 +75,7 @@ const ProjectSettingsModal = (): JSX.Element => {
                 <InputLabel inputId="projectSettingsName">Project Name</InputLabel>
                 <InputText
                   id="projectSettingsName"
-                  value={project.name === DEFAULT_PROJECT_NAME ? "" : project.name}
+                  value={projectDisplayedName}
                   placeholder="Untitled Movie"
                   onChange={onRenameProject}
                 />
