@@ -49,6 +49,8 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
     const workingDirectoryHandle =
       await FileManager.openDirectoryDialogHandleCancel("changeWorkingDirectory");
 
+    console.log("handle");
+
     if (workingDirectoryHandle) {
       await putOrAddWorkingDirectory(workingDirectoryHandle);
     }
@@ -79,6 +81,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
                   value={projectDisplayedName}
                   placeholder="Untitled Movie"
                   onChange={onRenameProject}
+                  testId={ProjectSettingsModal.testIds.nameInput}
                 />
               </InputGroup>
 
@@ -94,6 +97,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
                     )}`}
                     placeholder="Untitled Movie"
                     readOnly
+                    testId={ProjectSettingsModal.testIds.directoryPathInput}
                   />
                 )}
                 {!currentProject && (
@@ -104,7 +108,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
                       "project-settings-modal__choose-folder-button--no-working-directory":
                         !workingDirectory,
                     })}
-                    testid={ProjectSettingsModal.testIds.chooseFolderButton}
+                    testId={ProjectSettingsModal.testIds.chooseFolderButton}
                   />
                 )}
               </InputGroup>
@@ -121,7 +125,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
               icon={currentProject ? IconName.SAVE : IconName.ADD}
               onClick={onSubmitProjectSettings}
               disabled={!workingDirectory}
-              testid={ProjectSettingsModal.testIds.submitButton}
+              testId={ProjectSettingsModal.testIds.submitButton}
             />
           </ToolbarItem>
         </Toolbar>
@@ -131,6 +135,8 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
 };
 
 ProjectSettingsModal.testIds = {
+  nameInput: "ProjectSettingsModal.nameInput",
+  directoryPathInput: "ProjectSettingsModal.directoryPathInput",
   chooseFolderButton: "ProjectSettingsModal.chooseFolderButton",
   submitButton: "ProjectSettingsModal.submitButton",
 };
