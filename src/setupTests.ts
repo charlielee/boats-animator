@@ -20,3 +20,5 @@ window.preload = api;
 // Dexie expects window.indexedDB to be defined which isn't available in the Jest environment
 Dexie.dependencies.indexedDB = fakeIndexedDB;
 Dexie.dependencies.IDBKeyRange = FDBKeyRange;
+
+// window.
