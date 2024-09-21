@@ -31,7 +31,7 @@ If you find a bug or want to suggest an improvement:
 
 If you're working on an improvement to Boats Animator it is usually good practise to add a comment to the [relevant issue](https://github.com/charlielee/boats-animator/issues). Once you are ready to submit your changes you should:
 
-- Create a [new pull request](https://github.com/charlielee/boats-animator/pull/new/master) with a clear list of what you've done _([read more about pull requests](http://help.github.com/pull-requests/))_.
+- Create a [new pull request](https://github.com/charlielee/boats-animator/pull/new/main) with a clear list of what you've done _([read more about pull requests](http://help.github.com/pull-requests/))_.
 - The pull request should reference any relevant issues and have a clear title.
 - The log messages for any commits should also be clear.
 - The coding conventions for Boats Animator should be followed.

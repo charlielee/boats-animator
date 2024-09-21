@@ -51,7 +51,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
 
     console.log("handle");
 
-    if (workingDirectoryHandle) {
+    if (workingDirectoryHandle !== undefined) {
       await putOrAddWorkingDirectory(workingDirectoryHandle);
     }
   };

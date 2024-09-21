@@ -39,9 +39,7 @@ const Button = ({
 }: ButtonProps): JSX.Element => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    typeof onClick === "string" ? navigate(onClick) : onClick();
-  };
+  const handleClick = () => (typeof onClick === "string" ? navigate(onClick) : onClick());
 
   return (
     <button

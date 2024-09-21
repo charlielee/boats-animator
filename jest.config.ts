@@ -1,8 +1,8 @@
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+/** @type {import('ts-jest').JestConfigWithTsJest} **/
 export default {
   testEnvironment: "./FixJSDOMEnvironment.ts",
   transform: {
-    ".(ts|tsx)": "ts-jest",
+    "^.+.tsx?$": ["ts-jest", {}],
   },
   testRegex: "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
   moduleFileExtensions: ["ts", "tsx", "js"],

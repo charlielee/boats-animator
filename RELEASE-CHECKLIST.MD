@@ -6,7 +6,7 @@ The following steps should be taken when a new release of Boats Animator is read
 
 - [ ] Ensure documentation and screenshots are up to date
 - [ ] Check Electron's breaking changes https://www.electronjs.org/docs/latest/breaking-changes
-- [ ] Bump version in `package.json`, run `npm install` and push to `master`
+- [ ] Bump version in `package.json`, run `npm install` and push to `main`
 
 ## Build
 
