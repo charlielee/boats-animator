@@ -15,7 +15,7 @@ Boats Animator is a free stop motion animation program, that rocks! It is availa
 - **Export Video** - Share your animation by exporting it to a video file or "conforming" the image files for use in video editing software.
 
 > **Important**
-> This project is currently undergoing a complete rewrite to use React, TypeScript and Electron. As a result, the `master` branch is missing many features from the last released version. Check the [GitHub Project](https://github.com/users/charlielee/projects/1) to keep up on progress.
+> This project is currently undergoing a complete rewrite to use React, TypeScript and Electron. As a result, the `main` branch is missing many features from the last released version. Check the [GitHub Project](https://github.com/users/charlielee/projects/1) to keep up on progress.
 
 ## Downloads
 
@@ -23,7 +23,7 @@ Boats Animator can be downloaded from the [releases section](https://github.com/
 
 ## Contributing
 
-More information about contributing to Boats Animator can be found in [CONTRIBUTING.md](https://github.com/charlielee/boats-animator/blob/master/CONTRIBUTING.md).
+More information about contributing to Boats Animator can be found in [CONTRIBUTING.md](https://github.com/charlielee/boats-animator/blob/main/CONTRIBUTING.md).
 
 ## License
 
