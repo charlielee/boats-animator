@@ -18,7 +18,8 @@ nativeTheme.themeSource = "dark";
 
 logger.initialize();
 
-// Electron does not support writing with the File System Access API
+// Electron does not support writing with the File System Access API without this flag enabled
+// There is partial implementation in v30 but it does not support persistent permissions so we are stuck on v29 for now
 // https://github.com/electron/electron/issues/28422
 app.commandLine.appendSwitch("enable-experimental-web-platform-features");
 
