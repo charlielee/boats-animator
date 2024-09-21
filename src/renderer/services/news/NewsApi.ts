@@ -20,7 +20,7 @@ export const fetchRecent = async (): Promise<NewsResponse> => {
     }));
 
     return { ...newsResponse, posts: transformPosts };
-  } catch (e) {
+  } catch {
     rLogger.warn("newsApi.fetchRecent.error", "Unable to download news posts");
     throw new NewsDownloadError();
   }
