@@ -1,8 +1,8 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import FileManager from "../../../services/fileManager/FileManager";
 import { renderWithProviders } from "../../../testing/TestHelper";
 import ProjectSettingsModal from "./ProjectSettingsModal";
+import { mockGetWorkingDirectory, mockOpenDirectoryDialog } from "../../../testing/mockFileAccess";
 
 const getModal = () => screen.getByRole("dialog");
 const modalTitle = () => screen.getByRole("heading");
@@ -40,9 +40,9 @@ describe("new project", () => {
 
   it("should be able to fill in and submit form ", async () => {
     const workingDirectoryName = "dirname";
-    // const mockOpenDirectoryDialog = jest
-    //   .spyOn(FileManager, "openDirectoryDialogHandleCancel")
-    //   .mockImplementation(() => Promise.resolve({ name: workingDirectoryName }) as any);
+    const mockedOpenDirectoryDialog = mockOpenDirectoryDialog(workingDirectoryName);
+    mockGetWorkingDirectory();
+
     renderWithProviders(<ProjectSettingsModal />);
 
     await userEvent.type(nameInput(), "My Movie");
@@ -52,8 +52,7 @@ describe("new project", () => {
 
     await userEvent.click(chooseFolderButton());
 
-    // expect(mockOpenDirectoryDialog).toHaveBeenCalledWith("changeWorkingDirectory");
-
+    expect(mockedOpenDirectoryDialog).toHaveBeenCalledWith("changeWorkingDirectory");
     await waitFor(() =>
       expect(directoryPathInput()).toHaveValue(`./${workingDirectoryName}/My-Movie.bafiles`)
     );

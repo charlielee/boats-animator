@@ -49,8 +49,6 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
     const workingDirectoryHandle =
       await FileManager.openDirectoryDialogHandleCancel("changeWorkingDirectory");
 
-    console.log("handle");
-
     if (workingDirectoryHandle !== undefined) {
       await putOrAddWorkingDirectory(workingDirectoryHandle);
     }

@@ -3,7 +3,7 @@ import { db } from "../services/database/Database";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
-const useWorkingDirectory = () => {
+const useProjectDirectory = () => {
   const projectDirectoryId = useSelector((state: RootState) => state.project.projectDirectoryId);
   const recentDirectoryEntry = useLiveQuery(
     () => db.recentDirectories.get(projectDirectoryId ?? ""),
@@ -13,4 +13,4 @@ const useWorkingDirectory = () => {
   return recentDirectoryEntry;
 };
 
-export default useWorkingDirectory;
+export default useProjectDirectory;
