@@ -19,6 +19,7 @@ export interface ButtonProps {
   borderRadius?: "left" | "right" | "all";
   onClick: (() => void) | PageRoute;
   disabled?: boolean;
+  testId?: string;
 }
 
 const Button = ({
@@ -34,6 +35,7 @@ const Button = ({
   borderRadius = "all",
   onClick,
   disabled = false,
+  testId,
 }: ButtonProps): JSX.Element => {
   const navigate = useNavigate();
 
@@ -55,6 +57,7 @@ const Button = ({
       onClick={() => (disabled ? undefined : handleClick())}
       disabled={disabled}
       aria-disabled={disabled ? "true" : "false"}
+      data-testid={testId}
     >
       {icon !== undefined && (
         <div className={classNames("button__icon-container", iconContainerClassName)}>

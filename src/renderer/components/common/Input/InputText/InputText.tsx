@@ -3,10 +3,20 @@ interface InputTextProps {
   value: string;
   placeholder?: string;
   disabled?: boolean;
+  readOnly?: boolean;
+  testId?: string;
   onChange?(newValue: string): void;
 }
 
-const InputText = ({ id, value, placeholder, disabled, onChange }: InputTextProps): JSX.Element => {
+const InputText = ({
+  id,
+  value,
+  placeholder,
+  disabled,
+  readOnly,
+  testId,
+  onChange,
+}: InputTextProps): JSX.Element => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     onChange?.(event.target.value);
 
@@ -18,6 +28,8 @@ const InputText = ({ id, value, placeholder, disabled, onChange }: InputTextProp
       value={value}
       placeholder={placeholder}
       disabled={disabled}
+      readOnly={readOnly}
+      data-testid={testId}
     />
   );
 };

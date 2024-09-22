@@ -4,8 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import { DEFAULT_PROJECT_NAME } from "../../../../common/utils";
+import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import { updateProject } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
+import { newProject } from "../../../redux/thunks/projectThunk";
+import { putOrAddWorkingDirectory } from "../../../services/database/RecentDirectoryEntry";
 import {
   formatProjectName,
   makeProject,
@@ -24,30 +27,31 @@ import ModalFooter from "../../common/ModalFooter/ModalFooter";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
-import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
-import { putOrAddWorkingDirectory } from "../../../services/database/RecentDirectoryEntry";
-import { newProject } from "../../../redux/thunks/projectThunk";
-import NoWorkingDirectoryError from "../../../redux/thunks/NoWorkingDirectoryError";
-import * as rLogger from "../../../services/rLogger/rLogger";
+import "./ProjectSettingsModal.css";
+import classNames from "classnames";
+import FileManager from "../../../services/fileManager/FileManager";
+import { JSXElementWithTestIds } from "../../../types";
 
-const ProjectSettingsModal = (): JSX.Element => {
+const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
   const currentProject = useSelector((state: RootState) => state.project.project);
   const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));
   const workingDirectory = useWorkingDirectory();
+  const projectDisplayedName =
+    currentProject && project.name === DEFAULT_PROJECT_NAME ? "" : project.name;
 
   const onRenameProject = (newName: string) =>
     setProject((prevState) => makeProject({ ...prevState, name: newName }));
 
   const changeWorkingDirectory = async () => {
-    const workingDirectoryHandle = await window.showDirectoryPicker({
-      id: "changeWorkingDirectory",
-      mode: "readwrite",
-      startIn: "documents",
-    });
-    await putOrAddWorkingDirectory(workingDirectoryHandle);
+    const workingDirectoryHandle =
+      await FileManager.openDirectoryDialogHandleCancel("changeWorkingDirectory");
+
+    if (workingDirectoryHandle !== undefined) {
+      await putOrAddWorkingDirectory(workingDirectoryHandle);
+    }
   };
 
   const onSubmitProjectSettings = async () => {
@@ -56,20 +60,7 @@ const ProjectSettingsModal = (): JSX.Element => {
     if (currentProject) {
       dispatch(updateProject(formattedProject));
     } else {
-      try {
-        await dispatch(newProject(formattedProject));
-      } catch (e) {
-        if (e instanceof NoWorkingDirectoryError) {
-          // TODO show notification
-          // eslint-disable-next-line no-console
-          console.info(e.message);
-        } else if (e instanceof Error) {
-          rLogger.error("projectSettingsModal.newProject.unhandledError", {
-            name: e.name,
-            message: e.message,
-          });
-        }
-      }
+      await dispatch(newProject(formattedProject));
     }
 
     navigate(PageRoute.ANIMATOR);
@@ -85,9 +76,10 @@ const ProjectSettingsModal = (): JSX.Element => {
                 <InputLabel inputId="projectSettingsName">Project Name</InputLabel>
                 <InputText
                   id="projectSettingsName"
-                  value={project.name === DEFAULT_PROJECT_NAME ? "" : project.name}
+                  value={projectDisplayedName}
                   placeholder="Untitled Movie"
                   onChange={onRenameProject}
+                  testId={ProjectSettingsModal.testIds.nameInput}
                 />
               </InputGroup>
 
@@ -102,10 +94,21 @@ const ProjectSettingsModal = (): JSX.Element => {
                       project
                     )}`}
                     placeholder="Untitled Movie"
-                    disabled
+                    readOnly
+                    testId={ProjectSettingsModal.testIds.directoryPathInput}
                   />
                 )}
-                <Button title="Choose Folder" onClick={changeWorkingDirectory} />
+                {!currentProject && (
+                  <Button
+                    title="Choose Folder"
+                    onClick={changeWorkingDirectory}
+                    className={classNames("project-settings-modal__choose-folder-button", {
+                      "project-settings-modal__choose-folder-button--no-working-directory":
+                        !workingDirectory,
+                    })}
+                    testId={ProjectSettingsModal.testIds.chooseFolderButton}
+                  />
+                )}
               </InputGroup>
             </ContentBlock>
           </Content>
@@ -119,12 +122,21 @@ const ProjectSettingsModal = (): JSX.Element => {
               title={currentProject ? "Update Project" : "Create Project"}
               icon={currentProject ? IconName.SAVE : IconName.ADD}
               onClick={onSubmitProjectSettings}
+              disabled={!workingDirectory}
+              testId={ProjectSettingsModal.testIds.submitButton}
             />
           </ToolbarItem>
         </Toolbar>
       </ModalFooter>
     </Modal>
   );
+};
+
+ProjectSettingsModal.testIds = {
+  nameInput: "ProjectSettingsModal.nameInput",
+  directoryPathInput: "ProjectSettingsModal.directoryPathInput",
+  chooseFolderButton: "ProjectSettingsModal.chooseFolderButton",
+  submitButton: "ProjectSettingsModal.submitButton",
 };
 
 export default ProjectSettingsModal;
