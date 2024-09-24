@@ -1,8 +1,10 @@
 import * as rLogger from "../../services/rLogger/rLogger";
+import BoatsCameraDevice from "./BoatsCameraDevice";
 import WebMediaDevice from "./WebMediaDevice";
 
 export enum ImagingDeviceType {
   WEB_MEDIA = "WEB_MEDIA",
+  BOATS_CAMERA = "BOATS_CAMERA",
 }
 
 export interface ImagingDeviceIdentifier {
@@ -27,7 +29,8 @@ export interface ImagingDevice {
 export const listDevices = async (): Promise<ImagingDeviceIdentifier[]> => {
   rLogger.info("imagingDevice.listDevices.start");
   const webMediaDevices = await WebMediaDevice.listDevices();
-  const allDevices = [...webMediaDevices];
+  const boatsCameraDevice = await BoatsCameraDevice.listDevices();
+  const allDevices = [...webMediaDevices, ...boatsCameraDevice];
   rLogger.info("imagingDevice.listDevices.end", `${allDevices.length} device(s) found`);
 
   return allDevices;
@@ -45,5 +48,7 @@ export const deviceIdentifierToDevice = (identifier: ImagingDeviceIdentifier): I
   switch (identifier.type) {
     case ImagingDeviceType.WEB_MEDIA:
       return new WebMediaDevice(identifier);
+    case ImagingDeviceType.BOATS_CAMERA:
+      return new BoatsCameraDevice(identifier);
   }
 };
