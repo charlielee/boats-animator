@@ -10,7 +10,21 @@ class BoatsCameraDevice implements ImagingDevice {
 
   async open(): Promise<boolean> {
     rLogger.info("boatsCameraDevice.open.start");
-    return Promise.resolve(true);
+
+    try {
+      await fetch("http://localhost:8000/camera/setActive", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cameraId: this.identifier.deviceId }),
+      });
+      // await fetch("http://localhost:8000/camera/liveview/start", {
+      //   method: "GET",
+      // });
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
 
     // try {
     //   this.stream = await navigator.mediaDevices.getUserMedia({
@@ -34,13 +48,22 @@ class BoatsCameraDevice implements ImagingDevice {
 
   close(): void {
     rLogger.info("boatsCameraDevice.close");
-    this.stream?.getTracks().forEach((track) => track.stop());
-    this.stream = undefined;
+    // this.stream?.getTracks().forEach((track) => track.stop());
+    // this.stream = undefined;
+
+    fetch("http://localhost:8000/camera/setActive", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cameraId: null }),
+    });
     // this.imageCapture = undefined;
   }
 
   async takePhoto(): Promise<Blob> {
-    return Promise.resolve(new Blob());
+    // todo check current camera is the active device
+
+    const response = await fetch("http://localhost:8000/camera/capture", { method: "GET" });
+    return response.blob();
     // if (!this.imageCapture) {
     //   throw "Device must be open before takePhoto can be called";
     // }
