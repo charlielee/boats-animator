@@ -1,10 +1,8 @@
 import * as rLogger from "../rLogger/rLogger";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
 
 class BoatsCameraDevice implements ImagingDevice {
   public stream?: MediaStream;
-  // private imageCapture?: ImageCapture;
 
   constructor(public identifier: ImagingDeviceIdentifier) {}
 
@@ -12,118 +10,60 @@ class BoatsCameraDevice implements ImagingDevice {
     rLogger.info("boatsCameraDevice.open.start");
 
     try {
-      await fetch("http://localhost:8000/camera/setActive", {
+      const response = await fetch("http://localhost:8000/camera/setActive", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ cameraId: this.identifier.deviceId }),
       });
-      // await fetch("http://localhost:8000/camera/liveview/start", {
-      //   method: "GET",
-      // });
-      return true;
+
+      if (response.ok) {
+        // this.stream = todo
+        return true;
+      } else {
+        const errorResponse = await response.json();
+        rLogger.error("boatsCameraDevice.takePhoto.errorResponse", errorResponse);
+        throw errorResponse.errorMessage;
+      }
     } catch (e) {
-      console.error(e);
+      rLogger.error("boatsCameraDevice.open.error", JSON.stringify(e));
       return false;
     }
-
-    // try {
-    //   this.stream = await navigator.mediaDevices.getUserMedia({
-    //     audio: false,
-    //     video: {
-    //       deviceId: { exact: this.identifier.deviceId },
-    //       width: { ideal: 1920 },
-    //     },
-    //   });
-    //   this.imageCapture = new ImageCapture(this.stream.getVideoTracks()[0]);
-    //   return true;
-    // } catch (e) {
-    //   if (e instanceof DOMException) {
-    //     rLogger.info("boatsCameraDevice.open.deviceError", `${e.name}: ${e.message}`);
-    //     return false;
-    //   } else {
-    //     throw e;
-    //   }
-    // }
   }
 
+  // todo should be async so we can check the response of the fetch is ok
   close(): void {
     rLogger.info("boatsCameraDevice.close");
-    // this.stream?.getTracks().forEach((track) => track.stop());
-    // this.stream = undefined;
+    this.stream?.getTracks().forEach((track) => track.stop());
+    this.stream = undefined;
 
     fetch("http://localhost:8000/camera/setActive", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cameraId: null }),
     });
-    // this.imageCapture = undefined;
   }
 
   async takePhoto(): Promise<Blob> {
     // todo check current camera is the active device
+    try {
+      const response = await fetch("http://localhost:8000/camera/capture", { method: "GET" });
 
-    const response = await fetch("http://localhost:8000/camera/capture", { method: "GET" });
-    return response.blob();
-    // if (!this.imageCapture) {
-    //   throw "Device must be open before takePhoto can be called";
-    // }
-
-    // rLogger.info("boatsCameraDevice.takePhoto");
-
-    // try {
-    //   return await this.imageCapture.takePhoto({
-    //     imageHeight: this.getStreamHeight(),
-    //     imageWidth: this.getStreamWidth(),
-    //   });
-    // } catch {
-    //   rLogger.info(
-    //     "boatsCameraDevice.grabFrameFallback",
-    //     "Error running takePhoto. Trying grabFrame instead."
-    //   );
-    //   const frame = await this.grabFrame();
-
-    //   if (frame) {
-    //     return frame;
-    //   } else {
-    //     rLogger.error("boatsCameraDevice.noImageData", "Both takePhoto and grabFrame failed");
-    //     throw "boatsCameraDevice.noImageData Both takePhoto and grabFrame failed";
-    //   }
-    // }
-  }
-
-  // Some devices (eg virtual cameras) do not support imageCapture.takePhoto()
-  // so call imageCapture.grabFrame() as a backup and convert the ImageBitmap to a Blob
-  // private async grabFrame(): Promise<Blob | null> {
-  //   if (!this.imageCapture) {
-  //     throw "Device must be open before grabFrame can be called";
-  //   }
-
-  //   rLogger.info("boatsCameraDevice.grabFrame");
-  //   const bitmap = await this.imageCapture.grabFrame();
-
-  //   const canvas = document.createElement("canvas");
-  //   canvas.height = bitmap.height;
-  //   canvas.width = bitmap.width;
-  //   const context = canvas.getContext("bitmaprenderer");
-  //   context?.transferFromImageBitmap(bitmap);
-
-  //   return new Promise((res) => canvas.toBlob((blob) => res(blob), "image/jpeg"));
-  // }
-
-  private getStreamHeight() {
-    return this.stream?.getVideoTracks()[0].getSettings().height;
-  }
-
-  private getStreamWidth() {
-    return this.stream?.getVideoTracks()[0].getSettings().width;
+      if (response.ok) {
+        return response.blob();
+      } else {
+        const errorResponse = await response.json();
+        rLogger.error("boatsCameraDevice.takePhoto.errorResponse", errorResponse);
+        throw errorResponse.errorMessage;
+      }
+    } catch (e) {
+      rLogger.error("boatsCameraDevice.takePhoto.error", JSON.stringify(e));
+      throw e;
+    }
   }
 
   static async listDevices(): Promise<ImagingDeviceIdentifier[]> {
-    // const devices = await navigator.mediaDevices.enumerateDevices();
     const devicesResponse = await fetch("http://localhost:8000/camera", { method: "GET" });
     const devicesJson = await devicesResponse.json();
-
-    // console.log(await devices.json());
 
     return devicesJson.detectedCameras.map(
       (camera: any) =>
@@ -133,23 +73,7 @@ class BoatsCameraDevice implements ImagingDevice {
           type: ImagingDeviceType.BOATS_CAMERA,
         }) as ImagingDeviceIdentifier
     );
-
-    // return devices
-    //   .filter((device) => device.kind === "videoinput")
-    //   .map((device) => ({
-    //     deviceId: device.deviceId,
-    //     name: device.label.split("(")[0],
-    //     type: ImagingDeviceType.WEB_MEDIA,
-    //   }));
   }
-
-  //   static addDeviceChangeListener(listener: () => void): void {
-  //     navigator.mediaDevices.addEventListener("devicechange", listener);
-  //   }
-
-  //   static removeDeviceChangeListener(listener: () => void): void {
-  //     navigator.mediaDevices.removeEventListener("devicechange", listener);
-  //   }
 }
 
 export default BoatsCameraDevice;
