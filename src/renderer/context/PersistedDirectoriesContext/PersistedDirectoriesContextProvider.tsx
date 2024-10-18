@@ -39,9 +39,11 @@ export const PersistedDirectoriesContextProvider = ({
     }
 
     const projectDirectoryName = makeProjectDirectoryName(project);
+
     const handle = await fileManager.current.createDirectory(
       projectDirectoryName,
-      workingDirectory.handle
+      workingDirectory.handle,
+      true
     );
 
     return addProjectDirectoryEntry(project.name, handle);

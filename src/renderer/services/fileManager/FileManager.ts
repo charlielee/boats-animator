@@ -1,6 +1,6 @@
 import { FileInfo } from "./FileInfo";
 import * as rLogger from "../rLogger/rLogger";
-import { CreateFileAlreadyExistsError } from "./FileErrors";
+import { CreateDirectoryAlreadyExistsError, CreateFileAlreadyExistsError } from "./FileErrors";
 import { FileInfoId } from "../../../common/Flavors";
 import { FileInfoType } from "./FileInfo";
 
@@ -11,10 +11,33 @@ export class FileManager {
     this.fileInfos = [];
   }
 
-  createDirectory = (
+  createDirectory = async (
+    name: string,
+    parentHandle: FileSystemDirectoryHandle,
+    errorIfExists: boolean = false
+  ): Promise<FileSystemDirectoryHandle> => {
+    if (errorIfExists && (await this.directoryExists(name, parentHandle))) {
+      throw new CreateDirectoryAlreadyExistsError(parentHandle.name, name);
+    }
+
+    return parentHandle.getDirectoryHandle(name, { create: true });
+  };
+
+  private directoryExists = async (
     name: string,
     parentHandle: FileSystemDirectoryHandle
-  ): Promise<FileSystemDirectoryHandle> => parentHandle.getDirectoryHandle(name, { create: true });
+  ): Promise<boolean> => {
+    try {
+      await parentHandle.getDirectoryHandle(name);
+      return true;
+    } catch (e) {
+      if (e instanceof DOMException && e.name === "NotFoundError") {
+        return false;
+      } else {
+        throw e;
+      }
+    }
+  };
 
   createFile = async (
     name: string,
@@ -39,9 +62,6 @@ export class FileManager {
     return fileInfo;
   };
 
-  findFile = (fileInfoId: FileInfoId): FileInfo | undefined =>
-    this.fileInfos.find((f) => f.fileInfoId === fileInfoId);
-
   private fileExists = async (
     name: string,
     parentHandle: FileSystemDirectoryHandle
@@ -57,6 +77,9 @@ export class FileManager {
       }
     }
   };
+
+  findFile = (fileInfoId: FileInfoId): FileInfo | undefined =>
+    this.fileInfos.find((f) => f.fileInfoId === fileInfoId);
 
   openDirectoryDialog = async (id: string): Promise<FileSystemDirectoryHandle | undefined> => {
     try {

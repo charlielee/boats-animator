@@ -1,3 +1,7 @@
+.project-settings-modal__error-message {
+  color: var(--ba-lightred);
+}
+
 .project-settings-modal__choose-folder-button {
   margin-top: var(--margin-050);
 }
