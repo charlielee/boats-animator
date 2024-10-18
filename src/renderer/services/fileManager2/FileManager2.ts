@@ -31,8 +31,10 @@ export class FileManager2 {
     await writable.close();
 
     const objectURL = URL.createObjectURL(data);
+    const fileInfo = new FileInfo(fileType, fileHandle, objectURL);
+    this.fileInfos.push(fileInfo);
 
-    return new FileInfo(fileType, fileHandle, objectURL);
+    return fileInfo;
   };
 
   private fileExists = async (
