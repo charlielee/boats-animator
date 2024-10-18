@@ -1,6 +1,6 @@
 import { ReactNode, useContext, useState } from "react";
 import { ProjectFilesContext } from "./ProjectFilesContext";
-import { FileInfo } from "../../services/fileManager2/FileInfo";
+import { FileInfo } from "../../services/fileManager/FileInfo";
 import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
 import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { FileInfoId, TrackItemId } from "../../../common/Flavors";

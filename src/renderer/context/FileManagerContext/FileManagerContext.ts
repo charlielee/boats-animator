@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import { FileManager2 } from "../../services/fileManager2/FileManager2";
+import { FileManager } from "../../services/fileManager/FileManager";
 
 interface FileManagerContextProps {
-  fileManager: React.MutableRefObject<FileManager2> | undefined;
+  fileManager: React.MutableRefObject<FileManager> | undefined;
 }
 
 const defaultValue: FileManagerContextProps = {

@@ -1,5 +1,5 @@
 import { ReactNode, useRef } from "react";
-import { FileManager2 } from "../../services/fileManager2/FileManager2";
+import { FileManager } from "../../services/fileManager/FileManager";
 import { FileManagerContext } from "./FileManagerContext";
 
 interface FileManagerContextProviderProps {
@@ -7,7 +7,7 @@ interface FileManagerContextProviderProps {
 }
 
 export const FileManagerContextProvider = ({ children }: FileManagerContextProviderProps) => {
-  const fileManager = useRef(new FileManager2());
+  const fileManager = useRef(new FileManager());
 
   return (
     <FileManagerContext.Provider value={{ fileManager }}>{children}</FileManagerContext.Provider>
