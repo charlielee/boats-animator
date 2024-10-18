@@ -77,6 +77,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
         frameRate: 15,
       });
       dispatch(addTake(take));
+      await saveProjectJsonToDisk();
       navigate(PageRoute.ANIMATOR);
     } catch (e) {
       if (e instanceof CreateDirectoryAlreadyExistsError) {

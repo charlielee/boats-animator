@@ -7,8 +7,13 @@ import { FileInfoId, TrackItemId } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { makeTakeDirectoryName, makeFrameFileName } from "../../services/project/projectBuilder";
-import { zeroPad } from "../../../common/utils";
+import { PROJECT_INFO_FILE_NAME, zeroPad } from "../../../common/utils";
 import { FileInfoType } from "../../services/fileManager/FileInfo";
+import {
+  CURRENT_PROJECT_INFO_FILE_SCHEMA_VERSION,
+  ProjectInfoFileV1,
+} from "../../../common/project/ProjectInfoFile";
+import { Project } from "../../../common/project/Project";
 
 interface ProjectFilesContextProviderProps {
   children: ReactNode;
@@ -49,8 +54,33 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   const getTrackItemFileInfo = (trackItemId: TrackItemId): FileInfo | undefined =>
     fileManager.current.findFile(trackItemFiles[trackItemId]);
 
+  const saveProjectJsonToDisk = async (project: Project, takes: Take[]): Promise<void> => {
+    if (projectDirectory === undefined) {
+      throw "Missing projectDirectory";
+    }
+
+    const appVersion = await window.preload.ipcToMain.appVersion();
+    const projectFileJson: ProjectInfoFileV1 = {
+      schemaVersion: CURRENT_PROJECT_INFO_FILE_SCHEMA_VERSION,
+      appVersion,
+      project,
+      takes,
+    };
+    const profileFileString = JSON.stringify(projectFileJson);
+    const data = new Blob([profileFileString], { type: "application/json" });
+
+    await fileManager.current.createFile(
+      PROJECT_INFO_FILE_NAME,
+      projectDirectory.handle,
+      FileInfoType.PROJECT_INFO,
+      data
+    );
+  };
+
   return (
-    <ProjectFilesContext.Provider value={{ saveTrackItemToDisk, getTrackItemFileInfo }}>
+    <ProjectFilesContext.Provider
+      value={{ saveTrackItemToDisk, getTrackItemFileInfo, saveProjectJsonToDisk }}
+    >
       {children}
     </ProjectFilesContext.Provider>
   );
