@@ -68,9 +68,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
 
   const newProject = async (formattedProject: Project) => {
     try {
-      console.log("b4");
       const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
-      console.log("af");
       dispatch(setProjectDirectoryId(projectDirectoryEntry.id));
       dispatch(addProject(formattedProject));
       const take = makeTake({
