@@ -8,7 +8,6 @@ import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import { updateProject } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
 import { newProject } from "../../../redux/thunks/projectThunk";
-import { putOrAddWorkingDirectory } from "../../../services/database/RecentDirectoryEntry";
 import {
   formatProjectName,
   makeProject,
@@ -30,16 +29,13 @@ import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarI
 import "./ProjectSettingsModal.css";
 import classNames from "classnames";
 import { JSXElementWithTestIds } from "../../../types";
-import { FileManagerContext } from "../../../context/FileManagerContext/FileManagerContext";
+import { RecentDirectoriesContext } from "../../../context/RecentDirectoriesContext/RecentDirectoriesContext";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
-  const { fileManager } = useContext(FileManagerContext);
-  if (fileManager === undefined) {
-    throw "FileManagerContext was not found";
-  }
+  const { changeWorkingDirectory } = useContext(RecentDirectoriesContext);
 
   const currentProject = useSelector((state: RootState) => state.project.project);
   const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));
@@ -49,16 +45,6 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
 
   const onRenameProject = (newName: string) =>
     setProject((prevState) => makeProject({ ...prevState, name: newName }));
-
-  const changeWorkingDirectory = async () => {
-    const workingDirectoryHandle =
-      await fileManager.current.openDirectoryDialog("changeWorkingDirectory");
-
-    if (workingDirectoryHandle !== undefined) {
-      await putOrAddWorkingDirectory(workingDirectoryHandle);
-      fileManager.current.createDirectory("cheese9", workingDirectoryHandle);
-    }
-  };
 
   const onSubmitProjectSettings = async () => {
     const formattedProject = { ...project, name: formatProjectName(project.name) };
@@ -107,7 +93,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
                 {!currentProject && (
                   <Button
                     title="Choose Folder"
-                    onClick={changeWorkingDirectory}
+                    onClick={() => changeWorkingDirectory?.()}
                     className={classNames("project-settings-modal__choose-folder-button", {
                       "project-settings-modal__choose-folder-button--no-working-directory":
                         !workingDirectory,
