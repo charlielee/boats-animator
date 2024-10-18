@@ -10,6 +10,10 @@ import {
   zeroPad,
 } from "../../../common/utils";
 import { Project } from "../../../common/project/Project";
+import {
+  CURRENT_PROJECT_INFO_FILE_SCHEMA_VERSION,
+  ProjectInfoFileV1,
+} from "../../../common/project/ProjectInfoFile";
 
 interface ProjectBuilderOptions {
   shotNumber: number;
@@ -91,3 +95,16 @@ export const makeFrameFilePath = (project: Project, take: Take, frameName: strin
       `${frameName}.jpg`,
     ].join("_")
   );
+
+export const makeProjectInfoFileJson = async (
+  project: Project,
+  takes: Take[]
+): Promise<ProjectInfoFileV1> => {
+  const appVersion = await window.preload.ipcToMain.appVersion();
+  return {
+    schemaVersion: CURRENT_PROJECT_INFO_FILE_SCHEMA_VERSION,
+    appVersion,
+    project,
+    takes,
+  };
+};

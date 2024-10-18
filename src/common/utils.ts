@@ -18,7 +18,7 @@ export const PLAYBACK_SPEEDS = {
   "4.0×": 4,
 };
 
-export const PROJECT_DIRECTORY_EXTENSION = "bafiles";
-export const PROJECT_INFO_FILE_NAME = "project.bainfo";
+export const PROJECT_DIRECTORY_EXTENSION = "boatsfiles";
+export const PROJECT_INFO_FILE_NAME = "project.boatsinfo";
 export const DEFAULT_PROJECT_NAME = "Untitled Movie";
 export const DEFAULT_PROJECT_FILE_NAME = "Untitled-Movie";

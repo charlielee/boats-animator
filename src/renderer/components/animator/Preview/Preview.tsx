@@ -18,14 +18,14 @@ export const Preview = (): JSX.Element => {
     hasCameraAccess: state.app.hasCameraAccess,
   }));
 
-  const projectFilesContext = useContext(ProjectFilesContext);
+  const { getTrackItemFileInfo } = useContext(ProjectFilesContext);
   const { device } = useContext(CaptureContext);
   const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);
 
   const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
 
   const getTrackItemObjectURL = (trackItem: TrackItem) =>
-    projectFilesContext?.getTrackItemFileInfo(trackItem.id)?.objectURL;
+    getTrackItemFileInfo!(trackItem.id)?.objectURL;
 
   const previewSrc = highlightedTrackItem ? getTrackItemObjectURL(highlightedTrackItem) : undefined;
 

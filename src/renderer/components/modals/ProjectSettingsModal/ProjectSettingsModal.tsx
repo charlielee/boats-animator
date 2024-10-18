@@ -68,7 +68,9 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
 
   const newProject = async (formattedProject: Project) => {
     try {
+      console.log("b4");
       const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
+      console.log("af");
       dispatch(setProjectDirectoryId(projectDirectoryEntry.id));
       dispatch(addProject(formattedProject));
       const take = makeTake({
@@ -77,7 +79,6 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
         frameRate: 15,
       });
       dispatch(addTake(take));
-      await saveProjectJsonToDisk();
       navigate(PageRoute.ANIMATOR);
     } catch (e) {
       if (e instanceof CreateDirectoryAlreadyExistsError) {
