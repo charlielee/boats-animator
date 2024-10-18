@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import PlaybackContext, {
   PlaybackFrameName,
@@ -12,25 +12,14 @@ import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarI
 import PlaybackSpeedSelect from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
 import "./AnimationToolbar.css";
 
-interface AnimationToolbarProps {
-  startOrPausePlayback: () => void;
-  stopPlayback: () => void;
-  displayFrame: (name: PlaybackFrameName) => void;
-  shortPlay: () => void;
-  playing: boolean;
-}
-
-const AnimationToolbar = ({
-  startOrPausePlayback,
-  stopPlayback,
-  displayFrame,
-  shortPlay,
-  playing,
-}: AnimationToolbarProps): JSX.Element => {
+export const AnimationToolbar = (): JSX.Element => {
   const shortPlayLength = useSelector(
     (state: RootState) => state.app.userPreferences.shortPlayLength
   );
   const shortPlayFrameText = shortPlayLength === 1 ? "frame" : "frames";
+
+  const { startOrPausePlayback, stopPlayback, displayFrame, shortPlay, playing } =
+    useContext(PlaybackContext);
 
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
@@ -96,9 +85,3 @@ const AnimationToolbar = ({
     </Toolbar>
   );
 };
-
-const AnimationToolbarWithContext = (): JSX.Element => (
-  <PlaybackContext.Consumer>{(value) => <AnimationToolbar {...value} />}</PlaybackContext.Consumer>
-);
-
-export default AnimationToolbarWithContext;

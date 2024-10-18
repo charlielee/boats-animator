@@ -1,5 +1,4 @@
-import { useCallback } from "react";
-import { TimelineIndex } from "../../../../common/Flavors";
+import { useCallback, useContext } from "react";
 import { Track } from "../../../../common/project/Track";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
@@ -9,14 +8,11 @@ import TimelinePosition from "./TimelinePosition/TimelinePosition";
 import TimelineTrack from "./TimelineTrack/TimelineTrack";
 import TimelineTrackLabel from "./TimelineTrackLabel/TimelineTrackLabel";
 
-interface TimelineProps {
-  timelineIndex: TimelineIndex | undefined;
-  stopPlayback: (timelineIndex?: TimelineIndex | undefined) => void;
-}
-
-const Timeline = ({ timelineIndex, stopPlayback }: TimelineProps): JSX.Element => {
+export const Timeline = (): JSX.Element => {
   const { take } = useProjectAndTake();
   const frameTrack = take.frameTrack;
+
+  const { timelineIndex, stopPlayback } = useContext(PlaybackContext);
 
   const timelineTracksRef = useCallback(
     (timelineDiv: HTMLDivElement | null) => {
@@ -52,9 +48,3 @@ const Timeline = ({ timelineIndex, stopPlayback }: TimelineProps): JSX.Element =
     </div>
   );
 };
-
-const TimelineWithContext = () => (
-  <PlaybackContext.Consumer>{(value) => <Timeline {...value} />}</PlaybackContext.Consumer>
-);
-
-export default TimelineWithContext;

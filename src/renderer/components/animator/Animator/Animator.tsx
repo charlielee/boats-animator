@@ -7,12 +7,12 @@ import Content from "../../common/Content/Content";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import Sidebar from "../../common/Sidebar/Sidebar";
-import AnimationToolbarWithContext from "../AnimationToolbar/AnimationToolbar";
-import CaptureButtonToolbarWithContext from "../CaptureButtonToolbar/CaptureButtonToolbar";
+import { AnimationToolbar } from "../AnimationToolbar/AnimationToolbar";
+import { CaptureButtonToolbar } from "../CaptureButtonToolbar/CaptureButtonToolbar";
 import CaptureSidebarBlock from "../CaptureSidebarBlock/CaptureSidebarBlock";
-import PreviewWithContext from "../Preview/Preview";
+import { Preview } from "../Preview/Preview";
 import StatusToolbar from "../StatusToolbar/StatusToolbar";
-import Timeline from "../Timeline/Timeline";
+import { Timeline } from "../Timeline/Timeline";
 import TitleToolbar from "../TitleToolbar/TitleToolbar";
 
 const Animator = (): JSX.Element => {
@@ -22,9 +22,9 @@ const Animator = (): JSX.Element => {
       <PageBody>
         <Content>
           <StatusToolbar />
-          <PreviewWithContext />
-          <CaptureButtonToolbarWithContext />
-          <AnimationToolbarWithContext />
+          <Preview />
+          <CaptureButtonToolbar />
+          <AnimationToolbar />
           <Timeline />
         </Content>
 
