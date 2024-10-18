@@ -1,7 +1,5 @@
 import { ReactNode, useContext } from "react";
 import { RecentDirectoriesContext } from "./RecentDirectoriesContext";
-// import useProjectDirectory from "../../hooks/useProjectDirectory";
-// import useWorkingDirectory from "../../hooks/useWorkingDirectory";
 import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
 import {
   addProjectDirectoryEntry,
