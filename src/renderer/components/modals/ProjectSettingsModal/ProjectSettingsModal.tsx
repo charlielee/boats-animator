@@ -36,12 +36,15 @@ import classNames from "classnames";
 import { JSXElementWithTestIds } from "../../../types";
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import { Project } from "../../../../common/project/Project";
+import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
   const { changeWorkingDirectory, addProjectDirectory } = useContext(PersistedDirectoriesContext);
+
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
   const currentProject = useSelector((state: RootState) => state.project.project);
   const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));
@@ -57,23 +60,33 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
 
     if (currentProject) {
       dispatch(updateProject(formattedProject));
+      navigate(PageRoute.ANIMATOR);
     } else {
       await newProject(formattedProject);
     }
-
-    navigate(PageRoute.ANIMATOR);
   };
 
   const newProject = async (formattedProject: Project) => {
-    const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
-    dispatch(setProjectDirectoryId(projectDirectoryEntry.id));
-    dispatch(addProject(formattedProject));
-    const take = makeTake({
-      shotNumber: 1,
-      takeNumber: 1,
-      frameRate: 15,
-    });
-    dispatch(addTake(take));
+    try {
+      const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
+      dispatch(setProjectDirectoryId(projectDirectoryEntry.id));
+      dispatch(addProject(formattedProject));
+      const take = makeTake({
+        shotNumber: 1,
+        takeNumber: 1,
+        frameRate: 15,
+      });
+      dispatch(addTake(take));
+      navigate(PageRoute.ANIMATOR);
+    } catch (e) {
+      if (e instanceof CreateDirectoryAlreadyExistsError) {
+        setErrorMessage(
+          "Unable to create project as a project already exists with this name. Please rename your project and try again."
+        );
+      } else {
+        throw e;
+      }
+    }
   };
 
   return (
@@ -82,6 +95,9 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
         <PageBody>
           <Content>
             <ContentBlock title={currentProject ? "Project Settings" : "New Project"}>
+              {errorMessage !== undefined && (
+                <p className="project-settings-modal__error-message">{errorMessage}</p>
+              )}
               <InputGroup>
                 <InputLabel inputId="projectSettingsName">Project Name</InputLabel>
                 <InputText
@@ -97,7 +113,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
                 <InputLabel inputId="projectSettingsDirectoryPath">
                   Project files will be saved to...
                 </InputLabel>
-                {workingDirectory && (
+                {workingDirectory !== undefined && (
                   <InputText
                     id="projectSettingsDirectoryPath"
                     value={`./${workingDirectory.friendlyName}/${makeProjectDirectoryName(
