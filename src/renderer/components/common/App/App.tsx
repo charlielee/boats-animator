@@ -10,6 +10,7 @@ import AppLoad from "../AppLoad/AppLoad";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useEffect } from "react";
+import { FileManagerContextProvider } from "../../../context/FileManagerContext/FileManagerContextProvider";
 
 const App = (): JSX.Element => {
   const { project, take } = useSelector((state: RootState) => state.project);
@@ -23,25 +24,27 @@ const App = (): JSX.Element => {
       <AppListener />
       <AppLoad />
 
-      <Routes>
-        <Route index element={<Navigate to={PageRoute.STARTUP_MODAL} />} />
+      <FileManagerContextProvider>
+        <Routes>
+          <Route index element={<Navigate to={PageRoute.STARTUP_MODAL} />} />
 
-        <Route path={PageRoute.STARTUP_MODAL} element={<StartupModal />} />
+          <Route path={PageRoute.STARTUP_MODAL} element={<StartupModal />} />
 
-        <Route
-          path={PageRoute.ANIMATOR}
-          element={
-            <>
-              <Outlet />
-              {project && take && <Animator />}
-            </>
-          }
-        >
-          <Route path={PageRoute.EXPORT_VIDEO_MODAL} element={<ExportVideoModal />} />
-          <Route path={PageRoute.PREFERENCES_MODAL} element={<PreferencesModal />} />
-          <Route path={PageRoute.PROJECT_SETTINGS_MODAL} element={<ProjectSettingsModal />} />
-        </Route>
-      </Routes>
+          <Route
+            path={PageRoute.ANIMATOR}
+            element={
+              <>
+                <Outlet />
+                {project && take && <Animator />}
+              </>
+            }
+          >
+            <Route path={PageRoute.EXPORT_VIDEO_MODAL} element={<ExportVideoModal />} />
+            <Route path={PageRoute.PREFERENCES_MODAL} element={<PreferencesModal />} />
+            <Route path={PageRoute.PROJECT_SETTINGS_MODAL} element={<ProjectSettingsModal />} />
+          </Route>
+        </Routes>
+      </FileManagerContextProvider>
     </>
   );
 };
