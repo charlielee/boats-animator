@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { Project } from "../../../common/project/Project";
-import { RecentDirectoryId } from "../../../common/Flavors";
+import { PersistedDirectoryId } from "../../../common/Flavors";
 
 export interface ProjectState {
   project?: Project;
   take?: Take;
   playbackSpeed: number;
-  projectDirectoryId?: RecentDirectoryId;
+  projectDirectoryId?: PersistedDirectoryId;
 }
 
 const initialState: ProjectState = {
@@ -44,7 +44,7 @@ const projectSlice = createSlice({
       state.take = action.payload;
     },
 
-    setProjectDirectoryId: (state, action: PayloadAction<RecentDirectoryId>) => {
+    setProjectDirectoryId: (state, action: PayloadAction<PersistedDirectoryId>) => {
       state.projectDirectoryId = action.payload;
     },
   },

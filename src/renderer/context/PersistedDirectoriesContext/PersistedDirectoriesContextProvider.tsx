@@ -1,22 +1,22 @@
 import { ReactNode, useContext } from "react";
-import { RecentDirectoriesContext } from "./RecentDirectoriesContext";
+import { PersistedDirectoriesContext } from "./PersistedDirectoriesContext";
 import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
 import {
   addProjectDirectoryEntry,
   putOrAddWorkingDirectoryEntry,
-  RecentDirectoryEntry,
-} from "../../services/database/RecentDirectoryEntry";
+  PersistedDirectoryEntry,
+} from "../../services/database/PersistedDirectoryEntry";
 import useWorkingDirectory from "../../hooks/useWorkingDirectory";
 import { Project } from "../../../common/project/Project";
 import { makeProjectDirectoryName } from "../../services/project/projectBuilder";
 
-interface RecentDirectoriesContextProviderProps {
+interface PersistedDirectoriesContextProviderProps {
   children: ReactNode;
 }
 
-export const RecentDirectoriesContextProvider = ({
+export const PersistedDirectoriesContextProvider = ({
   children,
-}: RecentDirectoriesContextProviderProps) => {
+}: PersistedDirectoriesContextProviderProps) => {
   const workingDirectory = useWorkingDirectory();
 
   const { fileManager } = useContext(FileManagerContext);
@@ -33,7 +33,7 @@ export const RecentDirectoriesContextProvider = ({
     }
   };
 
-  const addProjectDirectory = async (project: Project): Promise<RecentDirectoryEntry> => {
+  const addProjectDirectory = async (project: Project): Promise<PersistedDirectoryEntry> => {
     if (workingDirectory === undefined) {
       throw "workingDirectory was not found";
     }
@@ -48,8 +48,8 @@ export const RecentDirectoriesContextProvider = ({
   };
 
   return (
-    <RecentDirectoriesContext.Provider value={{ changeWorkingDirectory, addProjectDirectory }}>
+    <PersistedDirectoriesContext.Provider value={{ changeWorkingDirectory, addProjectDirectory }}>
       {children}
-    </RecentDirectoriesContext.Provider>
+    </PersistedDirectoriesContext.Provider>
   );
 };
