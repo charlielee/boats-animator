@@ -1,6 +1,6 @@
 import { FileInfo } from "./FileInfo";
 import * as rLogger from "../rLogger/rLogger";
-import { CreateDirectoryAlreadyExistsError } from "./FileErrors";
+import { CreateDirectoryAlreadyExistsError, CreateFileAlreadyExistsError } from "./FileErrors";
 import { FileInfoId } from "../../../common/Flavors";
 import { FileInfoType } from "./FileInfo";
 
@@ -47,7 +47,7 @@ export class FileManager {
   ): Promise<FileInfo> => {
     const fileExists = await this.fileExists(name, parentHandle);
     if (fileExists) {
-      throw new CreateDirectoryAlreadyExistsError(parentHandle.name, name);
+      throw new CreateFileAlreadyExistsError(parentHandle.name, name);
     }
 
     const fileHandle = await parentHandle.getFileHandle(name, { create: true });
