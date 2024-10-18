@@ -5,12 +5,12 @@ import { RootState } from "../redux/store";
 
 const useProjectDirectory = () => {
   const projectDirectoryId = useSelector((state: RootState) => state.project.projectDirectoryId);
-  const recentDirectoryEntry = useLiveQuery(
-    () => db.recentDirectories.get(projectDirectoryId ?? ""),
+  const persistedDirectoryEntry = useLiveQuery(
+    () => db.persistedDirectories.get(projectDirectoryId ?? ""),
     [projectDirectoryId]
   );
 
-  return recentDirectoryEntry;
+  return persistedDirectoryEntry;
 };
 
 export default useProjectDirectory;

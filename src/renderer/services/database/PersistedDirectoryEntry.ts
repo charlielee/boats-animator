@@ -1,34 +1,34 @@
-import { RecentDirectoryId } from "../../../common/Flavors";
+import { PersistedDirectoryId } from "../../../common/Flavors";
 import { db } from "./Database";
 import { v4 as uuidv4 } from "uuid";
 
-export const enum RecentDirectoryType {
+export const enum PersistedDirectoryType {
   WORKING_DIRECTORY = "WORKING_DIRECTORY",
   PROJECT = "PROJECT",
 }
 
-export interface RecentDirectoryEntry {
-  id: RecentDirectoryId;
-  type: RecentDirectoryType;
+export interface PersistedDirectoryEntry {
+  id: PersistedDirectoryId;
+  type: PersistedDirectoryType;
   friendlyName: string;
   handle: FileSystemDirectoryHandle;
 }
 
 const getWorkingDirectoryEntry = async () =>
-  db.recentDirectories.get({
-    type: RecentDirectoryType.WORKING_DIRECTORY,
+  db.persistedDirectories.get({
+    type: PersistedDirectoryType.WORKING_DIRECTORY,
   });
 
 export const putOrAddWorkingDirectoryEntry = async (handle: FileSystemDirectoryHandle) => {
   const workingDirectory = await getWorkingDirectoryEntry();
-  const newEntry: RecentDirectoryEntry = {
+  const newEntry: PersistedDirectoryEntry = {
     id: workingDirectory?.id ?? uuidv4(),
-    type: RecentDirectoryType.WORKING_DIRECTORY,
+    type: PersistedDirectoryType.WORKING_DIRECTORY,
     friendlyName: handle.name,
     handle,
   };
 
-  await db.recentDirectories.put(newEntry);
+  await db.persistedDirectories.put(newEntry);
 
   return newEntry;
 };
@@ -37,12 +37,12 @@ export const addProjectDirectoryEntry = async (
   friendlyName: string,
   handle: FileSystemDirectoryHandle
 ) => {
-  const recentDirectoryEntry: RecentDirectoryEntry = {
+  const persistedDirectoryEntry: PersistedDirectoryEntry = {
     id: uuidv4(),
-    type: RecentDirectoryType.PROJECT,
+    type: PersistedDirectoryType.PROJECT,
     friendlyName,
     handle,
   };
-  await db.recentDirectories.add(recentDirectoryEntry);
-  return recentDirectoryEntry;
+  await db.persistedDirectories.add(persistedDirectoryEntry);
+  return persistedDirectoryEntry;
 };

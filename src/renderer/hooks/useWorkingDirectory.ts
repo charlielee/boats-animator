@@ -1,13 +1,13 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../services/database/Database";
-import { RecentDirectoryType } from "../services/database/RecentDirectoryEntry";
+import { PersistedDirectoryType } from "../services/database/PersistedDirectoryEntry";
 
 const useWorkingDirectory = () => {
-  const recentDirectoryEntry = useLiveQuery(() =>
-    db.recentDirectories.get({ type: RecentDirectoryType.WORKING_DIRECTORY })
+  const persistedDirectoryEntry = useLiveQuery(() =>
+    db.persistedDirectories.get({ type: PersistedDirectoryType.WORKING_DIRECTORY })
   );
 
-  return recentDirectoryEntry;
+  return persistedDirectoryEntry;
 };
 
 export default useWorkingDirectory;

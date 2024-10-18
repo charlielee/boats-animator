@@ -12,7 +12,7 @@ import { RootState } from "../../../redux/store";
 import { useEffect } from "react";
 import { FileManagerContextProvider } from "../../../context/FileManagerContext/FileManagerContextProvider";
 import { ProjectFilesContextProvider } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
-import { RecentDirectoriesContextProvider } from "../../../context/RecentDirectoriesContext/RecentDirectoriesContextProvider";
+import { PersistedDirectoriesContextProvider } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContextProvider";
 
 const App = (): JSX.Element => {
   const { project, take } = useSelector((state: RootState) => state.project);
@@ -27,7 +27,7 @@ const App = (): JSX.Element => {
       <AppLoad />
 
       <FileManagerContextProvider>
-        <RecentDirectoriesContextProvider>
+        <PersistedDirectoriesContextProvider>
           <ProjectFilesContextProvider>
             <Routes>
               <Route index element={<Navigate to={PageRoute.STARTUP_MODAL} />} />
@@ -49,7 +49,7 @@ const App = (): JSX.Element => {
               </Route>
             </Routes>
           </ProjectFilesContextProvider>
-        </RecentDirectoriesContextProvider>
+        </PersistedDirectoriesContextProvider>
       </FileManagerContextProvider>
     </>
   );

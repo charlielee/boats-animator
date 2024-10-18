@@ -34,14 +34,14 @@ import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarI
 import "./ProjectSettingsModal.css";
 import classNames from "classnames";
 import { JSXElementWithTestIds } from "../../../types";
-import { RecentDirectoriesContext } from "../../../context/RecentDirectoriesContext/RecentDirectoriesContext";
+import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import { Project } from "../../../../common/project/Project";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
-  const { changeWorkingDirectory, addProjectDirectory } = useContext(RecentDirectoriesContext);
+  const { changeWorkingDirectory, addProjectDirectory } = useContext(PersistedDirectoriesContext);
 
   const currentProject = useSelector((state: RootState) => state.project.project);
   const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));

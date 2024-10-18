@@ -10,7 +10,7 @@ export type FrameRate = Flavor<number, "FrameRate">;
 export type TimelineIndex = Flavor<number, "TimelineIndex">;
 type NumberFlavor = FrameCount | FrameRate | TimelineIndex;
 
-export type RecentDirectoryId = Flavor<string, "RecentDirectoryId">;
+export type PersistedDirectoryId = Flavor<string, "PersistedDirectoryId">;
 export type FileInfoId = Flavor<string, "FileInfoId">;
 
 export type TakeId = Flavor<string, "TakeId">;
@@ -18,4 +18,4 @@ export type TrackId = Flavor<string, "TrackId">;
 export type TrackItemId = Flavor<string, "TrackItemId">;
 export type TrackGroupId = Flavor<string, "TrackGroupId">;
 
-type StringFlavor = RecentDirectoryId | TakeId | TrackId | TrackItemId | TrackGroupId;
+type StringFlavor = PersistedDirectoryId | TakeId | TrackId | TrackItemId | TrackGroupId;
