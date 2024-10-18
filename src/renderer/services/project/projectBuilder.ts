@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { FileRefType } from "../../../common/FileRef";
+import { FileInfoType } from "../fileManager/FileInfo";
 import { TrackGroupId } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
@@ -42,7 +42,7 @@ export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOp
   holdFrames: 1,
   frameTrack: {
     id: uuidv4(),
-    fileType: FileRefType.FRAME,
+    fileType: FileInfoType.FRAME,
     trackItems: [],
   },
 });

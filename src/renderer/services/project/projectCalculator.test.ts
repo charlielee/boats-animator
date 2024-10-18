@@ -1,4 +1,4 @@
-import { FileRefType } from "../../../common/FileRef";
+import { FileInfoType } from "../fileManager/FileInfo";
 import { Track } from "../../../common/project/Track";
 import { getNextFileNumber } from "./projectCalculator";
 
@@ -6,7 +6,7 @@ describe("getNextFileNumber", () => {
   it("should get next file number for track with no items", () => {
     const track: Track = {
       id: "trackId",
-      fileType: FileRefType.FRAME,
+      fileType: FileInfoType.FRAME,
       trackItems: [],
     };
 
@@ -16,7 +16,7 @@ describe("getNextFileNumber", () => {
   it("should get next file number for track with items", () => {
     const track1: Track = {
       id: "trackId",
-      fileType: FileRefType.FRAME,
+      fileType: FileInfoType.FRAME,
       trackItems: [
         {
           id: "trackItemId",
@@ -29,7 +29,7 @@ describe("getNextFileNumber", () => {
     };
     const track2: Track = {
       id: "trackId",
-      fileType: FileRefType.FRAME,
+      fileType: FileInfoType.FRAME,
       trackItems: [
         {
           id: "trackItemId",

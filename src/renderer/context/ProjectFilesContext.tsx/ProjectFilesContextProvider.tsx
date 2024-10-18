@@ -8,7 +8,7 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { makeTakeDirectoryName, makeFrameFileName } from "../../services/project/projectBuilder";
 import { zeroPad } from "../../../common/utils";
-import { FileRefType } from "../../../common/FileRef";
+import { FileInfoType } from "../../services/fileManager/FileInfo";
 
 interface ProjectFilesContextProviderProps {
   children: ReactNode;
@@ -40,7 +40,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     const { fileInfoId } = await fileManager.current.createFile(
       frameFileName,
       takeDirectoryHandle,
-      FileRefType.FRAME,
+      FileInfoType.FRAME,
       data
     );
     setTrackItemFiles((p) => ({ ...p, [trackItem.id]: fileInfoId }));
