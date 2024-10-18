@@ -14,13 +14,13 @@ export interface RecentDirectoryEntry {
   handle: FileSystemDirectoryHandle;
 }
 
-export const getWorkingDirectory = async () =>
+export const getWorkingDirectoryEntry = async () =>
   db.recentDirectories.get({
     type: RecentDirectoryType.WORKING_DIRECTORY,
   });
 
-export const putOrAddWorkingDirectory = async (handle: FileSystemDirectoryHandle) => {
-  const workingDirectory = await getWorkingDirectory();
+export const putOrAddWorkingDirectoryEntry = async (handle: FileSystemDirectoryHandle) => {
+  const workingDirectory = await getWorkingDirectoryEntry();
   const newEntry: RecentDirectoryEntry = {
     id: workingDirectory?.id ?? uuidv4(),
     type: RecentDirectoryType.WORKING_DIRECTORY,
@@ -33,7 +33,7 @@ export const putOrAddWorkingDirectory = async (handle: FileSystemDirectoryHandle
   return newEntry;
 };
 
-export const addProjectDirectory = async (
+export const addProjectDirectoryEntry = async (
   friendlyName: string,
   handle: FileSystemDirectoryHandle
 ) => {

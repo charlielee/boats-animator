@@ -5,13 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import { DEFAULT_PROJECT_NAME } from "../../../../common/utils";
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
-import { updateProject } from "../../../redux/slices/projectSlice";
+import {
+  addProject,
+  addTake,
+  setProjectDirectoryId,
+  updateProject,
+} from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
-import { newProject } from "../../../redux/thunks/projectThunk";
 import {
   formatProjectName,
   makeProject,
   makeProjectDirectoryName,
+  makeTake,
 } from "../../../services/project/projectBuilder";
 import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";
@@ -30,12 +35,13 @@ import "./ProjectSettingsModal.css";
 import classNames from "classnames";
 import { JSXElementWithTestIds } from "../../../types";
 import { RecentDirectoriesContext } from "../../../context/RecentDirectoriesContext/RecentDirectoriesContext";
+import { Project } from "../../../../common/project/Project";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
-  const { changeWorkingDirectory } = useContext(RecentDirectoriesContext);
+  const { changeWorkingDirectory, addProjectDirectory } = useContext(RecentDirectoriesContext);
 
   const currentProject = useSelector((state: RootState) => state.project.project);
   const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));
@@ -52,10 +58,22 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
     if (currentProject) {
       dispatch(updateProject(formattedProject));
     } else {
-      await dispatch(newProject(formattedProject));
+      await newProject(formattedProject);
     }
 
     navigate(PageRoute.ANIMATOR);
+  };
+
+  const newProject = async (formattedProject: Project) => {
+    const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
+    dispatch(setProjectDirectoryId(projectDirectoryEntry.id));
+    dispatch(addProject(formattedProject));
+    const take = makeTake({
+      shotNumber: 1,
+      takeNumber: 1,
+      frameRate: 15,
+    });
+    dispatch(addTake(take));
   };
 
   return (

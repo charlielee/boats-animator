@@ -3,7 +3,14 @@ import { RecentDirectoriesContext } from "./RecentDirectoriesContext";
 // import useProjectDirectory from "../../hooks/useProjectDirectory";
 // import useWorkingDirectory from "../../hooks/useWorkingDirectory";
 import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
-import { putOrAddWorkingDirectory } from "../../services/database/RecentDirectoryEntry";
+import {
+  addProjectDirectoryEntry,
+  putOrAddWorkingDirectoryEntry,
+  RecentDirectoryEntry,
+} from "../../services/database/RecentDirectoryEntry";
+import useWorkingDirectory from "../../hooks/useWorkingDirectory";
+import { Project } from "../../../common/project/Project";
+import { makeProjectDirectoryName } from "../../services/project/projectBuilder";
 
 interface RecentDirectoriesContextProviderProps {
   children: ReactNode;
@@ -12,8 +19,7 @@ interface RecentDirectoriesContextProviderProps {
 export const RecentDirectoriesContextProvider = ({
   children,
 }: RecentDirectoriesContextProviderProps) => {
-  // const workingDirectory = useWorkingDirectory();
-  // const projectDirectory = useProjectDirectory();
+  const workingDirectory = useWorkingDirectory();
 
   const { fileManager } = useContext(FileManagerContext);
   if (fileManager === undefined) {
@@ -25,12 +31,26 @@ export const RecentDirectoriesContextProvider = ({
       await fileManager.current.openDirectoryDialog("changeWorkingDirectory");
 
     if (workingDirectoryHandle !== undefined) {
-      await putOrAddWorkingDirectory(workingDirectoryHandle);
+      await putOrAddWorkingDirectoryEntry(workingDirectoryHandle);
     }
   };
 
+  const addProjectDirectory = async (project: Project): Promise<RecentDirectoryEntry> => {
+    if (workingDirectory === undefined) {
+      throw "workingDirectory was not found";
+    }
+
+    const projectDirectoryName = makeProjectDirectoryName(project);
+    const handle = await fileManager.current.createDirectory(
+      projectDirectoryName,
+      workingDirectory.handle
+    );
+
+    return addProjectDirectoryEntry(project.name, handle);
+  };
+
   return (
-    <RecentDirectoriesContext.Provider value={{ changeWorkingDirectory }}>
+    <RecentDirectoriesContext.Provider value={{ changeWorkingDirectory, addProjectDirectory }}>
       {children}
     </RecentDirectoriesContext.Provider>
   );
