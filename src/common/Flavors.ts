@@ -18,4 +18,10 @@ export type TrackId = Flavor<string, "TrackId">;
 export type TrackItemId = Flavor<string, "TrackItemId">;
 export type TrackGroupId = Flavor<string, "TrackGroupId">;
 
-type StringFlavor = PersistedDirectoryId | TakeId | TrackId | TrackItemId | TrackGroupId;
+type StringFlavor =
+  | PersistedDirectoryId
+  | FileInfoId
+  | TakeId
+  | TrackId
+  | TrackItemId
+  | TrackGroupId;
