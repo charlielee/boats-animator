@@ -1,6 +1,7 @@
 import { FileInfo, FileInfoType } from "./FileInfo";
 import * as rLogger from "../../services/rLogger/rLogger";
 import { CreateFileAlreadyExistsError } from "./FileErrors";
+import { FileInfoId } from "../../../common/Flavors";
 
 export class FileManager2 {
   private fileInfos: FileInfo[];
@@ -36,6 +37,9 @@ export class FileManager2 {
 
     return fileInfo;
   };
+
+  findFile = (fileInfoId: FileInfoId): FileInfo | undefined =>
+    this.fileInfos.find((f) => f.fileInfoId === fileInfoId);
 
   private fileExists = async (
     name: string,

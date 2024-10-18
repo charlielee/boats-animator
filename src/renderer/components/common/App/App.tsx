@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useEffect } from "react";
 import { FileManagerContextProvider } from "../../../context/FileManagerContext/FileManagerContextProvider";
+import { ProjectFilesContextProvider } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
 
 const App = (): JSX.Element => {
   const { project, take } = useSelector((state: RootState) => state.project);
@@ -25,25 +26,27 @@ const App = (): JSX.Element => {
       <AppLoad />
 
       <FileManagerContextProvider>
-        <Routes>
-          <Route index element={<Navigate to={PageRoute.STARTUP_MODAL} />} />
+        <ProjectFilesContextProvider>
+          <Routes>
+            <Route index element={<Navigate to={PageRoute.STARTUP_MODAL} />} />
 
-          <Route path={PageRoute.STARTUP_MODAL} element={<StartupModal />} />
+            <Route path={PageRoute.STARTUP_MODAL} element={<StartupModal />} />
 
-          <Route
-            path={PageRoute.ANIMATOR}
-            element={
-              <>
-                <Outlet />
-                {project && take && <Animator />}
-              </>
-            }
-          >
-            <Route path={PageRoute.EXPORT_VIDEO_MODAL} element={<ExportVideoModal />} />
-            <Route path={PageRoute.PREFERENCES_MODAL} element={<PreferencesModal />} />
-            <Route path={PageRoute.PROJECT_SETTINGS_MODAL} element={<ProjectSettingsModal />} />
-          </Route>
-        </Routes>
+            <Route
+              path={PageRoute.ANIMATOR}
+              element={
+                <>
+                  <Outlet />
+                  {project && take && <Animator />}
+                </>
+              }
+            >
+              <Route path={PageRoute.EXPORT_VIDEO_MODAL} element={<ExportVideoModal />} />
+              <Route path={PageRoute.PREFERENCES_MODAL} element={<PreferencesModal />} />
+              <Route path={PageRoute.PROJECT_SETTINGS_MODAL} element={<ProjectSettingsModal />} />
+            </Route>
+          </Routes>
+        </ProjectFilesContextProvider>
       </FileManagerContextProvider>
     </>
   );

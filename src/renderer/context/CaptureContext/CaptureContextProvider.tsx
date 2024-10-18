@@ -1,5 +1,5 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeFrameFileRef } from "../../../common/FileRef";
 import { TrackItem } from "../../../common/project/TrackItem";
@@ -11,7 +11,6 @@ import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { closeDevice } from "../../redux/slices/captureSlice";
 import { addFileRef, addFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
-import FileManager from "../../services/fileManager/FileManager";
 import {
   ImagingDevice,
   deviceIdentifierToDevice,
@@ -20,6 +19,7 @@ import { makeFrameFilePath, makeFrameTrackItem } from "../../services/project/pr
 import { getNextFileNumber } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
 import CaptureContext from "./CaptureContext";
+import { ProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
 
 interface CaptureContextProviderProps {
   children: ReactNode;
@@ -36,6 +36,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
   const projectDirectory = useProjectDirectory();
+  const projectFilesContext = useContext(ProjectFilesContext);
 
   const takePhoto = () => {
     rLogger.info("captureContextProvider.takePhoto");
@@ -61,9 +62,9 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
       return;
     }
     const imageData = await device.takePhoto();
-    const fileManager = new FileManager(projectDirectory.handle);
-    await fileManager.saveTrackItemToDisk(take, trackItem, imageData);
+    await projectFilesContext?.saveTrackItemToDisk(take, trackItem, imageData);
 
+    // todo remove
     const imageUrl = URL.createObjectURL(imageData);
     dispatch(addFileRef(makeFrameFileRef(trackItem.id, imageUrl)));
   };

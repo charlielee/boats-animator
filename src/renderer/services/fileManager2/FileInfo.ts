@@ -6,12 +6,12 @@ export enum FileInfoType {
 }
 
 export class FileInfo {
-  private fileInfoId: FileInfoId;
+  public fileInfoId: FileInfoId;
 
   constructor(
-    private fileType: FileInfoType,
-    private fileHandle: FileSystemFileHandle,
-    private objectURL: string
+    public fileType: FileInfoType,
+    public fileHandle: FileSystemFileHandle,
+    public objectURL: string
   ) {
     this.fileInfoId = uuidv4();
   }
