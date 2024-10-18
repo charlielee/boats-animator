@@ -1,7 +1,8 @@
-import { FileInfo, FileInfoType } from "./FileInfo";
+import { FileInfo } from "./FileInfo";
 import * as rLogger from "../../services/rLogger/rLogger";
 import { CreateFileAlreadyExistsError } from "./FileErrors";
 import { FileInfoId } from "../../../common/Flavors";
+import { FileRefType } from "../../../common/FileRef";
 
 export class FileManager2 {
   private fileInfos: FileInfo[];
@@ -18,7 +19,7 @@ export class FileManager2 {
   createFile = async (
     name: string,
     parentHandle: FileSystemDirectoryHandle,
-    fileType: FileInfoType,
+    fileType: FileRefType,
     data: Blob
   ): Promise<FileInfo> => {
     const fileExists = await this.fileExists(name, parentHandle);

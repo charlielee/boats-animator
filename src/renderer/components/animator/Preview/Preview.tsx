@@ -16,7 +16,6 @@ export const Preview = (): JSX.Element => {
   const { deviceStatus, hasCameraAccess } = useSelector((state: RootState) => ({
     deviceStatus: state.capture.deviceStatus,
     hasCameraAccess: state.app.hasCameraAccess,
-    fileRefs: state.project.fileRefs,
   }));
 
   const projectFilesContext = useContext(ProjectFilesContext);
@@ -26,7 +25,7 @@ export const Preview = (): JSX.Element => {
   const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
 
   const getTrackItemObjectURL = (trackItem: TrackItem) =>
-    projectFilesContext?.getTrackItemFileInfo(trackItem.id).objectURL;
+    projectFilesContext?.getTrackItemFileInfo(trackItem.id)?.objectURL;
 
   const previewSrc = highlightedTrackItem ? getTrackItemObjectURL(highlightedTrackItem) : undefined;
 

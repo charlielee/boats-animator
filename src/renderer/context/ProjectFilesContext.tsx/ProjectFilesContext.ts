@@ -6,7 +6,7 @@ import { FileInfo } from "../../services/fileManager2/FileInfo";
 
 interface ProjectFilesContextProps {
   saveTrackItemToDisk: (take: Take, trackItem: TrackItem, blob: Blob) => Promise<void>;
-  getTrackItemFileInfo: (trackItemId: TrackItemId) => FileInfo;
+  getTrackItemFileInfo: (trackItemId: TrackItemId) => FileInfo | undefined;
 }
 
 export const ProjectFilesContext = createContext<ProjectFilesContextProps | undefined>(undefined);

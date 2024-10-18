@@ -1,6 +1,6 @@
 import { ReactNode, useContext, useState } from "react";
 import { ProjectFilesContext } from "./ProjectFilesContext";
-import { FileInfo, FileInfoType } from "../../services/fileManager2/FileInfo";
+import { FileInfo } from "../../services/fileManager2/FileInfo";
 import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
 import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { FileInfoId, TrackItemId } from "../../../common/Flavors";
@@ -8,6 +8,7 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { makeTakeDirectoryName, makeFrameFileName } from "../../services/project/projectBuilder";
 import { zeroPad } from "../../../common/utils";
+import { FileRefType } from "../../../common/FileRef";
 
 interface ProjectFilesContextProviderProps {
   children: ReactNode;
@@ -39,19 +40,14 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     const { fileInfoId } = await fileManager.current.createFile(
       frameFileName,
       takeDirectoryHandle,
-      FileInfoType.FRAME,
+      FileRefType.FRAME,
       data
     );
     setTrackItemFiles((p) => ({ ...p, [trackItem.id]: fileInfoId }));
   };
 
-  const getTrackItemFileInfo = (trackItemId: TrackItemId): FileInfo => {
-    const fileInfo = fileManager.current.findFile(trackItemFiles[trackItemId]);
-    if (fileInfo === undefined) {
-      throw `Unable to find FileInfo for trackItemId ${trackItemId}`;
-    }
-    return fileInfo;
-  };
+  const getTrackItemFileInfo = (trackItemId: TrackItemId): FileInfo | undefined =>
+    fileManager.current.findFile(trackItemFiles[trackItemId]);
 
   return (
     <ProjectFilesContext.Provider value={{ saveTrackItemToDisk, getTrackItemFileInfo }}>

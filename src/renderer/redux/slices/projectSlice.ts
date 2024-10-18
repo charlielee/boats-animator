@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FileRef } from "../../../common/FileRef";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { Project } from "../../../common/project/Project";
@@ -7,7 +6,6 @@ import { RecentDirectoryId } from "../../../common/Flavors";
 
 export interface ProjectState {
   project?: Project;
-  fileRefs: FileRef[];
   take?: Take;
   playbackSpeed: number;
   projectDirectoryId?: RecentDirectoryId;
@@ -15,7 +13,6 @@ export interface ProjectState {
 
 const initialState: ProjectState = {
   project: undefined,
-  fileRefs: [],
   take: undefined,
   playbackSpeed: 1,
   projectDirectoryId: undefined,
