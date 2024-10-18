@@ -1,7 +1,6 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { makeFrameFileRef } from "../../../common/FileRef";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { zeroPad } from "../../../common/utils";
 import cameraSound from "../../audio/camera.wav";
@@ -9,7 +8,7 @@ import useDeviceList from "../../hooks/useDeviceList";
 import useProjectAndTake from "../../hooks/useProjectAndTake";
 import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { closeDevice } from "../../redux/slices/captureSlice";
-import { addFileRef, addFrameTrackItem } from "../../redux/slices/projectSlice";
+import { addFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
 import {
   ImagingDevice,
@@ -63,10 +62,6 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     }
     const imageData = await device.takePhoto();
     await projectFilesContext?.saveTrackItemToDisk(take, trackItem, imageData);
-
-    // todo remove
-    const imageUrl = URL.createObjectURL(imageData);
-    dispatch(addFileRef(makeFrameFileRef(trackItem.id, imageUrl)));
   };
 
   const onChangeDevice = useCallback(async () => {

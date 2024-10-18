@@ -43,10 +43,6 @@ const projectSlice = createSlice({
       state.playbackSpeed = action.payload;
     },
 
-    addFileRef: (state, action: PayloadAction<FileRef>) => {
-      state.fileRefs.push(action.payload);
-    },
-
     addTake: (state, action: PayloadAction<Take>) => {
       state.take = action.payload;
     },
@@ -62,7 +58,6 @@ export const {
   updateProject,
   addFrameTrackItem,
   setPlaybackSpeed,
-  addFileRef,
   addTake,
   setProjectDirectoryId,
 } = projectSlice.actions;

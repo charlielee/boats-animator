@@ -12,13 +12,6 @@ export enum FileRefType {
   FRAME = "FRAME",
 }
 
-export const makeFrameFileRef = (trackItemId: TrackItemId, location: string): FileRef => ({
-  trackItemId,
-  location,
-  fileType: FileRefType.FRAME,
-  available: true,
-});
-
 export const getFileRefById = (
   fileRefs: FileRef[],
   trackItemId: TrackItemId
