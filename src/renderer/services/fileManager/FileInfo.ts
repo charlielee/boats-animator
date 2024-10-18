@@ -1,12 +1,15 @@
 import { v4 as uuidv4 } from "uuid";
 import { FileInfoId } from "../../../common/Flavors";
-import { FileRefType } from "../../../common/FileRef";
+
+export enum FileInfoType {
+  FRAME = "FRAME",
+}
 
 export class FileInfo {
   public fileInfoId: FileInfoId;
 
   constructor(
-    public fileType: FileRefType,
+    public fileType: FileInfoType,
     public fileHandle: FileSystemFileHandle,
     public objectURL: string
   ) {

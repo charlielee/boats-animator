@@ -1,4 +1,4 @@
-import { FileRefType } from "../../../common/FileRef";
+import { FileInfoType } from "../fileManager/FileInfo";
 import { FrameCount, TimelineIndex } from "../../../common/Flavors";
 import { Track } from "../../../common/project/Track";
 import { TrackItem } from "../../../common/project/TrackItem";
@@ -25,7 +25,7 @@ export const getHighlightedTrackItem = (
       );
 
 export const getTrackItemTitle = (track: Track, trackItemIndex: number) =>
-  track.fileType === FileRefType.FRAME
+  track.fileType === FileInfoType.FRAME
     ? `Frame ${getTrackItemStartPosition(track, trackItemIndex) + 1}`
     : track.trackItems[trackItemIndex].filePath;
 

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { FileRefType } from "./FileRef";
+import { FileInfoType } from "../renderer/services/fileManager/FileInfo";
 import { Project } from "./project/Project";
 import { Take } from "./project/Take";
 
@@ -18,7 +18,7 @@ export const TAKE: Take = {
   holdFrames: 1,
   frameTrack: {
     id: uuidv4(),
-    fileType: FileRefType.FRAME,
+    fileType: FileInfoType.FRAME,
     trackItems: [],
   },
 };

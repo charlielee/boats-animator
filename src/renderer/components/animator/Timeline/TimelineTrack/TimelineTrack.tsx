@@ -1,4 +1,4 @@
-import { FileRefType } from "../../../../../common/FileRef";
+import { FileInfoType } from "../../../../services/fileManager/FileInfo";
 import { TimelineIndex } from "../../../../../common/Flavors";
 import { Track } from "../../../../../common/project/Track";
 import {
@@ -48,7 +48,7 @@ const TimelineTrack = ({
             );
           })}
 
-          {track.fileType === FileRefType.FRAME && (
+          {track.fileType === FileInfoType.FRAME && (
             <TimelineLiveViewButton
               highlighted={timelineIndex === undefined}
               onClick={onClickLiveView}
