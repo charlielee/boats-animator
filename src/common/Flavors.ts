@@ -11,6 +11,7 @@ export type TimelineIndex = Flavor<number, "TimelineIndex">;
 type NumberFlavor = FrameCount | FrameRate | TimelineIndex;
 
 export type RecentDirectoryId = Flavor<string, "RecentDirectoryId">;
+export type FileInfoId = Flavor<string, "FileInfoId">;
 
 export type TakeId = Flavor<string, "TakeId">;
 export type TrackId = Flavor<string, "TrackId">;

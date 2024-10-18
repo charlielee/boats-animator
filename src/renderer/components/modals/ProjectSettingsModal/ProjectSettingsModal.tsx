@@ -1,5 +1,5 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
@@ -29,12 +29,17 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import "./ProjectSettingsModal.css";
 import classNames from "classnames";
-import FileManager from "../../../services/fileManager/FileManager";
 import { JSXElementWithTestIds } from "../../../types";
+import { FileManagerContext } from "../../../context/FileManagerContext/FileManagerContext";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
+
+  const { fileManager } = useContext(FileManagerContext);
+  if (fileManager === undefined) {
+    throw "FileManagerContext was not found";
+  }
 
   const currentProject = useSelector((state: RootState) => state.project.project);
   const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));
@@ -47,10 +52,11 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
 
   const changeWorkingDirectory = async () => {
     const workingDirectoryHandle =
-      await FileManager.openDirectoryDialogHandleCancel("changeWorkingDirectory");
+      await fileManager.current.openDirectoryDialog("changeWorkingDirectory");
 
     if (workingDirectoryHandle !== undefined) {
       await putOrAddWorkingDirectory(workingDirectoryHandle);
+      fileManager.current.createDirectory("cheese9", workingDirectoryHandle);
     }
   };
 

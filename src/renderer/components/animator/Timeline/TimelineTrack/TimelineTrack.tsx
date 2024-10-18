@@ -1,8 +1,6 @@
-import { useSelector } from "react-redux";
-import { FileRefType, getFileRefById } from "../../../../../common/FileRef";
+import { FileRefType } from "../../../../../common/FileRef";
 import { TimelineIndex } from "../../../../../common/Flavors";
 import { Track } from "../../../../../common/project/Track";
-import { RootState } from "../../../../redux/store";
 import {
   getHighlightedTrackItem,
   getTrackItemTitle,
@@ -11,6 +9,9 @@ import TimelineLiveViewButton from "../TimelineLiveView/TimelineLiveView";
 import TimelineTrackItem from "../TimelineTrackItem/TimelineTrackItem";
 import TimelineTrackNoItems from "../TimelineTrackNoItems/TimelineTrackNoItems";
 import "./TimelineTrack.css";
+import { useContext } from "react";
+import { ProjectFilesContext } from "../../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
+import { TrackItem } from "../../../../../common/project/TrackItem";
 
 interface TimelineTrackProps {
   track: Track;
@@ -25,8 +26,11 @@ const TimelineTrack = ({
   onClickItem,
   onClickLiveView,
 }: TimelineTrackProps): JSX.Element => {
-  const { fileRefs } = useSelector((state: RootState) => state.project);
   const highlightedTrackItem = getHighlightedTrackItem(track, timelineIndex);
+  const projectFilesContext = useContext(ProjectFilesContext);
+
+  const getTrackItemObjectURL = (trackItem: TrackItem) =>
+    projectFilesContext?.getTrackItemFileInfo(trackItem.id)?.objectURL;
 
   return (
     <div className="timeline-track">
@@ -36,7 +40,7 @@ const TimelineTrack = ({
             return (
               <TimelineTrackItem
                 title={getTrackItemTitle(track, i)}
-                dataUrl={getFileRefById(fileRefs, trackItem.id)?.location}
+                dataUrl={getTrackItemObjectURL(trackItem)}
                 highlighted={highlightedTrackItem?.id === trackItem.id}
                 key={trackItem.id}
                 onClick={() => onClickItem(i)}
