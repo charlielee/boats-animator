@@ -5,14 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import { DEFAULT_PROJECT_NAME } from "../../../../common/utils";
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
-import { updateProject } from "../../../redux/slices/projectSlice";
+import {
+  addProject,
+  addTake,
+  setProjectDirectoryId,
+  updateProject,
+} from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
-import { newProject } from "../../../redux/thunks/projectThunk";
-import { putOrAddWorkingDirectory } from "../../../services/database/RecentDirectoryEntry";
 import {
   formatProjectName,
   makeProject,
   makeProjectDirectoryName,
+  makeTake,
 } from "../../../services/project/projectBuilder";
 import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";
@@ -30,16 +34,14 @@ import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarI
 import "./ProjectSettingsModal.css";
 import classNames from "classnames";
 import { JSXElementWithTestIds } from "../../../types";
-import { FileManagerContext } from "../../../context/FileManagerContext/FileManagerContext";
+import { RecentDirectoriesContext } from "../../../context/RecentDirectoriesContext/RecentDirectoriesContext";
+import { Project } from "../../../../common/project/Project";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
-  const { fileManager } = useContext(FileManagerContext);
-  if (fileManager === undefined) {
-    throw "FileManagerContext was not found";
-  }
+  const { changeWorkingDirectory, addProjectDirectory } = useContext(RecentDirectoriesContext);
 
   const currentProject = useSelector((state: RootState) => state.project.project);
   const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));
@@ -50,26 +52,28 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const onRenameProject = (newName: string) =>
     setProject((prevState) => makeProject({ ...prevState, name: newName }));
 
-  const changeWorkingDirectory = async () => {
-    const workingDirectoryHandle =
-      await fileManager.current.openDirectoryDialog("changeWorkingDirectory");
-
-    if (workingDirectoryHandle !== undefined) {
-      await putOrAddWorkingDirectory(workingDirectoryHandle);
-      fileManager.current.createDirectory("cheese9", workingDirectoryHandle);
-    }
-  };
-
   const onSubmitProjectSettings = async () => {
     const formattedProject = { ...project, name: formatProjectName(project.name) };
 
     if (currentProject) {
       dispatch(updateProject(formattedProject));
     } else {
-      await dispatch(newProject(formattedProject));
+      await newProject(formattedProject);
     }
 
     navigate(PageRoute.ANIMATOR);
+  };
+
+  const newProject = async (formattedProject: Project) => {
+    const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
+    dispatch(setProjectDirectoryId(projectDirectoryEntry.id));
+    dispatch(addProject(formattedProject));
+    const take = makeTake({
+      shotNumber: 1,
+      takeNumber: 1,
+      frameRate: 15,
+    });
+    dispatch(addTake(take));
   };
 
   return (
@@ -107,7 +111,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
                 {!currentProject && (
                   <Button
                     title="Choose Folder"
-                    onClick={changeWorkingDirectory}
+                    onClick={() => changeWorkingDirectory?.()}
                     className={classNames("project-settings-modal__choose-folder-button", {
                       "project-settings-modal__choose-folder-button--no-working-directory":
                         !workingDirectory,
