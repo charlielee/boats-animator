@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { TimelineIndex } from "../../../../../common/Flavors";
 import { Take } from "../../../../../common/project/Take";
 import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext";
@@ -9,18 +9,12 @@ import { buildStartTimeCode } from "../../../../../common/timeUtils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 
-interface StatusToolbarTimestampWithContextProps {
+interface StatusToolbarTimestampProps {
   take: Take;
 }
 
-interface StatusToolbarTimestampProps extends StatusToolbarTimestampWithContextProps {
-  timelineIndex: TimelineIndex | undefined;
-}
-
-const StatusToolbarTimestamp = ({
-  take,
-  timelineIndex,
-}: StatusToolbarTimestampProps): JSX.Element => {
+export const StatusToolbarTimestamp = ({ take }: StatusToolbarTimestampProps): JSX.Element => {
+  const { timelineIndex } = useContext(PlaybackContext);
   const { showTimestampInSeconds } = useSelector((state: RootState) => state.app.userPreferences);
   const [showInSeconds, setShowInSeconds] = useState(showTimestampInSeconds);
 
@@ -46,11 +40,3 @@ const StatusToolbarTimestamp = ({
     />
   );
 };
-
-const StatusToolbarTimestampWithContext = (props: StatusToolbarTimestampWithContextProps) => (
-  <PlaybackContext.Consumer>
-    {(value) => <StatusToolbarTimestamp timelineIndex={value.timelineIndex} {...props} />}
-  </PlaybackContext.Consumer>
-);
-
-export default StatusToolbarTimestampWithContext;

@@ -2,7 +2,7 @@ import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import "./StatusToolbar.css";
-import StatusToolbarTimestampWithContext from "./StatusToolbarTimestamp/StatusToolbarTimestamp";
+import { StatusToolbarTimestamp } from "./StatusToolbarTimestamp/StatusToolbarTimestamp";
 
 const StatusToolbar = (): JSX.Element => {
   const { take } = useProjectAndTake();
@@ -10,7 +10,7 @@ const StatusToolbar = (): JSX.Element => {
   return (
     <Toolbar className="status-toolbar">
       <ToolbarItem align={ToolbarItemAlign.CENTER}>
-        <StatusToolbarTimestampWithContext take={take} />
+        <StatusToolbarTimestamp take={take} />
       </ToolbarItem>
     </Toolbar>
   );

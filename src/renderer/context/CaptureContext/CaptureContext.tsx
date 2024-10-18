@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { ImagingDevice } from "../../services/imagingDevice/ImagingDevice";
 
-export interface CaptureContextProps {
+interface CaptureContextProps {
   takePhoto: () => void;
   device: ImagingDevice | undefined;
 }
