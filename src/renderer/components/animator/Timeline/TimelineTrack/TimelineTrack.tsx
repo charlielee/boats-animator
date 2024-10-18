@@ -27,10 +27,10 @@ const TimelineTrack = ({
   onClickLiveView,
 }: TimelineTrackProps): JSX.Element => {
   const highlightedTrackItem = getHighlightedTrackItem(track, timelineIndex);
-  const projectFilesContext = useContext(ProjectFilesContext);
+  const { getTrackItemFileInfo } = useContext(ProjectFilesContext);
 
   const getTrackItemObjectURL = (trackItem: TrackItem) =>
-    projectFilesContext?.getTrackItemFileInfo(trackItem.id)?.objectURL;
+    getTrackItemFileInfo!(trackItem.id)?.objectURL;
 
   return (
     <div className="timeline-track">

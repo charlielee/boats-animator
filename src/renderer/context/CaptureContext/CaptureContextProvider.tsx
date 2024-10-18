@@ -35,7 +35,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
   const projectDirectory = useProjectDirectory();
-  const projectFilesContext = useContext(ProjectFilesContext);
+  const { saveTrackItemToDisk } = useContext(ProjectFilesContext);
 
   const takePhoto = () => {
     rLogger.info("captureContextProvider.takePhoto");
@@ -61,7 +61,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
       return;
     }
     const imageData = await device.takePhoto();
-    await projectFilesContext?.saveTrackItemToDisk(take, trackItem, imageData);
+    await saveTrackItemToDisk!(take, trackItem, imageData);
   };
 
   const onChangeDevice = useCallback(async () => {

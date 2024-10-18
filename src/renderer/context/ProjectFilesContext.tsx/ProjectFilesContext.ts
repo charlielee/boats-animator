@@ -9,4 +9,4 @@ interface ProjectFilesContextProps {
   getTrackItemFileInfo: (trackItemId: TrackItemId) => FileInfo | undefined;
 }
 
-export const ProjectFilesContext = createContext<ProjectFilesContextProps | undefined>(undefined);
+export const ProjectFilesContext = createContext<Partial<ProjectFilesContextProps>>({});

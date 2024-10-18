@@ -3,6 +3,7 @@ import { FileInfoId } from "../../../common/Flavors";
 
 export enum FileInfoType {
   FRAME = "FRAME",
+  PROJECT_INFO = "PROJECT_INFO",
 }
 
 export class FileInfo {

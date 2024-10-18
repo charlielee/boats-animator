@@ -43,10 +43,11 @@ export class FileManager {
     name: string,
     parentHandle: FileSystemDirectoryHandle,
     fileType: FileInfoType,
-    data: Blob
+    data: Blob,
+    errorIfExists: boolean = true
   ): Promise<FileInfo> => {
-    const fileExists = await this.fileExists(name, parentHandle);
-    if (fileExists) {
+    // TODO if overwriting existing file need to remove fileInfo
+    if (errorIfExists && (await this.fileExists(name, parentHandle))) {
       throw new CreateFileAlreadyExistsError(parentHandle.name, name);
     }
 
