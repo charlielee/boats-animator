@@ -14,7 +14,7 @@ export interface RecentDirectoryEntry {
   handle: FileSystemDirectoryHandle;
 }
 
-export const getWorkingDirectoryEntry = async () =>
+const getWorkingDirectoryEntry = async () =>
   db.recentDirectories.get({
     type: RecentDirectoryType.WORKING_DIRECTORY,
   });
