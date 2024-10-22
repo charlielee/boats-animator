@@ -59,7 +59,7 @@ const ExportVideoModalOptions = ({
     );
     onVideoFilePathChange(videoFilePath);
 
-    const framePath = makeFrameFilePath(project, take, "%05d");
+    const framePath = makeFrameFilePath(take, "%05d");
     const totalFrames = getTrackLength(take.frameTrack);
 
     setFFmpegArguments(

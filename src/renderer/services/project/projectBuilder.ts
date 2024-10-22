@@ -69,11 +69,8 @@ export const makeProjectDirectoryName = (project: Project) =>
 export const makeTakeDirectoryName = (take: Take) =>
   `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`;
 
-export const makeTakeDirectoryPath = (project: Project, take: Take) =>
-  window.preload.joinPath(
-    makeProjectDirectoryName(project),
-    `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`
-  );
+export const makeTakeDirectoryPath = (take: Take) =>
+  window.preload.joinPath(`BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`);
 
 export const makeFrameFileName = (take: Take, frameName: string) =>
   [
@@ -84,9 +81,9 @@ export const makeFrameFileName = (take: Take, frameName: string) =>
     `${frameName}.jpg`,
   ].join("_");
 
-export const makeFrameFilePath = (project: Project, take: Take, frameName: string): string =>
+export const makeFrameFilePath = (take: Take, frameName: string): string =>
   window.preload.joinPath(
-    makeTakeDirectoryPath(project, take),
+    makeTakeDirectoryPath(take),
     [
       "ba",
       zeroPad(take.shotNumber, 3),

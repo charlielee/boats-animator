@@ -125,7 +125,7 @@ describe("makeProjectDirectoryName", () => {
 
 describe("makeTakeDirectoryPath", () => {
   it("should make take directory path with supplied options", () => {
-    expect(makeTakeDirectoryPath(PROJECT, TAKE)).toEqual(`${projectDirectory}/BA_001_01`);
+    expect(makeTakeDirectoryPath(TAKE)).toEqual("BA_001_01");
   });
 });
 
@@ -133,8 +133,6 @@ describe("makeFrameFilePath", () => {
   it("should make expected frame file path", () => {
     const fileName = "cheese";
 
-    expect(makeFrameFilePath(PROJECT, TAKE, fileName)).toEqual(
-      `${projectDirectory}/BA_001_01/ba_001_01_frame_cheese.jpg`
-    );
+    expect(makeFrameFilePath(TAKE, fileName)).toEqual("BA_001_01/ba_001_01_frame_cheese.jpg");
   });
 });
