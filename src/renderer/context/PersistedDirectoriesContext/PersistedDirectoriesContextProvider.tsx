@@ -9,6 +9,8 @@ import {
 import useWorkingDirectory from "../../hooks/useWorkingDirectory";
 import { Project } from "../../../common/project/Project";
 import { makeProjectDirectoryName } from "../../services/project/projectBuilder";
+import { PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
+import { ProjectDirectoryIsInsideAnotherProjectError } from "./PersistedDirectoriesErrors";
 
 interface PersistedDirectoriesContextProviderProps {
   children: ReactNode;
@@ -36,6 +38,9 @@ export const PersistedDirectoriesContextProvider = ({
   const addProjectDirectory = async (project: Project): Promise<PersistedDirectoryEntry> => {
     if (workingDirectory === undefined) {
       throw "workingDirectory was not found";
+    }
+    if (workingDirectory.handle.name.endsWith(`.${PROJECT_DIRECTORY_EXTENSION}`)) {
+      throw new ProjectDirectoryIsInsideAnotherProjectError(workingDirectory.handle.name);
     }
 
     const projectDirectoryName = makeProjectDirectoryName(project);
