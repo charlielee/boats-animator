@@ -87,7 +87,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
       }
       if (e instanceof ProjectDirectoryIsInsideAnotherProjectError) {
         return setErrorMessage(
-          `Unable to create project as the selected project directory is another .${PROJECT_DIRECTORY_EXTENSION} folder. Please select a different directory and try again.`
+          `Unable to create project as the selected directory is another .${PROJECT_DIRECTORY_EXTENSION} folder. Please select a different directory and try again.`
         );
       }
 
