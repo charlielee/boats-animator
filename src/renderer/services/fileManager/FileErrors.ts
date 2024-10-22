@@ -1,3 +1,5 @@
+import { FileInfoId } from "../../../common/Flavors";
+
 export class CreateDirectoryAlreadyExistsError extends Error {
   constructor(parentName: string, directoryName: string) {
     super(
@@ -11,5 +13,11 @@ export class CreateFileAlreadyExistsError extends Error {
     super(
       `Unable to create file "${directoryName}/${fileName}" as file with the same name already exists`
     );
+  }
+}
+
+export class UpdateFileInfoIdNotFoundError extends Error {
+  constructor(fileInfoId: FileInfoId) {
+    super(`Unable to update file with FileInfoId "${fileInfoId}" as not found`);
   }
 }

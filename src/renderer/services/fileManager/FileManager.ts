@@ -1,6 +1,10 @@
 import { FileInfo } from "./FileInfo";
 import * as rLogger from "../rLogger/rLogger";
-import { CreateDirectoryAlreadyExistsError, CreateFileAlreadyExistsError } from "./FileErrors";
+import {
+  CreateDirectoryAlreadyExistsError,
+  CreateFileAlreadyExistsError,
+  UpdateFileInfoIdNotFoundError,
+} from "./FileErrors";
 import { FileInfoId } from "../../../common/Flavors";
 import { FileInfoType } from "./FileInfo";
 
@@ -43,24 +47,46 @@ export class FileManager {
     name: string,
     parentHandle: FileSystemDirectoryHandle,
     fileType: FileInfoType,
-    data: Blob,
-    errorIfExists: boolean = true
-  ): Promise<FileInfo> => {
-    // TODO if overwriting existing file need to remove fileInfo
-    if (errorIfExists && (await this.fileExists(name, parentHandle))) {
+    data: Blob
+  ): Promise<FileInfoId> => {
+    if (await this.fileExists(name, parentHandle)) {
       throw new CreateFileAlreadyExistsError(parentHandle.name, name);
     }
 
     const fileHandle = await parentHandle.getFileHandle(name, { create: true });
+    const objectURL = await this.writeFileAndCreateObjectURL(fileHandle, data);
+    const fileInfo = new FileInfo(undefined, fileType, fileHandle, objectURL);
+    this.fileInfos.push(fileInfo);
+
+    return fileInfo.fileInfoId;
+  };
+
+  updateFile = async (fileInfoId: FileInfoId, data: Blob): Promise<void> => {
+    const fileInfo = this.findFile(fileInfoId);
+    if (fileInfo === undefined) {
+      throw new UpdateFileInfoIdNotFoundError(fileInfoId);
+    }
+
+    const index = this.fileInfos.findIndex((f) => f.fileInfoId === fileInfoId);
+    const newObjectURL = await this.writeFileAndCreateObjectURL(fileInfo.fileHandle, data);
+    URL.revokeObjectURL(fileInfo.objectURL);
+
+    this.fileInfos[index] = new FileInfo(
+      fileInfo.fileInfoId,
+      fileInfo.fileType,
+      fileInfo.fileHandle,
+      newObjectURL
+    );
+  };
+
+  private writeFileAndCreateObjectURL = async (
+    fileHandle: FileSystemFileHandle,
+    data: Blob
+  ): Promise<string> => {
     const writable = await fileHandle.createWritable();
     await writable.write({ type: "write", data });
     await writable.close();
-
-    const objectURL = URL.createObjectURL(data);
-    const fileInfo = new FileInfo(fileType, fileHandle, objectURL);
-    this.fileInfos.push(fileInfo);
-
-    return fileInfo;
+    return URL.createObjectURL(data);
   };
 
   private fileExists = async (
