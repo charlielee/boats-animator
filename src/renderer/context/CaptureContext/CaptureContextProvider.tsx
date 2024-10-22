@@ -29,7 +29,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
 
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const deviceList = useDeviceList();
-  const { project, take } = useProjectAndTake();
+  const { take } = useProjectAndTake();
   const deviceStatus = useSelector((state: RootState) => state.capture.deviceStatus);
   const playCaptureSound = useSelector(
     (state: RootState) => state.app.userPreferences.playCaptureSound
@@ -48,7 +48,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     // Frame track items should be created synchronously to ensure frames are created in the correct order
     // and do not have overwriting file names
     const fileNumber = getNextFileNumber(take.frameTrack);
-    const filePath = makeFrameFilePath(project, take, zeroPad(fileNumber, 5));
+    const filePath = makeFrameFilePath(take, zeroPad(fileNumber, 5));
     const trackItem = makeFrameTrackItem(filePath, fileNumber);
     dispatch(addFrameTrackItem(trackItem));
 

@@ -25,13 +25,15 @@ interface ProjectFilesContextProviderProps {
 
 export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextProviderProps) => {
   const { fileManager } = useContext(FileManagerContext);
-  const projectDirectory = useProjectDirectory();
   if (fileManager === undefined) {
     throw "Missing fileManager";
   }
-  const [trackItemFiles, setTrackItemFiles] = useState<Record<TrackItemId, FileInfoId>>({});
 
+  const projectDirectory = useProjectDirectory();
   const { project, take } = useSelector((state: RootState) => state.project);
+
+  const [projectInfoFileId, setProjectInfoFileId] = useState<FileInfoId | undefined>(undefined);
+  const [trackItemFiles, setTrackItemFiles] = useState<Record<TrackItemId, FileInfoId>>({});
 
   const saveTrackItemToDisk = async (
     take: Take,
@@ -48,7 +50,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
       projectDirectory.handle
     );
     const frameFileName = makeFrameFileName(take, zeroPad(trackItem.fileNumber, 5));
-    const { fileInfoId } = await fileManager.current.createFile(
+    const fileInfoId = await fileManager.current.createFile(
       frameFileName,
       takeDirectoryHandle,
       FileInfoType.FRAME,
@@ -64,23 +66,27 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     async (project: Project, takes: Take[]): Promise<void> => {
       rLogger.info("projectFilesContext.saveProject", "Saving project json to disk");
       if (projectDirectory === undefined) {
-        throw "Missing projectDirectory";
+        throw "Unable to save project file info as missing projectDirectory";
       }
 
-      const projectFileJson = makeProjectInfoFileJson(project, takes);
+      const projectFileJson = await makeProjectInfoFileJson(project, takes);
       const profileFileString = JSON.stringify(projectFileJson);
       const data = new Blob([profileFileString], { type: "application/json" });
 
       // TODO error handling
-      await fileManager.current.createFile(
-        PROJECT_INFO_FILE_NAME,
-        projectDirectory.handle,
-        FileInfoType.PROJECT_INFO,
-        data,
-        false
-      );
+      if (projectInfoFileId) {
+        await fileManager.current.updateFile(projectInfoFileId, data);
+      } else {
+        const fileInfoId = await fileManager.current.createFile(
+          PROJECT_INFO_FILE_NAME,
+          projectDirectory.handle,
+          FileInfoType.PROJECT_INFO,
+          data
+        );
+        setProjectInfoFileId(fileInfoId);
+      }
     },
-    [fileManager, projectDirectory]
+    [fileManager, projectDirectory, projectInfoFileId]
   );
 
   useEffect(() => {

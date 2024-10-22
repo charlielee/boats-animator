@@ -7,13 +7,10 @@ export enum FileInfoType {
 }
 
 export class FileInfo {
-  public fileInfoId: FileInfoId;
-
   constructor(
+    public fileInfoId: FileInfoId = uuidv4(),
     public fileType: FileInfoType,
     public fileHandle: FileSystemFileHandle,
     public objectURL: string
-  ) {
-    this.fileInfoId = uuidv4();
-  }
+  ) {}
 }

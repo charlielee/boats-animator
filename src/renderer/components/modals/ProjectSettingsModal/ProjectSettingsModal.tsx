@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
-import { DEFAULT_PROJECT_NAME } from "../../../../common/utils";
+import { DEFAULT_PROJECT_NAME, PROJECT_DIRECTORY_EXTENSION } from "../../../../common/utils";
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import {
   addProject,
@@ -37,6 +37,7 @@ import { JSXElementWithTestIds } from "../../../types";
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import { Project } from "../../../../common/project/Project";
 import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
+import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -80,12 +81,17 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
       navigate(PageRoute.ANIMATOR);
     } catch (e) {
       if (e instanceof CreateDirectoryAlreadyExistsError) {
-        setErrorMessage(
+        return setErrorMessage(
           "Unable to create project as a project already exists with this name. Please rename your project and try again."
         );
-      } else {
-        throw e;
       }
+      if (e instanceof ProjectDirectoryIsInsideAnotherProjectError) {
+        return setErrorMessage(
+          `Unable to create project as the selected directory is another .${PROJECT_DIRECTORY_EXTENSION} folder. Please select a different directory and try again.`
+        );
+      }
+
+      throw e;
     }
   };
 
