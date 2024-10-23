@@ -15,9 +15,10 @@ import { PROJECT_INFO_FILE_NAME, zeroPad } from "../../../common/utils";
 import { FileInfoType } from "../../services/fileManager/FileInfo";
 
 import { Project } from "../../../common/project/Project";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import * as rLogger from "../../services/rLogger/rLogger";
+import { removeFrameTrackItem } from "../../redux/slices/projectSlice";
 
 interface ProjectFilesContextProviderProps {
   children: ReactNode;
@@ -31,6 +32,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   const projectDirectory = useProjectDirectory();
   const { project, take } = useSelector((state: RootState) => state.project);
+  const dispatch = useDispatch();
 
   const [projectInfoFileId, setProjectInfoFileId] = useState<FileInfoId | undefined>(undefined);
   const [trackItemFiles, setTrackItemFiles] = useState<Record<TrackItemId, FileInfoId>>({});
@@ -61,6 +63,13 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   const getTrackItemFileInfo = (trackItemId: TrackItemId): FileInfo | undefined =>
     fileManager.current.findFile(trackItemFiles[trackItemId]);
+
+  const deleteTrackItem = async (trackItemId: TrackItemId): Promise<void> => {
+    await fileManager.current.deleteFile(trackItemFiles[trackItemId]);
+    setTrackItemFiles(({ [trackItemId]: _, ...otherTrackItemFiles }) => otherTrackItemFiles);
+    // todo should redux happen here
+    dispatch(removeFrameTrackItem(trackItemId));
+  };
 
   const saveProjectInfoFileToDisk = useCallback(
     async (project: Project, takes: Take[]): Promise<void> => {
@@ -96,7 +105,9 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   }, [project, take, saveProjectInfoFileToDisk, projectDirectory]);
 
   return (
-    <ProjectFilesContext.Provider value={{ saveTrackItemToDisk, getTrackItemFileInfo }}>
+    <ProjectFilesContext.Provider
+      value={{ saveTrackItemToDisk, getTrackItemFileInfo, deleteTrackItem }}
+    >
       {children}
     </ProjectFilesContext.Provider>
   );

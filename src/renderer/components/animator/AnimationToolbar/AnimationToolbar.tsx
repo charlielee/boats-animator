@@ -11,6 +11,8 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import PlaybackSpeedSelect from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
 import "./AnimationToolbar.css";
+import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
+import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
 
 export const AnimationToolbar = (): JSX.Element => {
   const shortPlayLength = useSelector(
@@ -18,8 +20,11 @@ export const AnimationToolbar = (): JSX.Element => {
   );
   const shortPlayFrameText = shortPlayLength === 1 ? "frame" : "frames";
 
-  const { startOrPausePlayback, stopPlayback, displayFrame, shortPlay, playing } =
+  const { startOrPausePlayback, stopPlayback, displayFrame, shortPlay, playing, timelineIndex } =
     useContext(PlaybackContext);
+  const { deleteTrackItem } = useContext(ProjectFilesContext);
+
+  const frameTrack = useSelector((state: RootState) => state.project.take?.frameTrack);
 
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
@@ -27,7 +32,20 @@ export const AnimationToolbar = (): JSX.Element => {
   return (
     <Toolbar className="animation-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
-        <IconButton title="Undo Last Frame" icon={IconName.UNDO} onClick={() => undefined} />
+        <IconButton
+          title="Undo Last Frame"
+          icon={IconName.UNDO}
+          onClick={async () => {
+            if (frameTrack === undefined) {
+              return;
+            }
+            const trackItem = getHighlightedTrackItem(frameTrack, timelineIndex);
+            if (trackItem === undefined) {
+              return;
+            }
+            await deleteTrackItem?.(trackItem.id);
+          }}
+        />
         <IconButton
           title={`Short Play (${shortPlayLength} ${shortPlayFrameText})`}
           icon={IconName.PLAY_SHORT}

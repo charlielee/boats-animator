@@ -3,6 +3,7 @@ import * as rLogger from "../rLogger/rLogger";
 import {
   CreateDirectoryAlreadyExistsError,
   CreateFileAlreadyExistsError,
+  DeleteFileInfoIdNotFoundError,
   UpdateFileInfoIdNotFoundError,
 } from "./FileErrors";
 import { FileInfoId } from "../../../common/Flavors";
@@ -67,16 +68,30 @@ export class FileManager {
       throw new UpdateFileInfoIdNotFoundError(fileInfoId);
     }
 
-    const index = this.fileInfos.findIndex((f) => f.fileInfoId === fileInfoId);
     const newObjectURL = await this.writeFileAndCreateObjectURL(fileInfo.fileHandle, data);
     URL.revokeObjectURL(fileInfo.objectURL);
 
+    const index = this.fileInfos.findIndex((f) => f.fileInfoId === fileInfoId);
     this.fileInfos[index] = new FileInfo(
       fileInfo.fileInfoId,
       fileInfo.fileType,
       fileInfo.fileHandle,
       newObjectURL
     );
+  };
+
+  deleteFile = async (fileInfoId: FileInfoId): Promise<void> => {
+    const fileInfo = this.findFile(fileInfoId);
+    if (fileInfo === undefined) {
+      throw new DeleteFileInfoIdNotFoundError(fileInfoId);
+    }
+
+    // TODO remove is a non-standard method so has to be casted to any
+    await (fileInfo.fileHandle as any).remove();
+    URL.revokeObjectURL(fileInfo.objectURL);
+
+    const index = this.fileInfos.findIndex((f) => f.fileInfoId === fileInfoId);
+    this.fileInfos.splice(index);
   };
 
   private writeFileAndCreateObjectURL = async (
