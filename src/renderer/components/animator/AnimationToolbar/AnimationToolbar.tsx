@@ -43,6 +43,7 @@ export const AnimationToolbar = (): JSX.Element => {
             if (trackItem === undefined) {
               return;
             }
+            stopPlayback();
             await deleteTrackItem?.(trackItem.id);
           }}
         />

@@ -43,7 +43,7 @@ const projectSlice = createSlice({
       if (index === undefined) {
         throw `Unable to find frame track item to remove with id ${action.payload}`;
       }
-      state.take?.frameTrack.trackItems.splice(index);
+      state.take?.frameTrack.trackItems.splice(index, 1);
     },
 
     setPlaybackSpeed: (state, action: PayloadAction<number>) => {

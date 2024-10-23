@@ -91,7 +91,7 @@ export class FileManager {
     URL.revokeObjectURL(fileInfo.objectURL);
 
     const index = this.fileInfos.findIndex((f) => f.fileInfoId === fileInfoId);
-    this.fileInfos.splice(index);
+    this.fileInfos.splice(index, 1);
   };
 
   private writeFileAndCreateObjectURL = async (
