@@ -1,3 +1,4 @@
+import { Stack } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
@@ -6,7 +7,6 @@ import { RootState } from "../../../redux/store";
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
-
 import Modal from "../../common/Modal/Modal";
 import ModalBody from "../../common/ModalBody/ModalBody";
 import ModalFooter from "../../common/ModalFooter/ModalFooter";
@@ -14,10 +14,9 @@ import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
-import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
-import { Stack } from "@mantine/core";
-import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
 import { UiButton } from "../../ui/UiButton/UiButton";
+import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
+import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
 
 const PreferencesModal = (): JSX.Element => {
   const dispatch = useDispatch();
