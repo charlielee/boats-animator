@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import { FileManagerContextProvider } from "../../../context/FileManagerContext/FileManagerContextProvider";
 import { ProjectFilesContextProvider } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
 import { PersistedDirectoriesContextProvider } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContextProvider";
-import { Theme } from "../../ui/Theme";
+import { Theme } from "../../ui/Theme/Theme";
 
 const App = (): JSX.Element => {
   const { project, take } = useSelector((state: RootState) => state.project);
