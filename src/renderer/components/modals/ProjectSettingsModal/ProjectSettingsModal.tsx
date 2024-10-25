@@ -37,6 +37,7 @@ import { Project } from "../../../../common/project/Project";
 import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
 import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
 import { UiButton } from "../../ui/UiButton/UiButton";
+import { SemanticColor } from "../../ui/Theme/SemanticColor";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -130,7 +131,14 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
                   />
                 )}
                 {!currentProject && (
-                  <UiButton onClick={changeWorkingDirectory}>Choose Folder</UiButton>
+                  <UiButton
+                    onClick={changeWorkingDirectory}
+                    semanticColor={
+                      workingDirectory ? SemanticColor.SECONDARY : SemanticColor.PRIMARY
+                    }
+                  >
+                    Choose Folder
+                  </UiButton>
                 )}
               </InputGroup>
             </ContentBlock>
@@ -145,6 +153,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
               icon={currentProject ? IconName.SAVE : IconName.ADD}
               onClick={onSubmitProjectSettings}
               disabled={!workingDirectory}
+              semanticColor={SemanticColor.PRIMARY}
             >
               {currentProject ? "Update Project" : "Create Project"}
             </UiButton>

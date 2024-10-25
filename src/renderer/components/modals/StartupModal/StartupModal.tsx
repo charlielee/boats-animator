@@ -15,6 +15,7 @@ import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarI
 import NewsFeed from "../NewsFeed/NewsFeed";
 import { Group } from "@mantine/core";
 import { UiButton } from "../../ui/UiButton/UiButton";
+import { SemanticColor } from "../../ui/Theme/SemanticColor";
 
 const StartupModal = (): JSX.Element => (
   <Modal>
@@ -27,7 +28,11 @@ const StartupModal = (): JSX.Element => (
             </ContentBlock>
             <ContentBlock>
               <Group>
-                <UiButton icon={IconName.ADD} onClick={PageRoute.PROJECT_SETTINGS_MODAL}>
+                <UiButton
+                  icon={IconName.ADD}
+                  onClick={PageRoute.PROJECT_SETTINGS_MODAL}
+                  semanticColor={SemanticColor.PRIMARY}
+                >
                   New Project
                 </UiButton>
                 <UiButton icon={IconName.FOLDER}>Open Project</UiButton>
