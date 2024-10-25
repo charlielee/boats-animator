@@ -27,7 +27,6 @@ import ModalFooter from "../../common/ModalFooter/ModalFooter";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
-import "./ProjectSettingsModal.css";
 import { JSXElementWithTestIds } from "../../../types";
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import { Project } from "../../../../common/project/Project";
@@ -44,7 +43,8 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
 
   const { changeWorkingDirectory, addProjectDirectory } = useContext(PersistedDirectoriesContext);
 
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+  const [projectNameError, setProjectNameError] = useState<string | undefined>(undefined);
+  const [directoryError, setDirectoryError] = useState<string | undefined>(undefined);
 
   const currentProject = useSelector((state: RootState) => state.project.project);
   const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));
@@ -67,6 +67,9 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
   };
 
   const newProject = async (formattedProject: Project) => {
+    setDirectoryError(undefined);
+    setProjectNameError(undefined);
+
     try {
       const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
       dispatch(setProjectDirectoryId(projectDirectoryEntry.id));
@@ -80,12 +83,12 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
       navigate(PageRoute.ANIMATOR);
     } catch (e) {
       if (e instanceof CreateDirectoryAlreadyExistsError) {
-        return setErrorMessage(
+        return setProjectNameError(
           "Unable to create project as a project already exists with this name. Please rename your project and try again."
         );
       }
       if (e instanceof ProjectDirectoryIsInsideAnotherProjectError) {
-        return setErrorMessage(
+        return setDirectoryError(
           `Unable to create project as the selected folder is another .${PROJECT_DIRECTORY_EXTENSION} folder. Please choose a different folder and try again.`
         );
       }
@@ -100,15 +103,12 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
         <PageBody>
           <Content>
             <ContentBlock title={currentProject ? "Project Settings" : "New Project"}>
-              {errorMessage !== undefined && (
-                <p className="project-settings-modal__error-message">{errorMessage}</p>
-              )}
-
               <Stack>
                 <UiTextInput
                   label="Project Name"
                   value={projectDisplayedName}
                   placeholder="Untitled Movie"
+                  error={projectNameError}
                   onChange={onRenameProject}
                 />
 
@@ -121,6 +121,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
                   }
                   placeholder="No folder selected"
                   readOnly
+                  error={directoryError}
                   rightSection={
                     !currentProject && (
                       <UiButton

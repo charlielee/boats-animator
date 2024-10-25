@@ -7,6 +7,8 @@ interface UiTextInputProps {
   placeholder?: string;
   disabled?: boolean;
   readOnly?: boolean;
+  error?: string;
+  // TODO make a button prop
   rightSection?: ReactNode;
   onChange?(newValue: string): void;
 }
@@ -17,6 +19,7 @@ export const UiTextInput = ({
   placeholder,
   disabled = false,
   readOnly = false,
+  error,
   rightSection,
   onChange,
 }: UiTextInputProps) => {
@@ -30,9 +33,10 @@ export const UiTextInput = ({
       placeholder={placeholder}
       disabled={disabled}
       readOnly={readOnly}
+      error={error}
       rightSection={rightSection}
-      onChange={handleChange}
       rightSectionWidth="a"
+      onChange={handleChange}
     />
   );
 };
