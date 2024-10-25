@@ -18,26 +18,24 @@ import {
   makeProjectDirectoryName,
   makeTake,
 } from "../../../services/project/projectBuilder";
-import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
-import InputGroup from "../../common/Input/InputGroup/InputGroup";
-import InputLabel from "../../common/Input/InputLabel/InputLabel";
-import InputText from "../../common/Input/InputText/InputText";
 import Modal from "../../common/Modal/Modal";
 import ModalBody from "../../common/ModalBody/ModalBody";
 import ModalFooter from "../../common/ModalFooter/ModalFooter";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
-import "./ProjectSettingsModal.css";
-import classNames from "classnames";
 import { JSXElementWithTestIds } from "../../../types";
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import { Project } from "../../../../common/project/Project";
 import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
 import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
+import { UiButton } from "../../ui/UiButton/UiButton";
+import { SemanticColor } from "../../ui/Theme/SemanticColor";
+import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
+import { Stack } from "@mantine/core";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -45,7 +43,8 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
 
   const { changeWorkingDirectory, addProjectDirectory } = useContext(PersistedDirectoriesContext);
 
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+  const [projectNameError, setProjectNameError] = useState<string | undefined>(undefined);
+  const [directoryError, setDirectoryError] = useState<string | undefined>(undefined);
 
   const currentProject = useSelector((state: RootState) => state.project.project);
   const [project, setProject] = useState(currentProject ?? makeProject({ name: "" }));
@@ -68,6 +67,9 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
   };
 
   const newProject = async (formattedProject: Project) => {
+    setDirectoryError(undefined);
+    setProjectNameError(undefined);
+
     try {
       const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
       dispatch(setProjectDirectoryId(projectDirectoryEntry.id));
@@ -81,13 +83,13 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
       navigate(PageRoute.ANIMATOR);
     } catch (e) {
       if (e instanceof CreateDirectoryAlreadyExistsError) {
-        return setErrorMessage(
+        return setProjectNameError(
           "Unable to create project as a project already exists with this name. Please rename your project and try again."
         );
       }
       if (e instanceof ProjectDirectoryIsInsideAnotherProjectError) {
-        return setErrorMessage(
-          `Unable to create project as the selected directory is another .${PROJECT_DIRECTORY_EXTENSION} folder. Please select a different directory and try again.`
+        return setDirectoryError(
+          `Unable to create project as the selected folder is another .${PROJECT_DIRECTORY_EXTENSION} folder. Please choose a different folder and try again.`
         );
       }
 
@@ -101,47 +103,39 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
         <PageBody>
           <Content>
             <ContentBlock title={currentProject ? "Project Settings" : "New Project"}>
-              {errorMessage !== undefined && (
-                <p className="project-settings-modal__error-message">{errorMessage}</p>
-              )}
-              <InputGroup>
-                <InputLabel inputId="projectSettingsName">Project Name</InputLabel>
-                <InputText
-                  id="projectSettingsName"
+              <Stack>
+                <UiTextInput
+                  label="Project Name"
                   value={projectDisplayedName}
                   placeholder="Untitled Movie"
+                  error={projectNameError}
                   onChange={onRenameProject}
-                  testId={ProjectSettingsModal.testIds.nameInput}
                 />
-              </InputGroup>
 
-              <InputGroup>
-                <InputLabel inputId="projectSettingsDirectoryPath">
-                  Project files will be saved to...
-                </InputLabel>
-                {workingDirectory !== undefined && (
-                  <InputText
-                    id="projectSettingsDirectoryPath"
-                    value={`./${workingDirectory.friendlyName}/${makeProjectDirectoryName(
-                      project
-                    )}`}
-                    placeholder="Untitled Movie"
-                    readOnly
-                    testId={ProjectSettingsModal.testIds.directoryPathInput}
-                  />
-                )}
-                {!currentProject && (
-                  <Button
-                    title="Choose Folder"
-                    onClick={() => changeWorkingDirectory?.()}
-                    className={classNames("project-settings-modal__choose-folder-button", {
-                      "project-settings-modal__choose-folder-button--no-working-directory":
-                        !workingDirectory,
-                    })}
-                    testId={ProjectSettingsModal.testIds.chooseFolderButton}
-                  />
-                )}
-              </InputGroup>
+                <UiTextInput
+                  label="Project files will be saved to..."
+                  value={
+                    workingDirectory
+                      ? `./${workingDirectory.friendlyName}/${makeProjectDirectoryName(project)}`
+                      : undefined
+                  }
+                  placeholder="No folder selected"
+                  readOnly
+                  error={directoryError}
+                  rightSection={
+                    !currentProject && (
+                      <UiButton
+                        onClick={changeWorkingDirectory}
+                        semanticColor={
+                          workingDirectory ? SemanticColor.SECONDARY : SemanticColor.PRIMARY
+                        }
+                      >
+                        Choose Folder
+                      </UiButton>
+                    )
+                  }
+                />
+              </Stack>
             </ContentBlock>
           </Content>
         </PageBody>
@@ -150,13 +144,14 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
       <ModalFooter>
         <Toolbar borderTop>
           <ToolbarItem align={ToolbarItemAlign.LEFT}>
-            <Button
-              title={currentProject ? "Update Project" : "Create Project"}
+            <UiButton
               icon={currentProject ? IconName.SAVE : IconName.ADD}
               onClick={onSubmitProjectSettings}
               disabled={!workingDirectory}
-              testId={ProjectSettingsModal.testIds.submitButton}
-            />
+              semanticColor={SemanticColor.PRIMARY}
+            >
+              {currentProject ? "Update Project" : "Create Project"}
+            </UiButton>
           </ToolbarItem>
         </Toolbar>
       </ModalFooter>

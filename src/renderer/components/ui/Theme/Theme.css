@@ -1,0 +1,19 @@
+/* TODO these imports should be phased out */
+@import "../../../styles/_colors.css";
+@import "../../../styles/_sizes.css";
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 300 400 500 600 700 800;
+  src: url("./OpenSans.ttf") format("truetype");
+}
+
+body {
+  user-select: none;
+  height: 100vh;
+}
+
+#root {
+  height: 100%;
+}
