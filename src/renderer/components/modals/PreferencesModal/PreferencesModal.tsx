@@ -7,10 +7,7 @@ import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
-import InputGroup from "../../common/Input/InputGroup/InputGroup";
-import InputLabel from "../../common/Input/InputLabel/InputLabel";
-import InputNumber from "../../common/Input/InputNumber/InputNumber";
-import InputSwitch from "../../common/Input/InputSwitch/InputSwitch";
+
 import Modal from "../../common/Modal/Modal";
 import ModalBody from "../../common/ModalBody/ModalBody";
 import ModalFooter from "../../common/ModalFooter/ModalFooter";
@@ -18,6 +15,9 @@ import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
+import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
+import { Stack } from "@mantine/core";
+import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
 
 const PreferencesModal = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -43,9 +43,9 @@ const PreferencesModal = (): JSX.Element => {
               <ContentBlock title="Preferences">
                 <h3>Interface</h3>
 
-                <InputGroup row>
-                  <InputSwitch
-                    id="preferencesPlayCaptureSound"
+                <Stack>
+                  <UiSwitch
+                    label="Play capture sound"
                     checked={userPreferences.playCaptureSound}
                     onChange={() =>
                       dispatch(
@@ -55,12 +55,9 @@ const PreferencesModal = (): JSX.Element => {
                       )
                     }
                   />
-                  <InputLabel inputId="preferencesPlayCaptureSound">Play capture sound</InputLabel>
-                </InputGroup>
 
-                <InputGroup row>
-                  <InputSwitch
-                    id="preferencesShowTimestampInSeconds"
+                  <UiSwitch
+                    label="Initially show timestamp in seconds rather than frames"
                     checked={userPreferences.showTimestampInSeconds}
                     onChange={() =>
                       dispatch(
@@ -70,30 +67,24 @@ const PreferencesModal = (): JSX.Element => {
                       )
                     }
                   />
-                  <InputLabel inputId="preferencesShowTimestampInSeconds">
-                    Initially show timestamp in seconds rather than frames
-                  </InputLabel>
-                </InputGroup>
+                </Stack>
 
                 <h3>Playback</h3>
 
-                <InputGroup row>
-                  <InputLabel inputId="preferencesShortPlayLength">Short play length</InputLabel>
-                  <InputNumber
-                    id="preferencesShortPlayLength"
-                    min={1}
-                    max={99}
-                    value={userPreferences.shortPlayLength}
-                    onChange={(newValue) =>
-                      dispatch(
-                        editUserPreferences({
-                          shortPlayLength: newValue,
-                        })
-                      )
-                    }
-                    validateOnChange
-                  />
-                </InputGroup>
+                <UiNumberInput
+                  label="Short play length"
+                  value={userPreferences.shortPlayLength}
+                  placeholder="6"
+                  min={1}
+                  max={99}
+                  onChange={(newValue) =>
+                    dispatch(
+                      editUserPreferences({
+                        shortPlayLength: newValue,
+                      })
+                    )
+                  }
+                />
               </ContentBlock>
             </Content>
           </PageBody>
