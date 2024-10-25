@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
 import { editUserPreferences } from "../../../redux/slices/appSlice";
 import { RootState } from "../../../redux/store";
-import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
@@ -18,6 +17,7 @@ import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarI
 import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
 import { Stack } from "@mantine/core";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
+import { UiButton } from "../../ui/UiButton/UiButton";
 
 const PreferencesModal = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -94,11 +94,12 @@ const PreferencesModal = (): JSX.Element => {
       <ModalFooter>
         <Toolbar borderTop>
           <ToolbarItem align={ToolbarItemAlign.LEFT}>
-            <Button
-              title="Open user data folder"
+            <UiButton
               icon={IconName.FOLDER}
               onClick={window.preload.ipcToMain.openUserDataDirectory}
-            />
+            >
+              Open user data folder
+            </UiButton>
           </ToolbarItem>
           <ToolbarItem align={ToolbarItemAlign.RIGHT}>Version {appVersion}</ToolbarItem>
         </Toolbar>
