@@ -18,7 +18,6 @@ import {
   makeProjectDirectoryName,
   makeTake,
 } from "../../../services/project/projectBuilder";
-import Button from "../../common/Button/Button";
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
@@ -32,12 +31,12 @@ import PageBody from "../../common/PageBody/PageBody";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import "./ProjectSettingsModal.css";
-import classNames from "classnames";
 import { JSXElementWithTestIds } from "../../../types";
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import { Project } from "../../../../common/project/Project";
 import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
 import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
+import { UiButton } from "../../ui/UiButton/UiButton";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -131,15 +130,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
                   />
                 )}
                 {!currentProject && (
-                  <Button
-                    title="Choose Folder"
-                    onClick={() => changeWorkingDirectory?.()}
-                    className={classNames("project-settings-modal__choose-folder-button", {
-                      "project-settings-modal__choose-folder-button--no-working-directory":
-                        !workingDirectory,
-                    })}
-                    testId={ProjectSettingsModal.testIds.chooseFolderButton}
-                  />
+                  <UiButton onClick={changeWorkingDirectory}>Choose Folder</UiButton>
                 )}
               </InputGroup>
             </ContentBlock>
@@ -150,13 +141,13 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
       <ModalFooter>
         <Toolbar borderTop>
           <ToolbarItem align={ToolbarItemAlign.LEFT}>
-            <Button
-              title={currentProject ? "Update Project" : "Create Project"}
+            <UiButton
               icon={currentProject ? IconName.SAVE : IconName.ADD}
               onClick={onSubmitProjectSettings}
               disabled={!workingDirectory}
-              testId={ProjectSettingsModal.testIds.submitButton}
-            />
+            >
+              {currentProject ? "Update Project" : "Create Project"}
+            </UiButton>
           </ToolbarItem>
         </Toolbar>
       </ModalFooter>

@@ -1,11 +1,3 @@
 .project-settings-modal__error-message {
   color: var(--ba-lightred);
 }
-
-.project-settings-modal__choose-folder-button {
-  margin-top: var(--margin-050);
-}
-
-.project-settings-modal__choose-folder-button--no-working-directory {
-  outline: var(--margin-025) solid var(--ba-blue);
-}

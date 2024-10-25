@@ -8,10 +8,11 @@ import { ReactNode } from "react";
 interface UiButtonProps {
   icon?: IconName;
   onClick?: (() => void) | PageRoute;
+  disabled?: boolean;
   children?: ReactNode;
 }
 
-export const UiButton = ({ icon, onClick, children }: UiButtonProps) => {
+export const UiButton = ({ icon, onClick, disabled = false, children }: UiButtonProps) => {
   const navigate = useNavigate();
   const handleClick = () => (typeof onClick === "string" ? navigate(onClick) : onClick?.());
 
@@ -19,6 +20,7 @@ export const UiButton = ({ icon, onClick, children }: UiButtonProps) => {
     <Button
       leftSection={icon !== undefined && <Icon name={icon} />}
       variant="filled"
+      disabled={disabled}
       onClick={handleClick}
     >
       {children}
