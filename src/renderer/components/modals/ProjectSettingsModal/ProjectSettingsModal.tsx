@@ -21,9 +21,6 @@ import {
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
-import InputGroup from "../../common/Input/InputGroup/InputGroup";
-import InputLabel from "../../common/Input/InputLabel/InputLabel";
-import InputText from "../../common/Input/InputText/InputText";
 import Modal from "../../common/Modal/Modal";
 import ModalBody from "../../common/ModalBody/ModalBody";
 import ModalFooter from "../../common/ModalFooter/ModalFooter";
@@ -38,6 +35,8 @@ import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager
 import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
 import { UiButton } from "../../ui/UiButton/UiButton";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
+import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
+import { Stack } from "@mantine/core";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -87,7 +86,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
       }
       if (e instanceof ProjectDirectoryIsInsideAnotherProjectError) {
         return setErrorMessage(
-          `Unable to create project as the selected directory is another .${PROJECT_DIRECTORY_EXTENSION} folder. Please select a different directory and try again.`
+          `Unable to create project as the selected folder is another .${PROJECT_DIRECTORY_EXTENSION} folder. Please choose a different folder and try again.`
         );
       }
 
@@ -104,43 +103,38 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
               {errorMessage !== undefined && (
                 <p className="project-settings-modal__error-message">{errorMessage}</p>
               )}
-              <InputGroup>
-                <InputLabel inputId="projectSettingsName">Project Name</InputLabel>
-                <InputText
-                  id="projectSettingsName"
+
+              <Stack>
+                <UiTextInput
+                  label="Project Name"
                   value={projectDisplayedName}
                   placeholder="Untitled Movie"
                   onChange={onRenameProject}
-                  testId={ProjectSettingsModal.testIds.nameInput}
                 />
-              </InputGroup>
 
-              <InputGroup>
-                <InputLabel inputId="projectSettingsDirectoryPath">
-                  Project files will be saved to...
-                </InputLabel>
-                {workingDirectory !== undefined && (
-                  <InputText
-                    id="projectSettingsDirectoryPath"
-                    value={`./${workingDirectory.friendlyName}/${makeProjectDirectoryName(
-                      project
-                    )}`}
-                    placeholder="Untitled Movie"
-                    readOnly
-                    testId={ProjectSettingsModal.testIds.directoryPathInput}
-                  />
-                )}
-                {!currentProject && (
-                  <UiButton
-                    onClick={changeWorkingDirectory}
-                    semanticColor={
-                      workingDirectory ? SemanticColor.SECONDARY : SemanticColor.PRIMARY
-                    }
-                  >
-                    Choose Folder
-                  </UiButton>
-                )}
-              </InputGroup>
+                <UiTextInput
+                  label="Project files will be saved to..."
+                  value={
+                    workingDirectory
+                      ? `./${workingDirectory.friendlyName}/${makeProjectDirectoryName(project)}`
+                      : undefined
+                  }
+                  placeholder="No folder selected"
+                  readOnly
+                  rightSection={
+                    !currentProject && (
+                      <UiButton
+                        onClick={changeWorkingDirectory}
+                        semanticColor={
+                          workingDirectory ? SemanticColor.SECONDARY : SemanticColor.PRIMARY
+                        }
+                      >
+                        Choose Folder
+                      </UiButton>
+                    )
+                  }
+                />
+              </Stack>
             </ContentBlock>
           </Content>
         </PageBody>
