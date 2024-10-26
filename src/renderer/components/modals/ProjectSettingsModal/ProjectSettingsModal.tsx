@@ -60,7 +60,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
 
     if (currentProject) {
       dispatch(updateProject(formattedProject));
-      navigate(PageRoute.ANIMATOR);
+      navigate(PageRoute.ANIMATOR_MANAGE_TAKES_DRAWER);
     } else {
       await newProject(formattedProject);
     }

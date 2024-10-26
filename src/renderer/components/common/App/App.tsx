@@ -14,6 +14,7 @@ import { FileManagerContextProvider } from "../../../context/FileManagerContext/
 import { ProjectFilesContextProvider } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
 import { PersistedDirectoriesContextProvider } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContextProvider";
 import { Theme } from "../../ui/Theme/Theme";
+import { ManageTakesDrawer } from "../../modals/ManageTakesDrawer/ManageTakesDrawer";
 
 const App = (): JSX.Element => {
   const { project, take } = useSelector((state: RootState) => state.project);
@@ -58,6 +59,10 @@ const App = (): JSX.Element => {
                   </>
                 }
               >
+                <Route
+                  path={PageRoute.ANIMATOR_MANAGE_TAKES_DRAWER}
+                  element={<ManageTakesDrawer />}
+                />
                 <Route
                   path={PageRoute.ANIMATOR_PROJECT_SETTINGS_MODAL}
                   element={<ProjectSettingsModal />}

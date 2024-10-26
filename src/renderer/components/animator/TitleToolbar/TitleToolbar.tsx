@@ -22,7 +22,7 @@ const TitleToolbar = (): JSX.Element => {
         <Button
           label={project.name}
           title="Manage project"
-          onClick={PageRoute.ANIMATOR_PROJECT_SETTINGS_MODAL}
+          onClick={PageRoute.ANIMATOR_MANAGE_TAKES_DRAWER}
           color={ButtonColor.TRANSPARENT}
           icon={IconName.FOLDER}
         />
