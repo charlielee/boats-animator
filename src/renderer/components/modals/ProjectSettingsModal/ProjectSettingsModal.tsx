@@ -1,9 +1,13 @@
+import { Stack } from "@mantine/core";
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
+import { Project } from "../../../../common/project/Project";
 import { DEFAULT_PROJECT_NAME, PROJECT_DIRECTORY_EXTENSION } from "../../../../common/utils";
+import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
+import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import {
   addProject,
@@ -12,30 +16,20 @@ import {
   updateProject,
 } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
+import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
 import {
   formatProjectName,
   makeProject,
   makeProjectDirectoryName,
   makeTake,
 } from "../../../services/project/projectBuilder";
-import Content from "../../common/Content/Content";
-import ContentBlock from "../../common/ContentBlock/ContentBlock";
-import IconName from "../../common/Icon/IconName";
-import Modal from "../../common/Modal/Modal";
-import ModalBody from "../../common/ModalBody/ModalBody";
-import ModalFooter from "../../common/ModalFooter/ModalFooter";
-import PageBody from "../../common/PageBody/PageBody";
-import Toolbar from "../../common/Toolbar/Toolbar";
-import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import { JSXElementWithTestIds } from "../../../types";
-import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
-import { Project } from "../../../../common/project/Project";
-import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
-import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
-import { UiButton } from "../../ui/UiButton/UiButton";
+import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
+import { UiButton } from "../../ui/UiButton/UiButton";
+import { UiModal } from "../../ui/UiModal/UiModal";
+import { UiModalFooter } from "../../ui/UiModalFooter/UiModalFooter";
 import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
-import { Stack } from "@mantine/core";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -54,6 +48,12 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
 
   const onRenameProject = (newName: string) =>
     setProject((prevState) => makeProject({ ...prevState, name: newName }));
+
+  const onChangeWorkingDirectory = async () => {
+    setDirectoryError(undefined);
+    setProjectNameError(undefined);
+    await changeWorkingDirectory?.();
+  };
 
   const onSubmitProjectSettings = async () => {
     const formattedProject = { ...project, name: formatProjectName(project.name) };
@@ -98,64 +98,53 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
   };
 
   return (
-    <Modal onClose={currentProject ? PageRoute.ANIMATOR : PageRoute.STARTUP_MODAL}>
-      <ModalBody>
-        <PageBody>
-          <Content>
-            <ContentBlock title={currentProject ? "Project Settings" : "New Project"}>
-              <Stack>
-                <UiTextInput
-                  label="Project Name"
-                  value={projectDisplayedName}
-                  placeholder="Untitled Movie"
-                  error={projectNameError}
-                  onChange={onRenameProject}
-                />
+    <UiModal
+      title={currentProject ? "Project Settings" : "New Project"}
+      onClose={currentProject ? PageRoute.ANIMATOR : PageRoute.STARTUP}
+    >
+      <Stack>
+        <UiTextInput
+          label="Project Name"
+          value={projectDisplayedName}
+          placeholder="Untitled Movie"
+          error={projectNameError}
+          onChange={onRenameProject}
+        />
 
-                <UiTextInput
-                  label="Project files will be saved to..."
-                  value={
-                    workingDirectory
-                      ? `./${workingDirectory.friendlyName}/${makeProjectDirectoryName(project)}`
-                      : undefined
-                  }
-                  placeholder="No folder selected"
-                  readOnly
-                  error={directoryError}
-                  rightSection={
-                    !currentProject && (
-                      <UiButton
-                        onClick={changeWorkingDirectory}
-                        semanticColor={
-                          workingDirectory ? SemanticColor.SECONDARY : SemanticColor.PRIMARY
-                        }
-                      >
-                        Choose Folder
-                      </UiButton>
-                    )
-                  }
-                />
-              </Stack>
-            </ContentBlock>
-          </Content>
-        </PageBody>
-      </ModalBody>
+        <UiTextInput
+          label="Project files will be saved to..."
+          value={
+            workingDirectory
+              ? `./${workingDirectory.friendlyName}/${makeProjectDirectoryName(project)}`
+              : undefined
+          }
+          placeholder="No folder selected"
+          readOnly
+          error={directoryError}
+          rightSection={
+            !currentProject && (
+              <UiButton
+                onClick={onChangeWorkingDirectory}
+                semanticColor={workingDirectory ? SemanticColor.SECONDARY : SemanticColor.PRIMARY}
+              >
+                Choose Folder
+              </UiButton>
+            )
+          }
+        />
+      </Stack>
 
-      <ModalFooter>
-        <Toolbar borderTop>
-          <ToolbarItem align={ToolbarItemAlign.LEFT}>
-            <UiButton
-              icon={currentProject ? IconName.SAVE : IconName.ADD}
-              onClick={onSubmitProjectSettings}
-              disabled={!workingDirectory}
-              semanticColor={SemanticColor.PRIMARY}
-            >
-              {currentProject ? "Update Project" : "Create Project"}
-            </UiButton>
-          </ToolbarItem>
-        </Toolbar>
-      </ModalFooter>
-    </Modal>
+      <UiModalFooter>
+        <UiButton
+          icon={currentProject ? IconName.SAVE : IconName.ADD}
+          onClick={onSubmitProjectSettings}
+          disabled={!workingDirectory}
+          semanticColor={SemanticColor.PRIMARY}
+        >
+          {currentProject ? "Update Project" : "Create Project"}
+        </UiButton>
+      </UiModalFooter>
+    </UiModal>
   );
 };
 

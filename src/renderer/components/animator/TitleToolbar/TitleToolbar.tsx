@@ -22,7 +22,7 @@ const TitleToolbar = (): JSX.Element => {
         <Button
           label={project.name}
           title="Manage project"
-          onClick={PageRoute.PROJECT_SETTINGS_MODAL}
+          onClick={PageRoute.ANIMATOR_PROJECT_SETTINGS_MODAL}
           color={ButtonColor.TRANSPARENT}
           icon={IconName.FOLDER}
         />
@@ -31,14 +31,14 @@ const TitleToolbar = (): JSX.Element => {
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
         <IconButton
           title="Render current take as a video file"
-          onClick={PageRoute.EXPORT_VIDEO_MODAL}
+          onClick={PageRoute.ANIMATOR_EXPORT_VIDEO_MODAL}
           icon={IconName.VIDEO}
           disabled={getTrackLength(take.frameTrack) === 0}
           color={ButtonColor.TRANSPARENT}
         />
         <IconButton
           title="Preferences"
-          onClick={PageRoute.PREFERENCES_MODAL}
+          onClick={PageRoute.ANIMATOR_PREFERENCES_MODAL}
           icon={IconName.SETTINGS}
           color={ButtonColor.TRANSPARENT}
         />

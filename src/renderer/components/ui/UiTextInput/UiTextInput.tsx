@@ -10,7 +10,7 @@ interface UiTextInputProps {
   error?: string;
   // TODO make a button prop
   rightSection?: ReactNode;
-  onChange?(newValue: string): void;
+  onChange?: (newValue: string) => void;
 }
 
 export const UiTextInput = ({
