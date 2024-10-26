@@ -1,9 +1,13 @@
+import { Stack } from "@mantine/core";
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
+import { Project } from "../../../../common/project/Project";
 import { DEFAULT_PROJECT_NAME, PROJECT_DIRECTORY_EXTENSION } from "../../../../common/utils";
+import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
+import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import {
   addProject,
@@ -12,32 +16,20 @@ import {
   updateProject,
 } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
+import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
 import {
   formatProjectName,
   makeProject,
   makeProjectDirectoryName,
   makeTake,
 } from "../../../services/project/projectBuilder";
-import Content from "../../common/Content/Content";
-import ContentBlock from "../../common/ContentBlock/ContentBlock";
-import IconName from "../../common/Icon/IconName";
-import Modal from "../../common/Modal/Modal";
-import ModalBody from "../../common/ModalBody/ModalBody";
-import ModalFooter from "../../common/ModalFooter/ModalFooter";
-import PageBody from "../../common/PageBody/PageBody";
-import Toolbar from "../../common/Toolbar/Toolbar";
-import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import { JSXElementWithTestIds } from "../../../types";
-import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
-import { Project } from "../../../../common/project/Project";
-import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
-import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
-import { UiButton } from "../../ui/UiButton/UiButton";
+import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
-import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
-import { Divider, Group, Stack } from "@mantine/core";
+import { UiButton } from "../../ui/UiButton/UiButton";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiModalFooter } from "../../ui/UiModalFooter/UiModalFooter";
+import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
 
 const ProjectSettingsModal = (): JSXElementWithTestIds => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -108,7 +100,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
   return (
     <UiModal
       title={currentProject ? "Project Settings" : "New Project"}
-      onClose={currentProject ? PageRoute.ANIMATOR : PageRoute.STARTUP_PAGE}
+      onClose={currentProject ? PageRoute.ANIMATOR : PageRoute.STARTUP}
     >
       <Stack>
         <UiTextInput

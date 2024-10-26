@@ -4,7 +4,7 @@ import Animator from "../../animator/Animator/Animator";
 import ExportVideoModal from "../../modals/ExportVideoModal/ExportVideoModal";
 import PreferencesModal from "../../modals/PreferencesModal/PreferencesModal";
 import ProjectSettingsModal from "../../modals/ProjectSettingsModal/ProjectSettingsModal";
-import StartupModal from "../../startup/StartupPage/StartupPage";
+import { StartupPage } from "../../startup/StartupPage/StartupPage";
 import AppListener from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
 import { useSelector } from "react-redux";
@@ -31,9 +31,23 @@ const App = (): JSX.Element => {
         <PersistedDirectoriesContextProvider>
           <ProjectFilesContextProvider>
             <Routes>
-              <Route index element={<Navigate to={PageRoute.STARTUP_PAGE} />} />
+              <Route index element={<Navigate to={PageRoute.STARTUP} />} />
 
-              <Route path={PageRoute.STARTUP_PAGE} element={<StartupModal />} />
+              <Route
+                path={PageRoute.STARTUP}
+                element={
+                  <>
+                    <Outlet></Outlet>
+                    <StartupPage />
+                  </>
+                }
+              >
+                <Route
+                  path={PageRoute.STARTUP_NEW_PROJECT_MODAL}
+                  element={<ProjectSettingsModal />}
+                />
+                <Route path={PageRoute.STARTUP_PREFERENCES_MODAL} element={<PreferencesModal />} />
+              </Route>
 
               <Route
                 path={PageRoute.ANIMATOR}
@@ -44,9 +58,15 @@ const App = (): JSX.Element => {
                   </>
                 }
               >
-                <Route path={PageRoute.EXPORT_VIDEO_MODAL} element={<ExportVideoModal />} />
-                <Route path={PageRoute.PREFERENCES_MODAL} element={<PreferencesModal />} />
-                <Route path={PageRoute.PROJECT_SETTINGS_MODAL} element={<ProjectSettingsModal />} />
+                <Route
+                  path={PageRoute.ANIMATOR_PROJECT_SETTINGS_MODAL}
+                  element={<ProjectSettingsModal />}
+                />
+                <Route
+                  path={PageRoute.ANIMATOR_EXPORT_VIDEO_MODAL}
+                  element={<ExportVideoModal />}
+                />
+                <Route path={PageRoute.ANIMATOR_PREFERENCES_MODAL} element={<PreferencesModal />} />
               </Route>
             </Routes>
           </ProjectFilesContextProvider>

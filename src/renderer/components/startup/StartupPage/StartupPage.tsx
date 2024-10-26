@@ -1,17 +1,17 @@
-import { Flex, Group, ScrollArea, Stack } from "@mantine/core";
+import { Group, Stack } from "@mantine/core";
 import { PageRoute } from "../../../../common/PageRoute";
 import Content from "../../common/Content/Content";
+import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import Sidebar from "../../common/Sidebar/Sidebar";
+import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
-import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
-import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import NewsFeed from "../NewsFeed/NewsFeed";
 
-const StartupModal = (): JSX.Element => (
+export const StartupPage = (): JSX.Element => (
   <Page>
     <PageBody>
       <Content>
@@ -20,13 +20,16 @@ const StartupModal = (): JSX.Element => (
             <Group>
               <UiButton
                 icon={IconName.ADD}
-                onClick={PageRoute.PROJECT_SETTINGS_MODAL}
+                onClick={PageRoute.STARTUP_NEW_PROJECT_MODAL}
                 semanticColor={SemanticColor.PRIMARY}
               >
                 New Project
               </UiButton>
               <UiButton icon={IconName.FOLDER}>Open Project</UiButton>
             </Group>
+            <UiButton icon={IconName.SETTINGS} onClick={PageRoute.STARTUP_PREFERENCES_MODAL}>
+              Preferences
+            </UiButton>
           </Stack>
         </ContentBlock>
       </Content>
@@ -39,5 +42,3 @@ const StartupModal = (): JSX.Element => (
     </PageBody>
   </Page>
 );
-
-export default StartupModal;
