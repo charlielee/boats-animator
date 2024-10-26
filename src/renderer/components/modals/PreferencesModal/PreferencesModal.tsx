@@ -34,7 +34,7 @@ const PreferencesModal = (): JSX.Element => {
   }, []);
 
   return (
-    <Modal onClose={take ? PageRoute.ANIMATOR : PageRoute.STARTUP_MODAL}>
+    <Modal onClose={take ? PageRoute.ANIMATOR : PageRoute.STARTUP_PAGE}>
       <ModalBody>
         <Page>
           <PageBody>

@@ -4,7 +4,7 @@ import Animator from "../../animator/Animator/Animator";
 import ExportVideoModal from "../../modals/ExportVideoModal/ExportVideoModal";
 import PreferencesModal from "../../modals/PreferencesModal/PreferencesModal";
 import ProjectSettingsModal from "../../modals/ProjectSettingsModal/ProjectSettingsModal";
-import StartupModal from "../../modals/StartupModal/StartupModal";
+import StartupModal from "../../startup/StartupPage/StartupPage";
 import AppListener from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
 import { useSelector } from "react-redux";
@@ -31,9 +31,9 @@ const App = (): JSX.Element => {
         <PersistedDirectoriesContextProvider>
           <ProjectFilesContextProvider>
             <Routes>
-              <Route index element={<Navigate to={PageRoute.STARTUP_MODAL} />} />
+              <Route index element={<Navigate to={PageRoute.STARTUP_PAGE} />} />
 
-              <Route path={PageRoute.STARTUP_MODAL} element={<StartupModal />} />
+              <Route path={PageRoute.STARTUP_PAGE} element={<StartupModal />} />
 
               <Route
                 path={PageRoute.ANIMATOR}

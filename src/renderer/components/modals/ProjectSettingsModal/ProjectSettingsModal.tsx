@@ -98,7 +98,7 @@ const ProjectSettingsModal = (): JSXElementWithTestIds => {
   };
 
   return (
-    <Modal onClose={currentProject ? PageRoute.ANIMATOR : PageRoute.STARTUP_MODAL}>
+    <Modal onClose={currentProject ? PageRoute.ANIMATOR : PageRoute.STARTUP_PAGE}>
       <ModalBody>
         <PageBody>
           <Content>
