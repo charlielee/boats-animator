@@ -22,3 +22,4 @@ export const PROJECT_DIRECTORY_EXTENSION = "boatsfiles";
 export const PROJECT_INFO_FILE_NAME = "project.boatsinfo";
 export const DEFAULT_PROJECT_NAME = "Untitled Movie";
 export const DEFAULT_PROJECT_FILE_NAME = "Untitled-Movie";
+export const DEFAULT_PROJECT_FRAME_RATE = 15;

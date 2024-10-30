@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
-import { PROJECT_DIRECTORY_EXTENSION } from "../../../../common/utils";
+import { DEFAULT_PROJECT_FRAME_RATE, PROJECT_DIRECTORY_EXTENSION } from "../../../../common/utils";
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
@@ -23,6 +23,7 @@ import { UiButton } from "../../ui/UiButton/UiButton";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiModalFooter } from "../../ui/UiModalFooter/UiModalFooter";
 import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
+import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
 
 export const NewProjectModal = () => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -31,7 +32,9 @@ export const NewProjectModal = () => {
   const workingDirectory = useWorkingDirectory();
   const { changeWorkingDirectory, addProjectDirectory } = useContext(PersistedDirectoriesContext);
 
-  const [project, setProject] = useState(makeProject({ name: "" }));
+  const [project, setProject] = useState(
+    makeProject({ name: "", projectFrameRate: DEFAULT_PROJECT_FRAME_RATE })
+  );
   const [projectNameError, setProjectNameError] = useState<string | undefined>(undefined);
   const [directoryError, setDirectoryError] = useState<string | undefined>(undefined);
 
@@ -48,6 +51,9 @@ export const NewProjectModal = () => {
     await changeWorkingDirectory?.();
   };
 
+  const onChangeFrameRate = (newFrameRate: number) =>
+    setProject((prevState) => makeProject({ ...prevState, projectFrameRate: newFrameRate }));
+
   const onSubmitNewProject = async () => {
     clearFormErrors();
     const formattedProject = { ...project, name: formatProjectName(project.name) };
@@ -61,7 +67,7 @@ export const NewProjectModal = () => {
         shotNumber: 1,
         takeNumber: 1,
         // TODO should be able to set frame rate from here
-        frameRate: 15,
+        frameRate: formattedProject.projectFrameRate,
       });
       dispatch(addTake(take));
       navigate(PageRoute.ANIMATOR);
@@ -111,6 +117,15 @@ export const NewProjectModal = () => {
               Choose Folder
             </UiButton>
           }
+        />
+        <UiNumberInput
+          label="Project Frame Rate"
+          value={project.projectFrameRate}
+          placeholder={`${DEFAULT_PROJECT_FRAME_RATE.toString(10)} FPS`}
+          min={1}
+          max={60}
+          suffix=" FPS"
+          onChange={onChangeFrameRate}
         />
       </Stack>
 

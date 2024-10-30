@@ -5,6 +5,7 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import {
   DEFAULT_PROJECT_FILE_NAME,
+  DEFAULT_PROJECT_FRAME_RATE,
   DEFAULT_PROJECT_NAME,
   PROJECT_DIRECTORY_EXTENSION,
   zeroPad,
@@ -21,9 +22,16 @@ interface ProjectBuilderOptions {
   frameRate: number;
 }
 
-export const makeProject = ({ name }: { name: string }): Project => ({
+export const makeProject = ({
+  name,
+  projectFrameRate,
+}: {
+  name: string;
+  projectFrameRate: number;
+}): Project => ({
   name: name.substring(0, 256),
   fileName: makeProjectFileName(name),
+  projectFrameRate,
 });
 
 const makeProjectFileName = (name: string) => {
