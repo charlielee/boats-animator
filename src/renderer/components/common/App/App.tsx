@@ -3,7 +3,7 @@ import { PageRoute } from "../../../../common/PageRoute";
 import Animator from "../../animator/Animator/Animator";
 import ExportVideoModal from "../../modals/ExportVideoModal/ExportVideoModal";
 import PreferencesModal from "../../modals/PreferencesModal/PreferencesModal";
-import ProjectSettingsModal from "../../modals/ProjectSettingsModal/ProjectSettingsModal";
+import { NewProjectModal } from "../../modals/NewProjectModal/NewProjectModal";
 import { StartupPage } from "../../startup/StartupPage/StartupPage";
 import AppListener from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
@@ -42,10 +42,7 @@ const App = (): JSX.Element => {
                   </>
                 }
               >
-                <Route
-                  path={PageRoute.STARTUP_NEW_PROJECT_MODAL}
-                  element={<ProjectSettingsModal />}
-                />
+                <Route path={PageRoute.STARTUP_NEW_PROJECT_MODAL} element={<NewProjectModal />} />
                 <Route path={PageRoute.STARTUP_PREFERENCES_MODAL} element={<PreferencesModal />} />
               </Route>
 
@@ -58,10 +55,6 @@ const App = (): JSX.Element => {
                   </>
                 }
               >
-                <Route
-                  path={PageRoute.ANIMATOR_PROJECT_SETTINGS_MODAL}
-                  element={<ProjectSettingsModal />}
-                />
                 <Route
                   path={PageRoute.ANIMATOR_EXPORT_VIDEO_MODAL}
                   element={<ExportVideoModal />}

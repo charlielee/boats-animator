@@ -21,9 +21,16 @@ interface ProjectBuilderOptions {
   frameRate: number;
 }
 
-export const makeProject = ({ name }: { name: string }): Project => ({
+export const makeProject = ({
+  name,
+  projectFrameRate,
+}: {
+  name: string;
+  projectFrameRate: number;
+}): Project => ({
   name: name.substring(0, 256),
   fileName: makeProjectFileName(name),
+  projectFrameRate,
 });
 
 const makeProjectFileName = (name: string) => {
@@ -32,8 +39,11 @@ const makeProjectFileName = (name: string) => {
     .substring(0, 60)
     .trim()
     .replace(/ /g, "-");
-  return fileName === "" ? DEFAULT_PROJECT_FILE_NAME : fileName;
+  return fileName === "" ? makeUniqueDefaultProjectFileName() : fileName;
 };
+
+const makeUniqueDefaultProjectFileName = () =>
+  `${DEFAULT_PROJECT_FILE_NAME}-${uuidv4().substring(0, 6)}`;
 
 export const formatProjectName = (name: string) =>
   name.trim() === "" ? DEFAULT_PROJECT_NAME : name.trim();

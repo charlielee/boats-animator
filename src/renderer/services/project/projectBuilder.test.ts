@@ -24,41 +24,46 @@ const projectDirectory = `${PROJECT_FILE_NAME}.${PROJECT_DIRECTORY_EXTENSION}`;
 
 describe("makeProject", () => {
   it("should make project with the supplied options", () => {
-    expect(makeProject({ name: PROJECT_NAME })).toEqual({
+    expect(makeProject({ name: PROJECT_NAME, projectFrameRate: 1 })).toEqual({
       name: PROJECT_NAME,
       fileName: PROJECT_FILE_NAME,
+      projectFrameRate: 1,
     });
   });
 
   it("should truncate long project name", () => {
     const projectName = "a".repeat(256);
-    expect(makeProject({ name: projectName })).toEqual({
+    expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: "a".repeat(256),
       fileName: "a".repeat(60),
+      projectFrameRate: 15,
     });
   });
 
   it("should handle project name with special characters", () => {
     const projectName = ' 🚢<>:"My/\\|Test ?*.Movié 01!龙🐸 ';
-    expect(makeProject({ name: projectName })).toEqual({
+    expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: projectName,
       fileName: "🚢MyTest-Movié-01!龙🐸",
+      projectFrameRate: 15,
     });
   });
 
   it("should use default project file name if name is blank", () => {
     const projectName = "";
-    expect(makeProject({ name: projectName })).toEqual({
+    expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: projectName,
-      fileName: DEFAULT_PROJECT_FILE_NAME,
+      fileName: expect.stringContaining(DEFAULT_PROJECT_FILE_NAME),
+      projectFrameRate: 15,
     });
   });
 
   it("should use default project file name if name is only special characters", () => {
     const projectName = ' <>:"/\\|?*. ';
-    expect(makeProject({ name: projectName })).toEqual({
+    expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: projectName,
-      fileName: DEFAULT_PROJECT_FILE_NAME,
+      fileName: expect.stringContaining(DEFAULT_PROJECT_FILE_NAME),
+      projectFrameRate: 15,
     });
   });
 });
