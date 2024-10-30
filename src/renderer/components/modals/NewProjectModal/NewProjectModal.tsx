@@ -8,7 +8,7 @@ import { PROJECT_DIRECTORY_EXTENSION } from "../../../../common/utils";
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
-import { addProject, addTake, setProjectDirectoryId } from "../../../redux/slices/projectSlice";
+import { addProject, addTake } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
 import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
 import {
@@ -54,9 +54,9 @@ export const NewProjectModal = () => {
 
     try {
       const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
-      // todo combine these two actions
-      dispatch(setProjectDirectoryId(projectDirectoryEntry.id));
-      dispatch(addProject(formattedProject));
+      dispatch(
+        addProject({ project: formattedProject, projectDirectoryId: projectDirectoryEntry.id })
+      );
       const take = makeTake({
         shotNumber: 1,
         takeNumber: 1,
