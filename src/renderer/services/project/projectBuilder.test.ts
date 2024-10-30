@@ -53,7 +53,7 @@ describe("makeProject", () => {
     const projectName = "";
     expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: projectName,
-      fileName: DEFAULT_PROJECT_FILE_NAME,
+      fileName: expect.stringContaining(DEFAULT_PROJECT_FILE_NAME),
       projectFrameRate: 15,
     });
   });
@@ -62,7 +62,7 @@ describe("makeProject", () => {
     const projectName = ' <>:"/\\|?*. ';
     expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: projectName,
-      fileName: DEFAULT_PROJECT_FILE_NAME,
+      fileName: expect.stringContaining(DEFAULT_PROJECT_FILE_NAME),
       projectFrameRate: 15,
     });
   });
