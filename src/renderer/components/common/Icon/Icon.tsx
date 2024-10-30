@@ -69,12 +69,7 @@ const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) =>
     case IconName.EXPORT:
       return <IoDownload {...props} />;
     case IconName.ERROR:
-      return (
-        <IoAlertCircleOutline
-          {...props}
-          className={classNames(props.className, "icon--color-error")}
-        />
-      );
+      return <IoAlertCircleOutline {...props} />;
     case IconName.FRAMES:
       return <IoImages {...props} />;
     case IconName.FOLDER:

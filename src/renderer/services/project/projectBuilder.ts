@@ -5,7 +5,6 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import {
   DEFAULT_PROJECT_FILE_NAME,
-  DEFAULT_PROJECT_FRAME_RATE,
   DEFAULT_PROJECT_NAME,
   PROJECT_DIRECTORY_EXTENSION,
   zeroPad,

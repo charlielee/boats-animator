@@ -24,6 +24,8 @@ import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiModalFooter } from "../../ui/UiModalFooter/UiModalFooter";
 import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
+import { UiAlert } from "../../ui/UiAlert/UiAlert";
+import * as rLogger from "../../../services/rLogger/rLogger";
 
 export const NewProjectModal = () => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -35,10 +37,13 @@ export const NewProjectModal = () => {
   const [project, setProject] = useState(
     makeProject({ name: "", projectFrameRate: DEFAULT_PROJECT_FRAME_RATE })
   );
+
+  const [generalError, setGeneralError] = useState<string | undefined>(undefined);
   const [projectNameError, setProjectNameError] = useState<string | undefined>(undefined);
   const [directoryError, setDirectoryError] = useState<string | undefined>(undefined);
 
   const clearFormErrors = () => {
+    setGeneralError(undefined);
     setDirectoryError(undefined);
     setProjectNameError(undefined);
   };
@@ -66,31 +71,35 @@ export const NewProjectModal = () => {
       const take = makeTake({
         shotNumber: 1,
         takeNumber: 1,
-        // TODO should be able to set frame rate from here
         frameRate: formattedProject.projectFrameRate,
       });
       dispatch(addTake(take));
       navigate(PageRoute.ANIMATOR);
     } catch (e) {
       if (e instanceof CreateDirectoryAlreadyExistsError) {
+        rLogger.warn("newProjectModal.projectAlreadyExists", project.fileName);
         return setProjectNameError(
           "Unable to create project as a project already exists with this name. Please rename your project and try again."
         );
       }
       if (e instanceof ProjectDirectoryIsInsideAnotherProjectError) {
+        rLogger.warn("newProjectModal.insideAnotherProject", workingDirectory?.friendlyName);
         return setDirectoryError(
           `Unable to create project as the selected folder is another .${PROJECT_DIRECTORY_EXTENSION} folder. Please choose a different folder and try again.`
         );
       }
 
-      // TODO shouldn't just throw here
-      throw e;
+      setGeneralError("Unable to create project due to an unexpected error. Please try again.");
+      rLogger.error("newProjectModal.unknownError", JSON.stringify(e));
     }
   };
 
   return (
     <UiModal title="New Project" onClose={PageRoute.STARTUP}>
       <Stack>
+        <UiAlert title="Error creating project" semanticColor={SemanticColor.DANGER}>
+          {generalError}
+        </UiAlert>
         <UiTextInput
           label="Project Name"
           value={project.name}
