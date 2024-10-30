@@ -2,6 +2,7 @@ import { PageRoute } from "../../../../common/PageRoute";
 import { Take } from "../../../../common/project/Take";
 import { zeroPad } from "../../../../common/utils";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
+import { makeTakeTitle } from "../../../services/project/projectBuilder";
 import { getTrackLength } from "../../../services/project/projectCalculator";
 import Button from "../../common/Button/Button";
 import { ButtonColor } from "../../common/Button/ButtonColor";
@@ -13,9 +14,6 @@ import "./TitleToolbar.css";
 
 const TitleToolbar = (): JSX.Element => {
   const { project, take } = useProjectAndTake();
-  const makeTakeTitle = (take: Take) =>
-    `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
-
   return (
     <Toolbar className="title-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>

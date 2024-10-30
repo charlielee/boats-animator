@@ -105,3 +105,6 @@ export const makeProjectInfoFileJson = async (
     takes,
   };
 };
+
+export const makeTakeTitle = (take: Take) =>
+  `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;

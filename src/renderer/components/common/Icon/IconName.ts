@@ -1,5 +1,6 @@
 const enum IconName {
   ADD = "ADD",
+  BACK = "BACK",
   CONNECT = "CONNECT",
   CAPTURE = "CAPTURE",
   CAPTURE_AUTO = "CAPTURE_AUTO",

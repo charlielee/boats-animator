@@ -3,6 +3,7 @@ import { IconBaseProps } from "react-icons";
 import {
   IoAddCircleOutline,
   IoAlertCircleOutline,
+  IoArrowBackOutline,
   IoCamera,
   IoCaretUpCircleOutline,
   IoCheckmarkCircleOutline,
@@ -46,10 +47,12 @@ interface IconProps {
 }
 
 const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) => {
-  // See possible icons at https://react-icons.github.io/react-icons/icons?name=io5
+  // See possible icons at https://react-icons.github.io/react-icons/icons/io5/
   switch (name) {
     case IconName.ADD:
       return <IoAddCircleOutline {...props} />;
+    case IconName.BACK:
+      return <IoArrowBackOutline {...props} />;
     case IconName.CAPTURE:
       return <IoCamera {...props} />;
     case IconName.CAPTURE_AUTO:
