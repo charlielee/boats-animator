@@ -28,13 +28,12 @@ export const NewProjectModal = () => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
+  const workingDirectory = useWorkingDirectory();
   const { changeWorkingDirectory, addProjectDirectory } = useContext(PersistedDirectoriesContext);
 
+  const [project, setProject] = useState(makeProject({ name: "" }));
   const [projectNameError, setProjectNameError] = useState<string | undefined>(undefined);
   const [directoryError, setDirectoryError] = useState<string | undefined>(undefined);
-
-  const [project, setProject] = useState(makeProject({ name: "" }));
-  const workingDirectory = useWorkingDirectory();
 
   const clearFormErrors = () => {
     setDirectoryError(undefined);
