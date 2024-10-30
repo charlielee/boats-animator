@@ -4,6 +4,5 @@ export const enum PageRoute {
   STARTUP_NEW_PROJECT_MODAL = "/startup/newProjectModal",
   ANIMATOR = "/animator",
   ANIMATOR_EXPORT_VIDEO_MODAL = "/animator/exportVideoModal",
-  ANIMATOR_PROJECT_SETTINGS_MODAL = "/animator/projectSettingsModal",
   ANIMATOR_PREFERENCES_MODAL = "/animator/preferencesModal",
 }
