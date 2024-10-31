@@ -86,7 +86,7 @@ export class FileManager {
       throw new DeleteFileInfoIdNotFoundError(fileInfoId);
     }
 
-    // TODO remove is a non-standard method so has to be casted to any
+    // Remove is a non-standard method so has to be casted to any
     await (fileInfo.fileHandle as any).remove();
     URL.revokeObjectURL(fileInfo.objectURL);
 

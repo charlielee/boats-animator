@@ -8,6 +8,7 @@ export const getTrackItemsLength = (trackItems: TrackItem[]): FrameCount =>
 
 export const getTrackLength = (track: Track): FrameCount => getTrackItemsLength(track.trackItems);
 
+// TODO should error if no track item is found
 export const getTrackItemStartPosition = (track: Track, trackItemIndex: number): TimelineIndex =>
   getTrackItemsLength(track.trackItems.slice(0, trackItemIndex)) as TimelineIndex;
 
