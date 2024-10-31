@@ -12,8 +12,10 @@
 body {
   user-select: none;
   height: 100vh;
+  max-height: 100vh;
 }
 
 #root {
   height: 100%;
+  z-index: -1;
 }

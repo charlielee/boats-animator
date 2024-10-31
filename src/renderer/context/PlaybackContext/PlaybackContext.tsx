@@ -13,6 +13,7 @@ export interface PlaybackContextProps {
   stopPlayback: (i?: TimelineIndex | undefined, pause?: boolean) => void;
   displayFrame: (name: PlaybackFrameName) => void;
   shortPlay: () => void;
+  deleteFrameAtCurrentTimelineIndex: () => void;
   timelineIndex: TimelineIndex | undefined;
   liveViewVisible: boolean;
   playing: boolean;
@@ -23,6 +24,7 @@ const defaultValue: PlaybackContextProps = {
   stopPlayback: () => undefined,
   displayFrame: () => undefined,
   shortPlay: () => undefined,
+  deleteFrameAtCurrentTimelineIndex: () => undefined,
   timelineIndex: undefined,
   liveViewVisible: true,
   playing: false,

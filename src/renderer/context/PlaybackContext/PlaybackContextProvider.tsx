@@ -1,11 +1,17 @@
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useContext, useRef, useState } from "react";
 import { FrameCount, TimelineIndex } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import useLinkedRefAndState from "../../hooks/useLinkedRefAndState";
 import useRequestAnimationFrame from "../../hooks/useRequestAnimationFrame";
-import { getTrackLength } from "../../services/project/projectCalculator";
+import {
+  getHighlightedTrackItem,
+  getLastTrackItem,
+  getTrackLength,
+} from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
 import PlaybackContext, { PlaybackContextProps, PlaybackFrameName } from "./PlaybackContext";
+import { ProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
+import { notifications } from "@mantine/notifications";
 
 interface PlaybackContextProviderProps {
   shortPlayLength: FrameCount;
@@ -20,6 +26,8 @@ const PlaybackContextProvider = ({
   playbackSpeed,
   children,
 }: PlaybackContextProviderProps) => {
+  const { deleteTrackItem } = useContext(ProjectFilesContext);
+
   const playForDuration = getTrackLength(take.frameTrack);
 
   // An `undefined` timeline index indicates the application is showing the live view
@@ -27,8 +35,6 @@ const PlaybackContextProvider = ({
     TimelineIndex | undefined
   >(undefined);
   const [playing, playingRef, setPlaying] = useLinkedRefAndState(false);
-
-  const [liveViewVisible, setLiveViewVisible] = useState(true);
 
   const delay = 1000 / take.frameRate / playbackSpeed;
   const previousTime = useRef<number>(0);
@@ -68,10 +74,8 @@ const PlaybackContextProvider = ({
 
     if (i === undefined || playForDuration === 0) {
       setTimelineIndex(undefined);
-      setLiveViewVisible(true);
     } else {
       setTimelineIndex(i);
-      setLiveViewVisible(false);
     }
   };
 
@@ -100,12 +104,23 @@ const PlaybackContextProvider = ({
     _startPlayback();
   };
 
+  const deleteFrameAtCurrentTimelineIndex = async () => {
+    const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
+    const trackItem = highlightedTrackItem ?? getLastTrackItem(take.frameTrack);
+    if (trackItem === undefined) {
+      return;
+    }
+
+    stopPlayback();
+    await deleteTrackItem?.(trackItem.id);
+    notifications.show({ message: "Deleted frame" });
+  };
+
   const _startPlayback = () => {
     _logPlayback("playback.startPlayback");
     if (playForDuration > 0) {
       lastFrameIndex.current = playForDuration - 1;
       startRAF();
-      setLiveViewVisible(false);
     }
   };
 
@@ -164,8 +179,9 @@ const PlaybackContextProvider = ({
     stopPlayback,
     displayFrame,
     shortPlay,
+    deleteFrameAtCurrentTimelineIndex,
     timelineIndex,
-    liveViewVisible,
+    liveViewVisible: timelineIndex === undefined,
     playing,
   };
 

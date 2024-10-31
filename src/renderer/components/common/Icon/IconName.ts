@@ -6,6 +6,7 @@ const enum IconName {
   CIRCLE = "CIRCLE",
   CIRCLE_UP = "CIRCLE_UP",
   CLOSE = "CLOSE",
+  DELETE = "DELETE",
   DISCORD = "DISCORD",
   DOCUMENT = "DOCUMENT",
   ERROR = "ERROR",

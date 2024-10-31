@@ -11,8 +11,6 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import PlaybackSpeedSelect from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
 import "./AnimationToolbar.css";
-import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
-import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
 
 export const AnimationToolbar = (): JSX.Element => {
   const shortPlayLength = useSelector(
@@ -20,11 +18,15 @@ export const AnimationToolbar = (): JSX.Element => {
   );
   const shortPlayFrameText = shortPlayLength === 1 ? "frame" : "frames";
 
-  const { startOrPausePlayback, stopPlayback, displayFrame, shortPlay, playing, timelineIndex } =
-    useContext(PlaybackContext);
-  const { deleteTrackItem } = useContext(ProjectFilesContext);
-
-  const frameTrack = useSelector((state: RootState) => state.project.take?.frameTrack);
+  const {
+    startOrPausePlayback,
+    stopPlayback,
+    displayFrame,
+    shortPlay,
+    deleteFrameAtCurrentTimelineIndex,
+    liveViewVisible,
+    playing,
+  } = useContext(PlaybackContext);
 
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
@@ -33,24 +35,9 @@ export const AnimationToolbar = (): JSX.Element => {
     <Toolbar className="animation-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <IconButton
-          title="Undo Last Frame"
-          icon={IconName.UNDO}
-          onClick={async () => {
-            if (frameTrack === undefined) {
-              return;
-            }
-            const trackItem = getHighlightedTrackItem(frameTrack, timelineIndex);
-            if (trackItem === undefined) {
-              return;
-            }
-            stopPlayback();
-            await deleteTrackItem?.(trackItem.id);
-          }}
-        />
-        <IconButton
-          title={`Short Play (${shortPlayLength} ${shortPlayFrameText})`}
-          icon={IconName.PLAY_SHORT}
-          onClick={shortPlay}
+          title={liveViewVisible ? "Undo Last Frame" : "Delete Highlighted Frame"}
+          icon={liveViewVisible ? IconName.UNDO : IconName.DELETE}
+          onClick={deleteFrameAtCurrentTimelineIndex}
         />
         <InputRange
           id="animation-toolbar__onion-skin-range"
@@ -94,6 +81,11 @@ export const AnimationToolbar = (): JSX.Element => {
 
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
         <PlaybackSpeedSelect />
+        <IconButton
+          title={`Short Play (${shortPlayLength} ${shortPlayFrameText})`}
+          icon={IconName.PLAY_SHORT}
+          onClick={shortPlay}
+        />
         <IconButton
           title={`${loopPlayback ? "Disable" : "Enable"} Loop Playback`}
           icon={IconName.PLAY_LOOP}

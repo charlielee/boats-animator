@@ -2,8 +2,10 @@ import { createTheme, DEFAULT_THEME, MantineProvider } from "@mantine/core";
 import { ReactNode } from "react";
 
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import "./Theme.css";
 import { SemanticColor } from "./SemanticColor";
+import { Notifications } from "@mantine/notifications";
 
 interface ThemeProps {
   children: ReactNode;
@@ -24,6 +26,7 @@ export const Theme = ({ children }: ThemeProps) => {
 
   return (
     <MantineProvider forceColorScheme="dark" theme={theme}>
+      <Notifications />
       {children}
     </MantineProvider>
   );
