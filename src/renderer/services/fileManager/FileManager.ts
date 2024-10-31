@@ -2,9 +2,13 @@ import { FileInfo } from "./FileInfo";
 import * as rLogger from "../rLogger/rLogger";
 import {
   CreateDirectoryAlreadyExistsError,
+  CreateDirectoryUnexpectedError,
   CreateFileAlreadyExistsError,
+  CreateFileUnexpectedError,
   DeleteFileInfoIdNotFoundError,
+  DeleteFileUnexpectedError,
   UpdateFileInfoIdNotFoundError,
+  UpdateFileUnexpectedError,
 } from "./FileErrors";
 import { FileInfoId } from "../../../common/Flavors";
 import { FileInfoType } from "./FileInfo";
@@ -25,7 +29,11 @@ export class FileManager {
       throw new CreateDirectoryAlreadyExistsError(parentHandle.name, name);
     }
 
-    return parentHandle.getDirectoryHandle(name, { create: true });
+    try {
+      return parentHandle.getDirectoryHandle(name, { create: true });
+    } catch (e) {
+      throw new CreateDirectoryUnexpectedError(parentHandle.name, name, e);
+    }
   };
 
   private directoryExists = async (
@@ -54,12 +62,16 @@ export class FileManager {
       throw new CreateFileAlreadyExistsError(parentHandle.name, name);
     }
 
-    const fileHandle = await parentHandle.getFileHandle(name, { create: true });
-    const objectURL = await this.writeFileAndCreateObjectURL(fileHandle, data);
-    const fileInfo = new FileInfo(undefined, fileType, fileHandle, objectURL);
-    this.fileInfos.push(fileInfo);
+    try {
+      const fileHandle = await parentHandle.getFileHandle(name, { create: true });
+      const objectURL = await this.writeFileAndCreateObjectURL(fileHandle, data);
+      const fileInfo = new FileInfo(undefined, fileType, fileHandle, objectURL);
+      this.fileInfos.push(fileInfo);
 
-    return fileInfo.fileInfoId;
+      return fileInfo.fileInfoId;
+    } catch (e) {
+      throw new CreateFileUnexpectedError(parentHandle.name, name, e);
+    }
   };
 
   updateFile = async (fileInfoId: FileInfoId, data: Blob): Promise<void> => {
@@ -68,16 +80,20 @@ export class FileManager {
       throw new UpdateFileInfoIdNotFoundError(fileInfoId);
     }
 
-    const newObjectURL = await this.writeFileAndCreateObjectURL(fileInfo.fileHandle, data);
-    URL.revokeObjectURL(fileInfo.objectURL);
+    try {
+      const newObjectURL = await this.writeFileAndCreateObjectURL(fileInfo.fileHandle, data);
+      URL.revokeObjectURL(fileInfo.objectURL);
 
-    const index = this.fileInfos.findIndex((f) => f.fileInfoId === fileInfoId);
-    this.fileInfos[index] = new FileInfo(
-      fileInfo.fileInfoId,
-      fileInfo.fileType,
-      fileInfo.fileHandle,
-      newObjectURL
-    );
+      const index = this.fileInfos.findIndex((f) => f.fileInfoId === fileInfoId);
+      this.fileInfos[index] = new FileInfo(
+        fileInfo.fileInfoId,
+        fileInfo.fileType,
+        fileInfo.fileHandle,
+        newObjectURL
+      );
+    } catch (e) {
+      throw new UpdateFileUnexpectedError(fileInfo.fileHandle.name, e);
+    }
   };
 
   deleteFile = async (fileInfoId: FileInfoId): Promise<void> => {
@@ -86,12 +102,16 @@ export class FileManager {
       throw new DeleteFileInfoIdNotFoundError(fileInfoId);
     }
 
-    // Remove is a non-standard method so has to be casted to any
-    await (fileInfo.fileHandle as any).remove();
-    URL.revokeObjectURL(fileInfo.objectURL);
+    try {
+      // Remove is a non-standard method so has to be casted to any
+      await (fileInfo.fileHandle as any).remove();
+      URL.revokeObjectURL(fileInfo.objectURL);
 
-    const index = this.fileInfos.findIndex((f) => f.fileInfoId === fileInfoId);
-    this.fileInfos.splice(index, 1);
+      const index = this.fileInfos.findIndex((f) => f.fileInfoId === fileInfoId);
+      this.fileInfos.splice(index, 1);
+    } catch (e) {
+      throw new DeleteFileUnexpectedError(fileInfo.fileHandle.name, e);
+    }
   };
 
   private writeFileAndCreateObjectURL = async (
