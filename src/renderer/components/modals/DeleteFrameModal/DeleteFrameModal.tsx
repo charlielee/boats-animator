@@ -19,10 +19,10 @@ export const DeleteFrameModal = () => {
   }
 
   return (
-    <UiModal title="Delete frame" onClose={PageRoute.ANIMATOR}>
+    <UiModal title="Delete frame?" onClose={PageRoute.ANIMATOR}>
       <p>
-        Are you sure you want to delete{" "}
-        {timelineIndex === undefined ? "the last frame captured" : `frame ${timelineIndex + 1}`}?
+        This will permanently delete{" "}
+        {timelineIndex === undefined ? "the last frame captured" : `frame ${timelineIndex + 1}`}.
       </p>
       <UiModalFooter>
         <UiButton onClick={PageRoute.ANIMATOR}>Cancel</UiButton>
