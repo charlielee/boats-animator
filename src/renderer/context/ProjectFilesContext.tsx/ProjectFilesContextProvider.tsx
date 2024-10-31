@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import { ProjectFilesContext } from "./ProjectFilesContext";
-import { FileInfo } from "../../services/fileManager/FileInfo";
+import { FileInfo } from "../FileManagerContext/FileInfo";
 import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
 import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { FileInfoId, TrackItemId } from "../../../common/Flavors";
@@ -12,7 +12,7 @@ import {
   makeProjectInfoFileJson,
 } from "../../services/project/projectBuilder";
 import { PROJECT_INFO_FILE_NAME, zeroPad } from "../../../common/utils";
-import { FileInfoType } from "../../services/fileManager/FileInfo";
+import { FileInfoType } from "../FileManagerContext/FileInfo";
 
 import { Project } from "../../../common/project/Project";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,10 +25,8 @@ interface ProjectFilesContextProviderProps {
 }
 
 export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextProviderProps) => {
-  const { fileManager } = useContext(FileManagerContext);
-  if (fileManager === undefined) {
-    throw "Missing fileManager";
-  }
+  const { createDirectory, createFile, findFile, deleteFile, updateFile } =
+    useContext(FileManagerContext);
 
   const projectDirectory = useProjectDirectory();
   const { project, take } = useSelector((state: RootState) => state.project);
@@ -47,12 +45,9 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     }
 
     const takeDirectoryName = makeTakeDirectoryName(take);
-    const takeDirectoryHandle = await fileManager.current.createDirectory(
-      takeDirectoryName,
-      projectDirectory.handle
-    );
+    const takeDirectoryHandle = await createDirectory!(takeDirectoryName, projectDirectory.handle);
     const frameFileName = makeFrameFileName(take, zeroPad(trackItem.fileNumber, 5));
-    const fileInfoId = await fileManager.current.createFile(
+    const fileInfoId = await createFile!(
       frameFileName,
       takeDirectoryHandle,
       FileInfoType.FRAME,
@@ -62,47 +57,45 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   };
 
   const getTrackItemFileInfo = (trackItemId: TrackItemId): FileInfo | undefined =>
-    fileManager.current.findFile(trackItemFiles[trackItemId]);
+    findFile!(trackItemFiles[trackItemId]);
 
   const deleteTrackItem = async (trackItemId: TrackItemId): Promise<void> => {
-    await fileManager.current.deleteFile(trackItemFiles[trackItemId]);
+    await deleteFile!(trackItemFiles[trackItemId]);
     setTrackItemFiles(({ [trackItemId]: _, ...otherTrackItemFiles }) => otherTrackItemFiles);
     // todo should redux happen here
     dispatch(removeFrameTrackItem(trackItemId));
   };
 
-  const saveProjectInfoFileToDisk = useCallback(
-    async (project: Project, takes: Take[]): Promise<void> => {
-      rLogger.info("projectFilesContext.saveProject", "Saving project json to disk");
-      if (projectDirectory === undefined) {
-        throw "Unable to save project file info as missing projectDirectory";
-      }
+  const saveProjectInfoFileToDisk = async (project: Project, takes: Take[]): Promise<void> => {
+    rLogger.info("projectFilesContext.saveProject", "Saving project json to disk");
+    if (projectDirectory === undefined) {
+      throw "Unable to save project file info as missing projectDirectory";
+    }
 
-      const projectFileJson = await makeProjectInfoFileJson(project, takes);
-      const profileFileString = JSON.stringify(projectFileJson);
-      const data = new Blob([profileFileString], { type: "application/json" });
+    const projectFileJson = await makeProjectInfoFileJson(project, takes);
+    const profileFileString = JSON.stringify(projectFileJson);
+    const data = new Blob([profileFileString], { type: "application/json" });
 
-      // TODO error handling
-      if (projectInfoFileId) {
-        await fileManager.current.updateFile(projectInfoFileId, data);
-      } else {
-        const fileInfoId = await fileManager.current.createFile(
-          PROJECT_INFO_FILE_NAME,
-          projectDirectory.handle,
-          FileInfoType.PROJECT_INFO,
-          data
-        );
-        setProjectInfoFileId(fileInfoId);
-      }
-    },
-    [fileManager, projectDirectory, projectInfoFileId]
-  );
+    // TODO error handling
+    if (projectInfoFileId) {
+      await updateFile!(projectInfoFileId, data);
+    } else {
+      const fileInfoId = await createFile!(
+        PROJECT_INFO_FILE_NAME,
+        projectDirectory.handle,
+        FileInfoType.PROJECT_INFO,
+        data
+      );
+      setProjectInfoFileId(fileInfoId);
+    }
+  };
 
   useEffect(() => {
     if (projectDirectory !== undefined && project !== undefined && take !== undefined) {
       saveProjectInfoFileToDisk!(project, [take]);
     }
-  }, [project, take, saveProjectInfoFileToDisk, projectDirectory]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [project, take, projectDirectory]);
 
   return (
     <ProjectFilesContext.Provider
