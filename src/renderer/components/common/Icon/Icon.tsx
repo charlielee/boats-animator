@@ -33,6 +33,7 @@ import {
   IoSyncOutline,
   IoTimer,
   IoToggle,
+  IoTrashOutline,
   IoVideocam,
 } from "react-icons/io5";
 import "./Icon.css";
@@ -62,6 +63,8 @@ const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) =>
       return <IoCloseOutline {...props} />;
     case IconName.CONNECT:
       return <IoShareOutline {...props} />;
+    case IconName.DELETE:
+      return <IoTrashOutline {...props} />;
     case IconName.DISCORD:
       return <IoLogoDiscord {...props} />;
     case IconName.DOCUMENT:
@@ -129,8 +132,6 @@ const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) =>
       return <IoFilmOutline {...props} />;
     case IconName.WEBSITE:
       return <IoGlobeOutline {...props} />;
-    // default:
-    //   Error("No icon has been defined for this IconName in `Icon.tsx`!");
   }
 };
 

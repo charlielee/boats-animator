@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { Project } from "../../../common/project/Project";
-import { PersistedDirectoryId } from "../../../common/Flavors";
+import { PersistedDirectoryId, TrackItemId } from "../../../common/Flavors";
 
 export interface ProjectState {
   project?: Project;
@@ -40,6 +40,16 @@ const projectSlice = createSlice({
       state.take?.frameTrack.trackItems.push(action.payload);
     },
 
+    removeFrameTrackItem: (state, action: PayloadAction<TrackItemId>) => {
+      const index = state.take?.frameTrack.trackItems.findIndex(
+        (trackItem) => trackItem.id === action.payload
+      );
+      if (index === undefined) {
+        throw `Unable to find frame track item to remove with id ${action.payload}`;
+      }
+      state.take?.frameTrack.trackItems.splice(index, 1);
+    },
+
     setPlaybackSpeed: (state, action: PayloadAction<number>) => {
       state.playbackSpeed = action.payload;
     },
@@ -50,7 +60,13 @@ const projectSlice = createSlice({
   },
 });
 
-export const { addProject, updateProject, addFrameTrackItem, setPlaybackSpeed, addTake } =
-  projectSlice.actions;
+export const {
+  addProject,
+  updateProject,
+  addFrameTrackItem,
+  removeFrameTrackItem,
+  setPlaybackSpeed,
+  addTake,
+} = projectSlice.actions;
 
 export const projectReducer = projectSlice.reducer;

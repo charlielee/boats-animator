@@ -1,9 +1,11 @@
 import { useContext, useState } from "react";
 import { useSelector } from "react-redux";
+import { PageRoute } from "../../../../common/PageRoute";
 import PlaybackContext, {
   PlaybackFrameName,
 } from "../../../context/PlaybackContext/PlaybackContext";
 import { RootState } from "../../../redux/store";
+import { getTrackLength } from "../../../services/project/projectCalculator";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import InputRange from "../../common/Input/InputRange/InputRange";
@@ -18,8 +20,19 @@ export const AnimationToolbar = (): JSX.Element => {
   );
   const shortPlayFrameText = shortPlayLength === 1 ? "frame" : "frames";
 
-  const { startOrPausePlayback, stopPlayback, displayFrame, shortPlay, playing } =
-    useContext(PlaybackContext);
+  const {
+    startOrPausePlayback,
+    stopPlayback,
+    displayFrame,
+    shortPlay,
+    liveViewVisible,
+    timelineIndex,
+    playing,
+  } = useContext(PlaybackContext);
+  const frameTrack = useSelector((state: RootState) => state.project.take?.frameTrack);
+  if (frameTrack === undefined) {
+    throw "No frame track found in AnimationToolbar";
+  }
 
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
@@ -27,11 +40,14 @@ export const AnimationToolbar = (): JSX.Element => {
   return (
     <Toolbar className="animation-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
-        <IconButton title="Undo Last Frame" icon={IconName.UNDO} onClick={() => undefined} />
         <IconButton
-          title={`Short Play (${shortPlayLength} ${shortPlayFrameText})`}
-          icon={IconName.PLAY_SHORT}
-          onClick={shortPlay}
+          title={
+            timelineIndex === undefined ? "Undo Last Frame" : `Delete Frame ${timelineIndex + 1}`
+          }
+          icon={liveViewVisible ? IconName.UNDO : IconName.DELETE}
+          onClick={
+            getTrackLength(frameTrack) === 0 ? () => undefined : PageRoute.ANIMATOR_DELETE_FRAME
+          }
         />
         <InputRange
           id="animation-toolbar__onion-skin-range"
@@ -75,6 +91,11 @@ export const AnimationToolbar = (): JSX.Element => {
 
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
         <PlaybackSpeedSelect />
+        <IconButton
+          title={`Short Play (${shortPlayLength} ${shortPlayFrameText})`}
+          icon={IconName.PLAY_SHORT}
+          onClick={shortPlay}
+        />
         <IconButton
           title={`${loopPlayback ? "Disable" : "Enable"} Loop Playback`}
           icon={IconName.PLAY_LOOP}

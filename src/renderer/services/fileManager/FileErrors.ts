@@ -21,3 +21,9 @@ export class UpdateFileInfoIdNotFoundError extends Error {
     super(`Unable to update file with FileInfoId "${fileInfoId}" as not found`);
   }
 }
+
+export class DeleteFileInfoIdNotFoundError extends Error {
+  constructor(fileInfoId: FileInfoId) {
+    super(`Unable to delete file with FileInfoId "${fileInfoId}" as not found`);
+  }
+}

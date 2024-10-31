@@ -8,6 +8,7 @@ export const getTrackItemsLength = (trackItems: TrackItem[]): FrameCount =>
 
 export const getTrackLength = (track: Track): FrameCount => getTrackItemsLength(track.trackItems);
 
+// TODO should error if no track item is found
 export const getTrackItemStartPosition = (track: Track, trackItemIndex: number): TimelineIndex =>
   getTrackItemsLength(track.trackItems.slice(0, trackItemIndex)) as TimelineIndex;
 
@@ -32,3 +33,5 @@ export const getTrackItemTitle = (track: Track, trackItemIndex: number) =>
 const getLastFileNumberInTrack = (track: Track): number => track.trackItems.at(-1)?.fileNumber ?? 0;
 
 export const getNextFileNumber = (track: Track): number => getLastFileNumberInTrack(track) + 1;
+
+export const getLastTrackItem = (track: Track): TrackItem | undefined => track.trackItems.at(-1);
