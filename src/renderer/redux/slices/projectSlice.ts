@@ -22,8 +22,12 @@ const projectSlice = createSlice({
   name: "project",
   initialState,
   reducers: {
-    addProject: (state, action: PayloadAction<Project>) => {
-      state.project = { ...action.payload };
+    addProject: (
+      state,
+      action: PayloadAction<{ project: Project; projectDirectoryId: PersistedDirectoryId }>
+    ) => {
+      state.project = { ...action.payload.project };
+      state.projectDirectoryId = action.payload.projectDirectoryId;
     },
 
     updateProject: (state, action: PayloadAction<Project>) => {
@@ -53,10 +57,6 @@ const projectSlice = createSlice({
     addTake: (state, action: PayloadAction<Take>) => {
       state.take = action.payload;
     },
-
-    setProjectDirectoryId: (state, action: PayloadAction<PersistedDirectoryId>) => {
-      state.projectDirectoryId = action.payload;
-    },
   },
 });
 
@@ -67,7 +67,6 @@ export const {
   removeFrameTrackItem,
   setPlaybackSpeed,
   addTake,
-  setProjectDirectoryId,
 } = projectSlice.actions;
 
 export const projectReducer = projectSlice.reducer;

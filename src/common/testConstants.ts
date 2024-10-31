@@ -2,12 +2,14 @@ import { v4 as uuidv4 } from "uuid";
 import { FileInfoType } from "../renderer/services/fileManager/FileInfo";
 import { Project } from "./project/Project";
 import { Take } from "./project/Take";
+import { DEFAULT_PROJECT_FRAME_RATE } from "./utils";
 
 export const PROJECT_NAME = "My Test Movie";
 export const PROJECT_FILE_NAME = "My-Test-Movie";
 export const PROJECT: Project = {
   name: PROJECT_NAME,
   fileName: PROJECT_FILE_NAME,
+  projectFrameRate: DEFAULT_PROJECT_FRAME_RATE,
 };
 
 export const TAKE: Take = {

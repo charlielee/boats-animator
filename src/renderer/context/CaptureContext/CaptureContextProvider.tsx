@@ -6,7 +6,6 @@ import { zeroPad } from "../../../common/utils";
 import cameraSound from "../../audio/camera.wav";
 import useDeviceList from "../../hooks/useDeviceList";
 import useProjectAndTake from "../../hooks/useProjectAndTake";
-import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { closeDevice } from "../../redux/slices/captureSlice";
 import { addFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
@@ -34,7 +33,6 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const playCaptureSound = useSelector(
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
-  const projectDirectory = useProjectDirectory();
   const { saveTrackItemToDisk } = useContext(ProjectFilesContext);
 
   const takePhoto = () => {
@@ -57,7 +55,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   };
 
   const processPhoto = async (trackItem: TrackItem) => {
-    if (!device || !projectDirectory) {
+    if (!device) {
       return;
     }
     const imageData = await device.takePhoto();
