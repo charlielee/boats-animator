@@ -1,22 +1,15 @@
 import { useContext } from "react";
-import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
+import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import { SemanticColor } from "../../ui/Theme/SemanticColor";
+import { UiButton } from "../../ui/UiButton/UiButton";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiModalFooter } from "../../ui/UiModalFooter/UiModalFooter";
-import { UiButton } from "../../ui/UiButton/UiButton";
-import { SemanticColor } from "../../ui/Theme/SemanticColor";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 
 export const DeleteFrameModal = () => {
   const navigate = useNavigate();
   const { deleteFrameAtCurrentTimelineIndex, timelineIndex } = useContext(PlaybackContext);
-
-  const frameTrack = useSelector((state: RootState) => state.project.take?.frameTrack);
-  if (frameTrack?.trackItems.length === 0) {
-    return;
-  }
 
   return (
     <UiModal title="Delete frame?" onClose={PageRoute.ANIMATOR}>

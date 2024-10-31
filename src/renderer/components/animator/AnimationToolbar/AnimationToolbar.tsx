@@ -1,9 +1,11 @@
 import { useContext, useState } from "react";
 import { useSelector } from "react-redux";
+import { PageRoute } from "../../../../common/PageRoute";
 import PlaybackContext, {
   PlaybackFrameName,
 } from "../../../context/PlaybackContext/PlaybackContext";
 import { RootState } from "../../../redux/store";
+import { getTrackLength } from "../../../services/project/projectCalculator";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import InputRange from "../../common/Input/InputRange/InputRange";
@@ -11,7 +13,6 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import PlaybackSpeedSelect from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
 import "./AnimationToolbar.css";
-import { PageRoute } from "../../../../common/PageRoute";
 
 export const AnimationToolbar = (): JSX.Element => {
   const shortPlayLength = useSelector(
@@ -28,6 +29,10 @@ export const AnimationToolbar = (): JSX.Element => {
     timelineIndex,
     playing,
   } = useContext(PlaybackContext);
+  const frameTrack = useSelector((state: RootState) => state.project.take?.frameTrack);
+  if (frameTrack === undefined) {
+    throw "No frame track found in AnimationToolbar";
+  }
 
   const [onionSkinAmount, setOnionSkinAmount] = useState(0);
   const [loopPlayback, setLoopPlayback] = useState(false);
@@ -40,7 +45,9 @@ export const AnimationToolbar = (): JSX.Element => {
             timelineIndex === undefined ? "Undo Last Frame" : `Delete Frame ${timelineIndex + 1}`
           }
           icon={liveViewVisible ? IconName.UNDO : IconName.DELETE}
-          onClick={PageRoute.ANIMATOR_DELETE_FRAME}
+          onClick={
+            getTrackLength(frameTrack) === 0 ? () => undefined : PageRoute.ANIMATOR_DELETE_FRAME
+          }
         />
         <InputRange
           id="animation-toolbar__onion-skin-range"
