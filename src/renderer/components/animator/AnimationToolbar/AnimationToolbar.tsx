@@ -25,6 +25,7 @@ export const AnimationToolbar = (): JSX.Element => {
     shortPlay,
     deleteFrameAtCurrentTimelineIndex,
     liveViewVisible,
+    timelineIndex,
     playing,
   } = useContext(PlaybackContext);
 
@@ -35,7 +36,9 @@ export const AnimationToolbar = (): JSX.Element => {
     <Toolbar className="animation-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <IconButton
-          title={liveViewVisible ? "Undo Last Frame" : "Delete Highlighted Frame"}
+          title={
+            timelineIndex === undefined ? "Undo Last Frame" : `Delete Frame ${timelineIndex + 1}`
+          }
           icon={liveViewVisible ? IconName.UNDO : IconName.DELETE}
           onClick={deleteFrameAtCurrentTimelineIndex}
         />
