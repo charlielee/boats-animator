@@ -11,6 +11,7 @@ import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
 import PlaybackSpeedSelect from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
 import "./AnimationToolbar.css";
+import { PageRoute } from "../../../../common/PageRoute";
 
 export const AnimationToolbar = (): JSX.Element => {
   const shortPlayLength = useSelector(
@@ -23,7 +24,6 @@ export const AnimationToolbar = (): JSX.Element => {
     stopPlayback,
     displayFrame,
     shortPlay,
-    deleteFrameAtCurrentTimelineIndex,
     liveViewVisible,
     timelineIndex,
     playing,
@@ -40,7 +40,7 @@ export const AnimationToolbar = (): JSX.Element => {
             timelineIndex === undefined ? "Undo Last Frame" : `Delete Frame ${timelineIndex + 1}`
           }
           icon={liveViewVisible ? IconName.UNDO : IconName.DELETE}
-          onClick={deleteFrameAtCurrentTimelineIndex}
+          onClick={PageRoute.ANIMATOR_DELETE_FRAME}
         />
         <InputRange
           id="animation-toolbar__onion-skin-range"

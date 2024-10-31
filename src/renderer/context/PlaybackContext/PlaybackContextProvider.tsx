@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useRef, useState } from "react";
+import { ReactNode, useContext, useRef } from "react";
 import { FrameCount, TimelineIndex } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import useLinkedRefAndState from "../../hooks/useLinkedRefAndState";

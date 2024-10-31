@@ -8,6 +8,6 @@ interface UiModalFooterProps {
 export const UiModalFooter = ({ children }: UiModalFooterProps) => (
   <Paper>
     <Divider my="lg" />
-    <Group>{children}</Group>
+    <Group justify="flex-end">{children}</Group>
   </Paper>
 );
