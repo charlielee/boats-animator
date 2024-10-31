@@ -1,4 +1,4 @@
-import { FileInfoType } from "../../../../services/fileManager/FileInfo";
+import { FileInfoType } from "../../../../context/FileManagerContext/FileInfo";
 import Icon from "../../../common/Icon/Icon";
 import IconName from "../../../common/Icon/IconName";
 import "./TimelineTrackLabel.css";

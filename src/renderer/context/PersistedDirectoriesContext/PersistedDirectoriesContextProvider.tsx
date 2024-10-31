@@ -21,14 +21,10 @@ export const PersistedDirectoriesContextProvider = ({
 }: PersistedDirectoriesContextProviderProps) => {
   const workingDirectory = useWorkingDirectory();
 
-  const { fileManager } = useContext(FileManagerContext);
-  if (fileManager === undefined) {
-    throw "FileManagerContext was not found";
-  }
+  const { openDirectoryDialog, createDirectory } = useContext(FileManagerContext);
 
   const changeWorkingDirectory = async (): Promise<void> => {
-    const workingDirectoryHandle =
-      await fileManager.current.openDirectoryDialog("changeWorkingDirectory");
+    const workingDirectoryHandle = await openDirectoryDialog!("changeWorkingDirectory");
 
     if (workingDirectoryHandle !== undefined) {
       await putOrAddWorkingDirectoryEntry(workingDirectoryHandle);
@@ -45,11 +41,7 @@ export const PersistedDirectoriesContextProvider = ({
 
     const projectDirectoryName = makeProjectDirectoryName(project);
 
-    const handle = await fileManager.current.createDirectory(
-      projectDirectoryName,
-      workingDirectory.handle,
-      true
-    );
+    const handle = await createDirectory!(projectDirectoryName, workingDirectory.handle, true);
 
     return addProjectDirectoryEntry(project.name, handle);
   };

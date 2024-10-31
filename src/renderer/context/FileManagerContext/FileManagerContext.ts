@@ -1,12 +1,28 @@
 import { createContext } from "react";
-import { FileManager } from "../../services/fileManager/FileManager";
+import { FileInfoId } from "../../../common/Flavors";
+import { FileInfo, FileInfoType } from "./FileInfo";
 
-interface FileManagerContextProps {
-  fileManager: React.MutableRefObject<FileManager> | undefined;
+export interface FileManagerContextProps {
+  createDirectory: (
+    name: string,
+    parentHandle: FileSystemDirectoryHandle,
+    errorIfExists?: boolean
+  ) => Promise<FileSystemDirectoryHandle>;
+
+  createFile: (
+    name: string,
+    parentHandle: FileSystemDirectoryHandle,
+    fileType: FileInfoType,
+    data: Blob
+  ) => Promise<FileInfoId>;
+
+  updateFile: (fileInfoId: FileInfoId, data: Blob) => Promise<void>;
+
+  deleteFile: (fileInfoId: FileInfoId) => Promise<void>;
+
+  findFile: (fileInfoId: FileInfoId) => FileInfo | undefined;
+
+  openDirectoryDialog: (id: string) => Promise<FileSystemDirectoryHandle | undefined>;
 }
 
-const defaultValue: FileManagerContextProps = {
-  fileManager: undefined,
-};
-
-export const FileManagerContext = createContext<FileManagerContextProps>(defaultValue);
+export const FileManagerContext = createContext<Partial<FileManagerContextProps>>({});

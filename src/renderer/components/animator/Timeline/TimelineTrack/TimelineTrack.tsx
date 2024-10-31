@@ -1,4 +1,4 @@
-import { FileInfoType } from "../../../../services/fileManager/FileInfo";
+import { FileInfoType } from "../../../../context/FileManagerContext/FileInfo";
 import { TimelineIndex } from "../../../../../common/Flavors";
 import { Track } from "../../../../../common/project/Track";
 import {
