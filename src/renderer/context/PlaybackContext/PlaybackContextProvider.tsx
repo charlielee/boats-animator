@@ -108,10 +108,18 @@ const PlaybackContextProvider = ({
     const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
     const trackItem = highlightedTrackItem ?? getLastTrackItem(take.frameTrack);
     if (trackItem === undefined) {
+      rLogger.info(
+        "playback.deleteFrameAtCurrentTimelineIndex.noAction",
+        "nothing was deleted as no track items found"
+      );
       return;
     }
 
     stopPlayback();
+    rLogger.info(
+      "playback.deleteFrameAtCurrentTimelineIndex.deleted",
+      `deleted track item ${trackItem.filePath}`
+    );
     await deleteTrackItem?.(trackItem.id);
     notifications.show({ message: "Deleted frame" });
   };
