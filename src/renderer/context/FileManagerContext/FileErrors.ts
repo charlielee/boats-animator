@@ -85,7 +85,7 @@ export class DeleteFileUnexpectedError extends FileErrorBase {
     super(
       "update file",
       fileName,
-      `Unable to update file "${fileName}" due to an unexpected error ${e}`
+      `Unable to delete file "${fileName}" due to an unexpected error ${e}`
     );
   }
 }
