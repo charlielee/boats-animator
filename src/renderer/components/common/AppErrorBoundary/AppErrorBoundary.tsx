@@ -1,6 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import * as rLogger from "../../../services/rLogger/rLogger";
 import { UiModal } from "../../ui/UiModal/UiModal";
+import { FileErrorBase } from "../../../context/FileManagerContext/FileErrors";
 
 interface AppErrorBoundaryProps {
   children: ReactNode;
@@ -55,15 +56,25 @@ export class AppErrorBoundary extends Component<AppErrorBoundaryProps, AppErrorB
     if (this.state.error !== undefined) {
       const error = this.state.error;
 
-      console.log(error);
+      if (error instanceof FileErrorBase) {
+        return (
+          <UiModal title="Unexpected File Error">
+            <p>
+              Unable to {error.action} &quot;{error.filePath}&quot;, please restart Boats Animator.
+              Ensure that the project files have not been modified or moved outside of Boats
+              Animator.
+            </p>
+            <p>If this error keeps occurring, please raise an issue on GitHub.</p>
+            <p>Your project has been automatically saved.</p>
+          </UiModal>
+        );
+      }
 
       return (
         <UiModal title="Unexpected Error">
-          <p>
-            There was an unexpected error, please restart Boats Animator. Your project has been
-            automatically saved.
-          </p>
+          <p>There was an unexpected error, please restart Boats Animator.</p>
           <p>If this error keeps occurring, please raise an issue on GitHub.</p>
+          <p>Your project has been automatically saved.</p>
         </UiModal>
       );
     }
