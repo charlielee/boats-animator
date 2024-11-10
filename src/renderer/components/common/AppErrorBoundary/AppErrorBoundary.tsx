@@ -1,7 +1,6 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import * as rLogger from "../../../services/rLogger/rLogger";
 import { UiModal } from "../../ui/UiModal/UiModal";
-import { UiModalFooter } from "../../ui/UiModalFooter/UiModalFooter";
 
 interface AppErrorBoundaryProps {
   children: ReactNode;
@@ -34,7 +33,7 @@ export class AppErrorBoundary extends Component<AppErrorBoundaryProps, AppErrorB
 
   private handleError = (event: ErrorEvent) => {
     this.setState({
-      error: event.message,
+      error: event.error,
     });
     rLogger.error(
       "appErrorBoundary.handleError",
@@ -55,6 +54,8 @@ export class AppErrorBoundary extends Component<AppErrorBoundaryProps, AppErrorB
   public render() {
     if (this.state.error !== undefined) {
       const error = this.state.error;
+
+      console.log(error);
 
       return (
         <UiModal title="Unexpected Error">
