@@ -1,7 +1,8 @@
-import { Modal } from "@mantine/core";
+import { closeOnEscape, Modal } from "@mantine/core";
 import { ReactNode } from "react";
 import { PageRoute } from "../../../../common/PageRoute";
 import { useDelayedClose } from "../hooks/useDelayedClose";
+import { SemanticColor } from "../Theme/SemanticColor";
 
 interface UiModalProps {
   title: string;
@@ -10,6 +11,10 @@ interface UiModalProps {
 }
 
 export const UiModal = ({ title, onClose, children }: UiModalProps) => {
+  const preventCloseProps =
+    onClose === undefined
+      ? { closeOnClickOutside: false, closeOnEscape: false, withCloseButton: false }
+      : {};
   const { opened, duration, handleClose } = useDelayedClose({ onClose });
 
   return (
@@ -20,6 +25,7 @@ export const UiModal = ({ title, onClose, children }: UiModalProps) => {
       transitionProps={{ duration }}
       centered
       size="lg"
+      {...preventCloseProps}
     >
       {children}
     </Modal>

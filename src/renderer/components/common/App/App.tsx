@@ -15,8 +15,8 @@ const App = (): JSX.Element => {
   const animatorRoutes = useAnimatorRoutesAndProviders();
 
   return (
-    <AppErrorBoundary>
-      <Theme>
+    <Theme>
+      <AppErrorBoundary>
         <AppListener />
         <AppLoad />
 
@@ -31,8 +31,8 @@ const App = (): JSX.Element => {
             </ProjectFilesContextProvider>
           </PersistedDirectoriesContextProvider>
         </FileManagerContextProvider>
-      </Theme>
-    </AppErrorBoundary>
+      </AppErrorBoundary>
+    </Theme>
   );
 };
 

@@ -1,5 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import * as rLogger from "../../../services/rLogger/rLogger";
+import { UiModal } from "../../ui/UiModal/UiModal";
+import { UiModalFooter } from "../../ui/UiModalFooter/UiModalFooter";
 
 interface AppErrorBoundaryProps {
   children: ReactNode;
@@ -53,7 +55,16 @@ export class AppErrorBoundary extends Component<AppErrorBoundaryProps, AppErrorB
   public render() {
     if (this.state.error !== undefined) {
       const error = this.state.error;
-      return <p>Unexpected error</p>;
+
+      return (
+        <UiModal title="Unexpected Error">
+          <p>
+            There was an unexpected error, please restart Boats Animator. Your project has been
+            automatically saved.
+          </p>
+          <p>If this error keeps occurring, please raise an issue on GitHub.</p>
+        </UiModal>
+      );
     }
 
     return this.props.children;
