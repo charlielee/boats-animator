@@ -72,7 +72,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   };
 
   const saveProjectInfoFileToDisk = async (project: Project, takes: Take[]): Promise<void> => {
-    rLogger.info("projectFilesContext.saveProject", "Saving project json to disk");
+    rLogger.info("projectFilesContext.saveProject", "Saving project info file to disk");
     if (projectDirectory === undefined) {
       throw "Unable to save project file info as missing projectDirectory";
     }
@@ -82,8 +82,16 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     const data = new Blob([profileFileString], { type: "application/json" });
 
     if (projectInfoFileId) {
+      rLogger.info(
+        "projectFilesContext.saveProject.update",
+        `Updating project info file ${projectInfoFileId}`
+      );
       await updateFile!(projectInfoFileId, data);
     } else {
+      rLogger.info(
+        "projectFilesContext.saveProject.create",
+        `Creating new project info file in ${projectDirectory.handle.name}`
+      );
       const fileInfoId = await createFile!(
         PROJECT_INFO_FILE_NAME,
         projectDirectory.handle,
