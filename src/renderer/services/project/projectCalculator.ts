@@ -28,7 +28,7 @@ export const getHighlightedTrackItem = (
 export const getTrackItemTitle = (track: Track, trackItemIndex: number) =>
   track.fileType === FileInfoType.FRAME
     ? `Frame ${getTrackItemStartPosition(track, trackItemIndex) + 1}`
-    : track.trackItems[trackItemIndex].filePath;
+    : track.trackItems[trackItemIndex].fileName;
 
 const getLastFileNumberInTrack = (track: Track): number => track.trackItems.at(-1)?.fileNumber ?? 0;
 

@@ -2,6 +2,7 @@ import { FileInfoType } from "../../context/FileManagerContext/FileInfo";
 import { Track } from "../../../common/project/Track";
 import { getLastTrackItem, getNextFileNumber } from "./projectCalculator";
 import { makeFrameTrackItem } from "./projectBuilder";
+import { TAKE } from "../../../common/testConstants";
 
 describe("getNextFileNumber", () => {
   it("should get next file number for track with no items", () => {
@@ -22,7 +23,7 @@ describe("getNextFileNumber", () => {
         {
           id: "trackItemId",
           length: 1,
-          filePath: "somewhere.jpg",
+          fileName: "somewhere.jpg",
           fileNumber: 1,
           trackGroupId: "trackGroupId",
         },
@@ -35,7 +36,7 @@ describe("getNextFileNumber", () => {
         {
           id: "trackItemId",
           length: 1,
-          filePath: "somewhere.jpg",
+          fileName: "somewhere.jpg",
           fileNumber: 7,
           trackGroupId: "trackGroupId",
         },
@@ -49,8 +50,8 @@ describe("getNextFileNumber", () => {
 
 describe("getLastTrackItem", () => {
   it("should get last track item in track", () => {
-    const trackItem1 = makeFrameTrackItem("somewhere.jpg", 1);
-    const trackItem2 = makeFrameTrackItem("somewhere2.jpg", 2);
+    const trackItem1 = makeFrameTrackItem(TAKE, 1);
+    const trackItem2 = makeFrameTrackItem(TAKE, 2);
     const track: Track = {
       id: "trackId",
       fileType: FileInfoType.FRAME,

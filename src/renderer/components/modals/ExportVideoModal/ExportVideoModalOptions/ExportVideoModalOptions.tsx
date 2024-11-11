@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PageRoute } from "../../../../../common/PageRoute";
 import useProjectAndTake from "../../../../hooks/useProjectAndTake";
-import { makeFrameFilePath } from "../../../../services/project/projectBuilder";
+import { makeFrameFileName } from "../../../../services/project/projectBuilder";
 import { getTrackLength } from "../../../../services/project/projectCalculator";
 import Button from "../../../common/Button/Button";
 import { ButtonColor } from "../../../common/Button/ButtonColor";
@@ -59,7 +59,7 @@ const ExportVideoModalOptions = ({
     );
     onVideoFilePathChange(videoFilePath);
 
-    const framePath = makeFrameFilePath(take, "%05d");
+    const framePath = makeFrameFileName(take, parseInt("%05d this will be broken"));
     const totalFrames = getTrackLength(take.frameTrack);
 
     setFFmpegArguments(

@@ -118,7 +118,7 @@ const PlaybackContextProvider = ({
     stopPlayback();
     rLogger.info(
       "playback.deleteFrameAtCurrentTimelineIndex.deleted",
-      `deleted track item ${trackItem.filePath}`
+      `deleted track item ${trackItem.fileName}`
     );
     await deleteTrackItem?.(trackItem.id);
     notifications.show({ message: "Deleted frame" });

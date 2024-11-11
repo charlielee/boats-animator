@@ -8,10 +8,9 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import {
   makeTakeDirectoryName,
-  makeFrameFileName,
   makeProjectInfoFileJson,
 } from "../../services/project/projectBuilder";
-import { PROJECT_INFO_FILE_NAME, zeroPad } from "../../../common/utils";
+import { PROJECT_INFO_FILE_NAME } from "../../../common/utils";
 import { FileInfoType } from "../FileManagerContext/FileInfo";
 
 import { Project } from "../../../common/project/Project";
@@ -46,9 +45,8 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
     const takeDirectoryName = makeTakeDirectoryName(take);
     const takeDirectoryHandle = await createDirectory!(takeDirectoryName, projectDirectory.handle);
-    const frameFileName = makeFrameFileName(take, zeroPad(trackItem.fileNumber, 5));
     const fileInfoId = await createFile!(
-      frameFileName,
+      trackItem.fileName,
       takeDirectoryHandle,
       FileInfoType.FRAME,
       data

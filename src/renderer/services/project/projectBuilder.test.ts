@@ -14,7 +14,6 @@ import {
 } from "../../../common/utils";
 import {
   formatProjectName,
-  makeFrameFilePath,
   makeFrameTrackItem,
   makeProject,
   makeProjectDirectoryName,
@@ -111,12 +110,12 @@ describe("makeTake", () => {
 });
 
 describe("makeFrameTrackItem", () => {
-  const filePath = "/frame.jpg";
-  const fileNumber = 0;
+  const fileName = "ba_001_01_frame_00001.jpg";
+  const fileNumber = 1;
 
   it("should make frame track item with no Track Group ID supplied", () => {
-    expect(makeFrameTrackItem(filePath, fileNumber)).toStrictEqual({
-      filePath,
+    expect(makeFrameTrackItem(TAKE, fileNumber)).toStrictEqual({
+      fileName,
       id: expect.any(String),
       length: 1,
       fileNumber,
@@ -127,8 +126,8 @@ describe("makeFrameTrackItem", () => {
   it("should make frame track item with Track Group ID supplied", () => {
     const trackGroupId = TRACK_GROUP_ID;
 
-    expect(makeFrameTrackItem(filePath, fileNumber, trackGroupId)).toStrictEqual({
-      filePath,
+    expect(makeFrameTrackItem(TAKE, fileNumber, trackGroupId)).toStrictEqual({
+      fileName,
       id: expect.any(String),
       length: 1,
       fileNumber,
@@ -146,13 +145,5 @@ describe("makeProjectDirectoryName", () => {
 describe("makeTakeDirectoryPath", () => {
   it("should make take directory path with supplied options", () => {
     expect(makeTakeDirectoryPath(TAKE)).toEqual("BA_001_01");
-  });
-});
-
-describe("makeFrameFilePath", () => {
-  it("should make expected frame file path", () => {
-    const fileName = "cheese";
-
-    expect(makeFrameFilePath(TAKE, fileName)).toEqual("BA_001_01/ba_001_01_frame_cheese.jpg");
   });
 });

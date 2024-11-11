@@ -64,13 +64,13 @@ export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOp
 });
 
 export const makeFrameTrackItem = (
-  filePath: string,
+  take: Take,
   fileNumber: number,
   trackGroupId?: TrackGroupId
 ): TrackItem => ({
   id: uuidv4(),
   length: 1,
-  filePath,
+  fileName: makeFrameFileName(take, fileNumber),
   fileNumber,
   trackGroupId: trackGroupId ?? uuidv4(),
 });
@@ -84,26 +84,14 @@ export const makeTakeDirectoryName = (take: Take) =>
 export const makeTakeDirectoryPath = (take: Take) =>
   window.preload.joinPath(`BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`);
 
-export const makeFrameFileName = (take: Take, frameName: string) =>
+export const makeFrameFileName = (take: Take, frameNumber: number) =>
   [
     "ba",
     zeroPad(take.shotNumber, 3),
     zeroPad(take.takeNumber, 2),
     "frame",
-    `${frameName}.jpg`,
+    `${zeroPad(frameNumber, 5)}.jpg`,
   ].join("_");
-
-export const makeFrameFilePath = (take: Take, frameName: string): string =>
-  window.preload.joinPath(
-    makeTakeDirectoryPath(take),
-    [
-      "ba",
-      zeroPad(take.shotNumber, 3),
-      zeroPad(take.takeNumber, 2),
-      "frame",
-      `${frameName}.jpg`,
-    ].join("_")
-  );
 
 export const makeProjectInfoFileJson = async (
   project: Project,

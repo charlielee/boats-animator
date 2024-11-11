@@ -2,7 +2,6 @@ import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TrackItem } from "../../../common/project/TrackItem";
-import { zeroPad } from "../../../common/utils";
 import cameraSound from "../../audio/camera.wav";
 import useDeviceList from "../../hooks/useDeviceList";
 import useProjectAndTake from "../../hooks/useProjectAndTake";
@@ -13,7 +12,7 @@ import {
   ImagingDevice,
   deviceIdentifierToDevice,
 } from "../../services/imagingDevice/ImagingDevice";
-import { makeFrameFilePath, makeFrameTrackItem } from "../../services/project/projectBuilder";
+import { makeFrameTrackItem } from "../../services/project/projectBuilder";
 import { getNextFileNumber } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
 import CaptureContext from "./CaptureContext";
@@ -46,8 +45,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     // Frame track items should be created synchronously to ensure frames are created in the correct order
     // and do not have overwriting file names
     const fileNumber = getNextFileNumber(take.frameTrack);
-    const filePath = makeFrameFilePath(take, zeroPad(fileNumber, 5));
-    const trackItem = makeFrameTrackItem(filePath, fileNumber);
+    const trackItem = makeFrameTrackItem(take, fileNumber);
     dispatch(addFrameTrackItem(trackItem));
 
     // Intentionally fire async method without await
