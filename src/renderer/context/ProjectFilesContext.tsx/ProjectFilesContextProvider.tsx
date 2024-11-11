@@ -66,9 +66,12 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     dispatch(removeFrameTrackItem(trackItemId));
   };
 
-  // const updateProjectAndTakeLastSaved = async (project: Project, take: Take) => {
-  //   const updatedProject = {...project, la}
-  // }
+  const updateProjectAndTakeLastSaved = (project: Project, take: Take): [Project, Take[]] => {
+    const lastSaved = new Date().toISOString();
+    const updatedProject: Project = { ...project, lastSaved };
+    const updatedTake: Take = { ...take, lastSaved };
+    return [updatedProject, [updatedTake]];
+  };
 
   const saveProjectInfoFileToDisk = async (project: Project, takes: Take[]): Promise<void> => {
     rLogger.info("projectFilesContext.saveProject", "Saving project json to disk");
@@ -95,7 +98,8 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   useEffect(() => {
     if (projectDirectory !== undefined && project !== undefined && take !== undefined) {
-      saveProjectInfoFileToDisk!(project, [take]);
+      const [updatedProject, updatedTakes] = updateProjectAndTakeLastSaved(project, take);
+      saveProjectInfoFileToDisk!(updatedProject, updatedTakes);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [project, take, projectDirectory]);
