@@ -10,6 +10,7 @@ export const PROJECT: Project = {
   name: PROJECT_NAME,
   fileName: PROJECT_FILE_NAME,
   projectFrameRate: DEFAULT_PROJECT_FRAME_RATE,
+  lastSaved: new Date("2024-01-01").toISOString(),
 };
 
 export const TAKE: Take = {

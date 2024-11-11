@@ -31,6 +31,7 @@ export const makeProject = ({
   name: name.substring(0, 256),
   fileName: makeProjectFileName(name),
   projectFrameRate,
+  lastSaved: new Date().toISOString(),
 });
 
 const makeProjectFileName = (name: string) => {
