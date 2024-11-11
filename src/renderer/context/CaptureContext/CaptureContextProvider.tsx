@@ -2,7 +2,6 @@ import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TrackItem } from "../../../common/project/TrackItem";
-import { zeroPad } from "../../../common/utils";
 import cameraSound from "../../audio/camera.wav";
 import useDeviceList from "../../hooks/useDeviceList";
 import useProjectAndTake from "../../hooks/useProjectAndTake";
@@ -13,7 +12,7 @@ import {
   ImagingDevice,
   deviceIdentifierToDevice,
 } from "../../services/imagingDevice/ImagingDevice";
-import { makeFrameFilePath, makeFrameTrackItem } from "../../services/project/projectBuilder";
+import { makeFrameTrackItem } from "../../services/project/projectBuilder";
 import { getNextFileNumber } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
 import CaptureContext from "./CaptureContext";
@@ -38,7 +37,16 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const takePhoto = () => {
     rLogger.info("captureContextProvider.takePhoto");
 
+    if (device === undefined) {
+      rLogger.info(
+        "captureContextProvider.takePhoto.noDevice",
+        "Nothing captured as no device selected"
+      );
+      return;
+    }
+
     if (playCaptureSound) {
+      rLogger.info("captureContextProvider.takePhoto.playCaptureSound");
       const audio = new Audio(cameraSound);
       audio.play();
     }
@@ -46,23 +54,22 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     // Frame track items should be created synchronously to ensure frames are created in the correct order
     // and do not have overwriting file names
     const fileNumber = getNextFileNumber(take.frameTrack);
-    const filePath = makeFrameFilePath(take, zeroPad(fileNumber, 5));
-    const trackItem = makeFrameTrackItem(filePath, fileNumber);
+    const trackItem = makeFrameTrackItem(take, fileNumber);
     dispatch(addFrameTrackItem(trackItem));
 
     // Intentionally fire async method without await
-    processPhoto(trackItem);
+    _processPhoto(trackItem);
   };
 
-  const processPhoto = async (trackItem: TrackItem) => {
-    if (!device) {
-      return;
+  const _processPhoto = async (trackItem: TrackItem) => {
+    if (device === undefined) {
+      throw "No device was found";
     }
     const imageData = await device.takePhoto();
     await saveTrackItemToDisk!(take, trackItem, imageData);
   };
 
-  const onChangeDevice = useCallback(async () => {
+  const _onChangeDevice = useCallback(async () => {
     rLogger.info("captureContextProvider.onChangeDevice", JSON.stringify(deviceStatus));
     const identifier = deviceStatus?.identifier;
     const newDevice = identifier ? deviceIdentifierToDevice(identifier) : undefined;
@@ -76,7 +83,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     setDevice(newDevice);
   }, [deviceStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onDeviceListChange = useCallback(() => {
+  const _onDeviceListChange = useCallback(() => {
     if (
       deviceStatus &&
       !deviceList.find((identifier) => identifier.deviceId === deviceStatus.identifier.deviceId)
@@ -87,12 +94,12 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   }, [deviceList, deviceStatus, dispatch]);
 
   useEffect(() => {
-    onChangeDevice();
-  }, [onChangeDevice, deviceStatus]);
+    _onChangeDevice();
+  }, [_onChangeDevice, deviceStatus]);
 
   useEffect(() => {
-    onDeviceListChange();
-  }, [onDeviceListChange, deviceList]);
+    _onDeviceListChange();
+  }, [_onDeviceListChange, deviceList]);
 
   return (
     <CaptureContext.Provider

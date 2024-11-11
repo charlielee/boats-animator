@@ -9,6 +9,7 @@ import { DeleteFrameModal } from "../../modals/DeleteFrameModal/DeleteFrameModal
 import ExportVideoModal from "../../modals/ExportVideoModal/ExportVideoModal";
 import PreferencesModal from "../../modals/PreferencesModal/PreferencesModal";
 import { useEffect } from "react";
+import { ProjectFilesContextProvider } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
 
 export const useAnimatorRoutesAndProviders = () => {
   const project = useSelector((state: RootState) => state.project.project);
@@ -30,16 +31,18 @@ export const useAnimatorRoutesAndProviders = () => {
     <Route
       path={PageRoute.ANIMATOR}
       element={
-        <CaptureContextProvider>
-          <PlaybackContextProvider
-            take={take}
-            shortPlayLength={shortPlayLength}
-            playbackSpeed={playbackSpeed}
-          >
-            <Outlet />
-            <Animator />
-          </PlaybackContextProvider>
-        </CaptureContextProvider>
+        <ProjectFilesContextProvider>
+          <CaptureContextProvider>
+            <PlaybackContextProvider
+              take={take}
+              shortPlayLength={shortPlayLength}
+              playbackSpeed={playbackSpeed}
+            >
+              <Outlet />
+              <Animator />
+            </PlaybackContextProvider>
+          </CaptureContextProvider>
+        </ProjectFilesContextProvider>
       }
     >
       <Route path={PageRoute.ANIMATOR_DELETE_FRAME} element={<DeleteFrameModal />} />

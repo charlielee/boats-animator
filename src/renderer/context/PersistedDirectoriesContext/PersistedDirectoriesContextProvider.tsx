@@ -8,7 +8,6 @@ import {
 } from "../../services/database/PersistedDirectoryEntry";
 import useWorkingDirectory from "../../hooks/useWorkingDirectory";
 import { Project } from "../../../common/project/Project";
-import { makeProjectDirectoryName } from "../../services/project/projectBuilder";
 import { PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
 import { ProjectDirectoryIsInsideAnotherProjectError } from "./PersistedDirectoriesErrors";
 
@@ -39,9 +38,7 @@ export const PersistedDirectoriesContextProvider = ({
       throw new ProjectDirectoryIsInsideAnotherProjectError(workingDirectory.handle.name);
     }
 
-    const projectDirectoryName = makeProjectDirectoryName(project);
-
-    const handle = await createDirectory!(projectDirectoryName, workingDirectory.handle, true);
+    const handle = await createDirectory!(project.directoryName, workingDirectory.handle, true);
 
     return addProjectDirectoryEntry(project.name, handle);
   };

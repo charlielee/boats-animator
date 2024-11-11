@@ -1,6 +1,6 @@
 import { PageRoute } from "../../../../common/PageRoute";
 import { Take } from "../../../../common/project/Take";
-import { zeroPad } from "../../../../common/utils";
+import { DEFAULT_PROJECT_NAME, zeroPad } from "../../../../common/utils";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { getTrackLength } from "../../../services/project/projectCalculator";
 import Button from "../../common/Button/Button";
@@ -20,7 +20,7 @@ const TitleToolbar = (): JSX.Element => {
     <Toolbar className="title-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <Button
-          label={project.name}
+          label={project.name === "" ? DEFAULT_PROJECT_NAME : project.name}
           title="Manage project"
           onClick={PageRoute.STARTUP}
           color={ButtonColor.TRANSPARENT}

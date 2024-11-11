@@ -1,6 +1,8 @@
+import { IsoDateTimeString } from "../Flavors";
+
 export interface Project {
   name: string;
-  fileName: string;
+  directoryName: string;
   projectFrameRate: number;
-  fileLastSavedToDisk?: Date;
+  lastSaved: IsoDateTimeString;
 }

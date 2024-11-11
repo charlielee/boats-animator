@@ -1,32 +1,39 @@
 import {
-  PROJECT,
-  PROJECT_FILE_NAME,
+  MOCK_DATE_TIME,
+  MOCK_ISO_DATE_TIME_STRING,
+  PROJECT_DIRECTORY_NAME,
   PROJECT_NAME,
   TAKE,
   TRACK_GROUP_ID,
 } from "../../../common/testConstants";
 import {
-  DEFAULT_PROJECT_FILE_NAME,
+  DEFAULT_PROJECT_NAME_FORMATTED,
   DEFAULT_PROJECT_NAME,
   PROJECT_DIRECTORY_EXTENSION,
+  DEFAULT_PROJECT_DIRECTORY_NAME,
 } from "../../../common/utils";
 import {
-  formatProjectName,
-  makeFrameFilePath,
   makeFrameTrackItem,
   makeProject,
-  makeProjectDirectoryName,
   makeTake,
   makeTakeDirectoryPath,
+  makeUniqueProjectDirectoryNameIfRequired,
 } from "./projectBuilder";
 
-const projectDirectory = `${PROJECT_FILE_NAME}.${PROJECT_DIRECTORY_EXTENSION}`;
+beforeEach(() => {
+  jest.useFakeTimers({ now: MOCK_DATE_TIME });
+});
+
+afterEach(() => {
+  jest.useRealTimers();
+});
 
 describe("makeProject", () => {
   it("should make project with the supplied options", () => {
     expect(makeProject({ name: PROJECT_NAME, projectFrameRate: 1 })).toEqual({
       name: PROJECT_NAME,
-      fileName: PROJECT_FILE_NAME,
+      directoryName: PROJECT_DIRECTORY_NAME,
+      lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 1,
     });
   });
@@ -35,7 +42,8 @@ describe("makeProject", () => {
     const projectName = "a".repeat(256);
     expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: "a".repeat(256),
-      fileName: "a".repeat(60),
+      directoryName: `${"a".repeat(60)}.${PROJECT_DIRECTORY_EXTENSION}`,
+      lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 15,
     });
   });
@@ -44,7 +52,8 @@ describe("makeProject", () => {
     const projectName = ' 🚢<>:"My/\\|Test ?*.Movié 01!龙🐸 ';
     expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: projectName,
-      fileName: "🚢MyTest-Movié-01!龙🐸",
+      directoryName: `🚢MyTest-Movié-01!龙🐸.${PROJECT_DIRECTORY_EXTENSION}`,
+      lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 15,
     });
   });
@@ -53,7 +62,8 @@ describe("makeProject", () => {
     const projectName = "";
     expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: projectName,
-      fileName: expect.stringContaining(DEFAULT_PROJECT_FILE_NAME),
+      directoryName: DEFAULT_PROJECT_DIRECTORY_NAME,
+      lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 15,
     });
   });
@@ -62,20 +72,28 @@ describe("makeProject", () => {
     const projectName = ' <>:"/\\|?*. ';
     expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: projectName,
-      fileName: expect.stringContaining(DEFAULT_PROJECT_FILE_NAME),
+      directoryName: DEFAULT_PROJECT_DIRECTORY_NAME,
+      lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 15,
     });
   });
 });
 
-describe("formatProjectName", () => {
-  it("should trim whitespace from project name", () => {
-    expect(formatProjectName(` My Movie \r\n\t`)).toBe("My Movie");
+describe("makeUniqueProjectDirectoryNameIfRequired", () => {
+  it("should make name unique if default project directory name supplied", () => {
+    const defaultProjectDirectoryNameRegex = expect.stringMatching(
+      /^Untitled-Movie-[a-zA-Z0-9]{6,}.boatsfiles$/
+    );
+    expect(makeUniqueProjectDirectoryNameIfRequired(DEFAULT_PROJECT_DIRECTORY_NAME)).toEqual(
+      defaultProjectDirectoryNameRegex
+    );
   });
 
-  it("should use default project name if name is blank or only whitespace", () => {
-    expect(formatProjectName("")).toBe(DEFAULT_PROJECT_NAME);
-    expect(formatProjectName(` \r\n\t`)).toBe(DEFAULT_PROJECT_NAME);
+  it("should not change name if default project directory name is not supplied", () => {
+    const name1 = "cheese.boatsfiles";
+    expect(makeUniqueProjectDirectoryNameIfRequired(name1)).toEqual(name1);
+    const name2 = "  trimming whitespace or missing extension is not handled here   ";
+    expect(makeUniqueProjectDirectoryNameIfRequired(name2)).toEqual(name2);
   });
 });
 
@@ -96,12 +114,12 @@ describe("makeTake", () => {
 });
 
 describe("makeFrameTrackItem", () => {
-  const filePath = "/frame.jpg";
-  const fileNumber = 0;
+  const fileName = "ba_001_01_frame_00001.jpg";
+  const fileNumber = 1;
 
   it("should make frame track item with no Track Group ID supplied", () => {
-    expect(makeFrameTrackItem(filePath, fileNumber)).toStrictEqual({
-      filePath,
+    expect(makeFrameTrackItem(TAKE, fileNumber)).toStrictEqual({
+      fileName,
       id: expect.any(String),
       length: 1,
       fileNumber,
@@ -112,8 +130,8 @@ describe("makeFrameTrackItem", () => {
   it("should make frame track item with Track Group ID supplied", () => {
     const trackGroupId = TRACK_GROUP_ID;
 
-    expect(makeFrameTrackItem(filePath, fileNumber, trackGroupId)).toStrictEqual({
-      filePath,
+    expect(makeFrameTrackItem(TAKE, fileNumber, trackGroupId)).toStrictEqual({
+      fileName,
       id: expect.any(String),
       length: 1,
       fileNumber,
@@ -122,22 +140,8 @@ describe("makeFrameTrackItem", () => {
   });
 });
 
-describe("makeProjectDirectoryName", () => {
-  it("should make project directory name with supplied options", () => {
-    expect(makeProjectDirectoryName(PROJECT)).toBe(projectDirectory);
-  });
-});
-
 describe("makeTakeDirectoryPath", () => {
   it("should make take directory path with supplied options", () => {
     expect(makeTakeDirectoryPath(TAKE)).toEqual("BA_001_01");
-  });
-});
-
-describe("makeFrameFilePath", () => {
-  it("should make expected frame file path", () => {
-    const fileName = "cheese";
-
-    expect(makeFrameFilePath(TAKE, fileName)).toEqual("BA_001_01/ba_001_01_frame_cheese.jpg");
   });
 });

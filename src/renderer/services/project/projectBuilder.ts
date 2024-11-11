@@ -4,10 +4,10 @@ import { TrackGroupId } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import {
-  DEFAULT_PROJECT_FILE_NAME,
-  DEFAULT_PROJECT_NAME,
+  DEFAULT_PROJECT_NAME_FORMATTED,
   PROJECT_DIRECTORY_EXTENSION,
   zeroPad,
+  DEFAULT_PROJECT_DIRECTORY_NAME,
 } from "../../../common/utils";
 import { Project } from "../../../common/project/Project";
 import {
@@ -29,27 +29,33 @@ export const makeProject = ({
   projectFrameRate: number;
 }): Project => ({
   name: name.substring(0, 256),
-  fileName: makeProjectFileName(name),
+  directoryName: makeProjectDirectoryName(name),
   projectFrameRate,
+  lastSaved: new Date().toISOString(),
 });
 
-const makeProjectFileName = (name: string) => {
-  const fileName = name
+const makeProjectDirectoryName = (name: string) => {
+  const directoryName = name
     .replace(/[<>:"/\\|?*.]/g, "")
     .substring(0, 60)
     .trim()
     .replace(/ /g, "-");
-  return fileName === "" ? makeUniqueDefaultProjectFileName() : fileName;
+  return directoryName === ""
+    ? DEFAULT_PROJECT_DIRECTORY_NAME
+    : `${directoryName}.${PROJECT_DIRECTORY_EXTENSION}`;
 };
 
-const makeUniqueDefaultProjectFileName = () =>
-  `${DEFAULT_PROJECT_FILE_NAME}-${uuidv4().substring(0, 6)}`;
+export const makeUniqueProjectDirectoryNameIfRequired = (directoryName: string) =>
+  directoryName === DEFAULT_PROJECT_DIRECTORY_NAME
+    ? makeUniqueDefaultProjectDirectoryName()
+    : directoryName;
 
-export const formatProjectName = (name: string) =>
-  name.trim() === "" ? DEFAULT_PROJECT_NAME : name.trim();
+const makeUniqueDefaultProjectDirectoryName = () =>
+  `${DEFAULT_PROJECT_NAME_FORMATTED}-${uuidv4().substring(0, 6)}.${PROJECT_DIRECTORY_EXTENSION}`;
 
 export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOptions): Take => ({
   id: uuidv4(),
+  lastSaved: new Date().toISOString(),
   shotNumber,
   takeNumber,
   frameRate,
@@ -62,19 +68,16 @@ export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOp
 });
 
 export const makeFrameTrackItem = (
-  filePath: string,
+  take: Take,
   fileNumber: number,
   trackGroupId?: TrackGroupId
 ): TrackItem => ({
   id: uuidv4(),
   length: 1,
-  filePath,
+  fileName: makeFrameFileName(take, fileNumber),
   fileNumber,
   trackGroupId: trackGroupId ?? uuidv4(),
 });
-
-export const makeProjectDirectoryName = (project: Project) =>
-  `${project.fileName}.${PROJECT_DIRECTORY_EXTENSION}`;
 
 export const makeTakeDirectoryName = (take: Take) =>
   `BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`;
@@ -82,26 +85,14 @@ export const makeTakeDirectoryName = (take: Take) =>
 export const makeTakeDirectoryPath = (take: Take) =>
   window.preload.joinPath(`BA_${zeroPad(take.shotNumber, 3)}_${zeroPad(take.takeNumber, 2)}`);
 
-export const makeFrameFileName = (take: Take, frameName: string) =>
+export const makeFrameFileName = (take: Take, frameNumber: number) =>
   [
     "ba",
     zeroPad(take.shotNumber, 3),
     zeroPad(take.takeNumber, 2),
     "frame",
-    `${frameName}.jpg`,
+    `${zeroPad(frameNumber, 5)}.jpg`,
   ].join("_");
-
-export const makeFrameFilePath = (take: Take, frameName: string): string =>
-  window.preload.joinPath(
-    makeTakeDirectoryPath(take),
-    [
-      "ba",
-      zeroPad(take.shotNumber, 3),
-      zeroPad(take.takeNumber, 2),
-      "frame",
-      `${frameName}.jpg`,
-    ].join("_")
-  );
 
 export const makeProjectInfoFileJson = async (
   project: Project,

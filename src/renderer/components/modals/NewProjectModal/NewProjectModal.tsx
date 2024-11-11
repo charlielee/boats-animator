@@ -4,7 +4,11 @@ import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
-import { DEFAULT_PROJECT_FRAME_RATE, PROJECT_DIRECTORY_EXTENSION } from "../../../../common/utils";
+import {
+  DEFAULT_PROJECT_FRAME_RATE,
+  DEFAULT_PROJECT_NAME,
+  PROJECT_DIRECTORY_EXTENSION,
+} from "../../../../common/utils";
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
@@ -12,10 +16,9 @@ import { addProject, addTake } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
 import { CreateDirectoryAlreadyExistsError } from "../../../context/FileManagerContext/FileErrors";
 import {
-  formatProjectName,
   makeProject,
-  makeProjectDirectoryName,
   makeTake,
+  makeUniqueProjectDirectoryNameIfRequired,
 } from "../../../services/project/projectBuilder";
 import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
@@ -26,6 +29,7 @@ import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
 import { UiAlert } from "../../ui/UiAlert/UiAlert";
 import * as rLogger from "../../../services/rLogger/rLogger";
+import { Project } from "../../../../common/project/Project";
 
 export const NewProjectModal = () => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -61,7 +65,10 @@ export const NewProjectModal = () => {
 
   const onSubmitNewProject = async () => {
     clearFormErrors();
-    const formattedProject = { ...project, name: formatProjectName(project.name) };
+    const formattedProject: Project = {
+      ...project,
+      directoryName: makeUniqueProjectDirectoryNameIfRequired(project.directoryName),
+    };
 
     try {
       const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
@@ -77,7 +84,7 @@ export const NewProjectModal = () => {
       navigate(PageRoute.ANIMATOR);
     } catch (e) {
       if (e instanceof CreateDirectoryAlreadyExistsError) {
-        rLogger.warn("newProjectModal.projectAlreadyExists", project.fileName);
+        rLogger.warn("newProjectModal.projectAlreadyExists", project.directoryName);
         return setProjectNameError(
           "Unable to create project as a project already exists with this name. Please rename your project and try again."
         );
@@ -103,7 +110,7 @@ export const NewProjectModal = () => {
         <UiTextInput
           label="Project Name"
           value={project.name}
-          placeholder="Untitled Movie"
+          placeholder={DEFAULT_PROJECT_NAME}
           error={projectNameError}
           onChange={onRenameProject}
         />
@@ -112,7 +119,7 @@ export const NewProjectModal = () => {
           label="Project files will be saved to..."
           value={
             workingDirectory
-              ? `./${workingDirectory.friendlyName}/${makeProjectDirectoryName(project)}`
+              ? `./${workingDirectory.friendlyName}/${project.directoryName}`
               : undefined
           }
           placeholder="No folder selected"

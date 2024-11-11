@@ -8,10 +8,9 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import {
   makeTakeDirectoryName,
-  makeFrameFileName,
   makeProjectInfoFileJson,
 } from "../../services/project/projectBuilder";
-import { PROJECT_INFO_FILE_NAME, zeroPad } from "../../../common/utils";
+import { PROJECT_INFO_FILE_NAME } from "../../../common/utils";
 import { FileInfoType } from "../FileManagerContext/FileInfo";
 
 import { Project } from "../../../common/project/Project";
@@ -46,9 +45,8 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
     const takeDirectoryName = makeTakeDirectoryName(take);
     const takeDirectoryHandle = await createDirectory!(takeDirectoryName, projectDirectory.handle);
-    const frameFileName = makeFrameFileName(take, zeroPad(trackItem.fileNumber, 5));
     const fileInfoId = await createFile!(
-      frameFileName,
+      trackItem.fileName,
       takeDirectoryHandle,
       FileInfoType.FRAME,
       data
@@ -66,8 +64,15 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     dispatch(removeFrameTrackItem(trackItemId));
   };
 
+  const updateProjectAndTakeLastSaved = (project: Project, take: Take): [Project, Take[]] => {
+    const lastSaved = new Date().toISOString();
+    const updatedProject: Project = { ...project, lastSaved };
+    const updatedTake: Take = { ...take, lastSaved };
+    return [updatedProject, [updatedTake]];
+  };
+
   const saveProjectInfoFileToDisk = async (project: Project, takes: Take[]): Promise<void> => {
-    rLogger.info("projectFilesContext.saveProject", "Saving project json to disk");
+    rLogger.info("projectFilesContext.saveProject", "Saving project info file to disk");
     if (projectDirectory === undefined) {
       throw "Unable to save project file info as missing projectDirectory";
     }
@@ -76,10 +81,17 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     const profileFileString = JSON.stringify(projectFileJson);
     const data = new Blob([profileFileString], { type: "application/json" });
 
-    // TODO error handling
     if (projectInfoFileId) {
+      rLogger.info(
+        "projectFilesContext.saveProject.update",
+        `Updating project info file ${projectInfoFileId}`
+      );
       await updateFile!(projectInfoFileId, data);
     } else {
+      rLogger.info(
+        "projectFilesContext.saveProject.create",
+        `Creating new project info file in ${projectDirectory.handle.name}`
+      );
       const fileInfoId = await createFile!(
         PROJECT_INFO_FILE_NAME,
         projectDirectory.handle,
@@ -92,7 +104,8 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   useEffect(() => {
     if (projectDirectory !== undefined && project !== undefined && take !== undefined) {
-      saveProjectInfoFileToDisk!(project, [take]);
+      const [updatedProject, updatedTakes] = updateProjectAndTakeLastSaved(project, take);
+      saveProjectInfoFileToDisk!(updatedProject, updatedTakes);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [project, take, projectDirectory]);

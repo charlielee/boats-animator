@@ -1,4 +1,4 @@
-import { FrameCount, FrameRate, TakeId } from "../Flavors";
+import { FrameCount, FrameRate, IsoDateTimeString, TakeId } from "../Flavors";
 import { Track } from "./Track";
 
 export interface Take {
@@ -8,4 +8,5 @@ export interface Take {
   frameRate: FrameRate;
   holdFrames: FrameCount;
   frameTrack: Track;
+  lastSaved: IsoDateTimeString;
 }

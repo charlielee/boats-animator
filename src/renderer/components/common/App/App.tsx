@@ -22,13 +22,11 @@ const App = (): JSX.Element => {
 
         <FileManagerContextProvider>
           <PersistedDirectoriesContextProvider>
-            <ProjectFilesContextProvider>
-              <Routes>
-                <Route index element={<Navigate to={PageRoute.STARTUP} />} />
-                {startupRoutes}
-                {animatorRoutes}
-              </Routes>
-            </ProjectFilesContextProvider>
+            <Routes>
+              <Route index element={<Navigate to={PageRoute.STARTUP} />} />
+              {startupRoutes}
+              {animatorRoutes}
+            </Routes>
           </PersistedDirectoriesContextProvider>
         </FileManagerContextProvider>
       </AppErrorBoundary>
