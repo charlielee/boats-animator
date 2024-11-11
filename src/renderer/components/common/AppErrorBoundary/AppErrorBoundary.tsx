@@ -56,18 +56,25 @@ export class AppErrorBoundary extends Component<AppErrorBoundaryProps, AppErrorB
     if (this.state.error !== undefined) {
       const error = this.state.error;
 
+      const generalMessage = (
+        <p>
+          Your project has been automatically saved. If this error keeps occurring, please{" "}
+          <a href="#raise-an-issue" onClick={() => window.preload.openExternal.website()}>
+            raise an issue
+          </a>{" "}
+          via GitHub or Discord.
+        </p>
+      );
+
       if (error instanceof FileErrorBase) {
         return (
           <UiModal title="Unexpected File Error">
             <p>
               Unable to {error.action} &quot;{error.filePath}&quot;, please restart Boats Animator.
-              Please ensure that this project&quot;s files have not been modified or moved outside
-              of Boats Animator.
+              Ensure that this project&apos;s files have not been modified or moved outside of Boats
+              Animator.
             </p>
-            <p>
-              Your project has been automatically saved. If this error keeps occurring, please raise
-              an issue on GitHub.
-            </p>
+            {generalMessage}
           </UiModal>
         );
       }
@@ -75,10 +82,7 @@ export class AppErrorBoundary extends Component<AppErrorBoundaryProps, AppErrorB
       return (
         <UiModal title="Unexpected Error">
           <p>There was an unexpected error, please restart Boats Animator.</p>
-          <p>
-            Your project has been automatically saved. If this error keeps occurring, please raise
-            an issue on GitHub.
-          </p>
+          {generalMessage}
         </UiModal>
       );
     }
