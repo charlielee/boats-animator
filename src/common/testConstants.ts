@@ -2,14 +2,14 @@ import { v4 as uuidv4 } from "uuid";
 import { FileInfoType } from "../renderer/context/FileManagerContext/FileInfo";
 import { Project } from "./project/Project";
 import { Take } from "./project/Take";
-import { DEFAULT_PROJECT_FRAME_RATE } from "./utils";
+import { DEFAULT_PROJECT_FRAME_RATE, PROJECT_DIRECTORY_EXTENSION } from "./utils";
 import { IsoDateTimeString } from "./Flavors";
 
 export const PROJECT_NAME = "My Test Movie";
-export const PROJECT_FILE_NAME = "My-Test-Movie";
+export const PROJECT_DIRECTORY_NAME = `My-Test-Movie.${PROJECT_DIRECTORY_EXTENSION}`;
 export const PROJECT: Project = {
   name: PROJECT_NAME,
-  fileName: PROJECT_FILE_NAME,
+  directoryName: PROJECT_DIRECTORY_NAME,
   projectFrameRate: DEFAULT_PROJECT_FRAME_RATE,
   lastSaved: new Date("2024-01-01").toISOString(),
 };

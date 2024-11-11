@@ -11,12 +11,7 @@ import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import { addProject, addTake } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
 import { CreateDirectoryAlreadyExistsError } from "../../../context/FileManagerContext/FileErrors";
-import {
-  formatProjectName,
-  makeProject,
-  makeProjectDirectoryName,
-  makeTake,
-} from "../../../services/project/projectBuilder";
+import { formatProjectName, makeProject, makeTake } from "../../../services/project/projectBuilder";
 import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
@@ -77,7 +72,7 @@ export const NewProjectModal = () => {
       navigate(PageRoute.ANIMATOR);
     } catch (e) {
       if (e instanceof CreateDirectoryAlreadyExistsError) {
-        rLogger.warn("newProjectModal.projectAlreadyExists", project.fileName);
+        rLogger.warn("newProjectModal.projectAlreadyExists", project.directoryName);
         return setProjectNameError(
           "Unable to create project as a project already exists with this name. Please rename your project and try again."
         );
@@ -112,7 +107,7 @@ export const NewProjectModal = () => {
           label="Project files will be saved to..."
           value={
             workingDirectory
-              ? `./${workingDirectory.friendlyName}/${makeProjectDirectoryName(project)}`
+              ? `./${workingDirectory.friendlyName}/${project.directoryName}`
               : undefined
           }
           placeholder="No folder selected"
