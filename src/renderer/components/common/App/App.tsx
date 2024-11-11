@@ -2,7 +2,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import { FileManagerContextProvider } from "../../../context/FileManagerContext/FileManagerContextProvider";
 import { PersistedDirectoriesContextProvider } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContextProvider";
-import { ProjectFilesContextProvider } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
 import { Theme } from "../../ui/Theme/Theme";
 import AppListener from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
