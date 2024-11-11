@@ -21,5 +21,6 @@ export const PLAYBACK_SPEEDS = {
 export const PROJECT_DIRECTORY_EXTENSION = "boatsfiles";
 export const PROJECT_INFO_FILE_NAME = "project.boatsinfo";
 export const DEFAULT_PROJECT_NAME = "Untitled Movie";
-export const DEFAULT_PROJECT_NAME_FORMATTED = `Untitled-Movie`;
+export const DEFAULT_PROJECT_NAME_FORMATTED = "Untitled-Movie";
+export const DEFAULT_PROJECT_DIRECTORY_NAME = `Untitled-Movie.${PROJECT_DIRECTORY_EXTENSION}`;
 export const DEFAULT_PROJECT_FRAME_RATE = 15;

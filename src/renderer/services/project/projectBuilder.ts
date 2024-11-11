@@ -5,9 +5,9 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import {
   DEFAULT_PROJECT_NAME_FORMATTED,
-  DEFAULT_PROJECT_NAME,
   PROJECT_DIRECTORY_EXTENSION,
   zeroPad,
+  DEFAULT_PROJECT_DIRECTORY_NAME,
 } from "../../../common/utils";
 import { Project } from "../../../common/project/Project";
 import {
@@ -35,21 +35,23 @@ export const makeProject = ({
 });
 
 const makeProjectDirectoryName = (name: string) => {
-  const directoryNameFormatted = name
+  const directoryName = name
     .replace(/[<>:"/\\|?*.]/g, "")
     .substring(0, 60)
     .trim()
     .replace(/ /g, "-");
-  const directoryName =
-    directoryNameFormatted === "" ? makeUniqueDefaultProjectFileName() : directoryNameFormatted;
-  return `${directoryName}.${PROJECT_DIRECTORY_EXTENSION}`;
+  return directoryName === ""
+    ? DEFAULT_PROJECT_DIRECTORY_NAME
+    : `${directoryName}.${PROJECT_DIRECTORY_EXTENSION}`;
 };
 
-const makeUniqueDefaultProjectFileName = () =>
-  `${DEFAULT_PROJECT_NAME_FORMATTED}-${uuidv4().substring(0, 6)}`;
+export const makeUniqueProjectDirectoryNameIfRequired = (directoryName: string) =>
+  directoryName === DEFAULT_PROJECT_DIRECTORY_NAME
+    ? makeUniqueDefaultProjectDirectoryName()
+    : directoryName;
 
-export const formatProjectName = (name: string) =>
-  name.trim() === "" ? DEFAULT_PROJECT_NAME : name.trim();
+const makeUniqueDefaultProjectDirectoryName = () =>
+  `${DEFAULT_PROJECT_NAME_FORMATTED}-${uuidv4().substring(0, 6)}.${PROJECT_DIRECTORY_EXTENSION}`;
 
 export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOptions): Take => ({
   id: uuidv4(),

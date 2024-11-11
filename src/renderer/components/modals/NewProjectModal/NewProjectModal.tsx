@@ -4,14 +4,22 @@ import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
-import { DEFAULT_PROJECT_FRAME_RATE, PROJECT_DIRECTORY_EXTENSION } from "../../../../common/utils";
+import {
+  DEFAULT_PROJECT_FRAME_RATE,
+  DEFAULT_PROJECT_NAME,
+  PROJECT_DIRECTORY_EXTENSION,
+} from "../../../../common/utils";
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import { addProject, addTake } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
 import { CreateDirectoryAlreadyExistsError } from "../../../context/FileManagerContext/FileErrors";
-import { formatProjectName, makeProject, makeTake } from "../../../services/project/projectBuilder";
+import {
+  makeProject,
+  makeTake,
+  makeUniqueProjectDirectoryNameIfRequired,
+} from "../../../services/project/projectBuilder";
 import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
@@ -21,6 +29,7 @@ import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
 import { UiAlert } from "../../ui/UiAlert/UiAlert";
 import * as rLogger from "../../../services/rLogger/rLogger";
+import { Project } from "../../../../common/project/Project";
 
 export const NewProjectModal = () => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -56,7 +65,10 @@ export const NewProjectModal = () => {
 
   const onSubmitNewProject = async () => {
     clearFormErrors();
-    const formattedProject = { ...project, name: formatProjectName(project.name) };
+    const formattedProject: Project = {
+      ...project,
+      directoryName: makeUniqueProjectDirectoryNameIfRequired(project.directoryName),
+    };
 
     try {
       const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
@@ -98,7 +110,7 @@ export const NewProjectModal = () => {
         <UiTextInput
           label="Project Name"
           value={project.name}
-          placeholder="Untitled Movie"
+          placeholder={DEFAULT_PROJECT_NAME}
           error={projectNameError}
           onChange={onRenameProject}
         />

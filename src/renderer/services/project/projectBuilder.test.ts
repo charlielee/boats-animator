@@ -10,13 +10,14 @@ import {
   DEFAULT_PROJECT_NAME_FORMATTED,
   DEFAULT_PROJECT_NAME,
   PROJECT_DIRECTORY_EXTENSION,
+  DEFAULT_PROJECT_DIRECTORY_NAME,
 } from "../../../common/utils";
 import {
-  formatProjectName,
   makeFrameTrackItem,
   makeProject,
   makeTake,
   makeTakeDirectoryPath,
+  makeUniqueProjectDirectoryNameIfRequired,
 } from "./projectBuilder";
 
 beforeEach(() => {
@@ -61,7 +62,7 @@ describe("makeProject", () => {
     const projectName = "";
     expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: projectName,
-      directoryName: expect.stringContaining(DEFAULT_PROJECT_NAME_FORMATTED),
+      directoryName: DEFAULT_PROJECT_DIRECTORY_NAME,
       lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 15,
     });
@@ -71,21 +72,28 @@ describe("makeProject", () => {
     const projectName = ' <>:"/\\|?*. ';
     expect(makeProject({ name: projectName, projectFrameRate: 15 })).toEqual({
       name: projectName,
-      directoryName: expect.stringContaining(DEFAULT_PROJECT_NAME_FORMATTED),
+      directoryName: DEFAULT_PROJECT_DIRECTORY_NAME,
       lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 15,
     });
   });
 });
 
-describe("formatProjectName", () => {
-  it("should trim whitespace from project name", () => {
-    expect(formatProjectName(` My Movie \r\n\t`)).toBe("My Movie");
+describe("makeUniqueProjectDirectoryNameIfRequired", () => {
+  it("should make name unique if default project directory name supplied", () => {
+    const defaultProjectDirectoryNameRegex = expect.stringMatching(
+      /^Untitled-Movie-[a-zA-Z0-9]{6,}.boatsfiles$/
+    );
+    expect(makeUniqueProjectDirectoryNameIfRequired(DEFAULT_PROJECT_DIRECTORY_NAME)).toEqual(
+      defaultProjectDirectoryNameRegex
+    );
   });
 
-  it("should use default project name if name is blank or only whitespace", () => {
-    expect(formatProjectName("")).toBe(DEFAULT_PROJECT_NAME);
-    expect(formatProjectName(` \r\n\t`)).toBe(DEFAULT_PROJECT_NAME);
+  it("should not change name if default project directory name is not supplied", () => {
+    const name1 = "cheese.boatsfiles";
+    expect(makeUniqueProjectDirectoryNameIfRequired(name1)).toEqual(name1);
+    const name2 = "  trimming whitespace or missing extension is not handled here   ";
+    expect(makeUniqueProjectDirectoryNameIfRequired(name2)).toEqual(name2);
   });
 });
 
