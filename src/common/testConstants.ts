@@ -14,6 +14,7 @@ export const PROJECT: Project = {
 
 export const TAKE: Take = {
   id: uuidv4(),
+  lastSaved: new Date("2024-01-01").toISOString(),
   shotNumber: 1,
   takeNumber: 1,
   frameRate: 15,

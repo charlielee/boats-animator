@@ -66,6 +66,10 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     dispatch(removeFrameTrackItem(trackItemId));
   };
 
+  // const updateProjectAndTakeLastSaved = async (project: Project, take: Take) => {
+  //   const updatedProject = {...project, la}
+  // }
+
   const saveProjectInfoFileToDisk = async (project: Project, takes: Take[]): Promise<void> => {
     rLogger.info("projectFilesContext.saveProject", "Saving project json to disk");
     if (projectDirectory === undefined) {
@@ -76,7 +80,6 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     const profileFileString = JSON.stringify(projectFileJson);
     const data = new Blob([profileFileString], { type: "application/json" });
 
-    // TODO error handling
     if (projectInfoFileId) {
       await updateFile!(projectInfoFileId, data);
     } else {

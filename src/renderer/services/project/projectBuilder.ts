@@ -50,6 +50,7 @@ export const formatProjectName = (name: string) =>
 
 export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOptions): Take => ({
   id: uuidv4(),
+  lastSaved: new Date().toISOString(),
   shotNumber,
   takeNumber,
   frameRate,
