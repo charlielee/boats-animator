@@ -10,6 +10,10 @@ interface UiModalProps {
 }
 
 export const UiModal = ({ title, onClose, children }: UiModalProps) => {
+  const preventCloseProps =
+    onClose === undefined
+      ? { closeOnClickOutside: false, closeOnEscape: false, withCloseButton: false }
+      : {};
   const { opened, duration, handleClose } = useDelayedClose({ onClose });
 
   return (
@@ -20,6 +24,7 @@ export const UiModal = ({ title, onClose, children }: UiModalProps) => {
       transitionProps={{ duration }}
       centered
       size="lg"
+      {...preventCloseProps}
     >
       {children}
     </Modal>

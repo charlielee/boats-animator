@@ -8,6 +8,7 @@ import AppListener from "../AppListener/AppListener";
 import AppLoad from "../AppLoad/AppLoad";
 import { useAnimatorRoutesAndProviders } from "./useAnimatorRoutesAndProviders";
 import { useStartupRoutes } from "./useStartupRoutes";
+import { AppErrorBoundary } from "../AppErrorBoundary/AppErrorBoundary";
 
 const App = (): JSX.Element => {
   const startupRoutes = useStartupRoutes();
@@ -15,20 +16,22 @@ const App = (): JSX.Element => {
 
   return (
     <Theme>
-      <AppListener />
-      <AppLoad />
+      <AppErrorBoundary>
+        <AppListener />
+        <AppLoad />
 
-      <FileManagerContextProvider>
-        <PersistedDirectoriesContextProvider>
-          <ProjectFilesContextProvider>
-            <Routes>
-              <Route index element={<Navigate to={PageRoute.STARTUP} />} />
-              {startupRoutes}
-              {animatorRoutes}
-            </Routes>
-          </ProjectFilesContextProvider>
-        </PersistedDirectoriesContextProvider>
-      </FileManagerContextProvider>
+        <FileManagerContextProvider>
+          <PersistedDirectoriesContextProvider>
+            <ProjectFilesContextProvider>
+              <Routes>
+                <Route index element={<Navigate to={PageRoute.STARTUP} />} />
+                {startupRoutes}
+                {animatorRoutes}
+              </Routes>
+            </ProjectFilesContextProvider>
+          </PersistedDirectoriesContextProvider>
+        </FileManagerContextProvider>
+      </AppErrorBoundary>
     </Theme>
   );
 };

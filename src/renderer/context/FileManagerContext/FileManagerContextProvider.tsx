@@ -21,7 +21,6 @@ interface FileManagerContextProviderProps {
 
 export const FileManagerContextProvider = ({ children }: FileManagerContextProviderProps) => {
   const [fileInfos, setFileInfos] = useState<FileInfo[]>([]);
-  console.log("fileInfos", fileInfos);
 
   const createDirectory = async (
     name: string,
@@ -70,11 +69,7 @@ export const FileManagerContextProvider = ({ children }: FileManagerContextProvi
       const objectURL = await _writeFileAndCreateObjectURL(fileHandle, data);
       const fileInfo = new FileInfo(undefined, fileType, fileHandle, objectURL);
 
-      console.log(fileInfos);
-      setFileInfos((prevState) => {
-        console.log([...prevState, fileInfo]);
-        return [...prevState, fileInfo];
-      });
+      setFileInfos((prevState) => [...prevState, fileInfo]);
 
       return fileInfo.fileInfoId;
     } catch (e) {
