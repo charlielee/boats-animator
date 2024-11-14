@@ -4,10 +4,25 @@ interface UiSelectProps {
   label: string;
   placeholder: string;
   data: ComboboxData;
-  value: string | null;
-  onChange: (value: string | null, option: ComboboxItem) => void;
+  value: string | undefined;
+  onChange: (value: string | undefined, option: ComboboxItem) => void;
 }
 
-export const UiSelect = ({ label, placeholder, data, value, onChange }: UiSelectProps) => (
-  <Select label={label} placeholder={placeholder} data={data} value={value} onChange={onChange} />
-);
+export const UiSelect = ({ label, placeholder, data, value, onChange }: UiSelectProps) => {
+  const formatValue = value === undefined ? null : value;
+
+  const handleChange = (value: string | null, option: ComboboxItem) => {
+    const formatNewValue = value === null ? undefined : value;
+    onChange(formatNewValue, option);
+  };
+
+  return (
+    <Select
+      label={label}
+      placeholder={placeholder}
+      data={data}
+      value={formatValue}
+      onChange={handleChange}
+    />
+  );
+};
