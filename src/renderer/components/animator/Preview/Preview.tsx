@@ -36,7 +36,7 @@ export const Preview = (): JSX.Element => {
       {liveViewVisible &&
         !deviceStatus &&
         (hasCameraAccess ? (
-          <h2>Select a Camera Source to begin!</h2>
+          <h2>Select a Capture Source to begin!</h2>
         ) : (
           <h2>
             You have denied camera access to this application.
