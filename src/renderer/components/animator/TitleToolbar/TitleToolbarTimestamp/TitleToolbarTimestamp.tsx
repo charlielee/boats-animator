@@ -9,11 +9,11 @@ import { buildStartTimeCode } from "../../../../../common/timeUtils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 
-interface StatusToolbarTimestampProps {
+interface TitleToolbarTimestampProps {
   take: Take;
 }
 
-export const StatusToolbarTimestamp = ({ take }: StatusToolbarTimestampProps): JSX.Element => {
+export const TitleToolbarTimestamp = ({ take }: TitleToolbarTimestampProps): JSX.Element => {
   const { timelineIndex } = useContext(PlaybackContext);
   const { showTimestampInSeconds } = useSelector((state: RootState) => state.app.userPreferences);
   const [showInSeconds, setShowInSeconds] = useState(showTimestampInSeconds);

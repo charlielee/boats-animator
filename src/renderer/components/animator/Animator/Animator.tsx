@@ -6,7 +6,6 @@ import { AnimationToolbar } from "../AnimationToolbar/AnimationToolbar";
 import { CaptureButtonToolbar } from "../CaptureButtonToolbar/CaptureButtonToolbar";
 import CaptureSidebarBlock from "../CaptureSidebarBlock/CaptureSidebarBlock";
 import { Preview } from "../Preview/Preview";
-import StatusToolbar from "../StatusToolbar/StatusToolbar";
 import { Timeline } from "../Timeline/Timeline";
 import TitleToolbar from "../TitleToolbar/TitleToolbar";
 
@@ -16,7 +15,6 @@ export const Animator = (): JSX.Element => {
       <TitleToolbar />
       <PageBody>
         <Content>
-          <StatusToolbar />
           <Preview />
           <CaptureButtonToolbar />
           <AnimationToolbar />
