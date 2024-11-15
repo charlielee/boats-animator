@@ -11,6 +11,7 @@ import PreferencesModal from "../../modals/PreferencesModal/PreferencesModal";
 import { useEffect } from "react";
 import { ProjectFilesContextProvider } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
 import { CaptureSourceModal } from "../../modals/CaptureSourceModal/CaptureSourceModal";
+import { displayProjectTitle } from "../../../services/project/projectBuilder";
 
 export const useAnimatorRoutesAndProviders = () => {
   const project = useSelector((state: RootState) => state.project.project);
@@ -21,7 +22,9 @@ export const useAnimatorRoutesAndProviders = () => {
   const playbackSpeed = useSelector((state: RootState) => state.project.playbackSpeed);
 
   useEffect(() => {
-    document.title = project ? `${project.name} - Boats Animator` : "Boats Animator";
+    document.title = project
+      ? `${displayProjectTitle(project)} - Boats Animator`
+      : "Boats Animator";
   }, [project]);
 
   if (project === undefined || take === undefined) {

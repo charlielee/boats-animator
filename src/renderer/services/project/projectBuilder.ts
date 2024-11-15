@@ -8,6 +8,7 @@ import {
   PROJECT_DIRECTORY_EXTENSION,
   zeroPad,
   DEFAULT_PROJECT_DIRECTORY_NAME,
+  DEFAULT_PROJECT_NAME,
 } from "../../../common/utils";
 import { Project } from "../../../common/project/Project";
 import {
@@ -106,3 +107,6 @@ export const makeProjectInfoFileJson = async (
     takes,
   };
 };
+
+export const displayProjectTitle = (project: Project) =>
+  project.name === "" ? DEFAULT_PROJECT_NAME : project.name;
