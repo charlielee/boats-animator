@@ -18,6 +18,19 @@ class WebMediaDevice implements ImagingDevice {
         },
       });
       this.imageCapture = new ImageCapture(this.stream.getVideoTracks()[0]);
+
+      console.log(this.stream.getVideoTracks()[0].getCapabilities());
+      console.log(this.stream.getVideoTracks()[0].getConstraints());
+      console.log(this.stream.getVideoTracks()[0].getSettings());
+
+      console.log(
+        "imageCapture.getPhotoCapabilities()",
+        await this.imageCapture.getPhotoCapabilities()
+      );
+      console.log("imageCapture.getPhotoSettings()", await this.imageCapture.getPhotoSettings());
+
+      await this.takePhoto();
+
       return true;
     } catch (e) {
       if (e instanceof DOMException) {
@@ -44,6 +57,8 @@ class WebMediaDevice implements ImagingDevice {
     rLogger.info("webMediaDevice.takePhoto");
 
     try {
+      console.log("stream dimensions", this.getStreamWidth(), this.getStreamHeight());
+
       return await this.imageCapture.takePhoto({
         imageHeight: this.getStreamHeight(),
         imageWidth: this.getStreamWidth(),
