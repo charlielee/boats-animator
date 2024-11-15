@@ -2,7 +2,6 @@ import { PageRoute } from "../../../../common/PageRoute";
 import { Take } from "../../../../common/project/Take";
 import { zeroPad } from "../../../../common/utils";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
-import { displayProjectTitle } from "../../../services/project/projectBuilder";
 import { getTrackLength } from "../../../services/project/projectCalculator";
 import Button from "../../common/Button/Button";
 import { ButtonColor } from "../../common/Button/ButtonColor";

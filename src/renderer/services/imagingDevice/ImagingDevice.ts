@@ -19,7 +19,7 @@ export interface ImagingDeviceStatus {
 export interface ImagingDevice {
   stream?: MediaStream;
   identifier: ImagingDeviceIdentifier;
-  open(): Promise<boolean>;
+  open(): Promise<void>;
   close(): void;
   takePhoto(): Promise<Blob>;
 }
