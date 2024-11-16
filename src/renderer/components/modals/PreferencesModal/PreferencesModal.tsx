@@ -1,5 +1,4 @@
 import { Stack } from "@mantine/core";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
 import { editUserPreferences } from "../../../redux/slices/appSlice";
@@ -18,14 +17,7 @@ const PreferencesModal = (): JSX.Element => {
     take: state.project.take,
     userPreferences: state.app.userPreferences,
   }));
-  const [appVersion, setAppVersion] = useState("");
-
-  useEffect(() => {
-    (async () => {
-      const version = await window.preload.ipcToMain.appVersion();
-      setAppVersion(version);
-    })();
-  }, []);
+  const appVersion = useSelector((state: RootState) => state.app.appVersion);
 
   return (
     <UiModal title="Preferences" onClose={take ? PageRoute.ANIMATOR : PageRoute.STARTUP}>

@@ -5,12 +5,14 @@ interface AppState {
   hasCameraAccess: boolean;
   loadingMessage?: string;
   userPreferences: UserPreferences;
+  appVersion: string;
 }
 
 const initialState: AppState = {
   hasCameraAccess: false,
   loadingMessage: undefined,
   userPreferences: defaultUserPreferences,
+  appVersion: "",
 };
 
 const appSlice = createSlice({
@@ -35,9 +37,14 @@ const appSlice = createSlice({
     stopLoading: (state) => {
       state.loadingMessage = undefined;
     },
+
+    setAppVersion: (state, action: PayloadAction<string>) => {
+      state.appVersion = action.payload;
+    },
   },
 });
 
-export const { editUserPreferences, setCameraAccess, startLoading, stopLoading } = appSlice.actions;
+export const { editUserPreferences, setCameraAccess, startLoading, stopLoading, setAppVersion } =
+  appSlice.actions;
 
 export const appReducer = appSlice.reducer;

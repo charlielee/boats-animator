@@ -11,6 +11,7 @@ import {
 } from "../../../redux/thunks";
 import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
 import * as rLogger from "../../../services/rLogger/rLogger";
+import { setAppVersion } from "../../../redux/slices/appSlice";
 
 const AppListeners = (): JSX.Element => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -23,6 +24,15 @@ const AppListeners = (): JSX.Element => {
     dispatch(loadSavedPreferences());
     dispatch(updateCameraAccessStatus());
   }, [dispatch]);
+
+  const fetchAppVersion = async () => {
+    const appVersion = await window.preload.ipcToMain.appVersion();
+    dispatch(setAppVersion(appVersion));
+  };
+
+  useEffect(() => {
+    fetchAppVersion();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle pressing the close button
   useEffect(() => {

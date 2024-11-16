@@ -29,6 +29,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   const projectDirectory = useProjectDirectory();
   const { project, take } = useSelector((state: RootState) => state.project);
+  const appVersion = useSelector((state: RootState) => state.app.appVersion);
   const dispatch = useDispatch();
 
   const [projectInfoFileId, setProjectInfoFileId] = useState<FileInfoId | undefined>(undefined);
@@ -77,7 +78,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
       throw "Unable to save project file info as missing projectDirectory";
     }
 
-    const projectFileJson = await makeProjectInfoFileJson(project, takes);
+    const projectFileJson = await makeProjectInfoFileJson(appVersion, project, takes);
     const profileFileString = JSON.stringify(projectFileJson);
     const data = new Blob([profileFileString], { type: "application/json" });
 
