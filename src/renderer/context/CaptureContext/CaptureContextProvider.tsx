@@ -34,19 +34,19 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   );
   const { saveTrackItemToDisk } = useContext(ProjectFilesContext);
 
-  const takePhoto = () => {
-    rLogger.info("captureContextProvider.takePhoto");
+  const captureImage = () => {
+    rLogger.info("captureContextProvider.captureImage");
 
     if (device === undefined) {
       rLogger.info(
-        "captureContextProvider.takePhoto.noDevice",
+        "captureContextProvider.captureImage.noDevice",
         "Nothing captured as no device selected"
       );
       return;
     }
 
     if (playCaptureSound) {
-      rLogger.info("captureContextProvider.takePhoto.playCaptureSound");
+      rLogger.info("captureContextProvider.captureImage.playCaptureSound");
       const audio = new Audio(cameraSound);
       audio.play();
     }
@@ -65,7 +65,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     if (device === undefined) {
       throw "No device was found";
     }
-    const imageData = await device.takePhoto();
+    const imageData = await device.captureImage();
     await saveTrackItemToDisk!(take, trackItem, imageData);
   };
 
@@ -104,7 +104,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   return (
     <CaptureContext.Provider
       value={{
-        takePhoto,
+        captureImage,
         device,
       }}
     >

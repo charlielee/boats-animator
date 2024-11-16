@@ -21,7 +21,7 @@ export interface ImagingDevice {
   identifier: ImagingDeviceIdentifier;
   open(): Promise<void>;
   close(): void;
-  takePhoto(): Promise<Blob>;
+  captureImage(): Promise<Blob>;
 }
 
 export const listDevices = async (): Promise<ImagingDeviceIdentifier[]> => {

@@ -2,12 +2,12 @@ import { createContext } from "react";
 import { ImagingDevice } from "../../services/imagingDevice/ImagingDevice";
 
 interface CaptureContextProps {
-  takePhoto: () => void;
+  captureImage: () => void;
   device: ImagingDevice | undefined;
 }
 
 const defaultValue: CaptureContextProps = {
-  takePhoto: () => undefined,
+  captureImage: () => undefined,
   device: undefined,
 };
 
