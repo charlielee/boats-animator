@@ -8,7 +8,7 @@ import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarI
 import "./CaptureButtonToolbar.css";
 
 export const CaptureButtonToolbar = (): JSX.Element => {
-  const { takePhoto } = useContext(CaptureContext);
+  const { captureImage } = useContext(CaptureContext);
   const { stopPlayback, liveViewVisible } = useContext(PlaybackContext);
 
   return (
@@ -22,7 +22,7 @@ export const CaptureButtonToolbar = (): JSX.Element => {
             if (!liveViewVisible) {
               stopPlayback();
             }
-            takePhoto();
+            captureImage();
           }}
         />
       </ToolbarItem>

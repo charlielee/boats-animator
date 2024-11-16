@@ -1,6 +1,6 @@
 import { PageRoute } from "../../../../common/PageRoute";
 import { Take } from "../../../../common/project/Take";
-import { DEFAULT_PROJECT_NAME, zeroPad } from "../../../../common/utils";
+import { zeroPad } from "../../../../common/utils";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { getTrackLength } from "../../../services/project/projectCalculator";
 import Button from "../../common/Button/Button";
@@ -9,10 +9,11 @@ import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
+import { TitleToolbarTimestamp } from "./TitleToolbarTimestamp/TitleToolbarTimestamp";
 import "./TitleToolbar.css";
 
 const TitleToolbar = (): JSX.Element => {
-  const { project, take } = useProjectAndTake();
+  const { take } = useProjectAndTake();
   const makeTakeTitle = (take: Take) =>
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
 
@@ -20,14 +21,16 @@ const TitleToolbar = (): JSX.Element => {
     <Toolbar className="title-toolbar">
       <ToolbarItem stretch align={ToolbarItemAlign.LEFT}>
         <Button
-          label={project.name === "" ? DEFAULT_PROJECT_NAME : project.name}
+          label={makeTakeTitle(take)}
           title="Manage project"
           onClick={PageRoute.STARTUP}
           color={ButtonColor.TRANSPARENT}
           icon={IconName.FOLDER}
         />
       </ToolbarItem>
-      <ToolbarItem align={ToolbarItemAlign.CENTER}>{makeTakeTitle(take)}</ToolbarItem>
+      <ToolbarItem align={ToolbarItemAlign.CENTER}>
+        <TitleToolbarTimestamp take={take} />
+      </ToolbarItem>
       <ToolbarItem stretch align={ToolbarItemAlign.RIGHT}>
         <IconButton
           title="Render current take as a video file"

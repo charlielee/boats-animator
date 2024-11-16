@@ -81,7 +81,7 @@ export const NewProjectModal = () => {
         frameRate: formattedProject.projectFrameRate,
       });
       dispatch(addTake(take));
-      navigate(PageRoute.ANIMATOR);
+      navigate(PageRoute.ANIMATOR_CAPTURE_SOURCE);
     } catch (e) {
       if (e instanceof CreateDirectoryAlreadyExistsError) {
         rLogger.warn("newProjectModal.projectAlreadyExists", project.directoryName);

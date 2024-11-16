@@ -10,6 +10,8 @@ import ExportVideoModal from "../../modals/ExportVideoModal/ExportVideoModal";
 import PreferencesModal from "../../modals/PreferencesModal/PreferencesModal";
 import { useEffect } from "react";
 import { ProjectFilesContextProvider } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
+import { CaptureSourceModal } from "../../modals/CaptureSourceModal/CaptureSourceModal";
+import { displayProjectTitle } from "../../../services/project/projectBuilder";
 
 export const useAnimatorRoutesAndProviders = () => {
   const project = useSelector((state: RootState) => state.project.project);
@@ -20,7 +22,9 @@ export const useAnimatorRoutesAndProviders = () => {
   const playbackSpeed = useSelector((state: RootState) => state.project.playbackSpeed);
 
   useEffect(() => {
-    document.title = project ? `${project.name} - Boats Animator` : "Boats Animator";
+    document.title = project
+      ? `${displayProjectTitle(project)} - Boats Animator`
+      : "Boats Animator";
   }, [project]);
 
   if (project === undefined || take === undefined) {
@@ -45,6 +49,7 @@ export const useAnimatorRoutesAndProviders = () => {
         </ProjectFilesContextProvider>
       }
     >
+      <Route path={PageRoute.ANIMATOR_CAPTURE_SOURCE} element={<CaptureSourceModal />} />
       <Route path={PageRoute.ANIMATOR_DELETE_FRAME} element={<DeleteFrameModal />} />
       <Route path={PageRoute.ANIMATOR_EXPORT_VIDEO_MODAL} element={<ExportVideoModal />} />
       <Route path={PageRoute.ANIMATOR_PREFERENCES_MODAL} element={<PreferencesModal />} />

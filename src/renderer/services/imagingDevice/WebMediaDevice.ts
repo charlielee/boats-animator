@@ -1,31 +1,34 @@
+import { notifications } from "@mantine/notifications";
 import * as rLogger from "../rLogger/rLogger";
 import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
+
+const EXTREMELY_LARGE_WIDTH = 99999;
 
 class WebMediaDevice implements ImagingDevice {
   public stream?: MediaStream;
   private imageCapture?: ImageCapture;
+  private takePhotoSupported: boolean = false;
 
   constructor(public identifier: ImagingDeviceIdentifier) {}
 
-  async open(): Promise<boolean> {
+  async open(): Promise<void> {
     rLogger.info("webMediaDevice.open.start");
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
           deviceId: { exact: this.identifier.deviceId },
-          width: { ideal: 1920 },
+          width: { ideal: EXTREMELY_LARGE_WIDTH },
         },
       });
-      this.imageCapture = new ImageCapture(this.stream.getVideoTracks()[0]);
-      return true;
+
+      const videoTrack = this.stream.getVideoTracks()[0];
+      this.imageCapture = new ImageCapture(videoTrack);
+      this.takePhotoSupported = await this.determineCaptureMethod(videoTrack);
     } catch (e) {
-      if (e instanceof DOMException) {
-        rLogger.info("webMediaDevice.open.deviceError", `${e.name}: ${e.message}`);
-        return false;
-      } else {
-        throw e;
-      }
+      rLogger.info("webMediaDevice.open.deviceError", `${e}`);
+      this.close();
+      notifications.show({ message: `Unable to start ${this.identifier.name}` });
     }
   }
 
@@ -34,44 +37,88 @@ class WebMediaDevice implements ImagingDevice {
     this.stream?.getTracks().forEach((track) => track.stop());
     this.stream = undefined;
     this.imageCapture = undefined;
+    this.takePhotoSupported = false;
   }
 
-  async takePhoto(): Promise<Blob> {
-    if (!this.imageCapture) {
+  // This determines whether takePhoto() can be used by this device or if the grabFrame() fallback should be used.
+  // Calling takePhoto early also prevents delay when the first image is captured
+  private async determineCaptureMethod(videoTrack: MediaStreamTrack): Promise<boolean> {
+    try {
+      const photo = await this.takePhoto();
+      await this.checkImageResolutionMatchesVideoStream(photo, videoTrack);
+      rLogger.info(
+        "webMediaDevice.determineCaptureMethod.takePhoto",
+        "Will use takePhoto for this device"
+      );
+      return true;
+    } catch (e) {
+      rLogger.info(
+        "webMediaDevice.determineCaptureMethod.takePhotoError",
+        `Error using takePhoto trying grabFrame ${e}`
+      );
+      const frame = await this.grabFrame();
+      await this.checkImageResolutionMatchesVideoStream(frame, videoTrack);
+      rLogger.info(
+        "webMediaDevice.determineCaptureMethod.grabFrame",
+        "Will use grabFrame for this device"
+      );
+      return false;
+    }
+  }
+
+  // Some devices will capture a different resolution with ImageCapture.takePhoto() from the video stream for some reason.
+  // This is regardless of the imageWidth and imageHeight that are specified (eg MacBook FaceTime camera captures 1552x1552).
+  private async checkImageResolutionMatchesVideoStream(
+    image: Blob,
+    videoTrack: MediaStreamTrack
+  ): Promise<void> {
+    // todo is image onload better
+    const imageBitmap = await createImageBitmap(image);
+    const { width: imageWidth, height: imageHeight } = imageBitmap;
+    imageBitmap.close();
+
+    const { width: videoWidth, height: videoHeight } = videoTrack.getSettings();
+
+    rLogger.info("webMediaDevice.checkImageResolutionMatchesVideoStream.dimensions", {
+      imageWidth,
+      imageHeight,
+      videoWidth,
+      videoHeight,
+    });
+
+    if (imageWidth !== videoWidth || imageHeight !== videoHeight) {
+      throw "ImageCapture resolution does not match video track resolution";
+    }
+  }
+
+  captureImage = async (): Promise<Blob> =>
+    this.takePhotoSupported ? this.takePhoto() : this.grabFrame();
+
+  private async takePhoto(): Promise<Blob> {
+    rLogger.info("webMediaDevice.takePhoto");
+    if (this.imageCapture === undefined || this.stream === undefined) {
       throw "Device must be open before takePhoto can be called";
     }
 
-    rLogger.info("webMediaDevice.takePhoto");
-
     try {
-      return await this.imageCapture.takePhoto({
-        imageHeight: this.getStreamHeight(),
-        imageWidth: this.getStreamWidth(),
+      const videoTrack = this.stream.getVideoTracks()[0];
+      const { width: videoWidth, height: videoHeight } = videoTrack.getSettings();
+      return this.imageCapture.takePhoto({
+        imageWidth: videoWidth,
+        imageHeight: videoHeight,
       });
-    } catch {
-      rLogger.info(
-        "webMediaDevice.grabFrameFallback",
-        "Error running takePhoto. Trying grabFrame instead."
-      );
-      const frame = await this.grabFrame();
-
-      if (frame) {
-        return frame;
-      } else {
-        rLogger.error("webMediaDevice.noImageData", "Both takePhoto and grabFrame failed");
-        throw "webMediaDevice.noImageData Both takePhoto and grabFrame failed";
-      }
+    } catch (e) {
+      rLogger.warn("webMediaDevice.takePhoto.error", `Error running takePhoto '${e}'`);
+      throw e;
     }
   }
 
-  // Some devices (eg virtual cameras) do not support imageCapture.takePhoto()
-  // so call imageCapture.grabFrame() as a backup and convert the ImageBitmap to a Blob
-  private async grabFrame(): Promise<Blob | null> {
+  private async grabFrame(): Promise<Blob> {
+    rLogger.info("webMediaDevice.grabFrame");
     if (!this.imageCapture) {
       throw "Device must be open before grabFrame can be called";
     }
 
-    rLogger.info("webMediaDevice.grabFrame");
     const bitmap = await this.imageCapture.grabFrame();
 
     const canvas = document.createElement("canvas");
@@ -79,16 +126,15 @@ class WebMediaDevice implements ImagingDevice {
     canvas.width = bitmap.width;
     const context = canvas.getContext("bitmaprenderer");
     context?.transferFromImageBitmap(bitmap);
+    bitmap.close();
 
-    return new Promise((res) => canvas.toBlob((blob) => res(blob), "image/jpeg"));
-  }
-
-  private getStreamHeight() {
-    return this.stream?.getVideoTracks()[0].getSettings().height;
-  }
-
-  private getStreamWidth() {
-    return this.stream?.getVideoTracks()[0].getSettings().width;
+    const image: Blob | null = await new Promise((res) =>
+      canvas.toBlob((blob) => res(blob), "image/jpeg")
+    );
+    if (image === null) {
+      throw "Unable to grabFrame as toBlob returned null";
+    }
+    return image;
   }
 
   static async listDevices(): Promise<ImagingDeviceIdentifier[]> {
