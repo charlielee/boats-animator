@@ -24,8 +24,7 @@ interface ProjectFilesContextProviderProps {
 }
 
 export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextProviderProps) => {
-  const { createDirectory, createFile, findFile, deleteFile, updateFile } =
-    useContext(FileManagerContext);
+  const fileManager = useContext(FileManagerContext);
 
   const projectDirectory = useProjectDirectory();
   const { project, take } = useSelector((state: RootState) => state.project);
@@ -45,21 +44,32 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     }
 
     const takeDirectoryName = makeTakeDirectoryName(take);
-    const takeDirectoryHandle = await createDirectory!(takeDirectoryName, projectDirectory.handle);
-    const fileInfoId = await createFile!(
+    const takeDirectoryHandle = await fileManager?.createDirectory(
+      takeDirectoryName,
+      projectDirectory.handle
+    );
+    if (takeDirectoryHandle === undefined) {
+      throw "Unable to create take directory handle";
+    }
+
+    const fileInfoId = await fileManager?.createFile!(
       trackItem.fileName,
       takeDirectoryHandle,
       FileInfoType.FRAME,
       data
     );
+    if (fileInfoId === undefined) {
+      throw "Unable to create track item fileInfo";
+    }
+
     setTrackItemFiles((p) => ({ ...p, [trackItem.id]: fileInfoId }));
   };
 
   const getTrackItemFileInfo = (trackItemId: TrackItemId): FileInfo | undefined =>
-    findFile!(trackItemFiles[trackItemId]);
+    fileManager?.findFile!(trackItemFiles[trackItemId]);
 
   const deleteTrackItem = async (trackItemId: TrackItemId): Promise<void> => {
-    await deleteFile!(trackItemFiles[trackItemId]);
+    await fileManager?.deleteFile(trackItemFiles[trackItemId]);
     setTrackItemFiles(({ [trackItemId]: _, ...otherTrackItemFiles }) => otherTrackItemFiles);
     // todo should redux happen here
     dispatch(removeFrameTrackItem(trackItemId));
@@ -87,18 +97,21 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
         "projectFilesContext.saveProject.update",
         `Updating project info file ${projectInfoFileId}`
       );
-      await updateFile!(projectInfoFileId, data);
+      await fileManager?.updateFile(projectInfoFileId, data);
     } else {
       rLogger.info(
         "projectFilesContext.saveProject.create",
         `Creating new project info file in ${projectDirectory.handle.name}`
       );
-      const fileInfoId = await createFile!(
+      const fileInfoId = await fileManager?.createFile(
         PROJECT_INFO_FILE_NAME,
         projectDirectory.handle,
         FileInfoType.PROJECT_INFO,
         data
       );
+      if (fileInfoId === undefined) {
+        throw "Unable to create project info file";
+      }
       setProjectInfoFileId(fileInfoId);
     }
   };
