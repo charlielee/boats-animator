@@ -1,7 +1,6 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TrackItem } from "../../../common/project/TrackItem";
 import cameraSound from "../../audio/camera.wav";
 import useDeviceList from "../../hooks/useDeviceList";
 import useProjectAndTake from "../../hooks/useProjectAndTake";
@@ -17,6 +16,8 @@ import { getNextFileNumber } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
 import CaptureContext from "./CaptureContext";
 import { ProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
+import { ImagingDeviceNotReadyError } from "../../services/imagingDevice/ImagingDeviceErrors";
+import { notifications } from "@mantine/notifications";
 
 interface CaptureContextProviderProps {
   children: ReactNode;
@@ -34,9 +35,8 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   );
   const { saveTrackItemToDisk } = useContext(ProjectFilesContext);
 
-  const captureImage = () => {
+  const captureImage = async () => {
     rLogger.info("captureContextProvider.captureImage");
-
     if (device === undefined) {
       rLogger.info(
         "captureContextProvider.captureImage.noDevice",
@@ -51,22 +51,28 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
       audio.play();
     }
 
-    // Frame track items should be created synchronously to ensure frames are created in the correct order
-    // and do not have overwriting file names
-    const fileNumber = getNextFileNumber(take.frameTrack);
-    const trackItem = makeFrameTrackItem(take, fileNumber);
-    dispatch(addFrameTrackItem(trackItem));
+    try {
+      const imageData = await device.captureImage();
 
-    // Intentionally fire async method without await
-    _processPhoto(trackItem);
-  };
-
-  const _processPhoto = async (trackItem: TrackItem) => {
-    if (device === undefined) {
-      throw "No device was found";
+      const fileNumber = getNextFileNumber(take.frameTrack);
+      const trackItem = makeFrameTrackItem(take, fileNumber);
+      await saveTrackItemToDisk!(take, trackItem, imageData);
+      dispatch(addFrameTrackItem(trackItem));
+    } catch (e) {
+      if (e instanceof ImagingDeviceNotReadyError) {
+        rLogger.warn("captureNotReadyError", `Device was not ready for capture, try again`);
+        return notifications.show({ message: "Device is not ready please wait and try again." });
+      } else {
+        rLogger.warn(
+          "captureImageError",
+          `There was an unexpected error capturing with this device ${e}`
+        );
+        notifications.show({
+          message:
+            "There was an unexpected error capturing with this device. Please reconnect the device and try again.",
+        });
+      }
     }
-    const imageData = await device.captureImage();
-    await saveTrackItemToDisk!(take, trackItem, imageData);
   };
 
   const _onChangeDevice = useCallback(async () => {
@@ -89,6 +95,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
       !deviceList.find((identifier) => identifier.deviceId === deviceStatus.identifier.deviceId)
     ) {
       rLogger.info("captureContextProvider.currentDeviceDisconnected");
+      notifications.show({ message: "Current device was disconnected." });
       dispatch(closeDevice());
     }
   }, [deviceList, deviceStatus, dispatch]);
