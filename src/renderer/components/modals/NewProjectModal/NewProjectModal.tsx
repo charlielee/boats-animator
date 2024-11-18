@@ -96,8 +96,10 @@ export const NewProjectModal = () => {
         );
       }
 
-      setGeneralError("Unable to create project due to an unexpected error. Please try again.");
-      rLogger.error("newProjectModal.unknownError", JSON.stringify(e));
+      setGeneralError(
+        "Unable to create project due to an unexpected error. Please choose a different folder and try again."
+      );
+      rLogger.error("newProjectModal.unknownError", `${e}`);
     }
   };
 
