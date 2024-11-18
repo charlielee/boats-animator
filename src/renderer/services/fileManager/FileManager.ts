@@ -8,8 +8,8 @@ import {
   DeleteFileUnexpectedError,
   UpdateFileInfoIdNotFoundError,
   UpdateFileUnexpectedError,
-} from "../../context/FileManagerContext/FileErrors";
-import { FileInfo, FileInfoType } from "../../context/FileManagerContext/FileInfo";
+} from "./FileErrors";
+import { FileInfo, FileInfoType } from "./FileInfo";
 import * as rLogger from "../../services/rLogger/rLogger";
 
 export class FileManager {

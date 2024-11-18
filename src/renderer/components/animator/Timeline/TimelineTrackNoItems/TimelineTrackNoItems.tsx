@@ -1,4 +1,4 @@
-import { FileInfoType } from "../../../../context/FileManagerContext/FileInfo";
+import { FileInfoType } from "../../../../services/fileManager/FileInfo";
 import "./TimelineTrackNoItems.css";
 
 interface TimelineTrackNoItemsProps {

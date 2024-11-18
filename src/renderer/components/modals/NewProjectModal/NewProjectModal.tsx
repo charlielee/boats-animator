@@ -14,7 +14,7 @@ import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/Pe
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import { addProject, addTake } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
-import { CreateDirectoryAlreadyExistsError } from "../../../context/FileManagerContext/FileErrors";
+import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
 import {
   makeProject,
   makeTake,

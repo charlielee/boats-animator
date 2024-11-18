@@ -1,6 +1,6 @@
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { ProjectFilesContext } from "./ProjectFilesContext";
-import { FileInfo } from "../FileManagerContext/FileInfo";
+import { FileInfo } from "../../services/fileManager/FileInfo";
 import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
 import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { FileInfoId, TrackItemId } from "../../../common/Flavors";
@@ -11,7 +11,7 @@ import {
   makeProjectInfoFileJson,
 } from "../../services/project/projectBuilder";
 import { PROJECT_INFO_FILE_NAME } from "../../../common/utils";
-import { FileInfoType } from "../FileManagerContext/FileInfo";
+import { FileInfoType } from "../../services/fileManager/FileInfo";
 
 import { Project } from "../../../common/project/Project";
 import { useDispatch, useSelector } from "react-redux";

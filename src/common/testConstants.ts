@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { FileInfoType } from "../renderer/context/FileManagerContext/FileInfo";
+import { FileInfoType } from "../renderer/services/fileManager/FileInfo";
 import { Project } from "./project/Project";
 import { Take } from "./project/Take";
 import { DEFAULT_PROJECT_FRAME_RATE, PROJECT_DIRECTORY_EXTENSION } from "./utils";

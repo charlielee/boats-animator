@@ -1,7 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import * as rLogger from "../../../services/rLogger/rLogger";
 import { UiModal } from "../../ui/UiModal/UiModal";
-import { FileErrorBase } from "../../../context/FileManagerContext/FileErrors";
+import { FileErrorBase } from "../../../services/fileManager/FileErrors";
 
 interface AppErrorBoundaryProps {
   children: ReactNode;

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { FileInfoType } from "../../context/FileManagerContext/FileInfo";
+import { FileInfoType } from "../fileManager/FileInfo";
 import { TrackGroupId } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
