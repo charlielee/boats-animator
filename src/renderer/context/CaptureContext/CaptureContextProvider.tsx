@@ -60,8 +60,10 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
       dispatch(addFrameTrackItem(trackItem));
     } catch (e) {
       if (e instanceof ImagingDeviceNotReadyError) {
-        rLogger.warn("captureNotReadyError", `Device was not ready for capture, try again`);
-        return notifications.show({ message: "Device is not ready please wait and try again." });
+        rLogger.warn("captureNotReadyError", "Device not ready. Please wait and try again.");
+        return notifications.show({
+          message: "Capture Source is not ready. Please wait and try again.",
+        });
       } else {
         rLogger.warn(
           "captureImageError",
@@ -69,7 +71,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
         );
         notifications.show({
           message:
-            "There was an unexpected error capturing with this device. Please reconnect the device and try again.",
+            "There was an unexpected error capturing with this Capture Source. Please wait and try again.",
         });
       }
     }
