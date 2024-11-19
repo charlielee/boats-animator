@@ -6,9 +6,14 @@ import useDeviceList from "../../../hooks/useDeviceList";
 import { UiLoader } from "../../ui/UiLoader/UiLoader";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
+import {
+  makeResolutionSelectData,
+  resolutionToName,
+} from "../../../services/imagingDevice/ImagingDeviceResolution";
 
 export const CaptureSourceModal = () => {
-  const { deviceStatus, deviceReady, changeDevice, closeDevice } = useContext(ImagingDeviceContext);
+  const { deviceStatus, deviceReady, resolution, changeDevice, closeDevice } =
+    useContext(ImagingDeviceContext);
 
   const deviceList = useDeviceList();
   const deviceSelectData: ComboboxData = deviceList.map(({ name, deviceId }) => ({
@@ -34,7 +39,12 @@ export const CaptureSourceModal = () => {
           />
 
           {deviceReady && (
-            <UiSelect label="Capture Resolution" data={[]} value={""} onChange={() => undefined} />
+            <UiSelect
+              label="Capture Resolution"
+              data={makeResolutionSelectData()}
+              value={resolution ? resolutionToName(resolution) : undefined}
+              onChange={() => undefined}
+            />
           )}
         </Stack>
       ) : (

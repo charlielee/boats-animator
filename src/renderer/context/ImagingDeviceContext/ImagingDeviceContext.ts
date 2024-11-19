@@ -4,12 +4,14 @@ import {
   ImagingDeviceIdentifier,
   ImagingDeviceStatus,
 } from "../../services/imagingDevice/ImagingDevice";
+import { ImagingDeviceResolution } from "../../services/imagingDevice/ImagingDeviceResolution";
 
 interface ImagingDeviceContextProps {
   hasCameraAccess: boolean;
   device: MutableRefObject<ImagingDevice | undefined>;
   deviceStatus: ImagingDeviceStatus | undefined;
   deviceReady: boolean;
+  resolution: ImagingDeviceResolution | undefined;
   reopenDevice: () => void;
   pauseDevice: () => void;
   closeDevice: () => void;
@@ -21,6 +23,7 @@ const defaultValue: ImagingDeviceContextProps = {
   device: { current: undefined },
   deviceStatus: undefined,
   deviceReady: false,
+  resolution: undefined,
   reopenDevice: () => undefined,
   pauseDevice: () => undefined,
   closeDevice: () => undefined,

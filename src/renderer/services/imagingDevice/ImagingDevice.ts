@@ -1,4 +1,5 @@
 import * as rLogger from "../../services/rLogger/rLogger";
+import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
 import WebMediaDevice from "./WebMediaDevice";
 
 export enum ImagingDeviceType {
@@ -24,9 +25,10 @@ export interface ImagingDevice {
   stream?: MediaStream;
   identifier: ImagingDeviceIdentifier;
   capabilities: ImagingDeviceCapabilities;
-  open(): Promise<void>;
+  open(resolution?: ImagingDeviceResolution): Promise<void>;
   close(): void;
   captureImage(): Promise<Blob>;
+  getResolution(): ImagingDeviceResolution;
 }
 
 export const listDevices = async (): Promise<ImagingDeviceIdentifier[]> => {
