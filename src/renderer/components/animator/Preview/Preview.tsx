@@ -1,26 +1,21 @@
-import { useSelector } from "react-redux";
-import CaptureContext from "../../../context/CaptureContext/CaptureContext";
+import { useContext } from "react";
+import { TrackItem } from "../../../../common/project/TrackItem";
+import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
-import { RootState } from "../../../redux/store";
 import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
 import "./Preview.css";
 import PreviewFrame from "./PreviewFrame/PreviewFrame";
 import PreviewLiveView from "./PreviewLiveView/PreviewLiveView";
-import { useContext } from "react";
-import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
-import { TrackItem } from "../../../../common/project/TrackItem";
 import { PreviewLoader } from "./PreviewLoader/PreviewLoader";
 
 export const Preview = (): JSX.Element => {
   const { take } = useProjectAndTake();
-  const { deviceStatus, hasCameraAccess } = useSelector((state: RootState) => ({
-    deviceStatus: state.capture.deviceStatus,
-    hasCameraAccess: state.app.hasCameraAccess,
-  }));
+  const { device, deviceStatus, deviceReady } = useContext(ImagingDeviceContext);
 
   const { getTrackItemFileInfo } = useContext(ProjectFilesContext);
-  const { device } = useContext(CaptureContext);
+  const { hasCameraAccess } = useContext(ImagingDeviceContext);
   const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);
 
   const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
@@ -32,7 +27,7 @@ export const Preview = (): JSX.Element => {
 
   return (
     <div className="preview">
-      {deviceStatus && hasCameraAccess && <PreviewLiveView stream={device?.stream} />}
+      {deviceStatus && hasCameraAccess && <PreviewLiveView stream={device.current?.stream} />}
 
       {liveViewVisible &&
         !deviceStatus &&
@@ -48,7 +43,7 @@ export const Preview = (): JSX.Element => {
 
       <PreviewFrame src={previewSrc} hidden={liveViewVisible} />
 
-      {deviceStatus?.open === true && device?.isReady !== true && <PreviewLoader />}
+      {deviceStatus?.open === true && !deviceReady && <PreviewLoader />}
     </div>
   );
 };

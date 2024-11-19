@@ -1,11 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { appReducer } from "./slices/appSlice";
-import { captureReducer } from "./slices/captureSlice";
 import { projectReducer } from "./slices/projectSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
-  capture: captureReducer,
   project: projectReducer,
 });
 

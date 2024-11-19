@@ -2,14 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { defaultUserPreferences, UserPreferences } from "../../../common/UserPreferences";
 
 interface AppState {
-  hasCameraAccess: boolean;
   loadingMessage?: string;
   userPreferences: UserPreferences;
   appVersion: string;
 }
 
 const initialState: AppState = {
-  hasCameraAccess: false,
   loadingMessage: undefined,
   userPreferences: defaultUserPreferences,
   appVersion: "",
@@ -26,10 +24,6 @@ const appSlice = createSlice({
       };
     },
 
-    setCameraAccess: (state, action: PayloadAction<boolean>) => {
-      state.hasCameraAccess = action.payload;
-    },
-
     startLoading: (state, action: PayloadAction<string>) => {
       state.loadingMessage = action.payload;
     },
@@ -44,7 +38,6 @@ const appSlice = createSlice({
   },
 });
 
-export const { editUserPreferences, setCameraAccess, startLoading, stopLoading, setAppVersion } =
-  appSlice.actions;
+export const { editUserPreferences, startLoading, stopLoading, setAppVersion } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

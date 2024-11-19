@@ -1,120 +1,73 @@
-import { Action, ThunkDispatch } from "@reduxjs/toolkit";
-import { ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { notifications } from "@mantine/notifications";
+import { ReactNode, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import cameraSound from "../../audio/camera.wav";
-import useDeviceList from "../../hooks/useDeviceList";
 import useProjectAndTake from "../../hooks/useProjectAndTake";
-import { closeDevice } from "../../redux/slices/captureSlice";
 import { addFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
-import {
-  ImagingDevice,
-  deviceIdentifierToDevice,
-} from "../../services/imagingDevice/ImagingDevice";
 import { makeFrameTrackItem } from "../../services/project/projectBuilder";
 import { getNextFileNumber } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
-import CaptureContext from "./CaptureContext";
+import { ImagingDeviceContext } from "../ImagingDeviceContext/ImagingDeviceContext";
 import { ProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
-import { ImagingDeviceNotReadyError } from "../../services/imagingDevice/ImagingDeviceErrors";
-import { notifications } from "@mantine/notifications";
+import CaptureContext from "./CaptureContext";
 
 interface CaptureContextProviderProps {
   children: ReactNode;
 }
 
 const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
-  const [device, setDevice] = useState<ImagingDevice | undefined>(undefined);
-
-  const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
-  const deviceList = useDeviceList();
+  const dispatch = useDispatch();
   const { take } = useProjectAndTake();
-  const deviceStatus = useSelector((state: RootState) => state.capture.deviceStatus);
   const playCaptureSound = useSelector(
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
   const { saveTrackItemToDisk } = useContext(ProjectFilesContext);
+  const { device, deviceReady } = useContext(ImagingDeviceContext);
 
   const captureImage = async () => {
     rLogger.info("captureContextProvider.captureImage");
-    if (device === undefined) {
-      rLogger.info(
-        "captureContextProvider.captureImage.noDevice",
-        "Nothing captured as no device selected"
-      );
+    if (device.current === undefined) {
+      rLogger.info("captureNoDevice", "Nothing captured as no device selected");
+      return;
+    }
+    if (deviceReady === false) {
+      rLogger.info("captureDeviceNotReady", "Nothing captured as device is not ready yet");
       return;
     }
 
     if (playCaptureSound) {
-      rLogger.info("captureContextProvider.captureImage.playCaptureSound");
+      rLogger.info("playCaptureSound");
       const audio = new Audio(cameraSound);
       audio.play();
     }
 
     try {
-      const imageData = await device.captureImage();
+      const imageData = await device.current?.captureImage();
+      if (imageData === undefined) {
+        throw "Unable to captureImage as no imageData returned";
+      }
 
       const fileNumber = getNextFileNumber(take.frameTrack);
       const trackItem = makeFrameTrackItem(take, fileNumber);
       await saveTrackItemToDisk!(take, trackItem, imageData);
       dispatch(addFrameTrackItem(trackItem));
     } catch (e) {
-      if (e instanceof ImagingDeviceNotReadyError) {
-        rLogger.warn("captureNotReadyError", "Device not ready. Please wait and try again.");
-        return notifications.show({
-          message: "Capture Source is not ready. Please wait and try again.",
-        });
-      } else {
-        rLogger.warn(
-          "captureImageError",
-          `There was an unexpected error capturing with this device ${e}`
-        );
-        notifications.show({
-          message:
-            "There was an unexpected error capturing with this Capture Source. Please wait and try again.",
-        });
-      }
+      rLogger.warn(
+        "captureImageError",
+        `There was an unexpected error capturing with this device ${e}`
+      );
+      notifications.show({
+        message:
+          "There was an unexpected error capturing with this Capture Source. Please wait and try again.",
+      });
     }
   };
-
-  const _onChangeDevice = useCallback(async () => {
-    rLogger.info("captureContextProvider.onChangeDevice", JSON.stringify(deviceStatus));
-    const identifier = deviceStatus?.identifier;
-    const newDevice = identifier ? deviceIdentifierToDevice(identifier) : undefined;
-
-    device?.close();
-
-    if (deviceStatus?.open === true) {
-      await newDevice?.open();
-    }
-
-    setDevice(newDevice);
-  }, [deviceStatus]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const _onDeviceListChange = useCallback(() => {
-    if (
-      deviceStatus &&
-      !deviceList.find((identifier) => identifier.deviceId === deviceStatus.identifier.deviceId)
-    ) {
-      rLogger.info("captureContextProvider.currentDeviceDisconnected");
-      notifications.show({ message: "Current device was disconnected." });
-      dispatch(closeDevice());
-    }
-  }, [deviceList, deviceStatus, dispatch]);
-
-  useEffect(() => {
-    _onChangeDevice();
-  }, [_onChangeDevice, deviceStatus]);
-
-  useEffect(() => {
-    _onDeviceListChange();
-  }, [_onDeviceListChange, deviceList]);
 
   return (
     <CaptureContext.Provider
       value={{
         captureImage,
-        device,
       }}
     >
       {children}
