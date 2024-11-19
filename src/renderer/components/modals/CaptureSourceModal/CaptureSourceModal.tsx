@@ -1,4 +1,4 @@
-import { ComboboxData, Loader } from "@mantine/core";
+import { ComboboxData } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
 import useDeviceList from "../../../hooks/useDeviceList";
@@ -7,7 +7,6 @@ import { RootState } from "../../../redux/store";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
 import { useState } from "react";
-import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiLoader } from "../../ui/UiLoader/UiLoader";
 
 export const CaptureSourceModal = () => {
