@@ -1,17 +1,16 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { PageRoute } from "../../../../common/PageRoute";
-import { RootState } from "../../../redux/store";
-import { loadSavedPreferences, onRouteChange } from "../../../redux/thunks";
-import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
-import * as rLogger from "../../../services/rLogger/rLogger";
 import { setAppVersion } from "../../../redux/slices/appSlice";
+import { RootState } from "../../../redux/store";
+import { loadSavedPreferences } from "../../../redux/thunks";
+import { handleOnCloseButtonClick } from "../../../services/appListener/AppListenerService";
+import { useLocation } from "react-router-dom";
+import * as rLogger from "../../../services/rLogger/rLogger";
 
 const AppListeners = (): JSX.Element => {
-  const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const location = useLocation();
+  const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const { userPreferences } = useSelector((state: RootState) => ({
     userPreferences: state.app.userPreferences,
   }));
@@ -39,8 +38,7 @@ const AppListeners = (): JSX.Element => {
   // Log when changing route
   useEffect(() => {
     rLogger.info("appListener.routeChange", location.pathname);
-    dispatch(onRouteChange(location.pathname as PageRoute));
-  }, [dispatch, location]);
+  }, [location]);
 
   return <></>;
 };

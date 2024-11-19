@@ -24,7 +24,6 @@ export interface ImagingDevice {
   stream?: MediaStream;
   identifier: ImagingDeviceIdentifier;
   capabilities: ImagingDeviceCapabilities;
-  isReady: boolean;
   open(): Promise<void>;
   close(): void;
   captureImage(): Promise<Blob>;

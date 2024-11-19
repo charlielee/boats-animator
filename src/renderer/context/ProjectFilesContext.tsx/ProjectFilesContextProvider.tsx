@@ -71,7 +71,6 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   const deleteTrackItem = async (trackItemId: TrackItemId): Promise<void> => {
     await fileManager?.deleteFile(trackItemFiles[trackItemId]);
     setTrackItemFiles(({ [trackItemId]: _, ...otherTrackItemFiles }) => otherTrackItemFiles);
-    // todo should redux happen here
     dispatch(removeFrameTrackItem(trackItemId));
   };
 

@@ -1,24 +1,16 @@
 import { ComboboxData, Stack } from "@mantine/core";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext } from "react";
 import { PageRoute } from "../../../../common/PageRoute";
+import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import useDeviceList from "../../../hooks/useDeviceList";
-import { changeDevice, closeDevice } from "../../../redux/slices/captureSlice";
-import { RootState } from "../../../redux/store";
+import { UiLoader } from "../../ui/UiLoader/UiLoader";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
-import { useContext } from "react";
-import { UiLoader } from "../../ui/UiLoader/UiLoader";
-import CaptureContext from "../../../context/CaptureContext/CaptureContext";
 
 export const CaptureSourceModal = () => {
-  const dispatch = useDispatch();
-  const { deviceStatus } = useSelector((state: RootState) => ({
-    deviceStatus: state.capture.deviceStatus,
-  }));
-  const { device } = useContext(CaptureContext);
+  const { deviceStatus, deviceReady, changeDevice, closeDevice } = useContext(ImagingDeviceContext);
 
   const deviceList = useDeviceList();
-  const currentDevice = deviceStatus?.identifier;
   const deviceSelectData: ComboboxData = deviceList.map(({ name, deviceId }) => ({
     label: name,
     value: deviceId,
@@ -26,22 +18,22 @@ export const CaptureSourceModal = () => {
 
   const handleChangeDevice = async (newDeviceId: string | undefined) => {
     const identifier = deviceList.find((device) => device.deviceId === newDeviceId);
-    dispatch(identifier ? changeDevice(identifier) : closeDevice());
+    return identifier ? changeDevice(identifier) : closeDevice();
   };
 
   return (
     <UiModal title="Capture Source Settings" onClose={PageRoute.ANIMATOR}>
-      {currentDevice === undefined || device?.isReady === true ? (
+      {deviceStatus === undefined || deviceReady ? (
         <Stack>
           <UiSelect
             label="Capture Source"
             placeholder="No camera selected"
             data={deviceSelectData}
-            value={currentDevice?.deviceId}
+            value={deviceStatus?.identifier?.deviceId}
             onChange={handleChangeDevice}
           />
 
-          {device?.isReady === true && (
+          {deviceReady && (
             <UiSelect label="Capture Resolution" data={[]} value={""} onChange={() => undefined} />
           )}
         </Stack>

@@ -1,14 +1,12 @@
 import { notifications } from "@mantine/notifications";
 import * as rLogger from "../rLogger/rLogger";
 import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
-import { ImagingDeviceNotReadyError } from "./ImagingDeviceErrors";
 
 const EXTREMELY_LARGE_WIDTH = 99999;
 
 class WebMediaDevice implements ImagingDevice {
   public stream?: MediaStream;
   public capabilities = { changeResolution: true };
-  public isReady: boolean = false;
   private imageCapture?: ImageCapture;
   private takePhotoSupported: boolean = false;
 
@@ -28,7 +26,6 @@ class WebMediaDevice implements ImagingDevice {
       const videoTrack = this.stream.getVideoTracks()[0];
       this.imageCapture = new ImageCapture(videoTrack);
       this.takePhotoSupported = await this.determineCaptureMethod(videoTrack);
-      this.isReady = true;
     } catch (e) {
       rLogger.info("webMediaDevice.open.deviceError", `${e}`);
       this.close();
@@ -42,7 +39,6 @@ class WebMediaDevice implements ImagingDevice {
     this.stream = undefined;
     this.imageCapture = undefined;
     this.takePhotoSupported = false;
-    this.isReady = false;
   }
 
   // This determines whether takePhoto() can be used by this device or if the grabFrame() fallback should be used.
@@ -96,12 +92,8 @@ class WebMediaDevice implements ImagingDevice {
     }
   }
 
-  captureImage = async (): Promise<Blob> => {
-    if (!this.isReady) {
-      throw new ImagingDeviceNotReadyError();
-    }
-    return this.takePhotoSupported ? this.takePhoto() : this.grabFrame();
-  };
+  captureImage = async (): Promise<Blob> =>
+    this.takePhotoSupported ? this.takePhoto() : this.grabFrame();
 
   private async takePhoto(): Promise<Blob> {
     rLogger.info("webMediaDevice.takePhoto");
