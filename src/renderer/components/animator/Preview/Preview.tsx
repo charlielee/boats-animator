@@ -48,7 +48,7 @@ export const Preview = (): JSX.Element => {
 
       <PreviewFrame src={previewSrc} hidden={liveViewVisible} />
 
-      {deviceStatus?.open === true && device?.stream === undefined && <PreviewLoader />}
+      {deviceStatus?.open === true && device?.isReady !== true && <PreviewLoader />}
     </div>
   );
 };

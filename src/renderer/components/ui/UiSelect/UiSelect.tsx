@@ -2,7 +2,7 @@ import { ComboboxData, ComboboxItem, Select } from "@mantine/core";
 
 interface UiSelectProps {
   label: string;
-  placeholder: string;
+  placeholder?: string;
   data: ComboboxData;
   value: string | undefined;
   onChange: (value: string | undefined, option: ComboboxItem) => void;

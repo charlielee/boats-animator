@@ -1,4 +1,4 @@
-import { Modal, Title } from "@mantine/core";
+import { Modal, useMantineTheme } from "@mantine/core";
 import { ReactNode } from "react";
 import { PageRoute } from "../../../../common/PageRoute";
 import { useDelayedClose } from "../hooks/useDelayedClose";
@@ -10,6 +10,7 @@ interface UiModalProps {
 }
 
 export const UiModal = ({ title, onClose, children }: UiModalProps) => {
+  const theme = useMantineTheme();
   const preventCloseProps =
     onClose === undefined
       ? { closeOnClickOutside: false, closeOnEscape: false, withCloseButton: false }
@@ -18,11 +19,8 @@ export const UiModal = ({ title, onClose, children }: UiModalProps) => {
 
   return (
     <Modal
-      title={
-        <Title order={2} size="h3">
-          {title}
-        </Title>
-      }
+      title={title}
+      styles={{ title: { ...theme.headings, ...theme.headings?.sizes.h3 } }}
       opened={opened}
       onClose={handleClose}
       transitionProps={{ duration }}
