@@ -8,6 +8,7 @@ import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
 import { useState } from "react";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
+import { UiLoader } from "../../ui/UiLoader/UiLoader";
 
 export const CaptureSourceModal = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ export const CaptureSourceModal = () => {
   return (
     <UiModal title="Capture Source Settings" onClose={PageRoute.ANIMATOR}>
       {loading ? (
-        <Loader color={SemanticColor.PRIMARY} />
+        <UiLoader message="Initialising Capture Source" />
       ) : (
         <UiSelect
           label="Capture Source"

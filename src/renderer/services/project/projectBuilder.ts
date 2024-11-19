@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { FileInfoType } from "../../context/FileManagerContext/FileInfo";
+import { FileInfoType } from "../fileManager/FileInfo";
 import { TrackGroupId } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
@@ -96,17 +96,15 @@ export const makeFrameFileName = (take: Take, frameNumber: number) =>
   ].join("_");
 
 export const makeProjectInfoFileJson = async (
+  appVersion: string,
   project: Project,
   takes: Take[]
-): Promise<ProjectInfoFileV1> => {
-  const appVersion = await window.preload.ipcToMain.appVersion();
-  return {
-    schemaVersion: CURRENT_PROJECT_INFO_FILE_SCHEMA_VERSION,
-    appVersion,
-    project,
-    takes,
-  };
-};
+): Promise<ProjectInfoFileV1> => ({
+  schemaVersion: CURRENT_PROJECT_INFO_FILE_SCHEMA_VERSION,
+  appVersion,
+  project,
+  takes,
+});
 
 export const displayProjectTitle = (project: Project) =>
   project.name === "" ? DEFAULT_PROJECT_NAME : project.name;

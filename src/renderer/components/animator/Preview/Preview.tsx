@@ -10,6 +10,7 @@ import PreviewLiveView from "./PreviewLiveView/PreviewLiveView";
 import { useContext } from "react";
 import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import { TrackItem } from "../../../../common/project/TrackItem";
+import { PreviewLoader } from "./PreviewLoader/PreviewLoader";
 
 export const Preview = (): JSX.Element => {
   const { take } = useProjectAndTake();
@@ -46,6 +47,8 @@ export const Preview = (): JSX.Element => {
         ))}
 
       <PreviewFrame src={previewSrc} hidden={liveViewVisible} />
+
+      {deviceStatus?.open === true && device?.stream === undefined && <PreviewLoader />}
     </div>
   );
 };

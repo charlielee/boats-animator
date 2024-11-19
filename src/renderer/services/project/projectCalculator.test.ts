@@ -1,4 +1,4 @@
-import { FileInfoType } from "../../context/FileManagerContext/FileInfo";
+import { FileInfoType } from "../fileManager/FileInfo";
 import { Track } from "../../../common/project/Track";
 import { getLastTrackItem, getNextFileNumber } from "./projectCalculator";
 import { makeFrameTrackItem } from "./projectBuilder";

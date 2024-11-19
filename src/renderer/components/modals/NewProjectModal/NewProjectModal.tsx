@@ -14,7 +14,7 @@ import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/Pe
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import { addProject, addTake } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
-import { CreateDirectoryAlreadyExistsError } from "../../../context/FileManagerContext/FileErrors";
+import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
 import {
   makeProject,
   makeTake,
@@ -96,8 +96,10 @@ export const NewProjectModal = () => {
         );
       }
 
-      setGeneralError("Unable to create project due to an unexpected error. Please try again.");
-      rLogger.error("newProjectModal.unknownError", JSON.stringify(e));
+      setGeneralError(
+        "Unable to create project due to an unexpected error. Please choose a different folder and try again."
+      );
+      rLogger.error("newProjectModal.unknownError", `${e}`);
     }
   };
 

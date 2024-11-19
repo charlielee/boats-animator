@@ -1,4 +1,4 @@
-import { FileInfoType } from "../../context/FileManagerContext/FileInfo";
+import { FileInfoType } from "../fileManager/FileInfo";
 import { FrameCount, TimelineIndex } from "../../../common/Flavors";
 import { Track } from "../../../common/project/Track";
 import { TrackItem } from "../../../common/project/TrackItem";
