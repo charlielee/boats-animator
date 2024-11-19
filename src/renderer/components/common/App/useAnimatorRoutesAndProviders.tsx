@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { ProjectFilesContextProvider } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
 import { CaptureSourceModal } from "../../modals/CaptureSourceModal/CaptureSourceModal";
 import { displayProjectTitle } from "../../../services/project/projectBuilder";
+import { ImagingDeviceContextProvider } from "../../../context/ImagingDeviceContext/ImagingDeviceContextProvider";
 
 export const useAnimatorRoutesAndProviders = () => {
   const project = useSelector((state: RootState) => state.project.project);
@@ -36,16 +37,18 @@ export const useAnimatorRoutesAndProviders = () => {
       path={PageRoute.ANIMATOR}
       element={
         <ProjectFilesContextProvider>
-          <CaptureContextProvider>
-            <PlaybackContextProvider
-              take={take}
-              shortPlayLength={shortPlayLength}
-              playbackSpeed={playbackSpeed}
-            >
-              <Outlet />
-              <Animator />
-            </PlaybackContextProvider>
-          </CaptureContextProvider>
+          <ImagingDeviceContextProvider>
+            <CaptureContextProvider>
+              <PlaybackContextProvider
+                take={take}
+                shortPlayLength={shortPlayLength}
+                playbackSpeed={playbackSpeed}
+              >
+                <Outlet />
+                <Animator />
+              </PlaybackContextProvider>
+            </CaptureContextProvider>
+          </ImagingDeviceContextProvider>
         </ProjectFilesContextProvider>
       }
     >

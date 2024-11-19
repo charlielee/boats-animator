@@ -11,15 +11,16 @@ import { useContext } from "react";
 import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import { TrackItem } from "../../../../common/project/TrackItem";
 import { PreviewLoader } from "./PreviewLoader/PreviewLoader";
+import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 
 export const Preview = (): JSX.Element => {
   const { take } = useProjectAndTake();
-  const { deviceStatus, hasCameraAccess } = useSelector((state: RootState) => ({
+  const { deviceStatus } = useSelector((state: RootState) => ({
     deviceStatus: state.capture.deviceStatus,
-    hasCameraAccess: state.app.hasCameraAccess,
   }));
 
   const { getTrackItemFileInfo } = useContext(ProjectFilesContext);
+  const { hasCameraAccess } = useContext(ImagingDeviceContext);
   const { device } = useContext(CaptureContext);
   const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);
 

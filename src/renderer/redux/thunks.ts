@@ -1,6 +1,6 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { PageRoute } from "../../common/PageRoute";
-import { editUserPreferences, setCameraAccess, startLoading, stopLoading } from "./slices/appSlice";
+import { editUserPreferences, startLoading, stopLoading } from "./slices/appSlice";
 import { pauseDevice, reopenDevice } from "./slices/captureSlice";
 import { RootState } from "./store";
 
@@ -26,16 +26,6 @@ export const onRouteChange = (route: PageRoute) => {
         return;
       }
     }
-  };
-};
-
-export const updateCameraAccessStatus = () => {
-  return (dispatch: ThunkDispatch<RootState, void, Action>) => {
-    return (async () => {
-      const hasAccess = await window.preload.ipcToMain.checkCameraAccess();
-      dispatch(setCameraAccess(hasAccess));
-      return hasAccess;
-    })();
   };
 };
 
