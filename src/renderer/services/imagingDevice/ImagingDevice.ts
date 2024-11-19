@@ -11,6 +11,10 @@ export interface ImagingDeviceIdentifier {
   type: ImagingDeviceType;
 }
 
+interface ImagingDeviceCapabilities {
+  changeResolution: boolean;
+}
+
 export interface ImagingDeviceStatus {
   identifier: ImagingDeviceIdentifier;
   open: boolean;
@@ -19,6 +23,8 @@ export interface ImagingDeviceStatus {
 export interface ImagingDevice {
   stream?: MediaStream;
   identifier: ImagingDeviceIdentifier;
+  capabilities: ImagingDeviceCapabilities;
+  isReady: boolean;
   open(): Promise<void>;
   close(): void;
   captureImage(): Promise<Blob>;

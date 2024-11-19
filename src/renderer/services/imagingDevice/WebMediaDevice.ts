@@ -7,9 +7,10 @@ const EXTREMELY_LARGE_WIDTH = 99999;
 
 class WebMediaDevice implements ImagingDevice {
   public stream?: MediaStream;
+  public capabilities = { changeResolution: true };
+  public isReady: boolean = false;
   private imageCapture?: ImageCapture;
   private takePhotoSupported: boolean = false;
-  private isReady: boolean = false;
 
   constructor(public identifier: ImagingDeviceIdentifier) {}
 
