@@ -23,15 +23,14 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
   const [deviceReady, setDeviceReady] = useState(true);
   const device = useRef<ImagingDevice | undefined>(undefined);
 
-  const [deviceStateChanged, setDeviceStateChanged] = useState(uuidv4());
-  const triggerDeviceStateChange = () => setDeviceStateChanged(uuidv4());
+  const [deviceStatusKey, setDeviceStatusKey] = useState(uuidv4());
+  const updateDeviceStatus = () => setDeviceStatusKey(uuidv4());
 
-  // todo can these be combined into a single memo
-  const deviceIdentifier = useMemo(() => device.current?.identifier, [deviceStateChanged]); // eslint-disable-line react-hooks/exhaustive-deps
-  const deviceStream = useMemo(() => device.current?.stream, [deviceStateChanged]); // eslint-disable-line react-hooks/exhaustive-deps
+  const deviceIdentifier = useMemo(() => device.current?.identifier, [deviceStatusKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  const deviceStream = useMemo(() => device.current?.stream, [deviceStatusKey]); // eslint-disable-line react-hooks/exhaustive-deps
   const deviceResolution = useMemo(
     () => (device.current?.stream ? device.current?.getResolution() : undefined),
-    [deviceStateChanged] // eslint-disable-line react-hooks/exhaustive-deps
+    [deviceStatusKey] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const changeDevice = async (identifier: ImagingDeviceIdentifier) => {
@@ -44,7 +43,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
       await newDevice.open();
     } finally {
       setDeviceReady(true);
-      triggerDeviceStateChange();
+      updateDeviceStatus();
     }
   };
 
@@ -56,14 +55,14 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
       await device.current?.open(resolution);
     } finally {
       setDeviceReady(true);
-      triggerDeviceStateChange();
+      updateDeviceStatus();
     }
   };
 
   const closeDevice = useCallback(() => {
     device.current?.close();
     device.current = undefined;
-    triggerDeviceStateChange();
+    updateDeviceStatus();
   }, []);
 
   const captureImageRaw = () => device.current?.captureImage();
@@ -78,7 +77,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
   }, []);
 
   useEffect(() => {
-    const handleDeviceDisconnected = async () => {
+    const handleDeviceDisconnected = () => {
       const currentDevice = device.current;
       const currentDeviceConnected = deviceList.find(
         (identifier) => identifier.deviceId === currentDevice?.identifier.deviceId
@@ -92,7 +91,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
     };
 
     handleDeviceDisconnected();
-  }, [closeDevice, deviceIdentifier?.deviceId, deviceList]);
+  }, [deviceList, closeDevice]);
 
   return (
     <ImagingDeviceContext.Provider
