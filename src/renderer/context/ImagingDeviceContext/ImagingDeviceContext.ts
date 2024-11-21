@@ -11,11 +11,11 @@ interface ImagingDeviceContextProps {
   device: MutableRefObject<ImagingDevice | undefined>;
   deviceStatus: ImagingDeviceStatus | undefined;
   deviceReady: boolean;
-  resolution: ImagingDeviceResolution | undefined;
   reopenDevice: () => void;
   pauseDevice: () => void;
   closeDevice: () => void;
   changeDevice: (identifier: ImagingDeviceIdentifier) => void;
+  changeResolution: (resolution: ImagingDeviceResolution) => void;
 }
 
 const defaultValue: ImagingDeviceContextProps = {
@@ -23,11 +23,11 @@ const defaultValue: ImagingDeviceContextProps = {
   device: { current: undefined },
   deviceStatus: undefined,
   deviceReady: false,
-  resolution: undefined,
   reopenDevice: () => undefined,
   pauseDevice: () => undefined,
   closeDevice: () => undefined,
   changeDevice: () => undefined,
+  changeResolution: () => undefined,
 };
 
 export const ImagingDeviceContext = createContext<ImagingDeviceContextProps>(defaultValue);

@@ -9,7 +9,10 @@ import {
 } from "../../services/imagingDevice/ImagingDevice";
 import { ImagingDeviceContext } from "./ImagingDeviceContext";
 import * as rLogger from "../../services/rLogger/rLogger";
-import { ImagingDeviceResolution } from "../../services/imagingDevice/ImagingDeviceResolution";
+import {
+  areResolutionsEqual,
+  ImagingDeviceResolution,
+} from "../../services/imagingDevice/ImagingDeviceResolution";
 
 interface ImagingDeviceContextProviderProps {
   children: ReactNode;
@@ -22,23 +25,24 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
   const device = useRef<ImagingDevice | undefined>(undefined);
   const [deviceStatus, setDeviceStatus] = useState<ImagingDeviceStatus | undefined>(undefined);
   const [deviceReady, setDeviceReady] = useState(false);
-  const [resolution, setResolution] = useState<ImagingDeviceResolution | undefined>(undefined);
+
+  console.log({ device, deviceStatus, deviceReady });
 
   const reopenDevice = () => {
     setDeviceStatus((prev) => (prev ? { ...prev, open: true } : undefined));
-    setDeviceReady(false);
   };
   const pauseDevice = () => {
     setDeviceStatus((prev) => (prev ? { ...prev, open: false } : undefined));
-    setDeviceReady(false);
   };
   const closeDevice = () => {
     setDeviceStatus(undefined);
-    setDeviceReady(false);
   };
   const changeDevice = (identifier: ImagingDeviceIdentifier) => {
-    setDeviceStatus({ identifier, open: true });
-    setDeviceReady(false);
+    setDeviceStatus({ identifier, open: true, resolution: undefined });
+  };
+
+  const changeResolution = (resolution: ImagingDeviceResolution) => {
+    setDeviceStatus((prev) => (prev ? { ...prev, resolution } : undefined));
   };
 
   useEffect(() => {
@@ -69,9 +73,23 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
     handleDeviceDisconnected();
   }, [deviceList, deviceStatus?.identifier]);
 
+  // useEffect(() => {
+  //   const identifier = deviceStatus?.identifier;
+  //   const newDevice = identifier ? deviceIdentifierToDevice(identifier) : undefined;
+
+  //   if (deviceStatus === )
+  //   setDeviceReady(false);
+
+  //   setDeviceReady(true);
+
+  // }, [deviceStatus?.open])
+
+  // update/close device should be separate to open device
   useEffect(() => {
-    rLogger.info("deviceStatusChange", JSON.stringify(deviceStatus));
     const handleDeviceStatusChange = async () => {
+      rLogger.info("deviceStatusChange", JSON.stringify(deviceStatus));
+      setDeviceReady(false);
+
       const identifier = deviceStatus?.identifier;
       const newDevice = identifier ? deviceIdentifierToDevice(identifier) : undefined;
 
@@ -79,8 +97,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
       device.current = newDevice;
 
       if (deviceStatus?.open === true && newDevice !== undefined) {
-        await newDevice.open();
-        setResolution(newDevice.getResolution());
+        await newDevice.open(deviceStatus.resolution);
         setDeviceReady(true);
       }
     };
@@ -93,6 +110,8 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
     };
   }, [deviceStatus]);
 
+  // useEffect(() => {})
+
   return (
     <ImagingDeviceContext.Provider
       value={{
@@ -100,11 +119,11 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
         device,
         deviceStatus,
         deviceReady,
-        resolution,
         reopenDevice,
         pauseDevice,
         closeDevice,
         changeDevice,
+        changeResolution,
       }}
     >
       {children}

@@ -32,9 +32,14 @@ export const makeResolutionSelectData = (): ComboboxData => {
 };
 
 export const resolutionToName = (curResolution: ImagingDeviceResolution): ResolutionName => {
-  const option = Object.entries(NAME_TO_RESOLUTION).find(
-    ([, resolution]) =>
-      resolution.width === curResolution.width && resolution.height === curResolution.height
+  const option = Object.entries(NAME_TO_RESOLUTION).find(([, resolution]) =>
+    areResolutionsEqual(resolution, curResolution)
   );
   return option ? (option[0] as ResolutionName) : ResolutionName.RES_CUSTOM;
 };
+
+export const areResolutionsEqual = (
+  resolution1?: ImagingDeviceResolution,
+  resolution2?: ImagingDeviceResolution
+): boolean =>
+  resolution1?.width === resolution2?.width && resolution1?.height === resolution2?.height;

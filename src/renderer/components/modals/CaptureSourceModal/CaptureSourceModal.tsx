@@ -1,18 +1,20 @@
 import { ComboboxData, Stack } from "@mantine/core";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { PageRoute } from "../../../../common/PageRoute";
 import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import useDeviceList from "../../../hooks/useDeviceList";
+import {
+  makeResolutionSelectData,
+  NAME_TO_RESOLUTION,
+  ResolutionName,
+  resolutionToName,
+} from "../../../services/imagingDevice/ImagingDeviceResolution";
 import { UiLoader } from "../../ui/UiLoader/UiLoader";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
-import {
-  makeResolutionSelectData,
-  resolutionToName,
-} from "../../../services/imagingDevice/ImagingDeviceResolution";
 
 export const CaptureSourceModal = () => {
-  const { deviceStatus, deviceReady, resolution, changeDevice, closeDevice } =
+  const { deviceStatus, deviceReady, device, changeDevice, changeResolution, closeDevice } =
     useContext(ImagingDeviceContext);
 
   const deviceList = useDeviceList();
@@ -26,6 +28,21 @@ export const CaptureSourceModal = () => {
     return identifier ? changeDevice(identifier) : closeDevice();
   };
 
+  const handleChangeResolution = (name: string | undefined) => {
+    console.log("change to", name);
+    const newResolution =
+      name !== undefined ? NAME_TO_RESOLUTION[name as ResolutionName] : undefined;
+    if (newResolution !== undefined) {
+      changeResolution(newResolution);
+    }
+  };
+
+  const resolution = useMemo(() => {
+    if (deviceReady) {
+      return deviceStatus?.resolution ?? device.current?.getResolution();
+    }
+  }, [device, deviceReady, deviceStatus?.resolution]);
+
   return (
     <UiModal title="Capture Source Settings" onClose={PageRoute.ANIMATOR}>
       {deviceStatus === undefined || deviceReady ? (
@@ -38,12 +55,13 @@ export const CaptureSourceModal = () => {
             onChange={handleChangeDevice}
           />
 
-          {deviceReady && (
+          {deviceReady === true && (
             <UiSelect
               label="Capture Resolution"
+              placeholder="Loading resolutions..."
               data={makeResolutionSelectData()}
-              value={resolution ? resolutionToName(resolution) : undefined}
-              onChange={() => undefined}
+              value={resolution ? resolutionToName(resolution) : resolution}
+              onChange={handleChangeResolution}
             />
           )}
         </Stack>

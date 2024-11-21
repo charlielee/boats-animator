@@ -19,6 +19,7 @@ interface ImagingDeviceCapabilities {
 export interface ImagingDeviceStatus {
   identifier: ImagingDeviceIdentifier;
   open: boolean;
+  resolution: ImagingDeviceResolution | undefined;
 }
 
 export interface ImagingDevice {
