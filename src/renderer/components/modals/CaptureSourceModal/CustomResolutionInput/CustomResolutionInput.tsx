@@ -15,10 +15,14 @@ export const CustomResolutionInput = ({
   initialResolution,
   onChangeResolution,
 }: CustomResolutionInputProps) => {
-  const [width, setWidth] = useState<number>(initialResolution?.width ?? 0);
-  const [height, setHeight] = useState<number>(initialResolution?.height ?? 0);
+  const [width, setWidth] = useState<number | undefined>(initialResolution?.width);
+  const [height, setHeight] = useState<number | undefined>(initialResolution?.height);
 
-  const handleChangeResolution = () => onChangeResolution?.({ width, height });
+  const handleChangeResolution = () => {
+    if (width !== undefined && height !== undefined) {
+      onChangeResolution?.({ width, height });
+    }
+  };
 
   return (
     <Group align="flex-end">
