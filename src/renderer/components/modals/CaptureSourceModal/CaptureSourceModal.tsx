@@ -4,6 +4,7 @@ import { PageRoute } from "../../../../common/PageRoute";
 import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import useDeviceList from "../../../hooks/useDeviceList";
 import {
+  ImagingDeviceResolution,
   makeResolutionSelectData,
   NAME_TO_RESOLUTION,
   ResolutionName,
@@ -41,13 +42,17 @@ export const CaptureSourceModal = () => {
   const handleChangeResolutionName = async (name: ResolutionName | undefined) => {
     const newResolution = name !== undefined ? NAME_TO_RESOLUTION[name] : undefined;
     if (newResolution) {
-      setShowCustomResolution(false);
-      return changeResolution?.(newResolution);
+      return handleChangeResolution(newResolution);
     }
 
     if (name === ResolutionName.RES_CUSTOM) {
       return setShowCustomResolution(true);
     }
+  };
+
+  const handleChangeResolution = async (newResolution: ImagingDeviceResolution) => {
+    setShowCustomResolution(false);
+    await changeResolution?.(newResolution);
   };
 
   return (
@@ -72,7 +77,10 @@ export const CaptureSourceModal = () => {
             />
           )}
           {(resolutionName === ResolutionName.RES_CUSTOM || showCustomResolution) && (
-            <CustomResolutionInput initialResolution={resolution} />
+            <CustomResolutionInput
+              initialResolution={resolution}
+              onChangeResolution={handleChangeResolution}
+            />
           )}
         </Stack>
       ) : (
