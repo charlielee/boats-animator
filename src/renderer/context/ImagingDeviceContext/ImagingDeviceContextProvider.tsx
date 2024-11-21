@@ -1,19 +1,15 @@
 import { notifications } from "@mantine/notifications";
 import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import useDeviceList from "../../hooks/useDeviceList";
 import {
   deviceIdentifierToDevice,
   ImagingDevice,
   ImagingDeviceIdentifier,
 } from "../../services/imagingDevice/ImagingDevice";
-import { ImagingDeviceContext } from "./ImagingDeviceContext";
-import * as rLogger from "../../services/rLogger/rLogger";
 import { ImagingDeviceResolution } from "../../services/imagingDevice/ImagingDeviceResolution";
-import { v4 as uuidv4 } from "uuid";
-import {
-  UnableToStartDeviceError,
-  UnableToUseResolutionDeviceError,
-} from "../../services/imagingDevice/ImagingDeviceErrors";
+import * as rLogger from "../../services/rLogger/rLogger";
+import { ImagingDeviceContext } from "./ImagingDeviceContext";
 
 interface ImagingDeviceContextProviderProps {
   children: ReactNode;
@@ -37,34 +33,37 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
   );
 
   const changeDevice = async (identifier: ImagingDeviceIdentifier) => {
+    setDeviceLoading(true);
+
     device.current?.close();
     device.current = deviceIdentifierToDevice(identifier);
-    await openDevice();
+    const deviceName = device.current?.identifier.name;
+
+    try {
+      await device.current?.open();
+    } catch {
+      notifications.show({
+        message: `Unable to start ${deviceName}. Please select a different Capture Source.`,
+      });
+      device.current = undefined;
+    } finally {
+      setDeviceLoading(false);
+      updateDeviceStatus();
+    }
   };
 
   const changeResolution = async (resolution: ImagingDeviceResolution) => {
-    device.current?.close();
-    await openDevice(resolution);
-  };
-
-  const openDevice = async (resolution?: ImagingDeviceResolution) => {
     setDeviceLoading(true);
+
+    device.current?.close();
     const deviceName = device.current?.identifier.name;
 
     try {
       await device.current?.open(resolution);
-    } catch (e) {
-      if (e instanceof UnableToUseResolutionDeviceError) {
-        notifications.show({
-          message: `Resolution not supported by ${deviceName}. Please select a different resolution.`,
-        });
-      }
-      if (e instanceof UnableToStartDeviceError) {
-        notifications.show({
-          message: `Unable to start ${deviceName}. Please select a different Capture Source.`,
-        });
-        device.current = undefined;
-      }
+    } catch {
+      notifications.show({
+        message: `Resolution not supported by ${deviceName}. Please select a different resolution.`,
+      });
     } finally {
       setDeviceLoading(false);
       updateDeviceStatus();

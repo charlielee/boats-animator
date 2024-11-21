@@ -37,17 +37,22 @@ export const Preview = (): JSX.Element => {
     );
   }
 
+  if (deviceLoading) {
+    return (
+      <div className="preview">
+        <PreviewLoader />
+      </div>
+    );
+  }
+
   return (
     <div className="preview">
-      {!deviceLoading && deviceIdentifier === undefined && (
-        <h2>Select a Capture Source to begin!</h2>
-      )}
+      {deviceIdentifier === undefined && <h2>Select a Capture Source to begin!</h2>}
       {deviceIdentifier && deviceStream === undefined && (
         <h2>Select a Capture Resolution to begin!</h2>
       )}
-      {!deviceLoading && deviceStream && <PreviewLiveView stream={deviceStream} />}
+      {deviceStream && <PreviewLiveView stream={deviceStream} />}
       <PreviewFrame src={previewSrc} hidden={liveViewVisible} />
-      {deviceLoading && <PreviewLoader />}
     </div>
   );
 };
