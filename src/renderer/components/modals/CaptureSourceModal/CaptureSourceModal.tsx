@@ -1,5 +1,5 @@
 import { ComboboxData, Stack } from "@mantine/core";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { PageRoute } from "../../../../common/PageRoute";
 import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import useDeviceList from "../../../hooks/useDeviceList";
@@ -12,6 +12,7 @@ import {
 import { UiLoader } from "../../ui/UiLoader/UiLoader";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
+import { CustomResolutionInput } from "./CustomResolutionInput/CustomResolutionInput";
 
 export const CaptureSourceModal = () => {
   const {
@@ -22,27 +23,30 @@ export const CaptureSourceModal = () => {
     changeResolution,
     closeDevice,
   } = useContext(ImagingDeviceContext);
-
-  const resolutionName = deviceStatus?.resolution
-    ? resolutionToName(deviceStatus.resolution)
-    : undefined;
   const deviceList = useDeviceList();
   const deviceSelectData: ComboboxData = deviceList.map(({ name, deviceId }) => ({
     label: name,
     value: deviceId,
   }));
 
+  const resolution = deviceStatus?.resolution;
+  const resolutionName = resolution ? resolutionToName(resolution) : undefined;
+  const [showCustomResolution, setShowCustomResolution] = useState(false);
+
   const handleChangeDevice = async (newDeviceId: string | undefined) => {
     const identifier = deviceList.find((device) => device.deviceId === newDeviceId);
     return identifier ? changeDevice?.(identifier) : closeDevice?.();
   };
 
-  const handleChangeResolutionName = async (name: string | undefined) => {
-    const newResolution =
-      name !== undefined ? NAME_TO_RESOLUTION[name as ResolutionName] : undefined;
-
+  const handleChangeResolutionName = async (name: ResolutionName | undefined) => {
+    const newResolution = name !== undefined ? NAME_TO_RESOLUTION[name] : undefined;
     if (newResolution) {
-      await changeResolution?.(newResolution);
+      setShowCustomResolution(false);
+      return changeResolution?.(newResolution);
+    }
+
+    if (name === ResolutionName.RES_CUSTOM) {
+      return setShowCustomResolution(true);
     }
   };
 
@@ -63,9 +67,12 @@ export const CaptureSourceModal = () => {
               label="Capture Resolution"
               placeholder="Select resolution"
               data={makeResolutionSelectData()}
-              value={resolutionName}
+              value={showCustomResolution ? ResolutionName.RES_CUSTOM : resolutionName}
               onChange={handleChangeResolutionName}
             />
+          )}
+          {(resolutionName === ResolutionName.RES_CUSTOM || showCustomResolution) && (
+            <CustomResolutionInput initialResolution={resolution} />
           )}
         </Stack>
       ) : (

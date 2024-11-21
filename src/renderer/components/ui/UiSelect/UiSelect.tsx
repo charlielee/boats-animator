@@ -1,18 +1,24 @@
 import { ComboboxData, ComboboxItem, Select } from "@mantine/core";
 
-interface UiSelectProps {
+interface UiSelectProps<T> {
   label: string;
   placeholder: string;
   data: ComboboxData;
-  value: string | undefined;
-  onChange: (value: string | undefined, option: ComboboxItem) => void;
+  value: T | undefined;
+  onChange: (value: T | undefined, option: ComboboxItem) => void;
 }
 
-export const UiSelect = ({ label, placeholder, data, value, onChange }: UiSelectProps) => {
+export const UiSelect = <T extends string>({
+  label,
+  placeholder,
+  data,
+  value,
+  onChange,
+}: UiSelectProps<T>) => {
   const formatValue = value === undefined ? null : value;
 
   const handleChange = (value: string | null, option: ComboboxItem) => {
-    const formatNewValue = value === null ? undefined : value;
+    const formatNewValue = value === null ? undefined : (value as T);
     onChange(formatNewValue, option);
   };
 
