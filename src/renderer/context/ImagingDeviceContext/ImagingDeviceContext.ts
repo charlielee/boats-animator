@@ -1,30 +1,30 @@
-import { createContext, MutableRefObject } from "react";
+import { createContext } from "react";
 import {
-  ImagingDevice,
   ImagingDeviceIdentifier,
   ImagingDeviceStatus,
 } from "../../services/imagingDevice/ImagingDevice";
+import { ImagingDeviceResolution } from "../../services/imagingDevice/ImagingDeviceResolution";
 
 interface ImagingDeviceContextProps {
   hasCameraAccess: boolean;
-  device: MutableRefObject<ImagingDevice | undefined>;
+  deviceIdentifier: ImagingDeviceIdentifier | undefined;
   deviceStatus: ImagingDeviceStatus | undefined;
-  deviceReady: boolean;
-  reopenDevice: () => void;
-  pauseDevice: () => void;
-  closeDevice: () => void;
-  changeDevice: (identifier: ImagingDeviceIdentifier) => void;
+  deviceLoading: boolean;
+  changeDevice?: (identifier: ImagingDeviceIdentifier) => Promise<void>;
+  changeResolution?: (resolution: ImagingDeviceResolution) => Promise<void>;
+  closeDevice?: () => void;
+  captureImageRaw?: () => Promise<Blob> | undefined;
 }
 
 const defaultValue: ImagingDeviceContextProps = {
   hasCameraAccess: false,
-  device: { current: undefined },
+  deviceIdentifier: undefined,
   deviceStatus: undefined,
-  deviceReady: false,
-  reopenDevice: () => undefined,
-  pauseDevice: () => undefined,
-  closeDevice: () => undefined,
-  changeDevice: () => undefined,
+  deviceLoading: false,
+  changeDevice: undefined,
+  changeResolution: undefined,
+  closeDevice: undefined,
+  captureImageRaw: undefined,
 };
 
 export const ImagingDeviceContext = createContext<ImagingDeviceContextProps>(defaultValue);

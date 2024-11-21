@@ -1,6 +1,7 @@
-import { notifications } from "@mantine/notifications";
 import * as rLogger from "../rLogger/rLogger";
 import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
+import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
+import { UnableToStartDeviceError, UnableToUseResolutionDeviceError } from "./ImagingDeviceErrors";
 
 const EXTREMELY_LARGE_WIDTH = 99999;
 
@@ -12,14 +13,22 @@ class WebMediaDevice implements ImagingDevice {
 
   constructor(public identifier: ImagingDeviceIdentifier) {}
 
-  async open(): Promise<void> {
+  async open(resolution?: ImagingDeviceResolution): Promise<void> {
     rLogger.info("webMediaDevice.open.start");
+    if (this.stream) {
+      throw "Device is already open";
+    }
+
+    const resolutionConstraints: MediaTrackConstraints = resolution
+      ? { width: { exact: resolution.width }, height: { exact: resolution.height } }
+      : { width: { ideal: EXTREMELY_LARGE_WIDTH } };
+
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
           deviceId: { exact: this.identifier.deviceId },
-          width: { ideal: EXTREMELY_LARGE_WIDTH },
+          ...resolutionConstraints,
         },
       });
 
@@ -29,7 +38,12 @@ class WebMediaDevice implements ImagingDevice {
     } catch (e) {
       rLogger.info("webMediaDevice.open.deviceError", `${e}`);
       this.close();
-      notifications.show({ message: `Unable to start ${this.identifier.name}` });
+
+      if (e instanceof OverconstrainedError) {
+        throw new UnableToUseResolutionDeviceError();
+      }
+
+      throw new UnableToStartDeviceError();
     }
   }
 
@@ -104,6 +118,7 @@ class WebMediaDevice implements ImagingDevice {
     try {
       const videoTrack = this.stream.getVideoTracks()[0];
       const { width: videoWidth, height: videoHeight } = videoTrack.getSettings();
+      rLogger.info("takePhotoDimensions", { videoWidth, videoHeight });
       return this.imageCapture.takePhoto({
         imageWidth: videoWidth,
         imageHeight: videoHeight,
@@ -138,6 +153,19 @@ class WebMediaDevice implements ImagingDevice {
     return image;
   }
 
+  getResolution(): ImagingDeviceResolution {
+    if (this.stream === undefined) {
+      throw "Device must be open before getResolution can be called";
+    }
+
+    const { width, height } = this.stream.getVideoTracks()[0].getSettings();
+    if (width === undefined || height === undefined) {
+      throw "Unable to device getResolution";
+    }
+
+    return { width, height };
+  }
+
   static async listDevices(): Promise<ImagingDeviceIdentifier[]> {
     const devices = await navigator.mediaDevices.enumerateDevices();
 
@@ -145,7 +173,7 @@ class WebMediaDevice implements ImagingDevice {
       .filter((device) => device.kind === "videoinput")
       .map((device) => ({
         deviceId: device.deviceId,
-        name: device.label.split("(")[0],
+        name: device.label.split("(")[0].trim(),
         type: ImagingDeviceType.WEB_MEDIA,
       }));
   }

@@ -3,13 +3,29 @@ import { useContext } from "react";
 import { PageRoute } from "../../../../common/PageRoute";
 import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import useDeviceList from "../../../hooks/useDeviceList";
+import {
+  makeResolutionSelectData,
+  NAME_TO_RESOLUTION,
+  ResolutionName,
+  resolutionToName,
+} from "../../../services/imagingDevice/ImagingDeviceResolution";
 import { UiLoader } from "../../ui/UiLoader/UiLoader";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
 
 export const CaptureSourceModal = () => {
-  const { deviceStatus, deviceReady, changeDevice, closeDevice } = useContext(ImagingDeviceContext);
+  const {
+    deviceIdentifier,
+    deviceLoading,
+    deviceStatus,
+    changeDevice,
+    changeResolution,
+    closeDevice,
+  } = useContext(ImagingDeviceContext);
 
+  const resolutionName = deviceStatus?.resolution
+    ? resolutionToName(deviceStatus.resolution)
+    : undefined;
   const deviceList = useDeviceList();
   const deviceSelectData: ComboboxData = deviceList.map(({ name, deviceId }) => ({
     label: name,
@@ -18,23 +34,38 @@ export const CaptureSourceModal = () => {
 
   const handleChangeDevice = async (newDeviceId: string | undefined) => {
     const identifier = deviceList.find((device) => device.deviceId === newDeviceId);
-    return identifier ? changeDevice(identifier) : closeDevice();
+    return identifier ? changeDevice?.(identifier) : closeDevice?.();
+  };
+
+  const handleChangeResolutionName = async (name: string | undefined) => {
+    const newResolution =
+      name !== undefined ? NAME_TO_RESOLUTION[name as ResolutionName] : undefined;
+
+    if (newResolution) {
+      await changeResolution?.(newResolution);
+    }
   };
 
   return (
     <UiModal title="Capture Source Settings" onClose={PageRoute.ANIMATOR}>
-      {deviceStatus === undefined || deviceReady ? (
+      {!deviceLoading ? (
         <Stack>
           <UiSelect
             label="Capture Source"
             placeholder="No camera selected"
             data={deviceSelectData}
-            value={deviceStatus?.identifier?.deviceId}
+            value={deviceIdentifier?.deviceId}
             onChange={handleChangeDevice}
           />
 
-          {deviceReady && (
-            <UiSelect label="Capture Resolution" data={[]} value={""} onChange={() => undefined} />
+          {deviceIdentifier && (
+            <UiSelect
+              label="Capture Resolution"
+              placeholder="Select resolution"
+              data={makeResolutionSelectData()}
+              value={resolutionName}
+              onChange={handleChangeResolutionName}
+            />
           )}
         </Stack>
       ) : (
