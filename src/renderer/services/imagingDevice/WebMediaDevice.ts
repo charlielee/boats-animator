@@ -159,12 +159,15 @@ class WebMediaDevice implements ImagingDevice {
     }
 
     const { width, height } = this.stream.getVideoTracks()[0].getSettings();
+    console.log("settings", this.stream.getVideoTracks()[0].getSettings());
     if (width === undefined || height === undefined) {
       throw "Unable to device getResolution";
     }
 
     return { width, height };
   }
+
+  // getSettings() => { this.s }
 
   static async listDevices(): Promise<ImagingDeviceIdentifier[]> {
     const devices = await navigator.mediaDevices.enumerateDevices();

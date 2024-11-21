@@ -1,0 +1,4 @@
+// interface ImagingDeviceSetting {
+//   value:
+//   range:
+// }
