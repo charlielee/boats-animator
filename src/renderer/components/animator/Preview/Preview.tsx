@@ -12,7 +12,7 @@ import { PreviewLoader } from "./PreviewLoader/PreviewLoader";
 
 export const Preview = (): JSX.Element => {
   const { take } = useProjectAndTake();
-  const { device, deviceStatus, deviceReady } = useContext(ImagingDeviceContext);
+  const { deviceIdentifier, deviceStream, deviceReady } = useContext(ImagingDeviceContext);
 
   const { getTrackItemFileInfo } = useContext(ProjectFilesContext);
   const { hasCameraAccess } = useContext(ImagingDeviceContext);
@@ -25,25 +25,24 @@ export const Preview = (): JSX.Element => {
 
   const previewSrc = highlightedTrackItem ? getTrackItemObjectURL(highlightedTrackItem) : undefined;
 
+  if (!hasCameraAccess) {
+    return (
+      <div className="preview">
+        <h2>
+          You have denied camera access to this application.
+          <br />
+          Please enable access in System Preferences and restart Boats Animator.
+        </h2>
+      </div>
+    );
+  }
+
   return (
     <div className="preview">
-      {deviceStatus && hasCameraAccess && <PreviewLiveView stream={device.current?.stream} />}
-
-      {liveViewVisible &&
-        !deviceStatus &&
-        (hasCameraAccess ? (
-          <h2>Select a Capture Source to begin!</h2>
-        ) : (
-          <h2>
-            You have denied camera access to this application.
-            <br />
-            Please enable access in System Preferences and restart Boats Animator.
-          </h2>
-        ))}
-
+      {deviceIdentifier === undefined && <h2>Select a Capture Source to begin!</h2>}
+      {deviceStream && <PreviewLiveView stream={deviceStream} />}
       <PreviewFrame src={previewSrc} hidden={liveViewVisible} />
-
-      {deviceStatus?.open === true && !deviceReady && <PreviewLoader />}
+      {!deviceReady && <PreviewLoader />}
     </div>
   );
 };

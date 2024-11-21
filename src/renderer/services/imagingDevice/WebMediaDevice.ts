@@ -15,6 +15,9 @@ class WebMediaDevice implements ImagingDevice {
 
   async open(resolution?: ImagingDeviceResolution): Promise<void> {
     rLogger.info("webMediaDevice.open.start");
+    if (this.stream) {
+      throw "Device is already open";
+    }
 
     const resolutionConstraints: MediaTrackConstraints = resolution
       ? { width: { exact: resolution.width }, height: { exact: resolution.height } }

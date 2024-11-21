@@ -8,14 +8,14 @@ import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
 
 const CaptureSidebarBlock = () => {
-  const { deviceStatus } = useContext(ImagingDeviceContext);
+  const { deviceIdentifier } = useContext(ImagingDeviceContext);
 
   return (
     <SidebarBlock title="Capture">
       <InputGroup>
         <InputLabel inputId="camera-source-select">Capture Source</InputLabel>
         <UiButton semanticColor={SemanticColor.PRIMARY} onClick={PageRoute.ANIMATOR_CAPTURE_SOURCE}>
-          {deviceStatus?.identifier?.name ?? "Select Capture Source"}
+          {deviceIdentifier?.name ?? "Select Capture Source"}
         </UiButton>
       </InputGroup>
     </SidebarBlock>
