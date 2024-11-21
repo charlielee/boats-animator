@@ -160,6 +160,7 @@ class WebMediaDevice implements ImagingDevice {
 
     const { width, height } = this.stream.getVideoTracks()[0].getSettings();
     console.log("settings", this.stream.getVideoTracks()[0].getSettings());
+    console.log("constraints", this.stream.getVideoTracks()[0].getConstraints());
     if (width === undefined || height === undefined) {
       throw "Unable to device getResolution";
     }
