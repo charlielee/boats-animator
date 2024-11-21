@@ -61,7 +61,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
       }
       if (e instanceof UnableToStartDeviceError) {
         notifications.show({
-          message: `Unable to start ${deviceName}. Please select a different device.`,
+          message: `Unable to start ${deviceName}. Please select a different Capture Source.`,
         });
         device.current = undefined;
       }
@@ -96,8 +96,8 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
       );
 
       if (currentDevice && !currentDeviceConnected) {
-        rLogger.info("currentDeviceDisconnected", "The current device was disconnected");
-        notifications.show({ message: "Current device was disconnected." });
+        rLogger.info("currentDeviceDisconnected", "Current Capture Source was disconnected");
+        notifications.show({ message: "Current Capture Source was disconnected." });
         closeDevice();
       }
     };
