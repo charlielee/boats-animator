@@ -5,29 +5,53 @@ export interface ImagingDeviceResolution {
   height: number;
 }
 
+interface ImagingDeviceResolutionInfo extends ImagingDeviceResolution {
+  label: string;
+}
+
 export enum ResolutionName {
+  RES_4K = "RES_4K",
+  RES_2K = "RES_2K",
   RES_1080P = "RES_1080P",
   RES_720P = "RES_720P",
+  RES_480P = "RES_480P",
   RES_CUSTOM = "RES_CUSTOM",
 }
 
-export const NAME_TO_RESOLUTION: Partial<Record<ResolutionName, ImagingDeviceResolution>> = {
+export const NAME_TO_RESOLUTION: Partial<Record<ResolutionName, ImagingDeviceResolutionInfo>> = {
+  [ResolutionName.RES_4K]: {
+    label: "2160p 4K",
+    width: 3840,
+    height: 2160,
+  },
+  [ResolutionName.RES_2K]: {
+    label: "1440p 2K",
+    width: 2560,
+    height: 1440,
+  },
   [ResolutionName.RES_1080P]: {
+    label: "1080p FHD",
     width: 1920,
     height: 1080,
   },
   [ResolutionName.RES_720P]: {
+    label: "720p HD",
     width: 1280,
     height: 720,
+  },
+  [ResolutionName.RES_480P]: {
+    label: "480p SD",
+    width: 854,
+    height: 480,
   },
 };
 
 export const makeResolutionSelectData = (): ComboboxData => {
   const options = Object.entries(NAME_TO_RESOLUTION).map(([name, resolution]) => ({
     value: name as ResolutionName,
-    label: `${resolution.width}×${resolution.height}`,
+    label: `${resolution.width}×${resolution.height} (${resolution.label})`,
   }));
-  const customOption = { value: ResolutionName.RES_CUSTOM, label: "Custom" };
+  const customOption = { value: ResolutionName.RES_CUSTOM, label: "Custom..." };
   return [...options, customOption];
 };
 

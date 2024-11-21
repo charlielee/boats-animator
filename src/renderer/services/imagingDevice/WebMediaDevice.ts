@@ -38,6 +38,7 @@ class WebMediaDevice implements ImagingDevice {
     } catch (e) {
       rLogger.info("webMediaDevice.open.deviceError", `${e}`);
       this.close();
+      // todo throw error and handle outside of this file
       notifications.show({ message: `Unable to start ${this.identifier.name}` });
     }
   }
