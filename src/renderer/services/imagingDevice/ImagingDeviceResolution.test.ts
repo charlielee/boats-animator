@@ -10,8 +10,8 @@ describe("makeResolutionSelectData", () => {
   it("should make expected makeResolutionSelectData", () => {
     expect(makeResolutionSelectData()).toEqual(
       expect.arrayContaining([
-        { value: ResolutionName.RES_1080P, label: "1920×1080" },
-        { value: ResolutionName.RES_CUSTOM, label: "Custom" },
+        { value: ResolutionName.RES_1080P, label: "1920×1080 (1080p FHD)" },
+        { value: ResolutionName.RES_CUSTOM, label: "Custom..." },
       ])
     );
   });
