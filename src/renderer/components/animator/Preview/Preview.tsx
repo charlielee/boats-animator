@@ -42,6 +42,9 @@ export const Preview = (): JSX.Element => {
       {!deviceLoading && deviceIdentifier === undefined && (
         <h2>Select a Capture Source to begin!</h2>
       )}
+      {deviceIdentifier && deviceStream === undefined && (
+        <h2>Select a Capture Resolution to begin!</h2>
+      )}
       {!deviceLoading && deviceStream && <PreviewLiveView stream={deviceStream} />}
       <PreviewFrame src={previewSrc} hidden={liveViewVisible} />
       {deviceLoading && <PreviewLoader />}

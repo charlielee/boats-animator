@@ -10,6 +10,10 @@ import { ImagingDeviceContext } from "./ImagingDeviceContext";
 import * as rLogger from "../../services/rLogger/rLogger";
 import { ImagingDeviceResolution } from "../../services/imagingDevice/ImagingDeviceResolution";
 import { v4 as uuidv4 } from "uuid";
+import {
+  UnableToStartDeviceError,
+  UnableToUseResolutionDeviceError,
+} from "../../services/imagingDevice/ImagingDeviceErrors";
 
 interface ImagingDeviceContextProviderProps {
   children: ReactNode;
@@ -18,7 +22,7 @@ interface ImagingDeviceContextProviderProps {
 export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextProviderProps) => {
   const deviceList = useDeviceList();
 
-  const [hasCameraAccess, setHasCameraAccess] = useState(false);
+  const [hasCameraAccess, setHasCameraAccess] = useState(true);
   const [deviceLoading, setDeviceLoading] = useState(false);
   const device = useRef<ImagingDevice | undefined>(undefined);
 
@@ -33,25 +37,34 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
   );
 
   const changeDevice = async (identifier: ImagingDeviceIdentifier) => {
-    setDeviceLoading(true);
     device.current?.close();
-    const newDevice = deviceIdentifierToDevice(identifier);
-    device.current = newDevice;
-
-    try {
-      await newDevice.open();
-    } finally {
-      setDeviceLoading(false);
-      updateDeviceStatus();
-    }
+    device.current = deviceIdentifierToDevice(identifier);
+    await openDevice();
   };
 
   const changeResolution = async (resolution: ImagingDeviceResolution) => {
-    setDeviceLoading(true);
     device.current?.close();
+    await openDevice(resolution);
+  };
+
+  const openDevice = async (resolution?: ImagingDeviceResolution) => {
+    setDeviceLoading(true);
+    const deviceName = device.current?.identifier.name;
 
     try {
       await device.current?.open(resolution);
+    } catch (e) {
+      if (e instanceof UnableToUseResolutionDeviceError) {
+        notifications.show({
+          message: `Resolution not supported by ${deviceName}. Please select a different resolution.`,
+        });
+      }
+      if (e instanceof UnableToStartDeviceError) {
+        notifications.show({
+          message: `Unable to start ${deviceName}. Please select a different device.`,
+        });
+        device.current = undefined;
+      }
     } finally {
       setDeviceLoading(false);
       updateDeviceStatus();

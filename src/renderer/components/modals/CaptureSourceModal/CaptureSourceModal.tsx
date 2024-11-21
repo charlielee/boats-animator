@@ -62,7 +62,7 @@ export const CaptureSourceModal = () => {
           {deviceIdentifier && (
             <UiSelect
               label="Capture Resolution"
-              placeholder="Loading resolutions..."
+              placeholder="Select resolution"
               data={makeResolutionSelectData()}
               value={resolutionName}
               onChange={handleChangeResolutionName}

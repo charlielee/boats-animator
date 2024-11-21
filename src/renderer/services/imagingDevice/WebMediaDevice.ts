@@ -1,7 +1,7 @@
-import { notifications } from "@mantine/notifications";
 import * as rLogger from "../rLogger/rLogger";
 import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
+import { UnableToStartDeviceError, UnableToUseResolutionDeviceError } from "./ImagingDeviceErrors";
 
 const EXTREMELY_LARGE_WIDTH = 99999;
 
@@ -38,8 +38,12 @@ class WebMediaDevice implements ImagingDevice {
     } catch (e) {
       rLogger.info("webMediaDevice.open.deviceError", `${e}`);
       this.close();
-      // todo throw error and handle outside of this file
-      notifications.show({ message: `Unable to start ${this.identifier.name}` });
+
+      if (e instanceof OverconstrainedError) {
+        throw new UnableToUseResolutionDeviceError();
+      }
+
+      throw new UnableToStartDeviceError();
     }
   }
 
@@ -169,7 +173,7 @@ class WebMediaDevice implements ImagingDevice {
       .filter((device) => device.kind === "videoinput")
       .map((device) => ({
         deviceId: device.deviceId,
-        name: device.label.split("(")[0],
+        name: device.label.split("(")[0].trim(),
         type: ImagingDeviceType.WEB_MEDIA,
       }));
   }
