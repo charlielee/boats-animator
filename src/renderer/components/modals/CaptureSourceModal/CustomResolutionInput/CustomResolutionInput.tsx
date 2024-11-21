@@ -4,7 +4,6 @@ import { useState } from "react";
 import { ImagingDeviceResolution } from "../../../../services/imagingDevice/ImagingDeviceResolution";
 import { UiButton } from "../../../ui/UiButton/UiButton";
 import { SemanticColor } from "../../../ui/Theme/SemanticColor";
-import { Text } from "@mantine/core";
 
 interface CustomResolutionInputProps {
   initialResolution: ImagingDeviceResolution | undefined;
