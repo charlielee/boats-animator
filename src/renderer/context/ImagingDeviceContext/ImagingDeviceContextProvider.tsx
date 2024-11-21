@@ -19,8 +19,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
   const deviceList = useDeviceList();
 
   const [hasCameraAccess, setHasCameraAccess] = useState(false);
-  // todo rename to deviceLoading and swap around true and false
-  const [deviceReady, setDeviceReady] = useState(true);
+  const [deviceLoading, setDeviceLoading] = useState(false);
   const device = useRef<ImagingDevice | undefined>(undefined);
 
   const [deviceStatusKey, setDeviceStatusKey] = useState(uuidv4());
@@ -34,7 +33,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
   );
 
   const changeDevice = async (identifier: ImagingDeviceIdentifier) => {
-    setDeviceReady(false);
+    setDeviceLoading(true);
     device.current?.close();
     const newDevice = deviceIdentifierToDevice(identifier);
     device.current = newDevice;
@@ -42,19 +41,19 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
     try {
       await newDevice.open();
     } finally {
-      setDeviceReady(true);
+      setDeviceLoading(false);
       updateDeviceStatus();
     }
   };
 
   const changeResolution = async (resolution: ImagingDeviceResolution) => {
-    setDeviceReady(false);
+    setDeviceLoading(true);
     device.current?.close();
 
     try {
       await device.current?.open(resolution);
     } finally {
-      setDeviceReady(true);
+      setDeviceLoading(false);
       updateDeviceStatus();
     }
   };
@@ -100,7 +99,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
         deviceIdentifier,
         deviceStream,
         deviceResolution,
-        deviceReady,
+        deviceLoading,
         changeDevice,
         changeResolution,
         closeDevice,

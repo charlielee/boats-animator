@@ -7,7 +7,7 @@ interface ImagingDeviceContextProps {
   deviceIdentifier: ImagingDeviceIdentifier | undefined;
   deviceStream: MediaStream | undefined;
   deviceResolution: ImagingDeviceResolution | undefined;
-  deviceReady: boolean;
+  deviceLoading: boolean;
   changeDevice?: (identifier: ImagingDeviceIdentifier) => Promise<void>;
   changeResolution?: (resolution: ImagingDeviceResolution) => Promise<void>;
   closeDevice?: () => void;
@@ -19,7 +19,7 @@ const defaultValue: ImagingDeviceContextProps = {
   deviceIdentifier: undefined,
   deviceStream: undefined,
   deviceResolution: undefined,
-  deviceReady: false,
+  deviceLoading: false,
   changeDevice: undefined,
   changeResolution: undefined,
   closeDevice: undefined,

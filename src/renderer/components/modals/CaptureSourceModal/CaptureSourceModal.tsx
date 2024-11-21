@@ -16,7 +16,7 @@ import { UiSelect } from "../../ui/UiSelect/UiSelect";
 export const CaptureSourceModal = () => {
   const {
     deviceIdentifier,
-    deviceReady,
+    deviceLoading,
     deviceResolution,
     changeDevice,
     changeResolution,
@@ -49,7 +49,7 @@ export const CaptureSourceModal = () => {
 
   return (
     <UiModal title="Capture Source Settings" onClose={PageRoute.ANIMATOR}>
-      {deviceReady ? (
+      {!deviceLoading ? (
         <Stack>
           <UiSelect
             label="Capture Source"
