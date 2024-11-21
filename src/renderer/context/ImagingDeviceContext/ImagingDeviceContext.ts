@@ -1,12 +1,14 @@
 import { createContext } from "react";
-import { ImagingDeviceIdentifier } from "../../services/imagingDevice/ImagingDevice";
+import {
+  ImagingDeviceIdentifier,
+  ImagingDeviceStatus,
+} from "../../services/imagingDevice/ImagingDevice";
 import { ImagingDeviceResolution } from "../../services/imagingDevice/ImagingDeviceResolution";
 
 interface ImagingDeviceContextProps {
   hasCameraAccess: boolean;
   deviceIdentifier: ImagingDeviceIdentifier | undefined;
-  deviceStream: MediaStream | undefined;
-  deviceResolution: ImagingDeviceResolution | undefined;
+  deviceStatus: ImagingDeviceStatus | undefined;
   deviceLoading: boolean;
   changeDevice?: (identifier: ImagingDeviceIdentifier) => Promise<void>;
   changeResolution?: (resolution: ImagingDeviceResolution) => Promise<void>;
@@ -17,8 +19,7 @@ interface ImagingDeviceContextProps {
 const defaultValue: ImagingDeviceContextProps = {
   hasCameraAccess: false,
   deviceIdentifier: undefined,
-  deviceStream: undefined,
-  deviceResolution: undefined,
+  deviceStatus: undefined,
   deviceLoading: false,
   changeDevice: undefined,
   changeResolution: undefined,

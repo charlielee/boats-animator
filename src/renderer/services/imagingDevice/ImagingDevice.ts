@@ -16,6 +16,11 @@ interface ImagingDeviceCapabilities {
   changeResolution: boolean;
 }
 
+export interface ImagingDeviceStatus {
+  stream: MediaStream;
+  resolution: ImagingDeviceResolution;
+}
+
 export interface ImagingDevice {
   stream?: MediaStream;
   identifier: ImagingDeviceIdentifier;

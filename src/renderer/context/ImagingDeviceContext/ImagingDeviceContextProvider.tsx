@@ -22,15 +22,15 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
   const [deviceLoading, setDeviceLoading] = useState(false);
   const device = useRef<ImagingDevice | undefined>(undefined);
 
-  const [deviceStatusKey, setDeviceStatusKey] = useState(uuidv4());
-  const updateDeviceStatus = () => setDeviceStatusKey(uuidv4());
+  const [deviceRefUpdate, setDeviceRefUpdate] = useState(uuidv4());
+  const updateDeviceStatus = () => setDeviceRefUpdate(uuidv4());
 
-  const deviceIdentifier = useMemo(() => device.current?.identifier, [deviceStatusKey]); // eslint-disable-line react-hooks/exhaustive-deps
-  const deviceStream = useMemo(() => device.current?.stream, [deviceStatusKey]); // eslint-disable-line react-hooks/exhaustive-deps
-  const deviceResolution = useMemo(
-    () => (device.current?.stream ? device.current?.getResolution() : undefined),
-    [deviceStatusKey] // eslint-disable-line react-hooks/exhaustive-deps
-  );
+  const deviceIdentifier = useMemo(() => device.current?.identifier, [deviceRefUpdate]); // eslint-disable-line react-hooks/exhaustive-deps
+  const deviceStatus = useMemo(() => {
+    if (device.current?.stream) {
+      return { stream: device.current.stream, resolution: device.current.getResolution() };
+    }
+  }, [deviceRefUpdate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const changeDevice = async (identifier: ImagingDeviceIdentifier) => {
     setDeviceLoading(true);
@@ -109,8 +109,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
       value={{
         hasCameraAccess,
         deviceIdentifier,
-        deviceStream,
-        deviceResolution,
+        deviceStatus,
         deviceLoading,
         changeDevice,
         changeResolution,

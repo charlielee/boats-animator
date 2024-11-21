@@ -12,7 +12,7 @@ import { PreviewLoader } from "./PreviewLoader/PreviewLoader";
 
 export const Preview = (): JSX.Element => {
   const { take } = useProjectAndTake();
-  const { deviceIdentifier, deviceStream, deviceLoading } = useContext(ImagingDeviceContext);
+  const { deviceIdentifier, deviceStatus, deviceLoading } = useContext(ImagingDeviceContext);
 
   const { getTrackItemFileInfo } = useContext(ProjectFilesContext);
   const { hasCameraAccess } = useContext(ImagingDeviceContext);
@@ -48,10 +48,10 @@ export const Preview = (): JSX.Element => {
   return (
     <div className="preview">
       {deviceIdentifier === undefined && <h2>Select a Capture Source to begin!</h2>}
-      {deviceIdentifier && deviceStream === undefined && (
+      {deviceIdentifier && deviceStatus === undefined && (
         <h2>Select a Capture Resolution to begin!</h2>
       )}
-      {deviceStream && <PreviewLiveView stream={deviceStream} />}
+      <PreviewLiveView stream={deviceStatus?.stream} />
       <PreviewFrame src={previewSrc} hidden={liveViewVisible} />
     </div>
   );

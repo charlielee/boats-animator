@@ -23,15 +23,11 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
   const { saveTrackItemToDisk } = useContext(ProjectFilesContext);
-  const { captureImageRaw, deviceStream, deviceIdentifier } = useContext(ImagingDeviceContext);
+  const { captureImageRaw, deviceStatus } = useContext(ImagingDeviceContext);
 
   const captureImage = async () => {
     rLogger.info("captureContextProvider.captureImage");
-    if (deviceIdentifier === undefined) {
-      rLogger.info("captureNoDevice", "Nothing captured as no device selected");
-      return;
-    }
-    if (deviceStream === undefined) {
+    if (deviceStatus === undefined) {
       rLogger.info("captureDeviceNotReady", "Nothing captured as device is not ready yet");
       return;
     }

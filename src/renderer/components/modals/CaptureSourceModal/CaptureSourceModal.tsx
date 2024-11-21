@@ -17,13 +17,15 @@ export const CaptureSourceModal = () => {
   const {
     deviceIdentifier,
     deviceLoading,
-    deviceResolution,
+    deviceStatus,
     changeDevice,
     changeResolution,
     closeDevice,
   } = useContext(ImagingDeviceContext);
 
-  const resolutionName = deviceResolution ? resolutionToName(deviceResolution) : undefined;
+  const resolutionName = deviceStatus?.resolution
+    ? resolutionToName(deviceStatus.resolution)
+    : undefined;
   const deviceList = useDeviceList();
   const deviceSelectData: ComboboxData = deviceList.map(({ name, deviceId }) => ({
     label: name,
@@ -32,7 +34,6 @@ export const CaptureSourceModal = () => {
 
   const handleChangeDevice = async (newDeviceId: string | undefined) => {
     const identifier = deviceList.find((device) => device.deviceId === newDeviceId);
-    // todo switch back to null device if error
     return identifier ? changeDevice?.(identifier) : closeDevice?.();
   };
 
@@ -41,8 +42,6 @@ export const CaptureSourceModal = () => {
       name !== undefined ? NAME_TO_RESOLUTION[name as ResolutionName] : undefined;
 
     if (newResolution) {
-      // todo switch back to old resolution if error
-      // todo seems to need to use grabFrame when you change resolution
       await changeResolution?.(newResolution);
     }
   };
