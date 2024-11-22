@@ -6,9 +6,10 @@ import InputLabel from "../../common/Input/InputLabel/InputLabel";
 import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
+import { ImagingDeviceSettingsBlock } from "../ImagingDeviceSettingsBlock/ImagingDeviceSettingsBlock";
 
 const CaptureSidebarBlock = () => {
-  const { deviceIdentifier, deviceStatus } = useContext(ImagingDeviceContext);
+  const { deviceIdentifier } = useContext(ImagingDeviceContext);
 
   return (
     <SidebarBlock title="Capture">
@@ -18,16 +19,7 @@ const CaptureSidebarBlock = () => {
           {deviceIdentifier?.name ?? "Select Capture Source"}
         </UiButton>
 
-        {deviceStatus?.settings.map((setting) => (
-          <p key={setting.name}>
-            {setting.name}
-            {JSON.stringify(setting)}
-          </p>
-        ))}
-
-        {deviceStatus?.settings.length === 0 && (
-          <p>No settings available for this Capture Source.</p>
-        )}
+        <ImagingDeviceSettingsBlock />
       </InputGroup>
     </SidebarBlock>
   );
