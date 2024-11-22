@@ -34,9 +34,9 @@ export const ImagingDeviceSettingsBlock = () => {
             );
           case ImagingDeviceSettingType.RANGE:
             return (
-              <Group>
-                <UiSlider label={setting.name} {...setting} onChange={() => undefined} />;
-                <UiNumberInput label={setting.name} {...setting} onChange={() => undefined} />;
+              <Group justify="space-evenly">
+                <UiSlider label={setting.name} {...setting} onChange={() => undefined} />
+                <UiNumberInput {...setting} onChange={() => undefined} />
               </Group>
             );
         }

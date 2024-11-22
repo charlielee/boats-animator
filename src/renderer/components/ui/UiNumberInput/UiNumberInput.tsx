@@ -2,7 +2,7 @@ import { NumberInput } from "@mantine/core";
 import { useState } from "react";
 
 interface UiNumberInputProps {
-  label: string;
+  label?: string;
   value?: number;
   placeholder?: string;
   min: number;
