@@ -2,8 +2,35 @@ import * as rLogger from "../rLogger/rLogger";
 import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
 import { UnableToStartDeviceError, UnableToUseResolutionDeviceError } from "./ImagingDeviceErrors";
+import {
+  ImagingDeviceSetting,
+  ImagingDeviceSettingBoolean,
+  ImagingDeviceSettings,
+  ImagingDeviceSettingType,
+} from "./ImagingDeviceSettings";
 
 const EXTREMELY_LARGE_WIDTH = 99999;
+
+// https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#instance_properties_of_image_tracks
+const FILTERED_SETTINGS_KEYS: (keyof MediaTrackSettings)[] = [
+  "whiteBalanceMode",
+  "exposureMode",
+  "focusMode",
+
+  "exposureCompensation",
+  "colorTemperature",
+  "iso",
+  "brightness",
+  "contrast",
+  "saturation",
+  "sharpness",
+
+  "focusDistance",
+  "pan",
+  "tilt",
+  "zoom",
+  "torch",
+];
 
 class WebMediaDevice implements ImagingDevice {
   public stream?: MediaStream;
@@ -159,20 +186,31 @@ class WebMediaDevice implements ImagingDevice {
     }
 
     const { width, height } = this.stream.getVideoTracks()[0].getSettings();
-    console.log("settings", this.stream.getVideoTracks()[0].getSettings());
-    console.log("capabilities", this.stream.getVideoTracks()[0].getCapabilities());
-
-    console.log("imagecapturecapabilities", this.imageCapture?.track.getCapabilities());
-    console.log("imagecapturesettings", this.imageCapture?.track.getSettings());
-
     if (width === undefined || height === undefined) {
       throw "Unable to device getResolution";
     }
 
+    this.getSettings();
+
     return { width, height };
   }
 
-  // getSettings() => { this.s }
+  getSettings(): ImagingDeviceSetting[] {
+    if (this.imageCapture === undefined) {
+      throw "ImageCapture is not initialised";
+    }
+    const capabilities = this.imageCapture?.track.getCapabilities();
+    const settings = this.imageCapture?.track.getSettings();
+
+    const x = FILTERED_SETTINGS_KEYS.map((name) => {
+      const c = capabilities[name as keyof typeof capabilities];
+      const s = settings[name];
+
+      console.log(name, "c:", typeof c, "s:", typeof s);
+    });
+
+    return [];
+  }
 
   static async listDevices(): Promise<ImagingDeviceIdentifier[]> {
     const devices = await navigator.mediaDevices.enumerateDevices();
