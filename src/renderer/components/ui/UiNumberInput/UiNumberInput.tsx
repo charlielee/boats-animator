@@ -7,6 +7,7 @@ interface UiNumberInputProps {
   placeholder?: string;
   min: number;
   max: number;
+  step?: number;
   suffix?: string;
   error?: string;
   onChange?: (newValue: number) => void;
@@ -18,6 +19,7 @@ export const UiNumberInput = ({
   placeholder,
   min,
   max,
+  step,
   suffix,
   error,
   onChange,
@@ -38,6 +40,7 @@ export const UiNumberInput = ({
       placeholder={placeholder}
       min={min}
       max={max}
+      step={step}
       suffix={suffix}
       error={error}
       onChange={handleChange}

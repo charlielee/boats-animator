@@ -26,21 +26,13 @@ export const ImagingDeviceSettingsBlock = () => {
               <UiSelect
                 label={setting.name}
                 data={setting.options}
-                value={setting.value}
+                {...setting}
                 placeholder={setting.name}
                 onChange={() => undefined}
               />
             );
           case ImagingDeviceSettingType.RANGE:
-            return (
-              <UiNumberInput
-                label={setting.name}
-                value={setting.value}
-                min={setting.min}
-                max={setting.max}
-                onChange={() => undefined}
-              />
-            );
+            return <UiNumberInput label={setting.name} {...setting} onChange={() => undefined} />;
         }
       })}
     </Stack>
