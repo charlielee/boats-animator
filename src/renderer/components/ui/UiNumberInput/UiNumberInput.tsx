@@ -24,7 +24,7 @@ export const UiNumberInput = ({
   error,
   onChange,
 }: UiNumberInputProps) => {
-  const [rawValue, setRawValue] = useState<number | string | undefined>(value?.toString(10));
+  const [rawValue, setRawValue] = useState<number | string | undefined>(value);
 
   const handleChange = (newValue: number | string) => {
     setRawValue(newValue);
