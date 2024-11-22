@@ -8,7 +8,7 @@ import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
 
 const CaptureSidebarBlock = () => {
-  const { deviceIdentifier } = useContext(ImagingDeviceContext);
+  const { deviceIdentifier, deviceStatus } = useContext(ImagingDeviceContext);
 
   return (
     <SidebarBlock title="Capture">
@@ -17,6 +17,17 @@ const CaptureSidebarBlock = () => {
         <UiButton semanticColor={SemanticColor.PRIMARY} onClick={PageRoute.ANIMATOR_CAPTURE_SOURCE}>
           {deviceIdentifier?.name ?? "Select Capture Source"}
         </UiButton>
+
+        {deviceStatus?.settings.map((setting) => (
+          <p key={setting.name}>
+            {setting.name}
+            {JSON.stringify(setting)}
+          </p>
+        ))}
+
+        {deviceStatus?.settings.length === 0 && (
+          <p>No settings available for this Capture Source.</p>
+        )}
       </InputGroup>
     </SidebarBlock>
   );

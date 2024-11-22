@@ -190,8 +190,6 @@ class WebMediaDevice implements ImagingDevice {
       throw "Unable to device getResolution";
     }
 
-    console.log(this.getSettings());
-
     return { width, height };
   }
 

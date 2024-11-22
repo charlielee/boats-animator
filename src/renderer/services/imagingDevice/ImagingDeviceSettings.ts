@@ -34,10 +34,6 @@ export type ImagingDeviceSetting =
   | ImagingDeviceSettingList
   | ImagingDeviceSettingRange;
 
-// export type ImagingDeviceSettings = Record<string, ImagingDeviceSetting>;
-
-// export const makeImagingDevice;
-
 export const makeBooleanSetting = (name: string, value: boolean): ImagingDeviceSettingBoolean => ({
   type: ImagingDeviceSettingType.BOOLEAN,
   name,

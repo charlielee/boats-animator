@@ -6,6 +6,7 @@ import {
   deviceIdentifierToDevice,
   ImagingDevice,
   ImagingDeviceIdentifier,
+  ImagingDeviceStatus,
 } from "../../services/imagingDevice/ImagingDevice";
 import { ImagingDeviceResolution } from "../../services/imagingDevice/ImagingDeviceResolution";
 import * as rLogger from "../../services/rLogger/rLogger";
@@ -26,9 +27,13 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
   const updateDeviceStatus = () => setDeviceRefUpdate(uuidv4());
 
   const deviceIdentifier = useMemo(() => device.current?.identifier, [deviceRefUpdate]); // eslint-disable-line react-hooks/exhaustive-deps
-  const deviceStatus = useMemo(() => {
+  const deviceStatus: ImagingDeviceStatus | undefined = useMemo(() => {
     if (device.current?.stream) {
-      return { stream: device.current.stream, resolution: device.current.getResolution() };
+      return {
+        stream: device.current.stream,
+        resolution: device.current.getResolution(),
+        settings: device.current.getSettings(),
+      };
     }
   }, [deviceRefUpdate]); // eslint-disable-line react-hooks/exhaustive-deps
 
