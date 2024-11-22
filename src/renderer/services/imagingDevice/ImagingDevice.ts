@@ -1,8 +1,10 @@
 import * as rLogger from "../../services/rLogger/rLogger";
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
+import { makeTestCameraIdentifier, TestCamera } from "./TestCamera";
 import WebMediaDevice from "./WebMediaDevice";
 
 export enum ImagingDeviceType {
+  TEST_CAMERA = "TEST_CAMERA",
   WEB_MEDIA = "WEB_MEDIA",
 }
 
@@ -31,10 +33,11 @@ export interface ImagingDevice {
   getResolution(): ImagingDeviceResolution;
 }
 
-export const listDevices = async (): Promise<ImagingDeviceIdentifier[]> => {
+export const listDevices = async (showTestDevice: boolean): Promise<ImagingDeviceIdentifier[]> => {
   rLogger.info("imagingDevice.listDevices.start");
-  const webMediaDevices = await WebMediaDevice.listDevices();
-  const allDevices = [...webMediaDevices];
+  const testDevices = showTestDevice ? [makeTestCameraIdentifier()] : [];
+  const webMediaDevices = [...(await WebMediaDevice.listDevices())];
+  const allDevices = [...testDevices, ...webMediaDevices];
   rLogger.info("imagingDevice.listDevices.end", `${allDevices.length} device(s) found`);
 
   return allDevices;
@@ -52,5 +55,7 @@ export const deviceIdentifierToDevice = (identifier: ImagingDeviceIdentifier): I
   switch (identifier.type) {
     case ImagingDeviceType.WEB_MEDIA:
       return new WebMediaDevice(identifier);
+    case ImagingDeviceType.TEST_CAMERA:
+      return new TestCamera(identifier);
   }
 };
