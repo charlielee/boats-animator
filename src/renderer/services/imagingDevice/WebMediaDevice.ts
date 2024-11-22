@@ -2,7 +2,12 @@ import * as rLogger from "../rLogger/rLogger";
 import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
 import { UnableToStartDeviceError, UnableToUseResolutionDeviceError } from "./ImagingDeviceErrors";
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
-import { ImagingDeviceSetting } from "./ImagingDeviceSettings";
+import {
+  ImagingDeviceSetting,
+  makeBooleanSetting,
+  makeListSetting,
+  makeRangeSetting,
+} from "./ImagingDeviceSettings";
 
 const EXTREMELY_LARGE_WIDTH = 99999;
 
@@ -185,7 +190,7 @@ class WebMediaDevice implements ImagingDevice {
       throw "Unable to device getResolution";
     }
 
-    this.getSettings();
+    console.log(this.getSettings());
 
     return { width, height };
   }
@@ -196,16 +201,42 @@ class WebMediaDevice implements ImagingDevice {
     }
     const capabilities = this.imageCapture?.track.getCapabilities();
     const settings = this.imageCapture?.track.getSettings();
-
-    const x = FILTERED_SETTINGS_KEYS.map((name) => {
-      const c = capabilities[name as keyof typeof capabilities];
-      const s = settings[name];
-
-      console.log(name, "c:", typeof c, JSON.stringify(c), "s:", typeof s, JSON.stringify(s));
-    });
-
-    return [];
+    return this.buildSettings(capabilities, settings);
   }
+
+  private buildSettings = (
+    capabilities: MediaTrackCapabilities,
+    settings: MediaTrackSettings
+  ): ImagingDeviceSetting[] =>
+    FILTERED_SETTINGS_KEYS.map((name) => {
+      const options = capabilities[name as keyof typeof capabilities];
+      const value = settings[name];
+
+      const isBooleanSetting = typeof options === "boolean" && typeof value === "boolean";
+      if (isBooleanSetting) {
+        return makeBooleanSetting(name, value);
+      }
+
+      const isListSetting = Array.isArray(options) && typeof value === "string";
+      if (isListSetting) {
+        return makeListSetting(
+          name,
+          value,
+          options.map((o) => o.toString())
+        );
+      }
+
+      const isRangeSetting =
+        typeof options === "object" && "step" in options && typeof value === "number";
+      if (isRangeSetting) {
+        return makeRangeSetting(name, value, options);
+      }
+
+      rLogger.warn(
+        "unableToParseWebMediaSetting",
+        `Unable to parse setting ${name} ${JSON.stringify(value)} ${JSON.stringify(options)}`
+      );
+    }).filter((s) => s !== undefined);
 
   static async listDevices(): Promise<ImagingDeviceIdentifier[]> {
     const devices = await navigator.mediaDevices.enumerateDevices();
