@@ -1,13 +1,8 @@
 import * as rLogger from "../rLogger/rLogger";
 import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
-import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
 import { UnableToStartDeviceError, UnableToUseResolutionDeviceError } from "./ImagingDeviceErrors";
-import {
-  ImagingDeviceSetting,
-  ImagingDeviceSettingBoolean,
-  ImagingDeviceSettings,
-  ImagingDeviceSettingType,
-} from "./ImagingDeviceSettings";
+import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
+import { ImagingDeviceSetting } from "./ImagingDeviceSettings";
 
 const EXTREMELY_LARGE_WIDTH = 99999;
 
