@@ -201,7 +201,7 @@ class WebMediaDevice implements ImagingDevice {
       const c = capabilities[name as keyof typeof capabilities];
       const s = settings[name];
 
-      console.log(name, "c:", typeof c, "s:", typeof s);
+      console.log(name, "c:", typeof c, JSON.stringify(c), "s:", typeof s, JSON.stringify(s));
     });
 
     return [];
