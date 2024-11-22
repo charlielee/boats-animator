@@ -4,7 +4,8 @@ import { ImagingDeviceSettingType } from "../../../services/imagingDevice/Imagin
 import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
-import { Stack } from "@mantine/core";
+import { Group, Stack } from "@mantine/core";
+import { UiSlider } from "../../ui/UiSlider/UiSlider";
 
 export const ImagingDeviceSettingsBlock = () => {
   const { deviceStatus } = useContext(ImagingDeviceContext);
@@ -32,7 +33,12 @@ export const ImagingDeviceSettingsBlock = () => {
               />
             );
           case ImagingDeviceSettingType.RANGE:
-            return <UiNumberInput label={setting.name} {...setting} onChange={() => undefined} />;
+            return (
+              <Group>
+                <UiSlider label={setting.name} {...setting} onChange={() => undefined} />;
+                <UiNumberInput label={setting.name} {...setting} onChange={() => undefined} />;
+              </Group>
+            );
         }
       })}
     </Stack>
