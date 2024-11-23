@@ -11,7 +11,7 @@ export const useDebouncedChange = <T>(
   useEffect(() => {
     const debounceChangeSetting = setTimeout(async () => {
       onChange(value);
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(debounceChangeSetting);
   }, [onChange, value]);
 

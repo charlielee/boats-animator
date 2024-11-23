@@ -10,6 +10,7 @@ import { UiSelect } from "../../../ui/UiSelect/UiSelect";
 import { UiSlider } from "../../../ui/UiSlider/UiSlider";
 import { ImagingDeviceSettingName } from "../ImagingDeviceSettingName/ImagingDeviceSettingName";
 import { ImagingDeviceSettingsTableRowBoolean } from "../ImagingDeviceSettingsTableRowBoolean/ImagingDeviceSettingsTableRowBoolean";
+import { ImagingDeviceSettingsTableRowList } from "../ImagingDeviceSettingsTableRowList/ImagingDeviceSettingsTableRowList";
 
 interface ImagingDeviceSettingsTableRowProps {
   setting: ImagingDeviceSetting;
@@ -27,26 +28,7 @@ export const ImagingDeviceSettingsTableRow = ({ setting }: ImagingDeviceSettings
         <ImagingDeviceSettingsTableRowBoolean setting={setting} onChange={handleChangeSetting} />
       );
     case ImagingDeviceSettingType.LIST:
-      return (
-        <Table.Tr>
-          <Table.Td>
-            <ImagingDeviceSettingName setting={setting} />
-          </Table.Td>
-          <Table.Td colSpan={2}>
-            <UiSelect
-              data={setting.options}
-              {...setting}
-              placeholder={setting.name}
-              onChange={(newValue) => {
-                if (newValue !== undefined) {
-                  handleChangeSetting(newValue);
-                }
-              }}
-              inList
-            />
-          </Table.Td>
-        </Table.Tr>
-      );
+      return <ImagingDeviceSettingsTableRowList setting={setting} onChange={handleChangeSetting} />;
     case ImagingDeviceSettingType.RANGE: {
       const props = {
         ...setting,
