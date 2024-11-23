@@ -4,10 +4,6 @@ import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./Ima
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
 import {
   ImagingDeviceSetting,
-  ImagingDeviceSettingBoolean,
-  ImagingDeviceSettingList,
-  ImagingDeviceSettingRange,
-  ImagingDeviceSettingType,
   makeBooleanSetting,
   makeChangedSetting,
   makeListSetting,
