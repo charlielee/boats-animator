@@ -38,7 +38,7 @@ export class TestCamera implements ImagingDevice {
 
     this.canvas.height = resolution?.height ?? 1080;
     this.canvas.width = resolution?.width ?? 1920;
-    this.addTextToCanvas("Live");
+    this.updateCanvasText("Live");
 
     this.stream = this.canvas.captureStream();
   }
@@ -54,11 +54,11 @@ export class TestCamera implements ImagingDevice {
       throw "Device must be opened before captureImage can be called";
     }
 
-    this.addTextToCanvas(zeroPad(this.textCounter++, 5));
+    this.updateCanvasText(zeroPad(this.textCounter++, 5));
     const image: Blob | null = await new Promise((res) =>
       this.canvas.toBlob((blob) => res(blob), "image/jpeg")
     );
-    this.addTextToCanvas("Live");
+    this.updateCanvasText("Live");
 
     if (image === null) {
       throw "Unable to capture image as toBlob returned null";
@@ -82,7 +82,7 @@ export class TestCamera implements ImagingDevice {
     }
   }
 
-  private addTextToCanvas(text: string) {
+  private updateCanvasText(text: string) {
     const context = this.canvas.getContext("2d");
     if (context) {
       this.fillCanvasGreen();
