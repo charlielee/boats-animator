@@ -4,7 +4,12 @@ import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./Ima
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
 import {
   ImagingDeviceSetting,
+  ImagingDeviceSettingBoolean,
+  ImagingDeviceSettingList,
+  ImagingDeviceSettingRange,
+  ImagingDeviceSettingType,
   makeBooleanSetting,
+  makeChangedSetting,
   makeListSetting,
   makeRangeSetting,
 } from "./ImagingDeviceSettings";
@@ -72,6 +77,18 @@ export class TestCamera implements ImagingDevice {
 
   getSettings(): ImagingDeviceSetting[] {
     return this.settings;
+  }
+
+  async changeSetting(name: string, value: string | boolean | number): Promise<void> {
+    const setting = this.settings.find((s) => s.name === name);
+    if (setting === undefined) {
+      throw `Unable to find setting ${name}`;
+    }
+
+    const otherSettings = this.settings.filter((s) => s.name !== name);
+    const newSetting = makeChangedSetting(setting, value);
+    this.settings = [...otherSettings, newSetting];
+    return;
   }
 
   private fillCanvasGreen() {

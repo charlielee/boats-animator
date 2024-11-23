@@ -76,6 +76,18 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
     }
   };
 
+  const changeSetting = async (name: string, value: string | boolean | number): Promise<void> => {
+    try {
+      await device.current?.changeSetting(name, value);
+    } catch {
+      notifications.show({
+        message: `Unable to change setting ${name} to ${value}. Please select a different value.`,
+      });
+    } finally {
+      updateDeviceStatus();
+    }
+  };
+
   const closeDevice = useCallback(() => {
     device.current?.close();
     device.current = undefined;
@@ -119,6 +131,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
         deviceLoading,
         changeDevice,
         changeResolution,
+        changeSetting,
         closeDevice,
         captureImageRaw,
       }}

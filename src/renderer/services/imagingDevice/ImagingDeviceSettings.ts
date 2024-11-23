@@ -61,3 +61,19 @@ export const makeRangeSetting = (
   value,
   ...options,
 });
+
+export const makeChangedSetting = (
+  setting: ImagingDeviceSetting,
+  value: boolean | number | string
+): ImagingDeviceSetting => {
+  if (setting.type === ImagingDeviceSettingType.BOOLEAN && typeof value === "boolean") {
+    return { ...setting, value };
+  }
+  if (setting.type === ImagingDeviceSettingType.LIST && typeof value === "string") {
+    return { ...setting, value };
+  }
+  if (setting.type === ImagingDeviceSettingType.RANGE && typeof value === "number") {
+    return { ...setting, value };
+  }
+  throw `Unable to update setting ${setting.name} to value ${value}. Expected value to be type ${setting.type}.`;
+};

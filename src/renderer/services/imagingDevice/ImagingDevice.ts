@@ -34,6 +34,7 @@ export interface ImagingDevice {
   captureImage(): Promise<Blob>;
   getResolution(): ImagingDeviceResolution;
   getSettings(): ImagingDeviceSetting[];
+  changeSetting(name: string, value: string | boolean | number): Promise<void>;
 }
 
 export const listDevices = async (showTestDevice: boolean): Promise<ImagingDeviceIdentifier[]> => {

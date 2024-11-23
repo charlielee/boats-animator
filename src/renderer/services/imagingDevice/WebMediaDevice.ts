@@ -202,6 +202,10 @@ class WebMediaDevice implements ImagingDevice {
     return this.buildSettings(capabilities, settings);
   }
 
+  async changeSetting(name: string, value: string | boolean | number): Promise<void> {
+    return;
+  }
+
   private buildSettings = (
     capabilities: MediaTrackCapabilities,
     settings: MediaTrackSettings
