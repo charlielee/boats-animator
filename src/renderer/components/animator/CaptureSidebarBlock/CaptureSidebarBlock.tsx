@@ -5,7 +5,7 @@ import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/Imag
 import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
-import { ImagingDeviceSettingsBlock } from "../ImagingDeviceSettingsBlock/ImagingDeviceSettingsBlock";
+import { ImagingDeviceSettingsTable } from "../ImagingDeviceSettingsTable/ImagingDeviceSettingsTable";
 
 const CaptureSidebarBlock = () => {
   const { deviceIdentifier } = useContext(ImagingDeviceContext);
@@ -17,7 +17,7 @@ const CaptureSidebarBlock = () => {
           {deviceIdentifier?.name ?? "Select Capture Source"}
         </UiButton>
 
-        <ImagingDeviceSettingsBlock />
+        <ImagingDeviceSettingsTable />
       </Stack>
     </SidebarBlock>
   );

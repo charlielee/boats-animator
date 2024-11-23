@@ -9,7 +9,7 @@ import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
 import { UiSlider } from "../../ui/UiSlider/UiSlider";
 import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
-import "./ImagingDeviceSettingsBlock.css";
+import "./ImagingDeviceSettingsTable.css";
 
 const SettingName = ({ setting }: { setting: ImagingDeviceSetting }) => (
   <Tooltip label={setting.name}>
@@ -17,7 +17,7 @@ const SettingName = ({ setting }: { setting: ImagingDeviceSetting }) => (
   </Tooltip>
 );
 
-export const ImagingDeviceSettingsBlock = () => {
+export const ImagingDeviceSettingsTable = () => {
   const { deviceStatus } = useContext(ImagingDeviceContext);
 
   if (deviceStatus?.settings.length === 0) {
