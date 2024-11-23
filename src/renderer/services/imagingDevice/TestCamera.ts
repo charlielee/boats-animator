@@ -77,7 +77,7 @@ export class TestCamera implements ImagingDevice {
   private fillCanvasGreen() {
     const context = this.canvas.getContext("2d");
     if (context) {
-      context.fillStyle = "limegreen";
+      context.fillStyle = "darkseagreen";
       context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
   }

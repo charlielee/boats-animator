@@ -1,4 +1,4 @@
-import { NumberInput } from "@mantine/core";
+import { NumberInput, NumberInputProps } from "@mantine/core";
 import { useState } from "react";
 
 interface UiNumberInputProps {
@@ -10,6 +10,7 @@ interface UiNumberInputProps {
   step?: number;
   suffix?: string;
   error?: string;
+  inList?: boolean;
   onChange?: (newValue: number) => void;
 }
 
@@ -22,8 +23,11 @@ export const UiNumberInput = ({
   step,
   suffix,
   error,
+  inList = false,
   onChange,
 }: UiNumberInputProps) => {
+  const inListProps: NumberInputProps = inList ? { size: "xs", variant: "unstyled" } : {};
+
   const [rawValue, setRawValue] = useState<number | string | undefined>(value);
 
   const handleChange = (newValue: number | string) => {
@@ -44,6 +48,7 @@ export const UiNumberInput = ({
       suffix={suffix}
       error={error}
       onChange={handleChange}
+      {...inListProps}
     />
   );
 };

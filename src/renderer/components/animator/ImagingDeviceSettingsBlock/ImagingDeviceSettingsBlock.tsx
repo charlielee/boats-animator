@@ -1,11 +1,12 @@
+import { Stack, Table, Text } from "@mantine/core";
 import { useContext } from "react";
 import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import { ImagingDeviceSettingType } from "../../../services/imagingDevice/ImagingDeviceSettings";
-import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
-import { UiSelect } from "../../ui/UiSelect/UiSelect";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
-import { Box, Container, Flex, Group, Stack, Text } from "@mantine/core";
+import { UiSelect } from "../../ui/UiSelect/UiSelect";
 import { UiSlider } from "../../ui/UiSlider/UiSlider";
+import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
+import "./ImagingDeviceSettingsBlock.css";
 
 export const ImagingDeviceSettingsBlock = () => {
   const { deviceStatus } = useContext(ImagingDeviceContext);
@@ -16,35 +17,50 @@ export const ImagingDeviceSettingsBlock = () => {
 
   return (
     <Stack>
-      {deviceStatus?.settings.map((setting) => {
-        switch (setting.type) {
-          case ImagingDeviceSettingType.BOOLEAN:
-            return (
-              <UiSwitch label={setting.name} checked={setting.value} onChange={() => undefined} />
-            );
-          case ImagingDeviceSettingType.LIST:
-            return (
-              <UiSelect
-                label={setting.name}
-                data={setting.options}
-                {...setting}
-                placeholder={setting.name}
-                onChange={() => undefined}
-              />
-            );
-          case ImagingDeviceSettingType.RANGE:
-            return (
-              <Group>
-                <Box flex={1}>
-                  <UiSlider {...setting} onChange={() => undefined} />
-                </Box>
-                <Box w="8rem">
-                  <UiNumberInput {...setting} onChange={() => undefined} />
-                </Box>
-              </Group>
-            );
-        }
-      })}
+      <Table classNames={{ tr: "settings-table-row" }}>
+        <Table.Tbody>
+          {deviceStatus?.settings.map((setting) => {
+            switch (setting.type) {
+              case ImagingDeviceSettingType.BOOLEAN:
+                return (
+                  <Table.Tr>
+                    <Table.Td>{setting.name}</Table.Td>
+                    <Table.Td colSpan={2}>
+                      <UiSwitch checked={setting.value} onChange={() => undefined} inList />
+                    </Table.Td>
+                  </Table.Tr>
+                );
+              case ImagingDeviceSettingType.LIST:
+                return (
+                  <Table.Tr>
+                    <Table.Td>{setting.name}</Table.Td>
+                    <Table.Td colSpan={2}>
+                      <UiSelect
+                        data={setting.options}
+                        {...setting}
+                        placeholder={setting.name}
+                        onChange={() => undefined}
+                        inList
+                      />
+                    </Table.Td>
+                  </Table.Tr>
+                );
+              case ImagingDeviceSettingType.RANGE:
+                return (
+                  <Table.Tr>
+                    <Table.Td>{setting.name}</Table.Td>
+                    <Table.Td>
+                      <UiSlider {...setting} onChange={() => undefined} inList />
+                    </Table.Td>
+                    <Table.Td>
+                      <UiNumberInput {...setting} onChange={() => undefined} inList />
+                    </Table.Td>
+                  </Table.Tr>
+                );
+            }
+          })}
+        </Table.Tbody>
+      </Table>
     </Stack>
   );
 };
