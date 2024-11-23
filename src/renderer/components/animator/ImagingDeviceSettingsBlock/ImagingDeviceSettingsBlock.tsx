@@ -4,14 +4,14 @@ import { ImagingDeviceSettingType } from "../../../services/imagingDevice/Imagin
 import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
-import { Group, Stack } from "@mantine/core";
+import { Group, Stack, Text } from "@mantine/core";
 import { UiSlider } from "../../ui/UiSlider/UiSlider";
 
 export const ImagingDeviceSettingsBlock = () => {
   const { deviceStatus } = useContext(ImagingDeviceContext);
 
   if (deviceStatus?.settings.length === 0) {
-    return <p>No settings available for this Capture Source.</p>;
+    return <Text>No settings available for this Capture Source.</Text>;
   }
 
   return (

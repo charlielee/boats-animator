@@ -2,7 +2,12 @@ import { zeroPad } from "../../../common/utils";
 import * as rLogger from "../rLogger/rLogger";
 import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
-import { ImagingDeviceSetting } from "./ImagingDeviceSettings";
+import {
+  ImagingDeviceSetting,
+  makeBooleanSetting,
+  makeListSetting,
+  makeRangeSetting,
+} from "./ImagingDeviceSettings";
 
 const TEST_CAMERA_DEVICE_ID = "a9cafa41-f712-478d-b23e-296e2cbf4ebe";
 export const TEST_CAMERA_IDENTIFIER: ImagingDeviceIdentifier = {
@@ -14,6 +19,12 @@ export const TEST_CAMERA_IDENTIFIER: ImagingDeviceIdentifier = {
 export class TestCamera implements ImagingDevice {
   private canvas = document.createElement("canvas");
   private textCounter = 0;
+  private settings: ImagingDeviceSetting[] = [
+    makeBooleanSetting("Boolean", false),
+    makeListSetting("List", "Option 1", ["Option 1", "Option 2", "Option 3"]),
+    makeRangeSetting("Range", 1, { max: 10, min: 1, step: 1 }),
+    makeRangeSetting("Range (errors if more than 5)", 1, { max: 10, min: 1, step: 1 }),
+  ];
   public stream?: MediaStream;
   public capabilities = { changeResolution: true };
 
@@ -60,7 +71,7 @@ export class TestCamera implements ImagingDevice {
   }
 
   getSettings(): ImagingDeviceSetting[] {
-    return [];
+    return this.settings;
   }
 
   private fillCanvasGreen() {
@@ -77,7 +88,13 @@ export class TestCamera implements ImagingDevice {
       this.fillCanvasGreen();
       context.font = "200px serif";
       context.fillStyle = "black";
-      context.fillText(text, 300, 400);
+      context.fillText(text, 120, 300);
+
+      const settingsFontSize = 40;
+      context.font = `${settingsFontSize}px serif`;
+      this.settings.forEach((setting, i) => {
+        context.fillText(JSON.stringify(setting), settingsFontSize, 500 + i * settingsFontSize);
+      });
     }
   }
 }
