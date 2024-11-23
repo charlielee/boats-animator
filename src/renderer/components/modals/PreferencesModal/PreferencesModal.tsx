@@ -1,4 +1,4 @@
-import { Stack } from "@mantine/core";
+import { Stack, Title } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
 import { editUserPreferences } from "../../../redux/slices/appSlice";
@@ -21,9 +21,8 @@ const PreferencesModal = (): JSX.Element => {
 
   return (
     <UiModal title="Preferences" onClose={take ? PageRoute.ANIMATOR : PageRoute.STARTUP}>
-      <h3>Interface</h3>
-
       <Stack>
+        <Title order={4}>Interface</Title>
         <UiSwitch
           label="Play capture sound"
           checked={userPreferences.playCaptureSound}
@@ -35,7 +34,6 @@ const PreferencesModal = (): JSX.Element => {
             )
           }
         />
-
         <UiSwitch
           label="Initially show timestamp in seconds rather than frames"
           checked={userPreferences.showTimestampInSeconds}
@@ -47,24 +45,36 @@ const PreferencesModal = (): JSX.Element => {
             )
           }
         />
+
+        <Title order={4}>Playback</Title>
+        <UiNumberInput
+          label="Short play length"
+          value={userPreferences.shortPlayLength}
+          placeholder="6"
+          min={1}
+          max={99}
+          onChange={(newValue) =>
+            dispatch(
+              editUserPreferences({
+                shortPlayLength: newValue,
+              })
+            )
+          }
+        />
+
+        <Title order={4}>Developer</Title>
+        <UiSwitch
+          label="Show test camera in Capture Sources"
+          checked={userPreferences.showTestCamera}
+          onChange={() =>
+            dispatch(
+              editUserPreferences({
+                showTestCamera: !userPreferences.showTestCamera,
+              })
+            )
+          }
+        />
       </Stack>
-
-      <h3>Playback</h3>
-
-      <UiNumberInput
-        label="Short play length"
-        value={userPreferences.shortPlayLength}
-        placeholder="6"
-        min={1}
-        max={99}
-        onChange={(newValue) =>
-          dispatch(
-            editUserPreferences({
-              shortPlayLength: newValue,
-            })
-          )
-        }
-      />
 
       <UiModalFooter>
         <UiButton icon={IconName.FOLDER} onClick={window.preload.ipcToMain.openUserDataDirectory}>

@@ -31,7 +31,7 @@ export const CaptureSourceModal = () => {
   }));
 
   const resolution = deviceStatus?.resolution;
-  const resolutionName = resolution ? resolutionToName(resolution) : undefined;
+  const resolutionName = resolution !== undefined ? resolutionToName(resolution) : undefined;
   const [showCustomResolution, setShowCustomResolution] = useState(false);
 
   const handleChangeDevice = async (newDeviceId: string | undefined) => {
