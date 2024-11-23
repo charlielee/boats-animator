@@ -1,5 +1,4 @@
 import { NumberInput, NumberInputProps } from "@mantine/core";
-import { useState } from "react";
 
 interface UiNumberInputProps {
   label?: string;

@@ -1,4 +1,6 @@
 import { Table } from "@mantine/core";
+import { useContext } from "react";
+import { ImagingDeviceContext } from "../../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import {
   ImagingDeviceSetting,
   ImagingDeviceSettingType,
@@ -6,10 +8,8 @@ import {
 import { UiNumberInput } from "../../../ui/UiNumberInput/UiNumberInput";
 import { UiSelect } from "../../../ui/UiSelect/UiSelect";
 import { UiSlider } from "../../../ui/UiSlider/UiSlider";
-import { UiSwitch } from "../../../ui/UiSwitch/UiSwitch";
 import { ImagingDeviceSettingName } from "../ImagingDeviceSettingName/ImagingDeviceSettingName";
-import { ImagingDeviceContext } from "../../../../context/ImagingDeviceContext/ImagingDeviceContext";
-import { useContext } from "react";
+import { ImagingDeviceSettingsTableRowBoolean } from "../ImagingDeviceSettingsTableRowBoolean/ImagingDeviceSettingsTableRowBoolean";
 
 interface ImagingDeviceSettingsTableRowProps {
   setting: ImagingDeviceSetting;
@@ -24,14 +24,7 @@ export const ImagingDeviceSettingsTableRow = ({ setting }: ImagingDeviceSettings
   switch (setting.type) {
     case ImagingDeviceSettingType.BOOLEAN:
       return (
-        <Table.Tr>
-          <Table.Td>
-            <ImagingDeviceSettingName setting={setting} />
-          </Table.Td>
-          <Table.Td colSpan={2}>
-            <UiSwitch checked={setting.value} onChange={handleChangeSetting} inList />
-          </Table.Td>
-        </Table.Tr>
+        <ImagingDeviceSettingsTableRowBoolean setting={setting} onChange={handleChangeSetting} />
       );
     case ImagingDeviceSettingType.LIST:
       return (
