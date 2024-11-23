@@ -1,12 +1,21 @@
-import { Stack, Table, Text } from "@mantine/core";
+import { Stack, Table, Text, Tooltip } from "@mantine/core";
 import { useContext } from "react";
 import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
-import { ImagingDeviceSettingType } from "../../../services/imagingDevice/ImagingDeviceSettings";
+import {
+  ImagingDeviceSetting,
+  ImagingDeviceSettingType,
+} from "../../../services/imagingDevice/ImagingDeviceSettings";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
 import { UiSlider } from "../../ui/UiSlider/UiSlider";
 import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
 import "./ImagingDeviceSettingsBlock.css";
+
+const SettingName = ({ setting }: { setting: ImagingDeviceSetting }) => (
+  <Tooltip label={setting.name}>
+    <span>{setting.name}</span>
+  </Tooltip>
+);
 
 export const ImagingDeviceSettingsBlock = () => {
   const { deviceStatus } = useContext(ImagingDeviceContext);
@@ -24,7 +33,9 @@ export const ImagingDeviceSettingsBlock = () => {
               case ImagingDeviceSettingType.BOOLEAN:
                 return (
                   <Table.Tr>
-                    <Table.Td>{setting.name}</Table.Td>
+                    <Table.Td>
+                      <SettingName setting={setting} />
+                    </Table.Td>
                     <Table.Td colSpan={2}>
                       <UiSwitch checked={setting.value} onChange={() => undefined} inList />
                     </Table.Td>
@@ -33,7 +44,9 @@ export const ImagingDeviceSettingsBlock = () => {
               case ImagingDeviceSettingType.LIST:
                 return (
                   <Table.Tr>
-                    <Table.Td>{setting.name}</Table.Td>
+                    <Table.Td>
+                      <SettingName setting={setting} />
+                    </Table.Td>
                     <Table.Td colSpan={2}>
                       <UiSelect
                         data={setting.options}
@@ -48,7 +61,9 @@ export const ImagingDeviceSettingsBlock = () => {
               case ImagingDeviceSettingType.RANGE:
                 return (
                   <Table.Tr>
-                    <Table.Td>{setting.name}</Table.Td>
+                    <Table.Td>
+                      <SettingName setting={setting} />
+                    </Table.Td>
                     <Table.Td>
                       <UiSlider {...setting} onChange={() => undefined} inList />
                     </Table.Td>
