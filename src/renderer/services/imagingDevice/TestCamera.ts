@@ -18,8 +18,6 @@ export class TestCamera implements ImagingDevice {
 
   constructor(public identifier: ImagingDeviceIdentifier) {}
 
-  // todo handle resolutions
-  // todo why is kindof broken when you change res
   async open(resolution?: ImagingDeviceResolution): Promise<void> {
     rLogger.info("openTestDevice");
     if (this.stream) {
