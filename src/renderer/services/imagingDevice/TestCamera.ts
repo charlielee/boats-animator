@@ -1,8 +1,14 @@
-import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
-import * as rLogger from "../rLogger/rLogger";
-import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
-import { v4 as uuidv4 } from "uuid";
 import { zeroPad } from "../../../common/utils";
+import * as rLogger from "../rLogger/rLogger";
+import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
+import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
+
+const TEST_CAMERA_DEVICE_ID = "a9cafa41-f712-478d-b23e-296e2cbf4ebe";
+export const TEST_CAMERA_IDENTIFIER: ImagingDeviceIdentifier = {
+  type: ImagingDeviceType.TEST_CAMERA,
+  deviceId: TEST_CAMERA_DEVICE_ID,
+  name: "Test Camera",
+};
 
 export class TestCamera implements ImagingDevice {
   private canvas = document.createElement("canvas");
@@ -14,14 +20,14 @@ export class TestCamera implements ImagingDevice {
 
   // todo handle resolutions
   // todo why is kindof broken when you change res
-  async open(): Promise<void> {
+  async open(resolution?: ImagingDeviceResolution): Promise<void> {
     rLogger.info("openTestDevice");
     if (this.stream) {
       throw "Device is already open";
     }
 
-    this.canvas.height = 1080;
-    this.canvas.width = 1920;
+    this.canvas.height = resolution?.height ?? 1080;
+    this.canvas.width = resolution?.width ?? 1920;
     this.addTextToCanvas("Live");
 
     this.stream = this.canvas.captureStream();
@@ -72,9 +78,3 @@ export class TestCamera implements ImagingDevice {
     }
   }
 }
-
-export const makeTestCameraIdentifier = (): ImagingDeviceIdentifier => ({
-  type: ImagingDeviceType.TEST_CAMERA,
-  deviceId: uuidv4(),
-  name: "Test Camera",
-});

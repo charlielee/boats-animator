@@ -60,6 +60,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
 
     try {
       await device.current?.open(resolution);
+      // console.log("cr", deviceName, resolution);
     } catch {
       notifications.show({
         message: `Resolution not supported by ${deviceName}. Please select a different resolution.`,
