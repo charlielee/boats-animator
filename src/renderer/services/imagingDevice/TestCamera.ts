@@ -20,10 +20,10 @@ export class TestCamera implements ImagingDevice {
   private canvas = document.createElement("canvas");
   private textCounter = 0;
   private settings: ImagingDeviceSetting[] = [
-    makeBooleanSetting("Boolean", false),
-    makeListSetting("List", "Option 1", ["Option 1", "Option 2", "Option 3"]),
-    makeRangeSetting("Range", 1, { max: 10, min: 1, step: 1 }),
-    makeRangeSetting("Range (errors if more than 5)", 1, { max: 10, min: 1, step: 1 }),
+    makeBooleanSetting("boolean", false),
+    makeListSetting("list", "Option 1", ["Option 1", "Option 2", "Option 3"]),
+    makeRangeSetting("range", 1, { max: 10, min: 1, step: 1 }),
+    makeRangeSetting("rangeErrorsAbove5", 1, { max: 10, min: 1, step: 1 }),
   ];
   public stream?: MediaStream;
   public capabilities = { changeResolution: true };
