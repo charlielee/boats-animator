@@ -4,6 +4,7 @@ import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./Ima
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
 import {
   ImagingDeviceSetting,
+  ImagingDeviceSettingType,
   makeBooleanSetting,
   makeChangedSetting,
   makeListSetting,
@@ -17,6 +18,8 @@ export const TEST_CAMERA_IDENTIFIER: ImagingDeviceIdentifier = {
   name: "Test Camera",
 };
 
+const ERRORS_ABOVE_5_SETTING_NAME = "rangeErrorsAbove5";
+
 export class TestCamera implements ImagingDevice {
   private canvas = document.createElement("canvas");
   private textCounter = 0;
@@ -24,7 +27,7 @@ export class TestCamera implements ImagingDevice {
     makeBooleanSetting("boolean", false),
     makeListSetting("list", "Option 1", ["Option 1", "Option 2", "Option 3"]),
     makeRangeSetting("range", 1, { max: 10, min: 1, step: 1 }),
-    makeRangeSetting("rangeErrorsAbove5", 1, { max: 10, min: 1, step: 1 }),
+    makeRangeSetting(ERRORS_ABOVE_5_SETTING_NAME, 1, { max: 10, min: 1, step: 1 }),
   ];
   public stream?: MediaStream;
   public capabilities = { changeResolution: true };
@@ -83,8 +86,17 @@ export class TestCamera implements ImagingDevice {
 
     const otherSettings = this.settings.filter((s) => s.name !== name);
     const newSetting = makeChangedSetting(setting, value);
+
+    // This is to test settings erroring
+    if (
+      newSetting.type === ImagingDeviceSettingType.RANGE &&
+      newSetting.name === ERRORS_ABOVE_5_SETTING_NAME &&
+      newSetting.value > 5
+    ) {
+      throw "This setting must not have a value greater than 5";
+    }
+
     this.settings = [...otherSettings, newSetting];
-    return;
   }
 
   private fillCanvasGreen() {
