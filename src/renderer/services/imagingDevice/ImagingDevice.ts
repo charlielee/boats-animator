@@ -36,7 +36,7 @@ export interface ImagingDevice {
 export const listDevices = async (showTestDevice: boolean): Promise<ImagingDeviceIdentifier[]> => {
   rLogger.info("imagingDevice.listDevices.start");
   const testDevices = showTestDevice ? [TEST_CAMERA_IDENTIFIER] : [];
-  const webMediaDevices = [...(await WebMediaDevice.listDevices())];
+  const webMediaDevices = await WebMediaDevice.listDevices();
   const allDevices = [...testDevices, ...webMediaDevices];
   rLogger.info("imagingDevice.listDevices.end", `${allDevices.length} device(s) found`);
 
