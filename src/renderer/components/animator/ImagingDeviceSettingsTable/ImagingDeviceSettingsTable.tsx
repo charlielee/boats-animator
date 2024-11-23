@@ -2,7 +2,7 @@ import { Table, Text } from "@mantine/core";
 import { useContext } from "react";
 import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import "./ImagingDeviceSettingsTable.css";
-import { ImagingDeviceSettingsTableRow } from "./ImagingDeviceSettingsTableRow/ImagingDeviceSettingsTableRow";
+import { ImagingDeviceSettingsTr } from "./ImagingDeviceSettingsTr/ImagingDeviceSettingsTr";
 
 export const ImagingDeviceSettingsTable = () => {
   const { deviceStatus } = useContext(ImagingDeviceContext);
@@ -15,7 +15,7 @@ export const ImagingDeviceSettingsTable = () => {
     <Table classNames={{ tr: "settings-table-row" }}>
       <Table.Tbody>
         {deviceStatus?.settings.map((setting) => (
-          <ImagingDeviceSettingsTableRow key={setting.name} setting={setting} />
+          <ImagingDeviceSettingsTr key={setting.name} setting={setting} />
         ))}
       </Table.Tbody>
     </Table>

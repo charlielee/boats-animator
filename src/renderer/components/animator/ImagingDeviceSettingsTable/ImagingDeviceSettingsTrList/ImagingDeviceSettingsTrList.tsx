@@ -4,15 +4,15 @@ import { ImagingDeviceSettingName } from "../ImagingDeviceSettingName/ImagingDev
 import { ImagingDeviceSettingList } from "../../../../services/imagingDevice/ImagingDeviceSettings";
 import { useDebouncedChange } from "../../../../hooks/useDebouncedChange";
 
-interface ImagingDeviceSettingsTableRowListProps {
+interface ImagingDeviceSettingsTrListProps {
   setting: ImagingDeviceSettingList;
   onChange: (value: string) => void;
 }
 
-export const ImagingDeviceSettingsTableRowList = ({
+export const ImagingDeviceSettingsTrList = ({
   setting,
   onChange,
-}: ImagingDeviceSettingsTableRowListProps) => {
+}: ImagingDeviceSettingsTrListProps) => {
   const [value, setValue] = useDebouncedChange(setting.value, onChange);
 
   return (

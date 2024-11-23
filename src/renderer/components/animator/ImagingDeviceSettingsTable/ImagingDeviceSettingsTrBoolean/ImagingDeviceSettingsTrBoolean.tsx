@@ -4,15 +4,15 @@ import { ImagingDeviceSettingBoolean } from "../../../../services/imagingDevice/
 import { UiSwitch } from "../../../ui/UiSwitch/UiSwitch";
 import { ImagingDeviceSettingName } from "../ImagingDeviceSettingName/ImagingDeviceSettingName";
 
-interface ImagingDeviceSettingsTableRowBooleanProps {
+interface ImagingDeviceSettingsTrBooleanProps {
   setting: ImagingDeviceSettingBoolean;
   onChange: (value: boolean) => void;
 }
 
-export const ImagingDeviceSettingsTableRowBoolean = ({
+export const ImagingDeviceSettingsTrBoolean = ({
   setting,
   onChange,
-}: ImagingDeviceSettingsTableRowBooleanProps) => {
+}: ImagingDeviceSettingsTrBooleanProps) => {
   const [value, setValue] = useDebouncedChange(setting.value, onChange);
 
   return (
