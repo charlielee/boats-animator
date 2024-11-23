@@ -4,7 +4,7 @@ import { ImagingDeviceSettingType } from "../../../services/imagingDevice/Imagin
 import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
-import { Group, Stack, Text } from "@mantine/core";
+import { Box, Container, Flex, Group, Stack, Text } from "@mantine/core";
 import { UiSlider } from "../../ui/UiSlider/UiSlider";
 
 export const ImagingDeviceSettingsBlock = () => {
@@ -34,9 +34,13 @@ export const ImagingDeviceSettingsBlock = () => {
             );
           case ImagingDeviceSettingType.RANGE:
             return (
-              <Group justify="space-evenly">
-                <UiSlider label={setting.name} {...setting} onChange={() => undefined} />
-                <UiNumberInput {...setting} onChange={() => undefined} />
+              <Group>
+                <Box flex={1}>
+                  <UiSlider {...setting} onChange={() => undefined} />
+                </Box>
+                <Box w="8rem">
+                  <UiNumberInput {...setting} onChange={() => undefined} />
+                </Box>
               </Group>
             );
         }
