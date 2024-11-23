@@ -42,7 +42,7 @@ export class TestCamera implements ImagingDevice {
 
     this.canvas.height = resolution?.height ?? 1080;
     this.canvas.width = resolution?.width ?? 1920;
-    this.updateCanvasText("Live");
+    this.updateCanvasText();
 
     this.stream = this.canvas.captureStream();
   }
@@ -62,7 +62,7 @@ export class TestCamera implements ImagingDevice {
     const image: Blob | null = await new Promise((res) =>
       this.canvas.toBlob((blob) => res(blob), "image/jpeg")
     );
-    this.updateCanvasText("Live");
+    this.updateCanvasText();
 
     if (image === null) {
       throw "Unable to capture image as toBlob returned null";
@@ -79,12 +79,12 @@ export class TestCamera implements ImagingDevice {
   }
 
   async changeSetting(name: string, value: string | boolean | number): Promise<void> {
+    const index = this.settings.findIndex((s) => s.name === name);
     const setting = this.settings.find((s) => s.name === name);
     if (setting === undefined) {
       throw `Unable to find setting ${name}`;
     }
 
-    const otherSettings = this.settings.filter((s) => s.name !== name);
     const newSetting = makeChangedSetting(setting, value);
 
     // This is to test settings erroring
@@ -96,7 +96,8 @@ export class TestCamera implements ImagingDevice {
       throw "This setting must not have a value greater than 5";
     }
 
-    this.settings = [...otherSettings, newSetting];
+    this.settings[index] = newSetting;
+    this.updateCanvasText();
   }
 
   private fillCanvasGreen() {
@@ -107,7 +108,7 @@ export class TestCamera implements ImagingDevice {
     }
   }
 
-  private updateCanvasText(text: string) {
+  private updateCanvasText(text: string = "Live") {
     const context = this.canvas.getContext("2d");
     if (context) {
       this.fillCanvasGreen();
