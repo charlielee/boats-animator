@@ -54,19 +54,25 @@ export const ImagingDeviceSettingsTableRow = ({ setting }: ImagingDeviceSettings
           </Table.Td>
         </Table.Tr>
       );
-    case ImagingDeviceSettingType.RANGE:
+    case ImagingDeviceSettingType.RANGE: {
+      const props = {
+        ...setting,
+        inList: true,
+        onChange: (newValue: number) => handleChangeSetting(newValue),
+      };
       return (
         <Table.Tr>
           <Table.Td>
             <ImagingDeviceSettingName setting={setting} />
           </Table.Td>
           <Table.Td>
-            <UiSlider {...setting} onChange={() => undefined} inList />
+            <UiSlider {...props} />
           </Table.Td>
           <Table.Td>
-            <UiNumberInput {...setting} onChange={() => undefined} inList />
+            <UiNumberInput {...props} />
           </Table.Td>
         </Table.Tr>
       );
+    }
   }
 };

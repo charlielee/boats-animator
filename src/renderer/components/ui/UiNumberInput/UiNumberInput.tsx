@@ -28,10 +28,7 @@ export const UiNumberInput = ({
 }: UiNumberInputProps) => {
   const inListProps: NumberInputProps = inList ? { size: "xs", variant: "unstyled" } : {};
 
-  const [rawValue, setRawValue] = useState<number | string | undefined>(value);
-
   const handleChange = (newValue: number | string) => {
-    setRawValue(newValue);
     if (Number.isFinite(newValue)) {
       onChange?.(newValue as number);
     }
@@ -40,7 +37,7 @@ export const UiNumberInput = ({
   return (
     <NumberInput
       label={label}
-      value={rawValue}
+      value={value}
       placeholder={placeholder}
       min={min}
       max={max}
