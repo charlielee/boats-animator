@@ -181,6 +181,7 @@ class WebMediaDevice implements ImagingDevice {
   }
 
   getResolution(): ImagingDeviceResolution {
+    rLogger.info("webMediaDevice.getResolution");
     if (this.stream === undefined) {
       throw "Device must be open before getResolution can be called";
     }
@@ -194,6 +195,7 @@ class WebMediaDevice implements ImagingDevice {
   }
 
   getSettings(): ImagingDeviceSetting[] {
+    rLogger.info("webMediaDevice.getSettings");
     if (this.imageCapture === undefined) {
       throw "ImageCapture is not initialised";
     }
@@ -203,6 +205,7 @@ class WebMediaDevice implements ImagingDevice {
   }
 
   async changeSetting(name: string, value: string | boolean | number): Promise<void> {
+    rLogger.info("webMediaDeviceChangeSetting", `name: ${name} value: ${value.toString()}`);
     await this.stream?.getVideoTracks()[0].applyConstraints({ [name]: { exact: value } });
   }
 

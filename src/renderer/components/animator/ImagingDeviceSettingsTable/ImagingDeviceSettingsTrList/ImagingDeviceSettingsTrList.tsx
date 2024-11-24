@@ -9,7 +9,7 @@ interface ImagingDeviceSettingsTrListProps {
 }
 
 export const ImagingDeviceSettingsTrList = ({ setting }: ImagingDeviceSettingsTrListProps) => {
-  const [value, setValue] = useChangeSettingDebounced(setting.name, setting.value);
+  const [value, setValue] = useChangeSettingDebounced<string>(setting.name);
 
   return (
     <Table.Tr>

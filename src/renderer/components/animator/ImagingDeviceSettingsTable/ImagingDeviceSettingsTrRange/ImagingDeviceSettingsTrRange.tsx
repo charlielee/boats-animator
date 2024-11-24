@@ -10,7 +10,7 @@ interface ImagingDeviceSettingsTrRangeProps {
 }
 
 export const ImagingDeviceSettingsTrRange = ({ setting }: ImagingDeviceSettingsTrRangeProps) => {
-  const [value, setValue] = useChangeSettingDebounced(setting.name, setting.value);
+  const [value, setValue] = useChangeSettingDebounced<number>(setting.name);
 
   const props = {
     value,

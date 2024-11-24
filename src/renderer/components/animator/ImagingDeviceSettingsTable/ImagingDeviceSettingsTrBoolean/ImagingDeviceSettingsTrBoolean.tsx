@@ -11,7 +11,7 @@ interface ImagingDeviceSettingsTrBooleanProps {
 export const ImagingDeviceSettingsTrBoolean = ({
   setting,
 }: ImagingDeviceSettingsTrBooleanProps) => {
-  const [value, setValue] = useChangeSettingDebounced(setting.name, setting.value);
+  const [value, setValue] = useChangeSettingDebounced<boolean>(setting.name);
 
   return (
     <Table.Tr>

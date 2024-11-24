@@ -4,10 +4,12 @@ export enum ImagingDeviceSettingType {
   LIST = "LIST",
 }
 
+export type ImagingDeviceSettingValue = boolean | string | number;
+
 interface ImagingDeviceSettingBase {
   readonly type: ImagingDeviceSettingType;
   readonly name: string;
-  readonly value: string | boolean | number;
+  readonly value: ImagingDeviceSettingValue;
 }
 
 export interface ImagingDeviceSettingBoolean extends ImagingDeviceSettingBase {
