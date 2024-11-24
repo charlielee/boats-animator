@@ -7,7 +7,7 @@
 
 ![Screenshot of Boats Animator by Bert Loos](https://www.charlielee.uk/assets/boats-animator/user-submissions/bertl1.jpg)
 
-Boats Animator is a free stop motion animation program, that rocks! It is available for Windows, macOS and Linux...
+Boats Animator is a free stop motion animation program, that rocks! It is available for Windows, macOS and Linux.....
 
 - **High Resolution Capture** - Capture high resolution images from webcams, including 1080p and beyond!
 - **Instant Playback** - Instantly preview your captured frames. There's no need to wait for them to process.
