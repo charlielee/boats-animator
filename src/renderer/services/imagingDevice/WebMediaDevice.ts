@@ -4,6 +4,7 @@ import { UnableToStartDeviceError, UnableToUseResolutionDeviceError } from "./Im
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
 import {
   ImagingDeviceSetting,
+  ImagingDeviceSettingValue,
   makeBooleanSetting,
   makeListSetting,
   makeRangeSetting,
@@ -204,7 +205,7 @@ class WebMediaDevice implements ImagingDevice {
     return this.buildSettings(capabilities, settings);
   }
 
-  async changeSetting(name: string, value: string | boolean | number): Promise<void> {
+  async changeSetting(name: string, value: ImagingDeviceSettingValue): Promise<void> {
     rLogger.info("webMediaDeviceChangeSetting", `name: ${name} value: ${value.toString()}`);
     await this.stream?.getVideoTracks()[0].applyConstraints({ [name]: { exact: value } });
   }

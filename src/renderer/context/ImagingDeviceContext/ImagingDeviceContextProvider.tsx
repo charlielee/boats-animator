@@ -12,6 +12,7 @@ import { ImagingDeviceResolution } from "../../services/imagingDevice/ImagingDev
 import * as rLogger from "../../services/rLogger/rLogger";
 import { ImagingDeviceContext } from "./ImagingDeviceContext";
 import { UnableToChangeSettingError } from "./ImagingErrorContextErrors";
+import { ImagingDeviceSettingValue } from "../../services/imagingDevice/ImagingDeviceSettings";
 
 interface ImagingDeviceContextProviderProps {
   children: ReactNode;
@@ -77,7 +78,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
   }, []);
 
   const changeSetting = useCallback(
-    async (name: string, value: string | boolean | number): Promise<void> => {
+    async (name: string, value: ImagingDeviceSettingValue): Promise<void> => {
       try {
         await device.current?.changeSetting(name, value);
       } catch {

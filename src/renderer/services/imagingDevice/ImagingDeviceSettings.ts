@@ -66,7 +66,7 @@ export const makeRangeSetting = (
 
 export const makeChangedSetting = (
   setting: ImagingDeviceSetting,
-  value: boolean | number | string
+  value: ImagingDeviceSettingValue
 ): ImagingDeviceSetting => {
   if (setting.type === ImagingDeviceSettingType.BOOLEAN && typeof value === "boolean") {
     return { ...setting, value };

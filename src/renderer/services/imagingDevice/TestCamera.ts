@@ -5,6 +5,7 @@ import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
 import {
   ImagingDeviceSetting,
   ImagingDeviceSettingType,
+  ImagingDeviceSettingValue,
   makeBooleanSetting,
   makeChangedSetting,
   makeListSetting,
@@ -78,7 +79,7 @@ export class TestCamera implements ImagingDevice {
     return this.settings;
   }
 
-  async changeSetting(name: string, value: string | boolean | number): Promise<void> {
+  async changeSetting(name: string, value: ImagingDeviceSettingValue): Promise<void> {
     const index = this.settings.findIndex((s) => s.name === name);
     const setting = this.settings.find((s) => s.name === name);
     if (setting === undefined) {
