@@ -11,6 +11,7 @@ import {
 import { ImagingDeviceResolution } from "../../services/imagingDevice/ImagingDeviceResolution";
 import * as rLogger from "../../services/rLogger/rLogger";
 import { ImagingDeviceContext } from "./ImagingDeviceContext";
+import { UnableToChangeSettingError } from "./ImagingErrorContextErrors";
 
 interface ImagingDeviceContextProviderProps {
   children: ReactNode;
@@ -37,7 +38,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
     }
   }, [deviceRefUpdate]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const changeDevice = async (identifier: ImagingDeviceIdentifier) => {
+  const changeDevice = useCallback(async (identifier: ImagingDeviceIdentifier) => {
     setDeviceLoading(true);
 
     device.current?.close();
@@ -55,9 +56,9 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
       setDeviceLoading(false);
       updateDeviceStatus();
     }
-  };
+  }, []);
 
-  const changeResolution = async (resolution: ImagingDeviceResolution) => {
+  const changeResolution = useCallback(async (resolution: ImagingDeviceResolution) => {
     setDeviceLoading(true);
 
     device.current?.close();
@@ -73,19 +74,23 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
       setDeviceLoading(false);
       updateDeviceStatus();
     }
-  };
+  }, []);
 
-  const changeSetting = async (name: string, value: string | boolean | number): Promise<void> => {
-    try {
-      await device.current?.changeSetting(name, value);
-    } catch {
-      notifications.show({
-        message: `Unable to change setting ${name} to ${value}. Please select a different value.`,
-      });
-    } finally {
-      updateDeviceStatus();
-    }
-  };
+  const changeSetting = useCallback(
+    async (name: string, value: string | boolean | number): Promise<void> => {
+      try {
+        await device.current?.changeSetting(name, value);
+      } catch {
+        notifications.show({
+          message: `Unable to change setting ${name} to ${value}. Please select a different value.`,
+        });
+        throw new UnableToChangeSettingError(name, value);
+      } finally {
+        updateDeviceStatus();
+      }
+    },
+    []
+  );
 
   const closeDevice = useCallback(() => {
     device.current?.close();
@@ -93,7 +98,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
     updateDeviceStatus();
   }, []);
 
-  const captureImageRaw = () => device.current?.captureImage();
+  const captureImageRaw = useCallback(() => device.current?.captureImage(), []);
 
   useEffect(() => {
     const handleCheckCameraAccess = async () => {

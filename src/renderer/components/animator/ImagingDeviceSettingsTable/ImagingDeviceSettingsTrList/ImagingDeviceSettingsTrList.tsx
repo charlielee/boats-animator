@@ -1,19 +1,15 @@
 import { Table } from "@mantine/core";
+import { useChangeSettingDebounced } from "../../../../hooks/useChangeSettingDebounced";
+import { ImagingDeviceSettingList } from "../../../../services/imagingDevice/ImagingDeviceSettings";
 import { UiSelect } from "../../../ui/UiSelect/UiSelect";
 import { ImagingDeviceSettingName } from "../ImagingDeviceSettingName/ImagingDeviceSettingName";
-import { ImagingDeviceSettingList } from "../../../../services/imagingDevice/ImagingDeviceSettings";
-import { useDebouncedChange } from "../../../../hooks/useDebouncedChange";
 
 interface ImagingDeviceSettingsTrListProps {
   setting: ImagingDeviceSettingList;
-  onChange: (value: string) => void;
 }
 
-export const ImagingDeviceSettingsTrList = ({
-  setting,
-  onChange,
-}: ImagingDeviceSettingsTrListProps) => {
-  const [value, setValue] = useDebouncedChange(setting.value, onChange);
+export const ImagingDeviceSettingsTrList = ({ setting }: ImagingDeviceSettingsTrListProps) => {
+  const [value, setValue] = useChangeSettingDebounced(setting.name, setting.value);
 
   return (
     <Table.Tr>

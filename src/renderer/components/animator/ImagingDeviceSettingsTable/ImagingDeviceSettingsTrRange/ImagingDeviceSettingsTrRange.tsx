@@ -1,5 +1,5 @@
 import { Table } from "@mantine/core";
-import { useDebouncedChange } from "../../../../hooks/useDebouncedChange";
+import { useChangeSettingDebounced } from "../../../../hooks/useChangeSettingDebounced";
 import { ImagingDeviceSettingRange } from "../../../../services/imagingDevice/ImagingDeviceSettings";
 import { UiNumberInput } from "../../../ui/UiNumberInput/UiNumberInput";
 import { UiSlider } from "../../../ui/UiSlider/UiSlider";
@@ -7,14 +7,10 @@ import { ImagingDeviceSettingName } from "../ImagingDeviceSettingName/ImagingDev
 
 interface ImagingDeviceSettingsTrRangeProps {
   setting: ImagingDeviceSettingRange;
-  onChange: (value: number) => void;
 }
 
-export const ImagingDeviceSettingsTrRange = ({
-  setting,
-  onChange,
-}: ImagingDeviceSettingsTrRangeProps) => {
-  const [value, setValue] = useDebouncedChange(setting.value, onChange);
+export const ImagingDeviceSettingsTrRange = ({ setting }: ImagingDeviceSettingsTrRangeProps) => {
+  const [value, setValue] = useChangeSettingDebounced(setting.name, setting.value);
 
   const props = {
     value,
