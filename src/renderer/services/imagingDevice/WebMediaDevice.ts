@@ -203,7 +203,7 @@ class WebMediaDevice implements ImagingDevice {
   }
 
   async changeSetting(name: string, value: string | boolean | number): Promise<void> {
-    return;
+    await this.stream?.getVideoTracks()[0].applyConstraints({ [name]: { exact: value } });
   }
 
   private buildSettings = (
