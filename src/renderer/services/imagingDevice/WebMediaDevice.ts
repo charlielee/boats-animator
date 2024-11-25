@@ -244,11 +244,6 @@ class WebMediaDevice implements ImagingDevice {
       if (isRangeSetting) {
         return makeRangeSetting(name, value, options);
       }
-
-      rLogger.warn(
-        "unableToParseWebMediaSetting",
-        `Unable to parse setting ${name} ${JSON.stringify(value)} ${JSON.stringify(options)}`
-      );
     }).filter((s) => s !== undefined);
 
   static async listDevices(): Promise<ImagingDeviceIdentifier[]> {

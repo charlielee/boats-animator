@@ -31,14 +31,11 @@ export const useChangeSettingDebounced = <T extends ImagingDeviceSettingValue>(
     const handleChangeSetting = async (newValue: T) => {
       try {
         await changeSetting?.(name, newValue);
-        rLogger.info(
-          "useChangeSettingSuccess",
-          `Setting ${name} was changed to ${newValue.toString()}`
-        );
+        rLogger.info("useChangeSettingSuccess", `${name} was changed to ${newValue.toString()}`);
       } catch {
         rLogger.info(
           "useChangeSettingError",
-          `Unable to change setting ${name} to ${newValue}, changing back to ${currentValue}`
+          `Unable to change ${name} to ${newValue}, changing back to ${currentValue}`
         );
         setValue(currentValue);
       }
