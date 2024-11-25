@@ -41,7 +41,7 @@ export const useChangeSettingDebounced = <T extends ImagingDeviceSettingValue>(
       }
     };
 
-    const debounceChangeSetting = setTimeout(() => handleChangeSettingIfRequired(value), 500);
+    const debounceChangeSetting = setTimeout(() => handleChangeSettingIfRequired(value), 1000);
     return () => clearTimeout(debounceChangeSetting);
   }, [changeSetting, currentValue, name, value]);
 
