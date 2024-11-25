@@ -6,10 +6,13 @@ import {
   deviceIdentifierToDevice,
   ImagingDevice,
   ImagingDeviceIdentifier,
+  ImagingDeviceStatus,
 } from "../../services/imagingDevice/ImagingDevice";
 import { ImagingDeviceResolution } from "../../services/imagingDevice/ImagingDeviceResolution";
 import * as rLogger from "../../services/rLogger/rLogger";
 import { ImagingDeviceContext } from "./ImagingDeviceContext";
+import { UnableToChangeSettingError } from "./ImagingErrorContextErrors";
+import { ImagingDeviceSettingValue } from "../../services/imagingDevice/ImagingDeviceSettings";
 
 interface ImagingDeviceContextProviderProps {
   children: ReactNode;
@@ -26,13 +29,17 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
   const updateDeviceStatus = () => setDeviceRefUpdate(uuidv4());
 
   const deviceIdentifier = useMemo(() => device.current?.identifier, [deviceRefUpdate]); // eslint-disable-line react-hooks/exhaustive-deps
-  const deviceStatus = useMemo(() => {
+  const deviceStatus: ImagingDeviceStatus | undefined = useMemo(() => {
     if (device.current?.stream) {
-      return { stream: device.current.stream, resolution: device.current.getResolution() };
+      return {
+        stream: device.current.stream,
+        resolution: device.current.getResolution(),
+        settings: device.current.getSettings(),
+      };
     }
   }, [deviceRefUpdate]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const changeDevice = async (identifier: ImagingDeviceIdentifier) => {
+  const changeDevice = useCallback(async (identifier: ImagingDeviceIdentifier) => {
     setDeviceLoading(true);
 
     device.current?.close();
@@ -50,9 +57,9 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
       setDeviceLoading(false);
       updateDeviceStatus();
     }
-  };
+  }, []);
 
-  const changeResolution = async (resolution: ImagingDeviceResolution) => {
+  const changeResolution = useCallback(async (resolution: ImagingDeviceResolution) => {
     setDeviceLoading(true);
 
     device.current?.close();
@@ -60,7 +67,6 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
 
     try {
       await device.current?.open(resolution);
-      // console.log("cr", deviceName, resolution);
     } catch {
       notifications.show({
         message: `Resolution not supported by ${deviceName}. Please select a different resolution.`,
@@ -69,7 +75,24 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
       setDeviceLoading(false);
       updateDeviceStatus();
     }
-  };
+  }, []);
+
+  const changeSetting = useCallback(
+    async (name: string, value: ImagingDeviceSettingValue): Promise<void> => {
+      try {
+        await device.current?.changeSetting(name, value);
+      } catch (e) {
+        notifications.show({
+          message: `Unable to change setting ${name} to ${value}. Please select a different value.`,
+        });
+        rLogger.warn("changeSettingError", `${e}`);
+        throw new UnableToChangeSettingError(name, value);
+      } finally {
+        updateDeviceStatus();
+      }
+    },
+    []
+  );
 
   const closeDevice = useCallback(() => {
     device.current?.close();
@@ -77,7 +100,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
     updateDeviceStatus();
   }, []);
 
-  const captureImageRaw = () => device.current?.captureImage();
+  const captureImageRaw = useCallback(() => device.current?.captureImage(), []);
 
   useEffect(() => {
     const handleCheckCameraAccess = async () => {
@@ -114,6 +137,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
         deviceLoading,
         changeDevice,
         changeResolution,
+        changeSetting,
         closeDevice,
         captureImageRaw,
       }}

@@ -1,5 +1,6 @@
 import * as rLogger from "../../services/rLogger/rLogger";
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
+import { ImagingDeviceSetting, ImagingDeviceSettingValue } from "./ImagingDeviceSettings";
 import { TEST_CAMERA_IDENTIFIER, TestCamera } from "./TestCamera";
 import WebMediaDevice from "./WebMediaDevice";
 
@@ -21,6 +22,7 @@ interface ImagingDeviceCapabilities {
 export interface ImagingDeviceStatus {
   stream: MediaStream;
   resolution: ImagingDeviceResolution;
+  settings: ImagingDeviceSetting[];
 }
 
 export interface ImagingDevice {
@@ -31,6 +33,8 @@ export interface ImagingDevice {
   close(): void;
   captureImage(): Promise<Blob>;
   getResolution(): ImagingDeviceResolution;
+  getSettings(): ImagingDeviceSetting[];
+  changeSetting(name: string, value: ImagingDeviceSettingValue): Promise<void>;
 }
 
 export const listDevices = async (showTestDevice: boolean): Promise<ImagingDeviceIdentifier[]> => {

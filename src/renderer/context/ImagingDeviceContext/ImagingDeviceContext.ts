@@ -4,6 +4,7 @@ import {
   ImagingDeviceStatus,
 } from "../../services/imagingDevice/ImagingDevice";
 import { ImagingDeviceResolution } from "../../services/imagingDevice/ImagingDeviceResolution";
+import { ImagingDeviceSettingValue } from "../../services/imagingDevice/ImagingDeviceSettings";
 
 interface ImagingDeviceContextProps {
   hasCameraAccess: boolean;
@@ -12,6 +13,7 @@ interface ImagingDeviceContextProps {
   deviceLoading: boolean;
   changeDevice?: (identifier: ImagingDeviceIdentifier) => Promise<void>;
   changeResolution?: (resolution: ImagingDeviceResolution) => Promise<void>;
+  changeSetting?: (name: string, value: ImagingDeviceSettingValue) => Promise<void>;
   closeDevice?: () => void;
   captureImageRaw?: () => Promise<Blob> | undefined;
 }
@@ -23,6 +25,7 @@ const defaultValue: ImagingDeviceContextProps = {
   deviceLoading: false,
   changeDevice: undefined,
   changeResolution: undefined,
+  changeSetting: undefined,
   closeDevice: undefined,
   captureImageRaw: undefined,
 };

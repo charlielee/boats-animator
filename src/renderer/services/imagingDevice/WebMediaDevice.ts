@@ -1,9 +1,37 @@
 import * as rLogger from "../rLogger/rLogger";
 import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
-import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
 import { UnableToStartDeviceError, UnableToUseResolutionDeviceError } from "./ImagingDeviceErrors";
+import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
+import {
+  ImagingDeviceSetting,
+  ImagingDeviceSettingValue,
+  makeBooleanSetting,
+  makeListSetting,
+  makeRangeSetting,
+} from "./ImagingDeviceSettings";
 
 const EXTREMELY_LARGE_WIDTH = 99999;
+
+// https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#instance_properties_of_image_tracks
+const FILTERED_SETTINGS_KEYS: (keyof MediaTrackSettings)[] = [
+  "whiteBalanceMode",
+  "exposureMode",
+  "focusMode",
+
+  "exposureCompensation",
+  "colorTemperature",
+  "iso",
+  "brightness",
+  "contrast",
+  "saturation",
+  "sharpness",
+
+  "focusDistance",
+  "pan",
+  "tilt",
+  "zoom",
+  "torch",
+];
 
 class WebMediaDevice implements ImagingDevice {
   public stream?: MediaStream;
@@ -154,6 +182,7 @@ class WebMediaDevice implements ImagingDevice {
   }
 
   getResolution(): ImagingDeviceResolution {
+    rLogger.info("webMediaDevice.getResolution");
     if (this.stream === undefined) {
       throw "Device must be open before getResolution can be called";
     }
@@ -165,6 +194,57 @@ class WebMediaDevice implements ImagingDevice {
 
     return { width, height };
   }
+
+  getSettings(): ImagingDeviceSetting[] {
+    rLogger.info("webMediaDevice.getSettings");
+    if (this.imageCapture === undefined) {
+      throw "ImageCapture is not initialised";
+    }
+    const capabilities = this.imageCapture?.track.getCapabilities();
+    const settings = this.imageCapture?.track.getSettings();
+    return this.buildSettings(capabilities, settings);
+  }
+
+  async changeSetting(name: string, value: ImagingDeviceSettingValue): Promise<void> {
+    rLogger.info("webMediaDeviceChangeSetting", `name: ${name} value: ${value.toString()}`);
+
+    // Updating all settings at once ensures settings that rely on each other like focusMode and focusDistance work
+    const constraints: Record<string, { exact: ImagingDeviceSettingValue }> =
+      this.getSettings().reduce((prev, s) => ({ ...prev, [s.name]: { exact: s.value } }), {});
+
+    await this.stream
+      ?.getVideoTracks()[0]
+      .applyConstraints({ ...constraints, [name]: { exact: value } });
+  }
+
+  private buildSettings = (
+    capabilities: MediaTrackCapabilities,
+    settings: MediaTrackSettings
+  ): ImagingDeviceSetting[] =>
+    FILTERED_SETTINGS_KEYS.map((name) => {
+      const options = capabilities[name as keyof typeof capabilities];
+      const value = settings[name];
+
+      const isBooleanSetting = typeof options === "boolean" && typeof value === "boolean";
+      if (isBooleanSetting) {
+        return makeBooleanSetting(name, value);
+      }
+
+      const isListSetting = Array.isArray(options) && typeof value === "string";
+      if (isListSetting) {
+        return makeListSetting(
+          name,
+          value,
+          options.map((o) => o.toString())
+        );
+      }
+
+      const isRangeSetting =
+        typeof options === "object" && "step" in options && typeof value === "number";
+      if (isRangeSetting) {
+        return makeRangeSetting(name, value, options);
+      }
+    }).filter((s) => s !== undefined);
 
   static async listDevices(): Promise<ImagingDeviceIdentifier[]> {
     const devices = await navigator.mediaDevices.enumerateDevices();
