@@ -38,7 +38,7 @@ export const useChangeSettingDebounced = <T extends ImagingDeviceSettingValue>(
       } catch {
         rLogger.info(
           "useChangeSettingError",
-          `Unable to change setting ${name} to ${newValue}, changing back to ${currentValue}}`
+          `Unable to change setting ${name} to ${newValue}, changing back to ${currentValue}`
         );
         setValue(currentValue);
       }

@@ -207,7 +207,14 @@ class WebMediaDevice implements ImagingDevice {
 
   async changeSetting(name: string, value: ImagingDeviceSettingValue): Promise<void> {
     rLogger.info("webMediaDeviceChangeSetting", `name: ${name} value: ${value.toString()}`);
-    await this.stream?.getVideoTracks()[0].applyConstraints({ [name]: { exact: value } });
+
+    // Updating all settings at once ensures settings that rely on each other like focusMode and focusDistance work
+    const constraints: Record<string, { exact: ImagingDeviceSettingValue }> =
+      this.getSettings().reduce((prev, s) => ({ ...prev, [s.name]: { exact: s.value } }), {});
+
+    await this.stream
+      ?.getVideoTracks()[0]
+      .applyConstraints({ ...constraints, [name]: { exact: value } });
   }
 
   private buildSettings = (

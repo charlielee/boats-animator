@@ -81,10 +81,11 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
     async (name: string, value: ImagingDeviceSettingValue): Promise<void> => {
       try {
         await device.current?.changeSetting(name, value);
-      } catch {
+      } catch (e) {
         notifications.show({
           message: `Unable to change setting ${name} to ${value}. Please select a different value.`,
         });
+        rLogger.warn("changeSettingError", `${e}`);
         throw new UnableToChangeSettingError(name, value);
       } finally {
         updateDeviceStatus();
