@@ -42,7 +42,7 @@ export const UiActionIcon = ({
           bottom={0}
           style={{
             backgroundColor: active ? "var(--mantine-primary-color-light-color)" : "transparent",
-            height: "calc(0.25rem * var(--mantine-scale))",
+            height: "calc(0.1875rem * var(--mantine-scale))",
             width: "100%",
           }}
         ></Box>
