@@ -1,3 +1,7 @@
+.playback-settings__table-row td:last-child {
+  text-align: right;
+}
+
 .playback-settings__table-row:last-child {
   border-bottom: none;
 }

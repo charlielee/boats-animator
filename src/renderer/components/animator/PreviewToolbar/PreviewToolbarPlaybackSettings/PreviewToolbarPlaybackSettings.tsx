@@ -1,6 +1,6 @@
 import { Popover, Table } from "@mantine/core";
 import { useContext } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext";
 import { RootState } from "../../../../redux/store";
 import IconName from "../../../common/Icon/IconName";
@@ -8,8 +8,11 @@ import { UiActionIcon } from "../../../ui/UiActionIcon/UiActionIcon";
 import { UiButton } from "../../../ui/UiButton/UiButton";
 import PlaybackSpeedSelect from "../../PlaybackSpeedSelect/PlaybackSpeedSelect";
 import "./PreviewToolbarPlaybackSettings.css";
+import { SemanticColor } from "../../../ui/Theme/SemanticColor";
+import { setPlaybackSpeed } from "../../../../redux/slices/projectSlice";
 
 export const PreviewToolbarPlaybackSettings = () => {
+  const dispatch = useDispatch();
   const { shortPlay } = useContext(PlaybackContext);
   const shortPlayLength = useSelector(
     (state: RootState) => state.app.userPreferences.shortPlayLength
@@ -20,6 +23,8 @@ export const PreviewToolbarPlaybackSettings = () => {
   const playbackSpeed = useSelector((state: RootState) => state.project.playbackSpeed);
 
   const active = playbackSpeed !== 1;
+
+  const handleReset = () => dispatch(setPlaybackSpeed(1));
 
   return (
     <Popover width="20rem" trapFocus position="bottom" withArrow shadow="md">
@@ -43,6 +48,21 @@ export const PreviewToolbarPlaybackSettings = () => {
               <UiButton onClick={shortPlay}>Short Play</UiButton>
             </Table.Td>
           </Table.Tr>
+
+          {active && (
+            <Table.Tr>
+              <Table.Td colSpan={2} align="right">
+                <UiButton
+                  inTable
+                  icon={IconName.PLAY_LOOP}
+                  semanticColor={SemanticColor.PRIMARY}
+                  onClick={handleReset}
+                >
+                  Reset
+                </UiButton>
+              </Table.Td>
+            </Table.Tr>
+          )}
         </Table>
       </Popover.Dropdown>
     </Popover>

@@ -12,6 +12,7 @@ interface UiButtonProps {
   disabled?: boolean;
   semanticColor?: SemanticColor;
   inToolbar?: boolean;
+  inTable?: boolean;
   children?: ReactNode;
 }
 
@@ -23,6 +24,7 @@ export const UiButton = forwardRef<HTMLButtonElement, UiButtonProps>(
       disabled = false,
       semanticColor = SemanticColor.SECONDARY,
       inToolbar = false,
+      inTable = false,
       children,
     },
     ref
@@ -38,7 +40,7 @@ export const UiButton = forwardRef<HTMLButtonElement, UiButtonProps>(
         onClick={handleClick}
         color={semanticColor}
         ref={ref}
-        size="sm"
+        size={inTable ? "xs" : "sm"}
       >
         {children}
       </Button>
