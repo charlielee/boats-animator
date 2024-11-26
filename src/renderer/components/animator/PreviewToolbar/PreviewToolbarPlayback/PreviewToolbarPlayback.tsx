@@ -5,7 +5,7 @@ import PlaybackContext, {
 } from "../../../../context/PlaybackContext/PlaybackContext";
 import { RootState } from "../../../../redux/store";
 import IconName from "../../../common/Icon/IconName";
-import IconButton from "../../../common/IconButton/IconButton";
+import { UiActionIcon } from "../../../ui/UiActionIcon/UiActionIcon";
 import PlaybackSpeedSelect from "../../PlaybackSpeedSelect/PlaybackSpeedSelect";
 
 export const PreviewToolbarPlayback = () => {
@@ -25,45 +25,44 @@ export const PreviewToolbarPlayback = () => {
 
   return (
     <>
-      <IconButton
-        title="First Frame"
+      <UiActionIcon
         icon={IconName.PLAY_FIRST}
         onClick={() => displayFrame(PlaybackFrameName.FIRST)}
-      />
-      <IconButton
-        title="Previous Frame"
+      >
+        First Frame
+      </UiActionIcon>
+      <UiActionIcon
         icon={IconName.PLAY_PREVIOUS}
         onClick={() => displayFrame(PlaybackFrameName.PREVIOUS)}
-      />
-      <IconButton
-        title={playing ? "Pause Playback" : "Playback Frames"}
+      >
+        Previous Frame
+      </UiActionIcon>
+      <UiActionIcon
         icon={playing ? IconName.PLAY_PAUSE : IconName.PLAY}
         onClick={() => startOrPausePlayback()}
-      />
-      <IconButton title="Stop Playback" icon={IconName.PLAY_STOP} onClick={stopPlayback} />
-      <IconButton
-        title="Next Frame"
-        icon={IconName.PLAY_NEXT}
-        onClick={() => displayFrame(PlaybackFrameName.NEXT)}
-      />
-      <IconButton
-        title="Last Frame"
-        icon={IconName.PLAY_LAST}
-        onClick={() => displayFrame(PlaybackFrameName.LAST)}
-      />
+      >
+        {playing ? "Pause Playback" : "Playback Frames"}
+      </UiActionIcon>
+      <UiActionIcon icon={IconName.PLAY_STOP} onClick={stopPlayback}>
+        Stop Playback
+      </UiActionIcon>
+      <UiActionIcon icon={IconName.PLAY_NEXT} onClick={() => displayFrame(PlaybackFrameName.NEXT)}>
+        Next Frame
+      </UiActionIcon>
+      <UiActionIcon icon={IconName.PLAY_LAST} onClick={() => displayFrame(PlaybackFrameName.LAST)}>
+        Last Frame
+      </UiActionIcon>
 
       <PlaybackSpeedSelect />
-      <IconButton
-        title={`Short Play (${shortPlayLength} ${shortPlayFrameText})`}
+      <UiActionIcon
         icon={IconName.PLAY_SHORT}
         onClick={shortPlay}
-      />
-      <IconButton
-        title={`${loopPlayback ? "Disable" : "Enable"} Loop Playback`}
+      >{`Short Play (${shortPlayLength} ${shortPlayFrameText})`}</UiActionIcon>
+      <UiActionIcon
         icon={IconName.PLAY_LOOP}
         onClick={() => setLoopPlayback((prevState) => !prevState)}
         active={loopPlayback}
-      />
+      >{`${loopPlayback ? "Disable" : "Enable"} Loop Playback`}</UiActionIcon>
     </>
   );
 };
