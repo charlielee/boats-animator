@@ -16,7 +16,15 @@ export const CapturePane = () => {
 
   return (
     showCapturePane && (
-      <Box w="22rem" p="md" style={{ borderLeft: theme.other.border }}>
+      <Box
+        w="22rem"
+        p="md"
+        style={{
+          borderLeft: theme.other.border,
+          overflow: "auto",
+          backgroundColor: "var(--mantine-color-SECONDARY-light)",
+        }}
+      >
         <Stack>
           <Title order={4}>Capture Settings</Title>
           <UiButton
