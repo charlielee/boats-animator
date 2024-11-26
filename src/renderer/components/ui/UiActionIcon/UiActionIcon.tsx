@@ -11,6 +11,7 @@ interface UiActionIconProps {
   open?: boolean;
   active?: boolean;
   children: string;
+  captureButton?: boolean;
 }
 
 export const UiActionIcon = ({
@@ -18,8 +19,8 @@ export const UiActionIcon = ({
   onClick,
   open = false,
   active = false,
-
   children,
+  captureButton = false,
 }: UiActionIconProps) => {
   const navigate = useNavigate();
   const handleClick = () => (typeof onClick === "string" ? navigate(onClick) : onClick?.());
@@ -33,10 +34,10 @@ export const UiActionIcon = ({
         color={SemanticColor.SECONDARY}
         onClick={handleClick}
         aria-label={children}
-        size="lg"
+        size={captureButton ? "3rem" : "lg"}
         {...openProps}
       >
-        <Icon name={icon} size="1.5rem" />
+        <Icon name={icon} size={captureButton ? "3rem" : "1.5rem"} />
         <Box
           pos="absolute"
           bottom={0}
