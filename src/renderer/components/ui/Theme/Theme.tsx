@@ -1,17 +1,11 @@
-import {
-  createTheme,
-  DEFAULT_THEME,
-  MantineProvider,
-  MantineTheme,
-  MantineThemeOther,
-} from "@mantine/core";
+import { createTheme, DEFAULT_THEME, MantineProvider } from "@mantine/core";
 import { ReactNode } from "react";
 
 import "@mantine/core/styles.css";
-import "@mantine/notifications/styles.css";
-import "./Theme.css";
-import { SemanticColor } from "./SemanticColor";
 import { Notifications } from "@mantine/notifications";
+import "@mantine/notifications/styles.css";
+import { SemanticColor } from "./SemanticColor";
+import "./Theme.css";
 
 interface ThemeProps {
   children: ReactNode;

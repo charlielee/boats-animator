@@ -8,7 +8,6 @@ import { SemanticColor } from "../Theme/SemanticColor";
 interface UiActionIconProps {
   icon: IconName;
   onClick?: (() => void) | PageRoute;
-  disabled?: boolean;
   open?: boolean;
   active?: boolean;
   children: string;
@@ -19,8 +18,7 @@ export const UiActionIcon = ({
   onClick,
   open = false,
   active = false,
-  // todo see mantine docs on disabled ActionIcon
-  disabled = false,
+
   children,
 }: UiActionIconProps) => {
   const navigate = useNavigate();
@@ -33,10 +31,9 @@ export const UiActionIcon = ({
       <ActionIcon
         variant="subtle"
         color={SemanticColor.SECONDARY}
-        // disabled={disabled}
         onClick={handleClick}
         aria-label={children}
-        size="xl"
+        size="lg"
         {...openProps}
       >
         <Icon name={icon} size="1.5rem" />

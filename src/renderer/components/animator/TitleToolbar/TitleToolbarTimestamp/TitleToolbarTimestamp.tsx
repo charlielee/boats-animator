@@ -8,6 +8,10 @@ import { ButtonColor } from "../../../common/Button/ButtonColor";
 import { buildStartTimeCode } from "../../../../../common/timeUtils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
+import { UiButton } from "../../../ui/UiButton/UiButton";
+import IconName from "../../../common/Icon/IconName";
+import { SemanticColor } from "../../../ui/Theme/SemanticColor";
+import { Tooltip } from "@mantine/core";
 
 interface TitleToolbarTimestampProps {
   take: Take;
@@ -32,11 +36,14 @@ export const TitleToolbarTimestamp = ({ take }: TitleToolbarTimestampProps): JSX
   ].join(" ");
 
   return (
-    <Button
-      label={showInSeconds ? secondsText : frameText}
-      title={showInSeconds ? "Show timestamp in frames" : "Show timestamp in seconds"}
-      onClick={() => setShowInSeconds((prevState) => !prevState)}
-      color={ButtonColor.TRANSPARENT}
-    />
+    <Tooltip label={showInSeconds ? "Show timestamp in frames" : "Show timestamp in seconds"}>
+      <UiButton
+        onClick={() => setShowInSeconds((prevState) => !prevState)}
+        semanticColor={SemanticColor.SECONDARY}
+        inToolbar
+      >
+        {showInSeconds ? secondsText : frameText}
+      </UiButton>
+    </Tooltip>
   );
 };
