@@ -26,7 +26,7 @@ const theme = createTheme({
   autoContrast: true,
   colors: {
     [SemanticColor.PRIMARY]: DEFAULT_THEME.colors.blue,
-    [SemanticColor.SECONDARY]: DEFAULT_THEME.colors.dark,
+    [SemanticColor.SECONDARY]: DEFAULT_THEME.colors.gray,
     [SemanticColor.SUCCESS]: DEFAULT_THEME.colors.green,
     [SemanticColor.DANGER]: DEFAULT_THEME.colors.red,
   },

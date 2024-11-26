@@ -73,6 +73,7 @@ export const {
   removeFrameTrackItem,
   setPlaybackSpeed,
   addTake,
+  toggleCapturePane,
 } = projectSlice.actions;
 
 export const projectReducer = projectSlice.reducer;

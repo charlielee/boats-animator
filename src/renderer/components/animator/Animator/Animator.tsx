@@ -20,9 +20,6 @@ export const Animator = (): JSX.Element => {
           <Timeline />
         </Content>
 
-        {/* <Sidebar>
-          <CaptureSidebarBlock key="capture" />
-        </Sidebar> */}
         <CapturePane />
       </PageBody>
     </Page>

@@ -4,6 +4,7 @@ import {
   IoAddCircleOutline,
   IoAlertCircleOutline,
   IoCamera,
+  IoCameraOutline,
   IoCaretUpCircleOutline,
   IoCheckmarkCircleOutline,
   IoCloseOutline,
@@ -53,6 +54,8 @@ const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) =>
       return <IoAddCircleOutline {...props} />;
     case IconName.CAPTURE:
       return <IoCamera {...props} />;
+    case IconName.CAPTURE_SETTINGS:
+      return <IoCameraOutline {...props} />;
     case IconName.CAPTURE_AUTO:
       return <IoTimer {...props} />;
     case IconName.CIRCLE:
