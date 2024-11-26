@@ -2,7 +2,7 @@ import Content from "../../common/Content/Content";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import { AnimationToolbar } from "../AnimationToolbar/AnimationToolbar";
-import { CaptureButtonToolbar } from "../CaptureButtonToolbar/CaptureButtonToolbar";
+import { PreviewToolbar } from "../PreviewToolbar/PreviewToolbar";
 import { CapturePane } from "../CapturePane/CapturePane";
 import { Preview } from "../Preview/Preview";
 import { Timeline } from "../Timeline/Timeline";
@@ -15,7 +15,7 @@ export const Animator = (): JSX.Element => {
       <PageBody>
         <Content>
           <Preview />
-          <CaptureButtonToolbar />
+          <PreviewToolbar />
           <AnimationToolbar />
           <Timeline />
         </Content>

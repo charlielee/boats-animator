@@ -5,14 +5,14 @@ import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import Toolbar from "../../common/Toolbar/Toolbar";
 import ToolbarItem, { ToolbarItemAlign } from "../../common/ToolbarItem/ToolbarItem";
-import "./CaptureButtonToolbar.css";
+import "./PreviewToolbar.css";
 
-export const CaptureButtonToolbar = (): JSX.Element => {
+export const PreviewToolbar = (): JSX.Element => {
   const { captureImage } = useContext(CaptureContext);
   const { stopPlayback, liveViewVisible } = useContext(PlaybackContext);
 
   return (
-    <Toolbar className="capture-button-toolbar">
+    <Toolbar className="preview-toolbar">
       <ToolbarItem align={ToolbarItemAlign.CENTER}>
         <IconButton
           title="Capture Frame"
