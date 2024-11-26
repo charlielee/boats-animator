@@ -9,6 +9,7 @@ export interface ProjectState {
   take?: Take;
   playbackSpeed: number;
   projectDirectoryId?: PersistedDirectoryId;
+  showCapturePane: boolean;
 }
 
 const initialState: ProjectState = {
@@ -16,6 +17,7 @@ const initialState: ProjectState = {
   take: undefined,
   playbackSpeed: 1,
   projectDirectoryId: undefined,
+  showCapturePane: true,
 };
 
 const projectSlice = createSlice({
@@ -57,6 +59,10 @@ const projectSlice = createSlice({
     addTake: (state, action: PayloadAction<Take>) => {
       state.take = action.payload;
     },
+
+    toggleCapturePane: (state) => {
+      state.showCapturePane = !state.showCapturePane;
+    },
   },
 });
 
@@ -67,6 +73,7 @@ export const {
   removeFrameTrackItem,
   setPlaybackSpeed,
   addTake,
+  toggleCapturePane,
 } = projectSlice.actions;
 
 export const projectReducer = projectSlice.reducer;

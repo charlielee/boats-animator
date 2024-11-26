@@ -1,10 +1,9 @@
 import Content from "../../common/Content/Content";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
-import Sidebar from "../../common/Sidebar/Sidebar";
 import { AnimationToolbar } from "../AnimationToolbar/AnimationToolbar";
 import { CaptureButtonToolbar } from "../CaptureButtonToolbar/CaptureButtonToolbar";
-import CaptureSidebarBlock from "../CaptureSidebarBlock/CaptureSidebarBlock";
+import { CapturePane } from "../CapturePane/CapturePane";
 import { Preview } from "../Preview/Preview";
 import { Timeline } from "../Timeline/Timeline";
 import TitleToolbar from "../TitleToolbar/TitleToolbar";
@@ -21,9 +20,7 @@ export const Animator = (): JSX.Element => {
           <Timeline />
         </Content>
 
-        <Sidebar>
-          <CaptureSidebarBlock key="capture" />
-        </Sidebar>
+        <CapturePane />
       </PageBody>
     </Page>
   );
