@@ -1,17 +1,14 @@
+import { Tooltip } from "@mantine/core";
 import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import { TimelineIndex } from "../../../../../common/Flavors";
 import { Take } from "../../../../../common/project/Take";
-import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext";
-import { getTrackLength } from "../../../../services/project/projectCalculator";
-import Button from "../../../common/Button/Button";
-import { ButtonColor } from "../../../common/Button/ButtonColor";
 import { buildStartTimeCode } from "../../../../../common/timeUtils";
-import { useSelector } from "react-redux";
+import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext";
 import { RootState } from "../../../../redux/store";
-import { UiButton } from "../../../ui/UiButton/UiButton";
-import IconName from "../../../common/Icon/IconName";
+import { getTrackLength } from "../../../../services/project/projectCalculator";
 import { SemanticColor } from "../../../ui/Theme/SemanticColor";
-import { Tooltip } from "@mantine/core";
+import { UiButton } from "../../../ui/UiButton/UiButton";
 
 interface TitleToolbarTimestampProps {
   take: Take;
