@@ -2,14 +2,14 @@ import { Popover, Table } from "@mantine/core";
 import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext";
+import { setPlaybackSpeed } from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
 import IconName from "../../../common/Icon/IconName";
+import { SemanticColor } from "../../../ui/Theme/SemanticColor";
 import { UiActionIcon } from "../../../ui/UiActionIcon/UiActionIcon";
 import { UiButton } from "../../../ui/UiButton/UiButton";
-import PlaybackSpeedSelect from "../../PlaybackSpeedSelect/PlaybackSpeedSelect";
+import { PlaybackSpeedSelect } from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
 import "./PreviewToolbarPlaybackSettings.css";
-import { SemanticColor } from "../../../ui/Theme/SemanticColor";
-import { setPlaybackSpeed } from "../../../../redux/slices/projectSlice";
 
 export const PreviewToolbarPlaybackSettings = () => {
   const dispatch = useDispatch();
