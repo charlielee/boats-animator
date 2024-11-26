@@ -1,0 +1,7 @@
+.ui-action-icon__active-indicator {
+  position: absolute;
+  bottom: 0;
+  background-color: var(--mantine-primary-color-light-color);
+  height: calc(0.1875rem * var(--mantine-scale));
+  width: 100%;
+}

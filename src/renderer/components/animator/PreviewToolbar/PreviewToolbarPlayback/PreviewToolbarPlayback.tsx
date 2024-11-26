@@ -52,6 +52,9 @@ export const PreviewToolbarPlayback = () => {
       <UiActionIcon icon={IconName.PLAY_LAST} onClick={() => displayFrame(PlaybackFrameName.LAST)}>
         Last Frame
       </UiActionIcon>
+      <UiActionIcon icon={IconName.PLAYBACK_SETTINGS} active>
+        Playback Settings
+      </UiActionIcon>
 
       <PlaybackSpeedSelect />
       <UiActionIcon

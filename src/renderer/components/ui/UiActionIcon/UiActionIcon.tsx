@@ -4,6 +4,7 @@ import { PageRoute } from "../../../../common/PageRoute";
 import Icon from "../../common/Icon/Icon";
 import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../Theme/SemanticColor";
+import "./UiActionIcon.css";
 
 interface UiActionIconProps {
   icon: IconName;
@@ -38,15 +39,7 @@ export const UiActionIcon = ({
         {...openProps}
       >
         <Icon name={icon} size={captureButton ? "3rem" : "1.5rem"} />
-        <Box
-          pos="absolute"
-          bottom={0}
-          style={{
-            backgroundColor: active ? "var(--mantine-primary-color-light-color)" : "transparent",
-            height: "calc(0.1875rem * var(--mantine-scale))",
-            width: "100%",
-          }}
-        ></Box>
+        {active && <Box className="ui-action-icon__active-indicator"></Box>}
       </ActionIcon>
     </Tooltip>
   );
