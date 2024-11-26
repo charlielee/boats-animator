@@ -1,4 +1,10 @@
-import { createTheme, DEFAULT_THEME, MantineProvider } from "@mantine/core";
+import {
+  createTheme,
+  DEFAULT_THEME,
+  MantineProvider,
+  MantineTheme,
+  MantineThemeOther,
+} from "@mantine/core";
 import { ReactNode } from "react";
 
 import "@mantine/core/styles.css";
@@ -11,6 +17,10 @@ interface ThemeProps {
   children: ReactNode;
 }
 
+const other = {
+  border: "calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-default-border)",
+};
+
 const theme = createTheme({
   fontFamily: "Open Sans, sans-serif",
   autoContrast: true,
@@ -21,7 +31,11 @@ const theme = createTheme({
     [SemanticColor.DANGER]: DEFAULT_THEME.colors.red,
   },
   primaryColor: SemanticColor.PRIMARY,
+  other,
+  components: { body: { styles: { backgroundColor: "green" } } },
 });
+
+export type ThemeWithOther = typeof theme & { other: Partial<typeof other> };
 
 export const Theme = ({ children }: ThemeProps) => {
   return (
