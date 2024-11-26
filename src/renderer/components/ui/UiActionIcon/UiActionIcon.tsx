@@ -27,7 +27,7 @@ export const UiActionIcon = ({
   const openProps: ActionIconProps = open ? { variant: "filled" } : {};
 
   return (
-    <Tooltip label={children}>
+    <Tooltip label={active ? `${children} (active)` : children}>
       <ActionIcon
         variant="subtle"
         color={SemanticColor.SECONDARY}

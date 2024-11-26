@@ -52,7 +52,7 @@ const TitleToolbar = (): JSX.Element => {
           open={showCapturePane}
           active={deviceIdentifier !== undefined}
         >
-          {showCapturePane ? "Close Capture Pane" : "Open Capture Pane"}
+          {showCapturePane ? "Close Capture Settings" : "Open Capture Settings"}
         </UiActionIcon>
 
         <UiActionIcon icon={IconName.VIDEO} onClick={PageRoute.ANIMATOR_EXPORT_VIDEO_MODAL}>
