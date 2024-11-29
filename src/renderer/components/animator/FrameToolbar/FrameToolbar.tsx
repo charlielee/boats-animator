@@ -8,9 +8,13 @@ import { getTrackLength } from "../../../services/project/projectCalculator";
 import IconName from "../../common/Icon/IconName";
 import IconButton from "../../common/IconButton/IconButton";
 import { ThemeWithOther } from "../../ui/Theme/Theme";
+import { TitleToolbarTimestamp } from "./TitleToolbarTimestamp/TitleToolbarTimestamp";
+import useProjectAndTake from "../../../hooks/useProjectAndTake";
 
 export const FrameToolbar = (): JSX.Element => {
   const theme: ThemeWithOther = useMantineTheme();
+
+  const { take } = useProjectAndTake();
 
   const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);
   const frameTrack = useSelector((state: RootState) => state.project.take?.frameTrack);
@@ -19,7 +23,8 @@ export const FrameToolbar = (): JSX.Element => {
   }
 
   return (
-    <Group py="xs" px="md" style={{ borderTop: theme.other.border }}>
+    <Group py="sm" px="md" style={{ borderTop: theme.other.border }}>
+      <TitleToolbarTimestamp take={take} />
       <IconButton
         title={
           timelineIndex === undefined ? "Undo Last Frame" : `Delete Frame ${timelineIndex + 1}`
