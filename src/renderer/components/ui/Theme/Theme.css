@@ -23,3 +23,24 @@ body {
 #root {
   height: 100%;
 }
+
+::-webkit-scrollbar {
+  background-color: var(--mantine-color-default);
+  width: var(--mantine-spacing-md);
+  height: var(--mantine-spacing-md);
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--mantine-color-gray-6);
+  border-radius: var(--mantine-radius-md);
+  border: calc(0.25rem * var(--mantine-scale)) solid var(--mantine-color-default);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--mantine-color-gray-7);
+}
