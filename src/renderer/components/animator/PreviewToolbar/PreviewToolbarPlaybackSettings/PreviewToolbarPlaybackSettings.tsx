@@ -27,7 +27,7 @@ export const PreviewToolbarPlaybackSettings = () => {
   const handleReset = () => dispatch(setPlaybackSpeed(1));
 
   return (
-    <Popover width="20rem" trapFocus position="bottom" withArrow shadow="md">
+    <Popover trapFocus position="bottom" withArrow shadow="md">
       <Popover.Target>
         <UiActionIcon icon={IconName.PLAYBACK_SETTINGS} active={active}>
           Playback Settings
@@ -35,34 +35,38 @@ export const PreviewToolbarPlaybackSettings = () => {
       </Popover.Target>
       <Popover.Dropdown p={0}>
         <Table classNames={{ tr: "playback-settings__table-row" }}>
-          <Table.Tr>
-            <Table.Td>Playback Speed</Table.Td>
-            <Table.Td>
-              <PlaybackSpeedSelect />
-            </Table.Td>
-          </Table.Tr>
-
-          <Table.Tr>
-            <Table.Td>Short Play ({shortPlayFrameText})</Table.Td>
-            <Table.Td>
-              <UiButton onClick={shortPlay}>Short Play</UiButton>
-            </Table.Td>
-          </Table.Tr>
-
-          {active && (
+          <Table.Tbody>
             <Table.Tr>
-              <Table.Td colSpan={2} align="right">
-                <UiButton
-                  inTable
-                  icon={IconName.PLAY_LOOP}
-                  semanticColor={SemanticColor.PRIMARY}
-                  onClick={handleReset}
-                >
-                  Reset
+              <Table.Td>Playback Speed</Table.Td>
+              <Table.Td>
+                <PlaybackSpeedSelect />
+              </Table.Td>
+            </Table.Tr>
+
+            <Table.Tr>
+              <Table.Td>Short Play ({shortPlayFrameText})</Table.Td>
+              <Table.Td>
+                <UiButton onClick={shortPlay} inList>
+                  Short Play
                 </UiButton>
               </Table.Td>
             </Table.Tr>
-          )}
+
+            {active && (
+              <Table.Tr>
+                <Table.Td colSpan={2} align="right">
+                  <UiButton
+                    inList
+                    icon={IconName.PLAY_LOOP}
+                    semanticColor={SemanticColor.PRIMARY}
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </UiButton>
+                </Table.Td>
+              </Table.Tr>
+            )}
+          </Table.Tbody>
         </Table>
       </Popover.Dropdown>
     </Popover>
