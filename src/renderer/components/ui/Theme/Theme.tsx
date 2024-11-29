@@ -21,6 +21,7 @@ const theme = createTheme({
   colors: {
     [SemanticColor.PRIMARY]: DEFAULT_THEME.colors.blue,
     [SemanticColor.SECONDARY]: DEFAULT_THEME.colors.gray,
+    [SemanticColor.TITLE]: DEFAULT_THEME.colors.dark,
     [SemanticColor.SUCCESS]: DEFAULT_THEME.colors.green,
     [SemanticColor.DANGER]: DEFAULT_THEME.colors.red,
   },
