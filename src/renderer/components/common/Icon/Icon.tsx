@@ -43,7 +43,7 @@ import IconName from "./IconName";
 import { Fragment } from "react/jsx-runtime";
 import { forwardRef } from "react";
 
-interface IconProps {
+export interface IconProps {
   name: IconName;
   active?: boolean;
   className?: string;

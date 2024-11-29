@@ -10,9 +10,8 @@ import { toggleCapturePane } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
 import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
-import { UiActionIcon } from "../../ui/UiActionIcon/UiActionIcon";
+import { UiActionIcon, UiActionIconRole } from "../../ui/UiActionIcon/UiActionIcon";
 import { UiButton } from "../../ui/UiButton/UiButton";
-import "./TitleToolbar.css";
 import { displayProjectTitle } from "../../../services/project/projectBuilder";
 
 const TitleToolbar = (): JSX.Element => {
@@ -25,8 +24,8 @@ const TitleToolbar = (): JSX.Element => {
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
 
   return (
-    <Group py="sm" px="md" style={{ backgroundColor: "black" }}>
-      <Flex flex={1}>
+    <Group pl="md" style={{ backgroundColor: "black" }}>
+      <Flex flex={1} py="sm">
         <Tooltip label="Manage Project">
           <UiButton
             icon={IconName.FOLDER}
@@ -48,11 +47,16 @@ const TitleToolbar = (): JSX.Element => {
           onClick={() => dispatch(toggleCapturePane())}
           open={showCapturePane}
           active={deviceIdentifier !== undefined}
+          role={UiActionIconRole.TOOLBAR_TAB}
         >
           {showCapturePane ? "Close Capture Settings" : "Open Capture Settings"}
         </UiActionIcon>
 
-        <UiActionIcon icon={IconName.VIDEO} onClick={PageRoute.ANIMATOR_EXPORT_VIDEO_MODAL}>
+        <UiActionIcon
+          icon={IconName.VIDEO}
+          onClick={PageRoute.ANIMATOR_EXPORT_VIDEO_MODAL}
+          role={UiActionIconRole.TOOLBAR_TAB}
+        >
           Export Video
         </UiActionIcon>
       </Flex>
