@@ -40,6 +40,8 @@ import {
 } from "react-icons/io5";
 import "./Icon.css";
 import IconName from "./IconName";
+import { Fragment } from "react/jsx-runtime";
+import { forwardRef } from "react";
 
 interface IconProps {
   name: IconName;
@@ -141,11 +143,17 @@ const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) =>
   }
 };
 
-const Icon = ({ name, active = false, className, size = "1em" }: IconProps) => {
-  return getIconByName(name, active, {
-    className: classNames("icon", className, { "icon--active": active }),
-    size,
-  });
-};
+const Icon = forwardRef<HTMLDivElement, IconProps>(
+  ({ name, active = false, className, size = "1em" }, ref) => {
+    return (
+      <div ref={ref}>
+        {getIconByName(name, active, {
+          className: classNames("icon", className, { "icon--active": active }),
+          size,
+        })}
+      </div>
+    );
+  }
+);
 
 export default Icon;

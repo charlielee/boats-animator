@@ -1,14 +1,14 @@
 .timeline {
   display: flex;
+  background-color: var(--ba-theme-timeline-background);
+  border-top: var(--ba-theme-border);
 }
 
 .timeline__track-labels {
-  background-color: var(--ba-dark-mid-hover);
-  border-right: var(--border-1) solid var(--ba-border);
+  border-right: var(--ba-theme-border);
 }
 
 .timeline__track-labels-inner {
-  background-color: var(--ba-dark);
   margin-top: var(--height-200);
 }
 

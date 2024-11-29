@@ -9,6 +9,12 @@
   src: url("./OpenSans.ttf") format("truetype");
 }
 
+:root {
+  --ba-theme-timeline-background: var(--mantine-color-default);
+  --ba-theme-border: calc(0.0625rem * var(--mantine-scale)) solid
+    var(--mantine-color-default-border);
+}
+
 body {
   user-select: none;
   height: 100vh;

@@ -1,9 +1,8 @@
 .timeline-track-label {
   align-items: center;
-  color: var(--ba-light-mid);
   display: flex;
   height: var(--height-800);
-  padding: var(--width-16);
-  min-width: calc(var(--width-16) * 4);
-  width: calc(var(--width-16) * 4);
+  padding: var(--mantine-spacing-md);
+  min-width: calc(var(--mantine-spacing-md) * 4);
+  width: calc(var(--mantine-spacing-md) * 4);
 }

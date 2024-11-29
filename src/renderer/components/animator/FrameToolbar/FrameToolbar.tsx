@@ -10,6 +10,7 @@ import IconButton from "../../common/IconButton/IconButton";
 import { ThemeWithOther } from "../../ui/Theme/Theme";
 import { TitleToolbarTimestamp } from "./TitleToolbarTimestamp/TitleToolbarTimestamp";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
+import { UiActionIcon } from "../../ui/UiActionIcon/UiActionIcon";
 
 export const FrameToolbar = (): JSX.Element => {
   const theme: ThemeWithOther = useMantineTheme();
@@ -23,17 +24,23 @@ export const FrameToolbar = (): JSX.Element => {
   }
 
   return (
-    <Group py="sm" px="md" style={{ borderTop: theme.other.border }}>
+    <Group
+      py="sm"
+      px="md"
+      style={{
+        borderTop: theme.other.border,
+        backgroundColor: "var(--mantine-color-default)",
+      }}
+    >
       <TitleToolbarTimestamp take={take} />
-      <IconButton
-        title={
-          timelineIndex === undefined ? "Undo Last Frame" : `Delete Frame ${timelineIndex + 1}`
-        }
+      <UiActionIcon
         icon={liveViewVisible ? IconName.UNDO : IconName.DELETE}
         onClick={
           getTrackLength(frameTrack) === 0 ? () => undefined : PageRoute.ANIMATOR_DELETE_FRAME
         }
-      />
+      >
+        {timelineIndex === undefined ? "Undo Last Frame" : `Delete Frame ${timelineIndex + 1}`}
+      </UiActionIcon>
     </Group>
   );
 };
