@@ -18,7 +18,7 @@ export const PreviewToolbar = (): JSX.Element => {
   };
 
   return (
-    <Group px="md">
+    <Group py="xs" px="md">
       <Flex flex={1}>
         <PreviewToolbarPlayback />
       </Flex>
