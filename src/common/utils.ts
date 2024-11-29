@@ -9,15 +9,6 @@ export const stringToArray = (items: string) =>
   // https://stackoverflow.com/a/56119602
   items.match(/[^\s"']+|"([^"]*)"/gim)?.map((arg: string) => arg.replace(/"|'/g, ""));
 
-export const PLAYBACK_SPEEDS = {
-  "0.1×": 0.1,
-  "0.25×": 0.25,
-  "0.5×": 0.5,
-  "1.0×": 1,
-  "2.0×": 2,
-  "4.0×": 4,
-};
-
 export const PROJECT_DIRECTORY_EXTENSION = "boatsfiles";
 export const PROJECT_INFO_FILE_NAME = "project.boatsinfo";
 export const DEFAULT_PROJECT_NAME = "Untitled Movie";

@@ -19,7 +19,7 @@ export const ImagingDeviceSettingsTrBoolean = ({
         <ImagingDeviceSettingName setting={setting} />
       </Table.Td>
       <Table.Td colSpan={2}>
-        <UiSwitch checked={value} onChange={setValue} inList />
+        <UiSwitch checked={value} onChange={setValue} />
       </Table.Td>
     </Table.Tr>
   );

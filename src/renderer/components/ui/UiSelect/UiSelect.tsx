@@ -5,7 +5,6 @@ interface UiSelectProps<T> {
   placeholder: string;
   data: ComboboxData;
   value: T | undefined;
-  inList?: boolean;
   onChange: (value: T | undefined, option: ComboboxItem) => void;
 }
 
@@ -14,11 +13,8 @@ export const UiSelect = <T extends string>({
   placeholder,
   data,
   value,
-  inList = false,
   onChange,
 }: UiSelectProps<T>) => {
-  const inListProps: SelectProps = inList ? { size: "xs" } : {};
-
   const formatValue = value === undefined ? null : value;
 
   const handleChange = (value: string | null, option: ComboboxItem) => {
@@ -33,7 +29,6 @@ export const UiSelect = <T extends string>({
       data={data}
       value={formatValue}
       onChange={handleChange}
-      {...inListProps}
     />
   );
 };

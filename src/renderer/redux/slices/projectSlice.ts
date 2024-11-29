@@ -10,6 +10,7 @@ export interface ProjectState {
   playbackSpeed: number;
   projectDirectoryId?: PersistedDirectoryId;
   showCapturePane: boolean;
+  enableShortPlay: boolean;
 }
 
 const initialState: ProjectState = {
@@ -18,6 +19,7 @@ const initialState: ProjectState = {
   playbackSpeed: 1,
   projectDirectoryId: undefined,
   showCapturePane: true,
+  enableShortPlay: false,
 };
 
 const projectSlice = createSlice({
@@ -63,6 +65,10 @@ const projectSlice = createSlice({
     toggleCapturePane: (state) => {
       state.showCapturePane = !state.showCapturePane;
     },
+
+    setEnableShortPlay: (state, action: PayloadAction<boolean>) => {
+      state.enableShortPlay = action.payload;
+    },
   },
 });
 
@@ -74,6 +80,7 @@ export const {
   setPlaybackSpeed,
   addTake,
   toggleCapturePane,
+  setEnableShortPlay,
 } = projectSlice.actions;
 
 export const projectReducer = projectSlice.reducer;

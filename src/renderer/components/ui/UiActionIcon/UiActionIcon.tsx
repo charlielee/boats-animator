@@ -4,6 +4,8 @@ import { PageRoute } from "../../../../common/PageRoute";
 import Icon from "../../common/Icon/Icon";
 import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../Theme/SemanticColor";
+import "./UiActionIcon.css";
+import { forwardRef } from "react";
 
 interface UiActionIconProps {
   icon: IconName;
@@ -11,42 +13,41 @@ interface UiActionIconProps {
   open?: boolean;
   active?: boolean;
   children: string;
+  captureButton?: boolean;
 }
 
-export const UiActionIcon = ({
-  icon = IconName.ERROR,
-  onClick,
-  open = false,
-  active = false,
+export const UiActionIcon = forwardRef<HTMLButtonElement, UiActionIconProps>(
+  (
+    {
+      icon = IconName.ERROR,
+      onClick,
+      open = false,
+      active = false,
+      children,
+      captureButton = false,
+    },
+    ref
+  ) => {
+    const navigate = useNavigate();
+    const handleClick = () => (typeof onClick === "string" ? navigate(onClick) : onClick?.());
 
-  children,
-}: UiActionIconProps) => {
-  const navigate = useNavigate();
-  const handleClick = () => (typeof onClick === "string" ? navigate(onClick) : onClick?.());
+    const openProps: ActionIconProps = open ? { variant: "filled" } : {};
 
-  const openProps: ActionIconProps = open ? { variant: "filled" } : {};
-
-  return (
-    <Tooltip label={active ? `${children} (active)` : children}>
-      <ActionIcon
-        variant="subtle"
-        color={SemanticColor.SECONDARY}
-        onClick={handleClick}
-        aria-label={children}
-        size="lg"
-        {...openProps}
-      >
-        <Icon name={icon} size="1.5rem" />
-        <Box
-          pos="absolute"
-          bottom={0}
-          style={{
-            backgroundColor: active ? "var(--mantine-primary-color-light-color)" : "transparent",
-            height: "calc(0.1875rem * var(--mantine-scale))",
-            width: "100%",
-          }}
-        ></Box>
-      </ActionIcon>
-    </Tooltip>
-  );
-};
+    return (
+      <Tooltip label={active ? `${children} (active)` : children}>
+        <ActionIcon
+          variant="subtle"
+          color={SemanticColor.SECONDARY}
+          onClick={handleClick}
+          aria-label={children}
+          size={captureButton ? "3rem" : "lg"}
+          {...openProps}
+          ref={ref}
+        >
+          <Icon name={icon} size={captureButton ? "3rem" : "1.5rem"} />
+          {active && <Box className="ui-action-icon__active-indicator"></Box>}
+        </ActionIcon>
+      </Tooltip>
+    );
+  }
+);

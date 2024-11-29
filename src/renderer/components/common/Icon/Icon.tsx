@@ -19,6 +19,7 @@ import {
   IoImages,
   IoLogoDiscord,
   IoNewspaperOutline,
+  IoOptionsOutline,
   IoPauseOutline,
   IoPlayBackOutline,
   IoPlayCircleOutline,
@@ -104,6 +105,8 @@ const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) =>
       return <IoSyncOutline {...props} />;
     case IconName.PLAY_SHORT:
       return <IoPlayCircleOutline {...props} />;
+    case IconName.PLAYBACK_SETTINGS:
+      return <IoOptionsOutline {...props} />;
     case IconName.PROJECTS:
       return <IoFileTrayStackedOutline {...props} />;
     case IconName.SAVE:

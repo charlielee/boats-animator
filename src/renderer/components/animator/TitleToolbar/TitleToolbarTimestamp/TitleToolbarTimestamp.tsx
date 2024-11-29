@@ -36,8 +36,7 @@ export const TitleToolbarTimestamp = ({ take }: TitleToolbarTimestampProps): JSX
     <Tooltip label={showInSeconds ? "Show timestamp in frames" : "Show timestamp in seconds"}>
       <UiButton
         onClick={() => setShowInSeconds((prevState) => !prevState)}
-        semanticColor={SemanticColor.SECONDARY}
-        inToolbar
+        semanticColor={SemanticColor.TITLE}
       >
         {showInSeconds ? secondsText : frameText}
       </UiButton>

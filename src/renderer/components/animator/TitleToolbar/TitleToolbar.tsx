@@ -33,8 +33,7 @@ const TitleToolbar = (): JSX.Element => {
           <UiButton
             icon={IconName.FOLDER}
             onClick={PageRoute.STARTUP}
-            semanticColor={SemanticColor.SECONDARY}
-            inToolbar
+            semanticColor={SemanticColor.TITLE}
           >
             {makeTakeTitle(take)}
           </UiButton>
