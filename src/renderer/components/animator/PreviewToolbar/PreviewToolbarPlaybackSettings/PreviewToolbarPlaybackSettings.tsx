@@ -2,7 +2,7 @@ import { Popover, Table } from "@mantine/core";
 import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext";
-import { setPlaybackSpeed } from "../../../../redux/slices/projectSlice";
+import { setEnableShortPlay, setPlaybackSpeed } from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
 import IconName from "../../../common/Icon/IconName";
 import { SemanticColor } from "../../../ui/Theme/SemanticColor";
@@ -10,21 +10,28 @@ import { UiActionIcon } from "../../../ui/UiActionIcon/UiActionIcon";
 import { UiButton } from "../../../ui/UiButton/UiButton";
 import { PlaybackSpeedSelect } from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
 import "./PreviewToolbarPlaybackSettings.css";
+import { UiSwitch } from "../../../ui/UiSwitch/UiSwitch";
 
 export const PreviewToolbarPlaybackSettings = () => {
   const dispatch = useDispatch();
-  const { shortPlay } = useContext(PlaybackContext);
-  const shortPlayLength = useSelector(
-    (state: RootState) => state.app.userPreferences.shortPlayLength
-  );
-  const shortPlayFrameText =
-    shortPlayLength === 1 ? `${shortPlayLength} frame` : `${shortPlayLength} frames`;
 
   const playbackSpeed = useSelector((state: RootState) => state.project.playbackSpeed);
 
-  const active = playbackSpeed !== 1;
+  const shortPlayLength = useSelector(
+    (state: RootState) => state.app.userPreferences.shortPlayLength
+  );
+  const enableShortPlay = useSelector((state: RootState) => state.project.enableShortPlay);
+  const shortPlayFrameText =
+    shortPlayLength === 1 ? `${shortPlayLength} frame` : `${shortPlayLength} frames`;
 
-  const handleReset = () => dispatch(setPlaybackSpeed(1));
+  const active = playbackSpeed !== 1 || enableShortPlay;
+
+  const handleToggleEnableShortPlay = (newValue: boolean) => dispatch(setEnableShortPlay(newValue));
+
+  const handleReset = () => {
+    dispatch(setPlaybackSpeed(1));
+    dispatch(setEnableShortPlay(false));
+  };
 
   return (
     <Popover trapFocus position="bottom" withArrow shadow="md">
@@ -46,9 +53,7 @@ export const PreviewToolbarPlaybackSettings = () => {
             <Table.Tr>
               <Table.Td>Short Play ({shortPlayFrameText})</Table.Td>
               <Table.Td>
-                <UiButton onClick={shortPlay} inList>
-                  Short Play
-                </UiButton>
+                <UiSwitch checked={enableShortPlay} onChange={handleToggleEnableShortPlay} />
               </Table.Td>
             </Table.Tr>
 

@@ -12,21 +12,22 @@ import * as rLogger from "../../services/rLogger/rLogger";
 import PlaybackContext, { PlaybackContextProps, PlaybackFrameName } from "./PlaybackContext";
 import { ProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
 import { notifications } from "@mantine/notifications";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 interface PlaybackContextProviderProps {
-  shortPlayLength: FrameCount;
   take: Take;
-  playbackSpeed: number;
   children: ReactNode;
 }
 
-const PlaybackContextProvider = ({
-  shortPlayLength,
-  take,
-  playbackSpeed,
-  children,
-}: PlaybackContextProviderProps) => {
+const PlaybackContextProvider = ({ take, children }: PlaybackContextProviderProps) => {
   const { deleteTrackItem } = useContext(ProjectFilesContext);
+
+  const shortPlayLength = useSelector(
+    (state: RootState) => state.app.userPreferences.shortPlayLength
+  );
+  const playbackSpeed = useSelector((state: RootState) => state.project.playbackSpeed);
+  const enableShortPlay = useSelector((state: RootState) => state.project.enableShortPlay);
 
   const playForDuration = getTrackLength(take.frameTrack);
 
@@ -65,7 +66,17 @@ const PlaybackContextProvider = ({
     }
   });
 
-  const startOrPausePlayback = () => (playing ? _pausePlayback() : _startPlayback());
+  const startOrPausePlayback = () => {
+    if (playing) {
+      return _pausePlayback();
+    }
+
+    if (enableShortPlay) {
+      return _shortPlay();
+    } else {
+      return _startPlayback();
+    }
+  };
 
   const stopPlayback = (i?: TimelineIndex | undefined) => {
     _logPlayback("playback.stopPlayback");
@@ -90,18 +101,6 @@ const PlaybackContextProvider = ({
       case PlaybackFrameName.LAST:
         return _displayLastFrame();
     }
-  };
-
-  const shortPlay = () => {
-    _logPlayback("playback.shortPlay");
-    const playFromFrame = playForDuration - shortPlayLength;
-
-    if (playFromFrame > 0) {
-      stopPlayback(playFromFrame);
-    } else {
-      stopPlayback(0);
-    }
-    _startPlayback();
   };
 
   const deleteFrameAtCurrentTimelineIndex = async () => {
@@ -130,6 +129,18 @@ const PlaybackContextProvider = ({
       lastFrameIndex.current = playForDuration - 1;
       startRAF();
     }
+  };
+
+  const _shortPlay = () => {
+    _logPlayback("playback.shortPlay");
+    const playFromFrame = playForDuration - shortPlayLength;
+
+    if (playFromFrame > 0) {
+      stopPlayback(playFromFrame);
+    } else {
+      stopPlayback(0);
+    }
+    _startPlayback();
   };
 
   const _pausePlayback = () => {
@@ -186,7 +197,6 @@ const PlaybackContextProvider = ({
     startOrPausePlayback,
     stopPlayback,
     displayFrame,
-    shortPlay,
     deleteFrameAtCurrentTimelineIndex,
     timelineIndex,
     liveViewVisible: timelineIndex === undefined,

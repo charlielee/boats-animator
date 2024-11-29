@@ -1,22 +1,20 @@
-import { Flex, FlexProps, Switch, SwitchProps } from "@mantine/core";
+import { Flex, FlexProps, Switch } from "@mantine/core";
 
 interface UiSwitchProps {
   label?: string;
   checked: boolean;
-  inList?: boolean;
   onChange: (newValue: boolean) => void;
 }
 
-export const UiSwitch = ({ label, checked, inList = false, onChange }: UiSwitchProps) => {
-  const inListFlexProps: FlexProps = inList ? { justify: "flex-end" } : {};
-  const inListProps: SwitchProps = inList ? { size: "xs" } : {};
+export const UiSwitch = ({ label, checked, onChange }: UiSwitchProps) => {
+  const noLabelProps: FlexProps = label === undefined ? { justify: "flex-end" } : {};
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     onChange(event.currentTarget.checked);
 
   return (
-    <Flex {...inListFlexProps}>
-      <Switch label={label} checked={checked} onChange={handleChange} {...inListProps} />
+    <Flex {...noLabelProps}>
+      <Switch label={label} checked={checked} onChange={handleChange} />
     </Flex>
   );
 };

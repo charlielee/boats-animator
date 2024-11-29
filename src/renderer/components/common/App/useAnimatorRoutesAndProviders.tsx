@@ -17,10 +17,6 @@ import { ImagingDeviceContextProvider } from "../../../context/ImagingDeviceCont
 export const useAnimatorRoutesAndProviders = () => {
   const project = useSelector((state: RootState) => state.project.project);
   const take = useSelector((state: RootState) => state.project.take);
-  const shortPlayLength = useSelector(
-    (state: RootState) => state.app.userPreferences.shortPlayLength
-  );
-  const playbackSpeed = useSelector((state: RootState) => state.project.playbackSpeed);
 
   useEffect(() => {
     document.title = project
@@ -39,11 +35,7 @@ export const useAnimatorRoutesAndProviders = () => {
         <ProjectFilesContextProvider>
           <ImagingDeviceContextProvider>
             <CaptureContextProvider>
-              <PlaybackContextProvider
-                take={take}
-                shortPlayLength={shortPlayLength}
-                playbackSpeed={playbackSpeed}
-              >
+              <PlaybackContextProvider take={take}>
                 <Outlet />
                 <Animator />
               </PlaybackContextProvider>

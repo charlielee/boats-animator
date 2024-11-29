@@ -22,7 +22,6 @@ export const PlaybackSpeedSelect = (): JSX.Element => {
       data={PLAYBACK_SPEED_SELECT_DATA}
       placeholder=""
       value={String(playbackSpeed)}
-      inList
       onChange={(newValue) => {
         if (newValue) {
           dispatch(setPlaybackSpeed(parseFloat(newValue)));

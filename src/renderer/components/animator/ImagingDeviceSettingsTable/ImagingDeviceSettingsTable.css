@@ -3,7 +3,6 @@
   text-wrap: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: var(--mantine-font-size-xs);
   line-height: var(--mantine-line-height-xs);
 }
 

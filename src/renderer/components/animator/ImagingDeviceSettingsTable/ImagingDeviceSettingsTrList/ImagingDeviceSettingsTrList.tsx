@@ -26,7 +26,6 @@ export const ImagingDeviceSettingsTrList = ({ setting }: ImagingDeviceSettingsTr
               setValue(newValue);
             }
           }}
-          inList
         />
       </Table.Td>
     </Table.Tr>

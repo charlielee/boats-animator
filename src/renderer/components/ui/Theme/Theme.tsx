@@ -27,6 +27,7 @@ const theme = createTheme({
   primaryColor: SemanticColor.PRIMARY,
   other,
   components: { body: { styles: { backgroundColor: "green" } } },
+  scale: 0.925,
 });
 
 export type ThemeWithOther = typeof theme & { other: Partial<typeof other> };
