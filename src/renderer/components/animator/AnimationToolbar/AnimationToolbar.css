@@ -1,8 +1,0 @@
-.animation-toolbar {
-  padding: var(--margin-100) var(--margin-050);
-}
-
-.animation-toolbar #animation-toolbar__onion-skin-range {
-  margin: 0 var(--margin-050);
-  width: 6rem;
-}
