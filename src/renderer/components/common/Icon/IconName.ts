@@ -13,6 +13,7 @@ const enum IconName {
   DOCUMENT = "DOCUMENT",
   ERROR = "ERROR",
   EXPORT = "EXPORT",
+  FRAME = "FRAME",
   FRAMES = "FRAMES",
   FOLDER = "FOLDER",
   GRID = "GRID",

@@ -3,6 +3,7 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { Project } from "../../../common/project/Project";
 import { PersistedDirectoryId, TrackItemId } from "../../../common/Flavors";
+import { PreviewToolbarTab } from "../../components/animator/PreviewToolbar/PreviewToolbar";
 
 export interface ProjectState {
   project?: Project;
@@ -11,6 +12,7 @@ export interface ProjectState {
   projectDirectoryId?: PersistedDirectoryId;
   showCapturePane: boolean;
   enableShortPlay: boolean;
+  previewToolbarTab: PreviewToolbarTab;
 }
 
 const initialState: ProjectState = {
@@ -20,6 +22,7 @@ const initialState: ProjectState = {
   projectDirectoryId: undefined,
   showCapturePane: true,
   enableShortPlay: false,
+  previewToolbarTab: PreviewToolbarTab.FRAME,
 };
 
 const projectSlice = createSlice({
@@ -69,6 +72,10 @@ const projectSlice = createSlice({
     setEnableShortPlay: (state, action: PayloadAction<boolean>) => {
       state.enableShortPlay = action.payload;
     },
+
+    setPreviewToolbarTab: (state, action: PayloadAction<PreviewToolbarTab>) => {
+      state.previewToolbarTab = action.payload;
+    },
   },
 });
 
@@ -81,6 +88,7 @@ export const {
   addTake,
   toggleCapturePane,
   setEnableShortPlay,
+  setPreviewToolbarTab,
 } = projectSlice.actions;
 
 export const projectReducer = projectSlice.reducer;

@@ -18,6 +18,7 @@ import {
   IoFolderOutline,
   IoGlobeOutline,
   IoGridOutline,
+  IoImageOutline,
   IoImages,
   IoLogoDiscord,
   IoNewspaperOutline,
@@ -86,6 +87,8 @@ const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) =>
       return <IoDownload {...props} />;
     case IconName.ERROR:
       return <IoAlertCircleOutline {...props} />;
+    case IconName.FRAME:
+      return <IoImageOutline {...props} />;
     case IconName.FRAMES:
       return <IoImages {...props} />;
     case IconName.FOLDER:
