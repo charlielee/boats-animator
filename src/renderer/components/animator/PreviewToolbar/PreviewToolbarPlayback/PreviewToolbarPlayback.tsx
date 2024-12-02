@@ -6,7 +6,6 @@ import PlaybackContext, {
 import { RootState } from "../../../../redux/store";
 import IconName from "../../../common/Icon/IconName";
 import { UiActionIcon } from "../../../ui/UiActionIcon/UiActionIcon";
-import { PreviewToolbarPlaybackSettings } from "../PreviewToolbarPlaybackSettings/PreviewToolbarPlaybackSettings";
 
 export const PreviewToolbarPlayback = () => {
   const { startOrPausePlayback, stopPlayback, displayFrame, playing } = useContext(PlaybackContext);
@@ -44,7 +43,6 @@ export const PreviewToolbarPlayback = () => {
       <UiActionIcon icon={IconName.PLAY_LAST} onClick={() => displayFrame(PlaybackFrameName.LAST)}>
         Last Frame
       </UiActionIcon>
-      <PreviewToolbarPlaybackSettings />
     </>
   );
 };

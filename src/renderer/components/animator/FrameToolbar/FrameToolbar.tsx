@@ -6,7 +6,6 @@ import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { RootState } from "../../../redux/store";
 import { getTrackLength } from "../../../services/project/projectCalculator";
 import IconName from "../../common/Icon/IconName";
-import IconButton from "../../common/IconButton/IconButton";
 import { ThemeWithOther } from "../../ui/Theme/Theme";
 import { TitleToolbarTimestamp } from "./TitleToolbarTimestamp/TitleToolbarTimestamp";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";

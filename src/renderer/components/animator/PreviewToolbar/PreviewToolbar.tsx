@@ -5,6 +5,7 @@ import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import IconName from "../../common/Icon/IconName";
 import { UiActionIcon, UiActionIconRole } from "../../ui/UiActionIcon/UiActionIcon";
 import { PreviewToolbarPlayback } from "./PreviewToolbarPlayback/PreviewToolbarPlayback";
+import { PreviewToolbarPlaybackSettings } from "./PreviewToolbarPlaybackSettings/PreviewToolbarPlaybackSettings";
 
 export const PreviewToolbar = (): JSX.Element => {
   const { captureImage } = useContext(CaptureContext);
@@ -19,9 +20,12 @@ export const PreviewToolbar = (): JSX.Element => {
 
   return (
     <Group py="sm" px="md" align="flex-end">
-      <Flex flex={1}>
-        <PreviewToolbarPlayback />
-      </Flex>
+      <Group flex={1}>
+        <PreviewToolbarPlaybackSettings />
+        <UiActionIcon icon={IconName.GRID}>Grid Overlay</UiActionIcon>
+        <UiActionIcon icon={IconName.ASPECT_RATIO}>Aspect Ratio Overlay</UiActionIcon>
+        <UiActionIcon icon={IconName.ONION_SKIN}>Onion Skin</UiActionIcon>
+      </Group>
       <UiActionIcon
         icon={IconName.CAPTURE}
         onClick={handleClickCaptureButton}
@@ -29,7 +33,9 @@ export const PreviewToolbar = (): JSX.Element => {
       >
         Capture Frame
       </UiActionIcon>
-      <Flex flex={1}></Flex>
+      <Flex flex={1} justify="flex-end">
+        <PreviewToolbarPlayback />
+      </Flex>
     </Group>
   );
 };

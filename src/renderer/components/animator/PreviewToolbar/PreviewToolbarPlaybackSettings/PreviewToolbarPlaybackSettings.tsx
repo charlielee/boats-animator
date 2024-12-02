@@ -1,7 +1,5 @@
 import { Popover, Table } from "@mantine/core";
-import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext";
 import { setEnableShortPlay, setPlaybackSpeed } from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
 import IconName from "../../../common/Icon/IconName";

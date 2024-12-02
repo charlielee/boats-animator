@@ -1,4 +1,4 @@
-import { ComboboxData, ComboboxItem, Select, SelectProps } from "@mantine/core";
+import { ComboboxData, ComboboxItem, Select } from "@mantine/core";
 
 interface UiSelectProps<T> {
   label?: string;

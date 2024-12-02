@@ -2,12 +2,14 @@ import classNames from "classnames";
 import { IconBaseProps } from "react-icons";
 import {
   IoAddCircleOutline,
+  IoAlbumsOutline,
   IoAlertCircleOutline,
   IoCamera,
   IoCameraOutline,
   IoCaretUpCircleOutline,
   IoCheckmarkCircleOutline,
   IoCloseOutline,
+  IoContractOutline,
   IoDocumentOutline,
   IoDownload,
   IoEllipse,
@@ -15,11 +17,10 @@ import {
   IoFilmOutline,
   IoFolderOutline,
   IoGlobeOutline,
-  IoGrid,
+  IoGridOutline,
   IoImages,
   IoLogoDiscord,
   IoNewspaperOutline,
-  IoOptionsOutline,
   IoPauseOutline,
   IoPlayBackOutline,
   IoPlayCircleOutline,
@@ -28,19 +29,21 @@ import {
   IoPlaySkipBackOutline,
   IoPlaySkipForwardOutline,
   IoRefreshOutline,
+  IoReorderFourOutline,
   IoSaveOutline,
   IoSettingsOutline,
   IoShareOutline,
+  IoSpeedometerOutline,
   IoStopOutline,
   IoSyncOutline,
   IoTimer,
   IoToggle,
   IoTrashOutline,
   IoVideocam,
+  IoWalkOutline,
 } from "react-icons/io5";
 import "./Icon.css";
 import IconName from "./IconName";
-import { Fragment } from "react/jsx-runtime";
 import { forwardRef } from "react";
 
 export interface IconProps {
@@ -55,6 +58,10 @@ const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) =>
   switch (name) {
     case IconName.ADD:
       return <IoAddCircleOutline {...props} />;
+    case IconName.ADD:
+      return <IoAddCircleOutline {...props} />;
+    case IconName.ASPECT_RATIO:
+      return <IoAlbumsOutline {...props} />;
     case IconName.CAPTURE:
       return <IoCamera {...props} />;
     case IconName.CAPTURE_SETTINGS:
@@ -83,12 +90,14 @@ const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) =>
       return <IoImages {...props} />;
     case IconName.FOLDER:
       return <IoFolderOutline {...props} />;
-    case IconName.GUIDES:
-      return <IoGrid {...props} />;
+    case IconName.GRID:
+      return <IoGridOutline {...props} />;
     case IconName.LIVE_VIEW:
       return <IoVideocam {...props} />;
     case IconName.NEWS:
       return <IoNewspaperOutline {...props} />;
+    case IconName.ONION_SKIN:
+      return <IoWalkOutline {...props} />;
     case IconName.PLAY_FIRST:
       return <IoPlaySkipBackOutline {...props} />;
     case IconName.PLAY_PREVIOUS:
@@ -108,7 +117,7 @@ const getIconByName = (name: IconName, active: boolean, props: IconBaseProps) =>
     case IconName.PLAY_SHORT:
       return <IoPlayCircleOutline {...props} />;
     case IconName.PLAYBACK_SETTINGS:
-      return <IoOptionsOutline {...props} />;
+      return <IoSpeedometerOutline {...props} />;
     case IconName.PROJECTS:
       return <IoFileTrayStackedOutline {...props} />;
     case IconName.SAVE:
