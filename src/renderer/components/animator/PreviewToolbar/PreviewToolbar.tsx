@@ -33,37 +33,41 @@ export const PreviewToolbar = (): JSX.Element => {
   const handleSelectTab = (tabName: OverlayTab) => dispatch(setOverlayTab(tabName));
 
   return (
-    <Group py="sm" px="md" align="flex-end">
-      <Group flex={1}>
+    <Group align="flex-start">
+      <Flex flex={1}>
         <UiActionIcon
-          active={previewToolbarTab === OverlayTab.PLAYBACK}
+          open={previewToolbarTab === OverlayTab.PLAYBACK}
           icon={IconName.PLAYBACK_SETTINGS}
           onClick={() => handleSelectTab(OverlayTab.PLAYBACK)}
+          role={UiActionIconRole.TOOLBAR_TAB}
         >
           Playback Settings
         </UiActionIcon>
         <UiActionIcon
-          active={previewToolbarTab === OverlayTab.GRID}
+          open={previewToolbarTab === OverlayTab.GRID}
           icon={IconName.GRID}
           onClick={() => handleSelectTab(OverlayTab.GRID)}
+          role={UiActionIconRole.TOOLBAR_TAB}
         >
           Grid Overlay
         </UiActionIcon>
         <UiActionIcon
-          active={previewToolbarTab === OverlayTab.ASPECT_RATIO}
+          open={previewToolbarTab === OverlayTab.ASPECT_RATIO}
           icon={IconName.ASPECT_RATIO}
           onClick={() => handleSelectTab(OverlayTab.ASPECT_RATIO)}
+          role={UiActionIconRole.TOOLBAR_TAB}
         >
           Aspect Ratio Overlay
         </UiActionIcon>
         <UiActionIcon
-          active={previewToolbarTab === OverlayTab.ONION_SKIN}
+          open={previewToolbarTab === OverlayTab.ONION_SKIN}
           icon={IconName.ONION_SKIN}
           onClick={() => handleSelectTab(OverlayTab.ONION_SKIN)}
+          role={UiActionIconRole.TOOLBAR_TAB}
         >
           Onion Skin
         </UiActionIcon>
-      </Group>
+      </Flex>
       <UiActionIcon
         icon={IconName.CAPTURE}
         onClick={handleClickCaptureButton}
@@ -71,7 +75,7 @@ export const PreviewToolbar = (): JSX.Element => {
       >
         Capture Frame
       </UiActionIcon>
-      <Flex flex={1} justify="flex-end">
+      <Flex flex={1} justify="flex-end" py="sm" px="md">
         <PreviewToolbarPlayback />
       </Flex>
     </Group>

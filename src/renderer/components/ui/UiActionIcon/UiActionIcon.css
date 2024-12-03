@@ -1,4 +1,4 @@
-.ui-action-icon__active-indicator {
+.ui-action-icon__open-indicator {
   position: absolute;
   bottom: 0;
   background-color: var(--mantine-primary-color-light-color);

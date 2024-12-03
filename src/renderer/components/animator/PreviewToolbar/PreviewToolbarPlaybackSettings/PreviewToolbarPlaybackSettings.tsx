@@ -34,9 +34,7 @@ export const PreviewToolbarPlaybackSettings = () => {
   return (
     <Popover trapFocus position="bottom" withArrow>
       <Popover.Target>
-        <UiActionIcon icon={IconName.PLAYBACK_SETTINGS} active={active}>
-          Playback Settings
-        </UiActionIcon>
+        <UiActionIcon icon={IconName.PLAYBACK_SETTINGS}>Playback Settings</UiActionIcon>
       </Popover.Target>
       <Popover.Dropdown p={0}>
         <Table classNames={{ tr: "playback-settings__table-row" }}>
