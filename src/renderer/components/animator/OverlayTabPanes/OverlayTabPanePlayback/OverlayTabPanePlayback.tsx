@@ -5,7 +5,6 @@ import { RootState } from "../../../../redux/store";
 import { UiSwitch } from "../../../ui/UiSwitch/UiSwitch";
 import { OverlayTabPaneBase } from "../OverlayTabPaneBase/OverlayTabPaneBase";
 import { PlaybackSpeedSelect } from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
-import "./OverlayTabPanePlayback.css";
 
 export const OverlayTabPanePlayback = () => {
   const dispatch = useDispatch();

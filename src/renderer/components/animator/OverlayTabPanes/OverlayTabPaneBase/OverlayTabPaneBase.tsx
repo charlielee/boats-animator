@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import IconName from "../../../common/Icon/IconName";
 import { SemanticColor } from "../../../ui/Theme/SemanticColor";
 import { UiButton } from "../../../ui/UiButton/UiButton";
+import "./OverlayTabPaneBase.css";
 
 interface OverlayTabPaneBoxProps {
   title: string;
@@ -17,16 +18,8 @@ export const OverlayTabPaneBase = ({
   onReset,
   children,
 }: OverlayTabPaneBoxProps) => (
-  <Box
-    w="22rem"
-    miw="22rem"
-    py="md"
-    style={{
-      overflow: "auto",
-      backgroundColor: "var(--mantine-color-default)",
-    }}
-  >
-    <Table classNames={{ tr: "playback-settings__table-row" }}>
+  <Box className="overlay-tab-pane-base__box">
+    <Table classNames={{ tr: "overlay-tab-pane-base__table-row" }}>
       <Table.Thead>
         <Table.Tr>
           <Table.Th colSpan={2}>{title}</Table.Th>
@@ -36,9 +29,9 @@ export const OverlayTabPaneBase = ({
       <Table.Tbody>
         {children}
 
-        {active && (
-          <Table.Tr>
-            <Table.Td colSpan={2} align="right">
+        <Table.Tr>
+          <Table.Td colSpan={2} align="right">
+            {active && (
               <UiButton
                 inList
                 icon={IconName.PLAY_LOOP}
@@ -47,9 +40,9 @@ export const OverlayTabPaneBase = ({
               >
                 Reset
               </UiButton>
-            </Table.Td>
-          </Table.Tr>
-        )}
+            )}
+          </Table.Td>
+        </Table.Tr>
       </Table.Tbody>
     </Table>
   </Box>
