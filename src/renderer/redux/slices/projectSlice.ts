@@ -22,7 +22,7 @@ const initialState: ProjectState = {
   projectDirectoryId: undefined,
   showCapturePane: true,
   enableShortPlay: false,
-  overlayTab: OverlayTab.FRAME,
+  overlayTab: OverlayTab.PLAYBACK,
 };
 
 const projectSlice = createSlice({

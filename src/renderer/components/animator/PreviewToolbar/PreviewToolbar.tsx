@@ -11,7 +11,6 @@ import { setOverlayTab } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
 
 export const enum OverlayTab {
-  FRAME = "FRAME",
   PLAYBACK = "PLAYBACK",
   GRID = "GRID",
   ASPECT_RATIO = "ASPECT_RATIO",
@@ -37,13 +36,12 @@ export const PreviewToolbar = (): JSX.Element => {
     <Group py="sm" px="md" align="flex-end">
       <Group flex={1}>
         <UiActionIcon
-          active={previewToolbarTab === OverlayTab.FRAME}
-          icon={IconName.FRAME}
-          onClick={() => handleSelectTab(OverlayTab.FRAME)}
+          active={previewToolbarTab === OverlayTab.PLAYBACK}
+          icon={IconName.PLAYBACK_SETTINGS}
+          onClick={() => handleSelectTab(OverlayTab.PLAYBACK)}
         >
-          Frame
+          Playback Settings
         </UiActionIcon>
-        <PreviewToolbarPlaybackSettings />
         <UiActionIcon
           active={previewToolbarTab === OverlayTab.GRID}
           icon={IconName.GRID}

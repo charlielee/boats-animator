@@ -1,19 +1,16 @@
-import { Group, useMantineTheme } from "@mantine/core";
+import { Group } from "@mantine/core";
 import { useContext } from "react";
 import { useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { RootState } from "../../../redux/store";
 import { getTrackLength } from "../../../services/project/projectCalculator";
 import IconName from "../../common/Icon/IconName";
-import { ThemeWithOther } from "../../ui/Theme/Theme";
-import { TitleToolbarTimestamp } from "./TitleToolbarTimestamp/TitleToolbarTimestamp";
-import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { UiActionIcon } from "../../ui/UiActionIcon/UiActionIcon";
+import { TitleToolbarTimestamp } from "./TitleToolbarTimestamp/TitleToolbarTimestamp";
 
 export const FrameToolbar = (): JSX.Element => {
-  const theme: ThemeWithOther = useMantineTheme();
-
   const { take } = useProjectAndTake();
 
   const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);
@@ -27,7 +24,6 @@ export const FrameToolbar = (): JSX.Element => {
       py="sm"
       px="md"
       style={{
-        borderTop: theme.other.border,
         backgroundColor: "var(--mantine-color-default)",
       }}
     >
