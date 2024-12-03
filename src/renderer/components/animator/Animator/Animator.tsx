@@ -4,7 +4,7 @@ import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import { CapturePane } from "../CapturePane/CapturePane";
 import { FrameToolbar } from "../FrameToolbar/FrameToolbar";
-import { OverlayTabsPane } from "../OverlayTabsPane/OverlayTabsPane";
+import { OverlayTabsPane } from "../OverlayTabPanes/OverlayTabPanes";
 import { Preview } from "../Preview/Preview";
 import { PreviewToolbar } from "../PreviewToolbar/PreviewToolbar";
 import { Timeline } from "../Timeline/Timeline";

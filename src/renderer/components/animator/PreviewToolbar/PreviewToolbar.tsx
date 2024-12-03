@@ -7,13 +7,6 @@ import { UiActionIcon, UiActionIconRole } from "../../ui/UiActionIcon/UiActionIc
 import { PreviewToolbarOverlayTabs } from "./PreviewToolbarOverlayTabs/PreviewToolbarOverlayTabs";
 import { PreviewToolbarPlayback } from "./PreviewToolbarPlayback/PreviewToolbarPlayback";
 
-export const enum OverlayTab {
-  PLAYBACK = "PLAYBACK",
-  GRID = "GRID",
-  ASPECT_RATIO = "ASPECT_RATIO",
-  ONION_SKIN = "ONION_SKIN",
-}
-
 export const PreviewToolbar = (): JSX.Element => {
   const { captureImage } = useContext(CaptureContext);
   const { stopPlayback, liveViewVisible } = useContext(PlaybackContext);
