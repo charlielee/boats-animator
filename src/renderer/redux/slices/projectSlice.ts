@@ -3,7 +3,7 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { Project } from "../../../common/project/Project";
 import { PersistedDirectoryId, TrackItemId } from "../../../common/Flavors";
-import { OverlayTab } from "../../components/animator/PreviewToolbar/PreviewToolbar";
+import { OverlayTab } from "../../components/animator/PreviewToolbar/PreviewToolbarOverlayTabs/PreviewToolbarOverlayTabs";
 
 export interface ProjectState {
   project?: Project;
