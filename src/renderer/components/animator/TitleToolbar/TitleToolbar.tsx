@@ -1,24 +1,21 @@
 import { Flex, Group, Title, Tooltip } from "@mantine/core";
-import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PageRoute } from "../../../../common/PageRoute";
 import { Take } from "../../../../common/project/Take";
 import { zeroPad } from "../../../../common/utils";
-import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { toggleCapturePane } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
+import { displayProjectTitle } from "../../../services/project/projectBuilder";
 import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiActionIcon, UiActionIconRole } from "../../ui/UiActionIcon/UiActionIcon";
 import { UiButton } from "../../ui/UiButton/UiButton";
-import { displayProjectTitle } from "../../../services/project/projectBuilder";
 
 const TitleToolbar = (): JSX.Element => {
   const { take, project } = useProjectAndTake();
   const dispatch = useDispatch();
   const showCapturePane = useSelector((state: RootState) => state.project.showCapturePane);
-  const { deviceIdentifier } = useContext(ImagingDeviceContext);
 
   const makeTakeTitle = (take: Take) =>
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
@@ -46,10 +43,9 @@ const TitleToolbar = (): JSX.Element => {
           icon={IconName.CAPTURE_SETTINGS}
           onClick={() => dispatch(toggleCapturePane())}
           open={showCapturePane}
-          active={deviceIdentifier !== undefined}
           role={UiActionIconRole.TOOLBAR_TAB}
         >
-          {showCapturePane ? "Close Capture Settings" : "Open Capture Settings"}
+          Capture Settings
         </UiActionIcon>
 
         <UiActionIcon

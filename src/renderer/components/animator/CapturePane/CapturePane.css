@@ -1,0 +1,27 @@
+.capture-pane__box {
+  width: 22rem;
+  border-left: var(--ba-theme-border);
+  overflow: auto;
+  background-color: var(--mantine-color-SECONDARY-light);
+}
+
+.capture-pane__table-row th,
+.capture-pane__table-row td {
+  height: 3.5rem;
+}
+
+.capture-pane__table-row td:nth-child(1) {
+  max-width: 6rem;
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.capture-pane__table-row td:nth-child(2) {
+  min-width: 6rem;
+  text-align: right;
+}
+
+.capture-pane__table-row td:nth-child(3) {
+  width: 5rem;
+}

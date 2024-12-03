@@ -1,0 +1,15 @@
+.overlay-tab-pane-base__box {
+  width: 22rem;
+  min-width: 22rem;
+  overflow: auto;
+  background-color: var(--mantine-color-default);
+}
+
+.overlay-tab-pane-base__table-row th,
+.overlay-tab-pane-base__table-row td {
+  height: 3.5rem;
+}
+
+.overlay-tab-pane-base__table-row td:nth-of-type(2) {
+  width: 40%;
+}

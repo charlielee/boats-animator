@@ -1,5 +1,5 @@
 import { ReactNode, useContext, useRef } from "react";
-import { FrameCount, TimelineIndex } from "../../../common/Flavors";
+import { TimelineIndex } from "../../../common/Flavors";
 import { Take } from "../../../common/project/Take";
 import useLinkedRefAndState from "../../hooks/useLinkedRefAndState";
 import useRequestAnimationFrame from "../../hooks/useRequestAnimationFrame";

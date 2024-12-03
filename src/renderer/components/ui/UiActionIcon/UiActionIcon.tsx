@@ -17,23 +17,12 @@ interface UiActionIconProps {
   icon: IconName;
   onClick?: (() => void) | PageRoute;
   open?: boolean;
-  active?: boolean;
   children: string;
   role?: UiActionIconRole;
 }
 
 export const UiActionIcon = forwardRef<HTMLButtonElement, UiActionIconProps>(
-  (
-    {
-      icon = IconName.ERROR,
-      onClick,
-      open = false,
-      active = false,
-      children,
-      role = UiActionIconRole.DEFAULT,
-    },
-    ref
-  ) => {
+  ({ icon, onClick, open = false, children, role = UiActionIconRole.DEFAULT }, ref) => {
     const navigate = useNavigate();
     const handleClick = () => (typeof onClick === "string" ? navigate(onClick) : onClick?.());
 
@@ -54,7 +43,7 @@ export const UiActionIcon = forwardRef<HTMLButtonElement, UiActionIconProps>(
     })();
 
     return (
-      <Tooltip label={active ? `${children} (active)` : children}>
+      <Tooltip label={open ? `Close ${children}` : children}>
         <ActionIcon
           variant="subtle"
           color={SemanticColor.SECONDARY}
@@ -65,7 +54,7 @@ export const UiActionIcon = forwardRef<HTMLButtonElement, UiActionIconProps>(
           ref={ref}
         >
           <Icon name={icon} {...roleProps[1]} />
-          {active && <Box className="ui-action-icon__active-indicator"></Box>}
+          {open && <Box className="ui-action-icon__open-indicator"></Box>}
         </ActionIcon>
       </Tooltip>
     );
