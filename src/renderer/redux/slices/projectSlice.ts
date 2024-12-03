@@ -3,7 +3,7 @@ import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
 import { Project } from "../../../common/project/Project";
 import { PersistedDirectoryId, TrackItemId } from "../../../common/Flavors";
-import { PreviewToolbarTab } from "../../components/animator/PreviewToolbar/PreviewToolbar";
+import { OverlayTab } from "../../components/animator/PreviewToolbar/PreviewToolbar";
 
 export interface ProjectState {
   project?: Project;
@@ -12,7 +12,7 @@ export interface ProjectState {
   projectDirectoryId?: PersistedDirectoryId;
   showCapturePane: boolean;
   enableShortPlay: boolean;
-  previewToolbarTab: PreviewToolbarTab;
+  overlayTab: OverlayTab;
 }
 
 const initialState: ProjectState = {
@@ -22,7 +22,7 @@ const initialState: ProjectState = {
   projectDirectoryId: undefined,
   showCapturePane: true,
   enableShortPlay: false,
-  previewToolbarTab: PreviewToolbarTab.FRAME,
+  overlayTab: OverlayTab.FRAME,
 };
 
 const projectSlice = createSlice({
@@ -73,8 +73,8 @@ const projectSlice = createSlice({
       state.enableShortPlay = action.payload;
     },
 
-    setPreviewToolbarTab: (state, action: PayloadAction<PreviewToolbarTab>) => {
-      state.previewToolbarTab = action.payload;
+    setOverlayTab: (state, action: PayloadAction<OverlayTab>) => {
+      state.overlayTab = action.payload;
     },
   },
 });
@@ -88,7 +88,7 @@ export const {
   addTake,
   toggleCapturePane,
   setEnableShortPlay,
-  setPreviewToolbarTab,
+  setOverlayTab,
 } = projectSlice.actions;
 
 export const projectReducer = projectSlice.reducer;

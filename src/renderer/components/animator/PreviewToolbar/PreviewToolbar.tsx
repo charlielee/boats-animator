@@ -7,10 +7,10 @@ import { UiActionIcon, UiActionIconRole } from "../../ui/UiActionIcon/UiActionIc
 import { PreviewToolbarPlayback } from "./PreviewToolbarPlayback/PreviewToolbarPlayback";
 import { PreviewToolbarPlaybackSettings } from "./PreviewToolbarPlaybackSettings/PreviewToolbarPlaybackSettings";
 import { useDispatch, useSelector } from "react-redux";
-import { setPreviewToolbarTab } from "../../../redux/slices/projectSlice";
+import { setOverlayTab } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
 
-export const enum PreviewToolbarTab {
+export const enum OverlayTab {
   FRAME = "FRAME",
   PLAYBACK = "PLAYBACK",
   GRID = "GRID",
@@ -21,7 +21,7 @@ export const enum PreviewToolbarTab {
 export const PreviewToolbar = (): JSX.Element => {
   const { captureImage } = useContext(CaptureContext);
   const { stopPlayback, liveViewVisible } = useContext(PlaybackContext);
-  const previewToolbarTab = useSelector((state: RootState) => state.project.previewToolbarTab);
+  const previewToolbarTab = useSelector((state: RootState) => state.project.overlayTab);
   const dispatch = useDispatch();
 
   const handleClickCaptureButton = () => {
@@ -31,37 +31,37 @@ export const PreviewToolbar = (): JSX.Element => {
     captureImage();
   };
 
-  const handleSelectTab = (tabName: PreviewToolbarTab) => dispatch(setPreviewToolbarTab(tabName));
+  const handleSelectTab = (tabName: OverlayTab) => dispatch(setOverlayTab(tabName));
 
   return (
     <Group py="sm" px="md" align="flex-end">
       <Group flex={1}>
         <UiActionIcon
-          active={previewToolbarTab === PreviewToolbarTab.FRAME}
+          active={previewToolbarTab === OverlayTab.FRAME}
           icon={IconName.FRAME}
-          onClick={() => handleSelectTab(PreviewToolbarTab.FRAME)}
+          onClick={() => handleSelectTab(OverlayTab.FRAME)}
         >
           Frame
         </UiActionIcon>
         <PreviewToolbarPlaybackSettings />
         <UiActionIcon
-          active={previewToolbarTab === PreviewToolbarTab.GRID}
+          active={previewToolbarTab === OverlayTab.GRID}
           icon={IconName.GRID}
-          onClick={() => handleSelectTab(PreviewToolbarTab.GRID)}
+          onClick={() => handleSelectTab(OverlayTab.GRID)}
         >
           Grid Overlay
         </UiActionIcon>
         <UiActionIcon
-          active={previewToolbarTab === PreviewToolbarTab.ASPECT_RATIO}
+          active={previewToolbarTab === OverlayTab.ASPECT_RATIO}
           icon={IconName.ASPECT_RATIO}
-          onClick={() => handleSelectTab(PreviewToolbarTab.ASPECT_RATIO)}
+          onClick={() => handleSelectTab(OverlayTab.ASPECT_RATIO)}
         >
           Aspect Ratio Overlay
         </UiActionIcon>
         <UiActionIcon
-          active={previewToolbarTab === PreviewToolbarTab.ONION_SKIN}
+          active={previewToolbarTab === OverlayTab.ONION_SKIN}
           icon={IconName.ONION_SKIN}
-          onClick={() => handleSelectTab(PreviewToolbarTab.ONION_SKIN)}
+          onClick={() => handleSelectTab(OverlayTab.ONION_SKIN)}
         >
           Onion Skin
         </UiActionIcon>
