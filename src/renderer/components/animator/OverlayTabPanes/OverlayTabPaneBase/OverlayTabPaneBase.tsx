@@ -7,14 +7,14 @@ import "./OverlayTabPaneBase.css";
 
 interface OverlayTabPaneBoxProps {
   title: string;
-  active: boolean;
+  showReset: boolean;
   onReset: () => void;
   children: ReactNode;
 }
 
 export const OverlayTabPaneBase = ({
   title,
-  active,
+  showReset,
   onReset,
   children,
 }: OverlayTabPaneBoxProps) => (
@@ -31,7 +31,7 @@ export const OverlayTabPaneBase = ({
 
         <Table.Tr>
           <Table.Td colSpan={2} align="right">
-            {active && (
+            {showReset && (
               <UiButton
                 inList
                 icon={IconName.PLAY_LOOP}

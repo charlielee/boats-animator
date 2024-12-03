@@ -11,13 +11,13 @@ export const OverlayTabPaneOnionSkin = () => {
   return (
     <OverlayTabPaneBase
       title="Onion Skin"
-      active={opacity !== DEFAULT_ONION_SKIN_OPACITY}
+      showReset={opacity !== DEFAULT_ONION_SKIN_OPACITY}
       onReset={() => setOpacity(DEFAULT_ONION_SKIN_OPACITY)}
     >
       <Table.Tr>
         <Table.Td>Opacity</Table.Td>
         <Table.Td>
-          <UiSlider value={opacity} min={0} max={100} step={1} inList onChange={setOpacity} />
+          <UiSlider value={opacity} min={0} max={100} step={1} onChange={setOpacity} />
         </Table.Td>
       </Table.Tr>
     </OverlayTabPaneBase>
