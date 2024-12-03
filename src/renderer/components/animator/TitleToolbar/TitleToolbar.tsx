@@ -11,6 +11,7 @@ import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiActionIcon, UiActionIconRole } from "../../ui/UiActionIcon/UiActionIcon";
 import { UiButton } from "../../ui/UiButton/UiButton";
+import "./TitleToolbar.css";
 
 const TitleToolbar = (): JSX.Element => {
   const { take, project } = useProjectAndTake();
@@ -21,8 +22,8 @@ const TitleToolbar = (): JSX.Element => {
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
 
   return (
-    <Group pl="md" style={{ backgroundColor: "black" }}>
-      <Flex flex={1} py="sm">
+    <Group className="title-toolbar">
+      <Flex flex={1} pl="sm" py="sm">
         <Tooltip label="Manage Project">
           <UiButton
             icon={IconName.FOLDER}
