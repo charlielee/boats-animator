@@ -20,7 +20,7 @@ export const enum OverlayTab {
 export const PreviewToolbar = (): JSX.Element => {
   const { captureImage } = useContext(CaptureContext);
   const { stopPlayback, liveViewVisible } = useContext(PlaybackContext);
-  const previewToolbarTab = useSelector((state: RootState) => state.project.overlayTab);
+  const overlayTab = useSelector((state: RootState) => state.project.overlayTab);
   const dispatch = useDispatch();
 
   const handleClickCaptureButton = () => {
@@ -30,13 +30,16 @@ export const PreviewToolbar = (): JSX.Element => {
     captureImage();
   };
 
-  const handleSelectTab = (tabName: OverlayTab) => dispatch(setOverlayTab(tabName));
+  const handleSelectTab = (selectedTabName: OverlayTab) => {
+    const newTabName = selectedTabName === overlayTab ? undefined : selectedTabName;
+    dispatch(setOverlayTab(newTabName));
+  };
 
   return (
     <Group align="flex-start">
       <Flex flex={1}>
         <UiActionIcon
-          open={previewToolbarTab === OverlayTab.PLAYBACK}
+          open={overlayTab === OverlayTab.PLAYBACK}
           icon={IconName.PLAYBACK_SETTINGS}
           onClick={() => handleSelectTab(OverlayTab.PLAYBACK)}
           role={UiActionIconRole.TOOLBAR_TAB}
@@ -44,7 +47,7 @@ export const PreviewToolbar = (): JSX.Element => {
           Playback Settings
         </UiActionIcon>
         <UiActionIcon
-          open={previewToolbarTab === OverlayTab.GRID}
+          open={overlayTab === OverlayTab.GRID}
           icon={IconName.GRID}
           onClick={() => handleSelectTab(OverlayTab.GRID)}
           role={UiActionIconRole.TOOLBAR_TAB}
@@ -52,7 +55,7 @@ export const PreviewToolbar = (): JSX.Element => {
           Grid Overlay
         </UiActionIcon>
         <UiActionIcon
-          open={previewToolbarTab === OverlayTab.ASPECT_RATIO}
+          open={overlayTab === OverlayTab.ASPECT_RATIO}
           icon={IconName.ASPECT_RATIO}
           onClick={() => handleSelectTab(OverlayTab.ASPECT_RATIO)}
           role={UiActionIconRole.TOOLBAR_TAB}
@@ -60,7 +63,7 @@ export const PreviewToolbar = (): JSX.Element => {
           Aspect Ratio Overlay
         </UiActionIcon>
         <UiActionIcon
-          open={previewToolbarTab === OverlayTab.ONION_SKIN}
+          open={overlayTab === OverlayTab.ONION_SKIN}
           icon={IconName.ONION_SKIN}
           onClick={() => handleSelectTab(OverlayTab.ONION_SKIN)}
           role={UiActionIconRole.TOOLBAR_TAB}

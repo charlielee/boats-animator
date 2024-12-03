@@ -12,7 +12,7 @@ export interface ProjectState {
   projectDirectoryId?: PersistedDirectoryId;
   showCapturePane: boolean;
   enableShortPlay: boolean;
-  overlayTab: OverlayTab;
+  overlayTab?: OverlayTab;
 }
 
 const initialState: ProjectState = {
@@ -22,7 +22,7 @@ const initialState: ProjectState = {
   projectDirectoryId: undefined,
   showCapturePane: true,
   enableShortPlay: false,
-  overlayTab: OverlayTab.PLAYBACK,
+  overlayTab: undefined,
 };
 
 const projectSlice = createSlice({
@@ -73,7 +73,7 @@ const projectSlice = createSlice({
       state.enableShortPlay = action.payload;
     },
 
-    setOverlayTab: (state, action: PayloadAction<OverlayTab>) => {
+    setOverlayTab: (state, action: PayloadAction<OverlayTab | undefined>) => {
       state.overlayTab = action.payload;
     },
   },
