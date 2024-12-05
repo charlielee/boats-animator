@@ -4,16 +4,12 @@ import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/Imag
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
-import {
-  getHighlightedTrackItem,
-  getLastTrackItem,
-} from "../../../services/project/projectCalculator";
+import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
 import "./Preview.css";
 import PreviewFrame from "./PreviewFrame/PreviewFrame";
+import { PreviewFrameOnionSkin } from "./PreviewFrameOnionSkin/PreviewFrameOnionSkin";
 import PreviewLiveView from "./PreviewLiveView/PreviewLiveView";
 import { PreviewLoader } from "./PreviewLoader/PreviewLoader";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 
 export const Preview = (): JSX.Element => {
   const { take } = useProjectAndTake();
@@ -29,12 +25,6 @@ export const Preview = (): JSX.Element => {
     getTrackItemFileInfo!(trackItem.id)?.objectURL;
 
   const previewSrc = highlightedTrackItem ? getTrackItemObjectURL(highlightedTrackItem) : undefined;
-
-  const enableOnionSkin = useSelector((state: RootState) => state.project.enableOnionSkin);
-  const onionSkinOpacity = useSelector((state: RootState) => state.project.onionSkinOpacity);
-  const onionSkinTrackItem = getLastTrackItem(take.frameTrack);
-  const onionSkinSrc = onionSkinTrackItem ? getTrackItemObjectURL(onionSkinTrackItem) : undefined;
-  const showOnionSkinFrame = liveViewVisible && onionSkinSrc !== undefined && enableOnionSkin;
 
   if (!hasCameraAccess) {
     return (
@@ -64,7 +54,7 @@ export const Preview = (): JSX.Element => {
       )}
       <PreviewLiveView stream={deviceStatus?.stream} />
       <PreviewFrame src={previewSrc} opacity={liveViewVisible ? 0 : 1} />
-      <PreviewFrame src={onionSkinSrc} opacity={showOnionSkinFrame ? onionSkinOpacity / 100 : 0} />
+      <PreviewFrameOnionSkin />
     </div>
   );
 };
