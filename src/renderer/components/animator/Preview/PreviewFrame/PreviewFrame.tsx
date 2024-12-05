@@ -4,10 +4,10 @@ import "./PreviewFrame.css";
 
 interface PreviewFrameProps {
   src: string | undefined;
-  hidden: boolean;
+  opacity: number;
 }
 
-const PreviewFrame = ({ src, hidden }: PreviewFrameProps): JSX.Element => {
+const PreviewFrame = ({ src, opacity }: PreviewFrameProps): JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(new Image());
   const [imageWidth, setImageWidth] = useState(0);
@@ -41,12 +41,11 @@ const PreviewFrame = ({ src, hidden }: PreviewFrameProps): JSX.Element => {
 
   return (
     <canvas
-      className={classNames("preview-frame", {
-        "preview-frame--hidden": hidden,
-      })}
+      className="preview-frame"
       ref={canvasRef}
       width={imageWidth}
       height={imageHeight}
+      style={{ opacity }}
     />
   );
 };
