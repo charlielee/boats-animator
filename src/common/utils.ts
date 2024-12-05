@@ -15,3 +15,4 @@ export const DEFAULT_PROJECT_NAME = "Untitled Movie";
 export const DEFAULT_PROJECT_NAME_FORMATTED = "Untitled-Movie";
 export const DEFAULT_PROJECT_DIRECTORY_NAME = `Untitled-Movie.${PROJECT_DIRECTORY_EXTENSION}`;
 export const DEFAULT_PROJECT_FRAME_RATE = 15;
+export const DEFAULT_ONION_SKIN_OPACITY = 50;
