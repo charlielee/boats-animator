@@ -1,12 +1,18 @@
 import { Table } from "@mantine/core";
-import { OverlayTabPaneBase } from "../OverlayTabPaneBase/OverlayTabPaneBase";
-import { UiSlider } from "../../../ui/UiSlider/UiSlider";
-import { DEFAULT_ONION_SKIN_OPACITY } from "../../../../../common/utils";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
+  DEFAULT_ONION_SKIN_OPACITY,
+} from "../../../../../common/utils";
+import {
+  setEnableOnionSkin,
+  setOnionSkinFramesVisible,
+  setOnionSkinOpacity,
+} from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
-import { setEnableOnionSkin, setOnionSkinOpacity } from "../../../../redux/slices/projectSlice";
 import { UiNumberInput } from "../../../ui/UiNumberInput/UiNumberInput";
-import { useState } from "react";
+import { UiSlider } from "../../../ui/UiSlider/UiSlider";
+import { OverlayTabPaneBase } from "../OverlayTabPaneBase/OverlayTabPaneBase";
 
 export const OverlayTabPaneOnionSkin = () => {
   const dispatch = useDispatch();
@@ -17,12 +23,18 @@ export const OverlayTabPaneOnionSkin = () => {
   const onionSkinOpacity = useSelector((state: RootState) => state.project.onionSkinOpacity);
   const handleChangeOpacity = (newValue: number) => dispatch(setOnionSkinOpacity(newValue));
 
-  const [onionSkinFramesVisible, setOnionSkinFramesVisible] = useState(1);
+  const onionSkinFramesVisible = useSelector(
+    (state: RootState) => state.project.onionSkinFramesVisible
+  );
+  const handleChangeFramesVisible = (newValue: number) =>
+    dispatch(setOnionSkinFramesVisible(newValue));
 
-  const showReset = onionSkinOpacity !== DEFAULT_ONION_SKIN_OPACITY || onionSkinFramesVisible !== 1;
+  const showReset =
+    onionSkinOpacity !== DEFAULT_ONION_SKIN_OPACITY ||
+    onionSkinFramesVisible !== DEFAULT_ONION_SKIN_FRAMES_VISIBLE;
   const handleReset = () => {
     handleChangeOpacity(DEFAULT_ONION_SKIN_OPACITY);
-    setOnionSkinFramesVisible(1);
+    handleChangeFramesVisible(DEFAULT_ONION_SKIN_FRAMES_VISIBLE);
   };
 
   return (
@@ -55,7 +67,7 @@ export const OverlayTabPaneOnionSkin = () => {
             min={1}
             max={8}
             step={1}
-            onChange={setOnionSkinFramesVisible}
+            onChange={handleChangeFramesVisible}
           />
         </Table.Td>
       </Table.Tr>
