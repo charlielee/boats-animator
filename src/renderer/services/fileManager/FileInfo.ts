@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { FileInfoId } from "../../../common/Flavors";
 
 export enum FileInfoType {
@@ -8,7 +7,7 @@ export enum FileInfoType {
 
 export class FileInfo {
   constructor(
-    public fileInfoId: FileInfoId = uuidv4(),
+    public fileInfoId: FileInfoId,
     public fileType: FileInfoType,
     public fileHandle: FileSystemFileHandle,
     public objectURL: string

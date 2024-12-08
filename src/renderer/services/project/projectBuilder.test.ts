@@ -6,12 +6,7 @@ import {
   TAKE,
   TRACK_GROUP_ID,
 } from "../../../common/testConstants";
-import {
-  DEFAULT_PROJECT_NAME_FORMATTED,
-  DEFAULT_PROJECT_NAME,
-  PROJECT_DIRECTORY_EXTENSION,
-  DEFAULT_PROJECT_DIRECTORY_NAME,
-} from "../../../common/utils";
+import { DEFAULT_PROJECT_DIRECTORY_NAME, PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
 import {
   makeFrameTrackItem,
   makeProject,
@@ -35,6 +30,7 @@ describe("makeProject", () => {
       directoryName: PROJECT_DIRECTORY_NAME,
       lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 1,
+      fileInfoId: expect.any(String),
     });
   });
 
@@ -45,6 +41,7 @@ describe("makeProject", () => {
       directoryName: `${"a".repeat(60)}.${PROJECT_DIRECTORY_EXTENSION}`,
       lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 15,
+      fileInfoId: expect.any(String),
     });
   });
 
@@ -55,6 +52,7 @@ describe("makeProject", () => {
       directoryName: `🚢MyTest-Movié-01!龙🐸.${PROJECT_DIRECTORY_EXTENSION}`,
       lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 15,
+      fileInfoId: expect.any(String),
     });
   });
 
@@ -65,6 +63,7 @@ describe("makeProject", () => {
       directoryName: DEFAULT_PROJECT_DIRECTORY_NAME,
       lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 15,
+      fileInfoId: expect.any(String),
     });
   });
 
@@ -75,6 +74,7 @@ describe("makeProject", () => {
       directoryName: DEFAULT_PROJECT_DIRECTORY_NAME,
       lastSaved: MOCK_ISO_DATE_TIME_STRING,
       projectFrameRate: 15,
+      fileInfoId: expect.any(String),
     });
   });
 });
@@ -124,6 +124,7 @@ describe("makeFrameTrackItem", () => {
       length: 1,
       fileNumber,
       trackGroupId: expect.any(String),
+      fileInfoId: expect.any(String),
     });
   });
 
@@ -136,6 +137,7 @@ describe("makeFrameTrackItem", () => {
       length: 1,
       fileNumber,
       trackGroupId,
+      fileInfoId: expect.any(String),
     });
   });
 });

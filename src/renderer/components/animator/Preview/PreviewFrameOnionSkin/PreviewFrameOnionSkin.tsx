@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { useSelector } from "react-redux";
-import { TrackItem } from "../../../../../common/project/TrackItem";
 import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext";
 import { ProjectFilesContext } from "../../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import useProjectAndTake from "../../../../hooks/useProjectAndTake";
@@ -10,10 +9,7 @@ import PreviewFrame from "../PreviewFrame/PreviewFrame";
 export const PreviewFrameOnionSkin = () => {
   const { take } = useProjectAndTake();
   const { liveViewVisible } = useContext(PlaybackContext);
-  const { getTrackItemFileInfo } = useContext(ProjectFilesContext);
-
-  const getTrackItemObjectURL = (trackItem: TrackItem) =>
-    getTrackItemFileInfo!(trackItem.id)?.objectURL;
+  const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
 
   const enableOnionSkin = useSelector((state: RootState) => state.project.enableOnionSkin);
   const onionSkinOpacity = useSelector((state: RootState) => state.project.onionSkinOpacity);
@@ -25,13 +21,11 @@ export const PreviewFrameOnionSkin = () => {
 
   const showOnionSkinFrames = liveViewVisible && enableOnionSkin;
 
-  // todo handle not showing onion skin when rapid capture (probably due to getTrackItemFileInfo being undefined)
-  console.log(trackItems);
-
+  // todo why does this render so many times on load
   if (showOnionSkinFrames) {
     return trackItems.map((trackItem) => (
       <PreviewFrame
-        src={getTrackItemObjectURL(trackItem)}
+        src={getTrackItemObjectURL?.(trackItem)}
         opacity={onionSkinOpacity / 100}
         key={trackItem.id}
       />

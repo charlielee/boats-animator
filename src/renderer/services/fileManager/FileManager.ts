@@ -13,7 +13,7 @@ import { FileInfo, FileInfoType } from "./FileInfo";
 import * as rLogger from "../../services/rLogger/rLogger";
 
 export class FileManager {
-  fileInfos: FileInfo[] = [];
+  private fileInfos: FileInfo[] = [];
 
   constructor() {}
 
@@ -50,6 +50,7 @@ export class FileManager {
   };
 
   createFile = async (
+    fileInfoId: FileInfoId,
     name: string,
     parentHandle: FileSystemDirectoryHandle,
     fileType: FileInfoType,
@@ -62,7 +63,7 @@ export class FileManager {
     try {
       const fileHandle = await parentHandle.getFileHandle(name, { create: true });
       const objectURL = await this.writeFileAndCreateObjectURL(fileHandle, data);
-      const fileInfo = new FileInfo(undefined, fileType, fileHandle, objectURL);
+      const fileInfo = new FileInfo(fileInfoId, fileType, fileHandle, objectURL);
 
       this.fileInfos = [...this.fileInfos, fileInfo];
 

@@ -33,6 +33,7 @@ export const makeProject = ({
   directoryName: makeProjectDirectoryName(name),
   projectFrameRate,
   lastSaved: new Date().toISOString(),
+  fileInfoId: uuidv4(),
 });
 
 const makeProjectDirectoryName = (name: string) => {
@@ -78,6 +79,7 @@ export const makeFrameTrackItem = (
   fileName: makeFrameFileName(take, fileNumber),
   fileNumber,
   trackGroupId: trackGroupId ?? uuidv4(),
+  fileInfoId: uuidv4(),
 });
 
 export const makeTakeDirectoryName = (take: Take) =>

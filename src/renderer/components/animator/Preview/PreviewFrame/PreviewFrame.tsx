@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import "./PreviewFrame.css";
 
 interface PreviewFrameProps {
@@ -9,15 +9,14 @@ interface PreviewFrameProps {
 const PreviewFrame = ({ src, opacity }: PreviewFrameProps): JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(new Image());
-  const [imageWidth, setImageWidth] = useState(0);
-  const [imageHeight, setImageHeight] = useState(0);
 
   const drawImage = () => {
-    const context = canvasRef.current?.getContext("2d");
-    if (!context) {
-      return;
+    if (canvasRef.current) {
+      canvasRef.current.width = imageRef.current.naturalWidth;
+      canvasRef.current.height = imageRef.current.naturalHeight;
     }
 
+    const context = canvasRef.current?.getContext("2d");
     context?.drawImage(imageRef.current, 0, 0);
   };
 
@@ -28,25 +27,11 @@ const PreviewFrame = ({ src, opacity }: PreviewFrameProps): JSX.Element => {
     const image = imageRef.current;
     image.src = src;
     image.addEventListener("load", drawImage);
-    setImageWidth(image.naturalWidth);
-    setImageHeight(image.naturalHeight);
 
     return () => image.removeEventListener("load", drawImage);
   }, [src]);
 
-  useEffect(() => {
-    drawImage();
-  }, [imageWidth, imageHeight]);
-
-  return (
-    <canvas
-      className="preview-frame"
-      ref={canvasRef}
-      width={imageWidth}
-      height={imageHeight}
-      style={{ opacity }}
-    />
-  );
+  return <canvas className="preview-frame" ref={canvasRef} style={{ opacity }} />;
 };
 
 export default PreviewFrame;

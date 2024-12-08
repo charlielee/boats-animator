@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { TrackItem } from "../../../../common/project/TrackItem";
 import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
@@ -15,16 +14,15 @@ export const Preview = (): JSX.Element => {
   const { take } = useProjectAndTake();
   const { deviceIdentifier, deviceStatus, deviceLoading } = useContext(ImagingDeviceContext);
 
-  const { getTrackItemFileInfo } = useContext(ProjectFilesContext);
   const { hasCameraAccess } = useContext(ImagingDeviceContext);
   const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);
+  const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
 
   const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
 
-  const getTrackItemObjectURL = (trackItem: TrackItem) =>
-    getTrackItemFileInfo!(trackItem.id)?.objectURL;
-
-  const previewSrc = highlightedTrackItem ? getTrackItemObjectURL(highlightedTrackItem) : undefined;
+  const previewSrc = highlightedTrackItem
+    ? getTrackItemObjectURL?.(highlightedTrackItem)
+    : undefined;
 
   if (!hasCameraAccess) {
     return (

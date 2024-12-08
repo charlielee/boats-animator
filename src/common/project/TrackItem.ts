@@ -1,4 +1,4 @@
-import { FrameCount, TimelineIndex, TrackGroupId, TrackItemId } from "../Flavors";
+import { FileInfoId, FrameCount, TimelineIndex, TrackGroupId, TrackItemId } from "../Flavors";
 
 export interface TrackItem {
   id: TrackItemId;
@@ -6,4 +6,5 @@ export interface TrackItem {
   fileName: string;
   fileNumber: TimelineIndex;
   trackGroupId: TrackGroupId;
+  fileInfoId: FileInfoId;
 }
