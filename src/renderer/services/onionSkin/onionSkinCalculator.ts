@@ -1,5 +1,8 @@
 import { Track } from "../../../common/project/Track";
 
+export const getOnionSkinTrackItems = (frameTrack: Track, onionSkinFramesVisible: number) =>
+  frameTrack.trackItems.slice(onionSkinFramesVisible * -1);
+
 export const calculateLiveViewOpacity = (
   enableOnionSkin: boolean,
   onionSkinOpacity: number,

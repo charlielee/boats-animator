@@ -4,8 +4,11 @@ import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext
 import { ProjectFilesContext } from "../../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import useProjectAndTake from "../../../../hooks/useProjectAndTake";
 import { RootState } from "../../../../redux/store";
+import {
+  calculateOnionSkinFrameOpacity,
+  getOnionSkinTrackItems,
+} from "../../../../services/onionSkin/onionSkinCalculator";
 import PreviewFrame from "../PreviewFrame/PreviewFrame";
-import { calculateOnionSkinFrameOpacity } from "../../../../services/onionSkin/onionSkinCalculator";
 
 export const PreviewFrameOnionSkin = () => {
   const { take } = useProjectAndTake();
@@ -18,7 +21,7 @@ export const PreviewFrameOnionSkin = () => {
     (state: RootState) => state.project.onionSkinFramesVisible
   );
 
-  const trackItems = take.frameTrack.trackItems.slice(onionSkinFramesVisible * -1);
+  const trackItems = getOnionSkinTrackItems(take.frameTrack, onionSkinFramesVisible);
   const showOnionSkinFrames = liveViewVisible && enableOnionSkin;
 
   // todo why does this render so many times on load
