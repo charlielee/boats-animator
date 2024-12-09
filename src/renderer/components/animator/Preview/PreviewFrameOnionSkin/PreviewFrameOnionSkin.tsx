@@ -29,7 +29,7 @@ export const PreviewFrameOnionSkin = () => {
     return trackItems.map((trackItem, i) => (
       <PreviewFrame
         src={getTrackItemObjectURL?.(trackItem)}
-        opacity={calculateOnionSkinFrameOpacity(onionSkinOpacity / 100, i)}
+        opacity={calculateOnionSkinFrameOpacity(onionSkinOpacity, i)}
         key={trackItem.id}
       />
     ));

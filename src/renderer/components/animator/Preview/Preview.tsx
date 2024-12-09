@@ -59,7 +59,7 @@ export const Preview = (): JSX.Element => {
       <PreviewFrameOnionSkin />
       <PreviewLiveView
         stream={deviceStatus?.stream}
-        opacity={calculateLiveViewOpacity(enableOnionSkin, onionSkinOpacity / 100, take.frameTrack)}
+        opacity={calculateLiveViewOpacity(enableOnionSkin, onionSkinOpacity, take.frameTrack)}
       />
       <PreviewFrame src={previewSrc} opacity={liveViewVisible ? 0 : 1} />
     </div>
