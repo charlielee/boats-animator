@@ -3,9 +3,10 @@ import "./PreviewLiveView.css";
 
 interface PreviewLiveViewProps {
   stream: MediaStream | undefined;
+  opacity: number;
 }
 
-const PreviewLiveView = ({ stream }: PreviewLiveViewProps): JSX.Element => {
+export const PreviewLiveView = ({ stream, opacity }: PreviewLiveViewProps) => {
   const videoRef = useCallback(
     (video: HTMLVideoElement | null) => {
       if (video) {
@@ -15,7 +16,5 @@ const PreviewLiveView = ({ stream }: PreviewLiveViewProps): JSX.Element => {
     [stream]
   );
 
-  return <video className="preview-live-view" autoPlay ref={videoRef}></video>;
+  return <video className="preview-live-view" autoPlay ref={videoRef} style={{ opacity }}></video>;
 };
-
-export default PreviewLiveView;

@@ -7,8 +7,11 @@ import { getHighlightedTrackItem } from "../../../services/project/projectCalcul
 import "./Preview.css";
 import PreviewFrame from "./PreviewFrame/PreviewFrame";
 import { PreviewFrameOnionSkin } from "./PreviewFrameOnionSkin/PreviewFrameOnionSkin";
-import PreviewLiveView from "./PreviewLiveView/PreviewLiveView";
+import { PreviewLiveView } from "./PreviewLiveView/PreviewLiveView";
 import { PreviewLoader } from "./PreviewLoader/PreviewLoader";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { calculateLiveViewOpacity } from "../../../services/onionSkin/onionSkinCalculator";
 
 export const Preview = (): JSX.Element => {
   const { take } = useProjectAndTake();
@@ -17,6 +20,9 @@ export const Preview = (): JSX.Element => {
   const { hasCameraAccess } = useContext(ImagingDeviceContext);
   const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);
   const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
+
+  const enableOnionSkin = useSelector((state: RootState) => state.project.enableOnionSkin);
+  const onionSkinOpacity = useSelector((state: RootState) => state.project.onionSkinOpacity);
 
   const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
 
@@ -50,9 +56,12 @@ export const Preview = (): JSX.Element => {
       {deviceIdentifier && deviceStatus === undefined && (
         <h2>Select a Capture Resolution to begin!</h2>
       )}
-      <PreviewLiveView stream={deviceStatus?.stream} />
-      <PreviewFrame src={previewSrc} opacity={liveViewVisible ? 0 : 1} />
       <PreviewFrameOnionSkin />
+      <PreviewLiveView
+        stream={deviceStatus?.stream}
+        opacity={calculateLiveViewOpacity(enableOnionSkin, onionSkinOpacity / 100, take.frameTrack)}
+      />
+      <PreviewFrame src={previewSrc} opacity={liveViewVisible ? 0 : 1} />
     </div>
   );
 };
