@@ -1,6 +1,6 @@
 .overlay-tab-pane-base__box {
-  width: 22rem;
-  min-width: 22rem;
+  width: 20rem;
+  min-width: 20rem;
   overflow: auto;
   background-color: var(--mantine-color-default);
 }

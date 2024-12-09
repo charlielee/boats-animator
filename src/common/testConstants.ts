@@ -12,6 +12,7 @@ export const PROJECT: Project = {
   directoryName: PROJECT_DIRECTORY_NAME,
   projectFrameRate: DEFAULT_PROJECT_FRAME_RATE,
   lastSaved: new Date("2024-01-01").toISOString(),
+  fileInfoId: "ca4d6500-013c-4a89-b0aa-a18387e6af30",
 };
 
 export const TAKE: Take = {

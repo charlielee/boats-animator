@@ -26,6 +26,7 @@ describe("getNextFileNumber", () => {
           fileName: "somewhere.jpg",
           fileNumber: 1,
           trackGroupId: "trackGroupId",
+          fileInfoId: "fileInfoId",
         },
       ],
     };
@@ -39,6 +40,7 @@ describe("getNextFileNumber", () => {
           fileName: "somewhere.jpg",
           fileNumber: 7,
           trackGroupId: "trackGroupId",
+          fileInfoId: "fileInfoId",
         },
       ],
     };

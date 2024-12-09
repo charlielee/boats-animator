@@ -1,6 +1,8 @@
-import { FileInfoType } from "../../../../services/fileManager/FileInfo";
+import { useContext } from "react";
 import { TimelineIndex } from "../../../../../common/Flavors";
 import { Track } from "../../../../../common/project/Track";
+import { ProjectFilesContext } from "../../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
+import { FileInfoType } from "../../../../services/fileManager/FileInfo";
 import {
   getHighlightedTrackItem,
   getTrackItemTitle,
@@ -9,9 +11,6 @@ import TimelineLiveViewButton from "../TimelineLiveView/TimelineLiveView";
 import TimelineTrackItem from "../TimelineTrackItem/TimelineTrackItem";
 import TimelineTrackNoItems from "../TimelineTrackNoItems/TimelineTrackNoItems";
 import "./TimelineTrack.css";
-import { useContext } from "react";
-import { ProjectFilesContext } from "../../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
-import { TrackItem } from "../../../../../common/project/TrackItem";
 
 interface TimelineTrackProps {
   track: Track;
@@ -27,10 +26,7 @@ const TimelineTrack = ({
   onClickLiveView,
 }: TimelineTrackProps): JSX.Element => {
   const highlightedTrackItem = getHighlightedTrackItem(track, timelineIndex);
-  const { getTrackItemFileInfo } = useContext(ProjectFilesContext);
-
-  const getTrackItemObjectURL = (trackItem: TrackItem) =>
-    getTrackItemFileInfo!(trackItem.id)?.objectURL;
+  const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
 
   return (
     <div className="timeline-track">
@@ -40,7 +36,7 @@ const TimelineTrack = ({
             return (
               <TimelineTrackItem
                 title={getTrackItemTitle(track, i)}
-                dataUrl={getTrackItemObjectURL(trackItem)}
+                dataUrl={getTrackItemObjectURL?.(trackItem)}
                 highlighted={highlightedTrackItem?.id === trackItem.id}
                 key={trackItem.id}
                 onClick={() => onClickItem(i)}

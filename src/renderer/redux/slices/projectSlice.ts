@@ -4,6 +4,10 @@ import { TrackItem } from "../../../common/project/TrackItem";
 import { Project } from "../../../common/project/Project";
 import { PersistedDirectoryId, TrackItemId } from "../../../common/Flavors";
 import { OverlayTab } from "../../components/animator/PreviewToolbar/PreviewToolbarOverlayTabs/PreviewToolbarOverlayTabs";
+import {
+  DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
+  DEFAULT_ONION_SKIN_OPACITY,
+} from "../../../common/utils";
 
 export interface ProjectState {
   project?: Project;
@@ -13,6 +17,9 @@ export interface ProjectState {
   showCapturePane: boolean;
   enableShortPlay: boolean;
   overlayTab?: OverlayTab;
+  enableOnionSkin: boolean;
+  onionSkinOpacity: number;
+  onionSkinFramesVisible: number;
 }
 
 const initialState: ProjectState = {
@@ -23,6 +30,9 @@ const initialState: ProjectState = {
   showCapturePane: true,
   enableShortPlay: false,
   overlayTab: undefined,
+  enableOnionSkin: false,
+  onionSkinOpacity: DEFAULT_ONION_SKIN_OPACITY,
+  onionSkinFramesVisible: DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
 };
 
 const projectSlice = createSlice({
@@ -76,6 +86,18 @@ const projectSlice = createSlice({
     setOverlayTab: (state, action: PayloadAction<OverlayTab | undefined>) => {
       state.overlayTab = action.payload;
     },
+
+    setEnableOnionSkin: (state, action: PayloadAction<boolean>) => {
+      state.enableOnionSkin = action.payload;
+    },
+
+    setOnionSkinOpacity: (state, action: PayloadAction<number>) => {
+      state.onionSkinOpacity = action.payload;
+    },
+
+    setOnionSkinFramesVisible: (state, action: PayloadAction<number>) => {
+      state.onionSkinFramesVisible = action.payload;
+    },
   },
 });
 
@@ -89,6 +111,9 @@ export const {
   toggleCapturePane,
   setEnableShortPlay,
   setOverlayTab,
+  setEnableOnionSkin,
+  setOnionSkinOpacity,
+  setOnionSkinFramesVisible,
 } = projectSlice.actions;
 
 export const projectReducer = projectSlice.reducer;

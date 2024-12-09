@@ -1,23 +1,21 @@
-import { ReactNode, useContext, useEffect, useState } from "react";
-import { ProjectFilesContext } from "./ProjectFilesContext";
-import { FileInfo } from "../../services/fileManager/FileInfo";
-import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
-import useProjectDirectory from "../../hooks/useProjectDirectory";
-import { FileInfoId, TrackItemId } from "../../../common/Flavors";
+import { ReactNode, useContext, useEffect } from "react";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
-import {
-  makeTakeDirectoryName,
-  makeProjectInfoFileJson,
-} from "../../services/project/projectBuilder";
 import { PROJECT_INFO_FILE_NAME } from "../../../common/utils";
+import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { FileInfoType } from "../../services/fileManager/FileInfo";
+import {
+  makeProjectInfoFileJson,
+  makeTakeDirectoryName,
+} from "../../services/project/projectBuilder";
+import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
+import { ProjectFilesContext } from "./ProjectFilesContext";
 
-import { Project } from "../../../common/project/Project";
 import { useDispatch, useSelector } from "react-redux";
+import { Project } from "../../../common/project/Project";
+import { addFrameTrackItem, removeFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
 import * as rLogger from "../../services/rLogger/rLogger";
-import { removeFrameTrackItem } from "../../redux/slices/projectSlice";
 
 interface ProjectFilesContextProviderProps {
   children: ReactNode;
@@ -31,9 +29,6 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   const appVersion = useSelector((state: RootState) => state.app.appVersion);
   const dispatch = useDispatch();
 
-  const [projectInfoFileId, setProjectInfoFileId] = useState<FileInfoId | undefined>(undefined);
-  const [trackItemFiles, setTrackItemFiles] = useState<Record<TrackItemId, FileInfoId>>({});
-
   const saveTrackItemToDisk = async (
     take: Take,
     trackItem: TrackItem,
@@ -42,36 +37,37 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     if (projectDirectory === undefined) {
       throw "Missing projectDirectory";
     }
+    if (fileManager === undefined) {
+      throw "Missing FileManager";
+    }
 
     const takeDirectoryName = makeTakeDirectoryName(take);
-    const takeDirectoryHandle = await fileManager?.createDirectory(
+    const takeDirectoryHandle = await fileManager.createDirectory(
       takeDirectoryName,
       projectDirectory.handle
     );
-    if (takeDirectoryHandle === undefined) {
-      throw "Unable to create take directory handle";
-    }
 
-    const fileInfoId = await fileManager?.createFile!(
+    await fileManager.createFile(
+      trackItem.fileInfoId,
       trackItem.fileName,
       takeDirectoryHandle,
       FileInfoType.FRAME,
       data
     );
-    if (fileInfoId === undefined) {
-      throw "Unable to create track item fileInfo";
-    }
-
-    setTrackItemFiles((p) => ({ ...p, [trackItem.id]: fileInfoId }));
+    dispatch(addFrameTrackItem(trackItem));
   };
 
-  const getTrackItemFileInfo = (trackItemId: TrackItemId): FileInfo | undefined =>
-    fileManager?.findFile!(trackItemFiles[trackItemId]);
+  const deleteTrackItem = async (trackItem: TrackItem) => {
+    await fileManager?.deleteFile(trackItem.fileInfoId);
+    dispatch(removeFrameTrackItem(trackItem.id));
+  };
 
-  const deleteTrackItem = async (trackItemId: TrackItemId): Promise<void> => {
-    await fileManager?.deleteFile(trackItemFiles[trackItemId]);
-    setTrackItemFiles(({ [trackItemId]: _, ...otherTrackItemFiles }) => otherTrackItemFiles);
-    dispatch(removeFrameTrackItem(trackItemId));
+  const getTrackItemObjectURL = (trackItem: TrackItem) => {
+    const objectURL = fileManager?.findFile(trackItem.fileInfoId)?.objectURL;
+    if (objectURL === undefined) {
+      throw `Unable to find objectURL for trackItem ${trackItem.id}`;
+    }
+    return objectURL;
   };
 
   const updateProjectAndTakeLastSaved = (project: Project, take: Take): [Project, Take[]] => {
@@ -86,23 +82,29 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     if (projectDirectory === undefined) {
       throw "Unable to save project file info as missing projectDirectory";
     }
+    if (fileManager === undefined) {
+      throw "Unable to save project file info as missing FileManager";
+    }
+
+    const projectFileInfo = fileManager.findFile(project.fileInfoId);
 
     const projectFileJson = await makeProjectInfoFileJson(appVersion, project, takes);
     const profileFileString = JSON.stringify(projectFileJson);
     const data = new Blob([profileFileString], { type: "application/json" });
 
-    if (projectInfoFileId) {
+    if (projectFileInfo) {
       rLogger.info(
         "projectFilesContext.saveProject.update",
-        `Updating project info file ${projectInfoFileId}`
+        `Updating project info file ${projectFileInfo.fileInfoId}`
       );
-      await fileManager?.updateFile(projectInfoFileId, data);
+      await fileManager.updateFile(projectFileInfo.fileInfoId, data);
     } else {
       rLogger.info(
         "projectFilesContext.saveProject.create",
         `Creating new project info file in ${projectDirectory.handle.name}`
       );
-      const fileInfoId = await fileManager?.createFile(
+      const fileInfoId = await fileManager.createFile(
+        project.fileInfoId,
         PROJECT_INFO_FILE_NAME,
         projectDirectory.handle,
         FileInfoType.PROJECT_INFO,
@@ -111,7 +113,6 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
       if (fileInfoId === undefined) {
         throw "Unable to create project info file";
       }
-      setProjectInfoFileId(fileInfoId);
     }
   };
 
@@ -125,7 +126,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   return (
     <ProjectFilesContext.Provider
-      value={{ saveTrackItemToDisk, getTrackItemFileInfo, deleteTrackItem }}
+      value={{ saveTrackItemToDisk, deleteTrackItem, getTrackItemObjectURL }}
     >
       {children}
     </ProjectFilesContext.Provider>

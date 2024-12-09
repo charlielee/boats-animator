@@ -28,7 +28,7 @@ export const OverlayTabPanePlayback = () => {
   };
 
   return (
-    <OverlayTabPaneBase title="Playback Settings" active={active} onReset={handleReset}>
+    <OverlayTabPaneBase title="Playback Settings" showReset={active} onReset={handleReset}>
       <Table.Tr>
         <Table.Td>Playback Speed</Table.Td>
         <Table.Td>

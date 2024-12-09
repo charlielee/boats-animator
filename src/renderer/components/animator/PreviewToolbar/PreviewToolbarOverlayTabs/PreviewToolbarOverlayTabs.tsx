@@ -30,22 +30,22 @@ export const PreviewToolbarOverlayTabs = () => {
       >
         Playback Settings
       </UiActionIcon>
-      <UiActionIcon
+      {/* <UiActionIcon
         open={overlayTab === OverlayTab.GRID}
         icon={IconName.GRID}
         onClick={() => handleSelectTab(OverlayTab.GRID)}
         role={UiActionIconRole.TOOLBAR_TAB}
       >
         Grid Overlay
-      </UiActionIcon>
-      <UiActionIcon
+      </UiActionIcon> */}
+      {/* <UiActionIcon
         open={overlayTab === OverlayTab.ASPECT_RATIO}
         icon={IconName.ASPECT_RATIO}
         onClick={() => handleSelectTab(OverlayTab.ASPECT_RATIO)}
         role={UiActionIconRole.TOOLBAR_TAB}
       >
         Aspect Ratio Overlay
-      </UiActionIcon>
+      </UiActionIcon> */}
       <UiActionIcon
         open={overlayTab === OverlayTab.ONION_SKIN}
         icon={IconName.ONION_SKIN}

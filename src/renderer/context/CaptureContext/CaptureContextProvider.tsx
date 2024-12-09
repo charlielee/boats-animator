@@ -1,9 +1,8 @@
 import { notifications } from "@mantine/notifications";
 import { ReactNode, useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import cameraSound from "../../audio/camera.wav";
 import useProjectAndTake from "../../hooks/useProjectAndTake";
-import { addFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
 import { makeFrameTrackItem } from "../../services/project/projectBuilder";
 import { getNextFileNumber } from "../../services/project/projectCalculator";
@@ -17,7 +16,6 @@ interface CaptureContextProviderProps {
 }
 
 const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
-  const dispatch = useDispatch();
   const { take } = useProjectAndTake();
   const playCaptureSound = useSelector(
     (state: RootState) => state.app.userPreferences.playCaptureSound
@@ -46,8 +44,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
 
       const fileNumber = getNextFileNumber(take.frameTrack);
       const trackItem = makeFrameTrackItem(take, fileNumber);
-      await saveTrackItemToDisk!(take, trackItem, imageData);
-      dispatch(addFrameTrackItem(trackItem));
+      await saveTrackItemToDisk?.(take, trackItem, imageData);
     } catch (e) {
       rLogger.warn(
         "captureImageError",

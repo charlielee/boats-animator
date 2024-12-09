@@ -119,7 +119,7 @@ const PlaybackContextProvider = ({ take, children }: PlaybackContextProviderProp
       "playback.deleteFrameAtCurrentTimelineIndex.deleted",
       `deleted track item ${trackItem.fileName}`
     );
-    await deleteTrackItem?.(trackItem.id);
+    await deleteTrackItem?.(trackItem);
     notifications.show({ message: "Deleted frame" });
   };
 

@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { TrackItem } from "../../../../common/project/TrackItem";
 import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
@@ -7,23 +6,29 @@ import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
 import "./Preview.css";
 import PreviewFrame from "./PreviewFrame/PreviewFrame";
-import PreviewLiveView from "./PreviewLiveView/PreviewLiveView";
+import { PreviewFrameOnionSkin } from "./PreviewFrameOnionSkin/PreviewFrameOnionSkin";
+import { PreviewLiveView } from "./PreviewLiveView/PreviewLiveView";
 import { PreviewLoader } from "./PreviewLoader/PreviewLoader";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { calculateLiveViewOpacity } from "../../../services/onionSkin/onionSkinCalculator";
 
 export const Preview = (): JSX.Element => {
   const { take } = useProjectAndTake();
   const { deviceIdentifier, deviceStatus, deviceLoading } = useContext(ImagingDeviceContext);
 
-  const { getTrackItemFileInfo } = useContext(ProjectFilesContext);
   const { hasCameraAccess } = useContext(ImagingDeviceContext);
   const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);
+  const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
+
+  const enableOnionSkin = useSelector((state: RootState) => state.project.enableOnionSkin);
+  const onionSkinOpacity = useSelector((state: RootState) => state.project.onionSkinOpacity);
 
   const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
 
-  const getTrackItemObjectURL = (trackItem: TrackItem) =>
-    getTrackItemFileInfo!(trackItem.id)?.objectURL;
-
-  const previewSrc = highlightedTrackItem ? getTrackItemObjectURL(highlightedTrackItem) : undefined;
+  const previewSrc = highlightedTrackItem
+    ? getTrackItemObjectURL?.(highlightedTrackItem)
+    : undefined;
 
   if (!hasCameraAccess) {
     return (
@@ -51,8 +56,12 @@ export const Preview = (): JSX.Element => {
       {deviceIdentifier && deviceStatus === undefined && (
         <h2>Select a Capture Resolution to begin!</h2>
       )}
-      <PreviewLiveView stream={deviceStatus?.stream} />
-      <PreviewFrame src={previewSrc} hidden={liveViewVisible} />
+      <PreviewFrameOnionSkin />
+      <PreviewLiveView
+        stream={deviceStatus?.stream}
+        opacity={calculateLiveViewOpacity(enableOnionSkin, onionSkinOpacity, take.frameTrack)}
+      />
+      <PreviewFrame src={previewSrc} opacity={liveViewVisible ? 0 : 1} />
     </div>
   );
 };
