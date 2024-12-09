@@ -22,7 +22,6 @@ const theme = createTheme({
     [SemanticColor.DANGER]: DEFAULT_THEME.colors.red,
   },
   primaryColor: SemanticColor.PRIMARY,
-  components: { body: { styles: { backgroundColor: "green" } } },
   scale: 0.925,
 });
 
