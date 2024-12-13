@@ -1,10 +1,11 @@
-import { Box, Table } from "@mantine/core";
+import { Box, Card, Group, Table, Title } from "@mantine/core";
 import { ReactNode } from "react";
 import IconName from "../../../common/Icon/IconName";
 import { SemanticColor } from "../../../ui/Theme/SemanticColor";
 import { UiButton } from "../../../ui/UiButton/UiButton";
 import "./OverlayTabPaneBase.css";
 import { UiSwitch } from "../../../ui/UiSwitch/UiSwitch";
+import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 
 interface OverlayTabPaneBoxProps {
   title: string;
@@ -25,39 +26,33 @@ export const OverlayTabPaneBase = ({
   onTitleToggle,
   children,
 }: OverlayTabPaneBoxProps) => (
-  <Box className="overlay-tab-pane-base__box">
-    <Table classNames={{ tr: "overlay-tab-pane-base__table-row" }}>
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th>{title}</Table.Th>
-          <Table.Th>
-            {showTitleToggle && (
-              <UiSwitch checked={titleToggle} onChange={(newValue) => onTitleToggle?.(newValue)} />
-            )}
-          </Table.Th>
-        </Table.Tr>
-      </Table.Thead>
+  <Card className="overlay-tab-pane-base__box" radius={0}>
+    <UiPaneSection>
+      <Group justify="space-between" pt="xs">
+        <Title order={4}>{title}</Title>
+        {showTitleToggle && (
+          <UiSwitch checked={titleToggle} onChange={(newValue) => onTitleToggle?.(newValue)} />
+        )}
+      </Group>
+    </UiPaneSection>
 
-      {titleToggle && (
-        <Table.Tbody>
-          {children}
+    {titleToggle && (
+      <>
+        {children}
 
-          <Table.Tr>
-            <Table.Td colSpan={2} align="right">
-              {showReset && (
-                <UiButton
-                  inList
-                  icon={IconName.PLAY_LOOP}
-                  semanticColor={SemanticColor.PRIMARY}
-                  onClick={onReset}
-                >
-                  Reset
-                </UiButton>
-              )}
-            </Table.Td>
-          </Table.Tr>
-        </Table.Tbody>
-      )}
-    </Table>
-  </Box>
+        {showReset && (
+          <UiPaneSection>
+            <UiButton
+              inList
+              icon={IconName.PLAY_LOOP}
+              semanticColor={SemanticColor.PRIMARY}
+              onClick={onReset}
+            >
+              Reset
+            </UiButton>
+          </UiPaneSection>
+        )}
+      </>
+    )}
+  </Card>
 );
