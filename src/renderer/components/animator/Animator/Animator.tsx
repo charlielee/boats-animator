@@ -17,16 +17,14 @@ export const Animator = (): JSX.Element => {
       <TitleToolbar />
       <PageBody>
         <Content>
-          <Preview />
-          <PreviewToolbar />
-
-          <Group className="animator__overlay-tabs-pane-and-timeline" gap="xs">
+          <Group className="animator__overlay-tabs-pane-and-preview" gap="xs">
             <OverlayTabsPane />
-            <Stack flex={1} gap={0} className="animator__frame-toolbar-and-timeline">
-              <FrameToolbar />
-              <Timeline />
-            </Stack>
+            <Preview />
           </Group>
+
+          <PreviewToolbar />
+          <FrameToolbar />
+          <Timeline />
         </Content>
 
         <CapturePane />

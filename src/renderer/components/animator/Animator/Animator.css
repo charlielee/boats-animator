@@ -1,9 +1,5 @@
-.animator__overlay-tabs-pane-and-timeline {
+.animator__overlay-tabs-pane-and-preview {
   align-items: stretch;
   flex-wrap: nowrap;
-  width: 100%;
-}
-
-.animator__frame-toolbar-and-timeline {
-  overflow: hidden;
+  flex: 1;
 }

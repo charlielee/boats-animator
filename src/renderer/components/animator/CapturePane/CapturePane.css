@@ -1,5 +1,5 @@
 .capture-pane__box {
-  width: 20rem;
+  width: 15rem;
   border-left: var(--ba-theme-border);
   overflow: auto;
   background-color: var(--mantine-color-SECONDARY-light);
