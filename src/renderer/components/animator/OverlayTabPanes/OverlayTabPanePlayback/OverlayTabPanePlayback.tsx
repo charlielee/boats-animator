@@ -1,10 +1,11 @@
-import { Card, Table } from "@mantine/core";
+import { Card, Input, Table } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { setEnableShortPlay, setPlaybackSpeed } from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
 import { UiSwitch } from "../../../ui/UiSwitch/UiSwitch";
 import { OverlayTabPaneBase } from "../OverlayTabPaneBase/OverlayTabPaneBase";
 import { PlaybackSpeedSelect } from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
+import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 
 export const OverlayTabPanePlayback = () => {
   const dispatch = useDispatch();
@@ -29,15 +30,20 @@ export const OverlayTabPanePlayback = () => {
 
   return (
     <OverlayTabPaneBase title="Playback Settings" showReset={active} onReset={handleReset}>
-      <Card.Section withBorder>
-        Playback Speed
-        <PlaybackSpeedSelect />
-      </Card.Section>
+      <UiPaneSection>
+        <Input.Wrapper label="Playback Speed">
+          <PlaybackSpeedSelect />
+        </Input.Wrapper>
+      </UiPaneSection>
 
-      <Card.Section withBorder>
-        Short Play ({shortPlayFrameText})
-        <UiSwitch checked={enableShortPlay} onChange={handleToggleEnableShortPlay} />
-      </Card.Section>
+      <UiPaneSection>
+        {/* todo label position label and justify space between */}
+        <UiSwitch
+          label={`Short Play (${shortPlayFrameText})`}
+          checked={enableShortPlay}
+          onChange={handleToggleEnableShortPlay}
+        />
+      </UiPaneSection>
     </OverlayTabPaneBase>
   );
 };
