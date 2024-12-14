@@ -1,4 +1,4 @@
-import { Card, Input, Table } from "@mantine/core";
+import { Input } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { setEnableShortPlay, setPlaybackSpeed } from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
@@ -31,9 +31,7 @@ export const OverlayTabPanePlayback = () => {
   return (
     <OverlayTabPaneBase title="Playback Settings" showReset={active} onReset={handleReset}>
       <UiPaneSection>
-        <Input.Wrapper label="Playback Speed">
-          <PlaybackSpeedSelect />
-        </Input.Wrapper>
+        <PlaybackSpeedSelect />
       </UiPaneSection>
 
       <UiPaneSection>
