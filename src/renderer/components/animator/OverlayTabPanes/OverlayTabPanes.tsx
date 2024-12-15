@@ -1,16 +1,17 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { OverlayTab } from "../PreviewToolbar/PreviewToolbarOverlayTabs/PreviewToolbarOverlayTabs";
-import { OverlayTabPanePlayback } from "./OverlayTabPanePlayback/OverlayTabPanePlayback";
+import { Box, Stack } from "@mantine/core";
 import { OverlayTabPaneOnionSkin } from "./OverlayTabPaneOnionSkin/OverlayTabPaneOnionSkin";
+import { OverlayTabPanePlayback } from "./OverlayTabPanePlayback/OverlayTabPanePlayback";
+import { PreviewToolbarPlayback } from "../PreviewToolbar/PreviewToolbarPlayback/PreviewToolbarPlayback";
 
-export const OverlayTabsPane = () => {
-  const overlayTab = useSelector((state: RootState) => state.project.overlayTab);
+export const OverlayTabsPane = () => (
+  <Stack justify="space-between">
+    <Stack>
+      <OverlayTabPaneOnionSkin />
+      <OverlayTabPanePlayback />
+    </Stack>
 
-  switch (overlayTab) {
-    case OverlayTab.PLAYBACK:
-      return <OverlayTabPanePlayback />;
-    case OverlayTab.ONION_SKIN:
-      return <OverlayTabPaneOnionSkin />;
-  }
-};
+    <Box p="xs">
+      <PreviewToolbarPlayback />
+    </Box>
+  </Stack>
+);

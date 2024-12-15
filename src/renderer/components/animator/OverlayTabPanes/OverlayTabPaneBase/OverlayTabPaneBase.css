@@ -3,5 +3,5 @@
   min-width: 15rem;
   overflow: auto;
   background-color: var(--mantine-color-default);
-  margin: var(--mantine-spacing-xs) 0;
+  gap: var(--mantine-spacing-xs);
 }

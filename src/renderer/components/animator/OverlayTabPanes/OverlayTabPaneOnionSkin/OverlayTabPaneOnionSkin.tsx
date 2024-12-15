@@ -1,4 +1,4 @@
-import { Card, Input, Table } from "@mantine/core";
+import { Input } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import {
   DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
@@ -11,9 +11,9 @@ import {
 } from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
 import { UiNumberInput } from "../../../ui/UiNumberInput/UiNumberInput";
+import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 import { UiSlider } from "../../../ui/UiSlider/UiSlider";
 import { OverlayTabPaneBase } from "../OverlayTabPaneBase/OverlayTabPaneBase";
-import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 
 export const OverlayTabPaneOnionSkin = () => {
   const dispatch = useDispatch();
