@@ -10,12 +10,12 @@ import {
   setOnionSkinOpacity,
 } from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
+import { UiPane } from "../../../ui/UiPane/UiPane";
 import { UiNumberInput } from "../../../ui/UiNumberInput/UiNumberInput";
 import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 import { UiSlider } from "../../../ui/UiSlider/UiSlider";
-import { OverlayTabPaneBase } from "../OverlayTabPaneBase/OverlayTabPaneBase";
 
-export const OverlayTabPaneOnionSkin = () => {
+export const OnionSkinPane = () => {
   const dispatch = useDispatch();
 
   const enableOnionSkin = useSelector((state: RootState) => state.project.enableOnionSkin);
@@ -39,7 +39,7 @@ export const OverlayTabPaneOnionSkin = () => {
   };
 
   return (
-    <OverlayTabPaneBase
+    <UiPane
       title="Onion Skin"
       showReset={showReset}
       onReset={handleReset}
@@ -69,6 +69,6 @@ export const OverlayTabPaneOnionSkin = () => {
           onChange={handleChangeFramesVisible}
         />
       </UiPaneSection>
-    </OverlayTabPaneBase>
+    </UiPane>
   );
 };

@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setEnableShortPlay, setPlaybackSpeed } from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
-import { UiSwitch } from "../../../ui/UiSwitch/UiSwitch";
-import { OverlayTabPaneBase } from "../OverlayTabPaneBase/OverlayTabPaneBase";
-import { PlaybackSpeedSelect } from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
+import { UiPane } from "../../../ui/UiPane/UiPane";
 import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
+import { UiSwitch } from "../../../ui/UiSwitch/UiSwitch";
+import { PlaybackSpeedSelect } from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
 
-export const OverlayTabPanePlayback = () => {
+export const PlaybackPane = () => {
   const dispatch = useDispatch();
 
   const playbackSpeed = useSelector((state: RootState) => state.project.playbackSpeed);
@@ -28,7 +28,7 @@ export const OverlayTabPanePlayback = () => {
   };
 
   return (
-    <OverlayTabPaneBase title="Playback" showReset={active} onReset={handleReset}>
+    <UiPane title="Playback" showReset={active} onReset={handleReset}>
       <UiPaneSection>
         <PlaybackSpeedSelect />
       </UiPaneSection>
@@ -41,6 +41,6 @@ export const OverlayTabPanePlayback = () => {
           onChange={handleToggleEnableShortPlay}
         />
       </UiPaneSection>
-    </OverlayTabPaneBase>
+    </UiPane>
   );
 };

@@ -1,11 +1,11 @@
 import { Card, Group, Title } from "@mantine/core";
 import { ReactNode } from "react";
-import IconName from "../../../common/Icon/IconName";
-import { SemanticColor } from "../../../ui/Theme/SemanticColor";
-import { UiButton } from "../../../ui/UiButton/UiButton";
-import "./OverlayTabPaneBase.css";
-import { UiSwitch } from "../../../ui/UiSwitch/UiSwitch";
-import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
+import IconName from "../../common/Icon/IconName";
+import { SemanticColor } from "../Theme/SemanticColor";
+import { UiButton } from "../UiButton/UiButton";
+import { UiPaneSection } from "../UiPaneSection/UiPaneSection";
+import { UiSwitch } from "../UiSwitch/UiSwitch";
+import "./UiPane.css";
 
 interface OverlayTabPaneBoxProps {
   title: string;
@@ -17,7 +17,7 @@ interface OverlayTabPaneBoxProps {
   children: ReactNode;
 }
 
-export const OverlayTabPaneBase = ({
+export const UiPane = ({
   title,
   showReset,
   onReset,
