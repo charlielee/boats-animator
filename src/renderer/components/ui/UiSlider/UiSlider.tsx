@@ -1,4 +1,4 @@
-import { Slider, SliderProps } from "@mantine/core";
+import { Slider } from "@mantine/core";
 import { SemanticColor } from "../Theme/SemanticColor";
 
 interface UiSliderProps {
@@ -10,18 +10,13 @@ interface UiSliderProps {
   onChange?: (newValue: number) => void;
 }
 
-export const UiSlider = ({ value, min, max, step, inList = false, onChange }: UiSliderProps) => {
-  const inListProps: SliderProps = inList ? { size: "xs" } : {};
-
-  return (
-    <Slider
-      value={value}
-      min={min}
-      max={max}
-      step={step}
-      onChange={onChange}
-      color={SemanticColor.PRIMARY}
-      {...inListProps}
-    />
-  );
-};
+export const UiSlider = ({ value, min, max, step, onChange }: UiSliderProps) => (
+  <Slider
+    value={value}
+    min={min}
+    max={max}
+    step={step}
+    onChange={onChange}
+    color={SemanticColor.PRIMARY}
+  />
+);

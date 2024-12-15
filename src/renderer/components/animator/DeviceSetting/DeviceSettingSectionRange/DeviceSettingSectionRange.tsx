@@ -1,15 +1,15 @@
-import { Table } from "@mantine/core";
+import { Input } from "@mantine/core";
 import { useChangeSettingDebounced } from "../../../../hooks/useChangeSettingDebounced";
 import { ImagingDeviceSettingRange } from "../../../../services/imagingDevice/ImagingDeviceSettings";
 import { UiNumberInput } from "../../../ui/UiNumberInput/UiNumberInput";
 import { UiSlider } from "../../../ui/UiSlider/UiSlider";
-import { ImagingDeviceSettingName } from "../ImagingDeviceSettingName/ImagingDeviceSettingName";
+import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 
-interface ImagingDeviceSettingsTrRangeProps {
+interface DeviceSettingSectionRangeProps {
   setting: ImagingDeviceSettingRange;
 }
 
-export const ImagingDeviceSettingsTrRange = ({ setting }: ImagingDeviceSettingsTrRangeProps) => {
+export const DeviceSettingSectionRange = ({ setting }: DeviceSettingSectionRangeProps) => {
   const [value, setValue] = useChangeSettingDebounced<number>(setting.name);
 
   const props = {
@@ -17,21 +17,15 @@ export const ImagingDeviceSettingsTrRange = ({ setting }: ImagingDeviceSettingsT
     min: setting.min,
     max: setting.max,
     step: setting.step,
-    inList: true,
     onChange: setValue,
   };
 
   return (
-    <Table.Tr>
-      <Table.Td>
-        <ImagingDeviceSettingName setting={setting} />
-      </Table.Td>
-      <Table.Td>
+    <UiPaneSection>
+      <Input.Wrapper label={setting.name}>
         <UiSlider {...props} />
-      </Table.Td>
-      <Table.Td>
-        <UiNumberInput {...props} />
-      </Table.Td>
-    </Table.Tr>
+        <UiNumberInput inList {...props} />
+      </Input.Wrapper>
+    </UiPaneSection>
   );
 };
