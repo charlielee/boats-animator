@@ -1,4 +1,4 @@
-import { Box, Card, Group, Table, Title } from "@mantine/core";
+import { Card, Group, Title } from "@mantine/core";
 import { ReactNode } from "react";
 import IconName from "../../../common/Icon/IconName";
 import { SemanticColor } from "../../../ui/Theme/SemanticColor";

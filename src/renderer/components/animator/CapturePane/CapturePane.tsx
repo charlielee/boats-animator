@@ -19,12 +19,12 @@ export const CapturePane = () => {
         <Table classNames={{ tr: "capture-pane__table-row" }}>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th colSpan={3}>Capture Settings</Table.Th>
+              <Table.Th colSpan={3}>Capture</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
             <Table.Tr>
-              <Table.Td>Capture Source</Table.Td>
+              <Table.Td>Source</Table.Td>
               <Table.Td colSpan={2}>
                 <UiButton
                   semanticColor={SemanticColor.PRIMARY}

@@ -1,4 +1,3 @@
-import { Input } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { setEnableShortPlay, setPlaybackSpeed } from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
