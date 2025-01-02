@@ -1,4 +1,4 @@
-import { Flex, Group } from "@mantine/core";
+import { Group } from "@mantine/core";
 import { useContext } from "react";
 import CaptureContext from "../../../context/CaptureContext/CaptureContext";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
@@ -17,8 +17,7 @@ export const PreviewToolbar = (): JSX.Element => {
   };
 
   return (
-    <Group align="flex-start">
-      <Flex flex={1}></Flex>
+    <Group justify="center">
       <UiActionIcon
         icon={IconName.CAPTURE}
         onClick={handleClickCaptureButton}
@@ -26,7 +25,6 @@ export const PreviewToolbar = (): JSX.Element => {
       >
         Capture Frame
       </UiActionIcon>
-      <Flex flex={1}></Flex>
     </Group>
   );
 };

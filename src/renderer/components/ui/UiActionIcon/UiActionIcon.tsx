@@ -32,7 +32,7 @@ export const UiActionIcon = forwardRef<HTMLButtonElement, UiActionIconProps>(
     const roleProps: [ActionIconProps, Partial<IconProps>] = (() => {
       switch (role) {
         case UiActionIconRole.CAPTURE:
-          return [{ size: "3rem" }, { size: "3rem" }];
+          return [{ size: "3.5rem" }, { size: "3rem" }];
         case UiActionIconRole.TOOLBAR_TAB:
           return [
             { size: "3.75rem", style: { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } },
