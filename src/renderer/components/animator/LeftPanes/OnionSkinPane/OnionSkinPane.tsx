@@ -14,6 +14,8 @@ import { UiPane } from "../../../ui/UiPane/UiPane";
 import { UiNumberInput } from "../../../ui/UiNumberInput/UiNumberInput";
 import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 import { UiSlider } from "../../../ui/UiSlider/UiSlider";
+import "./OnionSkinPane.css";
+import classNames from "classnames";
 
 export const OnionSkinPane = () => {
   const dispatch = useDispatch();
@@ -46,6 +48,7 @@ export const OnionSkinPane = () => {
       showTitleToggle
       titleToggle={enableOnionSkin}
       onTitleToggle={handleChangeEnable}
+      className={classNames({ "onion-skin-pane__active": enableOnionSkin })}
     >
       <UiPaneSection>
         <Input.Wrapper label="Opacity">

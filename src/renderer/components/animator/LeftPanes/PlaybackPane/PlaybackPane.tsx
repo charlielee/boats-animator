@@ -5,6 +5,8 @@ import { UiPane } from "../../../ui/UiPane/UiPane";
 import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 import { UiSwitch } from "../../../ui/UiSwitch/UiSwitch";
 import { PlaybackSpeedSelect } from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
+import { PreviewToolbarPlayback } from "../../PreviewToolbar/PreviewToolbarPlayback/PreviewToolbarPlayback";
+import "./PlaybackPane.css";
 
 export const PlaybackPane = () => {
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ export const PlaybackPane = () => {
   };
 
   return (
-    <UiPane title="Playback" showReset={active} onReset={handleReset}>
+    <UiPane title="Playback" showReset={active} onReset={handleReset} className="playback-pane">
       <UiPaneSection>
         <PlaybackSpeedSelect />
       </UiPaneSection>
@@ -40,6 +42,10 @@ export const PlaybackPane = () => {
           checked={enableShortPlay}
           onChange={handleToggleEnableShortPlay}
         />
+      </UiPaneSection>
+
+      <UiPaneSection>
+        <PreviewToolbarPlayback />
       </UiPaneSection>
     </UiPane>
   );

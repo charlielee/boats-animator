@@ -6,14 +6,16 @@ import { UiButton } from "../UiButton/UiButton";
 import { UiPaneSection } from "../UiPaneSection/UiPaneSection";
 import { UiSwitch } from "../UiSwitch/UiSwitch";
 import "./UiPane.css";
+import classNames from "classnames";
 
-interface OverlayTabPaneBoxProps {
+interface UiPaneProps {
   title: string;
   showReset: boolean;
   onReset: () => void;
   showTitleToggle?: boolean;
   titleToggle?: boolean;
   onTitleToggle?: (newValue: boolean) => void;
+  className?: string;
   children: ReactNode;
 }
 
@@ -24,9 +26,10 @@ export const UiPane = ({
   showTitleToggle = false,
   titleToggle = true,
   onTitleToggle,
+  className,
   children,
-}: OverlayTabPaneBoxProps) => (
-  <Card className="overlay-tab-pane-base__box" radius={0}>
+}: UiPaneProps) => (
+  <Card className={classNames("overlay-tab-pane-base__box", className)} radius={0}>
     <UiPaneSection>
       <Group justify="space-between" pt="xs">
         <Title order={4}>{title}</Title>
