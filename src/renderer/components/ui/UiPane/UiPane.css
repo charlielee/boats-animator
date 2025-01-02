@@ -1,0 +1,19 @@
+.ui-pane {
+  width: 15rem;
+  min-width: 15rem;
+  overflow: auto;
+  background-color: var(--mantine-color-default);
+  gap: var(--mantine-spacing-xs);
+}
+
+.ui-pane__header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: var(--mantine-spacing-xs);
+  gap: var(--mantine-spacing-xs);
+}
+
+.ui-pane__header > *:first-child {
+  margin-right: auto;
+}

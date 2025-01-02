@@ -25,6 +25,7 @@ export const FrameToolbar = (): JSX.Element => {
       px="md"
       style={{
         backgroundColor: "var(--mantine-color-default)",
+        borderTop: "var(--ba-theme-border)",
       }}
     >
       <TitleToolbarTimestamp take={take} />

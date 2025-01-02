@@ -1,12 +1,14 @@
-import { Table } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { setEnableShortPlay, setPlaybackSpeed } from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
+import { UiPane } from "../../../ui/UiPane/UiPane";
+import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 import { UiSwitch } from "../../../ui/UiSwitch/UiSwitch";
-import { OverlayTabPaneBase } from "../OverlayTabPaneBase/OverlayTabPaneBase";
 import { PlaybackSpeedSelect } from "../PlaybackSpeedSelect/PlaybackSpeedSelect";
+import { PreviewToolbarPlayback } from "../../PreviewToolbar/PreviewToolbarPlayback/PreviewToolbarPlayback";
+import "./PlaybackPane.css";
 
-export const OverlayTabPanePlayback = () => {
+export const PlaybackPane = () => {
   const dispatch = useDispatch();
 
   const playbackSpeed = useSelector((state: RootState) => state.project.playbackSpeed);
@@ -28,20 +30,23 @@ export const OverlayTabPanePlayback = () => {
   };
 
   return (
-    <OverlayTabPaneBase title="Playback Settings" showReset={active} onReset={handleReset}>
-      <Table.Tr>
-        <Table.Td>Playback Speed</Table.Td>
-        <Table.Td>
-          <PlaybackSpeedSelect />
-        </Table.Td>
-      </Table.Tr>
+    <UiPane title="Playback" showReset={active} onReset={handleReset} className="playback-pane">
+      <UiPaneSection>
+        <PlaybackSpeedSelect />
+      </UiPaneSection>
 
-      <Table.Tr>
-        <Table.Td>Short Play ({shortPlayFrameText})</Table.Td>
-        <Table.Td>
-          <UiSwitch checked={enableShortPlay} onChange={handleToggleEnableShortPlay} />
-        </Table.Td>
-      </Table.Tr>
-    </OverlayTabPaneBase>
+      <UiPaneSection>
+        {/* todo label position label and justify space between */}
+        <UiSwitch
+          label={`Short Play (${shortPlayFrameText})`}
+          checked={enableShortPlay}
+          onChange={handleToggleEnableShortPlay}
+        />
+      </UiPaneSection>
+
+      <UiPaneSection>
+        <PreviewToolbarPlayback />
+      </UiPaneSection>
+    </UiPane>
   );
 };

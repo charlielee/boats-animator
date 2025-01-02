@@ -4,32 +4,33 @@ import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
 import { CapturePane } from "../CapturePane/CapturePane";
 import { FrameToolbar } from "../FrameToolbar/FrameToolbar";
-import { OverlayTabsPane } from "../OverlayTabPanes/OverlayTabPanes";
 import { Preview } from "../Preview/Preview";
 import { PreviewToolbar } from "../PreviewToolbar/PreviewToolbar";
 import { Timeline } from "../Timeline/Timeline";
 import TitleToolbar from "../TitleToolbar/TitleToolbar";
 import "./Animator.css";
+import { LeftPanes } from "../LeftPanes/LeftPanes";
 
-export const Animator = (): JSX.Element => {
+export const Animator = () => {
   return (
     <Page>
       <TitleToolbar />
       <PageBody>
         <Content>
-          <Preview />
-          <PreviewToolbar />
+          <Group className="animator__overlay-tabs-pane-and-preview" gap="xs">
+            <LeftPanes />
 
-          <Group className="animator__overlay-tabs-pane-and-timeline" gap="xs">
-            <OverlayTabsPane />
-            <Stack flex={1} gap={0} className="animator__frame-toolbar-and-timeline">
-              <FrameToolbar />
-              <Timeline />
+            <Stack flex={1} gap="xs">
+              <Preview />
+              <PreviewToolbar />
             </Stack>
-          </Group>
-        </Content>
 
-        <CapturePane />
+            <CapturePane />
+          </Group>
+
+          <FrameToolbar />
+          <Timeline />
+        </Content>
       </PageBody>
     </Page>
   );

@@ -10,6 +10,7 @@ import { forwardRef } from "react";
 export const enum UiActionIconRole {
   CAPTURE = "CAPTURE",
   TOOLBAR_TAB = "TOOLBAR_TAB",
+  RESET_PANE = "RESET_PANE",
   DEFAULT = "DEFAULT",
 }
 
@@ -31,12 +32,14 @@ export const UiActionIcon = forwardRef<HTMLButtonElement, UiActionIconProps>(
     const roleProps: [ActionIconProps, Partial<IconProps>] = (() => {
       switch (role) {
         case UiActionIconRole.CAPTURE:
-          return [{ size: "3rem" }, { size: "3rem" }];
+          return [{ size: "3.5rem" }, { size: "3rem" }];
         case UiActionIconRole.TOOLBAR_TAB:
           return [
             { size: "3.75rem", style: { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } },
             { size: "1.5rem" },
           ];
+        case UiActionIconRole.RESET_PANE:
+          return [{ size: "sm" }, { size: "1rem" }];
         case UiActionIconRole.DEFAULT:
           return [{ size: "lg" }, { size: "1.5rem" }];
       }

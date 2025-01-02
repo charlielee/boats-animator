@@ -1,4 +1,4 @@
-import { Table } from "@mantine/core";
+import { Input } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import {
   DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
@@ -10,11 +10,14 @@ import {
   setOnionSkinOpacity,
 } from "../../../../redux/slices/projectSlice";
 import { RootState } from "../../../../redux/store";
+import { UiPane } from "../../../ui/UiPane/UiPane";
 import { UiNumberInput } from "../../../ui/UiNumberInput/UiNumberInput";
+import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 import { UiSlider } from "../../../ui/UiSlider/UiSlider";
-import { OverlayTabPaneBase } from "../OverlayTabPaneBase/OverlayTabPaneBase";
+import "./OnionSkinPane.css";
+import classNames from "classnames";
 
-export const OverlayTabPaneOnionSkin = () => {
+export const OnionSkinPane = () => {
   const dispatch = useDispatch();
 
   const enableOnionSkin = useSelector((state: RootState) => state.project.enableOnionSkin);
@@ -38,17 +41,17 @@ export const OverlayTabPaneOnionSkin = () => {
   };
 
   return (
-    <OverlayTabPaneBase
+    <UiPane
       title="Onion Skin"
       showReset={showReset}
       onReset={handleReset}
       showTitleToggle
       titleToggle={enableOnionSkin}
       onTitleToggle={handleChangeEnable}
+      className={classNames({ "onion-skin-pane__active": enableOnionSkin })}
     >
-      <Table.Tr>
-        <Table.Td>Opacity</Table.Td>
-        <Table.Td>
+      <UiPaneSection>
+        <Input.Wrapper label="Opacity">
           <UiSlider
             value={onionSkinOpacity}
             min={0}
@@ -56,21 +59,19 @@ export const OverlayTabPaneOnionSkin = () => {
             step={0.01}
             onChange={handleChangeOpacity}
           />
-        </Table.Td>
-      </Table.Tr>
+        </Input.Wrapper>
+      </UiPaneSection>
 
-      <Table.Tr>
-        <Table.Td>Number of Frames Visible</Table.Td>
-        <Table.Td>
-          <UiNumberInput
-            value={onionSkinFramesVisible}
-            min={1}
-            max={8}
-            step={1}
-            onChange={handleChangeFramesVisible}
-          />
-        </Table.Td>
-      </Table.Tr>
-    </OverlayTabPaneBase>
+      <UiPaneSection>
+        <UiNumberInput
+          label="Number of Frames Visible"
+          value={onionSkinFramesVisible}
+          min={1}
+          max={8}
+          step={1}
+          onChange={handleChangeFramesVisible}
+        />
+      </UiPaneSection>
+    </UiPane>
   );
 };

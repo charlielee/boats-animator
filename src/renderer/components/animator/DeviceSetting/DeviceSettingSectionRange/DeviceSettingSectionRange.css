@@ -1,0 +1,10 @@
+.device-setting-section-range__wrapper {
+  grid-template-columns: 1fr 4rem;
+  display: grid;
+  align-items: center;
+  gap: 0 var(--mantine-spacing-xs);
+}
+
+.device-setting-section-range__wrapper label {
+  grid-column-start: span 2;
+}

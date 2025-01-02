@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PersistedDirectoryId, TrackItemId } from "../../../common/Flavors";
+import { Project } from "../../../common/project/Project";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
-import { Project } from "../../../common/project/Project";
-import { PersistedDirectoryId, TrackItemId } from "../../../common/Flavors";
-import { OverlayTab } from "../../components/animator/PreviewToolbar/PreviewToolbarOverlayTabs/PreviewToolbarOverlayTabs";
 import {
   DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
   DEFAULT_ONION_SKIN_OPACITY,
@@ -16,7 +15,6 @@ export interface ProjectState {
   projectDirectoryId?: PersistedDirectoryId;
   showCapturePane: boolean;
   enableShortPlay: boolean;
-  overlayTab?: OverlayTab;
   enableOnionSkin: boolean;
   onionSkinOpacity: number;
   onionSkinFramesVisible: number;
@@ -29,7 +27,6 @@ const initialState: ProjectState = {
   projectDirectoryId: undefined,
   showCapturePane: true,
   enableShortPlay: false,
-  overlayTab: undefined,
   enableOnionSkin: false,
   onionSkinOpacity: DEFAULT_ONION_SKIN_OPACITY,
   onionSkinFramesVisible: DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
@@ -83,10 +80,6 @@ const projectSlice = createSlice({
       state.enableShortPlay = action.payload;
     },
 
-    setOverlayTab: (state, action: PayloadAction<OverlayTab | undefined>) => {
-      state.overlayTab = action.payload;
-    },
-
     setEnableOnionSkin: (state, action: PayloadAction<boolean>) => {
       state.enableOnionSkin = action.payload;
     },
@@ -110,7 +103,6 @@ export const {
   addTake,
   toggleCapturePane,
   setEnableShortPlay,
-  setOverlayTab,
   setEnableOnionSkin,
   setOnionSkinOpacity,
   setOnionSkinFramesVisible,

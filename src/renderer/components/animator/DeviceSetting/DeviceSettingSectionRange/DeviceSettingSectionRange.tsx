@@ -1,37 +1,38 @@
-import { Table } from "@mantine/core";
+import { Input } from "@mantine/core";
 import { useChangeSettingDebounced } from "../../../../hooks/useChangeSettingDebounced";
 import { ImagingDeviceSettingRange } from "../../../../services/imagingDevice/ImagingDeviceSettings";
 import { UiNumberInput } from "../../../ui/UiNumberInput/UiNumberInput";
 import { UiSlider } from "../../../ui/UiSlider/UiSlider";
-import { ImagingDeviceSettingName } from "../ImagingDeviceSettingName/ImagingDeviceSettingName";
+import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
+import { useId } from "react";
+import "./DeviceSettingSectionRange.css";
 
-interface ImagingDeviceSettingsTrRangeProps {
+interface DeviceSettingSectionRangeProps {
   setting: ImagingDeviceSettingRange;
 }
 
-export const ImagingDeviceSettingsTrRange = ({ setting }: ImagingDeviceSettingsTrRangeProps) => {
+export const DeviceSettingSectionRange = ({ setting }: DeviceSettingSectionRangeProps) => {
   const [value, setValue] = useChangeSettingDebounced<number>(setting.name);
+  const inputId = useId();
 
   const props = {
     value,
     min: setting.min,
     max: setting.max,
     step: setting.step,
-    inList: true,
     onChange: setValue,
   };
 
   return (
-    <Table.Tr>
-      <Table.Td>
-        <ImagingDeviceSettingName setting={setting} />
-      </Table.Td>
-      <Table.Td>
+    <UiPaneSection>
+      <Input.Wrapper
+        label={setting.name}
+        id={inputId}
+        className="device-setting-section-range__wrapper"
+      >
         <UiSlider {...props} />
-      </Table.Td>
-      <Table.Td>
-        <UiNumberInput {...props} />
-      </Table.Td>
-    </Table.Tr>
+        <UiNumberInput inList id={inputId} {...props} />
+      </Input.Wrapper>
+    </UiPaneSection>
   );
 };

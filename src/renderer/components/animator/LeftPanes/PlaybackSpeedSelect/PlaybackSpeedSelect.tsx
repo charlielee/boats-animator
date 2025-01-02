@@ -19,6 +19,7 @@ export const PlaybackSpeedSelect = (): JSX.Element => {
 
   return (
     <UiSelect
+      label="Speed"
       data={PLAYBACK_SPEED_SELECT_DATA}
       placeholder=""
       value={String(playbackSpeed)}
