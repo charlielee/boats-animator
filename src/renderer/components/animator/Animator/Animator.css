@@ -2,4 +2,5 @@
   align-items: stretch;
   flex-wrap: nowrap;
   flex: 1;
+  overflow: hidden;
 }
