@@ -11,6 +11,7 @@ interface UiNumberInputProps {
   error?: string;
   inList?: boolean;
   onChange?: (newValue: number) => void;
+  id?: string;
 }
 
 export const UiNumberInput = ({
@@ -23,6 +24,7 @@ export const UiNumberInput = ({
   suffix,
   error,
   inList = false,
+  id,
   onChange,
 }: UiNumberInputProps) => {
   const inListProps: NumberInputProps = inList ? { size: "xs", variant: "unstyled" } : {};
@@ -44,6 +46,7 @@ export const UiNumberInput = ({
       suffix={suffix}
       error={error}
       onChange={handleChange}
+      id={id}
       {...inListProps}
     />
   );

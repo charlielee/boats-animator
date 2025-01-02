@@ -1,3 +1,8 @@
+.capture-pane__source-input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .capture-pane__box {
   width: 15rem;
   border-left: var(--ba-theme-border);

@@ -19,7 +19,7 @@ export const CapturePane = () => {
     showCapturePane && (
       <UiPane title="Capture" showReset={false} onReset={() => undefined}>
         <UiPaneSection>
-          <Input.Wrapper label="Source">
+          <Input.Wrapper label="Source" className="capture-pane__source-input-wrapper">
             <UiButton
               semanticColor={SemanticColor.PRIMARY}
               onClick={PageRoute.ANIMATOR_CAPTURE_SOURCE}
