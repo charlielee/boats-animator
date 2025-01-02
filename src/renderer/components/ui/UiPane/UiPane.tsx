@@ -1,12 +1,11 @@
-import { Card, Group, Title } from "@mantine/core";
+import { Card, Title } from "@mantine/core";
+import classNames from "classnames";
 import { ReactNode } from "react";
 import IconName from "../../common/Icon/IconName";
-import { SemanticColor } from "../Theme/SemanticColor";
-import { UiButton } from "../UiButton/UiButton";
+import { UiActionIcon, UiActionIconRole } from "../UiActionIcon/UiActionIcon";
 import { UiPaneSection } from "../UiPaneSection/UiPaneSection";
 import { UiSwitch } from "../UiSwitch/UiSwitch";
 import "./UiPane.css";
-import classNames from "classnames";
 
 interface UiPaneProps {
   title: string;
@@ -29,33 +28,25 @@ export const UiPane = ({
   className,
   children,
 }: UiPaneProps) => (
-  <Card className={classNames("overlay-tab-pane-base__box", className)} radius={0}>
+  <Card className={classNames("ui-pane", className)} radius={0}>
     <UiPaneSection>
-      <Group justify="space-between" pt="xs">
+      <header className="ui-pane__header">
         <Title order={4}>{title}</Title>
+        {showReset && (
+          <UiActionIcon
+            icon={IconName.PLAY_LOOP}
+            onClick={onReset}
+            role={UiActionIconRole.RESET_PANE}
+          >
+            {`Reset ${title}`}
+          </UiActionIcon>
+        )}
         {showTitleToggle && (
           <UiSwitch checked={titleToggle} onChange={(newValue) => onTitleToggle?.(newValue)} />
         )}
-      </Group>
+      </header>
     </UiPaneSection>
 
-    {titleToggle && (
-      <>
-        {children}
-
-        {showReset && (
-          <UiPaneSection>
-            <UiButton
-              inList
-              icon={IconName.PLAY_LOOP}
-              semanticColor={SemanticColor.PRIMARY}
-              onClick={onReset}
-            >
-              Reset
-            </UiButton>
-          </UiPaneSection>
-        )}
-      </>
-    )}
+    {titleToggle && children}
   </Card>
 );
