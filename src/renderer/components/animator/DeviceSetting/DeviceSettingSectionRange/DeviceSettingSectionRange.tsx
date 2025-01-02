@@ -5,6 +5,7 @@ import { UiNumberInput } from "../../../ui/UiNumberInput/UiNumberInput";
 import { UiSlider } from "../../../ui/UiSlider/UiSlider";
 import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 import { useId } from "react";
+import "./DeviceSettingSectionRange.css";
 
 interface DeviceSettingSectionRangeProps {
   setting: ImagingDeviceSettingRange;
@@ -24,7 +25,11 @@ export const DeviceSettingSectionRange = ({ setting }: DeviceSettingSectionRange
 
   return (
     <UiPaneSection>
-      <Input.Wrapper label={setting.name} id={inputId}>
+      <Input.Wrapper
+        label={setting.name}
+        id={inputId}
+        className="device-setting-section-range__wrapper"
+      >
         <UiSlider {...props} />
         <UiNumberInput inList id={inputId} {...props} />
       </Input.Wrapper>
