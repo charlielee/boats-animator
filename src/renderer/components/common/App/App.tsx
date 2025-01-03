@@ -1,34 +1,19 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import { PageRoute } from "../../../../common/PageRoute";
+import { Outlet } from "react-router-dom";
 import { FileManagerContextProvider } from "../../../context/FileManagerContext/FileManagerContextProvider";
 import { PersistedDirectoriesContextProvider } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContextProvider";
-import { Theme } from "../../ui/Theme/Theme";
-import AppListener from "../AppListener/AppListener";
-import { useAnimatorRoutesAndProviders } from "./useAnimatorRoutesAndProviders";
-import { useStartupRoutes } from "./useStartupRoutes";
 import { AppErrorBoundary } from "../AppErrorBoundary/AppErrorBoundary";
+import AppListener from "../AppListener/AppListener";
 
-const App = (): JSX.Element => {
-  const startupRoutes = useStartupRoutes();
-  const animatorRoutes = useAnimatorRoutesAndProviders();
+const App = () => (
+  <AppErrorBoundary>
+    <AppListener />
 
-  return (
-    <Theme>
-      <AppErrorBoundary>
-        <AppListener />
-
-        <FileManagerContextProvider>
-          <PersistedDirectoriesContextProvider>
-            <Routes>
-              <Route index element={<Navigate to={PageRoute.STARTUP} />} />
-              {startupRoutes}
-              {animatorRoutes}
-            </Routes>
-          </PersistedDirectoriesContextProvider>
-        </FileManagerContextProvider>
-      </AppErrorBoundary>
-    </Theme>
-  );
-};
+    <FileManagerContextProvider>
+      <PersistedDirectoriesContextProvider>
+        <Outlet />
+      </PersistedDirectoriesContextProvider>
+    </FileManagerContextProvider>
+  </AppErrorBoundary>
+);
 
 export default App;
