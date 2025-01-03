@@ -8,8 +8,12 @@ import {
 } from "../../services/database/PersistedDirectoryEntry";
 import useWorkingDirectory from "../../hooks/useWorkingDirectory";
 import { Project } from "../../../common/project/Project";
-import { PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
+import { PROJECT_DIRECTORY_EXTENSION, PROJECT_INFO_FILE_NAME } from "../../../common/utils";
 import { ProjectDirectoryIsInsideAnotherProjectError } from "./PersistedDirectoriesErrors";
+import { makeProjectInfoFileBlob, makeTake } from "../../services/project/projectBuilder";
+import { FileInfoType } from "../../services/fileManager/FileInfo";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 interface PersistedDirectoriesContextProviderProps {
   children: ReactNode;
@@ -18,6 +22,8 @@ interface PersistedDirectoriesContextProviderProps {
 export const PersistedDirectoriesContextProvider = ({
   children,
 }: PersistedDirectoriesContextProviderProps) => {
+  const appVersion = useSelector((state: RootState) => state.app.appVersion);
+
   const workingDirectory = useWorkingDirectory();
 
   const fileManager = useContext(FileManagerContext);
@@ -50,8 +56,33 @@ export const PersistedDirectoriesContextProvider = ({
     return addProjectDirectoryEntry(project.name, handle);
   };
 
+  const addNewProjectInfoFile = async (
+    projectDirectory: PersistedDirectoryEntry,
+    project: Project
+  ): Promise<void> => {
+    const take = makeTake({
+      shotNumber: 1,
+      takeNumber: 1,
+      frameRate: project.projectFrameRate,
+    });
+    const data = await makeProjectInfoFileBlob(appVersion, project, [take]);
+
+    const fileInfoId = await fileManager?.createFile(
+      project.fileInfoId,
+      PROJECT_INFO_FILE_NAME,
+      projectDirectory.handle,
+      FileInfoType.PROJECT_INFO,
+      data
+    );
+    if (fileInfoId === undefined) {
+      throw "Unable to create project info file";
+    }
+  };
+
   return (
-    <PersistedDirectoriesContext.Provider value={{ changeWorkingDirectory, addProjectDirectory }}>
+    <PersistedDirectoriesContext.Provider
+      value={{ changeWorkingDirectory, addProjectDirectory, addNewProjectInfoFile }}
+    >
       {children}
     </PersistedDirectoriesContext.Provider>
   );

@@ -1,11 +1,10 @@
 import { ReactNode, useContext, useEffect } from "react";
 import { Take } from "../../../common/project/Take";
 import { TrackItem } from "../../../common/project/TrackItem";
-import { PROJECT_INFO_FILE_NAME } from "../../../common/utils";
 import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { FileInfoType } from "../../services/fileManager/FileInfo";
 import {
-  makeProjectInfoFileJson,
+  makeProjectInfoFileBlob,
   makeTakeDirectoryName,
 } from "../../services/project/projectBuilder";
 import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
@@ -87,33 +86,12 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     }
 
     const projectFileInfo = fileManager.findFile(project.fileInfoId);
-
-    const projectFileJson = await makeProjectInfoFileJson(appVersion, project, takes);
-    const profileFileString = JSON.stringify(projectFileJson);
-    const data = new Blob([profileFileString], { type: "application/json" });
-
-    if (projectFileInfo) {
-      rLogger.info(
-        "projectFilesContext.saveProject.update",
-        `Updating project info file ${projectFileInfo.fileInfoId}`
-      );
-      await fileManager.updateFile(projectFileInfo.fileInfoId, data);
-    } else {
-      rLogger.info(
-        "projectFilesContext.saveProject.create",
-        `Creating new project info file in ${projectDirectory.handle.name}`
-      );
-      const fileInfoId = await fileManager.createFile(
-        project.fileInfoId,
-        PROJECT_INFO_FILE_NAME,
-        projectDirectory.handle,
-        FileInfoType.PROJECT_INFO,
-        data
-      );
-      if (fileInfoId === undefined) {
-        throw "Unable to create project info file";
-      }
+    if (projectFileInfo === undefined) {
+      throw "Unable to find project info file";
     }
+
+    const data = await makeProjectInfoFileBlob(appVersion, project, takes);
+    await fileManager.updateFile(projectFileInfo.fileInfoId, data);
   };
 
   useEffect(() => {

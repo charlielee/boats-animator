@@ -108,5 +108,15 @@ export const makeProjectInfoFileJson = async (
   takes,
 });
 
+export const makeProjectInfoFileBlob = async (
+  appVersion: string,
+  project: Project,
+  takes: Take[]
+): Promise<Blob> => {
+  const projectFileJson = await makeProjectInfoFileJson(appVersion, project, takes);
+  const profileFileString = JSON.stringify(projectFileJson);
+  return new Blob([profileFileString], { type: "application/json" });
+};
+
 export const displayProjectTitle = (project: Project) =>
   project.name === "" ? DEFAULT_PROJECT_NAME : project.name;

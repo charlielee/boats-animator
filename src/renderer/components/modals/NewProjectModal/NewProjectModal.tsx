@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
+import { Project } from "../../../../common/project/Project";
 import {
   DEFAULT_PROJECT_FRAME_RATE,
   DEFAULT_PROJECT_NAME,
@@ -12,31 +13,31 @@ import {
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
-import { addProject, addTake } from "../../../redux/slices/projectSlice";
+import { addProject } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
 import { CreateDirectoryAlreadyExistsError } from "../../../services/fileManager/FileErrors";
 import {
   makeProject,
-  makeTake,
   makeUniqueProjectDirectoryNameIfRequired,
 } from "../../../services/project/projectBuilder";
+import * as rLogger from "../../../services/rLogger/rLogger";
 import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
+import { UiAlert } from "../../ui/UiAlert/UiAlert";
 import { UiButton } from "../../ui/UiButton/UiButton";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiModalFooter } from "../../ui/UiModalFooter/UiModalFooter";
-import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
-import { UiAlert } from "../../ui/UiAlert/UiAlert";
-import * as rLogger from "../../../services/rLogger/rLogger";
-import { Project } from "../../../../common/project/Project";
+import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
 
 export const NewProjectModal = () => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const navigate = useNavigate();
 
   const workingDirectory = useWorkingDirectory();
-  const { changeWorkingDirectory, addProjectDirectory } = useContext(PersistedDirectoriesContext);
+  const { changeWorkingDirectory, addProjectDirectory, addNewProjectInfoFile } = useContext(
+    PersistedDirectoriesContext
+  );
 
   const [project, setProject] = useState(
     makeProject({ name: "", projectFrameRate: DEFAULT_PROJECT_FRAME_RATE })
@@ -75,12 +76,7 @@ export const NewProjectModal = () => {
       dispatch(
         addProject({ project: formattedProject, projectDirectoryId: projectDirectoryEntry.id })
       );
-      const take = makeTake({
-        shotNumber: 1,
-        takeNumber: 1,
-        frameRate: formattedProject.projectFrameRate,
-      });
-      dispatch(addTake(take));
+      await addNewProjectInfoFile!(projectDirectoryEntry, formattedProject);
       navigate(PageRoute.ANIMATOR_CAPTURE_SOURCE);
     } catch (e) {
       if (e instanceof CreateDirectoryAlreadyExistsError) {
