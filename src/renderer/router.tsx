@@ -9,6 +9,9 @@ import CaptureContextProvider from "./context/CaptureContext/CaptureContextProvi
 import { ImagingDeviceContextProvider } from "./context/ImagingDeviceContext/ImagingDeviceContextProvider";
 import PlaybackContextProvider from "./context/PlaybackContext/PlaybackContextProvider";
 import { ProjectFilesContextProvider } from "./context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
+import { CaptureSourceModal } from "./components/modals/CaptureSourceModal/CaptureSourceModal";
+import { DeleteFrameModal } from "./components/modals/DeleteFrameModal/DeleteFrameModal";
+import ExportVideoModal from "./components/modals/ExportVideoModal/ExportVideoModal";
 
 export const router = createHashRouter([
   {
@@ -53,6 +56,15 @@ export const router = createHashRouter([
             </ImagingDeviceContextProvider>
           </ProjectFilesContextProvider>
         ),
+        children: [
+          {
+            path: "/animator/captureSource",
+            element: <CaptureSourceModal />,
+          },
+          { path: "/animator/deleteFrame", element: <DeleteFrameModal /> },
+          { path: "/animator/exportVideoModal", element: <ExportVideoModal /> },
+          { path: "/animator/preferencesModal", element: <PreferencesModal /> },
+        ],
       },
     ],
   },

@@ -1,6 +1,8 @@
 .animator__overlay-tabs-pane-and-preview {
+  display: flex;
   align-items: stretch;
   flex-wrap: nowrap;
   flex: 1;
   overflow: hidden;
+  gap: var(--mantine-spacing-xs);
 }
