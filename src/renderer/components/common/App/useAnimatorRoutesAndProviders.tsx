@@ -35,7 +35,7 @@ export const useAnimatorRoutesAndProviders = () => {
         <ProjectFilesContextProvider>
           <ImagingDeviceContextProvider>
             <CaptureContextProvider>
-              <PlaybackContextProvider take={take}>
+              <PlaybackContextProvider>
                 <Outlet />
                 <Animator />
               </PlaybackContextProvider>

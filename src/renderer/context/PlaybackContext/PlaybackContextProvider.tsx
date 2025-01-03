@@ -1,6 +1,5 @@
 import { ReactNode, useContext, useRef } from "react";
 import { TimelineIndex } from "../../../common/Flavors";
-import { Take } from "../../../common/project/Take";
 import useLinkedRefAndState from "../../hooks/useLinkedRefAndState";
 import useRequestAnimationFrame from "../../hooks/useRequestAnimationFrame";
 import {
@@ -16,11 +15,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
 interface PlaybackContextProviderProps {
-  take: Take;
   children: ReactNode;
 }
 
-const PlaybackContextProvider = ({ take, children }: PlaybackContextProviderProps) => {
+const PlaybackContextProvider = ({ children }: PlaybackContextProviderProps) => {
+  const take = useSelector((state: RootState) => state.project.take);
+  if (take === undefined) {
+    throw "PlaybackContext requires a take";
+  }
+
   const { deleteTrackItem } = useContext(ProjectFilesContext);
 
   const shortPlayLength = useSelector(

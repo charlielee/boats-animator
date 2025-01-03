@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, RouterProvider, Routes } from "react-router-dom";
 import { PageRoute } from "../../../../common/PageRoute";
 import { FileManagerContextProvider } from "../../../context/FileManagerContext/FileManagerContextProvider";
 import { PersistedDirectoriesContextProvider } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContextProvider";
@@ -7,27 +7,27 @@ import AppListener from "../AppListener/AppListener";
 import { useAnimatorRoutesAndProviders } from "./useAnimatorRoutesAndProviders";
 import { useStartupRoutes } from "./useStartupRoutes";
 import { AppErrorBoundary } from "../AppErrorBoundary/AppErrorBoundary";
+import { router } from "../../../router";
 
 const App = (): JSX.Element => {
-  const startupRoutes = useStartupRoutes();
-  const animatorRoutes = useAnimatorRoutesAndProviders();
+  // const startupRoutes = useStartupRoutes();
+  // const animatorRoutes = useAnimatorRoutesAndProviders();
 
   return (
-    <Theme>
-      <AppErrorBoundary>
-        <AppListener />
+    <AppErrorBoundary>
+      <AppListener />
 
-        <FileManagerContextProvider>
-          <PersistedDirectoriesContextProvider>
-            <Routes>
+      <FileManagerContextProvider>
+        <PersistedDirectoriesContextProvider>
+          {/* <Routes>
               <Route index element={<Navigate to={PageRoute.STARTUP} />} />
               {startupRoutes}
               {animatorRoutes}
-            </Routes>
-          </PersistedDirectoriesContextProvider>
-        </FileManagerContextProvider>
-      </AppErrorBoundary>
-    </Theme>
+            </Routes> */}
+          <Outlet />
+        </PersistedDirectoriesContextProvider>
+      </FileManagerContextProvider>
+    </AppErrorBoundary>
   );
 };
 
