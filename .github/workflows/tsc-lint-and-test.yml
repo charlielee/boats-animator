@@ -1,5 +1,6 @@
 name: "Run TSC, Lint and Test"
-on: push
+on: [push, workflow_dispatch]
+
 jobs:
   tsc-lint-test:
     runs-on: ubuntu-latest
