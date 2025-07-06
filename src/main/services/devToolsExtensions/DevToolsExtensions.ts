@@ -33,6 +33,6 @@ export const loadExtension = async (id: string) => {
     return;
   }
 
-  await session.defaultSession.loadExtension(location[0]);
+  await session.defaultSession.extensions.loadExtension(location[0]);
   logger.info("devTools.loadExtension.success", id);
 };
