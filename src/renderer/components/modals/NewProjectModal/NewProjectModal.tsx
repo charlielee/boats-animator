@@ -10,7 +10,10 @@ import {
   PROJECT_DIRECTORY_EXTENSION,
 } from "../../../../common/utils";
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
-import { ProjectDirectoryIsInsideAnotherProjectError } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
+import {
+  DirectoryAccessPermissionError,
+  ProjectDirectoryIsInsideAnotherProjectError,
+} from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesErrors";
 import useWorkingDirectory from "../../../hooks/useWorkingDirectory";
 import { addProject, addTake } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
@@ -36,7 +39,8 @@ export const NewProjectModal = () => {
   const navigate = useNavigate();
 
   const workingDirectory = useWorkingDirectory();
-  const { changeWorkingDirectory, addProjectDirectory } = useContext(PersistedDirectoriesContext);
+  const { checkWorkingDirectoryPermission, changeWorkingDirectory, addProjectDirectory } =
+    useContext(PersistedDirectoriesContext);
 
   const [project, setProject] = useState(
     makeProject({ name: "", projectFrameRate: DEFAULT_PROJECT_FRAME_RATE })
@@ -69,6 +73,19 @@ export const NewProjectModal = () => {
       ...project,
       directoryName: makeUniqueProjectDirectoryNameIfRequired(project.directoryName),
     };
+
+    try {
+      await checkWorkingDirectoryPermission!();
+    } catch (e) {
+      if (e instanceof DirectoryAccessPermissionError) {
+        return setGeneralError(
+          "Unable to create project due to a permission error. Please choose a different folder and try again."
+        );
+      }
+      return setGeneralError(
+        "Unable to create project due to an unknown permission error. Please choose a different folder and try again."
+      );
+    }
 
     try {
       const projectDirectoryEntry = await addProjectDirectory!(formattedProject);

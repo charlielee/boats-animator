@@ -9,7 +9,11 @@ import {
 import useWorkingDirectory from "../../hooks/useWorkingDirectory";
 import { Project } from "../../../common/project/Project";
 import { PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
-import { ProjectDirectoryIsInsideAnotherProjectError } from "./PersistedDirectoriesErrors";
+import {
+  DirectoryAccessPermissionError,
+  ProjectDirectoryIsInsideAnotherProjectError,
+} from "./PersistedDirectoriesErrors";
+import * as rLogger from "../../services/rLogger/rLogger";
 
 interface PersistedDirectoriesContextProviderProps {
   children: ReactNode;
@@ -22,6 +26,22 @@ export const PersistedDirectoriesContextProvider = ({
 
   const fileManager = useContext(FileManagerContext);
 
+  const checkWorkingDirectoryPermission = async (): Promise<void> => {
+    if (workingDirectory === undefined) {
+      throw "checkWorkingDirectoryPermission: workingDirectory was not found";
+    }
+
+    const status = await workingDirectory.handle.requestPermission({ mode: "readwrite" });
+    rLogger.info(
+      "PersistedDirectoriesContext.permission",
+      `Permission for working directory is '${status}'`
+    );
+
+    if (status !== "granted") {
+      throw new DirectoryAccessPermissionError(workingDirectory.friendlyName, status);
+    }
+  };
+
   const changeWorkingDirectory = async (): Promise<void> => {
     const workingDirectoryHandle = await fileManager?.openDirectoryDialog("changeWorkingDirectory");
 
@@ -32,7 +52,7 @@ export const PersistedDirectoriesContextProvider = ({
 
   const addProjectDirectory = async (project: Project): Promise<PersistedDirectoryEntry> => {
     if (workingDirectory === undefined) {
-      throw "workingDirectory was not found";
+      throw "addProjectDirectory: workingDirectory was not found";
     }
     if (workingDirectory.handle.name.endsWith(`.${PROJECT_DIRECTORY_EXTENSION}`)) {
       throw new ProjectDirectoryIsInsideAnotherProjectError(workingDirectory.handle.name);
@@ -51,7 +71,9 @@ export const PersistedDirectoriesContextProvider = ({
   };
 
   return (
-    <PersistedDirectoriesContext.Provider value={{ changeWorkingDirectory, addProjectDirectory }}>
+    <PersistedDirectoriesContext.Provider
+      value={{ checkWorkingDirectoryPermission, changeWorkingDirectory, addProjectDirectory }}
+    >
       {children}
     </PersistedDirectoriesContext.Provider>
   );

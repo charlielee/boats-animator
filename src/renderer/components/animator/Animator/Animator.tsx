@@ -1,4 +1,4 @@
-import { Group, Stack } from "@mantine/core";
+import { Stack } from "@mantine/core";
 import Content from "../../common/Content/Content";
 import Page from "../../common/Page/Page";
 import PageBody from "../../common/PageBody/PageBody";
