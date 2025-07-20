@@ -7,7 +7,7 @@ import {
   getTrackLength,
 } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
-import PlaybackContext, { PlaybackContextProps, PlaybackFrameName } from "./PlaybackContext";
+import { PlaybackContext, PlaybackContextProps, PlaybackFrameName } from "./PlaybackContext";
 import { ProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
 import { notifications } from "@mantine/notifications";
 import { useSelector } from "react-redux";

@@ -9,7 +9,7 @@ import { getNextFileNumber } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
 import { useImagingDeviceContext } from "../ImagingDeviceContext/ImagingDeviceContext";
 import { ProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
-import CaptureContext from "./CaptureContext";
+import { CaptureContext } from "./CaptureContext";
 
 interface CaptureContextProviderProps {
   children: ReactNode;
