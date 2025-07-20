@@ -8,7 +8,7 @@ import { handleOnCloseButtonClick } from "../../../services/appListener/AppListe
 import { useLocation } from "react-router-dom";
 import * as rLogger from "../../../services/rLogger/rLogger";
 
-const AppListeners = (): JSX.Element => {
+const AppListeners = () => {
   const location = useLocation();
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
   const { userPreferences } = useSelector((state: RootState) => ({

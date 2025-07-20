@@ -6,7 +6,7 @@ interface InputLabelProps {
   children: ReactNode;
 }
 
-const InputLabel = ({ inputId, children }: InputLabelProps): JSX.Element => {
+const InputLabel = ({ inputId, children }: InputLabelProps) => {
   return (
     <label className="input-label" htmlFor={inputId}>
       {children}

@@ -16,7 +16,7 @@ const InputText = ({
   readOnly,
   testId,
   onChange,
-}: InputTextProps): JSX.Element => {
+}: InputTextProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     onChange?.(event.target.value);
 

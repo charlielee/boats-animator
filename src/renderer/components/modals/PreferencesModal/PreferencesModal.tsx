@@ -11,7 +11,7 @@ import { UiModalFooter } from "../../ui/UiModalFooter/UiModalFooter";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
 import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
 
-const PreferencesModal = (): JSX.Element => {
+const PreferencesModal = () => {
   const dispatch = useDispatch();
   const { take, userPreferences } = useSelector((state: RootState) => ({
     take: state.project.take,

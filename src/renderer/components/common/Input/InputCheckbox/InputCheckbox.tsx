@@ -8,7 +8,7 @@ interface InputCheckboxProps {
   onChange(newValue: boolean): void;
 }
 
-const InputCheckbox = ({ id, checked, className, onChange }: InputCheckboxProps): JSX.Element => {
+const InputCheckbox = ({ id, checked, className, onChange }: InputCheckboxProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     onChange(event.target.checked);
 

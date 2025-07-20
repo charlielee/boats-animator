@@ -36,7 +36,7 @@ const Button = ({
   onClick,
   disabled = false,
   testId,
-}: ButtonProps): JSX.Element => {
+}: ButtonProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => (typeof onClick === "string" ? navigate(onClick) : onClick());

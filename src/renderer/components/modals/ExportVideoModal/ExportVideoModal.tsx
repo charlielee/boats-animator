@@ -2,7 +2,7 @@ import { useState } from "react";
 import ExportVideoModalOptions from "./ExportVideoModalOptions/ExportVideoModalOptions";
 import ExportVideoModalRendering from "./ExportVideoModalRendering/ExportVideoModalRendering";
 
-const ExportVideoModal = (): JSX.Element => {
+const ExportVideoModal = () => {
   const [ffmpegArguments, setFFmpegArguments] = useState("");
   const [videoFilePath, setVideoFilePath] = useState("");
 

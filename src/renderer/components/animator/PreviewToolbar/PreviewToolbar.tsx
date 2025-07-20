@@ -5,7 +5,7 @@ import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import IconName from "../../common/Icon/IconName";
 import { UiActionIcon, UiActionIconRole } from "../../ui/UiActionIcon/UiActionIcon";
 
-export const PreviewToolbar = (): JSX.Element => {
+export const PreviewToolbar = () => {
   const { captureImage } = useContext(CaptureContext);
   const { stopPlayback, liveViewVisible } = useContext(PlaybackContext);
 

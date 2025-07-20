@@ -9,12 +9,7 @@ interface InputGroupProps {
   noMargin?: boolean;
 }
 
-const InputGroup = ({
-  children,
-  row,
-  noGap = false,
-  noMargin = false,
-}: InputGroupProps): JSX.Element => {
+const InputGroup = ({ children, row, noGap = false, noMargin = false }: InputGroupProps) => {
   return (
     <div
       className={classNames("input-group", {

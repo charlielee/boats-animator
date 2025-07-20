@@ -5,7 +5,7 @@ interface ContentProps {
   children: ReactNode;
 }
 
-const Content = ({ children }: ContentProps): JSX.Element => {
+const Content = ({ children }: ContentProps) => {
   return <div className="content">{children}</div>;
 };
 

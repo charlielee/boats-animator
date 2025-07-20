@@ -5,7 +5,7 @@ interface PageProps {
   children: ReactNode;
 }
 
-const Page = ({ children }: PageProps): JSX.Element => {
+const Page = ({ children }: PageProps) => {
   return <div className="page">{children}</div>;
 };
 

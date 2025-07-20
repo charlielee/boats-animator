@@ -16,7 +16,7 @@ const InputNumber = ({
   value,
   onChange,
   validateOnChange = false,
-}: InputNumberProps): JSX.Element => {
+}: InputNumberProps) => {
   const [rawValue, setRawValue] = useState(value.toString(10));
   const inputRef = useRef<HTMLInputElement>(null);
 

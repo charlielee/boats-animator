@@ -11,14 +11,7 @@ interface InputNumberAndRangeProps {
   onChange(newValue: number): void;
 }
 
-const InputNumberAndRange = ({
-  id,
-  min,
-  max,
-  step,
-  value,
-  onChange,
-}: InputNumberAndRangeProps): JSX.Element => {
+const InputNumberAndRange = ({ id, min, max, step, value, onChange }: InputNumberAndRangeProps) => {
   return (
     <InputGroup row>
       <InputNumber id={id} min={min} max={max} value={value} onChange={onChange} />

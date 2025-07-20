@@ -5,7 +5,7 @@ interface PageBodyProps {
   children: ReactNode;
 }
 
-const PageBody = ({ children }: PageBodyProps): JSX.Element => {
+const PageBody = ({ children }: PageBodyProps) => {
   return <main className="page-body">{children}</main>;
 };
 

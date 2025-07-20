@@ -4,8 +4,8 @@ interface UiNumberInputProps {
   label?: string;
   value?: number;
   placeholder?: string;
-  min: number;
-  max: number;
+  min?: number;
+  max?: number;
   step?: number;
   suffix?: string;
   error?: string;

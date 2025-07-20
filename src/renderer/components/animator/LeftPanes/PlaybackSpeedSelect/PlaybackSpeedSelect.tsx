@@ -13,7 +13,7 @@ const PLAYBACK_SPEED_SELECT_DATA: ComboboxData = [
   { label: "4.0×", value: "4" },
 ];
 
-export const PlaybackSpeedSelect = (): JSX.Element => {
+export const PlaybackSpeedSelect = () => {
   const dispatch = useDispatch();
   const playbackSpeed = useSelector((state: RootState) => state.project.playbackSpeed);
 

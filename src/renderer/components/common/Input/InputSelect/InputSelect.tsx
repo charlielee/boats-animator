@@ -19,7 +19,7 @@ const InputSelect = <TValue extends InputSelectValue>({
   value,
   title,
   fitContent,
-}: InputSelectProps<TValue>): JSX.Element => {
+}: InputSelectProps<TValue>) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
     onChange(event.target.value);
 

@@ -12,13 +12,7 @@ interface ContentBlockProps {
   children: ReactNode;
 }
 
-const ContentBlock = ({
-  className,
-  title,
-  titleIcon,
-  flex,
-  children,
-}: ContentBlockProps): JSX.Element => {
+const ContentBlock = ({ className, title, titleIcon, flex, children }: ContentBlockProps) => {
   return (
     <div
       className={classNames("content-block", className, {

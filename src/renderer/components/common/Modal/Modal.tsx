@@ -9,7 +9,7 @@ interface ModalProps {
   onClose?: PageRoute;
 }
 
-const Modal = ({ children, onClose }: ModalProps): JSX.Element => {
+const Modal = ({ children, onClose }: ModalProps) => {
   return (
     <div className="modal" role="dialog">
       <div className="modal__content">
