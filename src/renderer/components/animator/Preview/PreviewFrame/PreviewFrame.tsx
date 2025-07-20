@@ -6,7 +6,7 @@ interface PreviewFrameProps {
   opacity: number;
 }
 
-const PreviewFrame = ({ src, opacity }: PreviewFrameProps): JSX.Element => {
+const PreviewFrame = ({ src, opacity }: PreviewFrameProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(new Image());
 

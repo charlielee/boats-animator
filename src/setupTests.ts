@@ -4,6 +4,7 @@ import { api } from "./rendererPreload/preload";
 import Dexie from "dexie";
 import fakeIndexedDB from "fake-indexeddb";
 import FDBKeyRange from "fake-indexeddb/lib/FDBKeyRange";
+import { TextEncoder, TextDecoder } from "util";
 
 jest.mock("./rendererPreload/preload");
 
@@ -20,3 +21,6 @@ window.preload = api;
 // Dexie expects window.indexedDB to be defined which isn't available in the Jest environment
 Dexie.dependencies.indexedDB = fakeIndexedDB;
 Dexie.dependencies.IDBKeyRange = FDBKeyRange;
+
+// MemoryRouter requires TextEncoder
+Object.assign(global, { TextDecoder, TextEncoder });

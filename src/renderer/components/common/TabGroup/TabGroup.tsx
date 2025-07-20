@@ -1,13 +1,13 @@
 import classNames from "classnames";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import "./TabGroup.css";
 
 interface TabGroupProps {
   titles: string[];
-  tabs: JSX.Element[];
+  tabs: ReactNode[];
 }
 
-const TabGroup = ({ titles, tabs }: TabGroupProps): JSX.Element => {
+const TabGroup = ({ titles, tabs }: TabGroupProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (

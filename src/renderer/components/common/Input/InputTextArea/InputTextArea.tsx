@@ -18,7 +18,7 @@ const InputTextArea = ({
   spellCheck = false,
   disabled = false,
   autoScroll = false,
-}: InputTextAreaProps): JSX.Element => {
+}: InputTextAreaProps) => {
   const textAreaRef = useCallback(
     (textArea: HTMLTextAreaElement | null) => {
       if (textArea && autoScroll) {

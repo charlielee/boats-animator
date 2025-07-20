@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { calculateLiveViewOpacity } from "../../../services/onionSkin/onionSkinCalculator";
 
-export const Preview = (): JSX.Element => {
+export const Preview = () => {
   const { take } = useProjectAndTake();
   const { deviceIdentifier, deviceStatus, deviceLoading } = useContext(ImagingDeviceContext);
 

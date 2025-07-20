@@ -13,7 +13,7 @@ import { UiActionIcon, UiActionIconRole } from "../../ui/UiActionIcon/UiActionIc
 import { UiButton } from "../../ui/UiButton/UiButton";
 import "./TitleToolbar.css";
 
-const TitleToolbar = (): JSX.Element => {
+const TitleToolbar = () => {
   const { take, project } = useProjectAndTake();
   const dispatch = useDispatch();
   const showCapturePane = useSelector((state: RootState) => state.project.showCapturePane);

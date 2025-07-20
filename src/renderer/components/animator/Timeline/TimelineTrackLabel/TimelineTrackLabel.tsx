@@ -8,7 +8,7 @@ interface TimelineTrackLabelProps {
   fileType: FileInfoType;
 }
 
-const TimelineTrackLabel = ({ fileType }: TimelineTrackLabelProps): JSX.Element => {
+const TimelineTrackLabel = ({ fileType }: TimelineTrackLabelProps) => {
   return (
     <div className="timeline-track-label">
       {fileType === FileInfoType.FRAME && (

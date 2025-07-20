@@ -8,7 +8,7 @@ import TimelinePosition from "./TimelinePosition/TimelinePosition";
 import TimelineTrack from "./TimelineTrack/TimelineTrack";
 import TimelineTrackLabel from "./TimelineTrackLabel/TimelineTrackLabel";
 
-export const Timeline = (): JSX.Element => {
+export const Timeline = () => {
   const { take } = useProjectAndTake();
   const frameTrack = take.frameTrack;
 

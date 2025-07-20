@@ -17,15 +17,7 @@ interface InputRangeProps {
   onChange(newValue: number): void;
 }
 
-const InputRange = ({
-  id,
-  title,
-  min,
-  max,
-  step,
-  value,
-  onChange,
-}: InputRangeProps): JSX.Element => {
+const InputRange = ({ id, title, min, max, step, value, onChange }: InputRangeProps) => {
   const [slider, setSlider] = useState<InputRangeSliderState>(InputRangeSliderState.DEFAULT);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

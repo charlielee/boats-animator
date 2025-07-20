@@ -5,7 +5,7 @@ interface ButtonGroupProps {
   children: ReactNode;
 }
 
-const ButtonGroup = ({ children }: ButtonGroupProps): JSX.Element => {
+const ButtonGroup = ({ children }: ButtonGroupProps) => {
   return <div className="button-group">{children}</div>;
 };
 

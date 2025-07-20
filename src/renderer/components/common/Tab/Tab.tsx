@@ -4,7 +4,7 @@ interface TabProps {
   children: ReactNode;
 }
 
-const Tab = ({ children }: TabProps): JSX.Element => {
+const Tab = ({ children }: TabProps) => {
   return <div>{children}</div>;
 };
 

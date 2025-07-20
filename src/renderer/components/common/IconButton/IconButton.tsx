@@ -3,7 +3,7 @@ import Button, { ButtonProps } from "../Button/Button";
 import { ButtonColor } from "../Button/ButtonColor";
 import "./IconButton.css";
 
-const IconButton = (props: ButtonProps): JSX.Element => {
+const IconButton = (props: ButtonProps) => {
   return (
     <Button
       {...props}

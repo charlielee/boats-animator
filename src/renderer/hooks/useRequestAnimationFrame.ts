@@ -8,7 +8,7 @@ import { useRef } from "react";
  * @returns
  */
 const useRequestAnimationFrame = (callback: (time: DOMHighResTimeStamp) => void) => {
-  const requestId = useRef<number>();
+  const requestId = useRef<number | undefined>(undefined);
 
   const animate = (time: DOMHighResTimeStamp) => {
     requestId.current = requestAnimationFrame(animate);

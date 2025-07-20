@@ -4,7 +4,7 @@ import NewsDownloadError from "../../../services/news/NewsDownloadError";
 import { NewsResponsePost } from "../../../services/news/NewsResponse";
 import "./NewsFeed.css";
 
-const NewsFeed = (): JSX.Element => {
+const NewsFeed = () => {
   const [newPosts, setNewsPosts] = useState<NewsResponsePost[]>([]);
   const [error, setError] = useState(false);
 

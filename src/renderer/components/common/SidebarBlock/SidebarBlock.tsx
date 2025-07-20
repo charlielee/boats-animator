@@ -11,7 +11,7 @@ interface SidebarBlockProps {
   children: ReactNode;
 }
 
-const SidebarBlock = ({ title, titleIcon, flex, children }: SidebarBlockProps): JSX.Element => {
+const SidebarBlock = ({ title, titleIcon, flex, children }: SidebarBlockProps) => {
   return (
     <div className={classNames("sidebar-block", { "sidebar-block--flex": flex })}>
       <h2 className="sidebar-block__title">

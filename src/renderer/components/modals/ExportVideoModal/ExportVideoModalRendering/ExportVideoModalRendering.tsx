@@ -24,7 +24,7 @@ interface ExportVideoModalRenderingProps {
 const ExportVideoModalRendering = ({
   ffmpegArguments,
   originalVideoFilePath,
-}: ExportVideoModalRenderingProps): JSX.Element => {
+}: ExportVideoModalRenderingProps) => {
   const [data, setData] = useState("");
   const [videoFilePath, setVideoFilePath] = useState(originalVideoFilePath);
   const [exitCode, setExitCode] = useState<undefined | number>(undefined);

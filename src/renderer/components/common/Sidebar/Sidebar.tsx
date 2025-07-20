@@ -5,7 +5,7 @@ interface SidebarProps {
   children: ReactNode;
 }
 
-const Sidebar = ({ children }: SidebarProps): JSX.Element => {
+const Sidebar = ({ children }: SidebarProps) => {
   return <aside className="sidebar">{children}</aside>;
 };
 

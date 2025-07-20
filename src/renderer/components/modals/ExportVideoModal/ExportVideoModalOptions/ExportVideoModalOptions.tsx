@@ -35,7 +35,7 @@ interface ExportVideoModalOptionsProps {
 const ExportVideoModalOptions = ({
   onSubmit,
   onVideoFilePathChange,
-}: ExportVideoModalOptionsProps): JSX.Element => {
+}: ExportVideoModalOptionsProps) => {
   const { project, take } = useProjectAndTake();
 
   const [currentFilePath, setCurrentFilePath] = useState("");

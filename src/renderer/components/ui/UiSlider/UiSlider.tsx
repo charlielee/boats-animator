@@ -3,8 +3,8 @@ import { SemanticColor } from "../Theme/SemanticColor";
 
 interface UiSliderProps {
   value?: number;
-  min: number;
-  max: number;
+  min?: number;
+  max?: number;
   step?: number;
   inList?: boolean;
   onChange?: (newValue: number) => void;

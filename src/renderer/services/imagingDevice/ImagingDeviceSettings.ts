@@ -25,9 +25,9 @@ export interface ImagingDeviceSettingList extends ImagingDeviceSettingBase {
 
 export interface ImagingDeviceSettingRange extends ImagingDeviceSettingBase {
   readonly type: ImagingDeviceSettingType.RANGE;
-  readonly max: number;
-  readonly min: number;
-  readonly step: number;
+  readonly max?: number;
+  readonly min?: number;
+  readonly step?: number;
   readonly value: number;
 }
 
@@ -56,7 +56,7 @@ export const makeListSetting = (
 export const makeRangeSetting = (
   name: string,
   value: number,
-  options: { max: number; min: number; step: number }
+  options: { max?: number; min?: number; step?: number }
 ): ImagingDeviceSettingRange => ({
   type: ImagingDeviceSettingType.RANGE,
   name,

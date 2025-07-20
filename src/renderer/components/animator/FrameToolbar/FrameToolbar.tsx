@@ -10,7 +10,7 @@ import IconName from "../../common/Icon/IconName";
 import { UiActionIcon } from "../../ui/UiActionIcon/UiActionIcon";
 import { TitleToolbarTimestamp } from "./TitleToolbarTimestamp/TitleToolbarTimestamp";
 
-export const FrameToolbar = (): JSX.Element => {
+export const FrameToolbar = () => {
   const { take } = useProjectAndTake();
 
   const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);

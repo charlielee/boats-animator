@@ -24,7 +24,7 @@ const TimelineTrack = ({
   timelineIndex,
   onClickItem,
   onClickLiveView,
-}: TimelineTrackProps): JSX.Element => {
+}: TimelineTrackProps) => {
   const highlightedTrackItem = getHighlightedTrackItem(track, timelineIndex);
   const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
 

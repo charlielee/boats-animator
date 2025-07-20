@@ -14,7 +14,7 @@ interface TitleToolbarTimestampProps {
   take: Take;
 }
 
-export const TitleToolbarTimestamp = ({ take }: TitleToolbarTimestampProps): JSX.Element => {
+export const TitleToolbarTimestamp = ({ take }: TitleToolbarTimestampProps) => {
   const { timelineIndex } = useContext(PlaybackContext);
   const { showTimestampInSeconds } = useSelector((state: RootState) => state.app.userPreferences);
   const [showInSeconds, setShowInSeconds] = useState(showTimestampInSeconds);

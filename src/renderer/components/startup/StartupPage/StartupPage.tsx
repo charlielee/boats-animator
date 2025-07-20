@@ -11,7 +11,7 @@ import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
 import NewsFeed from "../NewsFeed/NewsFeed";
 
-export const StartupPage = (): JSX.Element => (
+export const StartupPage = () => (
   <Page>
     <PageBody>
       <Content>
