@@ -9,7 +9,7 @@ import {
   UpdateFileUnexpectedError,
 } from "./FileErrors";
 import { FileInfo, FileInfoType } from "./FileInfo";
-import * as rLogger from "../../services/rLogger/rLogger";
+import * as rLogger from "../rLogger/rLogger";
 import { FileInfoId } from "../Flavors";
 
 export class FileManager {

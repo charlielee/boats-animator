@@ -1,12 +1,12 @@
 import "@testing-library/jest-dom";
 import nodeCrypto from "crypto";
-import { api } from "../electron/preload/preload";
+import { api } from "../../electron/preload/preload";
 import Dexie from "dexie";
 import fakeIndexedDB from "fake-indexeddb";
 import FDBKeyRange from "fake-indexeddb/lib/FDBKeyRange";
 import { TextEncoder, TextDecoder } from "util";
 
-jest.mock("./rendererPreload/preload");
+jest.mock("../../electron/preload/preload");
 
 // Inject rendererPreload API used for Electron context isolation
 window.preload = api;

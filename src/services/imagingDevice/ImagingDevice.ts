@@ -1,4 +1,4 @@
-import * as rLogger from "../../services/rLogger/rLogger";
+import * as rLogger from "../rLogger/rLogger";
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
 import { ImagingDeviceSetting, ImagingDeviceSettingValue } from "./ImagingDeviceSettings";
 import { TEST_CAMERA_IDENTIFIER, TestCamera } from "./TestCamera";

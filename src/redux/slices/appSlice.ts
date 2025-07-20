@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  UserPreferences,
-  defaultUserPreferences,
-} from "../../../../electron/common/UserPreferences";
+import { UserPreferences, defaultUserPreferences } from "../../../electron/common/UserPreferences";
 
 interface AppState {
   userPreferences: UserPreferences;

@@ -1,4 +1,4 @@
-import LogLevel from "../../../../electron/common/LogLevel";
+import LogLevel from "../../../electron/common/LogLevel";
 import { Primitive } from "../Flavors";
 
 export const info = (loggingCode: string, message?: Primitive | Record<string, Primitive>) =>

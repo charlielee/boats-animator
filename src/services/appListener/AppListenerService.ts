@@ -1,4 +1,4 @@
-import { UserPreferences } from "../../../../electron/common/UserPreferences";
+import { UserPreferences } from "../../../electron/common/UserPreferences";
 
 export const handleOnCloseButtonClick = async (userPreferences: UserPreferences) => {
   const confirmClose = await window.preload.ipcToMain.openConfirmPrompt({

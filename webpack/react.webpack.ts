@@ -12,7 +12,7 @@ const config: Configuration = {
     extensions: [".tsx", ".ts", ".js"],
     mainFields: ["main", "module", "browser"],
   },
-  entry: path.resolve(rootPath, "src/renderer", "index.tsx"),
+  entry: path.resolve(rootPath, "src", "index.tsx"),
   target: "web",
   devtool: "source-map",
   module: {
