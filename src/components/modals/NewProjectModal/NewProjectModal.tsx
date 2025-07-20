@@ -1,9 +1,9 @@
 import { Stack } from "@mantine/core";
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
+import { usePersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import {
   DirectoryAccessPermissionError,
   ProjectDirectoryIsInsideAnotherProjectError,
@@ -40,7 +40,7 @@ export const NewProjectModal = () => {
 
   const workingDirectory = useWorkingDirectory();
   const { checkWorkingDirectoryPermission, changeWorkingDirectory, addProjectDirectory } =
-    useContext(PersistedDirectoriesContext);
+    usePersistedDirectoriesContext();
 
   const [project, setProject] = useState(
     makeProject({ name: "", projectFrameRate: DEFAULT_PROJECT_FRAME_RATE })
@@ -61,7 +61,7 @@ export const NewProjectModal = () => {
 
   const onChangeWorkingDirectory = async () => {
     clearFormErrors();
-    await changeWorkingDirectory?.();
+    await changeWorkingDirectory();
   };
 
   const onChangeFrameRate = (newFrameRate: number) =>
@@ -75,7 +75,7 @@ export const NewProjectModal = () => {
     };
 
     try {
-      await checkWorkingDirectoryPermission!();
+      await checkWorkingDirectoryPermission();
     } catch (e) {
       if (e instanceof DirectoryAccessPermissionError) {
         return setGeneralError(
@@ -88,7 +88,7 @@ export const NewProjectModal = () => {
     }
 
     try {
-      const projectDirectoryEntry = await addProjectDirectory!(formattedProject);
+      const projectDirectoryEntry = await addProjectDirectory(formattedProject);
       dispatch(
         addProject({ project: formattedProject, projectDirectoryId: projectDirectoryEntry.id })
       );
