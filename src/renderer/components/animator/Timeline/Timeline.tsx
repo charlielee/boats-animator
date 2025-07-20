@@ -6,7 +6,7 @@ import "./Timeline.css";
 import TimelinePosition from "./TimelinePosition/TimelinePosition";
 import TimelineTrack from "./TimelineTrack/TimelineTrack";
 import TimelineTrackLabel from "./TimelineTrackLabel/TimelineTrackLabel";
-import { Track } from "../../../services/project/Track";
+import { Track } from "../../../services/project/types";
 
 export const Timeline = () => {
   const { take } = useProjectAndTake();

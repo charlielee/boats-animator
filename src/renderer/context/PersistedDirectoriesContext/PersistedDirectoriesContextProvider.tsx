@@ -12,7 +12,7 @@ import {
   ProjectDirectoryIsInsideAnotherProjectError,
 } from "./PersistedDirectoriesErrors";
 import * as rLogger from "../../services/rLogger/rLogger";
-import { Project } from "../../services/project/Project";
+import { Project } from "../../services/project/types";
 import { PROJECT_DIRECTORY_EXTENSION } from "../../services/utils";
 
 interface PersistedDirectoriesContextProviderProps {

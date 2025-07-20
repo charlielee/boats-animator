@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PersistedDirectoryId, TrackItemId } from "../../services/Flavors";
-import { Project } from "../../services/project/Project";
-import { Take } from "../../services/project/Take";
-import { TrackItem } from "../../services/project/TrackItem";
+import { Project } from "../../services/project/types";
+import { Take } from "../../services/project/types";
+import { TrackItem } from "../../services/project/types";
 import {
   DEFAULT_ONION_SKIN_OPACITY,
   DEFAULT_ONION_SKIN_FRAMES_VISIBLE,

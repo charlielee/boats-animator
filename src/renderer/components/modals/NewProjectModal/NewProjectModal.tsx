@@ -32,7 +32,7 @@ import {
   PROJECT_DIRECTORY_EXTENSION,
   DEFAULT_PROJECT_NAME,
 } from "../../../services/utils";
-import { Project } from "../../../services/project/Project";
+import { Project } from "../../../services/project/types";
 
 export const NewProjectModal = () => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();

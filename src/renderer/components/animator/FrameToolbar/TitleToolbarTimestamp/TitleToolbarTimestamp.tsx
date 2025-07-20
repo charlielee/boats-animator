@@ -7,7 +7,7 @@ import { getTrackLength } from "../../../../services/project/projectCalculator";
 import { SemanticColor } from "../../../ui/Theme/SemanticColor";
 import { UiButton } from "../../../ui/UiButton/UiButton";
 import { TimelineIndex } from "../../../../services/Flavors";
-import { Take } from "../../../../services/project/Take";
+import { Take } from "../../../../services/project/types";
 import { buildStartTimeCode } from "../../../../services/timeUtils";
 
 interface TitleToolbarTimestampProps {

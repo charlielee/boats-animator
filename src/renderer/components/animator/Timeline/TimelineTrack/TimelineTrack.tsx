@@ -10,7 +10,7 @@ import TimelineTrackItem from "../TimelineTrackItem/TimelineTrackItem";
 import TimelineTrackNoItems from "../TimelineTrackNoItems/TimelineTrackNoItems";
 import "./TimelineTrack.css";
 import { TimelineIndex } from "../../../../services/Flavors";
-import { Track } from "../../../../services/project/Track";
+import { Track } from "../../../../services/project/types";
 
 interface TimelineTrackProps {
   track: Track;

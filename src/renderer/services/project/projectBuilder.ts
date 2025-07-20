@@ -7,11 +7,11 @@ import {
   DEFAULT_PROJECT_NAME_FORMATTED,
   zeroPad,
   DEFAULT_PROJECT_NAME,
+  CURRENT_PROJECT_INFO_FILE_SCHEMA_VERSION,
 } from "../utils";
-import { Project } from "./Project";
-import { ProjectInfoFileV1, CURRENT_PROJECT_INFO_FILE_SCHEMA_VERSION } from "./ProjectInfoFile";
-import { Take } from "./Take";
-import { TrackItem } from "./TrackItem";
+import { Project, ProjectInfoFileV1 } from "./types";
+import { Take } from "./types";
+import { TrackItem } from "./types";
 interface ProjectBuilderOptions {
   shotNumber: number;
   takeNumber: number;

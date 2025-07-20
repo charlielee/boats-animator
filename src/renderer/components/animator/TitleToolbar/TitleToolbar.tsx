@@ -10,7 +10,7 @@ import { UiActionIcon, UiActionIconRole } from "../../ui/UiActionIcon/UiActionIc
 import { UiButton } from "../../ui/UiButton/UiButton";
 import "./TitleToolbar.css";
 import { PageRoute } from "../../../services/PageRoute";
-import { Take } from "../../../services/project/Take";
+import { Take } from "../../../services/project/types";
 import { zeroPad } from "../../../services/utils";
 
 const TitleToolbar = () => {

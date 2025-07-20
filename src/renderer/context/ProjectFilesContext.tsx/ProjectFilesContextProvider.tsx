@@ -12,9 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { addFrameTrackItem, removeFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
 import * as rLogger from "../../services/rLogger/rLogger";
-import { Project } from "../../services/project/Project";
-import { Take } from "../../services/project/Take";
-import { TrackItem } from "../../services/project/TrackItem";
+import { Project } from "../../services/project/types";
+import { Take } from "../../services/project/types";
+import { TrackItem } from "../../services/project/types";
 import { PROJECT_INFO_FILE_NAME } from "../../services/utils";
 
 interface ProjectFilesContextProviderProps {

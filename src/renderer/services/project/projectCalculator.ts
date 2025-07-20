@@ -1,7 +1,6 @@
 import { FileInfoType } from "../fileManager/FileInfo";
 import { FrameCount, TimelineIndex } from "../Flavors";
-import { Track } from "./Track";
-import { TrackItem } from "./TrackItem";
+import { Track, TrackItem } from "./types";
 
 export const getTrackItemsLength = (trackItems: TrackItem[]): FrameCount =>
   trackItems.reduce((prev, trackItem) => prev + trackItem.length, 0);

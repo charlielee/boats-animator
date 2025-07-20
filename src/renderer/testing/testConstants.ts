@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { DEFAULT_PROJECT_FRAME_RATE, PROJECT_DIRECTORY_EXTENSION } from "../services/utils";
-import { Project } from "../services/project/Project";
-import { Take } from "../services/project/Take";
+import { Project } from "../services/project/types";
+import { Take } from "../services/project/types";
 import { FileInfoType } from "../services/fileManager/FileInfo";
 import { IsoDateTimeString } from "../services/Flavors";
 
