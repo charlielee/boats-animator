@@ -1,6 +1,3 @@
-// Callback over promise fs methods have been used because otherwise
-// annoying workarounds are required to access NodeJS.ErrnoException
-// eg https://stackoverflow.com/questions/51523509/
 import { app, shell } from "electron";
 import * as path from "path";
 

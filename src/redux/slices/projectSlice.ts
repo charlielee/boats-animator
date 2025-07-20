@@ -8,7 +8,7 @@ import {
   DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
 } from "../../services/utils";
 
-export interface ProjectState {
+interface ProjectState {
   project?: Project;
   take?: Take;
   playbackSpeed: number;
