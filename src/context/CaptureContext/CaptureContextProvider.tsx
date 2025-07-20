@@ -7,7 +7,7 @@ import { RootState } from "../../redux/store";
 import { makeFrameTrackItem } from "../../services/project/projectBuilder";
 import { getNextFileNumber } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
-import { ImagingDeviceContext } from "../ImagingDeviceContext/ImagingDeviceContext";
+import { useImagingDeviceContext } from "../ImagingDeviceContext/ImagingDeviceContext";
 import { ProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
 import CaptureContext from "./CaptureContext";
 
@@ -21,7 +21,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
   const { saveTrackItemToDisk } = useContext(ProjectFilesContext);
-  const { captureImageRaw, deviceStatus } = useContext(ImagingDeviceContext);
+  const { captureImageRaw, deviceStatus } = useImagingDeviceContext();
 
   const captureImage = async () => {
     rLogger.info("captureContextProvider.captureImage");
@@ -37,7 +37,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
     }
 
     try {
-      const imageData = await captureImageRaw?.();
+      const imageData = await captureImageRaw();
       if (imageData === undefined) {
         throw "Unable to captureImage as no imageData returned";
       }

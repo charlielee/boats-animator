@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import {
   ImagingDeviceIdentifier,
   ImagingDeviceStatus,
@@ -11,23 +11,21 @@ interface ImagingDeviceContextProps {
   deviceIdentifier: ImagingDeviceIdentifier | undefined;
   deviceStatus: ImagingDeviceStatus | undefined;
   deviceLoading: boolean;
-  changeDevice?: (identifier: ImagingDeviceIdentifier) => Promise<void>;
-  changeResolution?: (resolution: ImagingDeviceResolution) => Promise<void>;
-  changeSetting?: (name: string, value: ImagingDeviceSettingValue) => Promise<void>;
-  closeDevice?: () => void;
-  captureImageRaw?: () => Promise<Blob> | undefined;
+  changeDevice: (identifier: ImagingDeviceIdentifier) => Promise<void>;
+  changeResolution: (resolution: ImagingDeviceResolution) => Promise<void>;
+  changeSetting: (name: string, value: ImagingDeviceSettingValue) => Promise<void>;
+  closeDevice: () => void;
+  captureImageRaw: () => Promise<Blob> | undefined;
 }
 
-const defaultValue: ImagingDeviceContextProps = {
-  hasCameraAccess: false,
-  deviceIdentifier: undefined,
-  deviceStatus: undefined,
-  deviceLoading: false,
-  changeDevice: undefined,
-  changeResolution: undefined,
-  changeSetting: undefined,
-  closeDevice: undefined,
-  captureImageRaw: undefined,
-};
+export const ImagingDeviceContext = createContext<ImagingDeviceContextProps | undefined>(undefined);
 
-export const ImagingDeviceContext = createContext<ImagingDeviceContextProps>(defaultValue);
+export const useImagingDeviceContext = () => {
+  const context = useContext(ImagingDeviceContext);
+
+  if (context === undefined) {
+    throw new Error("Must be called within ImagingDeviceContextProvider");
+  }
+
+  return context;
+};

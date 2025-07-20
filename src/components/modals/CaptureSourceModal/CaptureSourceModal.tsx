@@ -1,6 +1,6 @@
 import { ComboboxData, Stack } from "@mantine/core";
-import { useContext, useState } from "react";
-import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
+import { useState } from "react";
+import { useImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import useDeviceList from "../../../hooks/useDeviceList";
 import {
   ImagingDeviceResolution,
@@ -23,7 +23,7 @@ export const CaptureSourceModal = () => {
     changeDevice,
     changeResolution,
     closeDevice,
-  } = useContext(ImagingDeviceContext);
+  } = useImagingDeviceContext();
   const deviceList = useDeviceList();
   const deviceSelectData: ComboboxData = deviceList.map(({ name, deviceId }) => ({
     label: name,
@@ -36,7 +36,7 @@ export const CaptureSourceModal = () => {
 
   const handleChangeDevice = async (newDeviceId: string | undefined) => {
     const identifier = deviceList.find((device) => device.deviceId === newDeviceId);
-    return identifier ? changeDevice?.(identifier) : closeDevice?.();
+    return identifier ? changeDevice(identifier) : closeDevice();
   };
 
   const handleChangeResolutionName = async (name: ResolutionName | undefined) => {
@@ -52,7 +52,7 @@ export const CaptureSourceModal = () => {
 
   const handleChangeResolution = async (newResolution: ImagingDeviceResolution) => {
     setShowCustomResolution(false);
-    await changeResolution?.(newResolution);
+    await changeResolution(newResolution);
   };
 
   return (

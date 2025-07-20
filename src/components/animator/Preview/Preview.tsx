@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
+import { useImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
@@ -15,9 +15,8 @@ import { calculateLiveViewOpacity } from "../../../services/onionSkin/onionSkinC
 
 export const Preview = () => {
   const { take } = useProjectAndTake();
-  const { deviceIdentifier, deviceStatus, deviceLoading } = useContext(ImagingDeviceContext);
-
-  const { hasCameraAccess } = useContext(ImagingDeviceContext);
+  const { deviceIdentifier, deviceStatus, deviceLoading, hasCameraAccess } =
+    useImagingDeviceContext();
   const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);
   const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
 
