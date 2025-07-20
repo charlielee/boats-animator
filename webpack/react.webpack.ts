@@ -12,7 +12,7 @@ const config: Configuration = {
     extensions: [".tsx", ".ts", ".js"],
     mainFields: ["main", "module", "browser"],
   },
-  entry: path.resolve(rootPath, "src/renderer", "index.tsx"),
+  entry: path.resolve(rootPath, "src", "index.tsx"),
   target: "web",
   devtool: "source-map",
   module: {
@@ -33,7 +33,7 @@ const config: Configuration = {
         type: "asset/resource",
       },
       {
-        // Should match src/@types/media.d.ts
+        // Should match src/types/media.d.ts
         test: /\.(jpg|png|svg|wav)$/i,
         type: "asset/resource",
       },

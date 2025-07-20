@@ -1,7 +1,0 @@
-.playback-pane {
-  flex: 1;
-}
-
-.playback-pane *:last-child {
-  margin-top: auto;
-}
