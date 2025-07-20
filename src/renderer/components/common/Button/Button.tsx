@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
-import { PageRoute } from "../../../../common/PageRoute";
 import Icon from "../Icon/Icon";
 import IconName from "../Icon/IconName";
 import "./Button.css";
 import { ButtonColor } from "./ButtonColor";
+import { PageRoute } from "../../../services/PageRoute";
 
 export interface ButtonProps {
   title: string;

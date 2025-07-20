@@ -1,5 +1,4 @@
 import { ReactNode, useContext, useRef } from "react";
-import { TimelineIndex } from "../../../common/Flavors";
 import useLinkedRefAndState from "../../hooks/useLinkedRefAndState";
 import useRequestAnimationFrame from "../../hooks/useRequestAnimationFrame";
 import {
@@ -13,6 +12,7 @@ import { ProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesCont
 import { notifications } from "@mantine/notifications";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { TimelineIndex } from "../../services/Flavors";
 
 interface PlaybackContextProviderProps {
   children: ReactNode;

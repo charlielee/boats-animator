@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PersistedDirectoryId, TrackItemId } from "../../../common/Flavors";
-import { Project } from "../../../common/project/Project";
-import { Take } from "../../../common/project/Take";
-import { TrackItem } from "../../../common/project/TrackItem";
+import { PersistedDirectoryId, TrackItemId } from "../../services/Flavors";
+import { Project } from "../../services/project/Project";
+import { Take } from "../../services/project/Take";
+import { TrackItem } from "../../services/project/TrackItem";
 import {
-  DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
   DEFAULT_ONION_SKIN_OPACITY,
-} from "../../../common/utils";
+  DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
+} from "../../services/utils";
 
 export interface ProjectState {
   project?: Project;

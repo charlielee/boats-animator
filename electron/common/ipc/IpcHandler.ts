@@ -1,4 +1,3 @@
-import { Primitive } from "../Flavors";
 import LogLevel from "../LogLevel";
 import { UserPreferences } from "../UserPreferences";
 
@@ -22,7 +21,12 @@ namespace Ipc {
     export type Payload = {
       logLevel: LogLevel;
       loggingCode: string;
-      message?: Primitive | Record<string, Primitive>;
+      message?:
+        | string
+        | number
+        | boolean
+        | undefined
+        | Record<string, string | number | boolean | undefined>;
     };
     export type Response = Promise<void>;
   }

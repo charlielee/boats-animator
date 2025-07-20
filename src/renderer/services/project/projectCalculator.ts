@@ -1,7 +1,7 @@
 import { FileInfoType } from "../fileManager/FileInfo";
-import { FrameCount, TimelineIndex } from "../../../common/Flavors";
-import { Track } from "../../../common/project/Track";
-import { TrackItem } from "../../../common/project/TrackItem";
+import { FrameCount, TimelineIndex } from "../Flavors";
+import { Track } from "./Track";
+import { TrackItem } from "./TrackItem";
 
 export const getTrackItemsLength = (trackItems: TrackItem[]): FrameCount =>
   trackItems.reduce((prev, trackItem) => prev + trackItem.length, 0);

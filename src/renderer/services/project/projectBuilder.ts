@@ -1,21 +1,17 @@
 import { v4 as uuidv4 } from "uuid";
 import { FileInfoType } from "../fileManager/FileInfo";
-import { TrackGroupId } from "../../../common/Flavors";
-import { Take } from "../../../common/project/Take";
-import { TrackItem } from "../../../common/project/TrackItem";
+import { TrackGroupId } from "../Flavors";
 import {
-  DEFAULT_PROJECT_NAME_FORMATTED,
-  PROJECT_DIRECTORY_EXTENSION,
-  zeroPad,
   DEFAULT_PROJECT_DIRECTORY_NAME,
+  PROJECT_DIRECTORY_EXTENSION,
+  DEFAULT_PROJECT_NAME_FORMATTED,
+  zeroPad,
   DEFAULT_PROJECT_NAME,
-} from "../../../common/utils";
-import { Project } from "../../../common/project/Project";
-import {
-  CURRENT_PROJECT_INFO_FILE_SCHEMA_VERSION,
-  ProjectInfoFileV1,
-} from "../../../common/project/ProjectInfoFile";
-
+} from "../utils";
+import { Project } from "./Project";
+import { ProjectInfoFileV1, CURRENT_PROJECT_INFO_FILE_SCHEMA_VERSION } from "./ProjectInfoFile";
+import { Take } from "./Take";
+import { TrackItem } from "./TrackItem";
 interface ProjectBuilderOptions {
   shotNumber: number;
   takeNumber: number;

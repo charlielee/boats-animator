@@ -1,4 +1,3 @@
-import { FileInfoId } from "../../../common/Flavors";
 import {
   CreateDirectoryAlreadyExistsError,
   CreateDirectoryUnexpectedError,
@@ -11,6 +10,7 @@ import {
 } from "./FileErrors";
 import { FileInfo, FileInfoType } from "./FileInfo";
 import * as rLogger from "../../services/rLogger/rLogger";
+import { FileInfoId } from "../Flavors";
 
 export class FileManager {
   private fileInfos: FileInfo[] = [];

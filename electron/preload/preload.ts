@@ -2,7 +2,6 @@ import { contextBridge, ipcRenderer, shell } from "electron";
 import * as path from "path";
 import IpcChannel from "../common/ipc/IpcChannel";
 import Ipc from "../common/ipc/IpcHandler";
-import { NewsResponsePost } from "../renderer/services/news/NewsResponse";
 import { setListener } from "./ipcRendererUtils";
 
 // This file controls access to the Electron and Node methods required by the renderer process
@@ -56,7 +55,7 @@ export const api = {
   },
   openExternal: {
     discord: () => shell.openExternal("http://discord.boatsanimator.com"),
-    newsPost: (post: NewsResponsePost) => shell.openExternal(post.url),
+    newsPost: (url: string) => shell.openExternal(url),
     website: () => shell.openExternal("https://www.charlielee.uk/boats-animator"),
   },
 };

@@ -1,10 +1,6 @@
 import { Input } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
-  DEFAULT_ONION_SKIN_OPACITY,
-} from "../../../../../common/utils";
-import {
   setEnableOnionSkin,
   setOnionSkinFramesVisible,
   setOnionSkinOpacity,
@@ -16,6 +12,10 @@ import { UiPaneSection } from "../../../ui/UiPaneSection/UiPaneSection";
 import { UiSlider } from "../../../ui/UiSlider/UiSlider";
 import "./OnionSkinPane.css";
 import classNames from "classnames";
+import {
+  DEFAULT_ONION_SKIN_OPACITY,
+  DEFAULT_ONION_SKIN_FRAMES_VISIBLE,
+} from "../../../../services/utils";
 
 export const OnionSkinPane = () => {
   const dispatch = useDispatch();

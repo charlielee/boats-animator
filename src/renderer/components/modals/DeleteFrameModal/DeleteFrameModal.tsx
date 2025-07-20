@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { PageRoute } from "../../../../common/PageRoute";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiModalFooter } from "../../ui/UiModalFooter/UiModalFooter";
+import { PageRoute } from "../../../services/PageRoute";
 
 export const DeleteFrameModal = () => {
   const navigate = useNavigate();

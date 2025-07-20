@@ -1,12 +1,12 @@
 import {
   MOCK_DATE_TIME,
-  MOCK_ISO_DATE_TIME_STRING,
-  PROJECT_DIRECTORY_NAME,
   PROJECT_NAME,
+  PROJECT_DIRECTORY_NAME,
+  MOCK_ISO_DATE_TIME_STRING,
   TAKE,
   TRACK_GROUP_ID,
-} from "../../../common/testConstants";
-import { DEFAULT_PROJECT_DIRECTORY_NAME, PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
+} from "../../testing/testConstants";
+import { PROJECT_DIRECTORY_EXTENSION, DEFAULT_PROJECT_DIRECTORY_NAME } from "../utils";
 import {
   makeFrameTrackItem,
   makeProject,

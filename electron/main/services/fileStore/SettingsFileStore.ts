@@ -1,6 +1,6 @@
 import Conf from "conf/dist/source";
 import { defaultUserPreferences, UserPreferences } from "../../../common/UserPreferences";
-import { WindowSize } from "../../../common/WindowSize";
+import { WindowSize } from "../windowUtils/WindowSize";
 import FileStore from "./FileStore";
 
 interface SettingsFileOptions {

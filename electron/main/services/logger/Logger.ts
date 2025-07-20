@@ -1,6 +1,5 @@
 import { app } from "electron";
 import * as fs from "fs";
-import { Primitive } from "../../../common/Flavors";
 import LogLevel from "../../../common/LogLevel";
 
 const USER_DATA_PATH = app.getPath("userData");
@@ -12,6 +11,8 @@ export enum ProcessName {
   MAIN = "MAIN",
   RENDERER = "RENDERER",
 }
+
+type MainPrimitive = string | number | boolean | undefined;
 
 class Logger {
   private stream: fs.WriteStream | undefined;
@@ -32,26 +33,26 @@ class Logger {
 
   info = (
     loggingCode: string,
-    message?: Primitive | Record<string, Primitive>,
+    message?: MainPrimitive | Record<string, MainPrimitive>,
     writeToFile = true
   ) => this.log(LogLevel.INFO, loggingCode, message, writeToFile);
 
   warn = (
     loggingCode: string,
-    message?: Primitive | Record<string, Primitive>,
+    message?: MainPrimitive | Record<string, MainPrimitive>,
     writeToFile = true
   ) => this.log(LogLevel.WARN, loggingCode, message, writeToFile);
 
   error = (
     loggingCode: string,
-    message?: Primitive | Record<string, Primitive>,
+    message?: MainPrimitive | Record<string, MainPrimitive>,
     writeToFile = true
   ) => this.log(LogLevel.ERROR, loggingCode, message, writeToFile);
 
   log(
     logLevel: LogLevel,
     loggingCode: string,
-    message?: Primitive | Record<string, Primitive>,
+    message?: MainPrimitive | Record<string, MainPrimitive>,
     writeToFile = true,
     processName: ProcessName = ProcessName.MAIN
   ) {
@@ -70,7 +71,7 @@ class Logger {
     processName: ProcessName,
     logLevel: LogLevel,
     loggingCode: string,
-    message?: Primitive | Record<string, Primitive>
+    message?: MainPrimitive | Record<string, MainPrimitive>
   ) {
     const logDate = new Date().toISOString();
     return JSON.stringify([logDate, processName, logLevel, loggingCode, message]).slice(1, -1);

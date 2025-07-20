@@ -1,5 +1,5 @@
-import { zeroPad } from "../../../common/utils";
 import * as rLogger from "../rLogger/rLogger";
+import { zeroPad } from "../utils";
 import { ImagingDevice, ImagingDeviceIdentifier, ImagingDeviceType } from "./ImagingDevice";
 import { ImagingDeviceResolution } from "./ImagingDeviceResolution";
 import {

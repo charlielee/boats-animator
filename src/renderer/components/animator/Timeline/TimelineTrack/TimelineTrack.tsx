@@ -1,6 +1,4 @@
 import { useContext } from "react";
-import { TimelineIndex } from "../../../../../common/Flavors";
-import { Track } from "../../../../../common/project/Track";
 import { ProjectFilesContext } from "../../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import { FileInfoType } from "../../../../services/fileManager/FileInfo";
 import {
@@ -11,6 +9,8 @@ import TimelineLiveViewButton from "../TimelineLiveView/TimelineLiveView";
 import TimelineTrackItem from "../TimelineTrackItem/TimelineTrackItem";
 import TimelineTrackNoItems from "../TimelineTrackNoItems/TimelineTrackNoItems";
 import "./TimelineTrack.css";
+import { TimelineIndex } from "../../../../services/Flavors";
+import { Track } from "../../../../services/project/Track";
 
 interface TimelineTrackProps {
   track: Track;

@@ -8,7 +8,7 @@ import {
 } from "electron";
 import * as path from "path";
 import IpcChannel from "../../../common/ipc/IpcChannel";
-import { WindowSize } from "../../../common/WindowSize";
+import { WindowSize } from "./WindowSize";
 import { settingsFileStore } from "../fileStore/SettingsFileStore";
 import { sendToRenderer } from "../ipcToMainHandler/IpcToMainHandler";
 import logger from "../logger/Logger";

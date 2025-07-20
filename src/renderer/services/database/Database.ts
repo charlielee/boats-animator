@@ -1,6 +1,6 @@
 import Dexie, { Table } from "dexie";
-import { PersistedDirectoryId } from "../../../common/Flavors";
 import { PersistedDirectoryEntry } from "./PersistedDirectoryEntry";
+import { PersistedDirectoryId } from "../Flavors";
 
 class Database extends Dexie {
   persistedDirectories!: Table<PersistedDirectoryEntry, PersistedDirectoryId>;

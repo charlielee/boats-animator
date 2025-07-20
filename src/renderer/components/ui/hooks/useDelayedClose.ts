@@ -1,7 +1,7 @@
 import { useDisclosure } from "@mantine/hooks";
-import { PageRoute } from "../../../../common/PageRoute";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { PageRoute } from "../../../services/PageRoute";
 
 interface UseDelayedCloseProps {
   onClose?: (() => void) | PageRoute;

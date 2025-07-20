@@ -1,6 +1,6 @@
 import { createContext } from "react";
-import { Take } from "../../../common/project/Take";
-import { TrackItem } from "../../../common/project/TrackItem";
+import { Take } from "../../services/project/Take";
+import { TrackItem } from "../../services/project/TrackItem";
 
 interface ProjectFilesContextProps {
   saveTrackItemToDisk: (take: Take, trackItem: TrackItem, blob: Blob) => Promise<void>;

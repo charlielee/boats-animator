@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { TimelineIndex } from "../../../common/Flavors";
+import { TimelineIndex } from "../../services/Flavors";
 
 export const enum PlaybackFrameName {
   FIRST = "FIRST",

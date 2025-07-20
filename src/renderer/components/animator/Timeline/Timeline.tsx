@@ -1,5 +1,4 @@
 import { useCallback, useContext } from "react";
-import { Track } from "../../../../common/project/Track";
 import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { getTrackItemStartPosition } from "../../../services/project/projectCalculator";
@@ -7,6 +6,7 @@ import "./Timeline.css";
 import TimelinePosition from "./TimelinePosition/TimelinePosition";
 import TimelineTrack from "./TimelineTrack/TimelineTrack";
 import TimelineTrackLabel from "./TimelineTrackLabel/TimelineTrackLabel";
+import { Track } from "../../../services/project/Track";
 
 export const Timeline = () => {
   const { take } = useProjectAndTake();

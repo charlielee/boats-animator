@@ -33,7 +33,7 @@ const config: Configuration = {
         type: "asset/resource",
       },
       {
-        // Should match src/@types/media.d.ts
+        // Should match src/types/media.d.ts
         test: /\.(jpg|png|svg|wav)$/i,
         type: "asset/resource",
       },

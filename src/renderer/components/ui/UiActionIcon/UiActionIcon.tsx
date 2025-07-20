@@ -1,11 +1,11 @@
 import { ActionIcon, ActionIconProps, Box, Tooltip } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { PageRoute } from "../../../../common/PageRoute";
 import Icon, { IconProps } from "../../common/Icon/Icon";
 import IconName from "../../common/Icon/IconName";
 import { SemanticColor } from "../Theme/SemanticColor";
 import "./UiActionIcon.css";
 import { forwardRef } from "react";
+import { PageRoute } from "../../../services/PageRoute";
 
 export const enum UiActionIconRole {
   CAPTURE = "CAPTURE",

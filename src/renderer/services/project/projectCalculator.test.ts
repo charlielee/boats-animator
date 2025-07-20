@@ -1,8 +1,8 @@
 import { FileInfoType } from "../fileManager/FileInfo";
-import { Track } from "../../../common/project/Track";
 import { getLastTrackItem, getNextFileNumber } from "./projectCalculator";
 import { makeFrameTrackItem } from "./projectBuilder";
-import { TAKE } from "../../../common/testConstants";
+import { TAKE } from "../../testing/testConstants";
+import { Track } from "./Track";
 
 describe("getNextFileNumber", () => {
   it("should get next file number for track with no items", () => {

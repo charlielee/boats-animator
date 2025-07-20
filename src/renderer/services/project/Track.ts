@@ -1,4 +1,4 @@
-import { FileInfoType } from "../../renderer/services/fileManager/FileInfo";
+import { FileInfoType } from "../fileManager/FileInfo";
 import { TrackId } from "../Flavors";
 import { TrackItem } from "./TrackItem";
 

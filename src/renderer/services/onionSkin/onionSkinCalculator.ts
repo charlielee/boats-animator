@@ -1,4 +1,4 @@
-import { Track } from "../../../common/project/Track";
+import { Track } from "../project/Track";
 
 export const getOnionSkinTrackItems = (frameTrack: Track, onionSkinFramesVisible: number) =>
   frameTrack.trackItems.slice(onionSkinFramesVisible * -1);

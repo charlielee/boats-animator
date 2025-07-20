@@ -31,7 +31,7 @@ const NewsFeed = () => {
         newPosts.map((post) => (
           <div key={post.id}>
             <h3>
-              <a href="#" onClick={() => window.preload.openExternal.newsPost(post)}>
+              <a href="#" onClick={() => window.preload.openExternal.newsPost(post.url)}>
                 {post.title}
               </a>
             </h3>

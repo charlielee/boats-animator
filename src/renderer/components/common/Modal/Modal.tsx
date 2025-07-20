@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
-import { PageRoute } from "../../../../common/PageRoute";
 import IconName from "../Icon/IconName";
 import IconButton from "../IconButton/IconButton";
 import "./Modal.css";
+import { PageRoute } from "../../../services/PageRoute";
 
 interface ModalProps {
   children: ReactNode;

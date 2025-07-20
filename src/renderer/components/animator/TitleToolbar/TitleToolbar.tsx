@@ -1,8 +1,5 @@
 import { Flex, Group, Title, Tooltip } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
-import { PageRoute } from "../../../../common/PageRoute";
-import { Take } from "../../../../common/project/Take";
-import { zeroPad } from "../../../../common/utils";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { toggleCapturePane } from "../../../redux/slices/projectSlice";
 import { RootState } from "../../../redux/store";
@@ -12,6 +9,9 @@ import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiActionIcon, UiActionIconRole } from "../../ui/UiActionIcon/UiActionIcon";
 import { UiButton } from "../../ui/UiButton/UiButton";
 import "./TitleToolbar.css";
+import { PageRoute } from "../../../services/PageRoute";
+import { Take } from "../../../services/project/Take";
+import { zeroPad } from "../../../services/utils";
 
 const TitleToolbar = () => {
   const { take, project } = useProjectAndTake();

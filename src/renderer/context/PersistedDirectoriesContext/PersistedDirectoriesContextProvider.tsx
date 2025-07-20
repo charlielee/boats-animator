@@ -7,13 +7,13 @@ import {
   PersistedDirectoryEntry,
 } from "../../services/database/PersistedDirectoryEntry";
 import useWorkingDirectory from "../../hooks/useWorkingDirectory";
-import { Project } from "../../../common/project/Project";
-import { PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
 import {
   DirectoryAccessPermissionError,
   ProjectDirectoryIsInsideAnotherProjectError,
 } from "./PersistedDirectoriesErrors";
 import * as rLogger from "../../services/rLogger/rLogger";
+import { Project } from "../../services/project/Project";
+import { PROJECT_DIRECTORY_EXTENSION } from "../../services/utils";
 
 interface PersistedDirectoriesContextProviderProps {
   children: ReactNode;

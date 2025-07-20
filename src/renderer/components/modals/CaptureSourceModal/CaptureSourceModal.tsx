@@ -1,6 +1,5 @@
 import { ComboboxData, Stack } from "@mantine/core";
 import { useContext, useState } from "react";
-import { PageRoute } from "../../../../common/PageRoute";
 import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import useDeviceList from "../../../hooks/useDeviceList";
 import {
@@ -14,6 +13,7 @@ import { UiLoader } from "../../ui/UiLoader/UiLoader";
 import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiSelect } from "../../ui/UiSelect/UiSelect";
 import { CustomResolutionInput } from "./CustomResolutionInput/CustomResolutionInput";
+import { PageRoute } from "../../../services/PageRoute";
 
 export const CaptureSourceModal = () => {
   const {

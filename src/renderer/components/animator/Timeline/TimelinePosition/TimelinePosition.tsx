@@ -1,5 +1,5 @@
-import { FrameCount, FrameRate, TimelineIndex } from "../../../../../common/Flavors";
-import { buildStartTimeCode } from "../../../../../common/timeUtils";
+import { FrameRate, FrameCount, TimelineIndex } from "../../../../services/Flavors";
+import { buildStartTimeCode } from "../../../../services/timeUtils";
 import "./TimelinePosition.css";
 
 interface TimelinePositionProps {

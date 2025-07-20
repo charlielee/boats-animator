@@ -1,4 +1,4 @@
-import { FileInfoId } from "../../../common/Flavors";
+import { FileInfoId } from "../Flavors";
 
 export enum FileInfoType {
   FRAME = "FRAME",

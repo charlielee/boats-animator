@@ -1,7 +1,4 @@
 import { ReactNode, useContext, useEffect } from "react";
-import { Take } from "../../../common/project/Take";
-import { TrackItem } from "../../../common/project/TrackItem";
-import { PROJECT_INFO_FILE_NAME } from "../../../common/utils";
 import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { FileInfoType } from "../../services/fileManager/FileInfo";
 import {
@@ -12,10 +9,13 @@ import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
 import { ProjectFilesContext } from "./ProjectFilesContext";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Project } from "../../../common/project/Project";
 import { addFrameTrackItem, removeFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
 import * as rLogger from "../../services/rLogger/rLogger";
+import { Project } from "../../services/project/Project";
+import { Take } from "../../services/project/Take";
+import { TrackItem } from "../../services/project/TrackItem";
+import { PROJECT_INFO_FILE_NAME } from "../../services/utils";
 
 interface ProjectFilesContextProviderProps {
   children: ReactNode;

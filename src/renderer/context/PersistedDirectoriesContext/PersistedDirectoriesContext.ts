@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { PersistedDirectoryEntry } from "../../services/database/PersistedDirectoryEntry";
-import { Project } from "../../../common/project/Project";
+import { Project } from "../../services/project/Project";
 
 interface PersistedDirectoriesContextProps {
   checkWorkingDirectoryPermission: () => Promise<void>;

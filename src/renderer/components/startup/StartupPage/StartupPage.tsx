@@ -1,5 +1,4 @@
 import { Group, Stack } from "@mantine/core";
-import { PageRoute } from "../../../../common/PageRoute";
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
@@ -10,6 +9,7 @@ import SidebarBlock from "../../common/SidebarBlock/SidebarBlock";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
 import NewsFeed from "../NewsFeed/NewsFeed";
+import { PageRoute } from "../../../services/PageRoute";
 
 export const StartupPage = () => (
   <Page>

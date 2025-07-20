@@ -1,7 +1,7 @@
 import { Modal, useMantineTheme } from "@mantine/core";
 import { ReactNode } from "react";
-import { PageRoute } from "../../../../common/PageRoute";
 import { useDelayedClose } from "../hooks/useDelayedClose";
+import { PageRoute } from "../../../services/PageRoute";
 
 interface UiModalProps {
   title: string;

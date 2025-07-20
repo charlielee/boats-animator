@@ -3,12 +3,6 @@ import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { PageRoute } from "../../../../common/PageRoute";
-import {
-  DEFAULT_PROJECT_FRAME_RATE,
-  DEFAULT_PROJECT_NAME,
-  PROJECT_DIRECTORY_EXTENSION,
-} from "../../../../common/utils";
 import { PersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
 import {
   DirectoryAccessPermissionError,
@@ -32,7 +26,13 @@ import { UiTextInput } from "../../ui/UiTextInput/UiTextInput";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
 import { UiAlert } from "../../ui/UiAlert/UiAlert";
 import * as rLogger from "../../../services/rLogger/rLogger";
-import { Project } from "../../../../common/project/Project";
+import { PageRoute } from "../../../services/PageRoute";
+import {
+  DEFAULT_PROJECT_FRAME_RATE,
+  PROJECT_DIRECTORY_EXTENSION,
+  DEFAULT_PROJECT_NAME,
+} from "../../../services/utils";
+import { Project } from "../../../services/project/Project";
 
 export const NewProjectModal = () => {
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();

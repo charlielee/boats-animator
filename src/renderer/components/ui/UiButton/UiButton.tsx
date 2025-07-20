@@ -1,10 +1,10 @@
 import { Button } from "@mantine/core";
 import Icon from "../../common/Icon/Icon";
 import IconName from "../../common/Icon/IconName";
-import { PageRoute } from "../../../../common/PageRoute";
 import { useNavigate } from "react-router-dom";
 import { forwardRef, ReactNode } from "react";
 import { SemanticColor } from "../Theme/SemanticColor";
+import { PageRoute } from "../../../services/PageRoute";
 
 interface UiButtonProps {
   icon?: IconName;

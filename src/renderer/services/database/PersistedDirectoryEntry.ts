@@ -1,4 +1,4 @@
-import { PersistedDirectoryId } from "../../../common/Flavors";
+import { PersistedDirectoryId } from "../Flavors";
 import { db } from "./Database";
 import { v4 as uuidv4 } from "uuid";
 

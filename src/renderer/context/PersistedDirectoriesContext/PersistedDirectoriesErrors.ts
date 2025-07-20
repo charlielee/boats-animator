@@ -1,4 +1,4 @@
-import { PROJECT_DIRECTORY_EXTENSION } from "../../../common/utils";
+import { PROJECT_DIRECTORY_EXTENSION } from "../../services/utils";
 
 export class DirectoryAccessPermissionError extends Error {
   constructor(directoryName: string, status: string) {

@@ -1,6 +1,5 @@
 import { Stack, Title } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
-import { PageRoute } from "../../../../common/PageRoute";
 import { editUserPreferences } from "../../../redux/slices/appSlice";
 import { RootState } from "../../../redux/store";
 import IconName from "../../common/Icon/IconName";
@@ -10,6 +9,7 @@ import { UiModal } from "../../ui/UiModal/UiModal";
 import { UiModalFooter } from "../../ui/UiModalFooter/UiModalFooter";
 import { UiNumberInput } from "../../ui/UiNumberInput/UiNumberInput";
 import { UiSwitch } from "../../ui/UiSwitch/UiSwitch";
+import { PageRoute } from "../../../services/PageRoute";
 
 const PreferencesModal = () => {
   const dispatch = useDispatch();
