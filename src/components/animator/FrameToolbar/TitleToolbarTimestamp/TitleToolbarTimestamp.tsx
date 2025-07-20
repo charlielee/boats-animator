@@ -1,7 +1,7 @@
 import { Tooltip } from "@mantine/core";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext";
+import { usePlaybackContext } from "../../../../context/PlaybackContext/PlaybackContext";
 import { RootState } from "../../../../redux/store";
 import { getTrackLength } from "../../../../services/project/projectCalculator";
 import { SemanticColor } from "../../../ui/Theme/SemanticColor";
@@ -15,7 +15,7 @@ interface TitleToolbarTimestampProps {
 }
 
 export const TitleToolbarTimestamp = ({ take }: TitleToolbarTimestampProps) => {
-  const { timelineIndex } = useContext(PlaybackContext);
+  const { timelineIndex } = usePlaybackContext();
   const { showTimestampInSeconds } = useSelector((state: RootState) => state.app.userPreferences);
   const [showInSeconds, setShowInSeconds] = useState(showTimestampInSeconds);
 

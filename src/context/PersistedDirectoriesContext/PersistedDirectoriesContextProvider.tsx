@@ -1,6 +1,6 @@
-import { ReactNode, useContext } from "react";
+import { ReactNode } from "react";
 import { PersistedDirectoriesContext } from "./PersistedDirectoriesContext";
-import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
+import { useFileManagerContext } from "../FileManagerContext/FileManagerContext";
 import {
   addProjectDirectoryEntry,
   putOrAddWorkingDirectoryEntry,
@@ -24,7 +24,7 @@ export const PersistedDirectoriesContextProvider = ({
 }: PersistedDirectoriesContextProviderProps) => {
   const workingDirectory = useWorkingDirectory();
 
-  const fileManager = useContext(FileManagerContext);
+  const fileManager = useFileManagerContext();
 
   const checkWorkingDirectoryPermission = async (): Promise<void> => {
     if (workingDirectory === undefined) {
@@ -43,7 +43,7 @@ export const PersistedDirectoriesContextProvider = ({
   };
 
   const changeWorkingDirectory = async (): Promise<void> => {
-    const workingDirectoryHandle = await fileManager?.openDirectoryDialog("changeWorkingDirectory");
+    const workingDirectoryHandle = await fileManager.openDirectoryDialog("changeWorkingDirectory");
 
     if (workingDirectoryHandle !== undefined) {
       await putOrAddWorkingDirectoryEntry(workingDirectoryHandle);
@@ -58,7 +58,7 @@ export const PersistedDirectoriesContextProvider = ({
       throw new ProjectDirectoryIsInsideAnotherProjectError(workingDirectory.handle.name);
     }
 
-    const handle = await fileManager?.createDirectory(
+    const handle = await fileManager.createDirectory(
       project.directoryName,
       workingDirectory.handle,
       true

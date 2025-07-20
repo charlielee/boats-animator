@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { TimelineIndex } from "../../services/Flavors";
 
 export const enum PlaybackFrameName {
@@ -12,22 +12,20 @@ export interface PlaybackContextProps {
   startOrPausePlayback: () => void;
   stopPlayback: (i?: TimelineIndex | undefined, pause?: boolean) => void;
   displayFrame: (name: PlaybackFrameName) => void;
-  deleteFrameAtCurrentTimelineIndex?: () => Promise<void>;
+  deleteFrameAtCurrentTimelineIndex: () => Promise<void>;
   timelineIndex: TimelineIndex | undefined;
   liveViewVisible: boolean;
   playing: boolean;
 }
 
-const defaultValue: PlaybackContextProps = {
-  startOrPausePlayback: () => undefined,
-  stopPlayback: () => undefined,
-  displayFrame: () => undefined,
-  deleteFrameAtCurrentTimelineIndex: undefined,
-  timelineIndex: undefined,
-  liveViewVisible: true,
-  playing: false,
+export const PlaybackContext = createContext<PlaybackContextProps | undefined>(undefined);
+
+export const usePlaybackContext = () => {
+  const context = useContext(PlaybackContext);
+
+  if (context === undefined) {
+    throw new Error("Must be called within PlaybackContextProvider");
+  }
+
+  return context;
 };
-
-const PlaybackContext = createContext<PlaybackContextProps>(defaultValue);
-
-export default PlaybackContext;

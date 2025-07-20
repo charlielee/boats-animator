@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { ImagingDeviceContext } from "../context/ImagingDeviceContext/ImagingDeviceContext";
+import { useEffect, useState } from "react";
+import { useImagingDeviceContext } from "../context/ImagingDeviceContext/ImagingDeviceContext";
 import { ImagingDeviceSettingValue } from "../services/imagingDevice/ImagingDeviceSettings";
 import * as rLogger from "../services/rLogger/rLogger";
 
@@ -8,7 +8,7 @@ type UseChangeSettingDebouncedResponse<T> = [T, React.Dispatch<React.SetStateAct
 export const useChangeSettingDebounced = <T extends ImagingDeviceSettingValue>(
   name: string
 ): UseChangeSettingDebouncedResponse<T> => {
-  const { changeSetting, deviceStatus } = useContext(ImagingDeviceContext);
+  const { changeSetting, deviceStatus } = useImagingDeviceContext();
 
   const currentValue = deviceStatus?.settings.find((s) => s.name === name)?.value as T | undefined;
   if (currentValue === undefined) {
@@ -30,7 +30,7 @@ export const useChangeSettingDebounced = <T extends ImagingDeviceSettingValue>(
 
     const handleChangeSetting = async (newValue: T) => {
       try {
-        await changeSetting?.(name, newValue);
+        await changeSetting(name, newValue);
         rLogger.info("useChangeSettingSuccess", `${name} was changed to ${newValue.toString()}`);
       } catch {
         rLogger.info(

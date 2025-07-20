@@ -1,5 +1,5 @@
-import { useCallback, useContext } from "react";
-import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import { useCallback } from "react";
+import { usePlaybackContext } from "../../../context/PlaybackContext/PlaybackContext";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { getTrackItemStartPosition } from "../../../services/project/projectCalculator";
 import "./Timeline.css";
@@ -12,7 +12,7 @@ export const Timeline = () => {
   const { take } = useProjectAndTake();
   const frameTrack = take.frameTrack;
 
-  const { timelineIndex, stopPlayback } = useContext(PlaybackContext);
+  const { timelineIndex, stopPlayback } = usePlaybackContext();
 
   const timelineTracksRef = useCallback(
     (timelineDiv: HTMLDivElement | null) => {

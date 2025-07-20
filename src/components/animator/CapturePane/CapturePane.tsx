@@ -1,7 +1,6 @@
 import { Input } from "@mantine/core";
-import { useContext } from "react";
 import { useSelector } from "react-redux";
-import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
+import { useImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
 import { RootState } from "../../../redux/store";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
@@ -12,7 +11,7 @@ import "./CapturePane.css";
 import { PageRoute } from "../../../services/PageRoute";
 
 export const CapturePane = () => {
-  const { deviceIdentifier, deviceStatus } = useContext(ImagingDeviceContext);
+  const { deviceIdentifier, deviceStatus } = useImagingDeviceContext();
   const showCapturePane = useSelector((state: RootState) => state.project.showCapturePane);
 
   return (

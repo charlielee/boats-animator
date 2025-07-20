@@ -1,11 +1,11 @@
-import { ReactNode, useContext, useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { FileInfoType } from "../../services/fileManager/FileInfo";
 import {
   makeProjectInfoFileJson,
   makeTakeDirectoryName,
 } from "../../services/project/projectBuilder";
-import { FileManagerContext } from "../FileManagerContext/FileManagerContext";
+import { useFileManagerContext } from "../FileManagerContext/FileManagerContext";
 import { ProjectFilesContext } from "./ProjectFilesContext";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +22,7 @@ interface ProjectFilesContextProviderProps {
 }
 
 export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextProviderProps) => {
-  const fileManager = useContext(FileManagerContext);
+  const fileManager = useFileManagerContext();
 
   const projectDirectory = useProjectDirectory();
   const { project, take } = useSelector((state: RootState) => state.project);
@@ -36,9 +36,6 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   ): Promise<void> => {
     if (projectDirectory === undefined) {
       throw "Missing projectDirectory";
-    }
-    if (fileManager === undefined) {
-      throw "Missing FileManager";
     }
 
     const takeDirectoryName = makeTakeDirectoryName(take);
@@ -58,12 +55,12 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   };
 
   const deleteTrackItem = async (trackItem: TrackItem) => {
-    await fileManager?.deleteFile(trackItem.fileInfoId);
+    await fileManager.deleteFile(trackItem.fileInfoId);
     dispatch(removeFrameTrackItem(trackItem.id));
   };
 
   const getTrackItemObjectURL = (trackItem: TrackItem) => {
-    const objectURL = fileManager?.findFile(trackItem.fileInfoId)?.objectURL;
+    const objectURL = fileManager.findFile(trackItem.fileInfoId)?.objectURL;
     if (objectURL === undefined) {
       throw `Unable to find objectURL for trackItem ${trackItem.id}`;
     }
@@ -81,9 +78,6 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     rLogger.info("projectFilesContext.saveProject", "Saving project info file to disk");
     if (projectDirectory === undefined) {
       throw "Unable to save project file info as missing projectDirectory";
-    }
-    if (fileManager === undefined) {
-      throw "Unable to save project file info as missing FileManager";
     }
 
     const projectFileInfo = fileManager.findFile(project.fileInfoId);
@@ -103,16 +97,13 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
         "projectFilesContext.saveProject.create",
         `Creating new project info file in ${projectDirectory.handle.name}`
       );
-      const fileInfoId = await fileManager.createFile(
+      await fileManager.createFile(
         project.fileInfoId,
         PROJECT_INFO_FILE_NAME,
         projectDirectory.handle,
         FileInfoType.PROJECT_INFO,
         data
       );
-      if (fileInfoId === undefined) {
-        throw "Unable to create project info file";
-      }
     }
   };
 

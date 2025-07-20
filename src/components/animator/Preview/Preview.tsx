@@ -1,7 +1,5 @@
-import { useContext } from "react";
-import { ImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
-import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
-import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
+import { useImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
+import { useProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
 import "./Preview.css";
@@ -12,23 +10,21 @@ import { PreviewLoader } from "./PreviewLoader/PreviewLoader";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { calculateLiveViewOpacity } from "../../../services/onionSkin/onionSkinCalculator";
+import { usePlaybackContext } from "../../../context/PlaybackContext/PlaybackContext";
 
 export const Preview = () => {
   const { take } = useProjectAndTake();
-  const { deviceIdentifier, deviceStatus, deviceLoading } = useContext(ImagingDeviceContext);
-
-  const { hasCameraAccess } = useContext(ImagingDeviceContext);
-  const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);
-  const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
+  const { deviceIdentifier, deviceStatus, deviceLoading, hasCameraAccess } =
+    useImagingDeviceContext();
+  const { liveViewVisible, timelineIndex } = usePlaybackContext();
+  const { getTrackItemObjectURL } = useProjectFilesContext();
 
   const enableOnionSkin = useSelector((state: RootState) => state.project.enableOnionSkin);
   const onionSkinOpacity = useSelector((state: RootState) => state.project.onionSkinOpacity);
 
   const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
 
-  const previewSrc = highlightedTrackItem
-    ? getTrackItemObjectURL?.(highlightedTrackItem)
-    : undefined;
+  const previewSrc = highlightedTrackItem ? getTrackItemObjectURL(highlightedTrackItem) : undefined;
 
   if (!hasCameraAccess) {
     return (
