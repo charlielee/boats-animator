@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useRef } from "react";
+import { ReactNode, useRef } from "react";
 import useLinkedRefAndState from "../../hooks/useLinkedRefAndState";
 import useRequestAnimationFrame from "../../hooks/useRequestAnimationFrame";
 import {
@@ -8,7 +8,7 @@ import {
 } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
 import { PlaybackContext, PlaybackContextProps, PlaybackFrameName } from "./PlaybackContext";
-import { ProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
+import { useProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
 import { notifications } from "@mantine/notifications";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -24,7 +24,7 @@ const PlaybackContextProvider = ({ children }: PlaybackContextProviderProps) => 
     throw "PlaybackContext requires a take";
   }
 
-  const { deleteTrackItem } = useContext(ProjectFilesContext);
+  const { deleteTrackItem } = useProjectFilesContext();
 
   const shortPlayLength = useSelector(
     (state: RootState) => state.app.userPreferences.shortPlayLength
@@ -122,7 +122,7 @@ const PlaybackContextProvider = ({ children }: PlaybackContextProviderProps) => 
       "playback.deleteFrameAtCurrentTimelineIndex.deleted",
       `deleted track item ${trackItem.fileName}`
     );
-    await deleteTrackItem?.(trackItem);
+    await deleteTrackItem(trackItem);
     notifications.show({ message: "Deleted frame" });
   };
 

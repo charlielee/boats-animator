@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { ProjectFilesContext } from "../../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
+import { useProjectFilesContext } from "../../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import { FileInfoType } from "../../../../services/fileManager/FileInfo";
 import {
   getHighlightedTrackItem,
@@ -26,7 +25,7 @@ const TimelineTrack = ({
   onClickLiveView,
 }: TimelineTrackProps) => {
   const highlightedTrackItem = getHighlightedTrackItem(track, timelineIndex);
-  const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
+  const { getTrackItemObjectURL } = useProjectFilesContext();
 
   return (
     <div className="timeline-track">
@@ -36,7 +35,7 @@ const TimelineTrack = ({
             return (
               <TimelineTrackItem
                 title={getTrackItemTitle(track, i)}
-                dataUrl={getTrackItemObjectURL?.(trackItem)}
+                dataUrl={getTrackItemObjectURL(trackItem)}
                 highlighted={highlightedTrackItem?.id === trackItem.id}
                 key={trackItem.id}
                 onClick={() => onClickItem(i)}

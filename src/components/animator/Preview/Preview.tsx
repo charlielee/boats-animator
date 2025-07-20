@@ -1,6 +1,5 @@
-import { useContext } from "react";
 import { useImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
-import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
+import { useProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
 import "./Preview.css";
@@ -18,16 +17,14 @@ export const Preview = () => {
   const { deviceIdentifier, deviceStatus, deviceLoading, hasCameraAccess } =
     useImagingDeviceContext();
   const { liveViewVisible, timelineIndex } = usePlaybackContext();
-  const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
+  const { getTrackItemObjectURL } = useProjectFilesContext();
 
   const enableOnionSkin = useSelector((state: RootState) => state.project.enableOnionSkin);
   const onionSkinOpacity = useSelector((state: RootState) => state.project.onionSkinOpacity);
 
   const highlightedTrackItem = getHighlightedTrackItem(take.frameTrack, timelineIndex);
 
-  const previewSrc = highlightedTrackItem
-    ? getTrackItemObjectURL?.(highlightedTrackItem)
-    : undefined;
+  const previewSrc = highlightedTrackItem ? getTrackItemObjectURL(highlightedTrackItem) : undefined;
 
   if (!hasCameraAccess) {
     return (

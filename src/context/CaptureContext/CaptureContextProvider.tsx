@@ -1,5 +1,5 @@
 import { notifications } from "@mantine/notifications";
-import { ReactNode, useContext } from "react";
+import { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import cameraSound from "../../audio/camera.wav";
 import useProjectAndTake from "../../hooks/useProjectAndTake";
@@ -8,8 +8,8 @@ import { makeFrameTrackItem } from "../../services/project/projectBuilder";
 import { getNextFileNumber } from "../../services/project/projectCalculator";
 import * as rLogger from "../../services/rLogger/rLogger";
 import { useImagingDeviceContext } from "../ImagingDeviceContext/ImagingDeviceContext";
-import { ProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
 import { CaptureContext } from "./CaptureContext";
+import { useProjectFilesContext } from "../ProjectFilesContext.tsx/ProjectFilesContext";
 
 interface CaptureContextProviderProps {
   children: ReactNode;
@@ -20,7 +20,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
   const playCaptureSound = useSelector(
     (state: RootState) => state.app.userPreferences.playCaptureSound
   );
-  const { saveTrackItemToDisk } = useContext(ProjectFilesContext);
+  const { saveTrackItemToDisk } = useProjectFilesContext();
   const { captureImageRaw, deviceStatus } = useImagingDeviceContext();
 
   const captureImage = async () => {
@@ -44,7 +44,7 @@ const CaptureContextProvider = ({ children }: CaptureContextProviderProps) => {
 
       const fileNumber = getNextFileNumber(take.frameTrack);
       const trackItem = makeFrameTrackItem(take, fileNumber);
-      await saveTrackItemToDisk?.(take, trackItem, imageData);
+      await saveTrackItemToDisk(take, trackItem, imageData);
     } catch (e) {
       rLogger.warn(
         "captureImageError",
