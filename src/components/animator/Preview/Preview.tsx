@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { useImagingDeviceContext } from "../../../context/ImagingDeviceContext/ImagingDeviceContext";
-import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
 import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import useProjectAndTake from "../../../hooks/useProjectAndTake";
 import { getHighlightedTrackItem } from "../../../services/project/projectCalculator";
@@ -12,12 +11,13 @@ import { PreviewLoader } from "./PreviewLoader/PreviewLoader";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { calculateLiveViewOpacity } from "../../../services/onionSkin/onionSkinCalculator";
+import { usePlaybackContext } from "../../../context/PlaybackContext/PlaybackContext";
 
 export const Preview = () => {
   const { take } = useProjectAndTake();
   const { deviceIdentifier, deviceStatus, deviceLoading, hasCameraAccess } =
     useImagingDeviceContext();
-  const { liveViewVisible, timelineIndex } = useContext(PlaybackContext);
+  const { liveViewVisible, timelineIndex } = usePlaybackContext();
   const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
 
   const enableOnionSkin = useSelector((state: RootState) => state.project.enableOnionSkin);

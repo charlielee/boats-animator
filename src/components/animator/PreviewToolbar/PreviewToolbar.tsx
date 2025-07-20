@@ -1,13 +1,12 @@
 import { Group } from "@mantine/core";
-import { useContext } from "react";
 import { useCaptureContext } from "../../../context/CaptureContext/CaptureContext";
-import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import { usePlaybackContext } from "../../../context/PlaybackContext/PlaybackContext";
 import IconName from "../../common/Icon/IconName";
 import { UiActionIcon, UiActionIconRole } from "../../ui/UiActionIcon/UiActionIcon";
 
 export const PreviewToolbar = () => {
   const { captureImage } = useCaptureContext();
-  const { stopPlayback, liveViewVisible } = useContext(PlaybackContext);
+  const { stopPlayback, liveViewVisible } = usePlaybackContext();
 
   const handleClickCaptureButton = () => {
     if (!liveViewVisible) {

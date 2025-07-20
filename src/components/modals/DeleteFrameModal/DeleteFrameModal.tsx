@@ -1,6 +1,5 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import PlaybackContext from "../../../context/PlaybackContext/PlaybackContext";
+import { usePlaybackContext } from "../../../context/PlaybackContext/PlaybackContext";
 import { SemanticColor } from "../../ui/Theme/SemanticColor";
 import { UiButton } from "../../ui/UiButton/UiButton";
 import { UiModal } from "../../ui/UiModal/UiModal";
@@ -9,7 +8,7 @@ import { PageRoute } from "../../../services/PageRoute";
 
 export const DeleteFrameModal = () => {
   const navigate = useNavigate();
-  const { deleteFrameAtCurrentTimelineIndex, timelineIndex } = useContext(PlaybackContext);
+  const { deleteFrameAtCurrentTimelineIndex, timelineIndex } = usePlaybackContext();
 
   return (
     <UiModal title="Delete frame?" onClose={PageRoute.ANIMATOR}>

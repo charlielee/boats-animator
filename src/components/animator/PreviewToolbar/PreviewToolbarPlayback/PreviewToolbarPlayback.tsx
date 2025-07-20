@@ -1,14 +1,14 @@
-import { useContext } from "react";
 import { useSelector } from "react-redux";
-import PlaybackContext, {
+import {
   PlaybackFrameName,
+  usePlaybackContext,
 } from "../../../../context/PlaybackContext/PlaybackContext";
 import { RootState } from "../../../../redux/store";
 import IconName from "../../../common/Icon/IconName";
 import { UiActionIcon } from "../../../ui/UiActionIcon/UiActionIcon";
 
 export const PreviewToolbarPlayback = () => {
-  const { startOrPausePlayback, stopPlayback, displayFrame, playing } = useContext(PlaybackContext);
+  const { startOrPausePlayback, stopPlayback, displayFrame, playing } = usePlaybackContext();
   const frameTrack = useSelector((state: RootState) => state.project.take?.frameTrack);
   if (frameTrack === undefined) {
     throw "No frame track found in AnimationToolbar";

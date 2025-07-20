@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useSelector } from "react-redux";
-import PlaybackContext from "../../../../context/PlaybackContext/PlaybackContext";
+import { usePlaybackContext } from "../../../../context/PlaybackContext/PlaybackContext";
 import { ProjectFilesContext } from "../../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import useProjectAndTake from "../../../../hooks/useProjectAndTake";
 import { RootState } from "../../../../redux/store";
@@ -12,7 +12,7 @@ import PreviewFrame from "../PreviewFrame/PreviewFrame";
 
 export const PreviewFrameOnionSkin = () => {
   const { take } = useProjectAndTake();
-  const { liveViewVisible } = useContext(PlaybackContext);
+  const { liveViewVisible } = usePlaybackContext();
   const { getTrackItemObjectURL } = useContext(ProjectFilesContext);
 
   const enableOnionSkin = useSelector((state: RootState) => state.project.enableOnionSkin);
