@@ -70,9 +70,14 @@ export const PersistedDirectoriesContextProvider = ({
     return addProjectDirectoryEntry(project.name, handle);
   };
 
+  const loadProjectDirectory = async (projectName: string, handle:FileSystemDirectoryHandle ): Promise<PersistedDirectoryEntry> =>{
+    return addProjectDirectoryEntry(projectName, handle);
+
+  }
+
   return (
     <PersistedDirectoriesContext.Provider
-      value={{ checkWorkingDirectoryPermission, changeWorkingDirectory, addProjectDirectory }}
+      value={{ checkWorkingDirectoryPermission, changeWorkingDirectory, addProjectDirectory, loadProjectDirectory }}
     >
       {children}
     </PersistedDirectoriesContext.Provider>

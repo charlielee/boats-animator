@@ -6,6 +6,7 @@ interface PersistedDirectoriesContextProps {
   checkWorkingDirectoryPermission: () => Promise<void>;
   changeWorkingDirectory: () => Promise<void>;
   addProjectDirectory: (project: Project) => Promise<PersistedDirectoryEntry>;
+  loadProjectDirectory: (projectName: string, handle:FileSystemDirectoryHandle ) => Promise<PersistedDirectoryEntry>;
 }
 
 export const PersistedDirectoriesContext = createContext<
