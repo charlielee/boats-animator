@@ -1,4 +1,5 @@
 import { Group, Stack } from "@mantine/core";
+import { useContext, useState } from "react";
 import Content from "../../common/Content/Content";
 import ContentBlock from "../../common/ContentBlock/ContentBlock";
 import IconName from "../../common/Icon/IconName";
@@ -11,7 +12,36 @@ import { UiButton } from "../../ui/UiButton/UiButton";
 import NewsFeed from "../NewsFeed/NewsFeed";
 import { PageRoute } from "../../../services/PageRoute";
 
-export const StartupPage = () => (
+import { FileManagerContext } from "../../../context/FileManagerContext/FileManagerContext";
+import { useNavigate } from "react-router-dom";
+import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
+
+
+export const StartupPage = (): JSX.Element => {
+  const navigate = useNavigate();
+  const projFiles = useContext(ProjectFilesContext)
+
+  const fileManager = useContext(FileManagerContext);
+
+  let boatsinfoHandler : FileSystemDirectoryHandle | undefined = undefined;
+
+  const [generalError, setGeneralError] = useState<string | undefined>(undefined);
+
+  const onManuallyChooseProjectFolder = async () => {
+    boatsinfoHandler = await fileManager?.openDirectoryDialog("loadBoatsinfoFile");
+
+    if (boatsinfoHandler == undefined){
+      return;
+    }
+
+    if (projFiles){
+      await projFiles.loadProjectInfoFromDiskFile(boatsinfoHandler);
+      console.log("loadProjectInfoFromDiskFile Ran")
+      navigate(PageRoute.ANIMATOR_CAPTURE_SOURCE);
+    }
+
+  }
+  return (
   <Page>
     <PageBody>
       <Content>
@@ -25,7 +55,7 @@ export const StartupPage = () => (
               >
                 New Project
               </UiButton>
-              <UiButton icon={IconName.FOLDER}>Open Project</UiButton>
+              <UiButton icon={IconName.FOLDER} onClick={onManuallyChooseProjectFolder}>Open Project</UiButton>
             </Group>
             <UiButton icon={IconName.SETTINGS} onClick={PageRoute.STARTUP_PREFERENCES_MODAL}>
               Preferences
@@ -42,3 +72,4 @@ export const StartupPage = () => (
     </PageBody>
   </Page>
 );
+};

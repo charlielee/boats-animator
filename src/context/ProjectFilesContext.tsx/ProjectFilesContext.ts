@@ -6,6 +6,7 @@ interface ProjectFilesContextProps {
   saveTrackItemToDisk: (take: Take, trackItem: TrackItem, blob: Blob) => Promise<void>;
   deleteTrackItem: (trackItem: TrackItem) => Promise<void>;
   getTrackItemObjectURL: (trackItem: TrackItem) => string;
+  loadProjectInfoFromDiskFile:  (dirHandler :FileSystemDirectoryHandle) => Promise<void>;
 }
 
 export const ProjectFilesContext = createContext<ProjectFilesContextProps | undefined>(undefined);

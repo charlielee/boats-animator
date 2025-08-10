@@ -9,13 +9,17 @@ import { useFileManagerContext } from "../FileManagerContext/FileManagerContext"
 import { ProjectFilesContext } from "./ProjectFilesContext";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addFrameTrackItem, removeFrameTrackItem } from "../../redux/slices/projectSlice";
+import { addFrameTrackItem, addProject, addTake, removeFrameTrackItem } from "../../redux/slices/projectSlice";
 import { RootState } from "../../redux/store";
 import * as rLogger from "../../services/rLogger/rLogger";
-import { Project } from "../../services/project/types";
+import { Project, ProjectInfoFileV1 } from "../../services/project/types";
 import { Take } from "../../services/project/types";
 import { TrackItem } from "../../services/project/types";
 import { PROJECT_INFO_FILE_NAME } from "../../services/utils";
+
+import {usePersistedDirectoriesContext} from "../PersistedDirectoriesContext/PersistedDirectoriesContext"
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
+
 
 interface ProjectFilesContextProviderProps {
   children: ReactNode;
@@ -24,10 +28,12 @@ interface ProjectFilesContextProviderProps {
 export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextProviderProps) => {
   const fileManager = useFileManagerContext();
 
+  const persistedDirectory = usePersistedDirectoriesContext();
+
   const projectDirectory = useProjectDirectory();
   const { project, take } = useSelector((state: RootState) => state.project);
   const appVersion = useSelector((state: RootState) => state.app.appVersion);
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
 
   const saveTrackItemToDisk = async (
     take: Take,
@@ -107,6 +113,33 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     }
   };
 
+  const loadProjectInfoFromDiskFile = async (dirHandler :FileSystemDirectoryHandle) =>{
+    
+    let fileToLoadFrom: FileSystemFileHandle | undefined= undefined;
+    for await (const directoryEntry of dirHandler.values()) {
+      if (directoryEntry instanceof  FileSystemFileHandle){
+        if (directoryEntry.name ===PROJECT_INFO_FILE_NAME){
+          fileToLoadFrom = directoryEntry;
+        }
+      }
+    }
+
+    if (fileToLoadFrom === undefined){
+      throw "Unable to load project as missing the Project boatsinfo file."
+    }
+
+    const readText: string = await (await fileToLoadFrom.getFile()).text();
+  
+    const parsedFile: ProjectInfoFileV1 = JSON.parse(readText);
+
+    const firstTake = parsedFile.takes[0];
+
+    const persistedDirEntry = await (persistedDirectory.loadProjectDirectory(parsedFile.project.directoryName, dirHandler) )
+
+    dispatch(addProject({project : parsedFile.project, projectDirectoryId :  persistedDirEntry.id}));
+    dispatch(addTake(firstTake) )
+  }
+
   useEffect(() => {
     if (projectDirectory !== undefined && project !== undefined && take !== undefined) {
       const [updatedProject, updatedTakes] = updateProjectAndTakeLastSaved(project, take);
@@ -117,7 +150,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   return (
     <ProjectFilesContext.Provider
-      value={{ saveTrackItemToDisk, deleteTrackItem, getTrackItemObjectURL }}
+      value={{ saveTrackItemToDisk, deleteTrackItem, getTrackItemObjectURL , loadProjectInfoFromDiskFile}}
     >
       {children}
     </ProjectFilesContext.Provider>
