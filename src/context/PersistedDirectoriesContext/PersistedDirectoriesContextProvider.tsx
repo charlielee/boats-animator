@@ -34,7 +34,7 @@ export const PersistedDirectoriesContextProvider = ({
     const status = await workingDirectory.handle.requestPermission({ mode: "readwrite" });
     rLogger.info(
       "PersistedDirectoriesContext.permission",
-      `Permission for working directory is '${status}'`
+      `Permission for working directory '${workingDirectory.friendlyName}' is '${status}'`
     );
 
     if (status !== "granted") {
