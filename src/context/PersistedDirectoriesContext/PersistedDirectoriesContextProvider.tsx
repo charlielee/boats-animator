@@ -30,7 +30,7 @@ export const PersistedDirectoriesContextProvider = ({
     if (workingDirectory === undefined) {
       throw "checkWorkingDirectoryPermission: workingDirectory was not found";
     }
-
+    console.log(workingDirectory)
     const status = await workingDirectory.handle.requestPermission({ mode: "readwrite" });
     rLogger.info(
       "PersistedDirectoriesContext.permission",
@@ -57,7 +57,6 @@ export const PersistedDirectoriesContextProvider = ({
     if (workingDirectory.handle.name.endsWith(`.${PROJECT_DIRECTORY_EXTENSION}`)) {
       throw new ProjectDirectoryIsInsideAnotherProjectError(workingDirectory.handle.name);
     }
-
     const handle = await fileManager.createDirectory(
       project.directoryName,
       workingDirectory.handle,
@@ -66,7 +65,6 @@ export const PersistedDirectoriesContextProvider = ({
     if (handle === undefined) {
       throw "Unable to create project directory";
     }
-
     return addProjectDirectoryEntry(project.name, handle);
   };
 

@@ -47,7 +47,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     const takeDirectoryName = makeTakeDirectoryName(take.shotNumber, take.takeNumber);
     const takeDirectoryHandle = await fileManager.createDirectory(
       takeDirectoryName,
-      projectDirectory.handle
+      projectDirectory.handle,
     );
 
     await fileManager.createFile(
@@ -132,12 +132,34 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   
     const parsedFile: ProjectInfoFileV1 = JSON.parse(readText);
 
-    const firstTake = parsedFile.takes[0];
+    const chosenTake = parsedFile.takes[0];
 
     const persistedDirEntry = await (persistedDirectory.loadProjectDirectory(parsedFile.project.directoryName, dirHandler) )
 
+    const  takeDirectoryHandle = await fileManager.createDirectory(
+      chosenTake.takeDirectory,
+      dirHandler,
+    );
+
+    await fileManager.addFileToFileManager(
+      parsedFile.project.fileInfoId,
+      PROJECT_INFO_FILE_NAME,
+      dirHandler,
+      FileInfoType.PROJECT_INFO
+    );
+
     dispatch(addProject({project : parsedFile.project, projectDirectoryId :  persistedDirEntry.id}));
-    dispatch(addTake(firstTake) )
+    dispatch(addTake(chosenTake) )
+    for (let i = 0; i < chosenTake.frameTrack.trackItems.length; ++i){
+      const trackItem = chosenTake.frameTrack.trackItems[i];
+
+      await fileManager.addFileToFileManager(
+        trackItem.fileInfoId,
+        trackItem.fileName,
+        takeDirectoryHandle,
+        FileInfoType.FRAME,
+      );
+    }
   }
 
   useEffect(() => {

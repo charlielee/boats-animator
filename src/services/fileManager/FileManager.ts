@@ -73,6 +73,36 @@ export class FileManager {
     }
   };
 
+  /* Adds the file with the given properties to the filemanager, or returns the fileInfoId if such file already exists*/
+  addFileToFileManager = async (
+    fileInfoId: FileInfoId,
+    name: string,
+    parentHandle: FileSystemDirectoryHandle,
+    fileType: FileInfoType,
+  ): Promise<FileInfoId> => {
+    if ( ! (await this.fileExists(name, parentHandle ) ) ) {
+      throw `Missing file: ${name}`;
+    }
+
+    const alreadyExists = this.findFile(fileInfoId);
+    if (alreadyExists){
+      return fileInfoId
+    }
+
+    try {
+      const fileHandle = await parentHandle.getFileHandle(name);
+
+      const objectURL = URL.createObjectURL(await fileHandle.getFile());
+      const fileInfo = new FileInfo(fileInfoId, fileType, fileHandle, objectURL);
+
+      this.fileInfos = [...this.fileInfos, fileInfo];
+
+      return fileInfo.fileInfoId;
+    } catch (e) {
+      throw new CreateFileUnexpectedError(parentHandle.name, name, e);
+    }
+  };
+
   updateFile = async (fileInfoId: FileInfoId, data: Blob): Promise<void> => {
     const fileInfo = this.findFile(fileInfoId);
     if (fileInfo === undefined) {

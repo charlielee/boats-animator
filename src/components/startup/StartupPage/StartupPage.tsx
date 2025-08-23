@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 
 
-export const StartupPage = (): JSX.Element => {
+export const StartupPage = () => {
   const navigate = useNavigate();
   const projFiles = useContext(ProjectFilesContext)
 
@@ -36,7 +36,6 @@ export const StartupPage = (): JSX.Element => {
 
     if (projFiles){
       await projFiles.loadProjectInfoFromDiskFile(boatsinfoHandler);
-      console.log("loadProjectInfoFromDiskFile Ran")
       navigate(PageRoute.ANIMATOR_CAPTURE_SOURCE);
     }
 
