@@ -30,7 +30,6 @@ export const PersistedDirectoriesContextProvider = ({
     if (workingDirectory === undefined) {
       throw "checkWorkingDirectoryPermission: workingDirectory was not found";
     }
-    console.log(workingDirectory)
     const status = await workingDirectory.handle.requestPermission({ mode: "readwrite" });
     rLogger.info(
       "PersistedDirectoriesContext.permission",
@@ -70,7 +69,6 @@ export const PersistedDirectoriesContextProvider = ({
 
   const loadProjectDirectory = async (projectName: string, handle:FileSystemDirectoryHandle ): Promise<PersistedDirectoryEntry> =>{
     return addProjectDirectoryEntry(projectName, handle);
-
   }
 
   return (
