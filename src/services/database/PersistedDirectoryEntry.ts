@@ -14,16 +14,6 @@ export interface PersistedDirectoryEntry {
   handle: FileSystemDirectoryHandle;
 }
 
-export const getDirectoryByName = async (dirName: string) => {
-  console.log(db.persistedDirectories);
-  const all_db_entries =  await db.persistedDirectories.toArray();
-  console.log(all_db_entries);
-  return db.persistedDirectories.get({
-    friendlyName: dirName,
-    type: PersistedDirectoryType.PROJECT
-  });}
-
-
 const getWorkingDirectoryEntry = async () =>
   db.persistedDirectories.get({
     type: PersistedDirectoryType.WORKING_DIRECTORY,
@@ -56,3 +46,9 @@ export const addProjectDirectoryEntry = async (
   await db.persistedDirectories.add(persistedDirectoryEntry);
   return persistedDirectoryEntry;
 };
+
+export const getProjectDirectoryByName = async (dirName: string) => 
+  db.persistedDirectories.get({
+    friendlyName: dirName,
+    type: PersistedDirectoryType.PROJECT
+  });

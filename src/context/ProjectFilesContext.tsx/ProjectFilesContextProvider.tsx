@@ -113,7 +113,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     }
   };
 
-  const loadProjectInfoFromDiskFile = async (dirHandler :FileSystemDirectoryHandle) =>{
+  const loadProjectInfoFromDisk = async (dirHandler :FileSystemDirectoryHandle) =>{
     
     let fileToLoadFrom: FileSystemFileHandle | undefined= undefined;
     for await (const directoryEntry of dirHandler.values()) {
@@ -129,11 +129,8 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     }
 
     const readText: string = await (await fileToLoadFrom.getFile()).text();
-  
     const parsedFile: ProjectInfoFileV1 = JSON.parse(readText);
-
     const chosenTake = parsedFile.takes[0];
-
     const persistedDirEntry = await (persistedDirectory.loadProjectDirectory(parsedFile.project.directoryName, dirHandler) )
 
     const  takeDirectoryHandle = await fileManager.createDirectory(
@@ -147,9 +144,6 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
       dirHandler,
       FileInfoType.PROJECT_INFO
     );
-
-    dispatch(addProject({project : parsedFile.project, projectDirectoryId :  persistedDirEntry.id}));
-    dispatch(addTake(chosenTake) )
     for (let i = 0; i < chosenTake.frameTrack.trackItems.length; ++i){
       const trackItem = chosenTake.frameTrack.trackItems[i];
 
@@ -160,6 +154,8 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
         FileInfoType.FRAME,
       );
     }
+    dispatch(addProject({project : parsedFile.project, projectDirectoryId :  persistedDirEntry.id}));
+    dispatch(addTake(chosenTake) )
   }
 
   useEffect(() => {
@@ -172,7 +168,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   return (
     <ProjectFilesContext.Provider
-      value={{ saveTrackItemToDisk, deleteTrackItem, getTrackItemObjectURL , loadProjectInfoFromDiskFile}}
+      value={{ saveTrackItemToDisk, deleteTrackItem, getTrackItemObjectURL , loadProjectInfoFromDisk}}
     >
       {children}
     </ProjectFilesContext.Provider>
