@@ -35,7 +35,7 @@ export const StartupPage = () => {
     }
 
     if (projFiles){
-      await projFiles.loadProjectInfoFromDiskFile(boatsinfoHandler);
+      await projFiles.loadProjectInfoFromDisk(boatsinfoHandler);
       navigate(PageRoute.ANIMATOR_CAPTURE_SOURCE);
     }
 

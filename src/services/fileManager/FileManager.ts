@@ -73,7 +73,7 @@ export class FileManager {
     }
   };
 
-  /* Adds the file with the given properties to the filemanager, or returns the fileInfoId if such file already exists*/
+  /* Adds the file with the given properties to the filemanager, or returns the fileInfoId if such file is already in the fileManager*/
   addFileToFileManager = async (
     fileInfoId: FileInfoId,
     name: string,
@@ -91,7 +91,6 @@ export class FileManager {
 
     try {
       const fileHandle = await parentHandle.getFileHandle(name);
-
       const objectURL = URL.createObjectURL(await fileHandle.getFile());
       const fileInfo = new FileInfo(fileInfoId, fileType, fileHandle, objectURL);
 
@@ -173,29 +172,6 @@ export class FileManager {
 
   findFile = (fileInfoId: FileInfoId): FileInfo | undefined =>
     this.fileInfos.find((f) => f.fileInfoId === fileInfoId);
-
-  openFileDialog = async (id: string): Promise<FileSystemFileHandle | undefined> => {
-    try {
-      const handle = await this.handleOpenFileDialog(id);
-      return handle;
-    } catch (e) {
-      if (e instanceof DOMException && e.name === "AbortError") {
-        rLogger.info("fileManager.cancelledFileDialog", `Cancelled file dialog id ${id}`);
-      } else {
-        throw e;
-      }
-    }
-  };
-
-  private handleOpenFileDialog = async (id: string): Promise<FileSystemFileHandle> => {
-    rLogger.info("fileManager.openFileDialog", `Opened file dialog id ${id}`);
-    const [handle] = await window.showOpenFilePicker({
-      id,
-      startIn: "documents",
-    });
-    rLogger.info("fileManager.selectedDirectory", `Selected document (${handle}) for id ${id}`);
-    return handle;
-  };
 
   openDirectoryDialog = async (id: string): Promise<FileSystemDirectoryHandle | undefined> => {
     try {
