@@ -16,6 +16,7 @@ import { Project, ProjectInfoFileV1 } from "../../services/project/types";
 import { Take } from "../../services/project/types";
 import { TrackItem } from "../../services/project/types";
 import { PROJECT_INFO_FILE_NAME } from "../../services/utils";
+import {TakeDirectroryMissingError, MissingBoatsInfoFileError} from "./ProjectFileErrors"
 
 import {usePersistedDirectoriesContext} from "../PersistedDirectoriesContext/PersistedDirectoriesContext"
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
@@ -125,7 +126,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     }
 
     if (fileToLoadFrom === undefined){
-      throw "Unable to load project as missing the Project boatsinfo file."
+      throw new MissingBoatsInfoFileError(dirHandler);
     }
 
     const readText: string = await (await fileToLoadFrom.getFile()).text();
@@ -133,10 +134,17 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     const chosenTake = parsedFile.takes[0];
     const persistedDirEntry = await (persistedDirectory.loadProjectDirectory(parsedFile.project.directoryName, dirHandler) )
 
-    const  takeDirectoryHandle = await fileManager.createDirectory(
-      chosenTake.takeDirectory,
-      dirHandler,
-    );
+    let takeDirectoryHandle: FileSystemDirectoryHandle;
+
+    try{
+      takeDirectoryHandle = await dirHandler.getDirectoryHandle(chosenTake.takeDirectory);
+    }catch(e){
+      if (e instanceof DOMException && e.name === "NotFoundError") {
+        throw new TakeDirectroryMissingError(chosenTake);
+      }else{
+        throw e;
+      }
+    }
 
     await fileManager.addFileToFileManager(
       parsedFile.project.fileInfoId,
@@ -155,7 +163,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
       );
     }
     dispatch(addProject({project : parsedFile.project, projectDirectoryId :  persistedDirEntry.id}));
-    dispatch(addTake(chosenTake) )
+    dispatch(addTake(chosenTake) )    
   }
 
   useEffect(() => {

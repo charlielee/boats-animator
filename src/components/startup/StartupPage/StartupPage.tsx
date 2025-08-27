@@ -15,6 +15,7 @@ import { PageRoute } from "../../../services/PageRoute";
 import { FileManagerContext } from "../../../context/FileManagerContext/FileManagerContext";
 import { useNavigate } from "react-router-dom";
 import { ProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
+import { UiAlert } from "../../ui/UiAlert/UiAlert";
 
 
 export const StartupPage = () => {
@@ -33,13 +34,24 @@ export const StartupPage = () => {
     if (boatsinfoHandler == undefined){
       return;
     }
-
     if (projFiles){
-      await projFiles.loadProjectInfoFromDisk(boatsinfoHandler);
-      navigate(PageRoute.ANIMATOR_CAPTURE_SOURCE);
+      try{
+        await projFiles.loadProjectInfoFromDisk(boatsinfoHandler);
+        navigate(PageRoute.ANIMATOR_CAPTURE_SOURCE);  
+      }catch(e){
+        if (e instanceof Error){
+          setGeneralError(e.message);
+        }else if (typeof e === "string"){
+          setGeneralError(e);
+        }else{
+          setGeneralError(
+            "Unable to load project due to an unexpected error. Please choose a different folder and try again."
+          );
+        }
+      }
     }
+  };
 
-  }
   return (
   <Page>
     <PageBody>
@@ -55,6 +67,9 @@ export const StartupPage = () => {
                 New Project
               </UiButton>
               <UiButton icon={IconName.FOLDER} onClick={onManuallyChooseProjectFolder}>Open Project</UiButton>
+              <UiAlert title="Error loading project" semanticColor={SemanticColor.DANGER}>
+                  {generalError}
+              </UiAlert>
             </Group>
             <UiButton icon={IconName.SETTINGS} onClick={PageRoute.STARTUP_PREFERENCES_MODAL}>
               Preferences
