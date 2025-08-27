@@ -29,6 +29,7 @@ export const StartupPage = () => {
   const [generalError, setGeneralError] = useState<string | undefined>(undefined);
 
   const onManuallyChooseProjectFolder = async () => {
+    setGeneralError(undefined);
     boatsinfoHandler = await fileManager?.openDirectoryDialog("loadBoatsinfoFile");
 
     if (boatsinfoHandler == undefined){
@@ -67,13 +68,13 @@ export const StartupPage = () => {
                 New Project
               </UiButton>
               <UiButton icon={IconName.FOLDER} onClick={onManuallyChooseProjectFolder}>Open Project</UiButton>
-              <UiAlert title="Error loading project" semanticColor={SemanticColor.DANGER}>
-                  {generalError}
-              </UiAlert>
             </Group>
             <UiButton icon={IconName.SETTINGS} onClick={PageRoute.STARTUP_PREFERENCES_MODAL}>
               Preferences
             </UiButton>
+            <UiAlert title="Error loading project" semanticColor={SemanticColor.DANGER}>
+              {generalError}
+            </UiAlert>
           </Stack>
         </ContentBlock>
       </Content>
