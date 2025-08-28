@@ -16,7 +16,7 @@ import { Project, ProjectInfoFileV1 } from "../../services/project/types";
 import { Take } from "../../services/project/types";
 import { TrackItem } from "../../services/project/types";
 import { PROJECT_INFO_FILE_NAME } from "../../services/utils";
-import {TakeDirectroryMissingError, MissingBoatsInfoFileError} from "./ProjectFileErrors"
+import {TakeDirectoryMissingError, MissingBoatsInfoFileError} from "./ProjectFileErrors"
 
 import {usePersistedDirectoriesContext} from "../PersistedDirectoriesContext/PersistedDirectoriesContext"
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
@@ -114,9 +114,8 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     }
   };
 
-  const loadProjectInfoFromDisk = async (dirHandler :FileSystemDirectoryHandle) =>{
-    
-    let fileToLoadFrom: FileSystemFileHandle | undefined= undefined;
+  const unpackProjectInfoFileJSON = async (dirHandler: FileSystemDirectoryHandle) =>{
+    let fileToLoadFrom: FileSystemFileHandle | undefined = undefined;
     for await (const directoryEntry of dirHandler.values()) {
       if (directoryEntry instanceof  FileSystemFileHandle){
         if (directoryEntry.name ===PROJECT_INFO_FILE_NAME){
@@ -124,36 +123,38 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
         }
       }
     }
-
     if (fileToLoadFrom === undefined){
       throw new MissingBoatsInfoFileError(dirHandler);
     }
-
     const readText: string = await (await fileToLoadFrom.getFile()).text();
     const parsedFile: ProjectInfoFileV1 = JSON.parse(readText);
-    const chosenTake = parsedFile.takes[0];
-    const persistedDirEntry = await (persistedDirectory.loadProjectDirectory(parsedFile.project.directoryName, dirHandler) )
+    
+    return parsedFile;    
+  }
+
+  const dispatchLoadedProjectInfo = async (projectDirectory: FileSystemDirectoryHandle, projectInfo: ProjectInfoFileV1, take: Take) =>{
+    const persistedDirEntry = await (persistedDirectory.loadProjectDirectory(projectInfo.project.directoryName, projectDirectory) )
 
     let takeDirectoryHandle: FileSystemDirectoryHandle;
 
     try{
-      takeDirectoryHandle = await dirHandler.getDirectoryHandle(chosenTake.takeDirectory);
+      takeDirectoryHandle = await projectDirectory.getDirectoryHandle(take.takeDirectory);
     }catch(e){
       if (e instanceof DOMException && e.name === "NotFoundError") {
-        throw new TakeDirectroryMissingError(chosenTake);
+        throw new TakeDirectoryMissingError(take);
       }else{
         throw e;
       }
     }
 
     await fileManager.addFileToFileManager(
-      parsedFile.project.fileInfoId,
+      projectInfo.project.fileInfoId,
       PROJECT_INFO_FILE_NAME,
-      dirHandler,
+      projectDirectory,
       FileInfoType.PROJECT_INFO
     );
-    for (let i = 0; i < chosenTake.frameTrack.trackItems.length; ++i){
-      const trackItem = chosenTake.frameTrack.trackItems[i];
+    for (let i = 0; i < take.frameTrack.trackItems.length; ++i){
+      const trackItem = take.frameTrack.trackItems[i];
 
       await fileManager.addFileToFileManager(
         trackItem.fileInfoId,
@@ -162,8 +163,8 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
         FileInfoType.FRAME,
       );
     }
-    dispatch(addProject({project : parsedFile.project, projectDirectoryId :  persistedDirEntry.id}));
-    dispatch(addTake(chosenTake) )    
+    dispatch(addProject({project : projectInfo.project, projectDirectoryId :  persistedDirEntry.id}));
+    dispatch(addTake(take) )    
   }
 
   useEffect(() => {
@@ -176,7 +177,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   return (
     <ProjectFilesContext.Provider
-      value={{ saveTrackItemToDisk, deleteTrackItem, getTrackItemObjectURL , loadProjectInfoFromDisk}}
+      value={{ saveTrackItemToDisk, deleteTrackItem, getTrackItemObjectURL, unpackProjectInfoFileJSON, dispatchLoadedProjectInfo}}
     >
       {children}
     </ProjectFilesContext.Provider>

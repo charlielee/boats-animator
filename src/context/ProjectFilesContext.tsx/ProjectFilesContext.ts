@@ -1,12 +1,13 @@
 import { createContext, useContext } from "react";
-import { Take } from "../../services/project/types";
+import { ProjectInfoFileV1, Take } from "../../services/project/types";
 import { TrackItem } from "../../services/project/types";
 
 interface ProjectFilesContextProps {
   saveTrackItemToDisk: (take: Take, trackItem: TrackItem, blob: Blob) => Promise<void>;
   deleteTrackItem: (trackItem: TrackItem) => Promise<void>;
   getTrackItemObjectURL: (trackItem: TrackItem) => string;
-  loadProjectInfoFromDisk:  (dirHandler :FileSystemDirectoryHandle) => Promise<void>;
+  unpackProjectInfoFileJSON: (dirHandler :FileSystemDirectoryHandle) => Promise<ProjectInfoFileV1>
+  dispatchLoadedProjectInfo:  (projectDirectory: FileSystemDirectoryHandle, projectInfo: ProjectInfoFileV1, take: Take) => Promise<void>;
 }
 
 export const ProjectFilesContext = createContext<ProjectFilesContextProps | undefined>(undefined);

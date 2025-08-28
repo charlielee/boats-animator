@@ -1,7 +1,7 @@
 import { Take } from "../../services/project/types";
 
 
-export class TakeDirectroryMissingError extends Error {
+export class TakeDirectoryMissingError extends Error {
   constructor(take: Take) {
     super(
       `Unable to load Take as folder '${take.takeDirectory}' is missing.`

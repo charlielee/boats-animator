@@ -12,8 +12,6 @@ import {
   TakeDirectory,
 } from "../Flavors";
 
-import{CURRENT_PROJECT_INFO_FILE_SCHEMA_VERSION} from "../utils";
-
 interface ProjectInfoFileBase {
   schemaVersion: number;
 }
