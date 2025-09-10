@@ -22,10 +22,10 @@ export class FileManager {
     parentHandle: FileSystemDirectoryHandle,
     errorIfExists: boolean = false
   ): Promise<FileSystemDirectoryHandle> => {
-    if (errorIfExists && (await this.directoryExists(name, parentHandle))) {
+    const existingHandle = await this.findDirectory(name, parentHandle)
+    if (errorIfExists && (existingHandle !== undefined)) {
       throw new CreateDirectoryAlreadyExistsError(parentHandle.name, name);
     }
-
     try {
       return parentHandle.getDirectoryHandle(name, { create: true });
     } catch (e) {
@@ -33,16 +33,16 @@ export class FileManager {
     }
   };
 
-  private directoryExists = async (
+  private findDirectory = async (
     name: string,
     parentHandle: FileSystemDirectoryHandle
-  ): Promise<boolean> => {
+  ): Promise<FileSystemDirectoryHandle | undefined> => {
     try {
-      await parentHandle.getDirectoryHandle(name);
-      return true;
+      const foundHandle = await parentHandle.getDirectoryHandle(name);
+      return foundHandle;
     } catch (e) {
       if (e instanceof DOMException && e.name === "NotFoundError") {
-        return false;
+        return undefined;
       } else {
         throw e;
       }
