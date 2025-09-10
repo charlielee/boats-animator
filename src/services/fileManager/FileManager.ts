@@ -33,7 +33,7 @@ export class FileManager {
     }
   };
 
-  private findDirectory = async (
+  findDirectory = async (
     name: string,
     parentHandle: FileSystemDirectoryHandle
   ): Promise<FileSystemDirectoryHandle | undefined> => {

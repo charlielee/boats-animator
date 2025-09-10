@@ -45,11 +45,11 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
       throw "Missing projectDirectory";
     }
 
-    const takeDirectoryName = makeTakeDirectoryName(take.shotNumber, take.takeNumber);
-    const takeDirectoryHandle = await fileManager.createDirectory(
-      takeDirectoryName,
-      projectDirectory.handle,
-    );
+    const takeDirectoryName = take.takeDirectory;
+    const takeDirectoryHandle = await fileManager.findDirectory(takeDirectoryName, projectDirectory.handle);
+    if (takeDirectoryHandle === undefined){
+      throw `Missing take Directory for Take ${takeDirectoryName}`;
+    }
 
     await fileManager.createFile(
       trackItem.fileInfoId,
@@ -112,6 +112,20 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
         data
       );
     }
+    for (const updatedTake of takes){
+      const takeDirectoryHandle = await fileManager.findDirectory(updatedTake.takeDirectory, projectDirectory.handle);
+      if (takeDirectoryHandle === undefined){        
+        rLogger.info(
+          "projectFilesContext.saveProject.takes",
+          `Creating new take Directory for ${updatedTake.takeDirectory}`
+        );
+        await fileManager.createDirectory(
+          updatedTake.takeDirectory,
+          projectDirectory.handle,
+        );
+    
+      }
+    } 
   };
 
   const unpackProjectInfoFileJSON = async (dirHandler: FileSystemDirectoryHandle) =>{
