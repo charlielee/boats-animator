@@ -20,7 +20,7 @@ export type TrackId = Flavor<string, "TrackId">;
 export type TrackItemId = Flavor<string, "TrackItemId">;
 export type TrackGroupId = Flavor<string, "TrackGroupId">;
 
-export type TakeDirectory = Flavor<string, "TakeDirectory">
+export type TakeName = Flavor<string, "TakeName">
 
 type StringFlavor =
   | IsoDateTimeString
@@ -30,4 +30,4 @@ type StringFlavor =
   | TrackId
   | TrackItemId
   | TrackGroupId
-  | TakeDirectory;
+  | TakeName;

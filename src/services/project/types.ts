@@ -9,7 +9,7 @@ import {
   TrackGroupId,
   TrackId,
   TrackItemId,
-  TakeDirectory,
+  TakeName
 } from "../Flavors";
 
 interface ProjectInfoFileBase {
@@ -35,7 +35,7 @@ export interface Take {
   id: TakeId;
   shotNumber: number;
   takeNumber: number;
-  takeDirectory: TakeDirectory;
+  takeName: TakeName;
   frameRate: FrameRate;
   holdFrames: FrameCount;
   frameTrack: Track;

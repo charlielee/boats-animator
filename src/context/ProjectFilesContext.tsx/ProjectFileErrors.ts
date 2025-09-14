@@ -4,7 +4,7 @@ import { Take } from "../../services/project/types";
 export class TakeDirectoryMissingError extends Error {
   constructor(take: Take) {
     super(
-      `Unable to load Take as folder '${take.takeDirectory}' is missing.`
+      `Unable to load Take as folder '${take.takeName}' is missing.`
     );
   }
 }

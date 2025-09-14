@@ -144,6 +144,6 @@ describe("makeFrameTrackItem", () => {
 
 describe("makeTakeDirectoryPath", () => {
   it("should make take directory path with supplied options", () => {
-    expect(TAKE.takeDirectory).toEqual("BA_001_01");
+    expect(TAKE.takeName).toEqual("BA_001_01");
   });
 });

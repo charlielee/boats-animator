@@ -56,7 +56,7 @@ export const makeTake = ({ shotNumber, takeNumber, frameRate }: ProjectBuilderOp
   lastSaved: new Date().toISOString(),
   shotNumber,
   takeNumber,
-  takeDirectory: makeTakeDirectoryName(shotNumber, takeNumber),
+  takeName: makeTakeName(shotNumber, takeNumber),
   frameRate,
   holdFrames: 1,
   frameTrack: {
@@ -79,11 +79,11 @@ export const makeFrameTrackItem = (
   fileInfoId: uuidv4(),
 });
 
-export const makeTakeDirectoryName = (shotNumber: number, takeNumber: number) =>
+export const makeTakeName = (shotNumber: number, takeNumber: number) =>
   `BA_${zeroPad(shotNumber, 3)}_${zeroPad(takeNumber, 2)}`;
 
 export const makeTakeDirectoryPath = (shotNumber: number, takeNumber: number) =>
-  window.preload.joinPath(makeTakeDirectoryName(shotNumber, takeNumber));
+  window.preload.joinPath(makeTakeName(shotNumber, takeNumber));
 
 export const makeFrameFileName = (take: Take, frameNumber: number) =>
   [

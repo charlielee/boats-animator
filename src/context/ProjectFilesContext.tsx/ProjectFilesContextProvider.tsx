@@ -3,7 +3,6 @@ import useProjectDirectory from "../../hooks/useProjectDirectory";
 import { FileInfoType } from "../../services/fileManager/FileInfo";
 import {
   makeProjectInfoFileJson,
-  makeTakeDirectoryName,
 } from "../../services/project/projectBuilder";
 import { useFileManagerContext } from "../FileManagerContext/FileManagerContext";
 import { ProjectFilesContext } from "./ProjectFilesContext";
@@ -45,7 +44,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
       throw "Missing projectDirectory";
     }
 
-    const takeDirectoryName = take.takeDirectory;
+    const takeDirectoryName = take.takeName;
     const takeDirectoryHandle = await fileManager.findDirectory(takeDirectoryName, projectDirectory.handle);
     if (takeDirectoryHandle === undefined){
       throw `Missing take Directory for Take ${takeDirectoryName}`;
@@ -86,7 +85,6 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     if (projectDirectory === undefined) {
       throw "Unable to save project file info as missing projectDirectory";
     }
-
     const projectFileInfo = fileManager.findFile(project.fileInfoId);
 
     const projectFileJson = await makeProjectInfoFileJson(appVersion, project, takes);
@@ -104,6 +102,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
         "projectFilesContext.saveProject.create",
         `Creating new project info file in ${projectDirectory.handle.name}`
       );
+      
       await fileManager.createFile(
         project.fileInfoId,
         PROJECT_INFO_FILE_NAME,
@@ -113,17 +112,16 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
       );
     }
     for (const updatedTake of takes){
-      const takeDirectoryHandle = await fileManager.findDirectory(updatedTake.takeDirectory, projectDirectory.handle);
+      const takeDirectoryHandle = await fileManager.findDirectory(updatedTake.takeName, projectDirectory.handle);
       if (takeDirectoryHandle === undefined){        
         rLogger.info(
           "projectFilesContext.saveProject.takes",
-          `Creating new take Directory for ${updatedTake.takeDirectory}`
+          `Creating new take Directory for ${updatedTake.takeName}`
         );
         await fileManager.createDirectory(
-          updatedTake.takeDirectory,
+          updatedTake.takeName,
           projectDirectory.handle,
         );
-    
       }
     } 
   };
@@ -152,7 +150,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
     let takeDirectoryHandle: FileSystemDirectoryHandle;
 
     try{
-      takeDirectoryHandle = await projectDirectory.getDirectoryHandle(take.takeDirectory);
+      takeDirectoryHandle = await projectDirectory.getDirectoryHandle(take.takeName);
     }catch(e){
       if (e instanceof DOMException && e.name === "NotFoundError") {
         throw new TakeDirectoryMissingError(take);
@@ -182,12 +180,12 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   }
 
   useEffect(() => {
-    if (projectDirectory !== undefined && project !== undefined && take !== undefined) {
+    if (projectDirectory !== undefined && project !== undefined && take !== undefined ) {
       const [updatedProject, updatedTakes] = updateProjectAndTakeLastSaved(project, take);
       saveProjectInfoFileToDisk!(updatedProject, updatedTakes);
-    }
+    }   
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [project, take, projectDirectory]);
+  }, [project, take, projectDirectory ]);
 
   return (
     <ProjectFilesContext.Provider
