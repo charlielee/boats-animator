@@ -4,6 +4,7 @@
   overflow: auto;
   background-color: var(--mantine-color-default);
   gap: var(--mantine-spacing-xs);
+  overflow: auto;
 }
 
 .ui-pane__header {
