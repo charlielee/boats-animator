@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
 import { ProjectInfoFileV1, Take } from "../../services/project/types";
 import { TrackItem } from "../../services/project/types";
+import { PersistedDirectoryEntry } from "../../services/database/PersistedDirectoryEntry";
 
 interface ProjectFilesContextProps {
   saveTrackItemToDisk: (take: Take, trackItem: TrackItem, blob: Blob) => Promise<void>;
@@ -8,6 +9,7 @@ interface ProjectFilesContextProps {
   getTrackItemObjectURL: (trackItem: TrackItem) => string;
   unpackProjectInfoFileJSON: (dirHandler :FileSystemDirectoryHandle) => Promise<ProjectInfoFileV1>
   dispatchLoadedProjectInfo:  (projectDirectory: FileSystemDirectoryHandle, projectInfo: ProjectInfoFileV1, take: Take) => Promise<void>;
+  setProjectDirectory: (projectDirectoryEntry: PersistedDirectoryEntry) => void;
 }
 
 export const ProjectFilesContext = createContext<ProjectFilesContextProps | undefined>(undefined);

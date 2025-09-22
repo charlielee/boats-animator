@@ -1,5 +1,4 @@
-import { ReactNode, useEffect } from "react";
-import useProjectDirectory from "../../hooks/useProjectDirectory";
+import { ReactNode, useEffect, useState } from "react";
 import { FileInfoType } from "../../services/fileManager/FileInfo";
 import {
   makeProjectInfoFileJson,
@@ -19,6 +18,7 @@ import {TakeDirectoryMissingError, MissingBoatsInfoFileError} from "./ProjectFil
 
 import {usePersistedDirectoriesContext} from "../PersistedDirectoriesContext/PersistedDirectoriesContext"
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
+import { PersistedDirectoryEntry } from "../../services/database/PersistedDirectoryEntry";
 
 
 interface ProjectFilesContextProviderProps {
@@ -30,7 +30,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   const persistedDirectory = usePersistedDirectoriesContext();
 
-  const projectDirectory = useProjectDirectory();
+  const [projectDirectory, setProjectDirectory] = useState<PersistedDirectoryEntry | undefined>(undefined);
   const { project, take } = useSelector((state: RootState) => state.project);
   const appVersion = useSelector((state: RootState) => state.app.appVersion);
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -146,6 +146,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   const dispatchLoadedProjectInfo = async (projectDirectory: FileSystemDirectoryHandle, projectInfo: ProjectInfoFileV1, take: Take) =>{
     const persistedDirEntry = await (persistedDirectory.loadProjectDirectory(projectInfo.project.directoryName, projectDirectory) )
+    setProjectDirectory(persistedDirEntry);
 
     let takeDirectoryHandle: FileSystemDirectoryHandle;
 
@@ -189,7 +190,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
 
   return (
     <ProjectFilesContext.Provider
-      value={{ saveTrackItemToDisk, deleteTrackItem, getTrackItemObjectURL, unpackProjectInfoFileJSON, dispatchLoadedProjectInfo}}
+      value={{ saveTrackItemToDisk, deleteTrackItem, getTrackItemObjectURL, unpackProjectInfoFileJSON, dispatchLoadedProjectInfo, setProjectDirectory}}
     >
       {children}
     </ProjectFilesContext.Provider>
