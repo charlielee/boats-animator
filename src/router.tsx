@@ -8,7 +8,6 @@ import { UiModal } from "./components/ui/UiModal/UiModal";
 import CaptureContextProvider from "./context/CaptureContext/CaptureContextProvider";
 import { ImagingDeviceContextProvider } from "./context/ImagingDeviceContext/ImagingDeviceContextProvider";
 import PlaybackContextProvider from "./context/PlaybackContext/PlaybackContextProvider";
-import { ProjectFilesContextProvider } from "./context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
 import { CaptureSourceModal } from "./components/modals/CaptureSourceModal/CaptureSourceModal";
 import { DeleteFrameModal } from "./components/modals/DeleteFrameModal/DeleteFrameModal";
 import ExportVideoModal from "./components/modals/ExportVideoModal/ExportVideoModal";
