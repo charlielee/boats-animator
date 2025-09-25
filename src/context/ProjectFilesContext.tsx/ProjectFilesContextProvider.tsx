@@ -31,6 +31,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   const persistedDirectory = usePersistedDirectoriesContext();
 
   const [projectDirectory, setProjectDirectory] = useState<PersistedDirectoryEntry | undefined>(undefined);
+  const [canSave, setCanSave] = useState(true);
   const { project, take } = useSelector((state: RootState) => state.project);
   const appVersion = useSelector((state: RootState) => state.app.appVersion);
   const dispatch: ThunkDispatch<RootState, void, Action> = useDispatch();
@@ -145,6 +146,7 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
   }
 
   const dispatchLoadedProjectInfo = async (projectDirectory: FileSystemDirectoryHandle, projectInfo: ProjectInfoFileV1, take: Take) =>{
+    setCanSave(false);
     const persistedDirEntry = await (persistedDirectory.loadProjectDirectory(projectInfo.project.directoryName, projectDirectory) )
     setProjectDirectory(persistedDirEntry);
 
@@ -176,12 +178,13 @@ export const ProjectFilesContextProvider = ({ children }: ProjectFilesContextPro
         FileInfoType.FRAME,
       );
     }
-    dispatch(addProject({project : projectInfo.project, projectDirectoryId :  persistedDirEntry.id}));
-    dispatch(addTake(take) )    
+    await dispatch(addProject({project : projectInfo.project, projectDirectoryId :  persistedDirEntry.id}));
+    await dispatch(addTake(take));
+    setCanSave(true);  
   }
 
   useEffect(() => {
-    if (projectDirectory !== undefined && project !== undefined && take !== undefined ) {
+    if (projectDirectory !== undefined && project !== undefined && take !== undefined && canSave ) {
       const [updatedProject, updatedTakes] = updateProjectAndTakeLastSaved(project, take);
       saveProjectInfoFileToDisk!(updatedProject, updatedTakes);
     }   
