@@ -9,6 +9,7 @@ import {
   TrackGroupId,
   TrackId,
   TrackItemId,
+  TakeName
 } from "../Flavors";
 
 interface ProjectInfoFileBase {
@@ -16,7 +17,7 @@ interface ProjectInfoFileBase {
 }
 
 export interface ProjectInfoFileV1 extends ProjectInfoFileBase {
-  schemaVersion: 1;
+  schemaVersion: number;
   appVersion: string;
   project: Project;
   takes: Take[];
@@ -34,6 +35,7 @@ export interface Take {
   id: TakeId;
   shotNumber: number;
   takeNumber: number;
+  takeName: TakeName;
   frameRate: FrameRate;
   holdFrames: FrameCount;
   frameTrack: Track;

@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { FileManagerContextProvider } from "../../../context/FileManagerContext/FileManagerContextProvider";
 import { PersistedDirectoriesContextProvider } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContextProvider";
+import { ProjectFilesContextProvider } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContextProvider";
+
 import { AppErrorBoundary } from "../AppErrorBoundary/AppErrorBoundary";
 import AppListener from "../AppListener/AppListener";
 
@@ -10,7 +12,9 @@ const App = () => (
 
     <FileManagerContextProvider>
       <PersistedDirectoriesContextProvider>
-        <Outlet />
+        <ProjectFilesContextProvider>
+          <Outlet />
+        </ProjectFilesContextProvider>
       </PersistedDirectoriesContextProvider>
     </FileManagerContextProvider>
   </AppErrorBoundary>

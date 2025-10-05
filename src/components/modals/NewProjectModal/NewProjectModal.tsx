@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { usePersistedDirectoriesContext } from "../../../context/PersistedDirectoriesContext/PersistedDirectoriesContext";
+import { useProjectFilesContext } from "../../../context/ProjectFilesContext.tsx/ProjectFilesContext";
 import {
   DirectoryAccessPermissionError,
   ProjectDirectoryIsInsideAnotherProjectError,
@@ -41,6 +42,7 @@ export const NewProjectModal = () => {
   const workingDirectory = useWorkingDirectory();
   const { checkWorkingDirectoryPermission, changeWorkingDirectory, addProjectDirectory } =
     usePersistedDirectoriesContext();
+  const { setProjectDirectory } = useProjectFilesContext();
 
   const [project, setProject] = useState(
     makeProject({ name: "", projectFrameRate: DEFAULT_PROJECT_FRAME_RATE })
@@ -89,6 +91,7 @@ export const NewProjectModal = () => {
 
     try {
       const projectDirectoryEntry = await addProjectDirectory(formattedProject);
+      setProjectDirectory(projectDirectoryEntry);
       dispatch(
         addProject({ project: formattedProject, projectDirectoryId: projectDirectoryEntry.id })
       );

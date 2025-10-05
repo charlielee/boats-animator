@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
-import { DEFAULT_PROJECT_FRAME_RATE, PROJECT_DIRECTORY_EXTENSION } from "../services/utils";
-import { Project } from "../services/project/types";
-import { Take } from "../services/project/types";
 import { FileInfoType } from "../services/fileManager/FileInfo";
+import { Project, Take } from "../services/project/types";
+import { DEFAULT_PROJECT_FRAME_RATE, PROJECT_DIRECTORY_EXTENSION } from "../services/utils";
 import { IsoDateTimeString } from "../services/Flavors";
+import { makeTakeName } from "../services/project/projectBuilder";
 
 export const PROJECT_NAME = "My Test Movie";
 export const PROJECT_DIRECTORY_NAME = `My-Test-Movie.${PROJECT_DIRECTORY_EXTENSION}`;
@@ -20,6 +20,7 @@ export const TAKE: Take = {
   lastSaved: new Date("2024-01-01").toISOString(),
   shotNumber: 1,
   takeNumber: 1,
+  takeName: makeTakeName(1,1),
   frameRate: 15,
   holdFrames: 1,
   frameTrack: {

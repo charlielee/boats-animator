@@ -46,3 +46,9 @@ export const addProjectDirectoryEntry = async (
   await db.persistedDirectories.add(persistedDirectoryEntry);
   return persistedDirectoryEntry;
 };
+
+export const getProjectDirectoryByName = async (dirName: string) => 
+  db.persistedDirectories.get({
+    friendlyName: dirName,
+    type: PersistedDirectoryType.PROJECT
+  });
