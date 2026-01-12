@@ -126,6 +126,7 @@ export const ImagingDeviceContextProvider = ({ children }: ImagingDeviceContextP
     };
 
     handleDeviceDisconnected();
+
   }, [deviceList, closeDevice]);
 
   return (
