@@ -12,11 +12,16 @@ import "./TitleToolbar.css";
 import { PageRoute } from "../../../services/PageRoute";
 import { Take } from "../../../services/project/types";
 import { zeroPad } from "../../../services/utils";
+import { useWakeLockContext } from "../../../context/WakeLockContext/WakeLockContext";
+import { useNavigate } from "react-router-dom";
+
 
 const TitleToolbar = () => {
   const { take, project } = useProjectAndTake();
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const showCapturePane = useSelector((state: RootState) => state.project.showCapturePane);
+  const {releaseWakeLock} = useWakeLockContext();
 
   const makeTakeTitle = (take: Take) =>
     `Shot ${zeroPad(take.shotNumber, 3)} Take ${zeroPad(take.takeNumber, 2)}`;
@@ -27,7 +32,10 @@ const TitleToolbar = () => {
         <Tooltip label="Manage Project">
           <UiButton
             icon={IconName.FOLDER}
-            onClick={PageRoute.STARTUP}
+            onClick={async () => {
+              releaseWakeLock(); 
+              navigate(PageRoute.STARTUP);
+            }}
             semanticColor={SemanticColor.TITLE}
           >
             {makeTakeTitle(take)}

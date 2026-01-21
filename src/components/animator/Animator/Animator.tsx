@@ -14,35 +14,41 @@ import { useEffect } from "react";
 import { displayProjectTitle } from "../../../services/project/projectBuilder";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import { useWakeLockContext } from "../../../context/WakeLockContext/WakeLockContext";
 
 export const Animator = () => {
   const project = useSelector((state: RootState) => state.project.project);
+  const { refreshWakeLock } = useWakeLockContext();
+
   useEffect(() => {
     document.title = project
       ? `${displayProjectTitle(project)} - Boats Animator`
       : "Boats Animator";
   }, [project]);
 
+
   return (
     <Page>
       <TitleToolbar />
-      <PageBody>
-        <Content>
-          <div className="animator__overlay-tabs-pane-and-preview">
-            <LeftPanes />
+      <div className="page-body" onClick={refreshWakeLock}>
+        <PageBody >
+          <Content>
+            <div className="animator__overlay-tabs-pane-and-preview">
+              <LeftPanes />
 
-            <Stack flex={1} gap="xs">
-              <Preview />
-              <PreviewToolbar />
-            </Stack>
+              <Stack flex={1} gap="xs">
+                <Preview />
+                <PreviewToolbar />
+              </Stack>
 
-            <CapturePane />
-          </div>
+              <CapturePane />
+            </div>
 
-          <FrameToolbar />
-          <Timeline />
-        </Content>
-      </PageBody>
+            <FrameToolbar />
+            <Timeline />
+          </Content>
+        </PageBody>
+      </div>
     </Page>
   );
 };
